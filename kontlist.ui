@@ -1,0 +1,213 @@
+<ui version="4.0" >
+ <class>kontList</class>
+ <widget class="QDialog" name="kontList" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>285</width>
+    <height>337</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Wybierz kontrahenta z listy</string>
+  </property>
+  <layout class="QGridLayout" >
+   <item row="0" column="0" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="textLabel1" >
+       <property name="maximumSize" >
+        <size>
+         <width>50</width>
+         <height>32767</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>Typ:</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox1" >
+       <item>
+        <property name="text" >
+         <string>Firma</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Urząd</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" >
+    <widget class="Q3ListBox" name="listBox1" />
+   </item>
+   <item row="3" column="0" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okBtn" >
+       <property name="text" >
+        <string>O&amp;K</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+K</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelBtn" >
+       <property name="text" >
+        <string>Can&amp;cel</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+C</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0" >
+    <widget class="Line" name="line4" >
+     <property name="frameShape" >
+      <enum>QFrame::HLine</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>Q3ListBox</class>
+   <extends>Q3Frame</extends>
+   <header>q3listbox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>okBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>kontList</receiver>
+   <slot>doAccept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>kontList</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox1</sender>
+   <signal>activated(int)</signal>
+   <receiver>kontList</receiver>
+   <slot>comboBox1Changed()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listBox1</sender>
+   <signal>doubleClicked(Q3ListBoxItem*)</signal>
+   <receiver>kontList</receiver>
+   <slot>doAccept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

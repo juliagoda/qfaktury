@@ -1,0 +1,1099 @@
+<ui version="4.0" >
+ <class>Form1</class>
+ <widget class="QMainWindow" name="Form1" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>711</width>
+    <height>488</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>QFaktury</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset/>
+  </property>
+  <widget class="QWidget" name="widget" >
+   <layout class="QGridLayout" >
+    <item row="0" column="0" >
+     <widget class="QTabWidget" name="tabWidget2" >
+      <property name="currentIndex" >
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab1" >
+       <attribute name="title" >
+        <string>Historia</string>
+       </attribute>
+       <layout class="QGridLayout" >
+        <item row="0" column="0" >
+         <widget class="QTableWidget" name="tableH" >
+          <property name="selectionMode" >
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="numRows" stdset="0" >
+           <number>0</number>
+          </property>
+          <property name="numCols" stdset="0" >
+           <number>6</number>
+          </property>
+          <property name="readOnly" stdset="0" >
+           <bool>true</bool>
+          </property>
+          <property name="sorting" stdset="0" >
+           <bool>false</bool>
+          </property>
+          <column>
+           <property name="text" >
+            <string>Nazwa pliku</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Symbol</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Data</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Typ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Nabywca</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>NIP</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab2" >
+       <attribute name="title" >
+        <string>Kontrahenci</string>
+       </attribute>
+       <layout class="QGridLayout" >
+        <item row="0" column="0" >
+         <widget class="QTableWidget" name="tableK" >
+          <property name="selectionMode" >
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="numRows" stdset="0" >
+           <number>0</number>
+          </property>
+          <property name="numCols" stdset="0" >
+           <number>5</number>
+          </property>
+          <property name="readOnly" stdset="0" >
+           <bool>true</bool>
+          </property>
+          <property name="sorting" stdset="0" >
+           <bool>false</bool>
+          </property>
+          <column>
+           <property name="text" >
+            <string>Nazwa</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Typ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Miasto</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Adres</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Telefon</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="TabPage" >
+       <attribute name="title" >
+        <string>Towary/Usługi</string>
+       </attribute>
+       <layout class="QGridLayout" >
+        <item row="0" column="0" >
+         <widget class="QTableWidget" name="tableT" >
+          <property name="selectionMode" >
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="numRows" stdset="0" >
+           <number>0</number>
+          </property>
+          <property name="numCols" stdset="0" >
+           <number>12</number>
+          </property>
+          <property name="readOnly" stdset="0" >
+           <bool>true</bool>
+          </property>
+          <property name="sorting" stdset="0" >
+           <bool>false</bool>
+          </property>
+          <column>
+           <property name="text" >
+            <string>Index</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Nazwa</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Skrót</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Kod</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>PKWiU</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Typ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Jedn.</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Netto1</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Netto2</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Netto3</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Netto4</string>
+           </property>
+          </column>
+          <column>
+           <property name="text" >
+            <string>Stawka VAT</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="MenuBarEditor" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>711</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="Plik" >
+    <property name="title" >
+     <string>&amp;Plik</string>
+    </property>
+    <addaction name="plikKreatorAction" />
+    <addaction name="plikDane_firmyAction" />
+    <addaction name="plikUstawieniaAction" />
+    <addaction name="separator" />
+    <addaction name="plikExportEDIAction" />
+    <addaction name="plikExport_pdfAction" />
+    <addaction name="plikExport_XMLAction" />
+    <addaction name="plikImport_EDIAction" />
+    <addaction name="plikImport_XMLAction" />
+    <addaction name="plikKoniecAction" />
+   </widget>
+   <widget class="QMenu" name="Faktury" >
+    <property name="title" >
+     <string>&amp;Faktury</string>
+    </property>
+    <addaction name="fakturyDodajAction" />
+    <addaction name="fakturyPFormaAction" />
+    <addaction name="fakturyKorektaAction" />
+    <addaction name="separator" />
+    <addaction name="fakturyUsunAction" />
+    <addaction name="fakturyEdAction" />
+   </widget>
+   <widget class="QMenu" name="Kontrahenci" >
+    <property name="title" >
+     <string>&amp;Kontrahenci</string>
+    </property>
+    <addaction name="kontrahenciDodajAction" />
+    <addaction name="kontrahenciUsunAction" />
+    <addaction name="kontrahenciEdycjaAction" />
+   </widget>
+   <widget class="QMenu" name="Towary" >
+    <property name="title" >
+     <string>&amp;Towary</string>
+    </property>
+    <addaction name="towaryDodajAction" />
+    <addaction name="towaryUsunAction" />
+    <addaction name="towaryEdycjaAction" />
+   </widget>
+   <widget class="QMenu" name="Pomoc" >
+    <property name="title" >
+     <string>P&amp;omoc</string>
+    </property>
+    <addaction name="pomocO_programieAction" />
+    <addaction name="pomocPomocAction" />
+   </widget>
+   <addaction name="Plik" />
+   <addaction name="Faktury" />
+   <addaction name="Kontrahenci" />
+   <addaction name="Towary" />
+   <addaction name="Pomoc" />
+   <addaction name="separator" />
+  </widget>
+  <action name="plikKreatorAction" >
+   <property name="icon" >
+    <iconset>image1</iconset>
+   </property>
+   <property name="text" >
+    <string>Kreator</string>
+   </property>
+   <property name="iconText" >
+    <string>Kreator</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+N</string>
+   </property>
+   <property name="visible" >
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikKreatorAction</string>
+   </property>
+  </action>
+  <action name="plikDrukujAction" >
+   <property name="text" >
+    <string>Drukuj</string>
+   </property>
+   <property name="iconText" >
+    <string>Drukuj</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikDrukujAction</string>
+   </property>
+  </action>
+  <action name="fakturyUsunAction" >
+   <property name="text" >
+    <string>Usuń</string>
+   </property>
+   <property name="iconText" >
+    <string>Usuń</string>
+   </property>
+   <property name="shortcut" >
+    <string>Alt+D</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>fakturyUsunAction</string>
+   </property>
+  </action>
+  <action name="fakturyDodajAction" >
+   <property name="text" >
+    <string>Nowa faktura</string>
+   </property>
+   <property name="iconText" >
+    <string>Nowa faktura</string>
+   </property>
+   <property name="shortcut" >
+    <string>F5</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>fakturyDodajAction</string>
+   </property>
+  </action>
+  <action name="kontrahenciDodajAction" >
+   <property name="icon" >
+    <iconset>image2</iconset>
+   </property>
+   <property name="text" >
+    <string>Dodaj</string>
+   </property>
+   <property name="iconText" >
+    <string>Dodaj</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+K</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>kontrahenciDodajAction</string>
+   </property>
+  </action>
+  <action name="kontrahenciUsunAction" >
+   <property name="icon" >
+    <iconset>image3</iconset>
+   </property>
+   <property name="text" >
+    <string>Usuń</string>
+   </property>
+   <property name="iconText" >
+    <string>Usuń</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+D</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>kontrahenciUsunAction</string>
+   </property>
+  </action>
+  <action name="kontrahenciEdycjaAction" >
+   <property name="icon" >
+    <iconset>image4</iconset>
+   </property>
+   <property name="text" >
+    <string>Edycja</string>
+   </property>
+   <property name="iconText" >
+    <string>Edycja</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+E</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>kontrahenciEdycjaAction</string>
+   </property>
+  </action>
+  <action name="pomocO_QtAction" >
+   <property name="icon" >
+    <iconset>image5</iconset>
+   </property>
+   <property name="text" >
+    <string>O Qt</string>
+   </property>
+   <property name="iconText" >
+    <string>O &amp;Qt</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>pomocO_QtAction</string>
+   </property>
+  </action>
+  <action name="plikKoniecAction" >
+   <property name="icon" >
+    <iconset>image6</iconset>
+   </property>
+   <property name="text" >
+    <string>Koniec</string>
+   </property>
+   <property name="iconText" >
+    <string>Koniec</string>
+   </property>
+   <property name="shortcut" >
+    <string>Q</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikKoniecAction</string>
+   </property>
+  </action>
+  <action name="fakturyEdAction" >
+   <property name="text" >
+    <string>Edytuj</string>
+   </property>
+   <property name="iconText" >
+    <string>Edytuj</string>
+   </property>
+   <property name="shortcut" >
+    <string>F8</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>fakturyEdAction</string>
+   </property>
+  </action>
+  <action name="plikDane_firmyAction" >
+   <property name="icon" >
+    <iconset>image7</iconset>
+   </property>
+   <property name="text" >
+    <string>Dane firmy</string>
+   </property>
+   <property name="iconText" >
+    <string>Dane firmy</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+I</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikDane_firmyAction</string>
+   </property>
+  </action>
+  <action name="przelewyDrukuj_Action" >
+   <property name="text" >
+    <string>Drukuj </string>
+   </property>
+   <property name="iconText" >
+    <string>Drukuj </string>
+   </property>
+   <property name="shortcut" >
+    <string>F2</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>przelewyDrukuj_Action</string>
+   </property>
+  </action>
+  <action name="pomocO_programieAction" >
+   <property name="icon" >
+    <iconset>image8</iconset>
+   </property>
+   <property name="text" >
+    <string>O programie</string>
+   </property>
+   <property name="iconText" >
+    <string>O programie</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>pomocO_programieAction</string>
+   </property>
+  </action>
+  <action name="plikUstawieniaAction" >
+   <property name="icon" >
+    <iconset>image9</iconset>
+   </property>
+   <property name="text" >
+    <string>Ustawienia</string>
+   </property>
+   <property name="iconText" >
+    <string>Ustawienia</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikUstawieniaAction</string>
+   </property>
+  </action>
+  <action name="przelewyZUS" >
+   <property name="icon" >
+    <iconset>image10</iconset>
+   </property>
+   <property name="text" >
+    <string>Nowy (ZUS)</string>
+   </property>
+   <property name="iconText" >
+    <string>Nowy (ZUS)</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>przelewyZUS</string>
+   </property>
+  </action>
+  <action name="przelewyUSAction" >
+   <property name="icon" >
+    <iconset>image11</iconset>
+   </property>
+   <property name="text" >
+    <string>Nowy (US)</string>
+   </property>
+   <property name="iconText" >
+    <string>Nowy (US)</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>przelewyUSAction</string>
+   </property>
+  </action>
+  <action name="pomocPomocAction" >
+   <property name="text" >
+    <string>Pomoc</string>
+   </property>
+   <property name="iconText" >
+    <string>Pomoc</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>pomocPomocAction</string>
+   </property>
+  </action>
+  <action name="separatornew_itemAction" >
+   <property name="text" >
+    <string>new item</string>
+   </property>
+   <property name="iconText" >
+    <string>new item</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>separatornew_itemAction</string>
+   </property>
+  </action>
+  <action name="towaryEdycjaAction" >
+   <property name="text" >
+    <string>Edycja</string>
+   </property>
+   <property name="iconText" >
+    <string>Edycja</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+M</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>towaryEdycjaAction</string>
+   </property>
+  </action>
+  <action name="towaryUsunAction" >
+   <property name="text" >
+    <string>Usuń</string>
+   </property>
+   <property name="iconText" >
+    <string>Usuń</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+U</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>towaryUsunAction</string>
+   </property>
+  </action>
+  <action name="towaryDodajAction" >
+   <property name="text" >
+    <string>Dodaj</string>
+   </property>
+   <property name="iconText" >
+    <string>Dodaj</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+T</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>towaryDodajAction</string>
+   </property>
+  </action>
+  <action name="plikExportEDIAction" >
+   <property name="text" >
+    <string>Export do EDI</string>
+   </property>
+   <property name="iconText" >
+    <string>Export do EDI</string>
+   </property>
+   <property name="visible" >
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikExportEDIAction</string>
+   </property>
+  </action>
+  <action name="plikExport_pdfAction" >
+   <property name="text" >
+    <string>Export do PDF</string>
+   </property>
+   <property name="iconText" >
+    <string>Export do PDF</string>
+   </property>
+   <property name="visible" >
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikExport_pdfAction</string>
+   </property>
+  </action>
+  <action name="plikExport_XMLAction" >
+   <property name="text" >
+    <string>Export do XML</string>
+   </property>
+   <property name="iconText" >
+    <string>Export do XML</string>
+   </property>
+   <property name="visible" >
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikExport_XMLAction</string>
+   </property>
+  </action>
+  <action name="plikImport_EDIAction" >
+   <property name="text" >
+    <string>Import EDI</string>
+   </property>
+   <property name="iconText" >
+    <string>Import EDI</string>
+   </property>
+   <property name="visible" >
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikImport_EDIAction</string>
+   </property>
+  </action>
+  <action name="plikImport_XMLAction" >
+   <property name="text" >
+    <string>Import XML</string>
+   </property>
+   <property name="iconText" >
+    <string>Import XML</string>
+   </property>
+   <property name="visible" >
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0" >
+    <string>plikImport_XMLAction</string>
+   </property>
+  </action>
+  <action name="fakturyKorektaAction" >
+   <property name="text" >
+    <string>Nowa korekta</string>
+   </property>
+   <property name="iconText" >
+    <string>Nowa korekta</string>
+   </property>
+   <property name="shortcut" >
+    <string/>
+   </property>
+   <property name="name" stdset="0" >
+    <string>fakturyKorektaAction</string>
+   </property>
+  </action>
+  <action name="fakturyPFormaAction" >
+   <property name="text" >
+    <string>Nowa pro forma</string>
+   </property>
+   <property name="iconText" >
+    <string>Nowa pro forma</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>fakturyPFormaAction</string>
+   </property>
+  </action>
+  <action name="nextPageAction" >
+   <property name="iconText" >
+    <string>Action</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+PgDown</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>nextPageAction</string>
+   </property>
+  </action>
+  <action name="prevPageAction" >
+   <property name="iconText" >
+    <string>Action_2</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+PgUp</string>
+   </property>
+   <property name="name" stdset="0" >
+    <string>prevPageAction</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections>
+  <connection>
+   <sender>plikDane_firmyAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>daneFirmyClick()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>plikKreatorAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>kretorClick()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>plikKoniecAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>kontrahenciDodajAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>kontrClick()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>kontrahenciUsunAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>kontrDel()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>kontrahenciEdycjaAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>kontrEd()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fakturyDodajAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>newFra()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fakturyUsunAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>delFHist()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fakturyEdAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>editFHist()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableH</sender>
+   <signal>doubleClicked(int,int,int,QPoint)</signal>
+   <receiver>Form1</receiver>
+   <slot>editFHist()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pomocO_QtAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>aboutQt()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pomocO_programieAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>oProg()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableK</sender>
+   <signal>doubleClicked(int,int,int,QPoint)</signal>
+   <receiver>Form1</receiver>
+   <slot>kontrEd()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>plikUstawieniaAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>settClick()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabWidget2</sender>
+   <signal>currentChanged(QWidget*)</signal>
+   <receiver>Form1</receiver>
+   <slot>tabChanged(QWidget*)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pomocPomocAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>pomoc()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>towaryDodajAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>towaryDodaj()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>towaryEdycjaAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>towaryEdycja()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>towaryUsunAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>towaryUsun()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableT</sender>
+   <signal>doubleClicked(int,int,int,QPoint)</signal>
+   <receiver>Form1</receiver>
+   <slot>towaryEdycja()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fakturyKorektaAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>newKor()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fakturyPFormaAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>newPForm()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>prevPageAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>prevPage()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>nextPageAction</sender>
+   <signal>activated()</signal>
+   <receiver>Form1</receiver>
+   <slot>nextPage()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,817 @@
+<ui version="4.0" >
+ <class>korForm</class>
+ <widget class="QDialog" name="korForm" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>537</width>
+    <height>532</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Nowa korekta</string>
+  </property>
+  <layout class="QGridLayout" >
+   <item row="0" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLabel" name="textLabel1_4" >
+         <property name="text" >
+          <string>Dotyczy faktury:</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="frNr" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLabel" name="textLabel3_2" >
+         <property name="text" >
+          <string>Data sprzedaży:</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Q3DateEdit" name="sellingDate" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="autoAdvance" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLabel" name="textLabel1" >
+         <property name="text" >
+          <string>Kontrahent:</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="kontrName" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="font" >
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLabel" name="textLabel1_5" >
+         <property name="text" >
+          <string>Płatność:</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="paymFry" >
+         <property name="minimumSize" >
+          <size>
+           <width>140</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text" >
+          <string>gotówka</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <layout class="QHBoxLayout" >
+       <item>
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="textLabel1_3" >
+           <property name="text" >
+            <string>Symbol:</string>
+           </property>
+           <property name="wordWrap" >
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="korNr" >
+           <property name="enabled" >
+            <bool>true</bool>
+           </property>
+           <property name="font" >
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text" >
+            <string>1/1/2006</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QToolButton" name="backBtn" >
+         <property name="text" >
+          <string>co&amp;fnij</string>
+         </property>
+         <property name="shortcut" >
+          <string>Alt+F</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>31</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" >
+       <item>
+        <widget class="QLabel" name="textLabel3" >
+         <property name="text" >
+          <string>Data wystawienia:</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Q3DateEdit" name="sellingDate2" >
+         <property name="autoAdvance" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0" colspan="3" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <widget class="QLabel" name="textLabel1_2" >
+       <property name="text" >
+        <string>Lista towarów/usług:</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Q3Table" name="tableTow" >
+       <property name="numRows" >
+        <number>0</number>
+       </property>
+       <property name="numCols" >
+        <number>10</number>
+       </property>
+       <property name="sorting" >
+        <bool>true</bool>
+       </property>
+       <property name="selectionMode" >
+        <enum>Q3Table::Multi</enum>
+       </property>
+       <column>
+        <property name="text" >
+         <string>Lp.</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Nazwa</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Kod</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>PKWiU</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Ilość</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Jm.</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Cena jn.</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Netto</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Vat</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Brutto</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" >
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="addTw" >
+         <property name="text" >
+          <string>Dodaj towar</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="rmTow" >
+         <property name="text" >
+          <string>Usuń towar</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="editTw" >
+         <property name="text" >
+          <string>Edycja</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QLabel" name="textLabel4" >
+           <property name="text" >
+            <string>Rabat:</string>
+           </property>
+           <property name="wordWrap" >
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="rabatValue" >
+           <property name="enabled" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>30</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="0" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QLabel" name="textLabel5" >
+         <property name="text" >
+          <string>Płatność:</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="textLabel6" >
+         <property name="text" >
+          <string>Termin:</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="textLabel1_6" >
+         <property name="text" >
+          <string>Przyczyna:</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QComboBox" name="platCombo" />
+       </item>
+       <item>
+        <widget class="Q3DateEdit" name="liabDate" />
+       </item>
+       <item>
+        <widget class="QComboBox" name="reasonCombo" >
+         <property name="minimumSize" >
+          <size>
+           <width>168</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="textLabel7" >
+       <property name="text" >
+        <string>Dodatkowy tekst:</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="additEdit" />
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="0" colspan="3" >
+    <widget class="Line" name="line1" >
+     <property name="frameShape" >
+      <enum>QFrame::HLine</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>21</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="printBtn" >
+       <property name="text" >
+        <string>Dru&amp;kuj</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+K</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveBtn" >
+       <property name="text" >
+        <string>Zapis&amp;z</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+Z</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelbtn" >
+       <property name="text" >
+        <string>&amp;Anuluj</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+A</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="2" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QLabel" name="textLabel2" >
+         <property name="text" >
+          <string>Wartość faktury:</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="textLabel2_2" >
+         <property name="text" >
+          <string>Wartość korekty:</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="textLabel1_7" >
+         <property name="text" >
+          <string>Różnica</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QLabel" name="fraValLbl" >
+         <property name="minimumSize" >
+          <size>
+           <width>60</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text" >
+          <string>0,00</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="fvKor" >
+         <property name="minimumSize" >
+          <size>
+           <width>60</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text" >
+          <string>0,00</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="diffLabel" >
+         <property name="text" >
+          <string>0,00</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>Q3Table</class>
+   <extends>Q3Frame</extends>
+   <header>q3table.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Q3DateEdit</class>
+   <extends>QWidget</extends>
+   <header>Qt3Support/Q3DateEdit</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>cancelbtn</sender>
+   <signal>clicked()</signal>
+   <receiver>korForm</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>korForm</receiver>
+   <slot>saveInvoice()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>backBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>korForm</receiver>
+   <slot>backBtnClick()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addTw</sender>
+   <signal>clicked()</signal>
+   <receiver>korForm</receiver>
+   <slot>addTow()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>editTw</sender>
+   <signal>clicked()</signal>
+   <receiver>korForm</receiver>
+   <slot>editTowar()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rmTow</sender>
+   <signal>clicked()</signal>
+   <receiver>korForm</receiver>
+   <slot>delTowar()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>printBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>korForm</receiver>
+   <slot>makeInvoice()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rabatValue</sender>
+   <signal>valueChanged(QString)</signal>
+   <receiver>korForm</receiver>
+   <slot>rabatChange()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tableTow</sender>
+   <signal>doubleClicked(int,int,int,QPoint)</signal>
+   <receiver>korForm</receiver>
+   <slot>editTowar()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
