@@ -24,7 +24,6 @@
 #include "towlist.h"
 #include "chamount.h"
 
-#include "version.h"
 #include "zaokr.h"
 #include "slownie.h"
 
@@ -810,9 +809,6 @@ void Faktura::makeInvoiceFooter ()
   fraStrList += "<tr comment=\"comment\" align=\"left\"><td>";
   fraStrList += "</td></tr>";
   fraStrList += "</table>";
-  fraStrList += "<h6>QFaktury e-linux.pl wersja ";
-  fraStrList += version;
-  fraStrList += "<h6>";
   fraStrList += "</body>";
   fraStrList += "</html>";
 }
