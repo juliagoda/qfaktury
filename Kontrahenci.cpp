@@ -13,16 +13,11 @@
 #include <qmessagebox.h>
 #include <qtextcodec.h>
 #include <qdir.h>
-#include <qdom.h>
+#include <Qt/qdom.h>
 
 
 QString progDir;
 QString nazwaEdit;
-
-Kontrahenci::Kontrahenci(QWidget *parent): QDialog(parent) {
-    setupUi(this);
-    init();
-}
 
 void Kontrahenci::readData (QString name, QString type)
 {

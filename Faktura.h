@@ -26,6 +26,7 @@ void makeInvoiceSummAll ();
 void makeInvoice ();
 void saveInvoice ();
 void backBtnClick();
+void makeInvoiceFooter ();
 
     public:
     QString fName, progDir2, ret, vatAll, templDir;
