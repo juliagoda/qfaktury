@@ -9,7 +9,7 @@
 ** These will automatically be called by the form's constructor and
 ** destructor.
 *****************************************************************************/
-#include "FormFra.moc"
+#include "Faktura.moc"
 #include <qdatetime.h>
 #include <qdir.h>
 #include <qprocess.h>
@@ -31,13 +31,7 @@
 
 double priceBRabN, priceBRab;
 
-FormFra(QWidget *parent):QDialog(parent) {
-    setupUi(this);
-    init();
-}
-
-void
-FormFra::init ()
+void Faktura::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));
@@ -108,8 +102,7 @@ backBtnClick();
   
 }
 
-void
-FormFra::readData (QString fraFile, int co)
+void Faktura::readData (QString fraFile, int co)
 {
 
 
@@ -230,8 +223,7 @@ saveBtn->setEnabled( TRUE );
   countSum ();
 }
 
-void
-FormFra::getKontrahent ()
+void Faktura::getKontrahent ()
 {
   kontList *klWindow =
     new kontList (this, "", FALSE, Qt::WStyle_NoBorder | Qt::WShowModal);
@@ -242,8 +234,7 @@ FormFra::getKontrahent ()
     }
 }
 
-void
-FormFra::addTow ()
+void Faktura::addTow ()
 {
   towList *twWindow =
     new towList (this, "", FALSE, Qt::WStyle_NoBorder | Qt::WShowModal);
@@ -270,8 +261,7 @@ FormFra::addTow ()
 }
 
 
-void
-FormFra::countRabat ()
+void Faktura::countRabat ()
 {
   QString rabat1 = QString::number (rabatValue->value ());
   if (rabat1.length () == 1)
@@ -338,8 +328,7 @@ FormFra::countRabat ()
 }
 
 
-void
-FormFra::countSum ()
+void Faktura::countSum ()
 {
   // count netto sum
   double kwota = 0;
@@ -378,15 +367,13 @@ FormFra::countSum ()
   // setting labels text
 }
 
-void
-FormFra::rabatChange ()
+void Faktura::rabatChange ()
 {
   countRabat ();
   countSum ();
 }
 
-void
-FormFra::delTowar ()
+void Faktura::delTowar ()
 {
   tableTow->removeRow (tableTow->currentRow ());
   for (int i = 0; i < tableTow->numRows (); ++i)
@@ -397,8 +384,7 @@ FormFra::delTowar ()
   countSum ();
 }
 
-void
-FormFra::editTowar ()
+void Faktura::editTowar ()
 {
   // we can only modify amount
   chAmount *changeAmount =
@@ -424,8 +410,7 @@ FormFra::editTowar ()
 QStringList fraStrList;
 
 
-void
-FormFra::makeInvoiceHeadar ()
+void Faktura::makeInvoiceHeadar ()
 {
 
   fraStrList += "<html><head>";
@@ -516,8 +501,7 @@ FormFra::makeInvoiceHeadar ()
 }
 
 
-void
-FormFra::makeInvoiceBody ()
+void Faktura::makeInvoiceBody ()
 {
   fraStrList += "<tr comment=\"body\"><td>";
   fraStrList += "<table width=\"100%\" border=\"0\">";
@@ -549,8 +533,7 @@ FormFra::makeInvoiceBody ()
   fraStrList += "</td></tr>";
 }
 
-void
-FormFra::makeInvoiceGoods ()
+void Faktura::makeInvoiceGoods ()
 {
   fraStrList += "<tr comment=\"goods\" align=\"center\"><td>";
   fraStrList += "<br><br>";
@@ -638,8 +621,7 @@ if ( settings.readBoolEntry("elinux/faktury_pozycje/bruttoval")  )
   fraStrList += "</td></tr>";
 }
 
-void
-FormFra::makeInvoiceSumm ()
+void Faktura::makeInvoiceSumm ()
 {
   double vatPrice = sbrutto->text ().replace (",",
 					      ".").toDouble () -
@@ -691,8 +673,7 @@ if ( settings.readBoolEntry("elinux/faktury_pozycje/bruttoval")  )
   fraStrList += "</td></tr>";
 }
 
-void
-FormFra::makeInvoiceSummAll ()
+void Faktura::makeInvoiceSummAll ()
 {
     
   QSettings settings;
@@ -750,8 +731,7 @@ FormFra::makeInvoiceSummAll ()
 }
 
 
-QString
-FormFra::getStawkami()
+QString Faktura::getStawkami()
 {
     QStringList out;
     QSettings settings;
@@ -796,8 +776,7 @@ FormFra::getStawkami()
       
 }
 
-void
-FormFra::makeInvoiceFooter ()
+void Faktura::makeInvoiceFooter ()
 {
   fraStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
   fraStrList += "<br><br><br><br>";
@@ -838,8 +817,7 @@ FormFra::makeInvoiceFooter ()
   fraStrList += "</html>";
 }
 
-void
-FormFra::makeInvoice ()
+void Faktura::makeInvoice ()
 {
   if (kontrName->text () == "")
     {
@@ -892,8 +870,7 @@ FormFra::makeInvoice ()
 }
 
 
-void
-FormFra::saveInvoice ()
+void Faktura::saveInvoice ()
 {
   if (kontrName->text () == "")
     {
@@ -1063,7 +1040,7 @@ FormFra::saveInvoice ()
 }
 
 
-QString FormFra::numbersCount(int in, int x)
+QString Faktura::numbersCount(int in, int x)
 {
     QString tmp2, tmp = QString::number(in);
     tmp2 = "";
@@ -1073,7 +1050,7 @@ QString FormFra::numbersCount(int in, int x)
     return tmp2 + tmp;
 }
 
-void FormFra::backBtnClick()
+void Faktura::backBtnClick()
 {
   QString tmp;
   QSettings settings;
@@ -1112,4 +1089,9 @@ void FormFra::backBtnClick()
  
   
   frNr->setText (lastInvoice);
+}
+
+Faktura::Faktura(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
 }
