@@ -17,7 +17,7 @@ Towary.cpp
 TowaryLista.cpp
 Ustawienia.cpp
 Uzytkownik.cpp
-Uzytkownik.cpp.cpp
+ZmienIlosc.cpp
 )
 
 set(qfaktury_UIS

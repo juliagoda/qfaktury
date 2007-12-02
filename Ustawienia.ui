@@ -116,7 +116,7 @@
              </widget>
             </item>
             <item>
-             <widget class="Q3Table" name="tablePos" >
+             <widget class="QTableWidget" name="tablePos" >
               <property name="numRows" >
                <number>14</number>
               </property>
@@ -979,7 +979,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>Q3Table</class>
+   <class>QTableWidget</class>
    <extends>Q3Frame</extends>
    <header>q3table.h</header>
   </customwidget>
