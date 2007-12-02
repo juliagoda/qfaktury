@@ -63,7 +63,7 @@ void TowaryLista::init ()
   listaTowary2.clear ();
   listaUslugi2.clear ();
   readTow (progDir);
-  listView1->clear ();
+  listWidget->clear ();
   fillLv (0);
 }
 
@@ -186,7 +186,7 @@ void TowaryLista::doAccept ()
 void TowaryLista::comboBox1Changed (int x)
 {
   qDebug (__FUNCTION__);
-  listView1->clear ();
+  listWidget->clear ();
   fillLv (x);
 }
 
@@ -205,38 +205,40 @@ void TowaryLista::calcNetto ()
 void TowaryLista::fillLv (int x)
 {
   bool next = true;
-  QListViewItem *tmp = NULL;
+  QListWidgetItem *tmp = NULL;
   switch (x)
     {
     case 0:
       for (uint i = 0; i < listaTowary.count (); ++i)
 	{
-	  if (next)
-	    {
-	      tmp = new QListViewItem (listView1, listaTowary[i]);
-	      next = false;
-	    }
-	  else
-	    {
-	      tmp->setText (1, listaTowary[i]);
-	      next = true;
-	    }
+        listWidget->addItem(listaTowary[i]);
+//	  if (next)
+//	    {
+//	      tmp = new QListWidgetItem (listWidget, listaTowary[i]);
+//	      next = false;
+//	    }
+//	  else
+//	    {
+//	      tmp->setText (1, listaTowary[i]);
+//	      next = true;
+//	    }
 
 	}
       break;
     case 1:
       for (uint i = 0; i < listaUslugi.count (); ++i)
 	{
-	  if (next)
-	    {
-	      tmp = new QListViewItem (listView1, listaUslugi[i]);
-	      next = false;
-	    }
-	  else
-	    {
-	      tmp->setText (1, listaUslugi[i]);
-	      next = true;
-	    }
+        listWidget->addItem(listaUslugi[i]);
+//	  if (next)
+//	    {
+//	      tmp = new QListWidgetItem (listWidget, listaUslugi[i]);
+//	      next = false;
+//	    }
+//	  else
+//	    {
+//	      tmp->setText (1, listaUslugi[i]);
+//	      next = true;
+//	    }
 
 	}
       break;
@@ -244,7 +246,7 @@ void TowaryLista::fillLv (int x)
     }
 }
 
-void TowaryLista::lv1selChanged (QListViewItem * item)
+void TowaryLista::lv1selChanged (QListWidgetItem * item)
 {
   if (item->isSelected ())
     {
