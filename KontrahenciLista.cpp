@@ -42,7 +42,7 @@ void KontrahenciLista::readKontr (QString progDir)
   QDomElement firma;
 
   QFile file (progDir + "/kontrah.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;

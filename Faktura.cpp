@@ -908,7 +908,7 @@ void Faktura::saveInvoice ()
       ret =  fileName + "|";
     }
 
-  // if (!file.open (IO_ReadOnly)) {
+  // if (!file.open (QIODevice::ReadOnly)) {
 
   root = doc.createElement ("faktura");
   root.setAttribute ("nr", frNr->text ());

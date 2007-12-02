@@ -14,6 +14,7 @@
 #include <qtextcodec.h>
 #include <qdir.h>
 #include <Qt/qdom.h>
+#include <QtDebug>
 
 
 QString progDir;
@@ -22,14 +23,14 @@ QString nazwaEdit;
 void Kontrahenci::readData (QString name, QString type)
 {
   nazwaEdit = name;
-  qDebug (name + "   " + type);
+  qDebug ()<<name<< "   " <<type;
   QDomDocument doc ("kontrahenci");
   QDomElement root;
   QDomElement urzad;
   QDomElement firma;
 
   QFile file (progDir + "/kontrah.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -109,7 +110,7 @@ void Kontrahenci::getFirmList ()
   QDomElement firma;
 
   QFile file (progDir2 + "/kontrah.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -161,8 +162,7 @@ void Kontrahenci::init ()
 }
 
 
-bool
-Kontrahenci::saveAll ()
+bool Kontrahenci::saveAll ()
 {
   qDebug (__FUNCTION__);
 
@@ -181,7 +181,7 @@ Kontrahenci::saveAll ()
   QDomElement firma;
 
   QFile file (progDir + "/kontrah.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("can not open ");
       root = doc.createElement ("kontrahenci");
@@ -248,7 +248,7 @@ Kontrahenci::saveAll ()
   QString xml = doc.toString ();
 
   file.close ();
-  file.open (IO_WriteOnly);
+  file.open (QIODevice::WriteOnly);
   QTextStream ts (&file);
   ts.setCodec (QTextCodec::codecForName ("ISO8859-2"));
   ts << xml;
@@ -277,7 +277,7 @@ void Kontrahenci::modifyOnly ()
   QDomElement firma;
 
   QFile file (progDir + "/kontrah.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("can not open ");
       root = doc.createElement ("kontrahenci");
@@ -366,7 +366,7 @@ void Kontrahenci::modifyOnly ()
   QString xml = doc.toString ();
 
   file.close ();
-  file.open (IO_WriteOnly);
+  file.open (QIODevice::WriteOnly);
   QTextStream ts (&file);
   ts.setCodec (QTextCodec::codecForName ("ISO8859-2"));
   ts << xml;
@@ -374,8 +374,7 @@ void Kontrahenci::modifyOnly ()
 
 }
 
-QString
-Kontrahenci::isEmpty (QString in)
+QString Kontrahenci::isEmpty (QString in)
 {
   if (in == "")
     return "-";
@@ -432,4 +431,8 @@ void Kontrahenci::okClick ()
 void Kontrahenci::newFunction ()
 {
 
+}
+Kontrahenci::Kontrahenci(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
 }

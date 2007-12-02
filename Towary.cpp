@@ -56,7 +56,7 @@ void Towary::readData (QString idx, QString type)
   QDomElement usluga;
 
   QFile file (progDir + "/towary.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -149,7 +149,7 @@ void Towary::getStuffList ()
   QDomElement usluga;
 
   QFile file (progDir2 + "/towary.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -234,7 +234,7 @@ bool Towary::saveAll ()
   QDomElement uslugi;
 
   QFile file (progDir + "/towary.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("can not open ");
       root = doc.createElement ("towary");
@@ -316,7 +316,7 @@ bool Towary::saveAll ()
   QString xml = doc.toString ();
 
   file.close ();
-  file.open (IO_WriteOnly);
+  file.open (QIODevice::WriteOnly);
   QTextStream ts (&file);
   ts.setCodec (QTextCodec::codecForName ("ISO8859-2"));
   ts << xml;
@@ -346,7 +346,7 @@ void Towary::modifyOnly ()
   QDomElement uslugi;
 
   QFile file (progDir + "/towary.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("can not open ");
       root = doc.createElement ("towary");
@@ -442,7 +442,7 @@ void Towary::modifyOnly ()
   QString xml = doc.toString ();
 
   file.close ();
-  file.open (IO_WriteOnly);
+  file.open (QIODevice::WriteOnly);
   QTextStream ts (&file);
   ts.setCodec (QTextCodec::codecForName ("ISO8859-2"));
   ts << xml;

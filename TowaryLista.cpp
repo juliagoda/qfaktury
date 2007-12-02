@@ -78,7 +78,7 @@ void TowaryLista::readTow (QString progDir)
 
 
   QFile file (progDir + "/towary.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -265,7 +265,7 @@ void TowaryLista::readNettos (QString index)
   QDomElement usluga;
 
   QFile file (progDir + "/towary.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;

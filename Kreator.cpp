@@ -440,7 +440,7 @@ void Kreator::getFirmList ()
   QDomElement firma;
 
   QFile file (progDir2 + "/kontrah.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -486,7 +486,7 @@ void Kreator::getOdbData ()
   QDomElement firma;
 
   QFile file (progDir2 + "/kontrah.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -679,7 +679,7 @@ void Kreator::saveXML ()
       pNumber += 1;
     }
 
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       root = doc.createElement ("przelew");
       if (radioButton2->isChecked ())
@@ -729,7 +729,7 @@ void Kreator::saveXML ()
 
   QString xml = doc.toString ();
   file.close ();
-  file.open (IO_WriteOnly);
+  file.open (QIODevice::WriteOnly);
   QTextStream ts (&file);
   ts << xml;
   file.close ();

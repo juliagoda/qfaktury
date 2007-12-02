@@ -104,7 +104,7 @@ void Korekta::readData(QString fraFile)
   fName = fraFile;
   QFile file (progDir2 + "/faktury/" + fraFile);
   // qDebug( file.name() );
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -273,7 +273,7 @@ void Korekta::readDataNewKor (QString fraFile)
   fName = fraFile;
   QFile file (progDir2 + "/faktury/" + fraFile);
   // qDebug( file.name() );
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -592,7 +592,7 @@ void Korekta::makeInvoiceHeadar ()
   // qDebug( templDir  );
 
   QFile file (templDir + "style.css");
-  if (file.open (IO_ReadOnly))
+  if (file.open (QIODevice::ReadOnly))
     {
       QTextStream stream (&file);
       QString line;
@@ -1168,7 +1168,7 @@ void Korekta::makeInvoice ()
   makeInvoiceFooter ();
 
   QFile file ("/tmp/invoice.html");
-  if (file.open (IO_WriteOnly))
+  if (file.open (QIODevice::WriteOnly))
     {
       QTextStream stream (&file);
       for (QStringList::Iterator it = fraStrList.begin ();
@@ -1248,7 +1248,7 @@ void Korekta::saveInvoice ()
   
   
   // qDebug( "adsad %s", file.name() ); 
-  // if (!file.open (IO_ReadOnly)) {
+  // if (!file.open (QIODevice::ReadOnly)) {
 
   root = doc.createElement ("korekta");
   root.setAttribute ("nr", korNr->text ());
@@ -1405,7 +1405,7 @@ void Korekta::saveInvoice ()
 
   QString xml = doc.toString ();
   file.close ();
-  file.open (IO_WriteOnly);
+  file.open (QIODevice::WriteOnly);
   QTextStream ts (&file);
   ts << xml;
   // qDebug ( "ret" + ret );

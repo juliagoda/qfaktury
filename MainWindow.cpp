@@ -165,7 +165,7 @@ void MainWindow::readHist (QString progDir)
 
       QFile file (progDir + "/faktury/" + pliczki[i]);
 
-      if (!file.open (IO_ReadOnly))
+      if (!file.open (QIODevice::ReadOnly))
 	{
 	  qDebug ("file doesn't exists");
 	  return;
@@ -304,7 +304,7 @@ void MainWindow::readKontr (QString progDir)
   QDomElement firma;
 
   QFile file (progDir + "/kontrah.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -369,7 +369,7 @@ void MainWindow::readTw (QString progDir)
   QDomElement uslugi;
 
   QFile file (progDir + "/towary.xml");
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -539,7 +539,7 @@ void MainWindow::kontrDel ()
 	}
 
       QFile file (pdGlob + "/kontrah.xml");
-      if (!file.open (IO_ReadOnly))
+      if (!file.open (QIODevice::ReadOnly))
 	{
 	  qDebug ("file doesn't exists");
 	  return;
@@ -588,7 +588,7 @@ void MainWindow::kontrDel ()
 
 	  QString xml = doc.toString ();
 	  file.close ();
-	  file.open (IO_WriteOnly);
+	  file.open (QIODevice::WriteOnly);
 	  QTextStream ts (&file);
 	  ts << xml;
 
@@ -808,7 +808,7 @@ void MainWindow::towaryUsun ()
       QDomElement uslugi;
 
       QFile file (pdGlob + "/towary.xml");
-      if (!file.open (IO_ReadOnly))
+      if (!file.open (QIODevice::ReadOnly))
 	{
 	  qDebug ("file doesn't exists");
 	  return;
@@ -857,7 +857,7 @@ void MainWindow::towaryUsun ()
 
 	  QString xml = doc.toString ();
 	  file.close ();
-	  file.open (IO_WriteOnly);
+	  file.open (QIODevice::WriteOnly);
 	  QTextStream ts (&file);
 	  ts << xml;
 
