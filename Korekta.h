@@ -3,6 +3,7 @@
 #include <QDialog>
 #include "ui_Korekta.h"
 class Korekta: public QDialog, public Ui::Korekta {
+    Q_OBJECT
     public:
     Korekta(QWidget *parent);
     public slots:

@@ -4,29 +4,34 @@ find_package(Qt4 REQUIRED)
 
 include(${QT_USE_FILE})
 set(qfaktury_SRCS
+Faktura.cpp
+Kontrahenci.cpp
+KontrahenciLista.cpp
+Korekta.cpp
+Kreator.cpp
 main.cpp
+MainWindow.cpp
+Rounding.cpp
 slownie.cpp
-version.cpp
-zaokr.cpp
-Form1.cpp
-FormFra.cpp
-Form4.cpp
+Towary.cpp
+TowaryLista.cpp
+Ustawienia.cpp
+Uzytkownik.cpp
+Uzytkownik.cpp.cpp
 )
 
 set(qfaktury_UIS
-chamount.ui
-formfra.ui
-kontlist.ui
-korform.ui
-kreator.ui
-mainform.ui
-preview.ui
-przelew.ui
-sett.ui
-towary.ui
-towlist.ui
-user.ui
-Form4.ui
+Faktura.ui
+KontrahenciLista.ui
+Kontrahenci.ui
+Korekta.ui
+Kreator.ui
+MainWindow.ui
+TowaryLista.ui
+Towary.ui
+Ustawienia.ui
+Uzytkownik.ui
+ZmienIlosc.ui
 )
 
 

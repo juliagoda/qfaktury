@@ -3,6 +3,7 @@
 #include <QDialog>
 #include "ui_KontrahenciLista.h"
 class KontrahenciLista: public QDialog, public Ui::KontrahenciLista {
+    Q_OBJECT
     public:
     KontrahenciLista(QWidget *parent);
     public slots:

@@ -3,6 +3,7 @@
 #include <QDialog>
 #include "ui_Ustawienia.h"
 class Ustawienia: public QDialog, public Ui::Ustawienia {
+    Q_OBJECT
     public:
     Ustawienia(QWidget *parent);
     public slots:

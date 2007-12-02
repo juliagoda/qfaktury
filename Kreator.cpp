@@ -573,8 +573,7 @@ void Kreator::nextFunc ()
 }
 
 
-QString
-Kreator::rozstrzel (QString in)
+QString Kreator::rozstrzel (QString in)
 {
   QString tmp, out;
   switch (rozSp)
@@ -604,8 +603,7 @@ Kreator::rozstrzel (QString in)
   return out;
 }
 
-int
-Kreator::getXSett (QString in)
+int Kreator::getXSett (QString in)
 {
   int x = in.find (',');
   // int y = in.length();
@@ -614,8 +612,7 @@ Kreator::getXSett (QString in)
   return in.left (x).toInt ();
 }
 
-int
-Kreator::getYSett (QString in)
+int Kreator::getYSett (QString in)
 {
   int x = in.find (',');
   int y = in.length ();
@@ -740,8 +737,7 @@ void Kreator::saveXML ()
 }
 
 
-QPixmap
-Kreator::getPrzelew ()
+QPixmap Kreator::getPrzelew ()
 {
   qDebug (__FUNCTION__);
   readSettings ();
@@ -880,4 +876,8 @@ void Kreator::print ()
       saveXML ();
       accept ();
     }
+}
+Kreator::Kreator(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
 }

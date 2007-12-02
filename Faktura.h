@@ -3,6 +3,7 @@
 #include <QDialog>
 #include "ui_Faktura.h"
 class Faktura: public QDialog, public Ui::Faktura {
+    Q_OBJECT
     public:
     Faktura(QWidget *parent);
     public slots:

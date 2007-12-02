@@ -3,6 +3,7 @@
 #include <QDialog>
 #include "ui_Towary.h"
 class Towary: public QDialog, public Ui::Towary {
+    Q_OBJECT
     public:
     Towary(QWidget *parent);
     public slots:
