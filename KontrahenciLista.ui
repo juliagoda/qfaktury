@@ -1,6 +1,6 @@
 <ui version="4.0" >
  <class>kontList</class>
- <widget class="QDialog" name="kontList" >
+ <widget class="QDialog" name="KontrahenciLista" >
   <property name="geometry" >
    <rect>
     <x>0</x>

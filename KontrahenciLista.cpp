@@ -18,8 +18,7 @@ QStringList listaFirmy;
 
 QStringList listaUrzedy;
 
-void
-kontList::init ()
+void KontrahenciLista::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));
@@ -34,8 +33,7 @@ kontList::init ()
   listBox1->insertStringList ( (QStringList &)listaFirmy);
 }
 
-void
-kontList::readKontr (QString progDir)
+void KontrahenciLista::readKontr (QString progDir)
 {
   QDomDocument doc ("kontrahenci");
   QDomElement root;
@@ -93,8 +91,7 @@ kontList::readKontr (QString progDir)
 }
 
 
-void
-kontList::doAccept ()
+void KontrahenciLista::doAccept ()
 {
   int selNr, posCount = listBox1->count ();
   bool hasSel = false;
@@ -119,8 +116,7 @@ kontList::doAccept ()
     }
 }
 
-void
-kontList::comboBox1Changed ()
+void KontrahenciLista::comboBox1Changed ()
 {
   qDebug (__FUNCTION__);
   listBox1->clear ();
@@ -133,4 +129,8 @@ kontList::comboBox1Changed ()
       listBox1->insertStringList ((QStringList &)listaUrzedy);
       break;
     }
+}
+KontrahenciLista::KontrahenciLista(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
 }
