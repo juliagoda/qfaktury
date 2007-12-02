@@ -9,7 +9,7 @@
 ** These will automatically be called by the form's constructor and
 ** destructor.
 *****************************************************************************/
-
+#include "FormFra.moc"
 #include <qdatetime.h>
 #include <qdir.h>
 #include <qprocess.h>
@@ -30,6 +30,11 @@
 
 
 double priceBRabN, priceBRab;
+
+FormFra(QWidget *parent):QDialog(parent) {
+    setupUi(this);
+    init();
+}
 
 void
 FormFra::init ()
@@ -112,11 +117,11 @@ FormFra::readData (QString fraFile, int co)
   frNr->setEnabled(false);
   if (co == 0)
     {
-      setCaption ("Edytuje Fakturê VAT");
+      setCaption ("Edytuje Fakturï¿½ VAT");
       type = 0;
     }
   else
-    setCaption ("Edytuje Fakturê Pro Forma");
+    setCaption ("Edytuje Fakturï¿½ Pro Forma");
 
   // here we would read all data from one xml file to the this window
   QDomDocument doc ("faktury");
@@ -474,7 +479,7 @@ FormFra::makeInvoiceHeadar ()
   if ( logo != "" ) {
       fraStrList += "<img src=\"" + logo + "\"  width=\"200\" height=\"100\">";      
   } else {
-      fraStrList += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pieczêæ wystawcy";
+      fraStrList += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pieczï¿½ï¿½ wystawcy";
   }
   // in case where we don't have a logo :(
 
@@ -495,14 +500,14 @@ FormFra::makeInvoiceHeadar ()
     "<h5>Data wystawienia: " + QDate::currentDate ().toString ("yyyy-MM-dd") +
     "<br>";
   fraStrList +=
-    "Data sprzeda¿y: " + sellingDate->date ().toString ("yyyy-MM-dd") +
+    "Data sprzedaï¿½y: " + sellingDate->date ().toString ("yyyy-MM-dd") +
     "<br></h5>";
   fraStrList += "</td>";
   fraStrList += "<td width=\"20\">&nbsp;</td>";
   fraStrList += "</tr>";
   fraStrList += "<tr>";
   fraStrList += "<td colspan=\"3\" align=\"right\" valign=\"top\">";
-  fraStrList += "<br>ORYGINA£/KOPIA<br>";
+  fraStrList += "<br>ORYGINAï¿½/KOPIA<br>";
   fraStrList += "</td>";
   fraStrList += "<td width=\"20\">&nbsp;</td>";
   fraStrList += "</tr>";
@@ -562,17 +567,17 @@ if ( settings.readBoolEntry("elinux/faktury_pozycje/Kod")  )
 if ( settings.readBoolEntry("elinux/faktury_pozycje/pkwiu")  )
   fraStrList += "<td width=\"60\" align=\"center\">PKWiU</td>";
 if ( settings.readBoolEntry("elinux/faktury_pozycje/ilosc")  )
-  fraStrList += "<td width=\"60\" align=\"center\">Ilo¶æ</td>";
+  fraStrList += "<td width=\"60\" align=\"center\">Iloï¿½ï¿½</td>";
 if ( settings.readBoolEntry("elinux/faktury_pozycje/jm")  )
   fraStrList += "<td width=\"20\" align=\"center\">Jm.</td>";
 if ( settings.readBoolEntry("elinux/faktury_pozycje/cenajedn")  )
   fraStrList += "<td width=\"60\" align=\"center\">Cena jdn.</td>";
 if ( settings.readBoolEntry("elinux/faktury_pozycje/wartnetto")  )
-  fraStrList += "<td width=\"60\" align=\"center\">Warto¶æ Netto</td>";
+  fraStrList += "<td width=\"60\" align=\"center\">Wartoï¿½ï¿½ Netto</td>";
 if ( settings.readBoolEntry("elinux/faktury_pozycje/rabatperc")  )
   fraStrList += "<td width=\"20\" align=\"center\">Rabat %</td>";
 if ( settings.readBoolEntry("elinux/faktury_pozycje/rabatval")  )
-  fraStrList += "<td width=\"20\" align=\"center\">Rabat Warto¶æ</td>";
+  fraStrList += "<td width=\"20\" align=\"center\">Rabat Wartoï¿½ï¿½</td>";
 if ( settings.readBoolEntry("elinux/faktury_pozycje/nettoafter")  )
   fraStrList += "<td width=\"60\" align=\"center\">Netto po rabacie</td>";
 if ( settings.readBoolEntry("elinux/faktury_pozycje/vatval")  )
@@ -580,7 +585,7 @@ if ( settings.readBoolEntry("elinux/faktury_pozycje/vatval")  )
 if ( settings.readBoolEntry("elinux/faktury_pozycje/vatprice")  )
   fraStrList += "<td width=\"60\" align=\"center\">Kwota Vat</td>";
 if ( settings.readBoolEntry("elinux/faktury_pozycje/bruttoval")  )
-  fraStrList += "<td width=\"60\" align=\"center\">Warto¶æ Brutto</td>";
+  fraStrList += "<td width=\"60\" align=\"center\">Wartoï¿½ï¿½ Brutto</td>";
   fraStrList += "</tr>";
 
   for (int i = 0; i < tableTow->numRows (); ++i)
@@ -698,21 +703,21 @@ FormFra::makeInvoiceSummAll ()
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td width=\"48%\"> ";
   fraStrList +=
-    "<h4>Do zap³aty: " + sbrutto->text () + " " + currCombo->currentText () +
+    "<h4>Do zapï¿½aty: " + sbrutto->text () + " " + currCombo->currentText () +
     "</h4>";
   if ( currCombo->currentText() == "PLN"  )
-      fraStrList += "<h5>s³ownie:" + slownie (sbrutto->text (), currCombo->currentText()) + "</h5>";
+      fraStrList += "<h5>sï¿½ownie:" + slownie (sbrutto->text (), currCombo->currentText()) + "</h5>";
   else
-      fraStrList += "<h5>s³ownie:" + slownie (sbrutto->text (), currCombo->currentText()) + "</h5>";
+      fraStrList += "<h5>sï¿½ownie:" + slownie (sbrutto->text (), currCombo->currentText()) + "</h5>";
       
-  fraStrList += "<h5>forma p³atno¶ci: " + platCombo->currentText () + "<br>";
+  fraStrList += "<h5>forma pï¿½atnoï¿½ci: " + platCombo->currentText () + "<br>";
   fraStrList +=
-    "termin p³atno¶ci: " + liabDate->date ().toString ("yyyy-MM-dd") + "<br>";
+    "termin pï¿½atnoï¿½ci: " + liabDate->date ().toString ("yyyy-MM-dd") + "<br>";
   
   QString paym1 = settings.readEntry("elinux/faktury/paym1");
   
   if ( paym1.left(3) == platCombo->currentText().left(3) )
-  fraStrList += "<b>Zap³acono gotówk±</b> <br>";
+  fraStrList += "<b>Zapï¿½acono gotï¿½wkï¿½</b> <br>";
   
   fraStrList += "</h5>";
   fraStrList += "<h4>" + additEdit->text () + "</h4>";
@@ -725,8 +730,8 @@ FormFra::makeInvoiceSummAll ()
     "<td colspan=\"4\"><hr width=\"100%\" noshade=\"noshade\" color=\"black\" /></td>";
   fraStrList += "</tr>";
   fraStrList += "<tr>";
-  fraStrList += "<td colspan=\"4\"><h5>Ogó³em stawkami:</h5>";
-  fraStrList += "</td>";	// Ogó³em stawkami:
+  fraStrList += "<td colspan=\"4\"><h5>Ogï¿½ï¿½em stawkami:</h5>";
+  fraStrList += "</td>";	// Ogï¿½ï¿½em stawkami:
   fraStrList += "</tr>";
   fraStrList += getStawkami();
   
@@ -812,12 +817,12 @@ FormFra::makeInvoiceFooter ()
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td witdh=\"48%\" align=\"center\"> ";
   fraStrList +=
-    "Imiê i nazwisko osoby upowa¿nionej do wystawienia faktury VAT";
+    "Imiï¿½ i nazwisko osoby upowaï¿½nionej do wystawienia faktury VAT";
   fraStrList += "</td>";
   fraStrList += "<td witdh=\"60\">&nbsp;</td>";
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td witdh=\"48%\" align=\"center\"> ";
-  fraStrList += "Imiê i nazwisko osoby upowa¿nionej do odbioru faktury VAT";
+  fraStrList += "Imiï¿½ i nazwisko osoby upowaï¿½nionej do odbioru faktury VAT";
   fraStrList += "</td>";
   fraStrList += "</tr>";
   fraStrList += "</table>";
@@ -845,7 +850,7 @@ FormFra::makeInvoice ()
 
   if (tableTow->numRows () == 0)
     {
-      QMessageBox::information (this, "QFaktury", "Nie ma towarów",
+      QMessageBox::information (this, "QFaktury", "Nie ma towarï¿½w",
 				QMessageBox::Ok);
       return;
     }
@@ -899,7 +904,7 @@ FormFra::saveInvoice ()
 
   if (tableTow->numRows () == 0)
     {
-      QMessageBox::information (this, "QFaktury", "Nie ma towarów",
+      QMessageBox::information (this, "QFaktury", "Nie ma towarï¿½w",
 				QMessageBox::Ok);
       return;
     }

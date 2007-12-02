@@ -9,13 +9,14 @@ slownie.cpp
 version.cpp
 zaokr.cpp
 Form1.cpp
+FormFra.cpp
+Form4.cpp
 )
 
 set(qfaktury_UIS
 chamount.ui
-fraform.ui
+formfra.ui
 kontlist.ui
-kontr.ui
 korform.ui
 kreator.ui
 mainform.ui
@@ -25,6 +26,7 @@ sett.ui
 towary.ui
 towlist.ui
 user.ui
+Form4.ui
 )
 
 

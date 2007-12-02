@@ -31,8 +31,7 @@
 QStringList pPx;
 QStringList pWx;
 
-void
-Form3::init ()
+void Kreator::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForTr (QTextCodec::codecForName ("ISO8859-2"));
@@ -54,8 +53,7 @@ Form3::init ()
   pixmapLabel1_2_3->setPixmap (QPixmap (graphDir + "/k2.png"));
 }
 
-void
-Form3::fillEdits ()
+void Kreator::fillEdits ()
 {
   QSettings settings;
   nameEdit->setText (settings.readEntry ("przelewy/user/nazwa"));
@@ -65,15 +63,13 @@ Form3::fillEdits ()
   accountEdit->setText (settings.readEntry ("przelewy/user/konto"));
 }
 
-void
-Form3::kwotaKeyDown ()
+void Kreator::kwotaKeyDown ()
 {
   if (radioButton3->isChecked ())
     slownie ();
 }
 
-void
-Form3::slownie ()
+void Kreator::slownie ()
 {
   QString tmp = kwotaEdit->text ().remove (kwotaEdit->text ().find (","), 3);
 
@@ -418,8 +414,7 @@ Form3::slownie ()
 }
 
 
-void
-Form3::hideSlownie (bool ok)
+void Kreator::hideSlownie (bool ok)
 {
   if (!ok)
     {
@@ -433,8 +428,7 @@ Form3::hideSlownie (bool ok)
     }
 }
 
-void
-Form3::getFirmList ()
+void Kreator::getFirmList ()
 {
   qDebug (__FUNCTION__);
   QString progDir2 = QDir::homeDirPath () + "/przelewy";
@@ -479,8 +473,7 @@ Form3::getFirmList ()
 
 }
 
-void
-Form3::getOdbData ()
+void Kreator::getOdbData ()
 {
 
   qDebug (__FUNCTION__);
@@ -534,8 +527,7 @@ Form3::getOdbData ()
     }
 }
 
-void
-Form3::makeWplata ()
+void Kreator::makeWplata ()
 {
   qDebug (__FUNCTION__);
   slownie ();
@@ -549,8 +541,7 @@ Form3::makeWplata ()
 }
 
 
-void
-Form3::nextFunc ()
+void Kreator::nextFunc ()
 {
   if ((radioButton3->isChecked ()) && (indexOf (currentPage ()) == 2)
       && (prevPage == 1))
@@ -582,7 +573,7 @@ Form3::nextFunc ()
 
 
 QString
-Form3::rozstrzel (QString in)
+Kreator::rozstrzel (QString in)
 {
   QString tmp, out;
   switch (rozSp)
@@ -613,7 +604,7 @@ Form3::rozstrzel (QString in)
 }
 
 int
-Form3::getXSett (QString in)
+Kreator::getXSett (QString in)
 {
   int x = in.find (',');
   // int y = in.length();
@@ -623,7 +614,7 @@ Form3::getXSett (QString in)
 }
 
 int
-Form3::getYSett (QString in)
+Kreator::getYSett (QString in)
 {
   int x = in.find (',');
   int y = in.length ();
@@ -633,8 +624,7 @@ Form3::getYSett (QString in)
 }
 
 
-void
-Form3::readSettings ()
+void Kreator::readSettings ()
 {
   QSettings settings;
   font.fromString (settings.readEntry ("przelewy/czcionka"));
@@ -667,8 +657,7 @@ Form3::readSettings ()
 
 }
 
-void
-Form3::saveXML ()
+void Kreator::saveXML ()
 {
 
   QDomDocument doc ("przelewy");
@@ -751,7 +740,7 @@ Form3::saveXML ()
 
 
 QPixmap
-Form3::getPrzelew ()
+Kreator::getPrzelew ()
 {
   qDebug (__FUNCTION__);
   readSettings ();
@@ -869,8 +858,7 @@ Form3::getPrzelew ()
   return pix;
 }
 
-void
-Form3::print ()
+void Kreator::print ()
 {
   QPrinter printer;
   printer.setFullPage (TRUE);

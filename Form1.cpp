@@ -17,9 +17,9 @@
 #include <qapplication.h>
 #include <qevent.h>
 #include <qprocess.h>
-#include <qdom.h>
+#include <Qt/qdom.h>
 
-#include "kontr.h"
+#include "Form4.h"
 #include "kreator.h"
 #include "mainform.h"
 #include "preview.h"
@@ -221,7 +221,7 @@ void
 Form1::oProg ()
 {
   QMessageBox::about (this, "QFaktury v0.0.1 beta",
-        "Program do wystawiania faktur. \n Koordynator projektu: \n\tGrzegorz Rêkawek www.e-linux.pl \n Programista:\n\tTomasz 'moux' Pielech \nGrafika:\n\tDariusz Arciszewski \n\nSupport: info@e-linux.pl");		  
+        "Program do wystawiania faktur. \n Koordynator projektu: \n\tGrzegorz Rï¿½kawek www.e-linux.pl \n Programista:\n\tTomasz 'moux' Pielech \nGrafika:\n\tDariusz Arciszewski \n\nSupport: info@e-linux.pl");		  
 }
 
 void
@@ -290,7 +290,7 @@ Form1::delFHist ()
 {
   if (QMessageBox::
       warning (this, "QFaktury",
-	       "Czy napewno chcesz usun±æ t± fakturê z historii?", "Tak",
+	       "Czy napewno chcesz usunï¿½ï¿½ tï¿½ fakturï¿½ z historii?", "Tak",
 	       "Nie", 0, 0, 1) == 0)
     {
 
@@ -455,7 +455,7 @@ Form1::readTw (QString progDir)
 	  tableT->setText (tableT->numRows () - 1, 3, text);
 	  text = n.toElement ().attribute ("pkwiu");
 	  tableT->setText (tableT->numRows () - 1, 4, text);
-	  text = "us³uga";
+	  text = "usï¿½uga";
 	  tableT->setText (tableT->numRows () - 1, 5, text);
 	  text = n.toElement ().attribute ("curr");
 	  tableT->setText (tableT->numRows () - 1, 6, text);
@@ -543,7 +543,7 @@ Form1::kontrDel ()
 {
   if (QMessageBox::
       warning (this, "QFaktury",
-	       "Czy napewno chcesz usun±æ tego kontrahenta?", "Tak", "Nie", 0,
+	       "Czy napewno chcesz usunï¿½ï¿½ tego kontrahenta?", "Tak", "Nie", 0,
 	       0, 1) == 0)
     {
 
@@ -751,7 +751,7 @@ Form1::closeEvent (QCloseEvent * e)
 {
   if (QMessageBox::
       warning (this, "QFaktury",
-	       "Czy chcesz wyj¶æ z programu?", "Tak", "Nie", 0, 0, 1) == 0)
+	       "Czy chcesz wyjï¿½ï¿½ z programu?", "Tak", "Nie", 0, 0, 1) == 0)
     {
       e->accept ();
     }
@@ -826,7 +826,7 @@ Form1::towaryUsun ()
 
   if (QMessageBox::
       warning (this, "QFaktury",
-	       "Czy napewno chcesz usun±æ towar " + tableT->text (row,
+	       "Czy napewno chcesz usunï¿½ï¿½ towar " + tableT->text (row,
 								  0) + "/" +
 	       tableT->text (row, 1) + "?", "Tak", "Nie", 0, 0, 1) == 0)
     {
@@ -957,9 +957,9 @@ Form1::saveAllSett()
   settings.writeEntry ("jednostki",   "szt.|kg.|g.|m|km.|godz." );
   settings.writeEntry ("stawki",   "22|7|0|zw." );
   settings.writeEntry ("waluty",   "PLN|EUR|USD" );
-  settings.writeEntry ("payments",  "gotówka|przelew" ); // uwaga!! get first
-  settings.writeEntry ("paym1",   "gotówka" ); 
-  settings.writeEntry ("pkorekty",   "zmiana ilo¶ci" ); 
+  settings.writeEntry ("payments",  "gotï¿½wka|przelew" ); // uwaga!! get first
+  settings.writeEntry ("paym1",   "gotï¿½wka" ); 
+  settings.writeEntry ("pkorekty",   "zmiana iloï¿½ci" ); 
   settings.endGroup ();
   
   settings.beginGroup ("elinux/faktury_pozycje");

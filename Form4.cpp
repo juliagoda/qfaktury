@@ -18,8 +18,12 @@
 QString progDir;
 QString nazwaEdit;
 
-void
-Form4::readData (QString name, QString type)
+Kontrahenci::Kontrahenci(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
+}
+
+void Kontrahenci::readData (QString name, QString type)
 {
   nazwaEdit = name;
   qDebug (name + "   " + type);
@@ -98,8 +102,7 @@ Form4::readData (QString name, QString type)
   setCaption ("Edytuj kontrahenta");
 }
 
-void
-Form4::getFirmList ()
+void Kontrahenci::getFirmList ()
 {
   qDebug (__FUNCTION__);
   QString progDir2 = QDir::homeDirPath () + "/elinux";
@@ -153,8 +156,7 @@ Form4::getFirmList ()
 }
 
 
-void
-Form4::init ()
+void Kontrahenci::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));
@@ -164,7 +166,7 @@ Form4::init ()
 
 
 bool
-Form4::saveAll ()
+Kontrahenci::saveAll ()
 {
   qDebug (__FUNCTION__);
 
@@ -259,8 +261,7 @@ Form4::saveAll ()
   return true;
 }
 
-void
-Form4::modifyOnly ()
+void Kontrahenci::modifyOnly ()
 {
   qDebug (__FUNCTION__);
 
@@ -378,7 +379,7 @@ Form4::modifyOnly ()
 }
 
 QString
-Form4::isEmpty (QString in)
+Kontrahenci::isEmpty (QString in)
 {
   if (in == "")
     return "-";
@@ -388,8 +389,7 @@ Form4::isEmpty (QString in)
  /*!
   *  save data to XML file
   !*/
-void
-Form4::okClick ()
+void Kontrahenci::okClick ()
 {
   /* TODO
    * validation account must have 26 chars
@@ -433,8 +433,7 @@ Form4::okClick ()
 }
 
 
-void
-Form4::newFunction ()
+void Kontrahenci::newFunction ()
 {
 
 }
