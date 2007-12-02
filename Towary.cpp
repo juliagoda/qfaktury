@@ -141,7 +141,7 @@ void Towary::readData (QString idx, QString type)
 void Towary::getStuffList ()
 {
   qDebug (__FUNCTION__);
-  QString progDir2 = QDir::homeDirPath () + "/elinux";
+  QString progDir2 = QDir::homePath () + "/elinux";
 
   QDomDocument doc ("towary");
   QDomElement root;
@@ -197,7 +197,7 @@ void Towary::init ()
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));
 
-  progDir = QDir::homeDirPath () + "/elinux";
+  progDir = QDir::homePath () + "/elinux";
   readData ("", "");
   idxEdit->setText (QString::number (lastId));
   // cbVat->setCurrentText ("22");

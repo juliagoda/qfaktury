@@ -39,7 +39,7 @@ void MainWindow::init ()
  //  create local user directory for store xml files
   // works only on Linux -> see also licence Qt 3
   QDir tmp;
-  QString progDir = tmp.homeDirPath () + "/elinux";
+  QString progDir = tmp.homePath () + "/elinux";
   pdGlob = progDir;
   // qDebug(progDir);
   if (!tmp.exists (progDir))
@@ -503,7 +503,7 @@ void MainWindow::kontrClick ()
     {
       // tableClear (tableK);
       QDir tmp;
-      QString progDir = tmp.homeDirPath () + "/elinux";
+      QString progDir = tmp.homePath () + "/elinux";
       qDebug (progDir);
       tmp.mkdir (progDir, TRUE);
 
@@ -597,7 +597,7 @@ void MainWindow::kontrDel ()
 	  // 
 	  // tableClear (tableK);
 	  // QDir tmp;
-	  // QString progDir = tmp.homeDirPath () + "/elinux";
+	  // QString progDir = tmp.homePath () + "/elinux";
 	  // qDebug (progDir);
 	  // readKontr (progDir);
 	}
@@ -624,7 +624,7 @@ void MainWindow::kontrEd ()
       /*
          tableClear (tableK);
          QDir tmp;
-         QString progDir = tmp.homeDirPath () + "/elinux";
+         QString progDir = tmp.homePath () + "/elinux";
          qDebug (progDir);
          readKontr (progDir);
        */
@@ -761,7 +761,7 @@ void MainWindow::towaryDodaj ()
       /*
          tableClear (tableT);
          QDir tmp;
-         QString progDir = tmp.homeDirPath () + "/elinux";
+         QString progDir = tmp.homePath () + "/elinux";
          qDebug (progDir);
          tmp.mkdir (progDir, TRUE);
          readTw (progDir);
@@ -866,7 +866,7 @@ void MainWindow::towaryUsun ()
 	  /*
 	  tableClear (tableT);
 	  QDir tmp;
-	  QString progDir = tmp.homeDirPath () + "/elinux";
+	  QString progDir = tmp.homePath () + "/elinux";
 	  qDebug (progDir);
 	  readTw (progDir);
 	  */
@@ -895,7 +895,7 @@ void MainWindow::towaryEdycja ()
       /*
          tableClear (tableT);
          QDir tmp;
-         QString progDir = tmp.homeDirPath () + "/elinux";
+         QString progDir = tmp.homePath () + "/elinux";
          qDebug (progDir);
          readTw(progDir);
        */

@@ -57,7 +57,7 @@ void TowaryLista::init ()
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));    
   ret = "";
   QDir tmp;
-  progDir = tmp.homeDirPath () + "/elinux";
+  progDir = tmp.homePath () + "/elinux";
   listaTowary.clear ();
   listaUslugi.clear ();
   listaTowary2.clear ();

@@ -26,7 +26,7 @@ void KontrahenciLista::init ()
   QTextCodec::setCodecForTr (QTextCodec::codecForName ("ISO8859-2"));
     
   QDir tmp;
-  QString progDir = tmp.homeDirPath () + "/elinux";
+  QString progDir = tmp.homePath () + "/elinux";
   listaFirmy.clear ();
   listaUrzedy.clear ();
   readKontr (progDir);

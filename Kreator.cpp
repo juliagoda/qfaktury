@@ -432,7 +432,7 @@ void Kreator::hideSlownie (bool ok)
 void Kreator::getFirmList ()
 {
   qDebug (__FUNCTION__);
-  QString progDir2 = QDir::homeDirPath () + "/przelewy";
+  QString progDir2 = QDir::homePath () + "/przelewy";
 
   QDomDocument doc ("kontrahenci");
   QDomElement root;
@@ -478,7 +478,7 @@ void Kreator::getOdbData ()
 {
 
   qDebug (__FUNCTION__);
-  QString progDir2 = QDir::homeDirPath () + "/przelewy";
+  QString progDir2 = QDir::homePath () + "/przelewy";
 
   QDomDocument doc ("kontrahenci");
   QDomElement root;
@@ -664,7 +664,7 @@ void Kreator::saveXML ()
   QDomElement odbiorca;		// firma;    
   QString fileName;
   fileName = QDate::currentDate ().toString ("dd-MM-yyyy");
-  QString progDir2 = QDir::homeDirPath () + "/przelewy";
+  QString progDir2 = QDir::homePath () + "/przelewy";
   qDebug (fileName);
 
   int pNumber = 0;
