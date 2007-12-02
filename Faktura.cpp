@@ -164,6 +164,7 @@ void Faktura::readData (QString fraFile, int co)
   // qDebug( towar.attribute("Nazwa")  );
 
   static const char *towarColumns[] = {
+      "",
 "Nazwa",
 "Kod",
 "PKWiU",
