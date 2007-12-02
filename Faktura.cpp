@@ -18,6 +18,7 @@
 #include <Qt/qdom.h>
 #include <qmessagebox.h>
 #include <qtextcodec.h>
+#include <QTextStream>
 
 
 #include "KontrahenciLista.h"
@@ -54,8 +55,9 @@ void Faktura::init ()
 
 
   QDir abs (qApp->argv ()[0]);
+  QString templDir = ".";
   if (QString (qApp->argv ()[0]).left (2) == "./")
-    templDir = abs.absPath ();
+    templDir = abs.absolutePath ();
   else
     templDir = "/usr/bin/qfaktury";
   //absPath();
@@ -85,11 +87,9 @@ backBtnClick();
   frNr->setText (lastInvoice);
 */
   
- platCombo->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/payments")), -1); 
-
- currCombo->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/waluty")), -1); 
- 
-  if ( settings.readBoolEntry ("elinux/faktury/editSymbol") )
+ platCombo->insertItems(0, settings.value("elinux/faktury/payments").toString().split("|")); 
+ currCombo->insertItems(0, settings.value("elinux/faktury/waluty").toString().split("|")); 
+  if ( settings.value("elinux/faktury/editSymbol").toBool() )
   {
       frNr->setEnabled( FALSE );
       backBtn->setEnabled( FALSE );
@@ -109,11 +109,11 @@ void Faktura::readData (QString fraFile, int co)
   frNr->setEnabled(false);
   if (co == 0)
     {
-      setCaption ("Edytuje Faktur� VAT");
+      setWindowTitle("Edytuje Faktur� VAT");
       type = 0;
     }
   else
-    setCaption ("Edytuje Faktur� Pro Forma");
+    setWindowTitle("Edytuje Faktur� Pro Forma");
 
   // here we would read all data from one xml file to the this window
   QDomDocument doc ("faktury");
@@ -123,7 +123,7 @@ void Faktura::readData (QString fraFile, int co)
   fName = fraFile;
 
   QFile file (progDir2 + "/faktury/" + fraFile);
-  if (!file.open (IO_ReadOnly))
+  if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
       return;
@@ -131,7 +131,7 @@ void Faktura::readData (QString fraFile, int co)
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  file.close ();
 	  // return;
@@ -160,32 +160,39 @@ void Faktura::readData (QString fraFile, int co)
   int i = 0;
   QDomElement towar;
   towar = towary.firstChild ().toElement ();
+  tableTow->setRowCount(towCount);
+  tableTow->setColumnCount(10);
   // qDebug( towar.attribute("Nazwa")  );
+
+  static const char *towarColumns[] = {
+"Nazwa",
+"Kod",
+"PKWiU",
+"Ilosc",
+"Jm.",
+"Cena_jdn.",
+"Wartosc_Netto",
+"Stawka_VAT",
+"Wartosc_Brutto",
+  }; 
+
   for (i = 0; i < towCount; ++i)
     {
-      tableTow->insertRows (tableTow->numRows (), 1);
-      tableTow->setText (tableTow->numRows () - 1, 0, QString::number (tableTow->numRows ()));	// lp
-      tableTow->setText (tableTow->numRows () - 1, 1, towar.attribute ("Nazwa"));	// nazwa
-      tableTow->setText (tableTow->numRows () - 1, 2, towar.attribute ("Kod"));	// kod
-      tableTow->setText (tableTow->numRows () - 1, 3, towar.attribute ("PKWiU"));	// pkwiu
-      tableTow->setText (tableTow->numRows () - 1, 4, towar.attribute ("Ilosc"));	// ilosc
-      tableTow->setText (tableTow->numRows () - 1, 5, towar.attribute ("Jm."));	// jm
-      tableTow->setText (tableTow->numRows () - 1, 6, towar.attribute ("Cena_jdn."));	// cena jdn.
-      tableTow->setText (tableTow->numRows () - 1, 7, towar.attribute ("Wartosc_Netto"));	// netto
-      tableTow->setText (tableTow->numRows () - 1, 8, towar.attribute ("Stawka_VAT"));	// vat
-      tableTow->setText (tableTow->numRows () - 1, 9, towar.attribute ("Wartosc_Brutto"));	// brutto
+        for (int j = 0; j < sizeof(towarColumns)/sizeof(*towarColumns); j++) {
+            tableTow->setItem(i, j, new QTableWidgetItem(towar.attribute(towarColumns[j])));
+        }
       towar = towar.nextSibling ().toElement ();
     }
   tmp = tmp.toElement ().nextSibling ();
   QDomElement additional = tmp.toElement ();
   additEdit->setText (additional.attribute ("text"));
-  platCombo->setCurrentItem (additional.attribute ("forma.plat").toInt ());
+  //X platCombo->setCurrentItem (additional.attribute ("forma.plat").toInt ());
   liabDate->
     setDate (QDate::
 	     fromString (additional.attribute ("liabDate"), Qt::ISODate));
-  currCombo->setCurrentItem (additional.attribute ("waluta").toInt ());
+  //X currCombo->setCurrentItem (additional.attribute ("waluta").toInt ());
   QSettings settings;
-  if ( !settings.readBoolEntry ("elinux/faktury/edit") )
+  if ( !settings.value("elinux/faktury/edit").toBool() )
   {
       frNr->setEnabled( FALSE );
       backBtn->setEnabled( FALSE );
@@ -224,8 +231,8 @@ saveBtn->setEnabled( TRUE );
 
 void Faktura::getKontrahent ()
 {
-  kontList *klWindow =
-    new kontList (this, "", FALSE, Qt::WStyle_NoBorder | Qt::WShowModal);
+  KontrahenciLista *klWindow =
+    new KontrahenciLista(this);
   if (klWindow->exec () == QDialog::Accepted)
     {
       kontrName->setText (klWindow->ret);
@@ -235,7 +242,7 @@ void Faktura::getKontrahent ()
 
 void Faktura::addTow ()
 {
-  towList *twWindow =
+  TowaryListaowList *twWindow =
     new towList (this, "", FALSE, Qt::WStyle_NoBorder | Qt::WShowModal);
   if (twWindow->exec () == QDialog::Accepted)
     {

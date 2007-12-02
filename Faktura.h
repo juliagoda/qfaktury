@@ -26,5 +26,9 @@ void makeInvoice ();
 void saveInvoice ();
 QString numbersCount(int in, int x);
 void backBtnClick();
+
+    public:
+    QString fName, progDir2;
+    int type;
 };
 #endif

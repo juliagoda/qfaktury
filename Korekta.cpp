@@ -57,6 +57,7 @@ void Korekta::init ()
 
 
   QDir abs (qApp->argv ()[0]);
+  QString templDir = ".";
   if (QString (qApp->argv ()[0]).left (2) == "./")
     templDir = abs.absPath ();
   else
