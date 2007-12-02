@@ -9,7 +9,7 @@
 ** These will automatically be called by the form's constructor and
 ** destructor.
 *****************************************************************************/
-#include "Form1.moc"
+#include "MainWindow.moc"
 #include <qtextcodec.h>
 #include <qdir.h>
 #include <qmessagebox.h>
@@ -32,13 +32,7 @@
 
 QString pdGlob;
 
-Form1::Form1(QWidget *parent): QMainWindow(parent) {
-    setupUi(this);
-    init();
-}
-
-void
-Form1::init ()
+void MainWindow::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));    
@@ -84,8 +78,7 @@ Form1::init ()
 
 
 
-bool
-Form1::firstRun ()
+bool MainWindow::firstRun ()
 {
   qDebug (__FUNCTION__);
   QSettings settings;
@@ -99,16 +92,14 @@ Form1::firstRun ()
     return false;
 }
 
-void
-Form1::tableClear (QTable * tab)
+void MainWindow::tableClear (QTable * tab)
 {
   int x = tab->numRows ();
   for (int i = x; i >= 0; --i)
     tab->removeRow (i);
 }
 
-void
-Form1::tabChanged (QWidget * aaa)
+void MainWindow::tabChanged (QWidget * aaa)
 {
   if (tabWidget2->indexOf (aaa) == 0)
     {
@@ -147,8 +138,7 @@ Form1::tabChanged (QWidget * aaa)
 
 }
 
-void
-Form1::readHist (QString progDir)
+void MainWindow::readHist (QString progDir)
 {
   /*!
    * step one: get list of files from directory
@@ -211,21 +201,18 @@ Form1::readHist (QString progDir)
 
 }
 
-void
-Form1::aboutQt ()
+void MainWindow::aboutQt ()
 {
   QMessageBox::aboutQt (this, "QFaktury");
 }
 
-void
-Form1::oProg ()
+void MainWindow::oProg ()
 {
   QMessageBox::about (this, "QFaktury v0.0.1 beta",
         "Program do wystawiania faktur. \n Koordynator projektu: \n\tGrzegorz R�kawek www.e-linux.pl \n Programista:\n\tTomasz 'moux' Pielech \nGrafika:\n\tDariusz Arciszewski \n\nSupport: info@e-linux.pl");		  
 }
 
-void
-Form1::editFHist ()
+void MainWindow::editFHist ()
 {
   qDebug( __FUNCTION__ );
   
@@ -285,8 +272,7 @@ Form1::editFHist ()
 }
 
 
-void
-Form1::delFHist ()
+void MainWindow::delFHist ()
 {
   if (QMessageBox::
       warning (this, "QFaktury",
@@ -310,8 +296,7 @@ Form1::delFHist ()
 
 }
 
-void
-Form1::readKontr (QString progDir)
+void MainWindow::readKontr (QString progDir)
 {
   QDomDocument doc ("kontrahenci");
   QDomElement root;
@@ -376,8 +361,7 @@ Form1::readKontr (QString progDir)
     }
 }
 
-void
-Form1::readTw (QString progDir)
+void MainWindow::readTw (QString progDir)
 {
   QDomDocument doc ("towary");
   QDomElement root;
@@ -474,24 +458,21 @@ Form1::readTw (QString progDir)
 }
 
 
-void
-Form1::daneFirmyClick ()
+void MainWindow::daneFirmyClick ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
   Form2 *daneFirmyWindow = new Form2;
   daneFirmyWindow->show ();
 }
 
-void
-Form1::settClick ()
+void MainWindow::settClick ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
   Form7 *settWindow = new Form7;
   settWindow->show ();
 }
 
-void
-Form1::kretorClick ()
+void MainWindow::kretorClick ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 //     QMessageBox::information( this, "QFaktury", "Funkcja jeszcze nie gotowa. Uzyj menu faktury->Nowy", QMessageBox::Ok );
@@ -514,8 +495,7 @@ Form1::kretorClick ()
   // delete kreatorWindow;
 }
 
-void
-Form1::kontrClick ()
+void MainWindow::kontrClick ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
   Form4 *kontrWindow = new Form4;
@@ -538,8 +518,7 @@ Form1::kontrClick ()
     }
 }
 
-void
-Form1::kontrDel ()
+void MainWindow::kontrDel ()
 {
   if (QMessageBox::
       warning (this, "QFaktury",
@@ -626,8 +605,7 @@ Form1::kontrDel ()
     }
 }
 
-void
-Form1::kontrEd ()
+void MainWindow::kontrEd ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
   int row, max = tableK->numRows ();
@@ -660,8 +638,7 @@ Form1::kontrEd ()
 }
 
 
-void
-Form1::newFra ()
+void MainWindow::newFra ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
   FormFra *fraWindow = new FormFra;
@@ -681,8 +658,7 @@ Form1::newFra ()
 }
 
 
-void
-Form1::newPForm ()
+void MainWindow::newPForm ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
   FormFra *fraWindow = new FormFra;
@@ -704,8 +680,7 @@ Form1::newPForm ()
 }
 
 
-void
-Form1::newKor ()
+void MainWindow::newKor ()
 {
     qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
     
@@ -746,8 +721,7 @@ Form1::newKor ()
     }
 }
 
-void
-Form1::closeEvent (QCloseEvent * e)
+void MainWindow::closeEvent (QCloseEvent * e)
 {
   if (QMessageBox::
       warning (this, "QFaktury",
@@ -757,8 +731,7 @@ Form1::closeEvent (QCloseEvent * e)
     }
 }
 
-void
-Form1::pomoc ()
+void MainWindow::pomoc ()
 {
   qDebug (__FUNCTION__);
   // firts we check is KDE working
@@ -778,8 +751,7 @@ Form1::pomoc ()
     }
 }
 
-void
-Form1::towaryDodaj ()
+void MainWindow::towaryDodaj ()
 {
 // 
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
@@ -811,8 +783,7 @@ Form1::towaryDodaj ()
     }
 }
 
-void
-Form1::towaryUsun ()
+void MainWindow::towaryUsun ()
 {
 
   int row, max = tableK->numRows ();
@@ -905,8 +876,7 @@ Form1::towaryUsun ()
 
 }
 
-void
-Form1::towaryEdycja ()
+void MainWindow::towaryEdycja ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
   int row, max = tableT->numRows ();
@@ -947,8 +917,7 @@ Form1::towaryEdycja ()
 }
 
 
-void
-Form1::saveAllSett()
+void MainWindow::saveAllSett()
 {
   QSettings settings;
   settings.beginGroup ("elinux/faktury");
@@ -984,15 +953,21 @@ Form1::saveAllSett()
 
 
 
-void Form1::nextPage()
+void MainWindow::nextPage()
 {
  if ( tabWidget2->count() != tabWidget2->currentPageIndex() )
  tabWidget2->setCurrentPage( tabWidget2->currentPageIndex() + 1 );
 }
 
 
-void Form1::prevPage()
+void MainWindow::prevPage()
 {
  if ( tabWidget2->currentPageIndex() !=  0 )
  tabWidget2->setCurrentPage( tabWidget2->currentPageIndex() - 1 );
 }
+
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
+    setupUi(this);
+    init();
+}
+

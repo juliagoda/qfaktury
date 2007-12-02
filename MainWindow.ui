@@ -1,6 +1,6 @@
 <ui version="4.0" >
  <class>Form1</class>
- <widget class="QMainWindow" name="Form1" >
+ <widget class="QMainWindow" name="MainWindow" >
   <property name="geometry" >
    <rect>
     <x>0</x>
