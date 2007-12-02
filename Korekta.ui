@@ -234,17 +234,11 @@
      </item>
      <item>
       <widget class="QTableWidget" name="tableTow" >
-       <property name="numRows" >
-        <number>0</number>
-       </property>
-       <property name="numCols" >
-        <number>10</number>
-       </property>
-       <property name="sorting" >
-        <bool>true</bool>
-       </property>
        <property name="selectionMode" >
-        <enum>QTableWidget::Multi</enum>
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+       <property name="sortingEnabled" >
+        <bool>true</bool>
        </property>
        <column>
         <property name="text" >
@@ -656,11 +650,6 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>QTableWidget</class>
-   <extends>Q3Frame</extends>
-   <header>q3table.h</header>
-  </customwidget>
   <customwidget>
    <class>Q3DateEdit</class>
    <extends>QWidget</extends>

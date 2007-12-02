@@ -57,9 +57,8 @@ void Korekta::init ()
 
 
   QDir abs (qApp->argv ()[0]);
-  QString templDir = ".";
   if (QString (qApp->argv ()[0]).left (2) == "./")
-    templDir = abs.absPath ();
+    templDir = abs.absolutePath ();
   else
     templDir = "/usr/bin/qfaktury";
   //absPath();
@@ -78,11 +77,11 @@ void Korekta::init ()
   korNr->setText (lastInvoice);
   */
   
- platCombo->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/payments")), -1); 
+ platCombo->addItems( settings.value("elinux/faktury/payments").toString().split("|")); 
 
 // currCombo->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/waluty")), -1); 
  // reasonCombo->clear();
- reasonCombo->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/pkorekty")), -1); 
+ reasonCombo->addItems(settings.value("elinux/faktury/pkorekty").toString().split("|")); 
   
 }
 
@@ -1054,8 +1053,7 @@ void Korekta::makeInvoiceSummAll ()
 }
 
 
-QString
-Korekta::getStawkami()
+QString Korekta::getStawkami()
 {
     QStringList out;
     QSettings settings;
@@ -1413,8 +1411,7 @@ void Korekta::saveInvoice ()
   accept ();
 }
 
-QString 
-Korekta::numbersCount(int in, int x)
+QString Korekta::numbersCount(int in, int x)
 {
     QString tmp2, tmp = QString::number(in);
     tmp2 = "";
@@ -1424,8 +1421,7 @@ Korekta::numbersCount(int in, int x)
     return tmp2 + tmp;
 }
 
-void 
-Korekta::backBtnClick()
+void Korekta::backBtnClick()
 {
   QString tmp;
   QSettings settings;

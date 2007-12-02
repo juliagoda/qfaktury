@@ -4,10 +4,12 @@
 #include "ui_Korekta.h"
 class Korekta: public QDialog, public Ui::Korekta {
     Q_OBJECT
+void init ();
+QString getStawkami();
+QString numbersCount(int in, int x);
     public:
     Korekta(QWidget *parent);
     public slots:
-void init ();
 void readData(QString fraFile);
 void readDataNewKor (QString fraFile);
 void getKontrahent ();
@@ -25,12 +27,28 @@ void makeInvoiceSumm2 ();
 void makeInvoiceGoods ();
 void makeInvoiceSumm ();
 void makeInvoiceSummAll ();
-getStawkami();
 void makeInvoiceFooter ();
 void makeInvoice ();
 void saveInvoice ();
-numbersCount(int in, int x);
-backBtnClick();
 void backBtnClick();
+    private:
+    double priceBRabN, priceBRab;
+    public:
+    double oldBrutto;
+    double oldVat;
+    double oldNetto;
+    QMap<int, QString> towaryPKor;
+    QStringList fraStrList;
+    QString lastInvoice;
+    int type;
+    QString fName;
+    QString progDir2;
+    QString ret;
+    QString templDir;
+    QString snetto;
+    QString sbrutto;
+    QString sRabat;
+    QString currency;
+
 };
 #endif
