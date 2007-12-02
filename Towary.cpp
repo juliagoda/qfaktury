@@ -30,8 +30,7 @@ vatEdit
 
 
 
-void
-twAdd::readData (QString idx, QString type)
+void Towary::readData (QString idx, QString type)
 {
   qDebug (__FUNCTION__);
   if (idx == "")
@@ -138,8 +137,7 @@ twAdd::readData (QString idx, QString type)
 
 }
 
-void
-twAdd::getStuffList ()
+void Towary::getStuffList ()
 {
   qDebug (__FUNCTION__);
   QString progDir2 = QDir::homeDirPath () + "/elinux";
@@ -192,8 +190,7 @@ twAdd::getStuffList ()
 
 }
 
-void
-twAdd::init ()
+void Towary::init ()
 {
   qDebug (__FUNCTION__);
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
@@ -213,8 +210,7 @@ twAdd::init ()
   
 }
 
-bool
-twAdd::saveAll ()
+bool Towary::saveAll ()
 {
   qDebug (__FUNCTION__);
   nettoChanged ();
@@ -328,8 +324,7 @@ twAdd::saveAll ()
   return true;
 }
 
-void
-twAdd::modifyOnly ()
+void Towary::modifyOnly ()
 {
   qDebug (__FUNCTION__);
   nettoChanged ();
@@ -457,8 +452,7 @@ twAdd::modifyOnly ()
 /*!
   *  save data to XML file
   !*/
-void
-twAdd::okClick ()
+void Towary::okClick ()
 {
 
   if (nameEdit->text () == "")
@@ -517,24 +511,21 @@ twAdd::okClick ()
 
 }
 
-void
-twAdd::spinChanged (int a)
+void Towary::spinChanged (int a)
 {
   qDebug (__FUNCTION__);
   nettoEdit->setText (netto[a - 1]);
 }
 
 
-void
-twAdd::nettoChanged ()
+void Towary::nettoChanged ()
 {
   qDebug (__FUNCTION__);
   qDebug (nettoEdit->text ());
   netto[spinBox2->value () - 1] = nettoEdit->text ();
 }
 
-void
-twAdd::pkwiuGet ()
+void Towary::pkwiuGet ()
 {
   qDebug (__FUNCTION__);
   // firts we check is KDE working
@@ -554,4 +545,8 @@ twAdd::pkwiuGet ()
       QProcess cmd2 (args);
       cmd2.start ();
     }
+}
+Towary::Towary(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
 }

@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>twAdd</class>
- <widget class="QDialog" name="twAdd" >
+ <class>Towary</class>
+ <widget class="QDialog" name="Towary" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -315,7 +315,7 @@
   <connection>
    <sender>okButton</sender>
    <signal>clicked()</signal>
-   <receiver>twAdd</receiver>
+   <receiver>Towary</receiver>
    <slot>okClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -331,7 +331,7 @@
   <connection>
    <sender>cancelButton</sender>
    <signal>clicked()</signal>
-   <receiver>twAdd</receiver>
+   <receiver>Towary</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -347,7 +347,7 @@
   <connection>
    <sender>nettoEdit</sender>
    <signal>lostFocus()</signal>
-   <receiver>twAdd</receiver>
+   <receiver>Towary</receiver>
    <slot>nettoChanged()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -363,7 +363,7 @@
   <connection>
    <sender>spinBox2</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>twAdd</receiver>
+   <receiver>Towary</receiver>
    <slot>spinChanged(int)</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -379,7 +379,7 @@
   <connection>
    <sender>pkwiuBtn</sender>
    <signal>clicked()</signal>
-   <receiver>twAdd</receiver>
+   <receiver>Towary</receiver>
    <slot>pkwiuGet()</slot>
    <hints>
     <hint type="sourcelabel" >
