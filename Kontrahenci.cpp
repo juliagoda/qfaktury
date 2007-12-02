@@ -39,7 +39,7 @@ void Kontrahenci::readData (QString name, QString type)
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
@@ -70,7 +70,8 @@ void Kontrahenci::readData (QString name, QString type)
 		  telefonEdit->setText (n.toElement ().attribute ("telefon"));
 		  emailEdit->setText (n.toElement ().attribute ("email"));
 		  wwwEdit->setText (n.toElement ().attribute ("www"));
-		  typeCombo->setCurrentText ("firma");
+          typeCombo->setCurrentIndex(0);
+		  // typeCombo->setCurrentText ("firma");
 		}
 	    }
 	}
@@ -91,18 +92,19 @@ void Kontrahenci::readData (QString name, QString type)
 		  accountEdit->setText (n.toElement ().attribute ("account"));
 		  emailEdit->setText (n.toElement ().attribute ("email"));
 		  wwwEdit->setText (n.toElement ().attribute ("www"));
-		  typeCombo->setCurrentText ("Urz±d");
+          typeCombo->setCurrentIndex(1);
+		  //typeCombo->setCurrentText ("Urz±d");
 		}
 	    }
 	}
     }
-  setCaption ("Edytuj kontrahenta");
+  setWindowTitle ("Edytuj kontrahenta");
 }
 
 void Kontrahenci::getFirmList ()
 {
   qDebug (__FUNCTION__);
-  QString progDir2 = QDir::homeDirPath () + "/elinux";
+  QString progDir2 = QDir::homePath () + "/elinux";
 
   QDomDocument doc ("kontrahenci");
   QDomElement root;
@@ -119,7 +121,7 @@ void Kontrahenci::getFirmList ()
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
@@ -158,7 +160,7 @@ void Kontrahenci::init ()
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));
 
-  progDir = QDir::homeDirPath () + "/elinux";
+  progDir = QDir::homePath () + "/elinux";
 }
 
 
@@ -167,8 +169,7 @@ bool Kontrahenci::saveAll ()
   qDebug (__FUNCTION__);
 
   getFirmList ();
-  QStringList::iterator it = allNames.find (nameEdit->text ());
-  if ((*it) == nameEdit->text ())
+  if (allNames.indexOf(QRegExp(nameEdit->text(), Qt::CaseSensitive, QRegExp::FixedString)) != -1 )
     {
       QMessageBox::critical (0, "Faktury",
 			     "Kontrahent nie moze zostaæ dodany poniewa¿ istnieje ju¿ kontrahent o tej nazwie.");
@@ -194,7 +195,7 @@ bool Kontrahenci::saveAll ()
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 
 	{
 	  qDebug ("can not set content ");
@@ -212,7 +213,7 @@ bool Kontrahenci::saveAll ()
   root.lastChild ();
 
   // firma = 0; urzad = 1;
-  if (typeCombo->currentItem () == 0)
+  if (typeCombo->currentIndex () == 0)
     {
       QDomElement elem = doc.createElement ("firma");
       elem.setAttribute ("name", nameEdit->text ());
@@ -228,7 +229,7 @@ bool Kontrahenci::saveAll ()
       qDebug ("dodano firme");
     }
 
-  if (typeCombo->currentItem () == 1)
+  if (typeCombo->currentIndex () == 1)
     {
       QDomElement elem = doc.createElement ("urzad");
       elem.setAttribute ("name", nameEdit->text ());
@@ -290,7 +291,7 @@ void Kontrahenci::modifyOnly ()
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 
 	{
 	  qDebug ("can not set content ");
@@ -309,7 +310,7 @@ void Kontrahenci::modifyOnly ()
   QString text;
 
   // firma = 0; urzad = 1;
-  if (typeCombo->currentItem () == 0)
+  if (typeCombo->currentIndex () == 0)
     {
       QDomElement elem;		// = doc.createElement ("firma");
       for (QDomNode n = firma.firstChild (); !n.isNull ();
@@ -336,7 +337,7 @@ void Kontrahenci::modifyOnly ()
       qDebug ("modyfikacja firme");
     }
 
-  if (typeCombo->currentItem () == 1)
+  if (typeCombo->currentIndex () == 1)
     {
       QDomElement elem;		//  = doc.createElement ("urzad");
       for (QDomNode n = urzad.firstChild (); !n.isNull ();
@@ -389,11 +390,11 @@ void Kontrahenci::okClick ()
   /* TODO
    * validation account must have 26 chars
    */
-  if (this->caption () == "Edytuj kontrahenta")
+  if (windowTitle() == "Edytuj kontrahenta")
     {
       modifyOnly ();
       QString typ;
-      if (typeCombo->currentItem () == 1)
+      if (typeCombo->currentIndex () == 1)
 	{
 	  typ = "urzad";
 	}
@@ -410,7 +411,7 @@ void Kontrahenci::okClick ()
       if (saveAll ())
 	{
 	  QString typ;
-	  if (typeCombo->currentItem () == 1)
+	  if (typeCombo->currentIndex() == 1)
 	    {
 	      typ = "urzad";
 	    }

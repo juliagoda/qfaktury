@@ -10,7 +10,7 @@
 ** destructor.
 *****************************************************************************/
 #include "KontrahenciLista.moc"
-#include <qdom.h>
+#include <Qt/qdom.h>
 #include <qdir.h>
 #include <qmessagebox.h>
 #include <qtextcodec.h>
