@@ -1,5 +1,5 @@
-#ifndef ZAOKRG_H
-#define ZAOKRG_H
+#ifndef Rounding_H
+#define Rounding_H
 
 #include <qstring.h>
 #include <qstringlist.h>
