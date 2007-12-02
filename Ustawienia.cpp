@@ -32,8 +32,7 @@
 
 
 
-void
-Form7::init ()
+void Ustawienia::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForTr (QTextCodec::codecForName ("ISO8859-2"));
@@ -41,22 +40,19 @@ Form7::init ()
   readSettings ();
 }
 
-void
-Form7::apply ()
+void Ustawienia::apply ()
 {
   saveSettings ();
   zastButton->setEnabled(false);
 }
 
-void
-Form7::okButtonClick ()
+void Ustawienia::okButtonClick ()
 {
   saveSettings ();
   accept ();
 }
 
-QString
-Form7::getAll(QListBox *lb)
+QString Ustawienia::getAll(QListBox *lb)
 {
     QString tmp;
   int selNr, posCount = lb->count ();
@@ -68,8 +64,7 @@ Form7::getAll(QListBox *lb)
  return  tmp;
 }
 
-void
-Form7::saveSettings ()
+void Ustawienia::saveSettings ()
 {
   QSettings settings;
   settings.beginGroup ("elinux/faktury");
@@ -126,8 +121,7 @@ Form7::saveSettings ()
   settings.endGroup ();
 }
 
-void
-Form7::readSettings ()
+void Ustawienia::readSettings ()
 {
   QSettings settings;
   
@@ -211,7 +205,7 @@ prefixEdit->setText( settings.readEntry("elinux/faktury/prefix")  );
 }
 
 
-void Form7::addLogoBtnClick()
+void Ustawienia::addLogoBtnClick()
 {
  // qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
  QString ofn = QFileDialog::getOpenFileName ("/home",
@@ -225,7 +219,7 @@ void Form7::addLogoBtnClick()
 }
 
 
-void Form7::currAddBtnClick()
+void Ustawienia::currAddBtnClick()
 {
   //    qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
     if ( currEdit->text() != "" ) {
@@ -240,7 +234,7 @@ void Form7::currAddBtnClick()
 }
 
 
-void Form7::currDelBtnClick()
+void Ustawienia::currDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
   int selNr, posCount = currlBox->count ();
@@ -267,7 +261,7 @@ void Form7::currDelBtnClick()
 
 }
 
-void Form7::korAddBtnClick()
+void Ustawienia::korAddBtnClick()
 {
   //    qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
     if ( korEdit->text() != "" ) {
@@ -283,7 +277,7 @@ void Form7::korAddBtnClick()
 
 
 
-void Form7::korDelBtnClick()
+void Ustawienia::korDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
   int selNr, posCount = korlBox->count ();
@@ -311,7 +305,7 @@ void Form7::korDelBtnClick()
 }
 
 
-void Form7::vatAddBtnClick()
+void Ustawienia::vatAddBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
     if ( vatEdit->text() != "" ) {
@@ -326,7 +320,7 @@ void Form7::vatAddBtnClick()
 }
 
 
-void Form7::vatDelBtnClick()
+void Ustawienia::vatDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
   int selNr, posCount = vatlBox->count ();
@@ -354,7 +348,7 @@ void Form7::vatDelBtnClick()
 }
 
 
-void Form7::vatUpBtnClick()
+void Ustawienia::vatUpBtnClick()
 {
     int selNr, posCount = vatlBox->count ();
   bool hasSel = false;
@@ -384,7 +378,7 @@ void Form7::vatUpBtnClick()
  
 }
 
-void Form7::vatDownBtnClick()
+void Ustawienia::vatDownBtnClick()
 {
     int selNr, posCount = vatlBox->count ();
   bool hasSel = false;
@@ -413,7 +407,7 @@ void Form7::vatDownBtnClick()
     
 }
 
-void Form7::currencyAddBtnClick()
+void Ustawienia::currencyAddBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
     if ( currencyEdit->text() != "" ) {
@@ -428,7 +422,7 @@ void Form7::currencyAddBtnClick()
 }
 
 
-void Form7::currencyDelBtnClick()
+void Ustawienia::currencyDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
   int selNr, posCount = currencylBox->count ();
@@ -456,7 +450,7 @@ void Form7::currencyDelBtnClick()
 }
 
 
-void Form7::paymUpBtnClick()
+void Ustawienia::paymUpBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
   int selNr, posCount = paymlBox->count ();
@@ -487,7 +481,7 @@ void Form7::paymUpBtnClick()
 }
 
 
-void Form7::paymDownBtnClick()
+void Ustawienia::paymDownBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
   int selNr, posCount = paymlBox->count ();
@@ -518,7 +512,7 @@ void Form7::paymDownBtnClick()
 }
 
 
-void Form7::paymDelBtnClick()
+void Ustawienia::paymDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
   int selNr, posCount = paymlBox->count ();
@@ -545,12 +539,12 @@ void Form7::paymDelBtnClick()
   
 }
 
-void Form7::zastBtnEnable()
+void Ustawienia::zastBtnEnable()
 {
     zastButton->setEnabled(true);
 }
 
-void Form7::paymAddBtnClick()
+void Ustawienia::paymAddBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
     if ( paymEdit->text() != "" ) {
@@ -566,3 +560,7 @@ void Form7::paymAddBtnClick()
  
 }
 
+Ustawienia::Ustawienia(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
+}

@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>Form7</class>
- <widget class="QDialog" name="Form7" >
+ <class>Ustawienia</class>
+ <widget class="QDialog" name="Ustawienia" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -1000,7 +1000,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>zastButton</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>apply()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1016,7 +1016,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>closeButton</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1032,7 +1032,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>okButton</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>okButtonClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1048,7 +1048,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>addLogoBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>addLogoBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1064,7 +1064,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>currAddBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>currAddBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1080,7 +1080,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>currDelBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>currDelBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1096,7 +1096,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>currencyAddBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>currencyAddBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1112,7 +1112,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>currencyDelBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>currencyDelBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1128,7 +1128,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>paymAddBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>paymAddBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1144,7 +1144,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>paymDelBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>paymDelBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1160,7 +1160,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>paymDownBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>paymDownBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1176,7 +1176,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>paymUpBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>paymUpBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1192,7 +1192,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>vatAddBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>vatAddBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1208,7 +1208,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>vatDelBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>vatDelBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1224,7 +1224,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>korAddBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>korAddBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1240,7 +1240,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>korDelBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>korDelBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1256,7 +1256,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>vatUpBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>vatUpBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1272,7 +1272,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>vatDownBtn</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>vatDownBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1288,7 +1288,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>cbDay</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>zastBtnEnable()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1304,7 +1304,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>cbEdit</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>zastBtnEnable()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1320,7 +1320,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>cbMonth</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>zastBtnEnable()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1336,7 +1336,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>cbYear</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>zastBtnEnable()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1352,7 +1352,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>shortYear</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>zastBtnEnable()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1368,7 +1368,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>prefixEdit</sender>
    <signal>textChanged(QString)</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>zastBtnEnable()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1384,7 +1384,7 @@ to na fakturze pojawi sie napis: zapłacono.</string>
   <connection>
    <sender>cbSmbEdit</sender>
    <signal>clicked()</signal>
-   <receiver>Form7</receiver>
+   <receiver>Ustawienia</receiver>
    <slot>zastBtnEnable()</slot>
    <hints>
     <hint type="sourcelabel" >
