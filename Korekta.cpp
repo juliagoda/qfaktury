@@ -16,16 +16,16 @@
 #include <qprocess.h>
 #include <qapplication.h>
 #include <qsettings.h>
-#include <qdom.h>
+#include <Qt/qdom.h>
 #include <qmessagebox.h>
 #include <qtextcodec.h>
 
 
-#include "kontlist.h"
-#include "towlist.h"
-#include "chamount.h"
+#include "KontrahenciLista.h"
+#include "TowaryLista.h"
+#include "ZmienIlosc.h"
 
-#include "zaokr.h"
+#include "Rounding.h"
 #include "slownie.h"
 
 

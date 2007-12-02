@@ -14,6 +14,7 @@
 #include <qdir.h>
 #include <qmessagebox.h>
 #include <qtextcodec.h>
+#include <QTextStream>
 
 QStringList listaFirmy;
 
@@ -51,7 +52,7 @@ void KontrahenciLista::readKontr (QString progDir)
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
@@ -121,7 +122,7 @@ void KontrahenciLista::comboBox1Changed ()
 {
   qDebug (__FUNCTION__);
   listBox1->clear ();
-  switch (comboBox1->currentItem ())
+  switch (comboBox1->currentIndex ())
     {
     case 0:
       listBox1->insertStringList ((QStringList &)listaFirmy);
