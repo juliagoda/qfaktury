@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>Form2</class>
- <widget class="QDialog" name="Form2" >
+ <class>Uzytkownik</class>
+ <widget class="QDialog" name="Uzytkownik" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -208,7 +208,7 @@
   <connection>
    <sender>okButton</sender>
    <signal>clicked()</signal>
-   <receiver>Form2</receiver>
+   <receiver>Uzytkownik</receiver>
    <slot>okClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -224,7 +224,7 @@
   <connection>
    <sender>cancelButton</sender>
    <signal>clicked()</signal>
-   <receiver>Form2</receiver>
+   <receiver>Uzytkownik</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >

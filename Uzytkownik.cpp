@@ -16,8 +16,7 @@
 /*!
   * init function read settings
   !*/
-void
-Form2::init ()
+void Uzytkownik::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
 
@@ -37,8 +36,7 @@ Form2::init ()
 /*!
   *   save settings
   !*/
-void
-Form2::okClick ()
+void Uzytkownik::okClick ()
 {
   QSettings settings;
   settings.beginGroup ("przelewy");
@@ -52,4 +50,8 @@ Form2::okClick ()
   settings.writeEntry ("user/regon", regonEdit->text ());
   settings.endGroup ();
   close ();
+}
+Uzytkownik::Uzytkownik(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
 }
