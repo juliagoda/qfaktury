@@ -19,6 +19,7 @@
 #include <Qt/qdom.h>
 #include <qmessagebox.h>
 #include <qtextcodec.h>
+#include <QTextStream>
 
 
 #include "KontrahenciLista.h"
@@ -90,7 +91,7 @@ void Korekta::readData(QString fraFile)
 {
   backBtn->setEnabled(false); // do this another way
   korNr->setEnabled(false);
-  setCaption ("Edytuje korektê");
+  setWindowTitle ("Edytuje korektê");
   fName = fraFile;
   
   // here we would read all data from one xml file to the this window
@@ -111,7 +112,7 @@ void Korekta::readData(QString fraFile)
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  file.close ();
 	  // return;
@@ -1263,7 +1264,7 @@ void Korekta::saveInvoice ()
   settings1.beginGroup ("elinux");
 
   /*
-  if (caption ().right (3) == "VAT")
+  if (windowTitle ().right (3) == "VAT")
     {
       root.setAttribute ("type", "FVAT");
       settings1.writeEntry ("faktury/fvat", frNr->text ());
@@ -1462,7 +1463,7 @@ void Korekta::backBtnClick()
   QString tmp;
   QSettings settings;
 
-  if (caption ().right (3) == "VAT")
+  if (windowTitle ().right (3) == "VAT")
     {
       tmp = settings.readEntry ("elinux/faktury/fvat");
     }

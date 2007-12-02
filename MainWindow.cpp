@@ -664,7 +664,7 @@ void MainWindow::newPForm ()
   FormFra *fraWindow = new FormFra;
   fraWindow->progDir2 = pdGlob;
   fraWindow->pforma = true;
-  fraWindow->setCaption("Faktura Pro Forma");
+  fraWindow->setWindowTitle("Faktura Pro Forma");
   fraWindow->backBtnClick();
   if (fraWindow->exec () == QDialog::Accepted)
     {

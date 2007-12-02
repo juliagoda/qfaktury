@@ -44,7 +44,7 @@ void Towary::readData (QString idx, QString type)
     }
   else
     {
-      setCaption ("Edytuj towar/us³ugê");
+      setWindowTitle ("Edytuj towar/us³ugê");
     }
 
   lastId = 1;
@@ -463,7 +463,7 @@ void Towary::okClick ()
     }
 
   qDebug (__FUNCTION__);
-  qDebug (this->caption ().left (4));
+  qDebug (this->windowTitle ().left (4));
 
   QString pkwiu = pkwiuEdit->text ();
   if (pkwiu == "")
@@ -475,7 +475,7 @@ void Towary::okClick ()
   if (kod == "")
     kod = " ";
 
-  if (this->caption ().left (4) == "Edyt")
+  if (this->windowTitle ().left (4) == "Edyt")
     {
       modifyOnly ();
       QString typ;
