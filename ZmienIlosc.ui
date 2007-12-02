@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>chAmount</class>
- <widget class="QDialog" name="chAmount" >
+ <class>ZmienIlosc</class>
+ <widget class="QDialog" name="ZmienIlosc" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -201,7 +201,7 @@
   <connection>
    <sender>cancelBtn</sender>
    <signal>clicked()</signal>
-   <receiver>chAmount</receiver>
+   <receiver>ZmienIlosc</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -217,7 +217,7 @@
   <connection>
    <sender>okBtn</sender>
    <signal>clicked()</signal>
-   <receiver>chAmount</receiver>
+   <receiver>ZmienIlosc</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
