@@ -1,3 +1,4 @@
+#include "TowaryLista.moc"
 #include <qdom.h>
 #include <qdir.h>
 #include <qmessagebox.h>

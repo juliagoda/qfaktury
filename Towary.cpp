@@ -9,6 +9,7 @@
 ** These will automatically be called by the form's constructor and
 ** destructor.
 *****************************************************************************/
+#include "Towary.moc"
 #include <qtextcodec.h>
 #include <qdir.h>
 #include <qdom.h>

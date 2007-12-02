@@ -9,6 +9,7 @@
 ** These will automatically be called by the form's constructor and
 ** destructor.
 *****************************************************************************/
+#include "Ustawienia.moc"
 #include <qtextcodec.h>
 #include <qsettings.h>
 #include <qfiledialog.h>

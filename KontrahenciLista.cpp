@@ -9,6 +9,7 @@
 ** These will automatically be called by the form's constructor and
 ** destructor.
 *****************************************************************************/
+#include "KontrahenciLista.moc"
 #include <qdom.h>
 #include <qdir.h>
 #include <qmessagebox.h>

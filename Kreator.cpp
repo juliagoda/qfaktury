@@ -9,6 +9,7 @@
 ** These will automatically be called by the form's constructor and
 ** destructor.
 *****************************************************************************/
+#include "Kreator.moc"
 #include <qsettings.h>
 #include <qtextcodec.h>
 #include <qdom.h>
