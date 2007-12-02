@@ -1,6 +1,6 @@
 <ui version="4.0" >
  <class>korForm</class>
- <widget class="QDialog" name="korForm" >
+ <widget class="QDialog" name="Korekta" >
   <property name="geometry" >
    <rect>
     <x>0</x>

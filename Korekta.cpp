@@ -10,6 +10,7 @@
 ** destructor.
 *****************************************************************************/
 
+#include "Korekta.moc"
 #include <qdatetime.h>
 #include <qdir.h>
 #include <qprocess.h>
@@ -34,8 +35,7 @@
 int citem;
 
 
-void
-korForm::init ()
+void Korekta::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));    
@@ -88,8 +88,7 @@ korForm::init ()
 }
 
 
-void
-korForm::readData(QString fraFile)
+void Korekta::readData(QString fraFile)
 {
   backBtn->setEnabled(false); // do this another way
   korNr->setEnabled(false);
@@ -262,8 +261,7 @@ saveBtn->setEnabled( TRUE );
   
 }
 
-void
-korForm::readDataNewKor (QString fraFile)
+void Korekta::readDataNewKor (QString fraFile)
 {
   // here we would read all data from one xml file to the this window
   QDomDocument doc ("faktury");
@@ -393,8 +391,7 @@ korForm::readDataNewKor (QString fraFile)
   countSum ();
 }
 
-void
-korForm::getKontrahent ()
+void Korekta::getKontrahent ()
 {
   kontList *klWindow =
     new kontList (this, "", FALSE, Qt::WStyle_NoBorder | Qt::WShowModal);
@@ -405,8 +402,7 @@ korForm::getKontrahent ()
     }
 }
 
-void
-korForm::addTow ()
+void Korekta::addTow ()
 {
   towList *twWindow =
     new towList (this, "", FALSE, Qt::WStyle_NoBorder | Qt::WShowModal);
@@ -433,8 +429,7 @@ korForm::addTow ()
 }
 
 
-void
-korForm::countRabat ()
+void Korekta::countRabat ()
 {
   QString rabat1 = QString::number (rabatValue->value ());
   if (rabat1.length () == 1)
@@ -502,8 +497,7 @@ korForm::countRabat ()
 }
 
 
-void
-korForm::countSum ()
+void Korekta::countSum ()
 {
   // count netto sum
   double kwota = 0;
@@ -543,15 +537,13 @@ korForm::countSum ()
   diffLabel->setText( fixStr( QString::number( (oldBrutto - sbrutto.replace(",", ".").toDouble()) * -1 ))  );
 }
 
-void
-korForm::rabatChange ()
+void Korekta::rabatChange ()
 {
   countRabat ();
   countSum ();
 }
 
-void
-korForm::delTowar ()
+void Korekta::delTowar ()
 {
   tableTow->removeRow (tableTow->currentRow ());
   for (int i = 0; i < tableTow->numRows (); ++i)
@@ -562,8 +554,7 @@ korForm::delTowar ()
   countSum ();
 }
 
-void
-korForm::editTowar ()
+void Korekta::editTowar ()
 {
   // we can only modify amount
   chAmount *changeAmount =
@@ -589,8 +580,7 @@ korForm::editTowar ()
 
 
 
-void
-korForm::makeInvoiceHeadar ()
+void Korekta::makeInvoiceHeadar ()
 {
 
   fraStrList += "<html><head>";
@@ -661,8 +651,7 @@ korForm::makeInvoiceHeadar ()
   fraStrList += "</td></tr>";
 }
 
-void
-korForm::makeInvoiceBody ()
+void Korekta::makeInvoiceBody ()
 {
   fraStrList += "<tr comment=\"body\"><td>";
   fraStrList += "<table width=\"100%\" border=\"0\">";
@@ -694,8 +683,7 @@ korForm::makeInvoiceBody ()
   fraStrList += "</td></tr>";
 }
 
-void
-korForm::makeInvoiceCorr ()
+void Korekta::makeInvoiceCorr ()
 {
   fraStrList += "<tr comment=\"corr\"><td>";
   fraStrList += "<table width=\"100%\" border=\"0\">";
@@ -719,8 +707,7 @@ korForm::makeInvoiceCorr ()
 }
 
 
-void
-korForm::makeInvoiceGoods2 ()
+void Korekta::makeInvoiceGoods2 ()
 {
   fraStrList += "<tr comment=\"goods\" align=\"center\"><td>";
   fraStrList += "<h4>Pozycje na fakturze przed korekt±: </h4>";
@@ -816,8 +803,7 @@ if ( settings.readBoolEntry("elinux/faktury_pozycje/rabatval")  )
   fraStrList += "</td></tr>";
 }
 
-void
-korForm::makeInvoiceSumm2 ()
+void Korekta::makeInvoiceSumm2 ()
 {
 //   double vatPrice = sbrutto.replace (",",  ".").toDouble () -  snetto.replace (",", ".").toDouble ();
   fraStrList += "<tr comment=\"razem\" align=\"center\"><td>";
@@ -868,8 +854,7 @@ if ( settings.readBoolEntry("elinux/faktury_pozycje/bruttoval")  )
 }
 
 
-void
-korForm::makeInvoiceGoods ()
+void Korekta::makeInvoiceGoods ()
 {
   fraStrList += "<tr comment=\"goods\" align=\"center\"><td>";
   fraStrList += "<h4>Pozycje na fakturze po korekcie: </h4>";
@@ -961,8 +946,7 @@ if ( settings.readBoolEntry("elinux/faktury_pozycje/rabatval")  )
   fraStrList += "</td></tr>";
 }
 
-void
-korForm::makeInvoiceSumm ()
+void Korekta::makeInvoiceSumm ()
 {
   double vatPrice = sbrutto.replace (",",  ".").toDouble () -
     snetto.replace (",", ".").toDouble ();
@@ -1013,8 +997,7 @@ if ( settings.readBoolEntry("elinux/faktury_pozycje/bruttoval")  )
   fraStrList += "</td></tr>";
 }
 
-void
-korForm::makeInvoiceSummAll ()
+void Korekta::makeInvoiceSummAll ()
 {
     
   QSettings settings;
@@ -1073,7 +1056,7 @@ korForm::makeInvoiceSummAll ()
 
 
 QString
-korForm::getStawkami()
+Korekta::getStawkami()
 {
     QStringList out;
     QSettings settings;
@@ -1119,8 +1102,7 @@ korForm::getStawkami()
 }
 
 
-void
-korForm::makeInvoiceFooter ()
+void Korekta::makeInvoiceFooter ()
 {
   fraStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
   fraStrList += "<br><br><br><br>";
@@ -1161,8 +1143,7 @@ korForm::makeInvoiceFooter ()
   fraStrList += "</html>";
 }
 
-void
-korForm::makeInvoice ()
+void Korekta::makeInvoice ()
 {
   if (kontrName->text () == "")
     {
@@ -1218,8 +1199,7 @@ korForm::makeInvoice ()
 }
 
 
-void
-korForm::saveInvoice ()
+void Korekta::saveInvoice ()
 {
   if (kontrName->text () == "")
     {
@@ -1438,7 +1418,7 @@ korForm::saveInvoice ()
 }
 
 QString 
-korForm::numbersCount(int in, int x)
+Korekta::numbersCount(int in, int x)
 {
     QString tmp2, tmp = QString::number(in);
     tmp2 = "";
@@ -1449,7 +1429,7 @@ korForm::numbersCount(int in, int x)
 }
 
 void 
-korForm::backBtnClick()
+Korekta::backBtnClick()
 {
   QString tmp;
   QSettings settings;
@@ -1485,7 +1465,7 @@ korForm::backBtnClick()
 
 
 /*
-void korForm::backBtnClick()
+void Korekta::backBtnClick()
 {
   QString tmp;
   QSettings settings;
@@ -1507,3 +1487,7 @@ void korForm::backBtnClick()
   korNr->setText (lastInvoice);
 }
 */
+Korekta::Korekta(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
+}
