@@ -582,43 +582,43 @@ if ( settings.value("elinux/faktury_pozycje/bruttoval").toBool()  )
       // double vatPrice = tableTow->text(i, 9).replace(",", ".").toDouble() - tableTow->text(i, 6).replace(",", ".").toDouble();
       fraStrList += "<tr class=\"towaryList\">";
 // lp, nazwa, kod, ilosc, jm, cena jm., netto, vat, brutto
- if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp"))
+ if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp").toBool())
       fraStrList += "<td>&nbsp;" + tableTow->text (i, 0) + "</td>";
  
-if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
  fraStrList += "<td>&nbsp;" + tableTow->text (i, 1) + "</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->text (i, 2) + "</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->text (i, 3) + "</td>";
 // pkwiu
-if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->text (i, 4) + "</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->text (i, 5) + "</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->text (i, 6) + "</td>";
       double cenajdn = tableTow->text (i, 6).replace (",", ".").toDouble ();
       double kwota =
 	cenajdn * tableTow->text (i, 4).replace (",", ".").toInt ();
-if ( settings.value/*bool*/("elinux/faktury_pozycje/wartnetto")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
       fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota)) + "</td>";	// netto
-if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatperc")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatperc")  .toBool())
       fraStrList += "<td>&nbsp;" + QString::number (rabatValue->value ()) + "% </td>";	// rabat
-if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatval")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatval")  .toBool())
       fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota - tableTow->text (i, 7).replace (",", ".").toDouble ())) + " </td>";	// rabat value
-if ( settings.value/*bool*/("elinux/faktury_pozycje/nettoafter")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/nettoafter")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->text (i, 7) + "</td>";	// netto po rab
-if ( settings.value/*bool*/("elinux/faktury_pozycje/vatval")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/vatval")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->text (i, 8) + "%</td>";
       double vatPrice = tableTow->text (i, 9).replace (",",
 						       ".").toDouble () -
 	tableTow->text (i,
 			7).replace (",", ".").toDouble ();
-if ( settings.value/*bool*/("elinux/faktury_pozycje/vatprice")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/vatprice")  .toBool())
       fraStrList +=
 	"<td>&nbsp;" + fixStr (QString::number (vatPrice)) + "</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/bruttoval")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/bruttoval")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->text (i, 9) + "</td>";
       fraStrList += "</tr>";
     }
@@ -638,32 +638,32 @@ void Faktura::makeInvoiceSumm ()
   fraStrList += "<tr class=\"stawki\">";
 
   QSettings settings;
- if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") )
+ if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
   fraStrList += "<td width=\"20\"  align=\"center\">&nbsp;</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
   fraStrList += "<td width=\"120\" align=\"center\">&nbsp;</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">&nbsp;</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/wartnetto")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatperc")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatperc")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">&nbsp;</td>";
-if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatval")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatval")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">&nbsp;</td>";
 
 /*
-if ( settings.value/*bool*/("elinux/faktury_pozycje/nettoafter")  )
-if ( settings.value/*bool*/("elinux/faktury_pozycje/vatval")  )
-if ( settings.value/*bool*/("elinux/faktury_pozycje/vatprice")  )
-if ( settings.value/*bool*/("elinux/faktury_pozycje/bruttoval")  )
+if ( settings.value/*bool*/("elinux/faktury_pozycje/nettoafter")  .toBool())
+if ( settings.value/*bool*/("elinux/faktury_pozycje/vatval")  .toBool())
+if ( settings.value/*bool*/("elinux/faktury_pozycje/vatprice")  .toBool())
+if ( settings.value/*bool*/("elinux/faktury_pozycje/bruttoval")  .toBool())
 */
   
   fraStrList += "<td width=\"140\">&nbsp;Razem:</td>";
@@ -1077,14 +1077,14 @@ void Faktura::backBtnClick()
   int nr = one1[0].toInt () + 1;
   lastInvoice = prefix + numbersCount(nr, settings.readNumEntry ("elinux/faktury/chars_in_symbol"));
   
-  if ( settings.value/*bool*/ ("elinux/faktury/day") )
+  if ( settings.value/*bool*/ ("elinux/faktury/day") .toBool())
      lastInvoice += "/" + QDate::currentDate ().toString ("dd");
   
-  if ( settings.value/*bool*/ ("elinux/faktury/month") )
+  if ( settings.value/*bool*/ ("elinux/faktury/month") .toBool())
      lastInvoice += "/" + QDate::currentDate ().toString ("MM");
       
-  if ( settings.value/*bool*/ ("elinux/faktury/year") ) {
-  if ( !settings.value/*bool*/ ("elinux/faktury/shortYear") ) 
+  if ( settings.value/*bool*/ ("elinux/faktury/year") .toBool()) {
+  if ( !settings.value/*bool*/ ("elinux/faktury/shortYear") .toBool()) 
      lastInvoice += "/" + QDate::currentDate ().toString ("yy");
   else
      lastInvoice += "/" + QDate::currentDate ().toString ("yyyy");
