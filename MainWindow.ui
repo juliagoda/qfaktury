@@ -1,5 +1,5 @@
 <ui version="4.0" >
- <class>Form1</class>
+ <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow" >
   <property name="geometry" >
    <rect>
@@ -714,7 +714,7 @@
   <connection>
    <sender>plikDane_firmyAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>daneFirmyClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -730,7 +730,7 @@
   <connection>
    <sender>plikKreatorAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>kretorClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -746,7 +746,7 @@
   <connection>
    <sender>plikKoniecAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -762,7 +762,7 @@
   <connection>
    <sender>kontrahenciDodajAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>kontrClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -778,7 +778,7 @@
   <connection>
    <sender>kontrahenciUsunAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>kontrDel()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -794,7 +794,7 @@
   <connection>
    <sender>kontrahenciEdycjaAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>kontrEd()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -810,7 +810,7 @@
   <connection>
    <sender>fakturyDodajAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>newFra()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -826,7 +826,7 @@
   <connection>
    <sender>fakturyUsunAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>delFHist()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -842,7 +842,7 @@
   <connection>
    <sender>fakturyEdAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>editFHist()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -858,7 +858,7 @@
   <connection>
    <sender>tableH</sender>
    <signal>doubleClicked(int,int,int,QPoint)</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>editFHist()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -874,7 +874,7 @@
   <connection>
    <sender>pomocO_QtAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>aboutQt()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -890,7 +890,7 @@
   <connection>
    <sender>pomocO_programieAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>oProg()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -906,7 +906,7 @@
   <connection>
    <sender>tableK</sender>
    <signal>doubleClicked(int,int,int,QPoint)</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>kontrEd()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -922,7 +922,7 @@
   <connection>
    <sender>plikUstawieniaAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>settClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -938,7 +938,7 @@
   <connection>
    <sender>tabWidget2</sender>
    <signal>currentChanged(QWidget*)</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>tabChanged(QWidget*)</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -954,7 +954,7 @@
   <connection>
    <sender>pomocPomocAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>pomoc()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -970,7 +970,7 @@
   <connection>
    <sender>towaryDodajAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>towaryDodaj()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -986,7 +986,7 @@
   <connection>
    <sender>towaryEdycjaAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>towaryEdycja()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1002,7 +1002,7 @@
   <connection>
    <sender>towaryUsunAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>towaryUsun()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1018,7 +1018,7 @@
   <connection>
    <sender>tableT</sender>
    <signal>doubleClicked(int,int,int,QPoint)</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>towaryEdycja()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1034,7 +1034,7 @@
   <connection>
    <sender>fakturyKorektaAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>newKor()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1050,7 +1050,7 @@
   <connection>
    <sender>fakturyPFormaAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>newPForm()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1066,7 +1066,7 @@
   <connection>
    <sender>prevPageAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>prevPage()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -1082,7 +1082,7 @@
   <connection>
    <sender>nextPageAction</sender>
    <signal>activated()</signal>
-   <receiver>Form1</receiver>
+   <receiver>MainWindow</receiver>
    <slot>nextPage()</slot>
    <hints>
     <hint type="sourcelabel" >

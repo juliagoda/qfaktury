@@ -672,7 +672,7 @@
   <connection>
    <sender>cancelbtn</sender>
    <signal>clicked()</signal>
-   <receiver>korForm</receiver>
+   <receiver>Korekta</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -688,7 +688,7 @@
   <connection>
    <sender>saveBtn</sender>
    <signal>clicked()</signal>
-   <receiver>korForm</receiver>
+   <receiver>Korekta</receiver>
    <slot>saveInvoice()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -704,7 +704,7 @@
   <connection>
    <sender>backBtn</sender>
    <signal>clicked()</signal>
-   <receiver>korForm</receiver>
+   <receiver>Korekta</receiver>
    <slot>backBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -720,7 +720,7 @@
   <connection>
    <sender>addTw</sender>
    <signal>clicked()</signal>
-   <receiver>korForm</receiver>
+   <receiver>Korekta</receiver>
    <slot>addTow()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -736,7 +736,7 @@
   <connection>
    <sender>editTw</sender>
    <signal>clicked()</signal>
-   <receiver>korForm</receiver>
+   <receiver>Korekta</receiver>
    <slot>editTowar()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -752,7 +752,7 @@
   <connection>
    <sender>rmTow</sender>
    <signal>clicked()</signal>
-   <receiver>korForm</receiver>
+   <receiver>Korekta</receiver>
    <slot>delTowar()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -768,7 +768,7 @@
   <connection>
    <sender>printBtn</sender>
    <signal>clicked()</signal>
-   <receiver>korForm</receiver>
+   <receiver>Korekta</receiver>
    <slot>makeInvoice()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -784,7 +784,7 @@
   <connection>
    <sender>rabatValue</sender>
    <signal>valueChanged(QString)</signal>
-   <receiver>korForm</receiver>
+   <receiver>Korekta</receiver>
    <slot>rabatChange()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -800,7 +800,7 @@
   <connection>
    <sender>tableTow</sender>
    <signal>doubleClicked(int,int,int,QPoint)</signal>
-   <receiver>korForm</receiver>
+   <receiver>Korekta</receiver>
    <slot>editTowar()</slot>
    <hints>
     <hint type="sourcelabel" >

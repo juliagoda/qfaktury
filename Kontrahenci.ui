@@ -235,7 +235,7 @@
   <connection>
    <sender>cancelButton</sender>
    <signal>clicked()</signal>
-   <receiver>Form4</receiver>
+   <receiver>Kontrahenci</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -251,7 +251,7 @@
   <connection>
    <sender>okButton</sender>
    <signal>clicked()</signal>
-   <receiver>Form4</receiver>
+   <receiver>Kontrahenci</receiver>
    <slot>okClick()</slot>
    <hints>
     <hint type="sourcelabel" >

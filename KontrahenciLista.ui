@@ -1,5 +1,5 @@
 <ui version="4.0" >
- <class>kontList</class>
+ <class>KontrahenciLista</class>
  <widget class="QDialog" name="KontrahenciLista" >
   <property name="geometry" >
    <rect>
@@ -148,7 +148,7 @@
   <connection>
    <sender>okBtn</sender>
    <signal>clicked()</signal>
-   <receiver>kontList</receiver>
+   <receiver>KontrahenciLista</receiver>
    <slot>doAccept()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -164,7 +164,7 @@
   <connection>
    <sender>cancelBtn</sender>
    <signal>clicked()</signal>
-   <receiver>kontList</receiver>
+   <receiver>KontrahenciLista</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -180,7 +180,7 @@
   <connection>
    <sender>comboBox1</sender>
    <signal>activated(int)</signal>
-   <receiver>kontList</receiver>
+   <receiver>KontrahenciLista</receiver>
    <slot>comboBox1Changed()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -196,7 +196,7 @@
   <connection>
    <sender>listBox1</sender>
    <signal>doubleClicked(Q3ListBoxItem*)</signal>
-   <receiver>kontList</receiver>
+   <receiver>KontrahenciLista</receiver>
    <slot>doAccept()</slot>
    <hints>
     <hint type="sourcelabel" >

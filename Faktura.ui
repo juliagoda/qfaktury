@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>FormFra</class>
- <widget class="QDialog" name="FormFra" >
+ <class>Faktura</class>
+ <widget class="QDialog" name="Faktura" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -643,7 +643,7 @@
   <connection>
    <sender>cancelbtn</sender>
    <signal>clicked()</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -659,7 +659,7 @@
   <connection>
    <sender>addTw</sender>
    <signal>clicked()</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>addTow()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -675,7 +675,7 @@
   <connection>
    <sender>kListGet</sender>
    <signal>clicked()</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>getKontrahent()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -691,7 +691,7 @@
   <connection>
    <sender>rabatValue</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>rabatChange()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -707,7 +707,7 @@
   <connection>
    <sender>rmTow</sender>
    <signal>clicked()</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>delTowar()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -723,7 +723,7 @@
   <connection>
    <sender>tableTow</sender>
    <signal>doubleClicked(int,int,int,QPoint)</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>editTowar()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -739,7 +739,7 @@
   <connection>
    <sender>editTw</sender>
    <signal>clicked()</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>editTowar()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -755,7 +755,7 @@
   <connection>
    <sender>printBtn</sender>
    <signal>clicked()</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>makeInvoice()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -771,7 +771,7 @@
   <connection>
    <sender>saveBtn</sender>
    <signal>clicked()</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>saveInvoice()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -787,7 +787,7 @@
   <connection>
    <sender>backBtn</sender>
    <signal>clicked()</signal>
-   <receiver>FormFra</receiver>
+   <receiver>Faktura</receiver>
    <slot>backBtnClick()</slot>
    <hints>
     <hint type="sourcelabel" >

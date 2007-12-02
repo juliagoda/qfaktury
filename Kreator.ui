@@ -481,9 +481,9 @@
  <resources/>
  <connections>
   <connection>
-   <sender>Form3</sender>
+   <sender>Kreator</sender>
    <signal>selected(QString)</signal>
-   <receiver>Form3</receiver>
+   <receiver>Kreator</receiver>
    <slot>nextFunc()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -499,7 +499,7 @@
   <connection>
    <sender>kwotaEdit</sender>
    <signal>textChanged(QString)</signal>
-   <receiver>Form3</receiver>
+   <receiver>Kreator</receiver>
    <slot>kwotaKeyDown()</slot>
    <hints>
     <hint type="sourcelabel" >
