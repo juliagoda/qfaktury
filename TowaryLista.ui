@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>towList</class>
- <widget class="QDialog" name="towList" >
+ <class>TowaryLista</class>
+ <widget class="QDialog" name="TowaryLista" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -319,7 +319,7 @@
   <connection>
    <sender>okBtn</sender>
    <signal>clicked()</signal>
-   <receiver>towList</receiver>
+   <receiver>TowaryLista</receiver>
    <slot>doAccept()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -335,7 +335,7 @@
   <connection>
    <sender>cancelBtn</sender>
    <signal>clicked()</signal>
-   <receiver>towList</receiver>
+   <receiver>TowaryLista</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -351,7 +351,7 @@
   <connection>
    <sender>comboBox1</sender>
    <signal>activated(int)</signal>
-   <receiver>towList</receiver>
+   <receiver>TowaryLista</receiver>
    <slot>comboBox1Changed(int)</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -367,7 +367,7 @@
   <connection>
    <sender>listView1</sender>
    <signal>selectionChanged(Q3ListViewItem*)</signal>
-   <receiver>towList</receiver>
+   <receiver>TowaryLista</receiver>
    <slot>lv1selChanged(Q3ListViewItem*)</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -383,7 +383,7 @@
   <connection>
    <sender>spinBox2</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>towList</receiver>
+   <receiver>TowaryLista</receiver>
    <slot>spinChanged(int)</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -399,7 +399,7 @@
   <connection>
    <sender>countEdit</sender>
    <signal>selectionChanged()</signal>
-   <receiver>towList</receiver>
+   <receiver>TowaryLista</receiver>
    <slot>calcNetto()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -415,7 +415,7 @@
   <connection>
    <sender>countEdit</sender>
    <signal>lostFocus()</signal>
-   <receiver>towList</receiver>
+   <receiver>TowaryLista</receiver>
    <slot>calcNetto()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -431,7 +431,7 @@
   <connection>
    <sender>countEdit</sender>
    <signal>textChanged(QString)</signal>
-   <receiver>towList</receiver>
+   <receiver>TowaryLista</receiver>
    <slot>calcNetto()</slot>
    <hints>
     <hint type="sourcelabel" >

@@ -50,8 +50,7 @@ QStringList listaTowary;
 QStringList listaUslugi;
 QString vat;
 
-void
-towList::init ()
+void TowaryLista::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));    
@@ -67,8 +66,7 @@ towList::init ()
   fillLv (0);
 }
 
-void
-towList::readTow (QString progDir)
+void TowaryLista::readTow (QString progDir)
 {
   QDomDocument doc ("towary");
   QDomElement root;
@@ -136,8 +134,7 @@ towList::readTow (QString progDir)
 
 
 
-void
-towList::doAccept ()
+void TowaryLista::doAccept ()
 {
   if (countEdit->text () == "")
     {
@@ -185,16 +182,14 @@ towList::doAccept ()
     }
 }
 
-void
-towList::comboBox1Changed (int x)
+void TowaryLista::comboBox1Changed (int x)
 {
   qDebug (__FUNCTION__);
   listView1->clear ();
   fillLv (x);
 }
 
-void
-towList::calcNetto ()
+void TowaryLista::calcNetto ()
 {
   QString brutto1 = QString::number (getPrice (countEdit->text (),
 					       cenaEdit->text (), vat));
@@ -206,8 +201,7 @@ towList::calcNetto ()
 }
 
 
-void
-towList::fillLv (int x)
+void TowaryLista::fillLv (int x)
 {
   bool next = true;
   QListViewItem *tmp = NULL;
@@ -249,8 +243,7 @@ towList::fillLv (int x)
     }
 }
 
-void
-towList::lv1selChanged (QListViewItem * item)
+void TowaryLista::lv1selChanged (QListViewItem * item)
 {
   if (item->isSelected ())
     {
@@ -261,8 +254,7 @@ towList::lv1selChanged (QListViewItem * item)
     }
 }
 
-void
-towList::readNettos (QString index)
+void TowaryLista::readNettos (QString index)
 {
   QDomDocument doc ("towary");
   QDomElement root;
@@ -337,10 +329,13 @@ towList::readNettos (QString index)
 }
 
 
-void
-towList::spinChanged (int a)
+void TowaryLista::spinChanged (int a)
 {
   // qDebug (__FUNCTION__);
   cenaEdit->setText (nettos[a - 1]);
   calcNetto ();
+}
+TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
 }
