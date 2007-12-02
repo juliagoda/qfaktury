@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>Form3</class>
- <widget class="Q3Wizard" name="Form3" >
+ <class>Kreator</class>
+ <widget class="Q3Wizard" name="Kreator" >
   <property name="geometry" >
    <rect>
     <x>0</x>

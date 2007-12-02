@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>Form4</class>
- <widget class="QDialog" name="Form4" >
+ <class>Kontrahenci</class>
+ <widget class="QDialog" name="Kontrahenci" >
   <property name="geometry" >
    <rect>
     <x>0</x>

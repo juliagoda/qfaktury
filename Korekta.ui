@@ -1,5 +1,5 @@
 <ui version="4.0" >
- <class>korForm</class>
+ <class>Korekta</class>
  <widget class="QDialog" name="Korekta" >
   <property name="geometry" >
    <rect>
