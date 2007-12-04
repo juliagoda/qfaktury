@@ -1,5 +1,6 @@
 project(qfaktury)
 cmake_minimum_required(VERSION 2.4.7)
+set(QT_USE_QTXML TRUE)
 find_package(Qt4 REQUIRED)
 
 include(${QT_USE_FILE})
