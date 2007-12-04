@@ -522,13 +522,7 @@ void MainWindow::kontrDel ()
       QDomElement root;
       QDomElement urzad;
       QDomElement firma;
-      int row, max = tableK->rowCount ();
-
-      for (row = 0; row < max; ++row)
-	{
-	  if (tableK->isRowSelected (row))
-	    break;
-	}
+      int row = tableK->selectedItems()[0]->row();
 
       QFile file (pdGlob + "/kontrah.xml");
       if (!file.open (QIODevice::ReadOnly))
@@ -540,7 +534,7 @@ void MainWindow::kontrDel ()
       else
 	{
 	  QTextStream stream (&file);
-	  if (!doc.setContent (stream.read ()))
+	  if (!doc.setContent (stream.readAll ()))
 	    {
 	      qDebug ("can not set content ");
 	      file.close ();
@@ -558,7 +552,7 @@ void MainWindow::kontrDel ()
 	       n = n.nextSibling ())
 	    {
 	      if (n.toElement ().attribute ("name").
-		  compare (tableK->text (row, 0)) == 0)
+		  compare (tableK->item (row, 0)->text()) == 0)
 		{
 		  firma.removeChild (n);
 		  break;
@@ -570,7 +564,7 @@ void MainWindow::kontrDel ()
 	    {
 	      // qDebug("aaa");
 	      if (n.toElement ().attribute ("name").
-		  compare (tableK->text (row, 0)) == 0)
+		  compare (tableK->item (row, 0)->text()) == 0)
 		{
 		  urzad.removeChild (n);
 		  break;
@@ -600,17 +594,11 @@ void MainWindow::kontrDel ()
 void MainWindow::kontrEd ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  int row, max = tableK->rowCount ();
+  int row = tableK->selectedItems()[0]->row();
+  qDebug ()<<tableK->item(row, 0)->text();
 
-  for (row = 0; row < max; ++row)
-    {
-      if (tableK->isRowSelected (row))
-	break;
-    }
-  qDebug (tableK->text (row, 0));
-
-  Form4 *kontrWindow = new Form4;
-  kontrWindow->readData (tableK->text (row, 0), tableK->text (row, 1));
+  Kontrahenci *kontrWindow = new Kontrahenci(this);
+  kontrWindow->readData (tableK->item(row, 0)->text(), tableK->item(row, 1)->text());
   if (kontrWindow->exec () == QDialog::Accepted)
     {
       /*
@@ -620,12 +608,12 @@ void MainWindow::kontrEd ()
          qDebug (progDir);
          readKontr (progDir);
        */
-      QStringList rowTxt = QStringList::split ("|", kontrWindow->ret);
-      tableK->setText (row, 0, rowTxt[0]);	// name
-      tableK->setText (row, 1, rowTxt[1]);	// type
-      tableK->setText (row, 2, rowTxt[2]);	// place
-      tableK->setText (row, 3, rowTxt[3]);	// address
-      tableK->setText (row, 4, rowTxt[4]);	// telefon
+      QStringList rowTxt = kontrWindow->ret.split("|");
+      tableK->item (row, 0)->setText(rowTxt[0]);	// name
+      tableK->item (row, 1)->setText(rowTxt[1]);	// type
+      tableK->item (row, 2)->setText(rowTxt[2]);	// place
+      tableK->item (row, 3)->setText(rowTxt[3]);	// address
+      tableK->item (row, 4)->setText(rowTxt[4]);	// telefon
     }
 }
 
@@ -633,19 +621,19 @@ void MainWindow::kontrEd ()
 void MainWindow::newFra ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  FormFra *fraWindow = new FormFra;
+  Faktura *fraWindow = new Faktura(this);
   fraWindow->progDir2 = pdGlob;
   fraWindow->pforma = false;
   if (fraWindow->exec () == QDialog::Accepted)
     {
-      tableH->insertRows (tableH->rowCount (), 1);
-      QStringList row = QStringList::split ("|", fraWindow->ret);
-      tableH->setText (tableH->rowCount () - 1, 0, row[0]);	// file name
-      tableH->setText (tableH->rowCount () - 1, 1, row[1]);	// symbol
-      tableH->setText (tableH->rowCount () - 1, 2, row[2]);	// date
-      tableH->setText (tableH->rowCount () - 1, 3, row[3]);	// type
-      tableH->setText (tableH->rowCount () - 1, 4, row[4]);	// nabywca
-      tableH->setText (tableH->rowCount () - 1, 5, row[5]);	// NIP
+      tableH->insertRow (tableH->rowCount ());
+      QStringList row = fraWindow->ret.split("|");
+      tableH->item (tableH->rowCount () - 1, 0)->setText(row[0]);	// file name
+      tableH->item (tableH->rowCount () - 1, 1)->setText(row[1]);	// symbol
+      tableH->item (tableH->rowCount () - 1, 2)->setText(row[2]);	// date
+      tableH->item (tableH->rowCount () - 1, 3)->setText(row[3]);	// type
+      tableH->item (tableH->rowCount () - 1, 4)->setText(row[4]);	// nabywca
+      tableH->item (tableH->rowCount () - 1, 5)->setText(row[5]);	// NIP
     }
 }
 
@@ -653,21 +641,21 @@ void MainWindow::newFra ()
 void MainWindow::newPForm ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  FormFra *fraWindow = new FormFra;
+  Faktura *fraWindow = new Faktura(this);
   fraWindow->progDir2 = pdGlob;
   fraWindow->pforma = true;
   fraWindow->setWindowTitle("Faktura Pro Forma");
   fraWindow->backBtnClick();
   if (fraWindow->exec () == QDialog::Accepted)
     {
-      tableH->insertRows (tableH->rowCount (), 1);
-      QStringList row = QStringList::split ("|", fraWindow->ret);
-      tableH->setText (tableH->rowCount () - 1, 0, row[0]);	// file name
-      tableH->setText (tableH->rowCount () - 1, 1, row[1]);	// symbol
-      tableH->setText (tableH->rowCount () - 1, 2, row[2]);	// date
-      tableH->setText (tableH->rowCount () - 1, 3, row[3]);	// type
-      tableH->setText (tableH->rowCount () - 1, 4, row[4]);	// nabywca
-      tableH->setText (tableH->rowCount () - 1, 5, row[5]);	// NIP
+      tableH->insertRow (tableH->rowCount ());
+      QStringList row = fraWindow->ret.split("|");
+      tableH->item (tableH->rowCount () - 1, 0)->setText(row[0]);	// file name
+      tableH->item (tableH->rowCount () - 1, 1)->setText(row[1]);	// symbol
+      tableH->item (tableH->rowCount () - 1, 2)->setText(row[2]);	// date
+      tableH->item (tableH->rowCount () - 1, 3)->setText(row[3]);	// type
+      tableH->item (tableH->rowCount () - 1, 4)->setText(row[4]);	// nabywca
+      tableH->item (tableH->rowCount () - 1, 5)->setText(row[5]);	// NIP
     }
 }
 
@@ -677,37 +665,31 @@ void MainWindow::newKor ()
     qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
     
     qDebug( __FUNCTION__ );
-    int row, max = tableH->rowCount ();
-    for (row = 0; row < max; ++row)
-    {
-	if (tableH->isRowSelected (row))
-	    break;
-    }
-    // qDebug (__FUNCTION__);
+    int row = tableH->selectedItems()[0]->row();
     
-    if ((tableH->text(row, 3) == "FVAT"))
+    if ((tableH->item(row, 3)->text() == "FVAT"))
 	{
-	korForm *korWindow = new korForm;
+	Korekta *korWindow = new Korekta(this);
 	// qDebug( pdGlob );
 	korWindow->progDir2 = pdGlob;
-	korWindow->readDataNewKor (tableH->text (row, 0));
+	korWindow->readDataNewKor (tableH->item(row, 0)->text());
 	if (korWindow->exec () == QDialog::Accepted)
 	{
-	    tableH->insertRows (tableH->rowCount (), 1);
-	    QStringList row = QStringList::split ("|", korWindow->ret);
-	    tableH->setText (tableH->rowCount () - 1, 0, row[0]);	// file name
-	    tableH->setText (tableH->rowCount () - 1, 1, row[1]);	// symbol
-	    tableH->setText (tableH->rowCount () - 1, 2, row[2]);	// date
-	    tableH->setText (tableH->rowCount () - 1, 3, row[3]);	// type
-	    tableH->setText (tableH->rowCount () - 1, 4, row[4]);	// nabywca
-	    tableH->setText (tableH->rowCount () - 1, 5, row[5]);	// NIP
+	    tableH->insertRow (tableH->rowCount ());
+	    QStringList row = korWindow->ret.split("|");
+	    tableH->item (tableH->rowCount () - 1, 0)->setText(row[0]);	// file name
+	    tableH->item (tableH->rowCount () - 1, 1)->setText(row[1]);	// symbol
+	    tableH->item (tableH->rowCount () - 1, 2)->setText(row[2]);	// date
+	    tableH->item (tableH->rowCount () - 1, 3)->setText(row[3]);	// type
+	    tableH->item (tableH->rowCount () - 1, 4)->setText(row[4]);	// nabywca
+	    tableH->item (tableH->rowCount () - 1, 5)->setText(row[5]);	// NIP
 	}
     }
-    if ((tableH->text(row, 3) == "korekta"))
+    if ((tableH->item(row, 3)->text() == "korekta"))
 	{
 	QMessageBox::information( this, "QFaktury", "Do korekt nie wystawiamy korekt", QMessageBox::Ok );
     }
-    if ((tableH->text(row, 3) == "FPro"))
+    if ((tableH->item(row, 3)->text() == "FPro"))
 	{
 	QMessageBox::information( this, "QFaktury", "Do faktur Pro Forma nie wystawiamy korekt", QMessageBox::Ok );
     }
@@ -731,23 +713,24 @@ void MainWindow::pomoc ()
   args += "kfmclient";
   args += "exec";
   args += "http://www.e-linux.pl/modules/qfaktury/index.php";
-  QProcess cmd (args);
-  if (!cmd.start ())
-    {
-      // if not we use GNOME2 api
-      args.clear ();
-      args += "gnome-open";
-      args += "http://www.e-linux.pl/modules/qfaktury/index.php";
-      QProcess cmd2 (args);
-      cmd2.start ();
-    }
+  //X 
+//  QProcess cmd (args);
+//  if (!cmd.start ())
+//    {
+//      // if not we use GNOME2 api
+//      args.clear ();
+//      args += "gnome-open";
+//      args += "http://www.e-linux.pl/modules/qfaktury/index.php";
+//      QProcess cmd2 (args);
+//      cmd2.start ();
+//    }
 }
 
 void MainWindow::towaryDodaj ()
 {
 // 
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  twAdd *towWindow = new twAdd;
+  Towary *towWindow = new Towary(this);
   if (towWindow->exec () == QDialog::Accepted)
     {
       /*
@@ -758,40 +741,33 @@ void MainWindow::towaryDodaj ()
          tmp.mkdir (progDir, TRUE);
          readTw (progDir);
        */
-      tableT->insertRows (tableT->rowCount (), 1);
-      QStringList row = QStringList::split ("|", towWindow->ret);
-      tableT->setText (tableT->rowCount () - 1, 0, row[0]);
-      tableT->setText (tableT->rowCount () - 1, 1, row[1]);
-      tableT->setText (tableT->rowCount () - 1, 2, row[2]);
-      tableT->setText (tableT->rowCount () - 1, 3, row[3]);
-      tableT->setText (tableT->rowCount () - 1, 4, row[4]);
-      tableT->setText (tableT->rowCount () - 1, 5, row[5]);
-      tableT->setText (tableT->rowCount () - 1, 6, row[6]);
-      tableT->setText (tableT->rowCount () - 1, 7, row[7]);
-      tableT->setText (tableT->rowCount () - 1, 8, row[8]);
-      tableT->setText (tableT->rowCount () - 1, 9, row[9]);
-      tableT->setText (tableT->rowCount () - 1, 10, row[10]);
-      tableT->setText (tableT->rowCount () - 1, 11, row[11]);
+      tableT->insertRow (tableT->rowCount ());
+      QStringList row = towWindow->ret.split("|");
+      tableT->item (tableT->rowCount () - 1, 0)->setText(row[0]);
+      tableT->item (tableT->rowCount () - 1, 1)->setText(row[1]);
+      tableT->item (tableT->rowCount () - 1, 2)->setText(row[2]);
+      tableT->item (tableT->rowCount () - 1, 3)->setText(row[3]);
+      tableT->item (tableT->rowCount () - 1, 4)->setText(row[4]);
+      tableT->item (tableT->rowCount () - 1, 5)->setText(row[5]);
+      tableT->item (tableT->rowCount () - 1, 6)->setText(row[6]);
+      tableT->item (tableT->rowCount () - 1, 7)->setText(row[7]);
+      tableT->item (tableT->rowCount () - 1, 8)->setText(row[8]);
+      tableT->item (tableT->rowCount () - 1, 9)->setText(row[9]);
+      tableT->item (tableT->rowCount () - 1, 10)->setText(row[10]);
+      tableT->item (tableT->rowCount () - 1, 11)->setText(row[11]);
     }
 }
 
 void MainWindow::towaryUsun ()
 {
 
-  int row, max = tableK->rowCount ();
-
-  for (row = 0; row < max; ++row)
-    {
-      if (tableT->isRowSelected (row))
-	break;
-    }
-
+  int row = tableK->selectedItems()[0]->row();
 
   if (QMessageBox::
       warning (this, "QFaktury",
-	       "Czy napewno chcesz usun�� towar " + tableT->text (row,
-								  0) + "/" +
-	       tableT->text (row, 1) + "?", "Tak", "Nie", 0, 0, 1) == 0)
+	       "Czy napewno chcesz usun�� towar " + tableT->item (row,
+								  0)->text() + "/" +
+	       tableT->item (row, 1)->text() + "?", "Tak", "Nie", 0, 0, 1) == 0)
     {
 
       QDomDocument doc ("towary");
@@ -809,7 +785,7 @@ void MainWindow::towaryUsun ()
       else
 	{
 	  QTextStream stream (&file);
-	  if (!doc.setContent (stream.read ()))
+	  if (!doc.setContent (stream.readAll ()))
 	    {
 	      qDebug ("can not set content ");
 	      file.close ();
@@ -828,7 +804,7 @@ void MainWindow::towaryUsun ()
 	    {
 	      // qDebug("aaa");
 	      if (n.toElement ().attribute ("idx").
-		  compare (tableT->text (row, 0)) == 0)
+		  compare (tableT->item(row, 0)->text()) == 0)
 		{
 		  uslugi.removeChild (n);
 		  break;
@@ -840,7 +816,7 @@ void MainWindow::towaryUsun ()
 	    {
 	      // qDebug("aaa");
 	      if (n.toElement ().attribute ("idx").
-		  compare (tableT->text (row, 0)) == 0)
+		  compare (tableT->item (row, 0)->text()) == 0)
 		{
 		  towary.removeChild (n);
 		  break;
@@ -871,17 +847,12 @@ void MainWindow::towaryUsun ()
 void MainWindow::towaryEdycja ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  int row, max = tableT->rowCount ();
+  int row = tableT->selectedItems()[0]->row();
 
-  for (row = 0; row < max; ++row)
-    {
-      if (tableT->isRowSelected (row))
-	break;
-    }
-  qDebug (tableT->text (row, 0));
+  qDebug ()<<tableT->item(row, 0)->text();
 
-  twAdd *towWindow = new twAdd;
-  towWindow->readData (tableT->text (row, 0), tableT->text (row, 5));
+  Towary *towWindow = new Towary(this);
+  towWindow->readData (tableT->item(row, 0)->text(), tableT->item (row, 5)->text());
   if (towWindow->exec () == QDialog::Accepted)
     {
       /*
@@ -891,19 +862,19 @@ void MainWindow::towaryEdycja ()
          qDebug (progDir);
          readTw(progDir);
        */
-      QStringList rowTxt = QStringList::split ("|", towWindow->ret);
-      tableT->setText (row, 0, rowTxt[0]);
-      tableT->setText (row, 1, rowTxt[1]);
-      tableT->setText (row, 2, rowTxt[2]);
-      tableT->setText (row, 3, rowTxt[3]);
-      tableT->setText (row, 4, rowTxt[4]);
-      tableT->setText (row, 5, rowTxt[5]);
-      tableT->setText (row, 6, rowTxt[6]);
-      tableT->setText (row, 7, rowTxt[7]);
-      tableT->setText (row, 8, rowTxt[8]);
-      tableT->setText (row, 9, rowTxt[9]);
-      tableT->setText (row, 10, rowTxt[10]);
-      tableT->setText (row, 11, rowTxt[11]);
+      QStringList rowTxt = towWindow->ret.split("|");
+      tableT->item (row, 0)->setText(rowTxt[0]);
+      tableT->item (row, 1)->setText(rowTxt[1]);
+      tableT->item (row, 2)->setText(rowTxt[2]);
+      tableT->item (row, 3)->setText(rowTxt[3]);
+      tableT->item (row, 4)->setText(rowTxt[4]);
+      tableT->item (row, 5)->setText(rowTxt[5]);
+      tableT->item (row, 6)->setText(rowTxt[6]);
+      tableT->item (row, 7)->setText(rowTxt[7]);
+      tableT->item (row, 8)->setText(rowTxt[8]);
+      tableT->item (row, 9)->setText(rowTxt[9]);
+      tableT->item (row, 10)->setText(rowTxt[10]);
+      tableT->item (row, 11)->setText(rowTxt[11]);
     }
 
 }
@@ -913,31 +884,31 @@ void MainWindow::saveAllSett()
 {
   QSettings settings;
   settings.beginGroup ("elinux/faktury");
-  settings.writeEntry ("firstrun", "nie");
-  settings.writeEntry ("logo", "");  
-  settings.writeEntry ("jednostki",   "szt.|kg.|g.|m|km.|godz." );
-  settings.writeEntry ("stawki",   "22|7|0|zw." );
-  settings.writeEntry ("waluty",   "PLN|EUR|USD" );
-  settings.writeEntry ("payments",  "got�wka|przelew" ); // uwaga!! get first
-  settings.writeEntry ("paym1",   "got�wka" ); 
-  settings.writeEntry ("pkorekty",   "zmiana ilo�ci" ); 
+  settings.setValue ("firstrun", "nie");
+  settings.setValue ("logo", "");  
+  settings.setValue ("jednostki",   "szt.|kg.|g.|m|km.|godz." );
+  settings.setValue ("stawki",   "22|7|0|zw." );
+  settings.setValue ("waluty",   "PLN|EUR|USD" );
+  settings.setValue ("payments",  "got�wka|przelew" ); // uwaga!! get first
+  settings.setValue ("paym1",   "got�wka" ); 
+  settings.setValue ("pkorekty",   "zmiana ilo�ci" ); 
   settings.endGroup ();
   
   settings.beginGroup ("elinux/faktury_pozycje");
-  settings.writeEntry ("Lp",   true );
-  settings.writeEntry ("Nazwa",   true );
-  settings.writeEntry ("Kod",   true );
-  settings.writeEntry ("pkwiu",   true );
-  settings.writeEntry ("ilosc",   true );
-  settings.writeEntry ("jm",   true );
-  settings.writeEntry ("cenajedn",   true );
-  settings.writeEntry ("wartnetto",   true );
-  settings.writeEntry ("rabatperc",   true );
-  settings.writeEntry ("rabatval",   true );
-  settings.writeEntry ("nettoafter",   true );
-  settings.writeEntry ("vatval",   true );
-  settings.writeEntry ("vatprice",   true );
-  settings.writeEntry ("bruttoval",   true );
+  settings.setValue ("Lp",   true );
+  settings.setValue ("Nazwa",   true );
+  settings.setValue ("Kod",   true );
+  settings.setValue ("pkwiu",   true );
+  settings.setValue ("ilosc",   true );
+  settings.setValue ("jm",   true );
+  settings.setValue ("cenajedn",   true );
+  settings.setValue ("wartnetto",   true );
+  settings.setValue ("rabatperc",   true );
+  settings.setValue ("rabatval",   true );
+  settings.setValue ("nettoafter",   true );
+  settings.setValue ("vatval",   true );
+  settings.setValue ("vatprice",   true );
+  settings.setValue ("bruttoval",   true );
   settings.endGroup ();
     
 }
@@ -947,15 +918,15 @@ void MainWindow::saveAllSett()
 
 void MainWindow::nextPage()
 {
- if ( tabWidget2->count() != tabWidget2->currentPageIndex() )
- tabWidget2->setCurrentPage( tabWidget2->currentPageIndex() + 1 );
+ if ( tabWidget2->count() != tabWidget2->currentIndex() )
+ tabWidget2->setCurrentIndex( tabWidget2->currentIndex() + 1 );
 }
 
 
 void MainWindow::prevPage()
 {
- if ( tabWidget2->currentPageIndex() !=  0 )
- tabWidget2->setCurrentPage( tabWidget2->currentPageIndex() - 1 );
+ if ( tabWidget2->currentIndex() !=  0 )
+ tabWidget2->setCurrentIndex( tabWidget2->currentIndex() - 1 );
 }
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
