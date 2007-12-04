@@ -41,7 +41,7 @@ void MainWindow::init ()
   // qDebug(progDir);
   if (!tmp.exists (progDir))
     {
-      tmp.mkdir (progDir, TRUE);
+      tmp.mkdir (progDir);
       tmp.mkdir (progDir + "/faktury", TRUE);
     }
 

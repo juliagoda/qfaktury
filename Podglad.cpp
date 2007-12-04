@@ -14,22 +14,21 @@
 #include <qpainter.h>
 #include <qpixmap.h>
 
-#include <qscrollview.h>
-#include <qvbox.h>
 #include <qlabel.h>
 
 #include <qtoolbar.h>
 
 void Podglad::init ()
 {
-  QBoxLayout *l = new QHBoxLayout (this);
-  l->setAutoAdd (TRUE);
-
-  QScrollView *sv = new QScrollView (this);
-  // sv->resize(size());
-  QLabel *pixaaa = new QLabel (sv);
-  pixaaa->setPixmap (QPixmap ("/tmp/przelew.png"));
-  sv->addChild (pixaaa);
+    //X
+//  QBoxLayout *l = new QHBoxLayout (this);
+//  l->setAutoAdd (TRUE);
+//
+//  QScrollView *sv = new QScrollView (this);
+//  // sv->resize(size());
+//  QLabel *pixaaa = new QLabel (sv);
+//  pixaaa->setPixmap (QPixmap ("/tmp/przelew.png"));
+//  sv->addChild (pixaaa);
 }
 
 Podglad::Podglad(QWidget *parent): QDialog(parent) {

@@ -22,16 +22,16 @@ void Uzytkownik::init ()
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
 
   QSettings settings;
-  nameEdit->setText (settings.readEntry ("przelewy/user/nazwa"));
-  placeEdit->setText (settings.readEntry ("przelewy/user/miejscowosc"));
-  codeEdit->setText (settings.readEntry ("przelewy/user/kod"));
-  addressEdit->setText (settings.readEntry ("przelewy/user/adres"));
-  accountEdit->setText (settings.readEntry ("przelewy/user/konto"));
-  if (!settings.readEntry ("przelewy/user/secIdType").isNull ())
-    secIdType->setCurrentText (settings.
-			       readEntry ("przelewy/user/secIdType"));
-  nipEdit->setText (settings.readEntry ("przelewy/user/nip"));
-  regonEdit->setText (settings.readEntry ("przelewy/user/regon"));
+  nameEdit->setText (settings.value ("przelewy/user/nazwa").toString());
+  placeEdit->setText (settings.value ("przelewy/user/miejscowosc").toString());
+  codeEdit->setText (settings.value ("przelewy/user/kod").toString());
+  addressEdit->setText (settings.value ("przelewy/user/adres").toString());
+  accountEdit->setText (settings.value ("przelewy/user/konto").toString());
+  if (!settings.value ("przelewy/user/secIdType").isNull ())
+    secIdType->setCurrentIndex (0); //X settings.
+			       //value ("przelewy/user/secIdType").toString());
+  nipEdit->setText (settings.value ("przelewy/user/nip").toString());
+  regonEdit->setText (settings.value ("przelewy/user/regon").toString());
 }
 
 /*!
@@ -41,14 +41,14 @@ void Uzytkownik::okClick ()
 {
   QSettings settings;
   settings.beginGroup ("przelewy");
-  settings.writeEntry ("user/nazwa", nameEdit->text ());	// zapis String
-  settings.writeEntry ("user/miejscowosc", placeEdit->text ());
-  settings.writeEntry ("user/kod", codeEdit->text ());
-  settings.writeEntry ("user/adres", addressEdit->text ());
-  settings.writeEntry ("user/konto", accountEdit->text ());
-  settings.writeEntry ("user/nip", nipEdit->text ());
-  settings.writeEntry ("user/secIdType", secIdType->currentText ());
-  settings.writeEntry ("user/regon", regonEdit->text ());
+  settings.setValue ("user/nazwa", nameEdit->text ());	// zapis String
+  settings.setValue ("user/miejscowosc", placeEdit->text ());
+  settings.setValue ("user/kod", codeEdit->text ());
+  settings.setValue ("user/adres", addressEdit->text ());
+  settings.setValue ("user/konto", accountEdit->text ());
+  settings.setValue ("user/nip", nipEdit->text ());
+  settings.setValue ("user/secIdType", secIdType->currentText ());
+  settings.setValue ("user/regon", regonEdit->text ());
   settings.endGroup ();
   close ();
 }
