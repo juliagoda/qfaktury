@@ -48,7 +48,7 @@
     </layout>
    </item>
    <item row="1" column="0" >
-    <widget class="Q3ListBox" name="listBox1" />
+    <widget class="QListWidget" name="listBox1" />
    </item>
    <item row="3" column="0" >
     <layout class="QHBoxLayout" >
@@ -136,13 +136,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3ListBox</class>
-   <extends>Q3Frame</extends>
-   <header>q3listbox.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>

@@ -129,10 +129,7 @@
         </widget>
        </item>
        <item>
-        <widget class="Q3DateEdit" name="sellingDate" >
-         <property name="autoAdvance" >
-          <bool>true</bool>
-         </property>
+        <widget class="QDateEdit" name="sellingDate" >
         </widget>
        </item>
       </layout>
@@ -603,7 +600,7 @@
         <widget class="QComboBox" name="platCombo" />
        </item>
        <item>
-        <widget class="Q3DateEdit" name="liabDate" />
+        <widget class="QDateEdit" name="liabDate" />
        </item>
        <item>
         <widget class="QComboBox" name="currCombo" >
@@ -623,13 +620,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3DateEdit</class>
-   <extends>QWidget</extends>
-   <header>Qt3Support/Q3DateEdit</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>

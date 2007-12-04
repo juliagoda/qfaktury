@@ -32,7 +32,7 @@ void KontrahenciLista::init ()
   listaUrzedy.clear ();
   readKontr (progDir);
   listBox1->clear ();
-  listBox1->insertStringList ( (QStringList &)listaFirmy);
+  listBox1->addItems ( (QStringList &)listaFirmy);
 }
 
 void KontrahenciLista::readKontr (QString progDir)
@@ -95,20 +95,10 @@ void KontrahenciLista::readKontr (QString progDir)
 
 void KontrahenciLista::doAccept ()
 {
-  int selNr, posCount = listBox1->count ();
-  bool hasSel = false;
-  for (selNr = 0; selNr < posCount; ++selNr)
+    QList<QListWidgetItem *> selected = listBox1->selectedItems();
+  if (!selected.isEmpty())
     {
-      if (listBox1->isSelected (selNr))
-	{
-	  hasSel = true;
-	  break;
-	}
-    }
-
-  if (hasSel)
-    {
-      ret = listBox1->currentText ();
+      ret = selected[0]->text();
       accept ();
     }
   else
@@ -125,10 +115,10 @@ void KontrahenciLista::comboBox1Changed ()
   switch (comboBox1->currentIndex ())
     {
     case 0:
-      listBox1->insertStringList ((QStringList &)listaFirmy);
+      listBox1->addItems ((QStringList &)listaFirmy);
       break;
     case 1:
-      listBox1->insertStringList ((QStringList &)listaUrzedy);
+      listBox1->addItems ((QStringList &)listaUrzedy);
       break;
     }
 }
