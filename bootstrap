@@ -1,0 +1,4 @@
+set -x
+export CXXFLAGS="-ggdb -O0 -Wall"
+cmake . -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_BUILD_TYPE=Debug
+
