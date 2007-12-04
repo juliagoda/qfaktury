@@ -12,12 +12,11 @@
 #include "Kreator.moc"
 #include <qsettings.h>
 #include <qtextcodec.h>
-#include <qdom.h>
+#include <Qt/qdom.h>
 #include <qdir.h>
 #include <qfile.h>
 #include <qprinter.h>
 #include <qpainter.h>
-#include <qpaintdevicemetrics.h>
 // #include <qsimplerichtext.h>
 #include <qimage.h>
 
