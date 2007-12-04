@@ -1,13 +1,12 @@
 #include <QApplication>
-#include "ui_mainform.h"
+#include "MainWindow.h"
 
 // do splasha
 #include <QLabel>
 #include <QTimer>
 #include <QDir>
 
-int
-main (int argc, char **argv)
+int main (int argc, char **argv)
 {
   QApplication a (argc, argv);
     
@@ -30,9 +29,9 @@ main (int argc, char **argv)
 //  splash.show();
 // 
 //  QTimer slip, slip2;
-  QMainWindow w;
-  Ui_Form1 wu;
-  wu.setupUi(&w);
+  MainWindow w(0);
+  //Ui_Form1 wu;
+  //wu.setupUi(&w);
     //w.move(screen.center() - QPoint( w.width() / 2,  w.height() / 2 ) );
 //  
 //  QObject::connect( &slip, SIGNAL(timeout()), &splash, SLOT(close()) );
@@ -46,3 +45,4 @@ main (int argc, char **argv)
   a.connect (&a, SIGNAL (lastWindowClosed ()), &a, SLOT (quit ()));
   return a.exec ();
 }
+
