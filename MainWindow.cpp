@@ -18,6 +18,8 @@
 #include <qevent.h>
 #include <qprocess.h>
 #include <Qt/qdom.h>
+#include <QTextStream>
+#include <QtDebug>
 
 #include "Podglad.h"
 #include "Ustawienia.h"
@@ -25,6 +27,7 @@
 #include "Towary.h"
 #include "Faktura.h"
 #include "Korekta.h"
+#include "Kontrahenci.h"
 
 
 QString pdGlob;
@@ -42,13 +45,13 @@ void MainWindow::init ()
   if (!tmp.exists (progDir))
     {
       tmp.mkdir (progDir);
-      tmp.mkdir (progDir + "/faktury", TRUE);
+      tmp.mkdir (progDir + "/faktury");
     }
 
 
   if (!tmp.exists (progDir + "/faktury"))
     {
-      tmp.mkdir (progDir + "/faktury", TRUE);
+      tmp.mkdir (progDir + "/faktury");
     }
 
   // first run
@@ -80,7 +83,7 @@ bool MainWindow::firstRun ()
   qDebug (__FUNCTION__);
   QSettings settings;
   bool ok;
-  settings.readEntry ("elinux/faktury/firstrun", "", &ok);
+  ok = settings.value("elinux/faktury/firstrun").toBool();
   if (ok == 0)
     {
       return true;
@@ -91,9 +94,7 @@ bool MainWindow::firstRun ()
 
 void MainWindow::tableClear (QTableWidget * tab)
 {
-  int x = tab->numRows ();
-  for (int i = x; i >= 0; --i)
-    tab->removeRow (i);
+    tab->clear();
 }
 
 void MainWindow::tabChanged (QWidget * aaa)
@@ -150,15 +151,17 @@ void MainWindow::readHist (QString progDir)
 
   allFiles.setPath (progDir + "/faktury/");
   allFiles.setFilter (QDir::Files);
-  allFiles.setNameFilter ("h*.xml");
+  QStringList filters;
+  filters<<"h*.xml";
+  allFiles.setNameFilters (filters);
   QStringList pliczki = allFiles.entryList ();
   int i, max = pliczki.count ();
   for (i = 0; i < max; ++i)
     {
       // qDebug(pliczki[i]);
-      tableH->insertRows (tableH->numRows (), 1);
+      tableH->insertRow(tableH->rowCount ());
       text = pliczki[i];
-      tableH->setText (tableH->numRows () - 1, 0, text);
+      tableH->item(tableH->rowCount () - 1, 0)->setText(text);
 
       QFile file (progDir + "/faktury/" + pliczki[i]);
 
@@ -171,7 +174,7 @@ void MainWindow::readHist (QString progDir)
 	{
 	  QTextStream stream (&file);
 
-	  if (!doc.setContent (stream.read ()))
+	  if (!doc.setContent (stream.readAll ()))
 	    {
 	      // qDebug ("can not set content ");
 	      // qDebug( file.name() );
@@ -181,18 +184,18 @@ void MainWindow::readHist (QString progDir)
 	}
 
       root = doc.documentElement ();
-      tableH->setText (tableH->numRows () - 1, 1,
+      tableH->item (tableH->rowCount () - 1, 1)->setText(
 		       root.attribute ("nr", "NULL"));
-      tableH->setText (tableH->numRows () - 1, 2,
+      tableH->item (tableH->rowCount () - 1, 2)->setText(
 		       root.attribute ("data.sprzed", "NULL"));
-      tableH->setText (tableH->numRows () - 1, 3,
+      tableH->item (tableH->rowCount () - 1, 3)->setText(
   		       root.attribute ("type", "NULL"));
       QDomNode nab;
       nab = root.firstChild();
       nab = nab.toElement().nextSibling();
-      tableH->setText (tableH->numRows () - 1, 4,
+      tableH->item (tableH->rowCount () - 1, 4)->setText(
 		       nab.toElement().attribute ("nazwa", "NULL"));
-      tableH->setText (tableH->numRows () - 1, 5,
+      tableH->item (tableH->rowCount () - 1, 5)->setText(
 		       nab.toElement().attribute ("nip", "NULL"));
     }
 
@@ -215,55 +218,51 @@ void MainWindow::editFHist ()
   
   QSettings settings;
   
-  int row, max = tableH->numRows ();
-  for (row = 0; row < max; ++row)
-    {
-      if (tableH->isRowSelected (row))
-	break;
-    }
-    // qDebug (__FUNCTION__);
+  int row, max = tableH->rowCount ();
+  QList<QTableWidgetItem *> selected = tableH->selectedItems();
+  row = selected[0]->row();
 
-  if (tableH->text(row, 3) == "korekta"){
+  if (tableH->item(row, 3)->text() == "korekta"){
       // QMessageBox::information( this, "QFaktury", "Jeszcze nie ma", QMessageBox::Ok );
-	korForm *korWindow = new korForm;
+	Korekta *korWindow = new Korekta(this);
 	korWindow->progDir2 = pdGlob;
-	korWindow->readData (tableH->text (row, 0));
+	korWindow->readData (tableH->item(row, 0)->text());
 	if (korWindow->exec () == QDialog::Accepted)
 	{
-	    QStringList rowTxt = QStringList::split ("|", korWindow->ret);
-	    tableH->setText (row, 0, rowTxt[0]);	// file name
-	    tableH->setText (row, 1, rowTxt[1]);	// symbol
-	    tableH->setText (row, 2, rowTxt[2]);	// date
-	    tableH->setText (row, 3, rowTxt[3]);	// type
-	    tableH->setText (row, 4, rowTxt[4]);	// nabywca
-	    tableH->setText (row, 5, rowTxt[5]);	// NIP
+	    QStringList rowTxt = korWindow->ret.split("|");
+	    tableH->item (row, 0)->setText(rowTxt[0]);	// file name
+	    tableH->item (row, 1)->setText(rowTxt[1]);	// symbol
+	    tableH->item (row, 2)->setText(rowTxt[2]);	// date
+	    tableH->item (row, 3)->setText(rowTxt[3]);	// type
+	    tableH->item (row, 4)->setText(rowTxt[4]);	// nabywca
+	    tableH->item (row, 5)->setText(rowTxt[5]);	// NIP
 	}
     }
       
   
-  if ((tableH->text(row, 3) == "FVAT")
-      || (tableH->text(row, 3) == "FPro"))
+  if ((tableH->item(row, 3)->text() == "FVAT")
+      || (tableH->item(row, 3)->text() == "FPro"))
     {
       // qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-      FormFra *fraWindow = new FormFra;
+      Faktura *fraWindow = new Faktura(this);
       fraWindow->progDir2 = pdGlob;
-      qDebug( pdGlob );
+      qDebug()<< pdGlob;
       int co = 0;
-      if (tableH->text (row, 3) == "FVAT")
+      if (tableH->item(row, 3)->text() == "FVAT")
 	co = 0;
       else
 	co = 1;
-      fraWindow->readData (tableH->text (row, 0), co);
+      fraWindow->readData (tableH->item(row, 0)->text(), co);
       if (fraWindow->exec () == QDialog::Accepted)
 	{
-	  // tableH->insertRows (tableH->numRows (), 1);
-	     QStringList rowTxt = QStringList::split( "|",  fraWindow->ret );
-	     tableH->setText (row, 0, rowTxt[0]); // file name
-	     tableH->setText (row, 1, rowTxt[1]); // symbol
-	     tableH->setText (row, 2, rowTxt[2]); // date
-	     tableH->setText (row, 3, rowTxt[3]); // type
-	     tableH->setText (row, 4, rowTxt[4]); // nabywca
-	     tableH->setText (row, 5, rowTxt[5]); // NIP
+	  // tableH->insertRows (tableH->rowCount (), 1);
+	     QStringList rowTxt = fraWindow->ret.split("|");
+	     tableH->item (row, 0)->setText(rowTxt[0]); // file name
+	     tableH->item (row, 1)->setText(rowTxt[1]); // symbol
+	     tableH->item (row, 2)->setText(rowTxt[2]); // date
+	     tableH->item (row, 3)->setText(rowTxt[3]); // type
+	     tableH->item (row, 4)->setText(rowTxt[4]); // nabywca
+	     tableH->item (row, 5)->setText(rowTxt[5]); // NIP
 	}
     }
 }
@@ -276,19 +275,15 @@ void MainWindow::delFHist ()
 	       "Czy napewno chcesz usun�� t� faktur� z historii?", "Tak",
 	       "Nie", 0, 0, 1) == 0)
     {
+        QTableWidgetItem *i = tableH->selectedItems()[0];
+        QString name = i->text();
 
-      int row, max = tableH->numRows ();
-      for (row = 0; row < max; ++row)
-	{
-	  if (tableH->isRowSelected (row))
-	    break;
-	}
-      qDebug (tableH->text (row, 0));
+      qDebug ()<<name;
 
-      QFile file (pdGlob + "/faktury/" + tableH->text (row, 0));
+      QFile file (pdGlob + "/faktury/" + name);
       if (file.exists ())
 	file.remove ();
-      tableH->removeRow (row);
+      tableH->removeRow(i->row());
     }
 
 }
@@ -310,7 +305,7 @@ void MainWindow::readKontr (QString progDir)
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
@@ -327,33 +322,33 @@ void MainWindow::readKontr (QString progDir)
       for (QDomNode n = firma.firstChild (); !n.isNull ();
 	   n = n.nextSibling ())
 	{
-	  tableK->insertRows (tableK->numRows (), 1);
+	  tableK->insertRow(tableK->rowCount ());
 	  text = n.toElement ().attribute ("name");
-	  tableK->setText (tableK->numRows () - 1, 0, text);
+	  tableK->item (tableK->rowCount () - 1, 0)->setText(text);
 	  text = "firma";
-	  tableK->setText (tableK->numRows () - 1, 1, text);
+	  tableK->item (tableK->rowCount () - 1, 1)->setText(text);
 	  text = n.toElement ().attribute ("place");
-	  tableK->setText (tableK->numRows () - 1, 2, text);
+	  tableK->item (tableK->rowCount () - 1, 2)->setText(text);
 	  text = n.toElement ().attribute ("address");
-	  tableK->setText (tableK->numRows () - 1, 3, text);
+	  tableK->item (tableK->rowCount () - 1, 3)->setText(text);
 	  text = n.toElement ().attribute ("telefon");
-	  tableK->setText (tableK->numRows () - 1, 4, text);
+	  tableK->item (tableK->rowCount () - 1, 4)->setText(text);
 	}
 
       for (QDomNode n = urzad.firstChild (); !n.isNull ();
 	   n = n.nextSibling ())
 	{
-	  tableK->insertRows (tableK->numRows (), 1);
+	  tableK->insertRow (tableK->rowCount ());
 	  text = n.toElement ().attribute ("name");
-	  tableK->setText (tableK->numRows () - 1, 0, text);
+	  tableK->item (tableK->rowCount () - 1, 0)->setText(text);
 	  text = "urzad";
-	  tableK->setText (tableK->numRows () - 1, 1, text);
+	  tableK->item (tableK->rowCount () - 1, 1)->setText(text);
 	  text = n.toElement ().attribute ("place");
-	  tableK->setText (tableK->numRows () - 1, 2, text);
+	  tableK->item (tableK->rowCount () - 1, 2)->setText(text);
 	  text = n.toElement ().attribute ("address");
-	  tableK->setText (tableK->numRows () - 1, 3, text);
+	  tableK->item (tableK->rowCount () - 1, 3)->setText(text);
 	  text = n.toElement ().attribute ("telefon");
-	  tableK->setText (tableK->numRows () - 1, 4, text);
+	  tableK->item (tableK->rowCount () - 1, 4)->setText(text);
 	}
     }
 }
@@ -374,7 +369,7 @@ void MainWindow::readTw (QString progDir)
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  qDebug ("can't set content ");
 	  file.close ();
@@ -392,64 +387,64 @@ void MainWindow::readTw (QString progDir)
 	   n = n.nextSibling ())
 	{
 
-	  tableT->insertRows (tableT->numRows (), 1);
+	  tableT->insertRow (tableT->rowCount ());
 	  text = n.toElement ().attribute ("idx");
-	  tableT->setText (tableT->numRows () - 1, 0, text);
+	  tableT->item (tableT->rowCount () - 1, 0)->setText(text);
 	  // text = "towar";
 	  text = n.toElement ().attribute ("name");
-	  tableT->setText (tableT->numRows () - 1, 1, text);
+	  tableT->item (tableT->rowCount () - 1, 1)->setText(text);
 	  text = n.toElement ().attribute ("desc");
-	  tableT->setText (tableT->numRows () - 1, 2, text);
+	  tableT->item (tableT->rowCount () - 1, 2)->setText(text);
 	  text = n.toElement ().attribute ("code");
-	  tableT->setText (tableT->numRows () - 1, 3, text);
+	  tableT->item (tableT->rowCount () - 1, 3)->setText(text);
 	  text = n.toElement ().attribute ("pkwiu");
-	  tableT->setText (tableT->numRows () - 1, 4, text);
+	  tableT->item (tableT->rowCount () - 1, 4)->setText(text);
 	  text = "towar";
-	  tableT->setText (tableT->numRows () - 1, 5, text);
+	  tableT->item (tableT->rowCount () - 1, 5)->setText(text);
 	  text = n.toElement ().attribute ("curr");
-	  tableT->setText (tableT->numRows () - 1, 6, text);
+	  tableT->item (tableT->rowCount () - 1, 6)->setText(text);
 	  text = n.toElement ().attribute ("netto1");
-	  tableT->setText (tableT->numRows () - 1, 7, text);
+	  tableT->item (tableT->rowCount () - 1, 7)->setText(text);
 	  text = n.toElement ().attribute ("netto2");
-	  tableT->setText (tableT->numRows () - 1, 8, text);
+	  tableT->item (tableT->rowCount () - 1, 8)->setText(text);
 	  text = n.toElement ().attribute ("netto3");
-	  tableT->setText (tableT->numRows () - 1, 9, text);
+	  tableT->item (tableT->rowCount () - 1, 9)->setText(text);
 	  text = n.toElement ().attribute ("netto4");
-	  tableT->setText (tableT->numRows () - 1, 10, text);
+	  tableT->item (tableT->rowCount () - 1, 10)->setText(text);
 	  text = n.toElement ().attribute ("vat");
-	  tableT->setText (tableT->numRows () - 1, 11, text);
+	  tableT->item (tableT->rowCount () - 1, 11)->setText(text);
 	}
 
       for (QDomNode n = uslugi.firstChild (); !n.isNull ();
 	   n = n.nextSibling ())
 	{
 
-	  tableT->insertRows (tableT->numRows (), 1);
+	  tableT->insertRow (tableT->rowCount ());
 	  text = n.toElement ().attribute ("idx");
-	  tableT->setText (tableT->numRows () - 1, 0, text);
+	  tableT->item (tableT->rowCount () - 1, 0)->setText(text);
 	  // text = "towar";
 	  text = n.toElement ().attribute ("name");
-	  tableT->setText (tableT->numRows () - 1, 1, text);
+	  tableT->item (tableT->rowCount () - 1, 1)->setText(text);
 	  text = n.toElement ().attribute ("desc");
-	  tableT->setText (tableT->numRows () - 1, 2, text);
+	  tableT->item (tableT->rowCount () - 1, 2)->setText(text);
 	  text = n.toElement ().attribute ("code");
-	  tableT->setText (tableT->numRows () - 1, 3, text);
+	  tableT->item (tableT->rowCount () - 1, 3)->setText(text);
 	  text = n.toElement ().attribute ("pkwiu");
-	  tableT->setText (tableT->numRows () - 1, 4, text);
+	  tableT->item (tableT->rowCount () - 1, 4)->setText(text);
 	  text = "us�uga";
-	  tableT->setText (tableT->numRows () - 1, 5, text);
+	  tableT->item (tableT->rowCount () - 1, 5)->setText(text);
 	  text = n.toElement ().attribute ("curr");
-	  tableT->setText (tableT->numRows () - 1, 6, text);
+	  tableT->item (tableT->rowCount () - 1, 6)->setText(text);
 	  text = n.toElement ().attribute ("netto1");
-	  tableT->setText (tableT->numRows () - 1, 7, text);
+	  tableT->item (tableT->rowCount () - 1, 7)->setText(text);
 	  text = n.toElement ().attribute ("netto2");
-	  tableT->setText (tableT->numRows () - 1, 8, text);
+	  tableT->item (tableT->rowCount () - 1, 8)->setText(text);
 	  text = n.toElement ().attribute ("netto3");
-	  tableT->setText (tableT->numRows () - 1, 9, text);
+	  tableT->item (tableT->rowCount () - 1, 9)->setText(text);
 	  text = n.toElement ().attribute ("netto4");
-	  tableT->setText (tableT->numRows () - 1, 10, text);
+	  tableT->item (tableT->rowCount () - 1, 10)->setText(text);
 	  text = n.toElement ().attribute ("vat");
-	  tableT->setText (tableT->numRows () - 1, 11, text);
+	  tableT->item (tableT->rowCount () - 1, 11)->setText(text);
 	}
     }
 }
@@ -458,14 +453,14 @@ void MainWindow::readTw (QString progDir)
 void MainWindow::daneFirmyClick ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  Form2 *daneFirmyWindow = new Form2;
+  Uzytkownik *daneFirmyWindow = new Uzytkownik(this);
   daneFirmyWindow->show ();
 }
 
 void MainWindow::settClick ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  Form7 *settWindow = new Form7;
+  Ustawienia *settWindow = new Ustawienia(this);
   settWindow->show ();
 }
 
@@ -481,12 +476,12 @@ void MainWindow::settClick ()
 //      // readHist (pdGlob);
 //      /*
 //         QStringList row = QStringList::split( "|",  kreatorWindow->ret );
-//         tableH->insertRows (tableH->numRows (), 1);
-//         tableH->setText (tableH->numRows () - 1, 0, row[0]); // nazwa pliku
-//         tableH->setText (tableH->numRows () - 1, 1, row[1]); 
-//         tableH->setText (tableH->numRows () - 1, 2, row[2]); 
-//         tableH->setText (tableH->numRows () - 1, 4, row[3]); 
-//         tableH->setText (tableH->numRows () - 1, 3, row[4]); 
+//         tableH->insertRows (tableH->rowCount (), 1);
+//         tableH->setText (tableH->rowCount () - 1, 0, row[0]); // nazwa pliku
+//         tableH->setText (tableH->rowCount () - 1, 1, row[1]); 
+//         tableH->setText (tableH->rowCount () - 1, 2, row[2]); 
+//         tableH->setText (tableH->rowCount () - 1, 4, row[3]); 
+//         tableH->setText (tableH->rowCount () - 1, 3, row[4]); 
 //       */
 //    }
 //  // delete kreatorWindow;
@@ -495,7 +490,7 @@ void MainWindow::settClick ()
 void MainWindow::kontrClick ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  Form4 *kontrWindow = new Form4;
+  Kontrahenci *kontrWindow = new Kontrahenci(this);
   if (kontrWindow->exec () == QDialog::Accepted)
     {
       // tableClear (tableK);
@@ -505,13 +500,13 @@ void MainWindow::kontrClick ()
       tmp.mkdir (progDir, TRUE);
 
       // readKontr (progDir);
-      tableK->insertRows (tableK->numRows (), 1);
+      tableK->insertRows (tableK->rowCount (), 1);
       QStringList row = QStringList::split ("|", kontrWindow->ret);
-      tableK->setText (tableK->numRows () - 1, 0, row[0]);	// name
-      tableK->setText (tableK->numRows () - 1, 1, row[1]);	// type
-      tableK->setText (tableK->numRows () - 1, 2, row[2]);	// place
-      tableK->setText (tableK->numRows () - 1, 3, row[3]);	// address
-      tableK->setText (tableK->numRows () - 1, 4, row[4]);	// telefon
+      tableK->item (tableK->rowCount () - 1, 0)->setText(row[0]);	// name
+      tableK->item (tableK->rowCount () - 1, 1)->setText(row[1]);	// type
+      tableK->item (tableK->rowCount () - 1, 2)->setText(row[2]);	// place
+      tableK->item (tableK->rowCount () - 1, 3)->setText(row[3]);	// address
+      tableK->item (tableK->rowCount () - 1, 4)->setText(row[4]);	// telefon
     }
 }
 
@@ -527,7 +522,7 @@ void MainWindow::kontrDel ()
       QDomElement root;
       QDomElement urzad;
       QDomElement firma;
-      int row, max = tableK->numRows ();
+      int row, max = tableK->rowCount ();
 
       for (row = 0; row < max; ++row)
 	{
@@ -605,7 +600,7 @@ void MainWindow::kontrDel ()
 void MainWindow::kontrEd ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  int row, max = tableK->numRows ();
+  int row, max = tableK->rowCount ();
 
   for (row = 0; row < max; ++row)
     {
@@ -643,14 +638,14 @@ void MainWindow::newFra ()
   fraWindow->pforma = false;
   if (fraWindow->exec () == QDialog::Accepted)
     {
-      tableH->insertRows (tableH->numRows (), 1);
+      tableH->insertRows (tableH->rowCount (), 1);
       QStringList row = QStringList::split ("|", fraWindow->ret);
-      tableH->setText (tableH->numRows () - 1, 0, row[0]);	// file name
-      tableH->setText (tableH->numRows () - 1, 1, row[1]);	// symbol
-      tableH->setText (tableH->numRows () - 1, 2, row[2]);	// date
-      tableH->setText (tableH->numRows () - 1, 3, row[3]);	// type
-      tableH->setText (tableH->numRows () - 1, 4, row[4]);	// nabywca
-      tableH->setText (tableH->numRows () - 1, 5, row[5]);	// NIP
+      tableH->setText (tableH->rowCount () - 1, 0, row[0]);	// file name
+      tableH->setText (tableH->rowCount () - 1, 1, row[1]);	// symbol
+      tableH->setText (tableH->rowCount () - 1, 2, row[2]);	// date
+      tableH->setText (tableH->rowCount () - 1, 3, row[3]);	// type
+      tableH->setText (tableH->rowCount () - 1, 4, row[4]);	// nabywca
+      tableH->setText (tableH->rowCount () - 1, 5, row[5]);	// NIP
     }
 }
 
@@ -665,14 +660,14 @@ void MainWindow::newPForm ()
   fraWindow->backBtnClick();
   if (fraWindow->exec () == QDialog::Accepted)
     {
-      tableH->insertRows (tableH->numRows (), 1);
+      tableH->insertRows (tableH->rowCount (), 1);
       QStringList row = QStringList::split ("|", fraWindow->ret);
-      tableH->setText (tableH->numRows () - 1, 0, row[0]);	// file name
-      tableH->setText (tableH->numRows () - 1, 1, row[1]);	// symbol
-      tableH->setText (tableH->numRows () - 1, 2, row[2]);	// date
-      tableH->setText (tableH->numRows () - 1, 3, row[3]);	// type
-      tableH->setText (tableH->numRows () - 1, 4, row[4]);	// nabywca
-      tableH->setText (tableH->numRows () - 1, 5, row[5]);	// NIP
+      tableH->setText (tableH->rowCount () - 1, 0, row[0]);	// file name
+      tableH->setText (tableH->rowCount () - 1, 1, row[1]);	// symbol
+      tableH->setText (tableH->rowCount () - 1, 2, row[2]);	// date
+      tableH->setText (tableH->rowCount () - 1, 3, row[3]);	// type
+      tableH->setText (tableH->rowCount () - 1, 4, row[4]);	// nabywca
+      tableH->setText (tableH->rowCount () - 1, 5, row[5]);	// NIP
     }
 }
 
@@ -682,7 +677,7 @@ void MainWindow::newKor ()
     qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
     
     qDebug( __FUNCTION__ );
-    int row, max = tableH->numRows ();
+    int row, max = tableH->rowCount ();
     for (row = 0; row < max; ++row)
     {
 	if (tableH->isRowSelected (row))
@@ -698,14 +693,14 @@ void MainWindow::newKor ()
 	korWindow->readDataNewKor (tableH->text (row, 0));
 	if (korWindow->exec () == QDialog::Accepted)
 	{
-	    tableH->insertRows (tableH->numRows (), 1);
+	    tableH->insertRows (tableH->rowCount (), 1);
 	    QStringList row = QStringList::split ("|", korWindow->ret);
-	    tableH->setText (tableH->numRows () - 1, 0, row[0]);	// file name
-	    tableH->setText (tableH->numRows () - 1, 1, row[1]);	// symbol
-	    tableH->setText (tableH->numRows () - 1, 2, row[2]);	// date
-	    tableH->setText (tableH->numRows () - 1, 3, row[3]);	// type
-	    tableH->setText (tableH->numRows () - 1, 4, row[4]);	// nabywca
-	    tableH->setText (tableH->numRows () - 1, 5, row[5]);	// NIP
+	    tableH->setText (tableH->rowCount () - 1, 0, row[0]);	// file name
+	    tableH->setText (tableH->rowCount () - 1, 1, row[1]);	// symbol
+	    tableH->setText (tableH->rowCount () - 1, 2, row[2]);	// date
+	    tableH->setText (tableH->rowCount () - 1, 3, row[3]);	// type
+	    tableH->setText (tableH->rowCount () - 1, 4, row[4]);	// nabywca
+	    tableH->setText (tableH->rowCount () - 1, 5, row[5]);	// NIP
 	}
     }
     if ((tableH->text(row, 3) == "korekta"))
@@ -763,27 +758,27 @@ void MainWindow::towaryDodaj ()
          tmp.mkdir (progDir, TRUE);
          readTw (progDir);
        */
-      tableT->insertRows (tableT->numRows (), 1);
+      tableT->insertRows (tableT->rowCount (), 1);
       QStringList row = QStringList::split ("|", towWindow->ret);
-      tableT->setText (tableT->numRows () - 1, 0, row[0]);
-      tableT->setText (tableT->numRows () - 1, 1, row[1]);
-      tableT->setText (tableT->numRows () - 1, 2, row[2]);
-      tableT->setText (tableT->numRows () - 1, 3, row[3]);
-      tableT->setText (tableT->numRows () - 1, 4, row[4]);
-      tableT->setText (tableT->numRows () - 1, 5, row[5]);
-      tableT->setText (tableT->numRows () - 1, 6, row[6]);
-      tableT->setText (tableT->numRows () - 1, 7, row[7]);
-      tableT->setText (tableT->numRows () - 1, 8, row[8]);
-      tableT->setText (tableT->numRows () - 1, 9, row[9]);
-      tableT->setText (tableT->numRows () - 1, 10, row[10]);
-      tableT->setText (tableT->numRows () - 1, 11, row[11]);
+      tableT->setText (tableT->rowCount () - 1, 0, row[0]);
+      tableT->setText (tableT->rowCount () - 1, 1, row[1]);
+      tableT->setText (tableT->rowCount () - 1, 2, row[2]);
+      tableT->setText (tableT->rowCount () - 1, 3, row[3]);
+      tableT->setText (tableT->rowCount () - 1, 4, row[4]);
+      tableT->setText (tableT->rowCount () - 1, 5, row[5]);
+      tableT->setText (tableT->rowCount () - 1, 6, row[6]);
+      tableT->setText (tableT->rowCount () - 1, 7, row[7]);
+      tableT->setText (tableT->rowCount () - 1, 8, row[8]);
+      tableT->setText (tableT->rowCount () - 1, 9, row[9]);
+      tableT->setText (tableT->rowCount () - 1, 10, row[10]);
+      tableT->setText (tableT->rowCount () - 1, 11, row[11]);
     }
 }
 
 void MainWindow::towaryUsun ()
 {
 
-  int row, max = tableK->numRows ();
+  int row, max = tableK->rowCount ();
 
   for (row = 0; row < max; ++row)
     {
@@ -876,7 +871,7 @@ void MainWindow::towaryUsun ()
 void MainWindow::towaryEdycja ()
 {
   qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  int row, max = tableT->numRows ();
+  int row, max = tableT->rowCount ();
 
   for (row = 0; row < max; ++row)
     {
