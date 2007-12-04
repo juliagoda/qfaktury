@@ -8,7 +8,6 @@ Faktura.cpp
 Kontrahenci.cpp
 KontrahenciLista.cpp
 Korekta.cpp
-Kreator.cpp
 main.cpp
 MainWindow.cpp
 Rounding.cpp
@@ -25,7 +24,6 @@ Faktura.ui
 KontrahenciLista.ui
 Kontrahenci.ui
 Korekta.ui
-Kreator.ui
 MainWindow.ui
 TowaryLista.ui
 Towary.ui
