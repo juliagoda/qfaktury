@@ -4,11 +4,11 @@
 #include "ui_MainWindow.h"
 class MainWindow: public QMainWindow, public Ui::MainWindow {
     Q_OBJECT
+void init ();
+bool firstRun ();
     public:
     MainWindow(QWidget *parent);
     public slots:
-void init ();
-bool firstRun ();
 void tableClear (QTableWidget * tab);
 void tabChanged (QWidget * aaa);
 void readHist (QString progDir);
@@ -34,5 +34,6 @@ void towaryEdycja ();
 void saveAllSett();
 void nextPage();
 void prevPage();
+    private:
 };
 #endif

@@ -487,21 +487,21 @@ void MainWindow::settClick ()
 //  // delete kreatorWindow;
 //}
 
-void MainWindow::kontrClick ()
-{
-  qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-  Kontrahenci *kontrWindow = new Kontrahenci(this);
+void MainWindow::kontrClick() { 
+    Kontrahenci *kontrWindow;
+    kontrWindow = new Kontrahenci(this);
+  //qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
   if (kontrWindow->exec () == QDialog::Accepted)
     {
       // tableClear (tableK);
       QDir tmp;
       QString progDir = tmp.homePath () + "/elinux";
-      qDebug (progDir);
-      tmp.mkdir (progDir, TRUE);
+      qDebug ()<<progDir;
+      tmp.mkdir (progDir);
 
       // readKontr (progDir);
-      tableK->insertRows (tableK->rowCount (), 1);
-      QStringList row = QStringList::split ("|", kontrWindow->ret);
+      tableK->insertRow (tableK->rowCount ());
+      QStringList row = kontrWindow->ret.split("|");
       tableK->item (tableK->rowCount () - 1, 0)->setText(row[0]);	// name
       tableK->item (tableK->rowCount () - 1, 1)->setText(row[1]);	// type
       tableK->item (tableK->rowCount () - 1, 2)->setText(row[2]);	// place

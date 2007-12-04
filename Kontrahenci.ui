@@ -1,6 +1,6 @@
 <ui version="4.0" >
  <class>Kontrahenci</class>
- <widget class="QDialog" name="Kontrahenci" >
+ <widget class="QDialog" name="kontrahenci" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -235,7 +235,7 @@
   <connection>
    <sender>cancelButton</sender>
    <signal>clicked()</signal>
-   <receiver>Kontrahenci</receiver>
+   <receiver>kontrahenci</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -251,7 +251,7 @@
   <connection>
    <sender>okButton</sender>
    <signal>clicked()</signal>
-   <receiver>Kontrahenci</receiver>
+   <receiver>kontrahenci</receiver>
    <slot>okClick()</slot>
    <hints>
     <hint type="sourcelabel" >

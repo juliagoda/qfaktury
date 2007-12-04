@@ -228,7 +228,7 @@
      <height>25</height>
     </rect>
    </property>
-   <widget class="QMenu" name="Plik" >
+   <widget class="QMenu" name="plikAct" >
     <property name="title" >
      <string>&amp;Plik</string>
     </property>
@@ -242,7 +242,7 @@
     <addaction name="plikImport_XMLAction" />
     <addaction name="plikKoniecAction" />
    </widget>
-   <widget class="QMenu" name="Faktury" >
+   <widget class="QMenu" name="fakturyAct" >
     <property name="title" >
      <string>&amp;Faktury</string>
     </property>
@@ -253,7 +253,7 @@
     <addaction name="fakturyUsunAction" />
     <addaction name="fakturyEdAction" />
    </widget>
-   <widget class="QMenu" name="Kontrahenci" >
+   <widget class="QMenu" name="kontrahenciAct" >
     <property name="title" >
      <string>&amp;Kontrahenci</string>
     </property>
@@ -261,7 +261,7 @@
     <addaction name="kontrahenciUsunAction" />
     <addaction name="kontrahenciEdycjaAction" />
    </widget>
-   <widget class="QMenu" name="Towary" >
+   <widget class="QMenu" name="towaryAct" >
     <property name="title" >
      <string>&amp;Towary</string>
     </property>
@@ -269,18 +269,18 @@
     <addaction name="towaryUsunAction" />
     <addaction name="towaryEdycjaAction" />
    </widget>
-   <widget class="QMenu" name="Pomoc" >
+   <widget class="QMenu" name="pomocAct" >
     <property name="title" >
      <string>P&amp;omoc</string>
     </property>
     <addaction name="pomocO_programieAction" />
     <addaction name="pomocPomocAction" />
    </widget>
-   <addaction name="Plik" />
-   <addaction name="Faktury" />
-   <addaction name="Kontrahenci" />
-   <addaction name="Towary" />
-   <addaction name="Pomoc" />
+   <addaction name="plikAct" />
+   <addaction name="fakturyAct" />
+   <addaction name="kontrahenciAct" />
+   <addaction name="towaryAct" />
+   <addaction name="pomocAct" />
    <addaction name="separator" />
   </widget>
   <action name="plikDrukujAction" >

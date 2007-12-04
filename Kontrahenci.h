@@ -1,5 +1,5 @@
-#ifndef Kontrahenci_H
-#define Kontrahenci_H
+#ifndef KONTRAHENCI_H
+#define KONTRAHENCI_H
 #include <QDialog>
 #include "ui_Kontrahenci.h"
 class Kontrahenci: public QDialog, public Ui::Kontrahenci {
