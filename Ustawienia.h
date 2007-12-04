@@ -2,15 +2,16 @@
 #define Ustawienia_H
 #include <QDialog>
 #include "ui_Ustawienia.h"
+#include <QListWidget>
 class Ustawienia: public QDialog, public Ui::Ustawienia {
     Q_OBJECT
+QString getAll(QListWidget *lb);
+void init ();
     public:
     Ustawienia(QWidget *parent);
     public slots:
-void init ();
 void apply ();
 void okButtonClick ();
-QString getAll(QListBox *lb);
 void saveSettings ();
 void readSettings ();
 void addLogoBtnClick();

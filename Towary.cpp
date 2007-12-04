@@ -12,10 +12,11 @@
 #include "Towary.moc"
 #include <qtextcodec.h>
 #include <qdir.h>
-#include <qdom.h>
+#include <Qt/qdom.h>
 #include <qprocess.h>
 #include <qsettings.h>
 #include <qmessagebox.h>
+#include <QtDebug>
 
 
 /*
@@ -49,7 +50,7 @@ void Towary::readData (QString idx, QString type)
 
   lastId = 1;
   idxEdit->setText (idx);
-  qDebug (idx + "   " + type);
+  qDebug ()<<idx << "   " << type;
   QDomDocument doc ("towary");
   QDomElement root;
   QDomElement towar;
@@ -64,7 +65,7 @@ void Towary::readData (QString idx, QString type)
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
@@ -92,16 +93,16 @@ void Towary::readData (QString idx, QString type)
 		  kodEdit->setText (n.toElement ().attribute ("code"));
 		  skrotEdit->setText (n.toElement ().attribute ("desc"));
 		  pkwiuEdit->setText (n.toElement ().attribute ("pkwiu"));
-		  typeCombo->setCurrentText ("towar");
-		  jednCombo->setCurrentText (n.toElement ().
-					     attribute ("curr"));
+		  typeCombo->setCurrentIndex(0);
+		  jednCombo->setCurrentIndex(0);//Text (n.toElement ().
+					     //X attribute ("curr"));
 		  nettoEdit->setText (n.toElement ().attribute ("netto1"));
 		  netto[0] = n.toElement ().attribute ("netto1");
 		  netto[1] = n.toElement ().attribute ("netto2");
 		  netto[2] = n.toElement ().attribute ("netto3");
 		  netto[3] = n.toElement ().attribute ("netto4");
-		  qDebug (n.toElement ().attribute ("netto4"));
-		  cbVat->setCurrentText (n.toElement ().attribute ("vat"));
+		  qDebug ()<<n.toElement ().attribute ("netto4");
+		  cbVat->setCurrentIndex(0); //X Text (n.toElement ().attribute ("vat"));
 		  // vatEdit->setText (n.toElement ().attribute ("vat"));
 		}
 	    }
@@ -119,16 +120,16 @@ void Towary::readData (QString idx, QString type)
 		  kodEdit->setText (n.toElement ().attribute ("code"));
 		  pkwiuEdit->setText (n.toElement ().attribute ("pkwiu"));
 		  skrotEdit->setText (n.toElement ().attribute ("desc"));
-		  typeCombo->setCurrentText ("us³uga");
-		  jednCombo->setCurrentText (n.toElement ().
-					     attribute ("curr"));
+		  typeCombo->setCurrentIndex(0); //X Text ("us³uga");
+		  jednCombo->setCurrentIndex(0); //X Text (n.toElement ().
+					     //attribute ("curr"));
 		  nettoEdit->setText (n.toElement ().attribute ("netto1"));
 		  netto[0] = n.toElement ().attribute ("netto1");
 		  netto[1] = n.toElement ().attribute ("netto2");
 		  netto[2] = n.toElement ().attribute ("netto3");
 		  netto[3] = n.toElement ().attribute ("netto4");
-		  qDebug (n.toElement ().attribute ("netto4"));
-		  cbVat->setCurrentText (n.toElement ().attribute ("vat"));
+		  qDebug ()<<n.toElement ().attribute ("netto4");
+		  cbVat->setCurrentIndex(0); //X Text (n.toElement ().attribute ("vat"));
 		  // spinBoxVat->setValue( n.toElement ().attribute ("vat").toInt() );
 		  // vatEdit->setText (n.toElement ().attribute ("vat"));
 		}
@@ -158,7 +159,7 @@ void Towary::getStuffList ()
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
@@ -206,8 +207,8 @@ void Towary::init ()
   
   //  settings.writeEntry ("firstrun", "nie");
   // logoEdit->setText( settings.readEntry("elinux/faktury/logo") );
- jednCombo->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/jednostki")), -1); 
- cbVat->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/stawki")), -1); 
+ jednCombo->addItems( settings.value("elinux/faktury/jednostki").toString().split("|")); 
+ cbVat->addItems( settings.value("elinux/faktury/stawki").toString().split("|")); 
   
 }
 
@@ -249,7 +250,7 @@ bool Towary::saveAll ()
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 
 	{
 	  qDebug ("can not set content ");
@@ -271,7 +272,7 @@ bool Towary::saveAll ()
 
 
   // firma = 0; urzad = 1;
-  if (typeCombo->currentItem () == 0)
+  if (typeCombo->currentIndex () == 0)
     {
       QDomElement elem = doc.createElement ("towar");
       elem.setAttribute ("idx", idxEdit->text ());
@@ -291,7 +292,7 @@ bool Towary::saveAll ()
       qDebug ("dodano towar");
     }
 
-  if (typeCombo->currentItem () == 1)
+  if (typeCombo->currentIndex () == 1)
     {
       QDomElement elem = doc.createElement ("usluga");
       elem.setAttribute ("idx", idxEdit->text ());
@@ -359,7 +360,7 @@ void Towary::modifyOnly ()
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 
 	{
 	  qDebug ("can not set content ");
@@ -378,7 +379,7 @@ void Towary::modifyOnly ()
   QString text;
 
   // towar = 0; usluga = 1;
-  if (typeCombo->currentItem () == 0)
+  if (typeCombo->currentIndex () == 0)
     {
       QDomElement elem;		// = doc.createElement ("firma");
       for (QDomNode n = towary.firstChild (); !n.isNull ();
@@ -408,7 +409,7 @@ void Towary::modifyOnly ()
       qDebug ("modyfikacja towary");
     }
 
-  if (typeCombo->currentItem () == 1)
+  if (typeCombo->currentIndex () == 1)
     {
       QDomElement elem;		//  = doc.createElement ("urzad");
       for (QDomNode n = uslugi.firstChild (); !n.isNull ();
@@ -463,7 +464,7 @@ void Towary::okClick ()
     }
 
   qDebug (__FUNCTION__);
-  qDebug (this->windowTitle ().left (4));
+  qDebug ()<<this->windowTitle ().left (4);
 
   QString pkwiu = pkwiuEdit->text ();
   if (pkwiu == "")
@@ -479,7 +480,7 @@ void Towary::okClick ()
     {
       modifyOnly ();
       QString typ;
-      if (typeCombo->currentItem () == 1)
+      if (typeCombo->currentIndex () == 1)
 	{
 	  typ = "us³uga";
 	}
@@ -496,7 +497,7 @@ void Towary::okClick ()
       if (saveAll ())
 	{
 	  QString typ;
-	  if (typeCombo->currentItem () == 1)
+	  if (typeCombo->currentIndex () == 1)
 	    {
 	      typ = "us³uga";
 	    }
@@ -522,7 +523,7 @@ void Towary::spinChanged (int a)
 void Towary::nettoChanged ()
 {
   qDebug (__FUNCTION__);
-  qDebug (nettoEdit->text ());
+  qDebug ()<<nettoEdit->text ();
   netto[spinBox2->value () - 1] = nettoEdit->text ();
 }
 
@@ -535,19 +536,24 @@ void Towary::pkwiuGet ()
   args += "exec";
   args += "http://www.klasyfikacje.pl/";
   // args += "http://www.stat.gov.pl/klasyfikacje/PKWiU/pkwiu.htm";
-  QProcess cmd (args);
-  if (!cmd.start ())
-    {
-      // if not we use GNOME2 api
-      args.clear ();
-      args += "gnome-open";
-      args += "http://www.klasyfikacje.pl/";
-      // args += "http://www.stat.gov.pl/klasyfikacje/PKWiU/pkwiu.htm";
-      QProcess cmd2 (args);
-      cmd2.start ();
-    }
+  
+  //X odpalenie przegl¿darki
+//  QProcess cmd (args);
+//  if (!cmd.start ())
+//    {
+//      // if not we use GNOME2 api
+//      args.clear ();
+//      args += "gnome-open";
+//      args += "http://www.klasyfikacje.pl/";
+//      // args += "http://www.stat.gov.pl/klasyfikacje/PKWiU/pkwiu.htm";
+//      QProcess cmd2 (args);
+//      cmd2.start ();
+//    }
 }
+
 Towary::Towary(QWidget *parent): QDialog(parent) {
     setupUi(this);
     init();
 }
+
+

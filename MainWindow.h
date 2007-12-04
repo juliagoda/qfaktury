@@ -9,7 +9,7 @@ class MainWindow: public QMainWindow, public Ui::MainWindow {
     public slots:
 void init ();
 bool firstRun ();
-void tableClear (QTable * tab);
+void tableClear (QTableWidget * tab);
 void tabChanged (QWidget * aaa);
 void readHist (QString progDir);
 void aboutQt ();
@@ -20,7 +20,6 @@ void readKontr (QString progDir);
 void readTw (QString progDir);
 void daneFirmyClick ();
 void settClick ();
-void kretorClick ();
 void kontrClick ();
 void kontrDel ();
 void kontrEd ();

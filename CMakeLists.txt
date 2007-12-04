@@ -9,7 +9,6 @@ Kontrahenci.cpp
 KontrahenciLista.cpp
 Korekta.cpp
 main.cpp
-MainWindow.cpp
 Rounding.cpp
 slownie.cpp
 Towary.cpp
@@ -17,6 +16,8 @@ TowaryLista.cpp
 Ustawienia.cpp
 Uzytkownik.cpp
 ZmienIlosc.cpp
+Podglad.cpp
+MainWindow.cpp
 )
 
 set(qfaktury_UIS
@@ -30,6 +31,7 @@ Towary.ui
 Ustawienia.ui
 Uzytkownik.ui
 ZmienIlosc.ui
+Podglad.ui
 )
 
 

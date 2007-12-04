@@ -19,15 +19,12 @@
 #include <qprocess.h>
 #include <Qt/qdom.h>
 
-#include "Form4.h"
-#include "kreator.h"
-#include "mainform.h"
-#include "preview.h"
-#include "sett.h"
-#include "user.h"
-#include "towary.h"
-#include "fraform.h"
-#include "korform.h"
+#include "Podglad.h"
+#include "Ustawienia.h"
+#include "Uzytkownik.h"
+#include "Towary.h"
+#include "Faktura.h"
+#include "Korekta.h"
 
 
 QString pdGlob;
@@ -92,7 +89,7 @@ bool MainWindow::firstRun ()
     return false;
 }
 
-void MainWindow::tableClear (QTable * tab)
+void MainWindow::tableClear (QTableWidget * tab)
 {
   int x = tab->numRows ();
   for (int i = x; i >= 0; --i)
@@ -472,28 +469,28 @@ void MainWindow::settClick ()
   settWindow->show ();
 }
 
-void MainWindow::kretorClick ()
-{
-  qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-//     QMessageBox::information( this, "QFaktury", "Funkcja jeszcze nie gotowa. Uzyj menu faktury->Nowy", QMessageBox::Ok );
-  Form3 *kreatorWindow = new Form3;
-  if (kreatorWindow->exec () == QDialog::Accepted)
-    {
-      kreatorWindow->print ();
-      // tableClear (tableH);
-      // readHist (pdGlob);
-      /*
-         QStringList row = QStringList::split( "|",  kreatorWindow->ret );
-         tableH->insertRows (tableH->numRows (), 1);
-         tableH->setText (tableH->numRows () - 1, 0, row[0]); // nazwa pliku
-         tableH->setText (tableH->numRows () - 1, 1, row[1]); 
-         tableH->setText (tableH->numRows () - 1, 2, row[2]); 
-         tableH->setText (tableH->numRows () - 1, 4, row[3]); 
-         tableH->setText (tableH->numRows () - 1, 3, row[4]); 
-       */
-    }
-  // delete kreatorWindow;
-}
+//void MainWindow::kretorClick ()
+//{
+//  qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
+////     QMessageBox::information( this, "QFaktury", "Funkcja jeszcze nie gotowa. Uzyj menu faktury->Nowy", QMessageBox::Ok );
+//  Form3 *kreatorWindow = new Form3;
+//  if (kreatorWindow->exec () == QDialog::Accepted)
+//    {
+//      kreatorWindow->print ();
+//      // tableClear (tableH);
+//      // readHist (pdGlob);
+//      /*
+//         QStringList row = QStringList::split( "|",  kreatorWindow->ret );
+//         tableH->insertRows (tableH->numRows (), 1);
+//         tableH->setText (tableH->numRows () - 1, 0, row[0]); // nazwa pliku
+//         tableH->setText (tableH->numRows () - 1, 1, row[1]); 
+//         tableH->setText (tableH->numRows () - 1, 2, row[2]); 
+//         tableH->setText (tableH->numRows () - 1, 4, row[3]); 
+//         tableH->setText (tableH->numRows () - 1, 3, row[4]); 
+//       */
+//    }
+//  // delete kreatorWindow;
+//}
 
 void MainWindow::kontrClick ()
 {

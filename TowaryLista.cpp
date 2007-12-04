@@ -1,10 +1,11 @@
 #include "TowaryLista.moc"
-#include <qdom.h>
+#include <Qt/qdom.h>
 #include <qdir.h>
 #include <qmessagebox.h>
-#include <qtextcodec.h>
+#include <QTextCodec>
+#include <QTextStream>
 
-#include "zaokr.h"
+#include "Rounding.h"
 
 class dane
 {
@@ -86,7 +87,7 @@ void TowaryLista::readTow (QString progDir)
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
@@ -147,7 +148,7 @@ void TowaryLista::doAccept ()
   if (selectedItem != "")
     {
 // |Index|Nazwa|Kod|Ilo¶æ|Jm|cena jednostkowa|Kwota netto|vat|kwota brutto|
-      if (comboBox1->currentItem () == 0)
+      if (comboBox1->currentIndex () == 0)
 	{
 	  /*
 	     int x = listaTowary.findIndex(selectedItem);
@@ -163,7 +164,7 @@ void TowaryLista::doAccept ()
 	    listaTowary2[id].currX () + "|" + cenaEdit->text () + "|" +
 	    nettoLabel->text () + "|" + vat + "|" + bruttoLabel->text ();
 	}
-      if (comboBox1->currentItem () == 1)
+      if (comboBox1->currentIndex () == 1)
 	{
 	  // int x = listaUslugi.findIndex(selectedItem);
 	  // qDebug( "%d", x );
@@ -250,9 +251,10 @@ void TowaryLista::lv1selChanged (QListWidgetItem * item)
 {
   if (item->isSelected ())
     {
-      readNettos (item->text (0));
-      id = item->text (0);
-      selectedItem = item->text (1);
+        //X
+      readNettos (item->text());
+      id = item->text ();
+      selectedItem = item->text ();
       calcNetto ();
     }
 }
@@ -273,7 +275,7 @@ void TowaryLista::readNettos (QString index)
   else
     {
       QTextStream stream (&file);
-      if (!doc.setContent (stream.read ()))
+      if (!doc.setContent (stream.readAll ()))
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
@@ -287,7 +289,7 @@ void TowaryLista::readNettos (QString index)
 	}
       QString text;
 
-      if (comboBox1->currentItem () == 0)
+      if (comboBox1->currentIndex () == 0)
 	{
 	  for (QDomNode n = towar.firstChild (); !n.isNull ();
 	       n = n.nextSibling ())
@@ -307,7 +309,7 @@ void TowaryLista::readNettos (QString index)
 	    }
 	}
 
-      if (comboBox1->currentItem () == 1)
+      if (comboBox1->currentIndex () == 1)
 	{
 
 	  for (QDomNode n = usluga.firstChild (); !n.isNull ();

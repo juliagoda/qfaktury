@@ -232,7 +232,6 @@
     <property name="title" >
      <string>&amp;Plik</string>
     </property>
-    <addaction name="plikKreatorAction" />
     <addaction name="plikDane_firmyAction" />
     <addaction name="plikUstawieniaAction" />
     <addaction name="separator" />
@@ -284,26 +283,6 @@
    <addaction name="Pomoc" />
    <addaction name="separator" />
   </widget>
-  <action name="plikKreatorAction" >
-   <property name="icon" >
-    <iconset>image1</iconset>
-   </property>
-   <property name="text" >
-    <string>Kreator</string>
-   </property>
-   <property name="iconText" >
-    <string>Kreator</string>
-   </property>
-   <property name="shortcut" >
-    <string>Ctrl+N</string>
-   </property>
-   <property name="visible" >
-    <bool>false</bool>
-   </property>
-   <property name="name" stdset="0" >
-    <string>plikKreatorAction</string>
-   </property>
-  </action>
   <action name="plikDrukujAction" >
    <property name="text" >
     <string>Drukuj</string>
@@ -716,22 +695,6 @@
    <signal>activated()</signal>
    <receiver>MainWindow</receiver>
    <slot>daneFirmyClick()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>plikKreatorAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>kretorClick()</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>-1</x>

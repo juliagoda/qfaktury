@@ -17,13 +17,12 @@
 
 #include <qprinter.h>
 #include <qpainter.h>
-#include <qpaintdevicemetrics.h>
 #include <qimage.h>
 #include <qpicture.h>
 
 #include <qdatetime.h>
 #include <qdir.h>
-#include <qdom.h>
+#include <Qt/qdom.h>
 #include <qfont.h>
 
 #include <qmessagebox.h>
@@ -53,13 +52,13 @@ void Ustawienia::okButtonClick ()
   accept ();
 }
 
-QString Ustawienia::getAll(QListBox *lb)
+QString Ustawienia::getAll(QListWidget *lb)
 {
     QString tmp;
   int selNr, posCount = lb->count ();
   for (selNr = 0; selNr < posCount; ++selNr)
     {
-	  tmp += lb->text(selNr);
+	  tmp += lb->item(selNr)->text();
 	  tmp += "|";
     }
  return  tmp;
@@ -69,57 +68,59 @@ void Ustawienia::saveSettings ()
 {
   QSettings settings;
   settings.beginGroup ("elinux/faktury");
-  settings.writeEntry ("firstrun", "nie");
-  settings.writeEntry ("logo", logoEdit->text());  
-  settings.writeEntry ("jednostki",   getAll(currlBox) );
-  settings.writeEntry ("stawki",   getAll(vatlBox).remove("%") );
-  settings.writeEntry ("waluty",   getAll(currencylBox) );
-  settings.writeEntry ("pkorekty",   getAll(korlBox) );
-  settings.writeEntry ("payments",   getAll(paymlBox) ); // uwaga!! get first
-  settings.writeEntry ("paym1",   paymlBox->text(0) ); 
+  settings.setValue("firstrun", "nie");
+  settings.setValue ("logo", logoEdit->text());  
+  settings.setValue ("jednostki",   getAll(currlBox) );
+  settings.setValue ("stawki",   getAll(vatlBox).remove("%") );
+  settings.setValue ("waluty",   getAll(currencylBox) );
+  settings.setValue ("pkorekty",   getAll(korlBox) );
+  settings.setValue ("payments",   getAll(paymlBox) ); // uwaga!! get first
+  settings.setValue ("paym1",   paymlBox->item(0)->text() ); 
   
-  settings.writeEntry ("prefix",  prefixEdit->text() ); 
-  settings.writeEntry ("day",  cbDay->isChecked() ); 
-  settings.writeEntry ("month",  cbMonth->isChecked() ); 
-  settings.writeEntry ("year",  cbYear->isChecked() ); 
-  settings.writeEntry ("edit",  cbEdit->isChecked() ); 
-  settings.writeEntry ("editSymbol",  cbSmbEdit->isChecked() ); 
-  settings.writeEntry ("shortYear",  shortYear->isChecked() ); 
-  settings.writeEntry ("chars_in_symbol",  spbNumb->value() ); 
+  settings.setValue ("prefix",  prefixEdit->text() ); 
+  settings.setValue ("day",  cbDay->isChecked() ); 
+  settings.setValue ("month",  cbMonth->isChecked() ); 
+  settings.setValue ("year",  cbYear->isChecked() ); 
+  settings.setValue ("edit",  cbEdit->isChecked() ); 
+  settings.setValue ("editSymbol",  cbSmbEdit->isChecked() ); 
+  settings.setValue ("shortYear",  shortYear->isChecked() ); 
+  settings.setValue ("chars_in_symbol",  spbNumb->value() ); 
   
   settings.endGroup ();
   
-  settings.beginGroup ("elinux/faktury_pozycje");
-  QCheckTableItem  *cb;
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 0, 0) );
-  settings.writeEntry ("Lp",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 1, 0) );
-  settings.writeEntry ("Nazwa",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 2, 0) );
-  settings.writeEntry ("Kod",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 3, 0) );
-  settings.writeEntry ("pkwiu",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 4, 0) );
-  settings.writeEntry ("ilosc",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 5, 0) );
-  settings.writeEntry ("jm",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 6, 0) );
-  settings.writeEntry ("cenajedn",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 7, 0) );
-  settings.writeEntry ("wartnetto",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 8, 0) );
-  settings.writeEntry ("rabatperc",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 9, 0) );
-  settings.writeEntry ("rabatval",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 10, 0) );
-  settings.writeEntry ("nettoafter",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 11, 0) );
-  settings.writeEntry ("vatval",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 12, 0) );
-  settings.writeEntry ("vatprice",   cb->isChecked());
-  cb = static_cast<QCheckTableItem *>( tablePos->item( 13, 0) );
-  settings.writeEntry ("bruttoval",   cb->isChecked());
-  settings.endGroup ();
+
+  //X
+//  settings.beginGroup ("elinux/faktury_pozycje");
+//  QCheckTableItem  *cb;
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 0, 0) );
+//  settings.setValue ("Lp",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 1, 0) );
+//  settings.setValue ("Nazwa",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 2, 0) );
+//  settings.setValue ("Kod",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 3, 0) );
+//  settings.setValue ("pkwiu",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 4, 0) );
+//  settings.setValue ("ilosc",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 5, 0) );
+//  settings.setValue ("jm",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 6, 0) );
+//  settings.setValue ("cenajedn",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 7, 0) );
+//  settings.setValue ("wartnetto",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 8, 0) );
+//  settings.setValue ("rabatperc",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 9, 0) );
+//  settings.setValue ("rabatval",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 10, 0) );
+//  settings.setValue ("nettoafter",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 11, 0) );
+//  settings.setValue ("vatval",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 12, 0) );
+//  settings.setValue ("vatprice",   cb->isChecked());
+//  cb = static_cast<QCheckTableItem *>( tablePos->item( 13, 0) );
+//  settings.setValue ("bruttoval",   cb->isChecked());
+//  settings.endGroup ();
 }
 
 void Ustawienia::readSettings ()
@@ -127,12 +128,12 @@ void Ustawienia::readSettings ()
   QSettings settings;
   
   //  settings.writeEntry ("firstrun", "nie");
-  logoEdit->setText( settings.readEntry("elinux/faktury/logo") );
- currlBox->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/jednostki")), -1); 
- vatlBox->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/stawki")), -1); 
- currencylBox->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/waluty")), -1); 
- paymlBox->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/payments")), -1); 
- korlBox->insertStringList( QStringList::split("|", settings.readEntry("elinux/faktury/pkorekty")), -1); 
+  logoEdit->setText( settings.value("elinux/faktury/logo") );
+ currlBox->insertStringList( QStringList::split("|", settings.value("elinux/faktury/jednostki")), -1); 
+ vatlBox->insertStringList( QStringList::split("|", settings.value("elinux/faktury/stawki")), -1); 
+ currencylBox->insertStringList( QStringList::split("|", settings.value("elinux/faktury/waluty")), -1); 
+ paymlBox->insertStringList( QStringList::split("|", settings.value("elinux/faktury/payments")), -1); 
+ korlBox->insertStringList( QStringList::split("|", settings.value("elinux/faktury/pkorekty")), -1); 
  
  /*  
   settings.writeEntry ("payments",   getAll(paymlBox) ); // uwaga!! get first
@@ -140,69 +141,69 @@ void Ustawienia::readSettings ()
   */
   QCheckTableItem *cbItem1 = new QCheckTableItem ( tablePos, "Lp." );
     tablePos->setItem( 0, 0, cbItem1);
-    cbItem1->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/Lp") );
+    cbItem1->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool());
     
     QCheckTableItem *cbItem2 = new QCheckTableItem ( tablePos, "Nazwa" ); 	
     tablePos->setItem( 1, 0, cbItem2);
-    cbItem2->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/Nazwa") );
+    cbItem2->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa") .toBool());
     
     QCheckTableItem *cbItem3 = new QCheckTableItem ( tablePos, "Kod" );
     tablePos->setItem( 2, 0, cbItem3);
-    cbItem3->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/Kod") );
+    cbItem3->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/Kod") .toBool());
     
     QCheckTableItem *cbItem4 = new QCheckTableItem ( tablePos, "PKWiU" ); 	
     tablePos->setItem( 3, 0, cbItem4);
-    cbItem4->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/pkwiu") );
+    cbItem4->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu") .toBool());
     
     QCheckTableItem *cbItem5 = new QCheckTableItem ( tablePos, "Ilo뜻" ); 	
     tablePos->setItem( 4, 0, cbItem5);
-    cbItem5->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/ilosc") );
+    cbItem5->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/ilosc") .toBool());
     
     QCheckTableItem *cbItem6 = new QCheckTableItem ( tablePos, "Jm." ); 	
     tablePos->setItem( 5, 0, cbItem6);
-    cbItem6->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/jm") );
+    cbItem6->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/jm") .toBool());
     
     QCheckTableItem *cbItem7 = new QCheckTableItem ( tablePos, "Cena jdn." ); 	
     tablePos->setItem( 6, 0, cbItem7);
-    cbItem7->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/cenajedn") );
+    cbItem7->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn") .toBool());
     
     QCheckTableItem *cbItem8 = new QCheckTableItem ( tablePos, "Warto뜻 Netto" ); 	
     tablePos->setItem( 7, 0, cbItem8);
-    cbItem8->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/wartnetto") );
+    cbItem8->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/wartnetto") .toBool());
     
     QCheckTableItem *cbItem9 = new QCheckTableItem ( tablePos, "Rabat %" ); 	
     tablePos->setItem( 8, 0, cbItem9);
-    cbItem9->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/rabatperc") );
+    cbItem9->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/rabatperc") .toBool());
     
     QCheckTableItem *cbItem10 = new QCheckTableItem ( tablePos, "Rabat Warto뜻" );	
     tablePos->setItem( 9, 0, cbItem10);
-    cbItem10->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/rabatval") );
+    cbItem10->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/rabatval") .toBool());
     
     QCheckTableItem *cbItem11 = new QCheckTableItem ( tablePos, "Netto po rabacie" ); 	
     tablePos->setItem( 10, 0, cbItem11);
-    cbItem11->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/nettoafter") );
+    cbItem11->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/nettoafter") .toBool());
     
     QCheckTableItem *cbItem12 = new QCheckTableItem ( tablePos, "Stawka VAT" ); 	
     tablePos->setItem( 11, 0, cbItem12);
-    cbItem12->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/vatval") );
+    cbItem12->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/vatval") .toBool());
     
     QCheckTableItem *cbItem13 = new QCheckTableItem ( tablePos, "Kwota Vat" ); 	
     tablePos->setItem( 12, 0, cbItem13);
-    cbItem13->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/vatprice") );
+    cbItem13->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/vatprice") .toBool());
     
     QCheckTableItem *cbItem14 = new QCheckTableItem ( tablePos, "Warto뜻 Brutto" );
     tablePos->setItem( 13, 0, cbItem14);
-    cbItem14->setChecked( settings.readBoolEntry("elinux/faktury_pozycje/bruttoval") );
+    cbItem14->setChecked( settings.value/*bool*/("elinux/faktury_pozycje/bruttoval") .toBool());
     
-prefixEdit->setText( settings.readEntry("elinux/faktury/prefix")  );
+prefixEdit->setText( settings.value("elinux/faktury/prefix")  );
 	
-  cbDay->setChecked( settings.readBoolEntry("elinux/faktury/day")  );
-  cbMonth->setChecked( settings.readBoolEntry("elinux/faktury/month")  );
-  cbYear->setChecked( settings.readBoolEntry("elinux/faktury/year")  );
-  shortYear->setChecked( settings.readBoolEntry("elinux/faktury/shortYear")  );
-  cbEdit->setChecked( settings.readBoolEntry("elinux/faktury/edit")  );
-  cbSmbEdit->setChecked( settings.readBoolEntry("elinux/faktury/editSymbol")  );
-  spbNumb->setValue( settings.readNumEntry("elinux/faktury/chars_in_symbol") );
+  cbDay->setChecked( settings.value/*bool*/("elinux/faktury/day")  .toBool());
+  cbMonth->setChecked( settings.value/*bool*/("elinux/faktury/month")  .toBool());
+  cbYear->setChecked( settings.value/*bool*/("elinux/faktury/year")  .toBool());
+  shortYear->setChecked( settings.value/*bool*/("elinux/faktury/shortYear")  .toBool());
+  cbEdit->setChecked( settings.value/*bool*/("elinux/faktury/edit")  .toBool());
+  cbSmbEdit->setChecked( settings.value/*bool*/("elinux/faktury/editSymbol")  .toBool());
+  spbNumb->setValue( settings.value/*int*/("elinux/faktury/chars_in_symbol") );
 }
 
 

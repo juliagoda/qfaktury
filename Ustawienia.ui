@@ -117,12 +117,6 @@
             </item>
             <item>
              <widget class="QTableWidget" name="tablePos" >
-              <property name="numRows" >
-               <number>14</number>
-              </property>
-              <property name="numCols" >
-               <number>1</number>
-              </property>
               <row>
                <property name="text" >
                 <string>1</string>
@@ -359,7 +353,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="Q3ListBox" name="currlBox" />
+                 <widget class="QListWidget" name="currlBox" />
                 </item>
                </layout>
               </item>
@@ -474,7 +468,7 @@ korekt:</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="Q3ListBox" name="korlBox" />
+                 <widget class="QListWidget" name="korlBox" />
                 </item>
                </layout>
               </item>
@@ -589,7 +583,7 @@ korekt:</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="Q3ListBox" name="currencylBox" />
+                 <widget class="QListWidget" name="currencylBox" />
                 </item>
                </layout>
               </item>
@@ -697,7 +691,7 @@ korekt:</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="Q3ListBox" name="vatlBox" />
+                 <widget class="QListWidget" name="vatlBox" />
                 </item>
                </layout>
               </item>
@@ -833,7 +827,7 @@ korekt:</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="Q3ListBox" name="paymlBox" />
+                 <widget class="QListWidget" name="paymlBox" />
                 </item>
                </layout>
               </item>
@@ -977,16 +971,6 @@ to na fakturze pojawi sie napis: zapłacono.</string>
    <extends>QFrame</extends>
    <header>Qt3Support/Q3Frame</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QTableWidget</class>
-   <extends>Q3Frame</extends>
-   <header>q3table.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Q3ListBox</class>
-   <extends>Q3Frame</extends>
-   <header>q3listbox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
