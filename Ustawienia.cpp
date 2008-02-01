@@ -34,8 +34,6 @@
 
 void Ustawienia::init ()
 {
-  QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
-  QTextCodec::setCodecForTr (QTextCodec::codecForName ("ISO8859-2"));
   tablePos->setColumnWidth(0, 300);
   readSettings ();
 }
@@ -238,7 +236,6 @@ void Ustawienia::currAddBtnClick()
 void Ustawienia::currDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
-  int selNr, posCount = currlBox->count ();
   if (!currlBox->selectedItems().isEmpty())
     {
       currlBox->removeItemWidget(currlBox->selectedItems()[0]);
@@ -271,7 +268,6 @@ void Ustawienia::korAddBtnClick()
 void Ustawienia::korDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
-  int selNr, posCount = korlBox->count ();
   if (!korlBox->selectedItems().isEmpty())
     {
       korlBox->removeItemWidget(korlBox->selectedItems()[0]);
@@ -304,7 +300,6 @@ void Ustawienia::vatAddBtnClick()
 void Ustawienia::vatDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
-  int selNr, posCount = vatlBox->count ();
   if (!vatlBox->selectedItems().isEmpty())
     {
       vatlBox->removeItemWidget (vatlBox->selectedItems()[0]);
@@ -388,7 +383,6 @@ void Ustawienia::currencyAddBtnClick()
 void Ustawienia::currencyDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
-  int selNr, posCount = currencylBox->count ();
   if (!currencylBox->selectedItems().isEmpty())
     {
       currencylBox->removeItemWidget (currencylBox->selectedItems()[0]);
@@ -470,7 +464,6 @@ void Ustawienia::paymDownBtnClick()
 void Ustawienia::paymDelBtnClick()
 {
  //  qDebug( "%s, %s, %d", __FUNCTION__ , __FILE__, __LINE__);
-  int selNr, posCount = paymlBox->count ();
   if (!paymlBox->selectedItems().isEmpty())
     {
       paymlBox->removeItemWidget (paymlBox->selectedItems()[0]);

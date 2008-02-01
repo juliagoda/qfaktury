@@ -54,8 +54,6 @@ QString vat;
 
 void TowaryLista::init ()
 {
-  QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
-  QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));    
   ret = "";
   QDir tmp;
   progDir = tmp.homePath () + "/elinux";
@@ -205,12 +203,10 @@ void TowaryLista::calcNetto ()
 
 void TowaryLista::fillLv (int x)
 {
-  bool next = true;
-  QListWidgetItem *tmp = NULL;
   switch (x)
     {
     case 0:
-      for (uint i = 0; i < listaTowary.count (); ++i)
+      for (int i = 0; i < listaTowary.count (); ++i)
 	{
         listWidget->addItem(listaTowary[i]);
 //	  if (next)
@@ -227,7 +223,7 @@ void TowaryLista::fillLv (int x)
 	}
       break;
     case 1:
-      for (uint i = 0; i < listaUslugi.count (); ++i)
+      for (int i = 0; i < listaUslugi.count (); ++i)
 	{
         listWidget->addItem(listaUslugi[i]);
 //	  if (next)

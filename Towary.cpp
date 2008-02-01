@@ -195,8 +195,6 @@ void Towary::getStuffList ()
 void Towary::init ()
 {
   qDebug (__FUNCTION__);
-  QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
-  QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));
 
   progDir = QDir::homePath () + "/elinux";
   readData ("", "");

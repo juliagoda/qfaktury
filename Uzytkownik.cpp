@@ -11,7 +11,6 @@
 *****************************************************************************/
 #include "Uzytkownik.moc"
 #include "Settings.h"
-#include <qtextcodec.h>
 
 
 /*!
@@ -19,8 +18,6 @@
   !*/
 void Uzytkownik::init ()
 {
-  QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
-
   Settings settings;
   nameEdit->setText (settings.value ("przelewy/user/nazwa").toString());
   placeEdit->setText (settings.value ("przelewy/user/miejscowosc").toString());

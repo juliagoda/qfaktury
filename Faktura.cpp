@@ -33,9 +33,6 @@ double priceBRabN, priceBRab;
 
 void Faktura::init ()
 {
-  QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
-  QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));
-    
   // invoice fra1;
   // dodac do settingsow!!
 	
@@ -178,7 +175,7 @@ void Faktura::readData (QString fraFile, int co)
 
   for (i = 0; i < towCount; ++i)
     {
-        for (int j = 0; j < sizeof(towarColumns)/sizeof(*towarColumns); j++) {
+        for (int j = 0; j < int(sizeof(towarColumns)/sizeof(*towarColumns)); j++) {
             tableTow->setItem(i, j, new QTableWidgetItem(towar.attribute(towarColumns[j])));
         }
       towar = towar.nextSibling ().toElement ();

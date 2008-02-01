@@ -157,9 +157,6 @@ void Kontrahenci::getFirmList ()
 
 void Kontrahenci::init ()
 {
-  QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
-  QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));
-
   progDir = QDir::homePath () + "/elinux";
 }
 
@@ -251,7 +248,6 @@ bool Kontrahenci::saveAll ()
   file.close ();
   file.open (QIODevice::WriteOnly);
   QTextStream ts (&file);
-  ts.setCodec (QTextCodec::codecForName ("ISO8859-2"));
   ts << xml;
   file.close ();
 
@@ -369,7 +365,6 @@ void Kontrahenci::modifyOnly ()
   file.close ();
   file.open (QIODevice::WriteOnly);
   QTextStream ts (&file);
-  ts.setCodec (QTextCodec::codecForName ("ISO8859-2"));
   ts << xml;
   file.close ();
 

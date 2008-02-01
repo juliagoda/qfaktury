@@ -13,7 +13,6 @@
 #include <Qt/qdom.h>
 #include <qdir.h>
 #include <qmessagebox.h>
-#include <qtextcodec.h>
 #include <QTextStream>
 
 QStringList listaFirmy;
@@ -22,10 +21,6 @@ QStringList listaUrzedy;
 
 void KontrahenciLista::init ()
 {
-  QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
-  QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));
-  QTextCodec::setCodecForTr (QTextCodec::codecForName ("ISO8859-2"));
-    
   QDir tmp;
   QString progDir = tmp.homePath () + "/elinux";
   listaFirmy.clear ();
