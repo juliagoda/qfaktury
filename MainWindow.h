@@ -9,7 +9,6 @@ bool firstRun ();
     public:
     MainWindow(QWidget *parent);
 static void insertRow(QTableWidget *t,int row);
-static void setColumnCount(QTableWidget *t, int columns);
     public slots:
 void tableClear (QTableWidget * tab);
 void tabChanged (QWidget * aaa);

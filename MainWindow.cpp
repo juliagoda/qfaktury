@@ -30,12 +30,13 @@
 #include "Kontrahenci.h"
 
 
+#define UTF8(x) QString::fromUtf8(x)
 QString pdGlob;
 
 void MainWindow::init ()
 {
-  QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
-  QTextCodec::setCodecForLocale (QTextCodec::codecForName ("ISO8859-2"));    
+  //QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("UTF-8"));
+  //QTextCodec::setCodecForLocale (QTextCodec::codecForName ("UTF-8"));    
  //  create local user directory for store xml files
   // works only on Linux -> see also licence Qt 3
   QDir tmp;
@@ -55,8 +56,10 @@ void MainWindow::init ()
     }
 
   // first run
-  if (firstRun ())  saveAllSett();
-  // first run
+  if (firstRun ()) {
+      qDebug ("firstRun");
+      saveAllSett();
+  }
 
   readKontr (progDir);
   readHist (progDir);
@@ -80,16 +83,8 @@ void MainWindow::init ()
 
 bool MainWindow::firstRun ()
 {
-  qDebug (__FUNCTION__);
   QSettings settings;
-  bool ok;
-  ok = settings.value("elinux/faktury/firstrun").toBool();
-  if (ok == 0)
-    {
-      return true;
-    }
-  else
-    return false;
+  return settings.value("elinux/faktury/firstrun").toBool();
 }
 
 void MainWindow::tableClear (QTableWidget * tab)
@@ -156,7 +151,6 @@ void MainWindow::readHist (QString progDir)
   allFiles.setNameFilters (filters);
   QStringList pliczki = allFiles.entryList ();
   int i, max = pliczki.count ();
-  setColumnCount(tableH,6);
   for (i = 0; i < max; ++i)
     {
       // qDebug(pliczki[i]);
@@ -210,7 +204,7 @@ void MainWindow::aboutQt ()
 void MainWindow::oProg ()
 {
   QMessageBox::about (this, "QFaktury v0.0.1 beta",
-        "Program do wystawiania faktur. \n Koordynator projektu: \n\tGrzegorz R�kawek www.e-linux.pl \n Programista:\n\tTomasz 'moux' Pielech \nGrafika:\n\tDariusz Arciszewski \n\nSupport: info@e-linux.pl");		  
+        UTF8("Program do wystawiania faktur. \n Koordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl \n Programista:\n\tTomasz 'moux' Pielech \nGrafika:\n\tDariusz Arciszewski \n\nSupport: info@e-linux.pl"));		  
 }
 
 void MainWindow::editFHist ()
@@ -273,7 +267,7 @@ void MainWindow::delFHist ()
 {
   if (QMessageBox::
       warning (this, "QFaktury",
-	       "Czy napewno chcesz usun�� t� faktur� z historii?", "Tak",
+	       UTF8("Czy napewno chcesz usunąć tą fakturę z historii?"), "Tak",
 	       "Nie", 0, 0, 1) == 0)
     {
         QTableWidgetItem *i = tableH->selectedItems()[0];
@@ -320,7 +314,6 @@ void MainWindow::readKontr (QString progDir)
 	}
       QString text;
 
-      setColumnCount(tableK,5);
       for (QDomNode n = firma.firstChild (); !n.isNull ();
 	   n = n.nextSibling ())
 	{
@@ -417,7 +410,6 @@ void MainWindow::readTw (QString progDir)
 	  tableT->item (tableT->rowCount () - 1, 11)->setText(text);
 	}
 
-      setColumnCount(tableT,12);
       for (QDomNode n = uslugi.firstChild (); !n.isNull ();
 	   n = n.nextSibling ())
 	{
@@ -433,7 +425,7 @@ void MainWindow::readTw (QString progDir)
 	  tableT->item (tableT->rowCount () - 1, 3)->setText(text);
 	  text = n.toElement ().attribute ("pkwiu");
 	  tableT->item (tableT->rowCount () - 1, 4)->setText(text);
-	  text = "us�uga";
+	  text = "usługa";
 	  tableT->item (tableT->rowCount () - 1, 5)->setText(text);
 	  text = n.toElement ().attribute ("curr");
 	  tableT->item (tableT->rowCount () - 1, 6)->setText(text);
@@ -516,7 +508,7 @@ void MainWindow::kontrDel ()
 {
   if (QMessageBox::
       warning (this, "QFaktury",
-	       "Czy napewno chcesz usun�� tego kontrahenta?", "Tak", "Nie", 0,
+	       UTF8("Czy napewno chcesz usunąć tego kontrahenta?"), "Tak", "Nie", 0,
 	       0, 1) == 0)
     {
 
@@ -701,7 +693,7 @@ void MainWindow::closeEvent (QCloseEvent * e)
 {
   if (QMessageBox::
       warning (this, "QFaktury",
-	       "Czy chcesz wyj�� z programu?", "Tak", "Nie", 0, 0, 1) == 0)
+	       UTF8("Czy chcesz wyjść z programu?"), "Tak", "Nie", 0, 0, 1) == 0)
     {
       e->accept ();
     }
@@ -767,7 +759,7 @@ void MainWindow::towaryUsun ()
 
   if (QMessageBox::
       warning (this, "QFaktury",
-	       "Czy napewno chcesz usun�� towar " + tableT->item (row,
+	       UTF8("Czy napewno chcesz usunąć towar ") + tableT->item (row,
 								  0)->text() + "/" +
 	       tableT->item (row, 1)->text() + "?", "Tak", "Nie", 0, 0, 1) == 0)
     {
@@ -886,14 +878,14 @@ void MainWindow::saveAllSett()
 {
   QSettings settings;
   settings.beginGroup ("elinux/faktury");
-  settings.setValue ("firstrun", "nie");
+  settings.setValue ("firstrun", false);
   settings.setValue ("logo", "");  
   settings.setValue ("jednostki",   "szt.|kg.|g.|m|km.|godz." );
   settings.setValue ("stawki",   "22|7|0|zw." );
   settings.setValue ("waluty",   "PLN|EUR|USD" );
-  settings.setValue ("payments",  "got�wka|przelew" ); // uwaga!! get first
-  settings.setValue ("paym1",   "got�wka" ); 
-  settings.setValue ("pkorekty",   "zmiana ilo�ci" ); 
+  settings.setValue ("payments",  UTF8("gotówka|przelew") ); // uwaga!! get first
+  settings.setValue ("paym1",   UTF8("gotówka") ); 
+  settings.setValue ("pkorekty",   UTF8("zmiana ilości") ); 
   settings.endGroup ();
   
   settings.beginGroup ("elinux/faktury_pozycje");
@@ -941,12 +933,5 @@ void MainWindow::insertRow(QTableWidget *t,int row) {
       for(int i=0;i<t->columnCount();i++) {
           t->setItem(row,i,new QTableWidgetItem());
       }
-}
-
-void MainWindow::setColumnCount(QTableWidget *t,int columns) {
-    return;
-//    for(int i=0;i<columns;i++) {
- //       t->insertColumn(0);
- //   }
 }
 

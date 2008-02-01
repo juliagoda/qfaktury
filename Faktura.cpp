@@ -108,11 +108,11 @@ void Faktura::readData (QString fraFile, int co)
   frNr->setEnabled(false);
   if (co == 0)
     {
-      setWindowTitle("Edytuje Faktur� VAT");
+      setWindowTitle("Edytuje Fakturę VAT");
       type = 0;
     }
   else
-    setWindowTitle("Edytuje Faktur� Pro Forma");
+    setWindowTitle("Edytuje Fakturę Pro Forma");
 
   // here we would read all data from one xml file to the this window
   QDomDocument doc ("faktury");
@@ -471,7 +471,7 @@ void Faktura::makeInvoiceHeadar ()
   if ( logo != "" ) {
       fraStrList += "<img src=\"" + logo + "\"  width=\"200\" height=\"100\">";      
   } else {
-      fraStrList += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Piecz�� wystawcy";
+      fraStrList += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pieczęć wystawcy";
   }
   // in case where we don't have a logo :(
 
@@ -492,14 +492,14 @@ void Faktura::makeInvoiceHeadar ()
     "<h5>Data wystawienia: " + QDate::currentDate ().toString ("yyyy-MM-dd") +
     "<br>";
   fraStrList +=
-    "Data sprzeda�y: " + sellingDate->date ().toString ("yyyy-MM-dd") +
+    "Data sprzedaży: " + sellingDate->date ().toString ("yyyy-MM-dd") +
     "<br></h5>";
   fraStrList += "</td>";
   fraStrList += "<td width=\"20\">&nbsp;</td>";
   fraStrList += "</tr>";
   fraStrList += "<tr>";
   fraStrList += "<td colspan=\"3\" align=\"right\" valign=\"top\">";
-  fraStrList += "<br>ORYGINA�/KOPIA<br>";
+  fraStrList += "<br>ORYGINAŁ/KOPIA<br>";
   fraStrList += "</td>";
   fraStrList += "<td width=\"20\">&nbsp;</td>";
   fraStrList += "</tr>";
@@ -557,17 +557,17 @@ if ( settings.value("elinux/faktury_pozycje/Kod").toBool()  )
 if ( settings.value("elinux/faktury_pozycje/pkwiu").toBool() )
   fraStrList += "<td width=\"60\" align=\"center\">PKWiU</td>";
 if ( settings.value("elinux/faktury_pozycje/ilosc").toBool()  )
-  fraStrList += "<td width=\"60\" align=\"center\">Ilo��</td>";
+  fraStrList += "<td width=\"60\" align=\"center\">Ilość</td>";
 if ( settings.value("elinux/faktury_pozycje/jm").toBool()  )
   fraStrList += "<td width=\"20\" align=\"center\">Jm.</td>";
 if ( settings.value("elinux/faktury_pozycje/cenajedn").toBool()  )
   fraStrList += "<td width=\"60\" align=\"center\">Cena jdn.</td>";
 if ( settings.value("elinux/faktury_pozycje/wartnetto").toBool()  )
-  fraStrList += "<td width=\"60\" align=\"center\">Warto�� Netto</td>";
+  fraStrList += "<td width=\"60\" align=\"center\">Wartość Netto</td>";
 if ( settings.value("elinux/faktury_pozycje/rabatperc").toBool()  )
   fraStrList += "<td width=\"20\" align=\"center\">Rabat %</td>";
 if ( settings.value("elinux/faktury_pozycje/rabatval").toBool()  )
-  fraStrList += "<td width=\"20\" align=\"center\">Rabat Warto��</td>";
+  fraStrList += "<td width=\"20\" align=\"center\">Rabat Wartość</td>";
 if ( settings.value("elinux/faktury_pozycje/nettoafter").toBool()  )
   fraStrList += "<td width=\"60\" align=\"center\">Netto po rabacie</td>";
 if ( settings.value("elinux/faktury_pozycje/vatval").toBool()  )
@@ -575,7 +575,7 @@ if ( settings.value("elinux/faktury_pozycje/vatval").toBool()  )
 if ( settings.value("elinux/faktury_pozycje/vatprice").toBool()  )
   fraStrList += "<td width=\"60\" align=\"center\">Kwota Vat</td>";
 if ( settings.value("elinux/faktury_pozycje/bruttoval").toBool()  )
-  fraStrList += "<td width=\"60\" align=\"center\">Warto�� Brutto</td>";
+  fraStrList += "<td width=\"60\" align=\"center\">Wartość Brutto</td>";
   fraStrList += "</tr>";
 
   for (int i = 0; i < tableTow->rowCount (); ++i)
@@ -691,21 +691,21 @@ void Faktura::makeInvoiceSummAll ()
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td width=\"48%\"> ";
   fraStrList +=
-    "<h4>Do zap�aty: " + sbrutto->text () + " " + currCombo->currentText () +
+    "<h4>Do zapłaty: " + sbrutto->text () + " " + currCombo->currentText () +
     "</h4>";
   if ( currCombo->currentText() == "PLN"  )
-      fraStrList += "<h5>s�ownie:" + slownie (sbrutto->text (), currCombo->currentText()) + "</h5>";
+      fraStrList += "<h5>słownie:" + slownie (sbrutto->text (), currCombo->currentText()) + "</h5>";
   else
-      fraStrList += "<h5>s�ownie:" + slownie (sbrutto->text (), currCombo->currentText()) + "</h5>";
+      fraStrList += "<h5>słownie:" + slownie (sbrutto->text (), currCombo->currentText()) + "</h5>";
       
-  fraStrList += "<h5>forma p�atno�ci: " + platCombo->currentText () + "<br>";
+  fraStrList += "<h5>forma płatności: " + platCombo->currentText () + "<br>";
   fraStrList +=
-    "termin p�atno�ci: " + liabDate->date ().toString ("yyyy-MM-dd") + "<br>";
+    "termin płatności: " + liabDate->date ().toString ("yyyy-MM-dd") + "<br>";
   
   QString paym1 = settings.value("elinux/faktury/paym1").toString();
   
   if ( paym1.left(3) == platCombo->currentText().left(3) )
-  fraStrList += "<b>Zap�acono got�wk�</b> <br>";
+  fraStrList += "<b>Zapłacono gotówką</b> <br>";
   
   fraStrList += "</h5>";
   fraStrList += "<h4>" + additEdit->text () + "</h4>";
@@ -718,8 +718,8 @@ void Faktura::makeInvoiceSummAll ()
     "<td colspan=\"4\"><hr width=\"100%\" noshade=\"noshade\" color=\"black\" /></td>";
   fraStrList += "</tr>";
   fraStrList += "<tr>";
-  fraStrList += "<td colspan=\"4\"><h5>Og��em stawkami:</h5>";
-  fraStrList += "</td>";	// Og��em stawkami:
+  fraStrList += "<td colspan=\"4\"><h5>Ogółem stawkami:</h5>";
+  fraStrList += "</td>";	// Ogółem stawkami:
   fraStrList += "</tr>";
   fraStrList += getStawkami();
   
@@ -803,12 +803,12 @@ void Faktura::makeInvoiceFooter ()
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td witdh=\"48%\" align=\"center\"> ";
   fraStrList +=
-    "Imi� i nazwisko osoby upowa�nionej do wystawienia faktury VAT";
+    "Imię i nazwisko osoby upoważnionej do wystawienia faktury VAT";
   fraStrList += "</td>";
   fraStrList += "<td witdh=\"60\">&nbsp;</td>";
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td witdh=\"48%\" align=\"center\"> ";
-  fraStrList += "Imi� i nazwisko osoby upowa�nionej do odbioru faktury VAT";
+  fraStrList += "Imię i nazwisko osoby upoważnionej do odbioru faktury VAT";
   fraStrList += "</td>";
   fraStrList += "</tr>";
   fraStrList += "</table>";
@@ -832,7 +832,7 @@ void Faktura::makeInvoice ()
 
   if (tableTow->rowCount () == 0)
     {
-      QMessageBox::information (this, "QFaktury", "Nie ma towar�w",
+      QMessageBox::information (this, "QFaktury", "Nie ma towarów",
 				QMessageBox::Ok);
       return;
     }
@@ -871,7 +871,7 @@ void Faktura::saveInvoice ()
 
   if (tableTow->rowCount () == 0)
     {
-      QMessageBox::information (this, "QFaktury", "Nie ma towar�w",
+      QMessageBox::information (this, "QFaktury", "Nie ma towarów",
 				QMessageBox::Ok);
       return;
     }
