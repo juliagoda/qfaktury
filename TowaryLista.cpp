@@ -4,6 +4,7 @@
 #include <qmessagebox.h>
 #include <QTextCodec>
 #include <QTextStream>
+#include "Settings.h"
 
 #include "Rounding.h"
 
@@ -138,14 +139,14 @@ void TowaryLista::doAccept ()
 {
   if (countEdit->text () == "")
     {
-      QMessageBox::information (this, "QFaktury", "Podaj ilo∂Ê",
+      QMessageBox::information (this, "QFaktury", "Podaj ilo≈õƒá",
 				QMessageBox::Ok);
       return;
     }
 
   if (selectedItem != "")
     {
-// |Index|Nazwa|Kod|Ilo∂Ê|Jm|cena jednostkowa|Kwota netto|vat|kwota brutto|
+// |Index|Nazwa|Kod|Ilo≈õƒá|Jm|cena jednostkowa|Kwota netto|vat|kwota brutto|
       if (comboBox1->currentIndex () == 0)
 	{
 	  /*
@@ -177,7 +178,7 @@ void TowaryLista::doAccept ()
     }
   else
     {
-      QMessageBox::information (this, "QFaktury", "Wskaø towar",
+      QMessageBox::information (this, "QFaktury", UTF8("Wska≈º towar"),
 				QMessageBox::Ok);
     }
 }
@@ -206,7 +207,7 @@ void TowaryLista::fillLv (int x)
   switch (x)
     {
     case 0:
-      for (int i = 0; i < listaTowary.count (); ++i)
+      for (int i = 1; i < listaTowary.count (); i+=2)
 	{
         listWidget->addItem(listaTowary[i]);
 //	  if (next)
@@ -223,7 +224,7 @@ void TowaryLista::fillLv (int x)
 	}
       break;
     case 1:
-      for (int i = 0; i < listaUslugi.count (); ++i)
+      for (int i = 1; i < listaUslugi.count (); i+=2)
 	{
         listWidget->addItem(listaUslugi[i]);
 //	  if (next)
@@ -340,3 +341,4 @@ TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
     setupUi(this);
     init();
 }
+

@@ -30,7 +30,6 @@
 #include "Kontrahenci.h"
 
 
-#define UTF8(x) QString::fromUtf8(x)
 QString pdGlob;
 
 void MainWindow::init ()
