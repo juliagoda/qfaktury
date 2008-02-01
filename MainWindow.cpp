@@ -13,7 +13,7 @@
 #include <qtextcodec.h>
 #include <qdir.h>
 #include <qmessagebox.h>
-#include <qsettings.h>
+#include "Settings.h"
 #include <qapplication.h>
 #include <qevent.h>
 #include <qprocess.h>
@@ -83,8 +83,8 @@ void MainWindow::init ()
 
 bool MainWindow::firstRun ()
 {
-  QSettings settings;
-  return settings.value("elinux/faktury/firstrun").toBool();
+  Settings settings;
+  return !settings.value("elinux/faktury/nofirstrun").toBool();
 }
 
 void MainWindow::tableClear (QTableWidget * tab)
@@ -211,7 +211,7 @@ void MainWindow::editFHist ()
 {
   qDebug( __FUNCTION__ );
   
-  QSettings settings;
+  Settings settings;
   
   int row;
   QList<QTableWidgetItem *> selected = tableH->selectedItems();
@@ -333,7 +333,7 @@ void MainWindow::readKontr (QString progDir)
       for (QDomNode n = urzad.firstChild (); !n.isNull ();
 	   n = n.nextSibling ())
 	{
-	  tableK->insertRow (tableK->rowCount ());
+	  insertRow(tableK,tableK->rowCount ());
 	  text = n.toElement ().attribute ("name");
 	  tableK->item (tableK->rowCount () - 1, 0)->setText(text);
 	  text = "urzad";
@@ -382,7 +382,7 @@ void MainWindow::readTw (QString progDir)
 	   n = n.nextSibling ())
 	{
 
-	  tableT->insertRow (tableT->rowCount ());
+	  insertRow(tableT,tableT->rowCount ());
 	  text = n.toElement ().attribute ("idx");
 	  tableT->item (tableT->rowCount () - 1, 0)->setText(text);
 	  // text = "towar";
@@ -494,7 +494,7 @@ void MainWindow::kontrClick() {
       tmp.mkdir (progDir);
 
       // readKontr (progDir);
-      tableK->insertRow (tableK->rowCount ());
+      insertRow(tableK,tableK->rowCount ());
       QStringList row = kontrWindow->ret.split("|");
       tableK->item (tableK->rowCount () - 1, 0)->setText(row[0]);	// name
       tableK->item (tableK->rowCount () - 1, 1)->setText(row[1]);	// type
@@ -620,7 +620,7 @@ void MainWindow::newFra ()
   fraWindow->pforma = false;
   if (fraWindow->exec () == QDialog::Accepted)
     {
-      tableH->insertRow (tableH->rowCount ());
+      insertRow(tableH, tableH->rowCount ());
       QStringList row = fraWindow->ret.split("|");
       tableH->item (tableH->rowCount () - 1, 0)->setText(row[0]);	// file name
       tableH->item (tableH->rowCount () - 1, 1)->setText(row[1]);	// symbol
@@ -642,7 +642,7 @@ void MainWindow::newPForm ()
   fraWindow->backBtnClick();
   if (fraWindow->exec () == QDialog::Accepted)
     {
-      tableH->insertRow (tableH->rowCount ());
+      insertRow(tableH,tableH->rowCount ());
       QStringList row = fraWindow->ret.split("|");
       tableH->item (tableH->rowCount () - 1, 0)->setText(row[0]);	// file name
       tableH->item (tableH->rowCount () - 1, 1)->setText(row[1]);	// symbol
@@ -669,7 +669,7 @@ void MainWindow::newKor ()
 	korWindow->readDataNewKor (tableH->item(row, 0)->text());
 	if (korWindow->exec () == QDialog::Accepted)
 	{
-	    tableH->insertRow (tableH->rowCount ());
+	    insertRow(tableH,tableH->rowCount ());
 	    QStringList row = korWindow->ret.split("|");
 	    tableH->item (tableH->rowCount () - 1, 0)->setText(row[0]);	// file name
 	    tableH->item (tableH->rowCount () - 1, 1)->setText(row[1]);	// symbol
@@ -735,7 +735,7 @@ void MainWindow::towaryDodaj ()
          tmp.mkdir (progDir, TRUE);
          readTw (progDir);
        */
-      tableT->insertRow (tableT->rowCount ());
+      insertRow(tableT,tableT->rowCount ());
       QStringList row = towWindow->ret.split("|");
       tableT->item (tableT->rowCount () - 1, 0)->setText(row[0]);
       tableT->item (tableT->rowCount () - 1, 1)->setText(row[1]);
@@ -876,9 +876,9 @@ void MainWindow::towaryEdycja ()
 
 void MainWindow::saveAllSett()
 {
-  QSettings settings;
+  Settings settings;
   settings.beginGroup ("elinux/faktury");
-  settings.setValue ("firstrun", false);
+  settings.setValue ("nofirstrun", true);
   settings.setValue ("logo", "");  
   settings.setValue ("jednostki",   "szt.|kg.|g.|m|km.|godz." );
   settings.setValue ("stawki",   "22|7|0|zw." );

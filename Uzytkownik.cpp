@@ -10,7 +10,7 @@
 ** destructor.
 *****************************************************************************/
 #include "Uzytkownik.moc"
-#include <qsettings.h>
+#include "Settings.h"
 #include <qtextcodec.h>
 
 
@@ -21,7 +21,7 @@ void Uzytkownik::init ()
 {
   QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("ISO8859-2"));
 
-  QSettings settings;
+  Settings settings;
   nameEdit->setText (settings.value ("przelewy/user/nazwa").toString());
   placeEdit->setText (settings.value ("przelewy/user/miejscowosc").toString());
   codeEdit->setText (settings.value ("przelewy/user/kod").toString());
@@ -39,7 +39,7 @@ void Uzytkownik::init ()
   !*/
 void Uzytkownik::okClick ()
 {
-  QSettings settings;
+  Settings settings;
   settings.beginGroup ("przelewy");
   settings.setValue ("user/nazwa", nameEdit->text ());	// zapis String
   settings.setValue ("user/miejscowosc", placeEdit->text ());

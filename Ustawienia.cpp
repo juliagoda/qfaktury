@@ -11,7 +11,7 @@
 *****************************************************************************/
 #include "Ustawienia.moc"
 #include <qtextcodec.h>
-#include <qsettings.h>
+#include "Settings.h"
 #include <qfiledialog.h>
 
 
@@ -66,7 +66,7 @@ QString Ustawienia::getAll(QListWidget *lb)
 
 void Ustawienia::saveSettings ()
 {
-  QSettings settings;
+  Settings settings;
   settings.beginGroup ("elinux/faktury");
   settings.setValue("firstrun", "nie");
   settings.setValue ("logo", logoEdit->text());  
@@ -125,7 +125,7 @@ void Ustawienia::saveSettings ()
 
 void Ustawienia::readSettings ()
 {
-  QSettings settings;
+  Settings settings;
   
   //  settings.writeEntry ("firstrun", "nie");
   logoEdit->setText( settings.value("elinux/faktury/logo").toString() );

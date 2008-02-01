@@ -15,7 +15,7 @@
 #include <qdir.h>
 #include <qprocess.h>
 #include <qapplication.h>
-#include <qsettings.h>
+#include "Settings.h"
 #include <Qt/qdom.h>
 #include <qmessagebox.h>
 #include <qtextcodec.h>
@@ -68,7 +68,7 @@ void Korekta::init ()
   templDir = templDir + "/templates/";
 
 //  QString tmp;
-  QSettings settings;
+  Settings settings;
 /*
    tmp = settings.value ("elinux/faktury/korNr");
 
@@ -219,7 +219,7 @@ towaryOld = tmp.toElement ();
     setDate (QDate::
 	     fromString (additional.attribute ("liabDate"), Qt::ISODate));
   citem = additional.attribute ("waluta").toInt ();
-  QSettings settings;
+  Settings settings;
   // currCombo->setCurrentItem (additional.attribute ("waluta").toInt ());
   QStringList waluty = settings.value("elinux/faktury/waluty").toString().split("|"); 
   currency = waluty[additional.attribute ("waluta").toInt ()];
@@ -377,7 +377,7 @@ void Korekta::readDataNewKor (QString fraFile)
 	     fromString (additional.attribute ("liabDate"), Qt::ISODate));
   */
   citem = additional.attribute ("waluta").toInt ();
-  QSettings settings;
+  Settings settings;
   // currCombo->setCurrentItem (additional.attribute ("waluta").toInt ());
   QStringList waluty = settings.value("elinux/faktury/waluty").toString().split("|"); 
   currency = waluty[additional.attribute ("waluta").toInt ()];
@@ -625,7 +625,7 @@ void Korekta::makeInvoiceHeadar ()
     "<td colspan=\"2\" width=\"60%\" align=\"left\" valign=\"center\" class=\"podpisy\">";
   // logo code
   // eof logo
-  QSettings settings;
+  Settings settings;
   QString logo = settings.value ("elinux/faktury/logo").toString();
   if ( logo != "" ) {
       fraStrList += "<img src=\"" + logo + "\"  width=\"200\" height=\"100\">";      
@@ -666,7 +666,7 @@ void Korekta::makeInvoiceBody ()
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td width=\"48%\"> ";
   fraStrList += "<h4>Sprzedawca:</h4>";
-  QSettings settings;
+  Settings settings;
   fraStrList += "<h5>" + settings.value ("przelewy/user/nazwa").toString() + "<br>";
   fraStrList +=
     settings.value ("przelewy/user/kod").toString() + " " +
@@ -721,7 +721,7 @@ void Korekta::makeInvoiceGoods2 ()
   fraStrList += "<table width=\"100%\" border=\"1\" class=\"goods\">";
   fraStrList += "<tr class=\"towaryN\">";
   
-//  QSettings settings;
+//  Settings settings;
 // if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
   fraStrList += "<td width=\"20\"  align=\"center\">Lp.</td>";
 // if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
@@ -817,7 +817,7 @@ void Korekta::makeInvoiceSumm2 ()
   fraStrList += "<table width=\"100%\" border=\"0\">";
   fraStrList += "<tr class=\"stawki\">";
 
-//  QSettings settings;
+//  Settings settings;
 // if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
   fraStrList += "<td width=\"20\"  align=\"center\">&nbsp;</td>";
 //if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
@@ -868,7 +868,7 @@ void Korekta::makeInvoiceGoods ()
   fraStrList += "<table width=\"100%\" border=\"1\" class=\"goods\">";
   fraStrList += "<tr class=\"towaryN\">";
   
-//  QSettings settings;
+//  Settings settings;
 // if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
   fraStrList += "<td width=\"20\"  align=\"center\">Lp.</td>";
 // if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
@@ -961,7 +961,7 @@ void Korekta::makeInvoiceSumm ()
   fraStrList += "<table width=\"100%\" border=\"0\">";
   fraStrList += "<tr class=\"stawki\">";
 
-//  QSettings settings;
+//  Settings settings;
 // if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
   fraStrList += "<td width=\"20\"  align=\"center\">&nbsp;</td>";
 //if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
@@ -1007,7 +1007,7 @@ if ( settings.value("elinux/faktury_pozycje/bruttoval")  .toBool())
 void Korekta::makeInvoiceSummAll ()
 {
     
-  QSettings settings;
+  Settings settings;
     
   fraStrList += "<tr comment=\"podsumowanie\"><td>";
   fraStrList += "<table width=\"100%\" border=\"0\">";
@@ -1065,7 +1065,7 @@ void Korekta::makeInvoiceSummAll ()
 QString Korekta::getStawkami()
 {
     QStringList out;
-    QSettings settings;
+    Settings settings;
     QStringList stawki = 
       settings.value("elinux/faktury/stawki").toString().split("|"); 
     QMap<int, double> stawkiNetto; 
@@ -1254,7 +1254,7 @@ void Korekta::saveInvoice ()
   root.setAttribute ("data.sprzed",
 		     sellingDate->date ().toString ("yyyy-MM-dd"));
 
-  QSettings settings1;
+  Settings settings1;
   settings1.beginGroup ("elinux");
 
   /*
@@ -1281,7 +1281,7 @@ void Korekta::saveInvoice ()
 
   QDomElement sprzedawca;
   sprzedawca = doc.createElement ("sprzedawca");
-  QSettings settings;
+  Settings settings;
   sprzedawca.setAttribute ("nazwa",
 			   settings.value ("przelewy/user/nazwa").toString());
   sprzedawca.setAttribute ("kod", settings.value ("przelewy/user/kod").toString());
@@ -1419,7 +1419,7 @@ QString Korekta::numbersCount(int in, int x)
 void Korekta::backBtnClick()
 {
   QString tmp;
-  QSettings settings;
+  Settings settings;
 
   QString prefix;
 //  int numbers;
@@ -1455,7 +1455,7 @@ void Korekta::backBtnClick()
 void Korekta::backBtnClick()
 {
   QString tmp;
-  QSettings settings;
+  Settings settings;
 
   if (windowTitle ().right (3) == "VAT")
     {

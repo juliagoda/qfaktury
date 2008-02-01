@@ -14,7 +14,7 @@
 #include <qdir.h>
 #include <Qt/qdom.h>
 #include <qprocess.h>
-#include <qsettings.h>
+#include "Settings.h"
 #include <qmessagebox.h>
 #include <QtDebug>
 
@@ -203,7 +203,7 @@ void Towary::init ()
   idxEdit->setText (QString::number (lastId));
   // cbVat->setCurrentText ("22");
   
-  QSettings settings;
+  Settings settings;
   
   //  settings.writeEntry ("firstrun", "nie");
   // logoEdit->setText( settings.readEntry("elinux/faktury/logo") );
