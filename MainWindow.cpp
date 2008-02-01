@@ -156,10 +156,11 @@ void MainWindow::readHist (QString progDir)
   allFiles.setNameFilters (filters);
   QStringList pliczki = allFiles.entryList ();
   int i, max = pliczki.count ();
+  setColumnCount(tableH,6);
   for (i = 0; i < max; ++i)
     {
       // qDebug(pliczki[i]);
-      tableH->insertRow(tableH->rowCount ());
+      insertRow(tableH,tableH->rowCount ());
       text = pliczki[i];
       tableH->item(tableH->rowCount () - 1, 0)->setText(text);
 
@@ -218,7 +219,7 @@ void MainWindow::editFHist ()
   
   QSettings settings;
   
-  int row, max = tableH->rowCount ();
+  int row;
   QList<QTableWidgetItem *> selected = tableH->selectedItems();
   row = selected[0]->row();
 
@@ -319,10 +320,11 @@ void MainWindow::readKontr (QString progDir)
 	}
       QString text;
 
+      setColumnCount(tableK,5);
       for (QDomNode n = firma.firstChild (); !n.isNull ();
 	   n = n.nextSibling ())
 	{
-	  tableK->insertRow(tableK->rowCount ());
+      insertRow(tableK,tableK->rowCount());
 	  text = n.toElement ().attribute ("name");
 	  tableK->item (tableK->rowCount () - 1, 0)->setText(text);
 	  text = "firma";
@@ -415,11 +417,11 @@ void MainWindow::readTw (QString progDir)
 	  tableT->item (tableT->rowCount () - 1, 11)->setText(text);
 	}
 
+      setColumnCount(tableT,12);
       for (QDomNode n = uslugi.firstChild (); !n.isNull ();
 	   n = n.nextSibling ())
 	{
-
-	  tableT->insertRow (tableT->rowCount ());
+	  insertRow(tableT, tableT->rowCount ());
 	  text = n.toElement ().attribute ("idx");
 	  tableT->item (tableT->rowCount () - 1, 0)->setText(text);
 	  // text = "towar";
@@ -932,5 +934,19 @@ void MainWindow::prevPage()
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     setupUi(this);
     init();
+}
+
+void MainWindow::insertRow(QTableWidget *t,int row) {
+	  t->insertRow(row);
+      for(int i=0;i<t->columnCount();i++) {
+          t->setItem(row,i,new QTableWidgetItem());
+      }
+}
+
+void MainWindow::setColumnCount(QTableWidget *t,int columns) {
+    return;
+//    for(int i=0;i<columns;i++) {
+ //       t->insertColumn(0);
+ //   }
 }
 
