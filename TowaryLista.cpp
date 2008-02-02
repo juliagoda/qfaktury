@@ -5,6 +5,7 @@
 #include <QTextCodec>
 #include <QTextStream>
 #include "Settings.h"
+#include <QDebug>
 
 #include "Rounding.h"
 
@@ -244,11 +245,14 @@ void TowaryLista::fillLv (int x)
     }
 }
 
-void TowaryLista::lv1selChanged (QListWidgetItem * item)
+void TowaryLista::lv1selChanged ()
 {
-  if (item->isSelected ())
+  QList<QListWidgetItem *> items = listWidget->selectedItems();
+  if (items.size() == 1)
     {
-        //X
+      QListWidgetItem *item=items[0];
+	  qDebug()<<"lv1selChanged "<<item->text();
+      
       readNettos (item->text());
       id = item->text ();
       selectedItem = item->text ();
@@ -339,6 +343,7 @@ void TowaryLista::spinChanged (int a)
 }
 TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
     setupUi(this);
+    connect(listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(lv1selChanged()));
     init();
 }
 

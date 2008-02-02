@@ -13,7 +13,7 @@ void doAccept ();
 void comboBox1Changed (int x);
 void calcNetto ();
 void fillLv (int x);
-void lv1selChanged (QListWidgetItem * item);
+void lv1selChanged();
 void readNettos (QString index);
 void spinChanged (int a);
     public:
