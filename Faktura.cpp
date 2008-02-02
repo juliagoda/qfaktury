@@ -465,7 +465,7 @@ void Faktura::makeInvoiceHeadar ()
 //  fraStrList += "--></style>";
   fraStrList += "<body>";
   fraStrList +=
-    "<table width=\"700\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
+    "<table width=\"600\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
   //  class=\"page_break\" ------>>>> think about this
   fraStrList += "<tr comment=\"headar\"><td>";
   fraStrList +=
@@ -553,7 +553,7 @@ void Faktura::makeInvoiceGoods ()
 {
   fraStrList += "<tr comment=\"goods\" align=\"center\"><td>";
   fraStrList += "<br><br>";
-  fraStrList += "<table width=\"100%\" border=\"1\" class=\"goods\">";
+  fraStrList += "<table width=\"100%\" class=\"goods\">";
   fraStrList += "<tr class=\"towaryN\">";
   
   Settings settings;
@@ -562,29 +562,29 @@ void Faktura::makeInvoiceGoods ()
 if ( settings.value("elinux/faktury_pozycje/Nazwa").toBool()  )
  fraStrList += "<td width=\"120\" align=\"center\">Nazwa</td>";
 if ( settings.value("elinux/faktury_pozycje/Kod").toBool()  )
-  fraStrList += "<td width=\"60\" align=\"center\">Kod</td>";
+  fraStrList += "<td width=\"50\" align=\"center\">Kod</td>";
 if ( settings.value("elinux/faktury_pozycje/pkwiu").toBool() )
-  fraStrList += "<td width=\"60\" align=\"center\">PKWiU</td>";
+  fraStrList += "<td width=\"50\" align=\"center\">PKWiU</td>";
 if ( settings.value("elinux/faktury_pozycje/ilosc").toBool()  )
-  fraStrList += UTF8("<td width=\"60\" align=\"center\">Ilość</td>");
+  fraStrList += UTF8("<td width=\"50\" align=\"center\">Ilość</td>");
 if ( settings.value("elinux/faktury_pozycje/jm").toBool()  )
   fraStrList += "<td width=\"20\" align=\"center\">Jm.</td>";
 if ( settings.value("elinux/faktury_pozycje/cenajedn").toBool()  )
-  fraStrList += "<td width=\"60\" align=\"center\">Cena jdn.</td>";
+  fraStrList += "<td width=\"50\" align=\"center\">Cena jdn.</td>";
 if ( settings.value("elinux/faktury_pozycje/wartnetto").toBool()  )
-  fraStrList += UTF8("<td width=\"60\" align=\"center\">Wartość Netto</td>");
+  fraStrList += UTF8("<td width=\"50\" align=\"center\">Wartość Netto</td>");
 if ( settings.value("elinux/faktury_pozycje/rabatperc").toBool()  )
   fraStrList += "<td width=\"20\" align=\"center\">Rabat %</td>";
 if ( settings.value("elinux/faktury_pozycje/rabatval").toBool()  )
   fraStrList += UTF8("<td width=\"20\" align=\"center\">Rabat Wartość</td>");
 if ( settings.value("elinux/faktury_pozycje/nettoafter").toBool()  )
-  fraStrList += "<td width=\"60\" align=\"center\">Netto po rabacie</td>";
+  fraStrList += "<td width=\"50\" align=\"center\">Netto po rabacie</td>";
 if ( settings.value("elinux/faktury_pozycje/vatval").toBool()  )
-  fraStrList += "<td width=\"60\" align=\"center\">Stawka VAT</td>";
+  fraStrList += "<td width=\"50\" align=\"center\">Stawka VAT</td>";
 if ( settings.value("elinux/faktury_pozycje/vatprice").toBool()  )
-  fraStrList += "<td width=\"60\" align=\"center\">Kwota Vat</td>";
+  fraStrList += "<td width=\"50\" align=\"center\">Kwota Vat</td>";
 if ( settings.value("elinux/faktury_pozycje/bruttoval").toBool()  )
-  fraStrList += UTF8("<td width=\"60\" align=\"center\">Wartość Brutto</td>");
+  fraStrList += UTF8("<td width=\"50\" align=\"center\">Wartość Brutto</td>");
   fraStrList += "</tr>";
 
   for (int i = 0; i < tableTow->rowCount (); ++i)
