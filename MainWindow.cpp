@@ -688,14 +688,14 @@ void MainWindow::newKor ()
     }
 }
 
-void MainWindow::closeEvent (QCloseEvent * e)
+bool MainWindow::close()
 {
-  if (QMessageBox::
-      warning (this, "QFaktury",
-	       UTF8("Czy chcesz wyjść z programu?"), "Tak", "Nie", 0, 0, 1) == 0)
-    {
-      e->accept ();
-    }
+  if (QMessageBox::question(this, UTF8("Potwierdź"),
+	       UTF8("Czy chcesz wyjść z programu?"), QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+    return QMainWindow::close();
+  } else {
+      return false;
+  }
 }
 
 void MainWindow::pomoc ()

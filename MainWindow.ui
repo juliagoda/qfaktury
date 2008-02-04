@@ -20,7 +20,7 @@
     <item row="0" column="0" >
      <widget class="QTabWidget" name="tabWidget2" >
       <property name="currentIndex" >
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab1" >
        <attribute name="title" >
@@ -30,7 +30,10 @@
         <item row="0" column="0" >
          <widget class="QTableWidget" name="tableH" >
           <property name="selectionMode" >
-           <enum>QAbstractItemView::ExtendedSelection</enum>
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior" >
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="numRows" stdset="0" >
            <number>0</number>
@@ -86,7 +89,10 @@
         <item row="0" column="0" >
          <widget class="QTableWidget" name="tableK" >
           <property name="selectionMode" >
-           <enum>QAbstractItemView::ExtendedSelection</enum>
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior" >
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="numRows" stdset="0" >
            <number>0</number>
@@ -137,7 +143,10 @@
         <item row="0" column="0" >
          <widget class="QTableWidget" name="tableT" >
           <property name="selectionMode" >
-           <enum>QAbstractItemView::ExtendedSelection</enum>
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior" >
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="numRows" stdset="0" >
            <number>0</number>
@@ -225,7 +234,7 @@
      <x>0</x>
      <y>0</y>
      <width>711</width>
-     <height>25</height>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >

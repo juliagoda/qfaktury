@@ -140,7 +140,7 @@ void TowaryLista::doAccept ()
 {
   if (countEdit->text () == "")
     {
-      QMessageBox::information (this, "QFaktury", "Podaj ilość",
+      QMessageBox::information (this, "QFaktury", UTF8("Podaj ilość"),
 				QMessageBox::Ok);
       return;
     }

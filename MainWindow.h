@@ -27,7 +27,7 @@ void kontrEd ();
 void newFra ();
 void newPForm ();
 void newKor ();
-void closeEvent (QCloseEvent * e);
+bool close();
 void pomoc ();
 void towaryDodaj ();
 void towaryUsun ();
