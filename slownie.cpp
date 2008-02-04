@@ -1,4 +1,5 @@
 #include "slownie.h"
+#include "Settings.h"
 
 //     slownieLbl->setText ( slownie(kwotaEdit->text ()) );
 
@@ -7,7 +8,7 @@ QString slownie(QString input, QString waluta)
     qDebug( __FUNCTION__  );
     QString in = input;
     
-    QString tmp = in.remove (in.indexOf(","), 3);
+    QString tmp = in.remove (in.indexOf(UTF8(",")), 3);
     
     QString setki = tmp.right (3);
     QString tysiace;
@@ -23,7 +24,7 @@ QString slownie(QString input, QString waluta)
 	tysiace = tmp.left (3);
 	break;
     default:
-	tysiace = "";
+	tysiace = UTF8("");
 	break;
     }
     
@@ -31,87 +32,87 @@ QString slownie(QString input, QString waluta)
     
     QStringList jedynki;
     
-    jedynki << "jeden" << "dwa"  << "trzy" << "cztery" <<
-	    "piêæ" << "sze¶æ" << "siedem" << "osiem" <<
-	    "dziewiêæ";
+    jedynki << UTF8("jeden") << UTF8("dwa")  << UTF8("trzy") << UTF8("cztery") <<
+	    UTF8("piÄ™Ä‡") << UTF8("szeÅ›Ä‡") << UTF8("siedem") << UTF8("osiem") <<
+	    UTF8("dziewiÄ™Ä‡");
     
 /*
-    jedynki << "jeden z³otych" << "dwa z³ote"  << "trzy z³ote" << "cztery z³ote" <<
-	    "piêæ z³otych" << "sze¶æ z³otych" << "siedem z³otych" << "osiem z³otych" <<
-	    "dziewiêæ z³otych";
+    jedynki << UTF8("jeden zÅ‚otych") << UTF8("dwa zÅ‚ote")  << UTF8("trzy zÅ‚ote") << UTF8("cztery zÅ‚ote") <<
+	    UTF8("piÄ™Ä‡ zÅ‚otych") << UTF8("szeÅ›Ä‡ zÅ‚otych") << UTF8("siedem zÅ‚otych") << UTF8("osiem zÅ‚otych") <<
+	    UTF8("dziewiÄ™Ä‡ zÅ‚otych");
     */
     
     QStringList jedynki1;
-    jedynki1 << "jeden" << "dwa"  << "trzy" << "cztery" <<
-	    "piêæ" << "sze¶æ" << "siedem" << "osiem" <<
-	    "dziewiêæ";
+    jedynki1 << UTF8("jeden") << UTF8("dwa")  << UTF8("trzy") << UTF8("cztery") <<
+	    UTF8("piÄ™Ä‡") << UTF8("szeÅ›Ä‡") << UTF8("siedem") << UTF8("osiem") <<
+	    UTF8("dziewiÄ™Ä‡");
     
     
     QStringList nascie;
-    nascie << "jedena¶cie" << "dwana¶cie" << "trzyna¶cie" <<
-	    "czterna¶cie" << "piêtna¶cie" << "szesna¶cie" <<
-	    "siedemna¶cie" << "osiemna¶cie" << "dziewiêtna¶cie" <<
-	    "dziesiêæ";
+    nascie << UTF8("jedenaÅ›cie") << UTF8("dwanaÅ›cie") << UTF8("trzynaÅ›cie") <<
+	    UTF8("czternaÅ›cie") << UTF8("piÄ™tnaÅ›cie") << UTF8("szesnaÅ›cie") <<
+	    UTF8("siedemnaÅ›cie") << UTF8("osiemnaÅ›cie") << UTF8("dziewiÄ™tnaÅ›cie") <<
+	    UTF8("dziesiÄ™Ä‡");
     /*
-    nascie << "jedena¶cie z³otych" << "dwana¶cie z³otych" << "trzyna¶cie z³otych" <<
-	    "czterna¶cie z³otych" << "piêtna¶cie z³otych" << "szesna¶cie z³otych" <<
-	    "siedemna¶cie z³otych" << "osiemna¶cie z³otych" << "dziewiêtna¶cie z³otych" <<
-	    "dziesiêæ z³otych";
+    nascie << UTF8("jedenaÅ›cie zÅ‚otych") << UTF8("dwanaÅ›cie zÅ‚otych") << UTF8("trzynaÅ›cie zÅ‚otych") <<
+	    UTF8("czternaÅ›cie zÅ‚otych") << UTF8("piÄ™tnaÅ›cie zÅ‚otych") << UTF8("szesnaÅ›cie zÅ‚otych") <<
+	    UTF8("siedemnaÅ›cie zÅ‚otych") << UTF8("osiemnaÅ›cie zÅ‚otych") << UTF8("dziewiÄ™tnaÅ›cie zÅ‚otych") <<
+	    UTF8("dziesiÄ™Ä‡ zÅ‚otych");
       
       */
     
     QStringList nascie1;
-    nascie1<< "jedena¶cie" << "dwana¶cie" << "trzyna¶cie" <<
-	    "czterna¶cie" << "piêtna¶cie" << "szesna¶cie" <<
-	    "siedemna¶cie" << "osiemna¶cie" << "dziewiêtna¶cie" <<
-	    "dziesiêæ";
+    nascie1<< UTF8("jedenaÅ›cie") << UTF8("dwanaÅ›cie") << UTF8("trzynaÅ›cie") <<
+	    UTF8("czternaÅ›cie") << UTF8("piÄ™tnaÅ›cie") << UTF8("szesnaÅ›cie") <<
+	    UTF8("siedemnaÅ›cie") << UTF8("osiemnaÅ›cie") << UTF8("dziewiÄ™tnaÅ›cie") <<
+	    UTF8("dziesiÄ™Ä‡");
     
     
     QStringList escia;
-    escia << "dwadziescia" << "trzydziesci" << "czterdzie¶ci" <<
-	    "piêdziesi±t" << "sze¶dziesi±t" << "siedemdziesi±t" <<
-	    "osiemdziesi±t" << "dziewiêædziesi±t";
+    escia << UTF8("dwadziescia") << UTF8("trzydziesci") << UTF8("czterdzieÅ›ci") <<
+	    UTF8("piÄ™dziesiÄ…t") << UTF8("szeÅ›dziesiÄ…t") << UTF8("siedemdziesiÄ…t") <<
+	    UTF8("osiemdziesiÄ…t") << UTF8("dziewiÄ™Ä‡dziesiÄ…t");
     
     QStringList sta;
-    sta << "sto" << "dwie¶cie" << "trzysta" << "czterysta"
-	    << "piêæset" << "sze¶æset" << "siedemset" <<
-	    "osiemset" << "dziewiêæset";
+    sta << UTF8("sto") << UTF8("dwieÅ›cie") << UTF8("trzysta") << UTF8("czterysta")
+	    << UTF8("piÄ™Ä‡set") << UTF8("szeÅ›Ä‡set") << UTF8("siedemset") <<
+	    UTF8("osiemset") << UTF8("dziewiÄ™Ä‡set");
     
     
     // ******************************************************************
-    while (tysiace.length () < 3) tysiace = "0" + tysiace;
+    while (tysiace.length () < 3) tysiace = UTF8("0") + tysiace;
     
     switch (tysiace.left (1).toInt ())
     {
     case 1:
-	out += " " + sta[0];
+	out += UTF8(" ") + sta[0];
 	break;
     case 2:
-	out += " " + sta[1];
+	out += UTF8(" ") + sta[1];
 	break;
     case 3:
-	out += " " + sta[2];
+	out += UTF8(" ") + sta[2];
 	break;
     case 4:
-	out += " " + sta[3];
+	out += UTF8(" ") + sta[3];
 	break;
     case 5:
-	out += " " + sta[4];
+	out += UTF8(" ") + sta[4];
 	break;
     case 6:
-	out += " " + sta[5];
+	out += UTF8(" ") + sta[5];
 	break;
     case 7:
-	out += " " + sta[6];
+	out += UTF8(" ") + sta[6];
 	break;
     case 8:
-	out += " " + sta[7];
+	out += UTF8(" ") + sta[7];
 	break;
     case 9:
-	out += " " + sta[8];
+	out += UTF8(" ") + sta[8];
 	break;
     case 0:
-	out += "";
+	out += UTF8("");
 	break;
     }
     
@@ -120,34 +121,34 @@ QString slownie(QString input, QString waluta)
 	switch (tysiace.right(1).toInt ())
 	{
 	case 1: 
-	    out += " "  + nascie1[0];
+	    out += UTF8(" ")  + nascie1[0];
 	    break;
 	case 2:
-	    out += " " + nascie1[1];
+	    out += UTF8(" ") + nascie1[1];
 	    break;
 	case 3:
-	    out += " " + nascie1[2];
+	    out += UTF8(" ") + nascie1[2];
 	    break;
 	case 4:
-	    out += " " + nascie1[3];
+	    out += UTF8(" ") + nascie1[3];
 	    break;
 	case 5:
-	    out += " " + nascie1[4];
+	    out += UTF8(" ") + nascie1[4];
 	    break;
 	case 6:
-	    out += " " + nascie1[5];
+	    out += UTF8(" ") + nascie1[5];
 	    break;
 	case 7:
-	    out += " " + nascie1[6];
+	    out += UTF8(" ") + nascie1[6];
 	    break;
 	case 8:
-	    out += " " + nascie1[7];
+	    out += UTF8(" ") + nascie1[7];
 	    break;
 	case 9:
-	    out += " " + nascie1[8];
+	    out += UTF8(" ") + nascie1[8];
 	    break;
 	case 0:
-	    out += " " + nascie1[9];
+	    out += UTF8(" ") + nascie1[9];
 	    break;
 	}
     } else {
@@ -156,108 +157,108 @@ QString slownie(QString input, QString waluta)
 	    //    case 1: out += nascie[0];
 	    // break;
 	case 2:
-	    out += " " + escia[0];
+	    out += UTF8(" ") + escia[0];
 	    break;
 	case 3:
-	    out += " " + escia[1];
+	    out += UTF8(" ") + escia[1];
 	    break;
 	case 4:
-	    out += " " + escia[2];
+	    out += UTF8(" ") + escia[2];
 	    break;
 	case 5:
-	    out += " " + escia[3];
+	    out += UTF8(" ") + escia[3];
 	    break;
 	case 6:
-	    out += " " + escia[4];
+	    out += UTF8(" ") + escia[4];
 	    break;
 	case 7:
-	    out += " " + escia[5];
+	    out += UTF8(" ") + escia[5];
 	    break;
 	case 8:
-	    out += " " + escia[6];
+	    out += UTF8(" ") + escia[6];
 	    break;
 	case 9:
-	    out += " " + escia[7];
+	    out += UTF8(" ") + escia[7];
 	    break;
 	case 0:
-	    out += "";
+	    out += UTF8("");
 	    break;
 	}
 	switch (tysiace.right (1).toInt ())
 	{
 	case 1:
-	    out += " " + jedynki1[0];
+	    out += UTF8(" ") + jedynki1[0];
 	    break;
 	case 2:
-	    out += " " + jedynki1[1];
+	    out += UTF8(" ") + jedynki1[1];
 	    break;
 	case 3:
-	    out += " " + jedynki1[2];
+	    out += UTF8(" ") + jedynki1[2];
 	    break;
 	case 4:
-	    out += " " + jedynki1[3];
+	    out += UTF8(" ") + jedynki1[3];
 	    break;
 	case 5:
-	    out += " " + jedynki1[4];
+	    out += UTF8(" ") + jedynki1[4];
 	    break;
 	case 6:
-	    out += " " + jedynki1[5];
+	    out += UTF8(" ") + jedynki1[5];
 	    break;
 	case 7:
-	    out += " " + jedynki1[6];
+	    out += UTF8(" ") + jedynki1[6];
 	    break;
 	case 8:
-	    out += " " + jedynki1[7];
+	    out += UTF8(" ") + jedynki1[7];
 	    break;
 	case 9:
-	    out += " " + jedynki1[8];
+	    out += UTF8(" ") + jedynki1[8];
 	    break;
 	case 0:
-	    out += "";
+	    out += UTF8("");
 	    break;
 	}
     }
     
     
     if (out.length () > 2)
-	out += " tys.";
+	out += UTF8(" tys.");
     
     
     //***************************************************************
     while (setki.length () < 3)
-	setki = "0" + setki;
+	setki = UTF8("0") + setki;
     
     switch (setki.left (1).toInt ())
     {
     case 1:
-	out += " " + sta[0];
+	out += UTF8(" ") + sta[0];
 	break;
     case 2:
-	out += " " + sta[1];
+	out += UTF8(" ") + sta[1];
 	break;
     case 3:
-	out += " " + sta[2];
+	out += UTF8(" ") + sta[2];
 	break;
     case 4:
-	out += " " + sta[3];
+	out += UTF8(" ") + sta[3];
 	break;
     case 5:
-	out += " " + sta[4];
+	out += UTF8(" ") + sta[4];
 	break;
     case 6:
-	out += " " + sta[5];
+	out += UTF8(" ") + sta[5];
 	break;
     case 7:
-	out += " " + sta[6];
+	out += UTF8(" ") + sta[6];
 	break;
     case 8:
-	out += " " + sta[7];
+	out += UTF8(" ") + sta[7];
 	break;
     case 9:
-	out += " " + sta[8];
+	out += UTF8(" ") + sta[8];
 	break;
     case 0:
-	out += "";
+	out += UTF8("");
 	break;
     }
     
@@ -266,31 +267,31 @@ QString slownie(QString input, QString waluta)
 	//    case 1: out += nascie[0];
 	// break;
     case 2:
-	out += " " + escia[0];
+	out += UTF8(" ") + escia[0];
 	break;
     case 3:
-	out += " " + escia[1];
+	out += UTF8(" ") + escia[1];
 	break;
     case 4:
-	out += " " + escia[2];
+	out += UTF8(" ") + escia[2];
 	break;
     case 5:
-	out += " " + escia[3];
+	out += UTF8(" ") + escia[3];
 	break;
     case 6:
-	out += " " + escia[4];
+	out += UTF8(" ") + escia[4];
 	break;
     case 7:
-	out += " " + escia[5];
+	out += UTF8(" ") + escia[5];
 	break;
     case 8:
-	out += " " + escia[6];
+	out += UTF8(" ") + escia[6];
 	break;
     case 9:
-	out += " " + escia[7];
+	out += UTF8(" ") + escia[7];
 	break;
     case 0:
-	out += "";
+	out += UTF8("");
 	break;
     }
     
@@ -300,34 +301,34 @@ QString slownie(QString input, QString waluta)
 	switch (setki.right (1).toInt ())
 	{
 	case 1:
-	    out += " " + nascie[0];
+	    out += UTF8(" ") + nascie[0];
 	    break;
 	case 2:
-	    out += " " + nascie[1];
+	    out += UTF8(" ") + nascie[1];
 	    break;
 	case 3:
-	    out += " " + nascie[2];
+	    out += UTF8(" ") + nascie[2];
 	    break;
 	case 4:
-	    out += " " + nascie[3];
+	    out += UTF8(" ") + nascie[3];
 	    break;
 	case 5:
-	    out += " " + nascie[4];
+	    out += UTF8(" ") + nascie[4];
 	    break;
 	case 6:
-	    out += " " + nascie[5];
+	    out += UTF8(" ") + nascie[5];
 	    break;
 	case 7:
-	    out += " " + nascie[6];
+	    out += UTF8(" ") + nascie[6];
 	    break;
 	case 8:
-	    out += " " + nascie[7];
+	    out += UTF8(" ") + nascie[7];
 	    break;
 	case 9:
-	    out += " " + nascie[8];
+	    out += UTF8(" ") + nascie[8];
 	    break;
 	case 0:
-	    out +=  " "+ nascie[9];
+	    out +=  UTF8(" ")+ nascie[9];
 	    break;
 	}
     }
@@ -336,34 +337,34 @@ QString slownie(QString input, QString waluta)
 	switch (setki.right (1).toInt ())
 	{
 	case 1:
-	    out += " " + jedynki[0];
+	    out += UTF8(" ") + jedynki[0];
 	    break;
 	case 2:
-	    out += " " + jedynki[1];
+	    out += UTF8(" ") + jedynki[1];
 	    break;
 	case 3:
-	    out += " " + jedynki[2];
+	    out += UTF8(" ") + jedynki[2];
 	    break;
 	case 4:
-	    out += " " + jedynki[3];
+	    out += UTF8(" ") + jedynki[3];
 	    break;
 	case 5:
-	    out += " " + jedynki[4];
+	    out += UTF8(" ") + jedynki[4];
 	    break;
 	case 6:
-	    out += " " + jedynki[5];
+	    out += UTF8(" ") + jedynki[5];
 	    break;
 	case 7:
-	    out += " " + jedynki[6];
+	    out += UTF8(" ") + jedynki[6];
 	    break;
 	case 8:
-	    out += " " + jedynki[7];
+	    out += UTF8(" ") + jedynki[7];
 	    break;
 	case 9:
-	    out += " " + jedynki[8];
+	    out += UTF8(" ") + jedynki[8];
 	    break;
 	case 0:
-	    out += " zero"; // waluta; // " z³otych";
+	    out += UTF8(" zero"); // waluta; // UTF8(" zÅ‚otych");
 	    break;
 	}
 	
@@ -371,6 +372,6 @@ QString slownie(QString input, QString waluta)
     
     in = input;
     QString grosze =
-	    in.remove (0, in.indexOf(",") + 1);
-    return out + " " + grosze + "/100 " + waluta;
+	    in.remove (0, in.indexOf(UTF8(",")) + 1);
+    return out + UTF8(" ") + grosze + UTF8("/100 ") + waluta;
 }

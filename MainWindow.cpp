@@ -202,8 +202,8 @@ void MainWindow::aboutQt ()
 
 void MainWindow::oProg ()
 {
-  QMessageBox::about (this, "QFaktury v0.0.1 beta",
-        UTF8("Program do wystawiania faktur. \n Koordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl \n Programista:\n\tTomasz 'moux' Pielech \nGrafika:\n\tDariusz Arciszewski \n\nSupport: info@e-linux.pl"));		  
+  QMessageBox::about (this, "QFaktury v0.5.0 beta",
+        UTF8("Program do wystawiania faktur. \n Koordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl \n Programista:\n\tTomasz 'moux' Pielech \n\tRafał Rusin (rafal.rusin@gmail.com)\nGrafika:\n\tDariusz Arciszewski \n\nSupport: rafal.rusin@gmail.com"));		  
 }
 
 void MainWindow::editFHist ()
