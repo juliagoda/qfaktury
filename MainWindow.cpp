@@ -28,7 +28,10 @@
 #include "Faktura.h"
 #include "Korekta.h"
 #include "Kontrahenci.h"
+#include "config.h"
 
+#define STRING2(x) #x
+#define STRING(x) STRING2(x)
 
 QString pdGlob;
 
@@ -202,8 +205,8 @@ void MainWindow::aboutQt ()
 
 void MainWindow::oProg ()
 {
-  QMessageBox::about (this, "QFaktury v0.5.0 beta",
-        UTF8("Program do wystawiania faktur. \n Koordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl \n Programista:\n\tTomasz 'moux' Pielech \n\tRafał Rusin (rafal.rusin@gmail.com)\nGrafika:\n\tDariusz Arciszewski \n\nSupport: rafal.rusin@gmail.com"));		  
+  QMessageBox::about (this, "O programie",
+        UTF8("Program do wystawiania faktur.\nWersja " STRING(QFAKTURY_VERSION) " \n\nProgramista:\n\tRafał Rusin (rafal.rusin@gmail.com)\n\nSupport: rafal.rusin@gmail.com\n\nPoprzednio pracowali:\nKoordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl\nProgramista:\n\tTomasz 'moux' Pielech\nGrafika:\n\tDariusz Arciszewski"));		  
 }
 
 void MainWindow::editFHist ()
