@@ -1,41 +1,5 @@
-INFORMACJE
-===================================================
-QFaktury to ca³kowicie darmowy i wszechstronny system fakturuj±cy pracuj±cy 
-pod kontrol± systemu Linux. Umo¿liwia on drukowanie faktur, faktur pro
-forma i korekt, a tak¿e ³atwe zarz±dzanie fakturami, towarami i baza
-kontrahentów. Za pomoc± programu QFaktur mo¿liwe jest równie¿ przygotowanie 
-faktury w formacie PDF czy XML. System integruje siê z programem
-e-Przelewy.
+QFaktury to caÅ‚kowicie darmowy i wszechstronny system fakturujÄ…cy pracujÄ…cy 
+pod kontrolÄ… systemu Linux. UmoÅ¼liwia on drukowanie faktur, faktur pro
+forma i korekt, a takÅ¼e Å‚atwe zarzÄ…dzanie fakturami, towarami i bazÄ…
+kontrahentÃ³w. 
 
-
-WYMAGANIA
-===================================================
-Aby by³o mo¿liwe skompilowanie programu niezbêdna jest biblioteka Qt w wersji 
-minimum 3.3 lub wy¿szej.
-
-KOMPILACJA
-===================================================
-Po sci±gniêciu ze strony:
-http://www.e-linux.pl/modules/qfaktury/qfaktury-0.0.1.tar.gz
-nale¿y 
-1. rozpakowaæ plik poleceniem:
-	tar -zxf qfaktury-0.0.1.tar.gz
-2. wej¶æ do katalogu qfaktury
-	cd qfaktury
-3. u¿yæ programu qmake do wygenerowania skryptu kompilacji
-	qmake
-4. skompilowaæ program
-	make
-5. zainstalowaæ przy pomocy skryptu install.sh uruchomionego na prawach root'a
-	sudo ./install.sh
-
-
-
-KONTAKT
-===================================================
-Strona macierzysta projektu: http://www.e-linux.pl
-Grzegorz Rêkawek 	info@e-linux.pl
-Tomasz Pielech 	iqmoux@users.sourceforge.net
-
-
-Milego dnia
