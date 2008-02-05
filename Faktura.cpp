@@ -24,8 +24,6 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QTextDocument>
-#include <fstream>
-
 
 
 #include "KontrahenciLista.h"
@@ -478,7 +476,7 @@ void Faktura::makeInvoiceHeadar ()
   // in case where we don't have a logo :(
 
   fraStrList += "</td>";
-  fraStrList += "<td>";
+  fraStrList += "<td align=\"right\">";
   
   fraStrList+="<span style=\"font-size:12pt; font-weight:600\">";
   if (windowTitle().right (3) == "VAT")
@@ -845,10 +843,10 @@ void Faktura::makeInvoice ()
           for (QStringList::iterator it = fraStrList.begin(); it != fraStrList.end(); ++it) {
               s+=*it+"\n";
           }
-          {
-              std::ofstream f("invoice.html");
-              f<<s.toStdString();
-          }
+          //{
+          //    std::ofstream f("invoice.html");
+          //    f<<s.toStdString();
+          //}
           doc.setHtml(s);
           doc.print(&printer);
       }

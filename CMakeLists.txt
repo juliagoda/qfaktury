@@ -42,3 +42,5 @@ qt4_automoc(${qfaktury_SRCS})
 add_executable(qfaktury ${qfaktury_SRCS} ${qfaktury_UIS_H})
 target_link_libraries(qfaktury ${QT_LIBRARIES})
 
+INSTALL(TARGETS qfaktury DESTINATION "")
+
