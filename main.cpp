@@ -46,3 +46,13 @@ int main (int argc, char **argv)
   return a.exec ();
 }
 
+#ifdef WIN32
+#if CMAKE_BUILD_TYPE == Release
+#include <windows.h>
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+            LPSTR lpCmdLine, int nCmdShow) {
+        main(0,0);
+}
+#endif
+#endif
+
