@@ -46,7 +46,15 @@ Podglad.ui
 QT4_WRAP_UI(qfaktury_UIS_H ${qfaktury_UIS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 qt4_automoc(${qfaktury_SRCS})
-add_executable(qfaktury ${qfaktury_SRCS} ${qfaktury_UIS_H})
+
+set(WIN32_FLAG "")
+if (WIN32) 
+    if (CMAKE_BUILD_TYPE STREQUAL Release)
+        set(WIN32_FLAG WIN32)
+    endif (CMAKE_BUILD_TYPE STREQUAL Release)
+endif (WIN32)
+
+add_executable(qfaktury ${WIN32_FLAG} ${qfaktury_SRCS} ${qfaktury_UIS_H})
 target_link_libraries(qfaktury ${QT_LIBRARIES})
 
 INSTALL(TARGETS qfaktury RUNTIME DESTINATION "bin")
