@@ -546,7 +546,7 @@ void Faktura::makeInvoiceGoods ()
 {
   fraStrList += "<tr align=\"center\"><td>";
   fraStrList += "<br><br>";
-  fraStrList += "<table border=\"1\" style=\"font-size:8pt; font-weight:400;\">";
+  fraStrList += "<table border=\"1\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
   fraStrList += "<tr>";
   
   Settings settings;
