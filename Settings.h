@@ -3,7 +3,7 @@
 #include <QSettings>
 #include <QDate>
 #include <QString>
-#include <Qvariant>
+#include <QVariant>
 #include <QLocale>
 #define UTF8(x) QString::fromUtf8(x)
 class Settings: public QSettings {
