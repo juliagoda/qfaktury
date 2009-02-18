@@ -5,15 +5,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>711</width>
-    <height>488</height>
+    <width>796</width>
+    <height>522</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>QFaktury</string>
   </property>
   <property name="windowIcon" >
-   <iconset/>
+   <iconset>
+    <normaloff/>
+   </iconset>
   </property>
   <widget class="QWidget" name="widget" >
    <layout class="QGridLayout" >
@@ -24,16 +26,106 @@
       </property>
       <widget class="QWidget" name="tab1" >
        <attribute name="title" >
-        <string>Faktury</string>
+        <string>Historia</string>
        </attribute>
-       <layout class="QGridLayout" >
+       <layout class="QGridLayout" name="gridLayout" >
         <item row="0" column="0" >
+         <layout class="QHBoxLayout" name="horizontalLayout_3" >
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2" >
+            <item>
+             <widget class="QLabel" name="textLabel1" >
+              <property name="text" >
+               <string>Wyświetlaj dokumenty od:</string>
+              </property>
+              <property name="wordWrap" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDateEdit" name="filtrStart" >
+              <property name="displayFormat" >
+               <string>MM/dd/yyyy</string>
+              </property>
+              <property name="calendarPopup" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout" >
+            <item>
+             <widget class="QLabel" name="textLabel2" >
+              <property name="layoutDirection" >
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text" >
+               <string>do:</string>
+              </property>
+              <property name="alignment" >
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="wordWrap" >
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDateEdit" name="filtrEnd" >
+              <property name="minimumSize" >
+               <size>
+                <width>60</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="displayFormat" >
+               <string>MM/dd/yyyy</string>
+              </property>
+              <property name="calendarPopup" >
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QToolButton" name="applyFiltrBtn" >
+            <property name="text" >
+             <string>Zastosuj</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType" >
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>100</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0" >
          <widget class="QTableWidget" name="tableH" >
+          <property name="editTriggers" >
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <property name="selectionMode" >
            <enum>QAbstractItemView::SingleSelection</enum>
           </property>
           <property name="selectionBehavior" >
-           <enum>QAbstractItemView::SelectRows</enum>
+           <enum>QAbstractItemView::SelectItems</enum>
           </property>
           <property name="numRows" stdset="0" >
            <number>0</number>
@@ -88,11 +180,14 @@
        <layout class="QGridLayout" >
         <item row="0" column="0" >
          <widget class="QTableWidget" name="tableK" >
+          <property name="editTriggers" >
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <property name="selectionMode" >
            <enum>QAbstractItemView::SingleSelection</enum>
           </property>
           <property name="selectionBehavior" >
-           <enum>QAbstractItemView::SelectRows</enum>
+           <enum>QAbstractItemView::SelectItems</enum>
           </property>
           <property name="numRows" stdset="0" >
            <number>0</number>
@@ -142,11 +237,14 @@
        <layout class="QGridLayout" >
         <item row="0" column="0" >
          <widget class="QTableWidget" name="tableT" >
+          <property name="editTriggers" >
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <property name="selectionMode" >
            <enum>QAbstractItemView::SingleSelection</enum>
           </property>
           <property name="selectionBehavior" >
-           <enum>QAbstractItemView::SelectRows</enum>
+           <enum>QAbstractItemView::SelectItems</enum>
           </property>
           <property name="numRows" stdset="0" >
            <number>0</number>
@@ -233,8 +331,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>711</width>
-     <height>32</height>
+     <width>796</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >
@@ -282,8 +380,10 @@
     <property name="title" >
      <string>P&amp;omoc</string>
     </property>
-    <addaction name="pomocO_programieAction" />
     <addaction name="pomocPomocAction" />
+    <addaction name="actionForum" />
+    <addaction name="separator" />
+    <addaction name="pomocO_programieAction" />
    </widget>
    <addaction name="plikAct" />
    <addaction name="fakturyAct" />
@@ -304,6 +404,10 @@
    </property>
   </action>
   <action name="fakturyUsunAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/usun_fakture.png</normaloff>:/res/share/qfaktury/icons/usun_fakture.png</iconset>
+   </property>
    <property name="text" >
     <string>Usuń</string>
    </property>
@@ -318,6 +422,10 @@
    </property>
   </action>
   <action name="fakturyDodajAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/nowa_faktura.png</normaloff>:/res/share/qfaktury/icons/nowa_faktura.png</iconset>
+   </property>
    <property name="text" >
     <string>Nowa faktura</string>
    </property>
@@ -333,7 +441,8 @@
   </action>
   <action name="kontrahenciDodajAction" >
    <property name="icon" >
-    <iconset>image2</iconset>
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/nowa_faktura.png</normaloff>:/res/share/qfaktury/icons/nowa_faktura.png</iconset>
    </property>
    <property name="text" >
     <string>Dodaj</string>
@@ -350,7 +459,8 @@
   </action>
   <action name="kontrahenciUsunAction" >
    <property name="icon" >
-    <iconset>image3</iconset>
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/usun_kontrahentow.png</normaloff>:/res/share/qfaktury/icons/usun_kontrahentow.png</iconset>
    </property>
    <property name="text" >
     <string>Usuń</string>
@@ -367,7 +477,8 @@
   </action>
   <action name="kontrahenciEdycjaAction" >
    <property name="icon" >
-    <iconset>image4</iconset>
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/edytuj_kontrahentow.png</normaloff>:/res/share/qfaktury/icons/edytuj_kontrahentow.png</iconset>
    </property>
    <property name="text" >
     <string>Edycja</string>
@@ -384,7 +495,8 @@
   </action>
   <action name="pomocO_QtAction" >
    <property name="icon" >
-    <iconset>image5</iconset>
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/pomoc.png</normaloff>:/res/share/qfaktury/icons/pomoc.png</iconset>
    </property>
    <property name="text" >
     <string>O Qt</string>
@@ -398,7 +510,8 @@
   </action>
   <action name="plikKoniecAction" >
    <property name="icon" >
-    <iconset>image6</iconset>
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/koniec.png</normaloff>:/res/share/qfaktury/icons/koniec.png</iconset>
    </property>
    <property name="text" >
     <string>Koniec</string>
@@ -414,6 +527,10 @@
    </property>
   </action>
   <action name="fakturyEdAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/edytuj_fakture.png</normaloff>:/res/share/qfaktury/icons/edytuj_fakture.png</iconset>
+   </property>
    <property name="text" >
     <string>Edytuj</string>
    </property>
@@ -429,7 +546,8 @@
   </action>
   <action name="plikDane_firmyAction" >
    <property name="icon" >
-    <iconset>image7</iconset>
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/dane_firmy.png</normaloff>:/res/share/qfaktury/icons/dane_firmy.png</iconset>
    </property>
    <property name="text" >
     <string>Dane firmy</string>
@@ -460,7 +578,8 @@
   </action>
   <action name="pomocO_programieAction" >
    <property name="icon" >
-    <iconset>image8</iconset>
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/o_programie.png</normaloff>:/res/share/qfaktury/icons/o_programie.png</iconset>
    </property>
    <property name="text" >
     <string>O programie</string>
@@ -474,7 +593,8 @@
   </action>
   <action name="plikUstawieniaAction" >
    <property name="icon" >
-    <iconset>image9</iconset>
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/ustawienia.png</normaloff>:/res/share/qfaktury/icons/ustawienia.png</iconset>
    </property>
    <property name="text" >
     <string>Ustawienia</string>
@@ -488,7 +608,8 @@
   </action>
   <action name="przelewyZUS" >
    <property name="icon" >
-    <iconset>image10</iconset>
+    <iconset>
+     <normaloff>image10</normaloff>image10</iconset>
    </property>
    <property name="text" >
     <string>Nowy (ZUS)</string>
@@ -502,7 +623,8 @@
   </action>
   <action name="przelewyUSAction" >
    <property name="icon" >
-    <iconset>image11</iconset>
+    <iconset>
+     <normaloff>image11</normaloff>image11</iconset>
    </property>
    <property name="text" >
     <string>Nowy (US)</string>
@@ -515,6 +637,10 @@
    </property>
   </action>
   <action name="pomocPomocAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/pomoc.png</normaloff>:/res/share/qfaktury/icons/pomoc.png</iconset>
+   </property>
    <property name="text" >
     <string>Pomoc</string>
    </property>
@@ -537,6 +663,10 @@
    </property>
   </action>
   <action name="towaryEdycjaAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/edytuj_towar.png</normaloff>:/res/share/qfaktury/icons/edytuj_towar.png</iconset>
+   </property>
    <property name="text" >
     <string>Edycja</string>
    </property>
@@ -551,6 +681,10 @@
    </property>
   </action>
   <action name="towaryUsunAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/usun_towar.png</normaloff>:/res/share/qfaktury/icons/usun_towar.png</iconset>
+   </property>
    <property name="text" >
     <string>Usuń</string>
    </property>
@@ -565,6 +699,10 @@
    </property>
   </action>
   <action name="towaryDodajAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/dodaj_towar.png</normaloff>:/res/share/qfaktury/icons/dodaj_towar.png</iconset>
+   </property>
    <property name="text" >
     <string>Dodaj</string>
    </property>
@@ -649,6 +787,10 @@
    </property>
   </action>
   <action name="fakturyKorektaAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/nowa_korekta.png</normaloff>:/res/share/qfaktury/icons/nowa_korekta.png</iconset>
+   </property>
    <property name="text" >
     <string>Nowa korekta</string>
    </property>
@@ -663,6 +805,10 @@
    </property>
   </action>
   <action name="fakturyPFormaAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/share/qfaktury/icons/nowa_proforma.png</normaloff>:/res/share/qfaktury/icons/nowa_proforma.png</iconset>
+   </property>
    <property name="text" >
     <string>Nowa pro forma</string>
    </property>
@@ -695,377 +841,15 @@
     <string>prevPageAction</string>
    </property>
   </action>
+  <action name="actionForum" >
+   <property name="text" >
+    <string>Forum</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <resources/>
- <connections>
-  <connection>
-   <sender>plikDane_firmyAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>daneFirmyClick()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>plikKoniecAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>kontrahenciDodajAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>kontrClick()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>kontrahenciUsunAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>kontrDel()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>kontrahenciEdycjaAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>kontrEd()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>fakturyDodajAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>newFra()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>fakturyUsunAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>delFHist()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>fakturyEdAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>editFHist()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tableH</sender>
-   <signal>doubleClicked(int,int,int,QPoint)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>editFHist()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pomocO_QtAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>aboutQt()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pomocO_programieAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>oProg()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tableK</sender>
-   <signal>doubleClicked(int,int,int,QPoint)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>kontrEd()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>plikUstawieniaAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>settClick()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tabWidget2</sender>
-   <signal>currentChanged(QWidget*)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>tabChanged(QWidget*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pomocPomocAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>pomoc()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>towaryDodajAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>towaryDodaj()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>towaryEdycjaAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>towaryEdycja()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>towaryUsunAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>towaryUsun()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tableT</sender>
-   <signal>doubleClicked(int,int,int,QPoint)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>towaryEdycja()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>fakturyKorektaAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>newKor()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>fakturyPFormaAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>newPForm()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>prevPageAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>prevPage()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>nextPageAction</sender>
-   <signal>activated()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>nextPage()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <resources>
+  <include location="qfaktury.qrc" />
+ </resources>
+ <connections/>
 </ui>
