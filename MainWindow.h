@@ -39,7 +39,6 @@ private:
 	bool applyFiltr(QString);
 	void init();
 	bool firstRun();
-	void checkSettings();
 	void saveAllSett();
 	void saveAllSettAsDefault();
 	void readHist(QString progDir);

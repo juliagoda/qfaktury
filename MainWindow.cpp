@@ -1,14 +1,3 @@
-/****************************************************************************
-** ui.h extension file, included from the uic-generated form implementation.
-**
-** If you want to add, delete, or rename functions or slots, use
-** Qt Designer to update this file, preserving your code.
-**
-** You should not define a constructor or destructor in this file.
-** Instead, write your code in functions called init() and destroy().
-** These will automatically be called by the form's constructor and
-** destructor.
-*****************************************************************************/
 #include "MainWindow.moc"
 #include <qtextcodec.h>
 #include <qdir.h>
@@ -80,6 +69,12 @@ void MainWindow::init() {
 
 		// qDebug("firstRun");
 		saveAllSettAsDefault();
+	} else {
+		filtrStart->setDisplayFormat(settings.getDateFormat());
+		filtrEnd->setDisplayFormat(settings.getDateFormat());
+
+		filtrStart->setDate(settings.getValueAsDate("filtrStart"));
+		filtrEnd->setDate(settings.getValueAsDate("filtrEnd"));
 	}
 
 	// towary/uslugi - wymiary
@@ -139,10 +134,6 @@ void MainWindow::init() {
 	connect(tableK, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(kontrEd()));
 	connect(tableT, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(towaryEdycja()));
 
-	filtrStart->setDate(settings.getValueAsDate("filtrStart"));
-	filtrEnd->setDate(settings.getValueAsDate("filtrEnd"));
-
-
 	tabChanged(tabWidget2);
 
 	readKontr(progDir);
@@ -157,13 +148,13 @@ bool MainWindow::firstRun() {
 	Settings settings;
 	bool ok = settings.value("firstrun").toBool();
 	if (ok) {
-		checkSettings();
+		settings.checkSettings();
 		// set dates for filter
 		filtrStart->setDate(QDate::currentDate());
 		filtrEnd->setDate(QDate::currentDate());
 		return true;
 	} else {
-		checkSettings();
+		settings.checkSettings();
 		return false;
 	}
 
@@ -202,113 +193,11 @@ void MainWindow::saveColumnWidth() {
 	settings.setValue("custCol5", tableK->columnWidth(5));
 }
 
-/** Saves all settings as default
+/** Saves all settings as default - first run
  */
 void MainWindow::saveAllSettAsDefault() {
-
 	Settings settings;
-
-	// should i change those settings names?
-	settings.setValue("firstrun", false);
-	settings.setValue("logo", "");
-	settings.setValue("jednostki", tr("szt.|kg.|g.|m|km.|godz."));
-	settings.setValue("stawki", tr("22|7|0|zw."));
-	settings.setValue("waluty", tr("PLN|EUR|USD"));
-	settings.setValue("payments", UTF8("gotówka|przelew")); // uwaga!! get first
-	settings.setValue("paym1", UTF8("gotówka"));
-	settings.setValue("pkorekty", UTF8("zmiana ilości"));
-	settings.setValue("addText", UTF8("towar odebrałem zgodnie z fakturą"));
-	settings.setValue("margLeftPrinter", "10");
-	settings.setValue("margTopPrinter", "10");
-	settings.setValue("margDownPrinter", "10");
-	settings.setValue("margRightPrinter", "10");
-	settings.setValue("editName", false);
-
-	// here we could add special code for Rachunek
-	settings.beginGroup("faktury_pozycje");
-	settings.setValue("Lp", true);
-	settings.setValue("Nazwa", true);
-	settings.setValue("Kod", true);
-	settings.setValue("pkwiu", true);
-	settings.setValue("ilosc", true);
-	settings.setValue("jm", true);
-	settings.setValue("cenajedn", true);
-	settings.setValue("wartnetto", true);
-	settings.setValue("rabatperc", true);
-	settings.setValue("rabatval", true);
-	settings.setValue("nettoafter", true);
-	settings.setValue("vatval", true);
-	settings.setValue("vatprice", true);
-	settings.setValue("bruttoval", true);
-	settings.endGroup();
-
-	settings.beginGroup("formatki");
-	settings.setValue("form1_top", "50");
-	settings.setValue("form1_left", "50");
-	settings.setValue("form1_width", "740");
-	settings.setValue("form1_height", "540");
-	settings.setValue("form2_top", "200");
-	settings.setValue("form2_left", "200");
-	settings.setValue("form2_width", "500");
-	settings.setValue("form2_height", "350");
-	settings.setValue("form7_top", "50");
-	settings.setValue("form7_left", "50");
-	settings.setValue("form7_width", "700");
-	settings.setValue("form7_height", "600");
-	settings.setValue("chAmount_top", "50");
-	settings.setValue("chAmount_left", "50");
-	settings.setValue("chAmount_width", "300");
-	settings.setValue("chAmount_height", "200");
-	settings.setValue("form4_top", "50");
-	settings.setValue("form4_left", "50");
-	settings.setValue("form4_width", "400");
-	settings.setValue("form4_height", "300");
-	settings.setValue("formfra_top", "50");
-	settings.setValue("formfra_left", "50");
-	settings.setValue("formfra_width", "700");
-	settings.setValue("formfra_height", "600");
-	settings.setValue("kontlist_top", "50");
-	settings.setValue("kontlist_left", "50");
-	settings.setValue("kontlist_width", "300");
-	settings.setValue("kontlist_height", "300");
-	settings.setValue("korform_top", "50");
-	settings.setValue("korform_left", "50");
-	settings.setValue("korform_width", "700");
-	settings.setValue("korform_height", "600");
-	settings.setValue("korprintpreview_top", "50");
-	settings.setValue("korprintpreview_left", "50");
-	settings.setValue("korprintpreview_width", "900");
-	settings.setValue("korprintpreview_height", "600");
-	settings.setValue("printpreview_top", "50");
-	settings.setValue("printpreview_left", "50");
-	settings.setValue("printpreview_width", "900");
-	settings.setValue("printpreview_height", "600");
-	settings.setValue("towlist_top", "50");
-	settings.setValue("towlist_left", "50");
-	settings.setValue("towlist_width", "300");
-	settings.setValue("towlist_height", "300");
-	settings.setValue("towadd_top", "50");
-	settings.setValue("towadd_left", "50");
-	settings.setValue("towadd_width", "300");
-	settings.setValue("towadd_height", "300");
-	settings.endGroup();
-
-	settings.beginGroup("wydruki");
-	settings.setValue("col1", "10");
-	settings.setValue("col2", "25");
-	settings.setValue("col3", "12");
-	settings.setValue("col4", "12");
-	settings.setValue("col5", "12");
-	settings.setValue("col6", "9");
-	settings.setValue("col7", "11");
-	settings.setValue("col8", "11");
-	settings.setValue("col9", "10");
-	settings.setValue("col10", "12");
-	settings.setValue("col11", "12");
-	settings.setValue("col12", "12");
-	settings.setValue("col13", "12");
-	settings.setValue("col14", "12");
-	settings.endGroup();
+	settings.resetSettings();
 }
 
 
@@ -327,288 +216,6 @@ void MainWindow::saveAllSett() {
 	settings.sync();
 }
 
-/**
- * validate the settings and set them to default values if required.
- */
-void MainWindow::checkSettings() {
-	Settings settings;
-
-	settings.beginGroup("general");
-	if (settings.value("browser_name").toString().compare("") == 0)
-		settings.setValue("browser_name", "");
-	if (settings.value("default_browser").toString().compare("") == 0)
-		settings.setValue("default_browser", "true");
-	if (settings.value("lang").toString().compare("") == 0)
-		settings.setValue("lang", tr("polski"));
-	if (settings.value("localEnc").toString().compare("") == 0)
-		settings.setValue("waluty", tr("ISO-8859-2"));
-	settings.endGroup();
-
-
-	if (settings.value("addText").toString().compare("") == 0)
-		settings.setValue("addText",
-				tr("towar odebrałem zgodnie z fakturą"));
-	if (settings.value("chars_in_symbol").toString().compare("") == 0)
-		settings.setValue("chars_in_symbol", tr("0"));
-	if (settings.value("day").toString().compare("") == 0)
-		settings.setValue("day", "false");
-	if (settings.value("edit").toString().compare("") == 0)
-		settings.setValue("edit", "false");
-	if (settings.value("editName").toString().compare("") == 0)
-		settings.setValue("editName", "false");
-	if (settings.value("editSymbol").toString().compare("") == 0)
-		settings.setValue("editSymbol", "false");
-	if (settings.value("editSymbol").toString().compare("") == 0)
-		settings.setValue("editSymbol", "false");
-	if (settings.value("editSymbol").toString().compare("") == 0)
-		settings.setValue("editSymbol", "false");
-	if (settings.value("filtrEnd").toString().compare("") == 0)
-		settings.setValue("filtrEnd",
-				QDate::currentDate().toString(Qt::ISODate));
-	if (settings.value("filtrStart").toString().compare("") == 0)
-		settings.setValue("filtrStart", QDate::currentDate().toString(
-				Qt::ISODate));
-	if (settings.value("firstrun").toString().compare("") == 0)
-		settings.setValue("firstrun", false);
-	if (settings.value("jednostki").toString().compare("") == 0)
-		settings.setValue("jednostki", tr("szt.|kg.|g.|m|km.|godz."));
-	if (settings.value("korNr").toString().compare("") == 0)
-		settings.setValue("korNr", "1");
-	if (settings.value("logo").toString().compare("") == 0)
-		settings.setValue("logo", "");
-	if (settings.value("margLeftPrinter").toString().compare("") == 0)
-		settings.setValue("margLeftPrinter", "10");
-	if (settings.value("margTopPrinter").toString().compare("") == 0)
-		settings.setValue("margTopPrinter", "10");
-	if (settings.value("margDownPrinter").toString().compare("") == 0)
-		settings.setValue("margDownPrinter", "10");
-	if (settings.value("margRightPrinter").toString().compare("") == 0)
-		settings.setValue("margRightPrinter", "10");
-	if (settings.value("month").toString().compare("") == 0)
-		settings.setValue("month", "false");
-	if (settings.value("paym1").toString().compare("") == 0)
-		settings.setValue("paym1", tr("gotówka"));
-	if (settings.value("payments").toString().compare("") == 0)
-		settings.setValue("payments", tr("gotówka|przelew"));
-	if (settings.value("pdfQuality").toString().compare("") == 0)
-		settings.setValue("pdfQuality", "1");
-	if (settings.value("pkorekty").toString().compare("") == 0)
-		settings.setValue("pkorekty", tr("zmiana ilości"));
-	if (settings.value("prefix").toString().compare("") == 0)
-		settings.setValue("prefix", "");
-	if (settings.value("renamed").toString().compare("") == 0)
-		settings.setValue("renamed", "tak");
-	if (settings.value("shortYear").toString().compare("") == 0)
-		settings.setValue("shortYear", "false");
-	if (settings.value("stawki").toString().compare("") == 0)
-		settings.setValue("stawki", tr("22|7|0|zw."));
-	if (settings.value("sufix").toString().compare("") == 0)
-		settings.setValue("sufix", "");
-	if (settings.value("waluty").toString().compare("") == 0)
-		settings.setValue("waluty", tr("PLN|EUR|USD"));
-	if (settings.value("year").toString().compare("") == 0)
-		settings.setValue("year", "false");
-
-	// here we could add special code for Rachunek
-	settings.beginGroup("faktury_pozycje");
-	if (settings.value("Lp").toString().compare("") == 0)
-		settings.setValue("Lp", true);
-	if (settings.value("Nazwa").toString().compare("") == 0)
-		settings.setValue("Nazwa", true);
-	if (settings.value("Kod").toString().compare("") == 0)
-		settings.setValue("Kod", true);
-	if (settings.value("pkwiu").toString().compare("") == 0)
-		settings.setValue("pkwiu", true);
-	if (settings.value("ilosc").toString().compare("") == 0)
-		settings.setValue("ilosc", true);
-	if (settings.value("jm").toString().compare("") == 0)
-		settings.setValue("jm", true);
-	if (settings.value("cenajedn").toString().compare("") == 0)
-		settings.setValue("cenajedn", true);
-	if (settings.value("wartnetto").toString().compare("") == 0)
-		settings.setValue("wartnetto", true);
-	if (settings.value("rabatperc").toString().compare("") == 0)
-		settings.setValue("rabatperc", true);
-	if (settings.value("rabatval").toString().compare("") == 0)
-		settings.setValue("rabatval", true);
-	if (settings.value("nettoafter").toString().compare("") == 0)
-		settings.setValue("nettoafter", true);
-	if (settings.value("vatval").toString().compare("") == 0)
-		settings.setValue("vatval", true);
-	if (settings.value("vatprice").toString().compare("") == 0)
-		settings.setValue("vatprice", true);
-	if (settings.value("bruttoval").toString().compare("") == 0)
-		settings.setValue("bruttoval", true);
-	settings.endGroup();
-
-	settings.beginGroup("formatki");
-	if (settings.value("chAmount_top").toString().compare("") == 0)
-		settings.setValue("chAmount_top", "50");
-	if (settings.value("chAmount_left").toString().compare("") == 0)
-		settings.setValue("chAmount_left", "50");
-	if (settings.value("chAmount_width").toString().compare("") == 0)
-		settings.setValue("chAmount_width", "288");
-	if (settings.value("chAmount_height").toString().compare("") == 0)
-		settings.setValue("chAmount_height", "184");
-	if (settings.value("form1_top").toString().compare("") == 0)
-		settings.setValue("form1_top", "50");
-	if (settings.value("form1_left").toString().compare("") == 0)
-		settings.setValue("form1_left", "50");
-	if (settings.value("form1_width").toString().compare("") == 0)
-		settings.setValue("form1_width", "748");
-	if (settings.value("form1_height").toString().compare("") == 0)
-		settings.setValue("form1_height", "507");
-	if (settings.value("form2_top").toString().compare("") == 0)
-		settings.setValue("form2_top", "200");
-	if (settings.value("form2_left").toString().compare("") == 0)
-		settings.setValue("form2_left", "200");
-	if (settings.value("form2_width").toString().compare("") == 0)
-		settings.setValue("form2_width", "388");
-	if (settings.value("form2_height").toString().compare("") == 0)
-		settings.setValue("form2_height", "350");
-	if (settings.value("form4_top").toString().compare("") == 0)
-		settings.setValue("form4_top", "50");
-	if (settings.value("form4_left").toString().compare("") == 0)
-		settings.setValue("form4_left", "50");
-	if (settings.value("form4_width").toString().compare("") == 0)
-		settings.setValue("form4_width", "423");
-	if (settings.value("form4_height").toString().compare("") == 0)
-		settings.setValue("form4_height", "358");
-	if (settings.value("form7_top").toString().compare("") == 0)
-		settings.setValue("form7_top", "50");
-	if (settings.value("form7_left").toString().compare("") == 0)
-		settings.setValue("form7_left", "50");
-	if (settings.value("form7_width").toString().compare("") == 0)
-		settings.setValue("form7_width", "636");
-	if (settings.value("form7_height").toString().compare("") == 0)
-		settings.setValue("form7_height", "600");
-	if (settings.value("formfra_top").toString().compare("") == 0)
-		settings.setValue("formfra_top", "50");
-	if (settings.value("formfra_left").toString().compare("") == 0)
-		settings.setValue("formfra_left", "50");
-	if (settings.value("formfra_width").toString().compare("") == 0)
-		settings.setValue("formfra_width", "546");
-	if (settings.value("formfra_height").toString().compare("") == 0)
-		settings.setValue("formfra_height", "650");
-	if (settings.value("kontlist_top").toString().compare("") == 0)
-		settings.setValue("kontlist_top", "50");
-	if (settings.value("kontlist_left").toString().compare("") == 0)
-		settings.setValue("kontlist_left", "50");
-	if (settings.value("kontlist_width").toString().compare("") == 0)
-		settings.setValue("kontlist_width", "300");
-	if (settings.value("kontlist_height").toString().compare("") == 0)
-		settings.setValue("kontlist_height", "300");
-	if (settings.value("korform_top").toString().compare("") == 0)
-		settings.setValue("korform_top", "50");
-	if (settings.value("korform_left").toString().compare("") == 0)
-		settings.setValue("korform_left", "50");
-	if (settings.value("korform_width").toString().compare("") == 0)
-		settings.setValue("korform_width", "537");
-	if (settings.value("korform_height").toString().compare("") == 0)
-		settings.setValue("korform_height", "677");
-	if (settings.value("korprintpreview_top").toString().compare("") == 0)
-		settings.setValue("korprintpreview_top", "50");
-	if (settings.value("korprintpreview_left").toString().compare("") == 0)
-		settings.setValue("korprintpreview_left", "50");
-	if (settings.value("korprintpreview_width").toString().compare("") == 0)
-		settings.setValue("korprintpreview_width", "900");
-	if (settings.value("korprintpreview_height").toString().compare("") == 0)
-		settings.setValue("korprintpreview_height", "600");
-	if (settings.value("printpreview_top").toString().compare("") == 0)
-		settings.setValue("printpreview_top", "50");
-	if (settings.value("printpreview_left").toString().compare("") == 0)
-		settings.setValue("printpreview_left", "50");
-	if (settings.value("printpreview_width").toString().compare("") == 0)
-		settings.setValue("printpreview_width", "900");
-	if (settings.value("printpreview_height").toString().compare("") == 0)
-		settings.setValue("printpreview_height", "600");
-	if (settings.value("towadd_top").toString().compare("") == 0)
-		settings.setValue("towadd_top", "50");
-	if (settings.value("towadd_left").toString().compare("") == 0)
-		settings.setValue("towadd_left", "50");
-	if (settings.value("towadd_width").toString().compare("") == 0)
-		settings.setValue("towadd_width", "334");
-	if (settings.value("towadd_height").toString().compare("") == 0)
-		settings.setValue("towadd_height", "286");
-	if (settings.value("towlist_top").toString().compare("") == 0)
-		settings.setValue("towlist_top", "50");
-	if (settings.value("towlist_left").toString().compare("") == 0)
-		settings.setValue("towlist_left", "50");
-	if (settings.value("towlist_width").toString().compare("") == 0)
-		settings.setValue("towlist_width", "300");
-	if (settings.value("towlist_height").toString().compare("") == 0)
-		settings.setValue("towlist_height", "300");
-	settings.endGroup();
-
-	settings.beginGroup("printpos");
-	if (settings.value("usernazwa").toString().compare("") == 0)
-		settings.setValue("usernazwa", "true");
-	if (settings.value("usermiejscowosc").toString().compare("") == 0)
-		settings.setValue("usermiejscowosc", "true");
-	if (settings.value("useradres").toString().compare("") == 0)
-		settings.setValue("useradres", "true");
-	if (settings.value("userkonto").toString().compare("") == 0)
-		settings.setValue("userkonto", "true");
-	if (settings.value("usernip").toString().compare("") == 0)
-		settings.setValue("usernip", "true");
-	if (settings.value("userphone").toString().compare("") == 0)
-		settings.setValue("userphone", "true");
-	if (settings.value("usermail").toString().compare("") == 0)
-		settings.setValue("usermail", "true");
-	if (settings.value("userwww").toString().compare("") == 0)
-		settings.setValue("userwww", "true");
-	if (settings.value("clientnazwa").toString().compare("") == 0)
-		settings.setValue("clientnazwa", "true");
-	if (settings.value("clientmiejscowosc").toString().compare("") == 0)
-		settings.setValue("clientmiejscowosc", "true");
-	if (settings.value("clientadres").toString().compare("") == 0)
-		settings.setValue("clientadres", "true");
-	if (settings.value("clientkonto").toString().compare("") == 0)
-		settings.setValue("clientkonto", "true");
-	if (settings.value("clientnip").toString().compare("") == 0)
-		settings.setValue("clientnip", "true");
-	if (settings.value("clientphone").toString().compare("") == 0)
-		settings.setValue("clientphone", "true");
-	if (settings.value("clientmail").toString().compare("") == 0)
-		settings.setValue("clientmail", "true");
-	if (settings.value("clientwww").toString().compare("") == 0)
-		settings.setValue("clientwww", "true");
-	settings.endGroup();
-
-	settings.beginGroup("wydruki");
-	if (settings.value("col1").toString().compare("") == 0)
-		settings.setValue("col1", "10");
-	if (settings.value("col2").toString().compare("") == 0)
-		settings.setValue("col2", "25");
-	if (settings.value("col3").toString().compare("") == 0)
-		settings.setValue("col3", "12");
-	if (settings.value("col4").toString().compare("") == 0)
-		settings.setValue("col4", "12");
-	if (settings.value("col5").toString().compare("") == 0)
-		settings.setValue("col5", "10");
-	if (settings.value("col6").toString().compare("") == 0)
-		settings.setValue("col6", "9");
-	if (settings.value("col7").toString().compare("") == 0)
-		settings.setValue("col7", "11");
-	if (settings.value("col8").toString().compare("") == 0)
-		settings.setValue("col8", "11");
-	if (settings.value("col9").toString().compare("") == 0)
-		settings.setValue("col9", "10");
-	if (settings.value("col10").toString().compare("") == 0)
-		settings.setValue("col10", "12");
-	if (settings.value("col11").toString().compare("") == 0)
-		settings.setValue("col11", "12");
-	if (settings.value("col12").toString().compare("") == 0)
-		settings.setValue("col12", "12");
-	if (settings.value("col13").toString().compare("") == 0)
-		settings.setValue("col13", "12");
-	if (settings.value("col14").toString().compare("") == 0)
-		settings.setValue("col14", "12");
-
-	settings.endGroup();
-
-	settings.sync();
-}
 
 /** Clears content of the QTableWidget passed in the input
  *  @param QTableWidget
