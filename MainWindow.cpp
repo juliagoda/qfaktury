@@ -520,6 +520,18 @@ void MainWindow::tabChanged(QWidget * qwdt) {
 		fakturyUsunAction->setEnabled(false);
 		break;
 	}
+	default: {
+		// historia
+		kontrahenciDodajAction->setEnabled(false);
+		kontrahenciEdycjaAction->setEnabled(false);
+		kontrahenciUsunAction->setEnabled(false);
+		towaryDodajAction->setEnabled(false);
+		towaryEdycjaAction->setEnabled(false);
+		towaryUsunAction->setEnabled(false);
+		fakturyEdAction->setEnabled(true);
+		fakturyUsunAction->setEnabled(true);
+		break;
+	}
 	}
 }
 
@@ -742,9 +754,8 @@ void MainWindow::kontrDel() {
  */
 void MainWindow::kontrEd ()
 {
-  qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
   int row = tableK->selectedItems()[0]->row();
-  qDebug ()<<tableK->item(row, 0)->text();
+  // qDebug ()<<tableK->item(row, 0)->text();
 
   Kontrahenci *kontrWindow = new Kontrahenci(this);
   kontrWindow->readData (tableK->item(row, 0)->text(), tableK->item(row, 1)->text());
@@ -827,70 +838,6 @@ void MainWindow::newKor() {
 		QMessageBox::information(this, "QFaktury",
 				"Do faktur Pro Forma nie wystawiamy korekt", QMessageBox::Ok);
 	}
-}
-
-/** Slot close
- */
-bool MainWindow::close() {
-	if (QMessageBox::question(this, UTF8("Potwierdź"),
-	UTF8("Czy chcesz wyjść z programu?"), QMessageBox::Yes | QMessageBox::No,
-			QMessageBox::Yes) == QMessageBox::Yes) {
-		saveAllSett();
-		return QMainWindow::close();
-	} else {
-		return false;
-	}
-}
-
-/** Slot help
- */
-void MainWindow::pomoc() {
-
-	QStringList args;
-	QString program;
-	QProcess *process = new QProcess(this);
-
-#if defined Q_OS_UNIX
-	// move to Xlib
-	/*
-	program = "kfmclient";
-	args << "exec";
-	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
-	*/
-#endif
-
-
-#if defined Q_WS_WIN
-	qDebug() << "Start WWW";
-	// it may need to be changed to something more universal
-	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
-	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
-	process->start(program, args);
-#endif
-
-}
-
-/** Slot forum
- */
-void MainWindow::forum() {
-	QMessageBox::information(this, tr("Forum e-linux.pl"), tr(
-			"http://forum.e-linux.pl"));
-	QString program = "kfmclient";
-	QStringList arguments;
-	QProcess *myProcess = new QProcess(this);
-
-#if defined Q_OS_UNIX
-	arguments << "exec" << "http://forum.e-linux.pl/";
-	// add ifdef for windows
-	myProcess->start(program, arguments);
-#endif
-
-#if defined Q_WS_WIN
-	// it may need to be changed to something more universal
-	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
-	arguments << "http://forum.e-linux.pl";
-	myProcess->start(program, arguments);
-#endif
 }
 
 /** Slot used to add goods
@@ -1009,6 +956,69 @@ void MainWindow::towaryEdycja() {
 
 }
 
+/** Slot close
+ */
+bool MainWindow::close() {
+	if (QMessageBox::question(this, UTF8("Potwierdź"),
+	UTF8("Czy chcesz wyjść z programu?"), QMessageBox::Yes | QMessageBox::No,
+			QMessageBox::Yes) == QMessageBox::Yes) {
+		saveAllSett();
+		return QMainWindow::close();
+	} else {
+		return false;
+	}
+}
+
+/** Slot help
+ */
+void MainWindow::pomoc() {
+
+	QStringList args;
+	QString program;
+	QProcess *process = new QProcess(this);
+
+#if defined Q_OS_UNIX
+	// move to Xlib
+	/*
+	program = "kfmclient";
+	args << "exec";
+	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
+	*/
+#endif
+
+
+#if defined Q_WS_WIN
+	qDebug() << "Start WWW";
+	// it may need to be changed to something more universal
+	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
+	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
+	process->start(program, args);
+#endif
+
+}
+
+/** Slot forum
+ */
+void MainWindow::forum() {
+	QMessageBox::information(this, tr("Forum e-linux.pl"), tr(
+			"http://forum.e-linux.pl"));
+	QString program = "kfmclient";
+	QStringList arguments;
+	QProcess *myProcess = new QProcess(this);
+
+#if defined Q_OS_UNIX
+	arguments << "exec" << "http://forum.e-linux.pl/";
+	// add ifdef for windows
+	myProcess->start(program, arguments);
+#endif
+
+#if defined Q_WS_WIN
+	// it may need to be changed to something more universal
+	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
+	arguments << "http://forum.e-linux.pl";
+	myProcess->start(program, arguments);
+#endif
+}
 
 //-------------------- not used >??? ------------------------------------------
 void MainWindow::nextPage()

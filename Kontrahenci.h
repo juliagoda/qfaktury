@@ -3,21 +3,21 @@
 #include <QDialog>
 #include "ui_Kontrahenci.h"
 class Kontrahenci: public QDialog, public Ui::Kontrahenci {
-    Q_OBJECT
-    public:
-    Kontrahenci(QWidget *parent);
-void init ();
-QString isEmpty (QString in);
-    public slots:
-void readData (QString name, QString type);
-void getFirmList ();
-bool saveAll ();
-void modifyOnly ();
-void okClick ();
-void newFunction ();
-    public:
-
-    QString ret;
-    QStringList allNames;
+Q_OBJECT
+public:
+	QString ret;
+	QStringList allNames;
+	Kontrahenci(QWidget *parent);
+	void readData(QString name, QString type);
+public slots:
+	void okClick();
+private:
+	QString progDir;
+	QString nazwaEdit;
+	void init();
+	QString isEmpty(QString in);
+	void getFirmList();
+	bool saveAll();
+	void modifyOnly();
 };
 #endif
