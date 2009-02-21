@@ -115,6 +115,9 @@ void Ustawienia::init() {
 
     getEncodings();
     readSettings();
+
+    // disable apply button :)
+    zastButton->setEnabled(false);
 }
 
 /** Slot - Apply
