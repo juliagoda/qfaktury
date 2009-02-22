@@ -1,7 +1,7 @@
 #ifndef MainWindow_H
 #define MainWindow_H
 #include <QMainWindow>
-#include <QSettings>
+#include "Settings.h"
 #include "ui_MainWindow.h"
 class MainWindow: public QMainWindow, public Ui::MainWindow {
 
@@ -34,7 +34,7 @@ public slots:
 	void nextPage();
 	void prevPage();
 private:
-	QSettings settings;
+	Settings settings;
 	void saveColumnWidth();
 	bool applyFiltr(QString);
 	void init();

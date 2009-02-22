@@ -2,7 +2,6 @@
 #include <qtextcodec.h>
 #include <qdir.h>
 #include <qmessagebox.h>
-#include "Settings.h"
 #include <qapplication.h>
 #include <qevent.h>
 #include <qprocess.h>
@@ -36,9 +35,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
  * init() method
  */
 void MainWindow::init() {
-
-	Settings settings;
-
 	// working direcroty
 	QDir tmp;
 	QString progDir = tmp.homePath() + "/elinux"; // move to settings
@@ -145,7 +141,6 @@ void MainWindow::init() {
  * firstRun setup()
  */
 bool MainWindow::firstRun() {
-	Settings settings;
 	bool ok = settings.value("firstrun").toBool();
 	if (ok) {
 		settings.checkSettings();
@@ -164,7 +159,6 @@ bool MainWindow::firstRun() {
  * save column width
  */
 void MainWindow::saveColumnWidth() {
-	Settings settings;
 	// width of the columns in the towary "goods" tab
 	settings.setValue("towCol0", tableT->columnWidth(0));
 	settings.setValue("towCol1", tableT->columnWidth(1));
@@ -196,7 +190,6 @@ void MainWindow::saveColumnWidth() {
 /** Saves all settings as default - first run
  */
 void MainWindow::saveAllSettAsDefault() {
-	Settings settings;
 	settings.resetSettings();
 }
 
@@ -204,8 +197,6 @@ void MainWindow::saveAllSettAsDefault() {
 /** Saves all settings
  */
 void MainWindow::saveAllSett() {
-	Settings settings;
-
 	// save filtr
 	settings.setValue("filtrStart", filtrStart->text());
 	settings.setValue("filtrEnd", filtrEnd->text());
@@ -220,10 +211,9 @@ void MainWindow::saveAllSett() {
 /** Clears content of the QTableWidget passed in the input
  *  @param QTableWidget
  */
-void MainWindow::tableClear (QTableWidget * tab)
-{
+void MainWindow::tableClear(QTableWidget * tab) {
 	// should be a better method to do that
-    tab->setRowCount(0);
+	tab->setRowCount(0);
 }
 
 /** Used while adding new row
@@ -245,16 +235,19 @@ bool MainWindow::applyFiltr(QString nameToCheck) {
 	tmp = tmp.left(10);
 	tmp = tmp.remove("-");
 
-	int year = tmp.left(4).toInt();
-	tmp = tmp.remove(0, 4);
+	int day = tmp.left(2).toInt();
+	tmp = tmp.remove(0, 2);
 	int month = tmp.left(2).toInt();
 	tmp = tmp.remove(0, 2);
-	int day = tmp.toInt();
+	int year = tmp.left(4).toInt();
+	tmp = tmp.remove(0, 4);
 	QDate tmpDate(year, month, day);
 
 	// if debugOn()
 	// qDebug() << __FUNCTION__ << __LINE__ << nameToCheck
-	//		<< filtrStart->date().toString() << tmpDate.toString()
+	//		<< filtrStart->date().toString()
+	//		<< year << month << day
+	//		<< tmpDate.toString()
 	//		<< filtrEnd->date().toString();
 
 	if (tmpDate < filtrStart->date()) {
@@ -614,15 +607,12 @@ void MainWindow::editFHist() {
 void MainWindow::delFHist() {
 	if (QMessageBox::warning(this, "QFaktury", UTF8("Czy napewno chcesz usnąć tą fakturę z historii?"), "Tak",
 			"Nie", 0, 0, 1) == 0) {
-		QTableWidgetItem *i = tableH->selectedItems()[0];
-		QString name = i->text();
-
-		// qDebug() << name;
+		QString name = tableH->item (tableH->currentRow(), 0)->text();
 
 		QFile file(pdGlob + "/faktury/" + name);
 		if (file.exists())
 			file.remove();
-		tableH->removeRow(i->row());
+		tableH->removeRow(tableH->currentRow());
 	}
 
 }
