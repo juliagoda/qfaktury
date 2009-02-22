@@ -1,38 +1,48 @@
 #ifndef Faktura_H
 #define Faktura_H
 #include <QDialog>
+#include "Settings.h"
+#include "tabletemp.h"
+#include "Podglad.h"
+
+
+
 #include "ui_Faktura.h"
 class Faktura: public QDialog, public Ui::Faktura {
-    Q_OBJECT
-    public:
-    Faktura(QWidget *parent);
-void init ();
-void readData (QString fraFile, int co);
-QString getStawkami();
-QString numbersCount(int in, int x);
-    public slots:
-void getKontrahent ();
-void addTow ();
-void countRabat ();
-void countSum ();
-void rabatChange ();
-void delTowar ();
-void editTowar ();
-void makeInvoiceHeadar ();
-void makeInvoiceBody ();
-void makeInvoiceGoods ();
-void makeInvoiceSumm ();
-void makeInvoiceSummAll ();
-void makeInvoice ();
-void saveInvoice ();
-void backBtnClick();
-void makeInvoiceFooter ();
-
-    public:
-    QString fName, progDir2, ret, vatAll, templDir;
-    int type;
-    bool pforma;
-    private:
-    QString lastInvoice;
+Q_OBJECT
+public:
+	Faktura(QWidget *parent);
+	void init();
+	void readData(QString fraFile, int co);
+	QString fName, progDir2, ret, vatAll, templDir;
+	double priceBRabN, priceBRab;
+	bool pforma;
+public slots:
+	void getKontrahent();
+	void addTow();
+	void rabatChange();
+	void delTowar();
+	void editTowar();
+	void backBtnClick();
+	void makeData();
+	void canCancel();
+private:
+	Settings settings;
+	int type;
+	QString lastInvoice;
+	bool isEdit;
+	TableTemp tabletemp;
+	void countRabat();
+	void countSum();
+	void makeInvoiceHeadar();
+	void makeInvoiceBody();
+	void makeInvoiceGoods();
+	void makeInvoiceSumm();
+	void makeInvoiceSummAll();
+	void makeInvoice();
+	void saveInvoice();
+	void makeInvoiceFooter();
+	QString getStawkami();
+	QString numbersCount(int in, int x);
 };
 #endif
