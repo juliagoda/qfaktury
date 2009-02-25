@@ -32,10 +32,10 @@
        <item row="0" column="0" >
         <widget class="QFrame" name="frame" >
          <property name="frameShape" >
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::Box</enum>
          </property>
          <property name="frameShadow" >
-          <enum>QFrame::Plain</enum>
+          <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_9" >
           <item>
@@ -943,8 +943,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>568</width>
-            <height>458</height>
+            <width>284</width>
+            <height>420</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -1817,8 +1817,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>258</width>
-            <height>127</height>
+            <width>231</width>
+            <height>118</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -2004,8 +2004,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>524</width>
-            <height>477</height>
+            <width>520</width>
+            <height>446</height>
            </rect>
           </property>
           <attribute name="label" >

@@ -15,6 +15,8 @@ public:
 	// constr
 	Settings() :
 		QSettings("elinux", "qfaktury") {
+
+		dateFormat = "dd/MM/yyyy";
 	}
 
 	// get date from settings as QDate
@@ -27,7 +29,7 @@ public:
 	QString getDateFormat() {
 		// for some reason on Linux i see date as mm/dd/yy
 		// it's better to have a full year... so
-		return QString("dd/MM/yyyy");
+		return dateFormat;
 	}
 
 	/**
@@ -330,8 +332,8 @@ public:
 		setValue("editSymbol", "false");
 		setValue("editSymbol", "false");
 		//      setValue ("filtrEnd", QDate::currentDate ().toString (Qt::ISODate));
-		setValue("filtrStart", QDate::currentDate().toString(Qt::ISODate));
-		setValue("firstrun", "nie");
+		setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
+		setValue("firstrun", false);
 		setValue("jednostki", tr("szt.|kg.|g.|m.|km.|godz."));
 		setValue("korNr", "1");
 		setValue("logo", "");
@@ -464,6 +466,8 @@ public:
 		endGroup();
 	}
 
+private:
+	QString dateFormat;
 
 };
 #endif

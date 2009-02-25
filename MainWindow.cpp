@@ -66,10 +66,12 @@ void MainWindow::init() {
 		// qDebug("firstRun");
 		saveAllSettAsDefault();
 	} else {
-		filtrStart->setDisplayFormat(settings.getDateFormat());
-		filtrEnd->setDisplayFormat(settings.getDateFormat());
+		// qDebug() << settings.getValueAsDate("filtrStart")
+		//		<< settings.getValueAsDate("filtrEnd");
 
+		filtrStart->setDisplayFormat(settings.getDateFormat());
 		filtrStart->setDate(settings.getValueAsDate("filtrStart"));
+		filtrEnd->setDisplayFormat(settings.getDateFormat());
 		filtrEnd->setDate(settings.getValueAsDate("filtrEnd"));
 	}
 
