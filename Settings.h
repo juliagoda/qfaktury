@@ -8,6 +8,10 @@
 #include <QDebug>
 
 #define UTF8(x) QString::fromUtf8(x)
+#define STRING2(x) #x
+#define STRING(x) STRING2(x)
+
+
 class Settings: public QSettings {
 public:
 	QLocale locale;

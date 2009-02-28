@@ -4,55 +4,12 @@
 #include <qmessagebox.h>
 #include <QTextCodec>
 #include <QTextStream>
-#include "Settings.h"
 #include <QDebug>
 
 #include "Rounding.h"
 
-class dane
-{
-public:
-  dane ()
-  {
-  }
-  dane (QString c1, QString c2, QString c3)
-  {
-    code = c1;
-    if (code == "")
-      code = "-";
-    curr = c2;
-    if (curr == "")
-      curr = "-";
-    pkwiu = c3;
-    if (pkwiu == "")
-      pkwiu = "-";
-  }
-  QString codeX () const
-  {
-    return code;
-  }
-  QString currX () const
-  {
-    return curr;
-  }
-  QString pkwiuX () const
-  {
-    return pkwiu;
-  }
-private:
-    QString code;
-  QString curr;
-  QString pkwiu;
-};
 
-typedef QMap < QString, dane > daneList;
-	// EmployeeMap map;
-daneList listaTowary2;
-daneList listaUslugi2;
 
-QStringList listaTowary;
-QStringList listaUslugi;
-QString vat;
 
 void TowaryLista::init ()
 {
@@ -64,8 +21,20 @@ void TowaryLista::init ()
   listaTowary2.clear ();
   listaUslugi2.clear ();
   readTow (progDir);
-  listWidget->clear ();
+   listWidget->clear();
   fillLv (0);
+
+  connect( okBtn, SIGNAL( clicked() ), this, SLOT( doAccept() ) );
+  connect( cancelBtn, SIGNAL( clicked() ), this, SLOT( close() ) );
+  connect( comboBox1, SIGNAL( activated(int) ), this, SLOT( comboBox1Changed(int) ) );
+  // connect( listWidget, SIGNAL( selectionChanged(QListViewItem*) ), this, SLOT( lv1selChanged(QListViewItem*) ) );
+  connect( spinBox2, SIGNAL( valueChanged(int) ), this, SLOT( spinChanged(int) ) );
+  connect( nameEdit, SIGNAL( textChanged(const QString&) ), this, SLOT( setSelItemText() ) );
+  connect( rabatSpin, SIGNAL( valueChanged(int) ), this, SLOT( calcNetto() ) );
+  connect( countEdit, SIGNAL( lostFocus() ), this, SLOT( calcNetto() ) );
+  connect( countEdit, SIGNAL( selectionChanged() ), this, SLOT( calcNetto() ) );
+  connect( countEdit, SIGNAL( textChanged(const QString&) ), this, SLOT( calcNetto() ) );
+
 }
 
 void TowaryLista::readTow (QString progDir)
@@ -113,7 +82,7 @@ void TowaryLista::readTow (QString progDir)
 	  code = n.toElement ().attribute ("code");
 	  curr = n.toElement ().attribute ("curr");
 	  pkwiu = n.toElement ().attribute ("pkwiu");
-	  listaTowary2[idx] = dane (code, curr, pkwiu);
+	  listaTowary2[idx] = ProductsListData (code, curr, pkwiu);
 
 	}
 
@@ -129,7 +98,7 @@ void TowaryLista::readTow (QString progDir)
 	  code = n.toElement ().attribute ("code");
 	  curr = n.toElement ().attribute ("curr");
 	  pkwiu = n.toElement ().attribute ("pkwiu");
-	  listaUslugi2[idx] = dane (code, curr, pkwiu);
+	  listaUslugi2[idx] = ProductsListData (code, curr, pkwiu);
 	}
     }
 }
@@ -154,7 +123,7 @@ void TowaryLista::doAccept ()
 	     int x = listaTowary.findIndex(selectedItem);
 	     qDebug( "%d", x );
 	     qDebug( selectedItem );
-	     qDebug( "code" + listaTowary2[id].codeX() ); 
+	     qDebug( "code" + listaTowary2[id].codeX() );
 	     qDebug( "curr" + listaTowary2[id].currX() );
 	     qDebug( "pkwiu" + listaTowary2[id].pkwiuX() );
 	   */
@@ -186,8 +155,8 @@ void TowaryLista::doAccept ()
 
 void TowaryLista::comboBox1Changed (int x)
 {
-  qDebug (__FUNCTION__);
-  listWidget->clear ();
+  // qDebug (__FUNCTION__);
+  // listWidget->clear ();
   fillLv (x);
 }
 
@@ -252,7 +221,7 @@ void TowaryLista::lv1selChanged ()
     {
       QListWidgetItem *item=items[0];
 	  qDebug()<<"lv1selChanged "<<item->text();
-      
+
       readNettos (item->text());
       id = item->text ();
       selectedItem = item->text ();

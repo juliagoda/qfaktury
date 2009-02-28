@@ -4,9 +4,10 @@
 #include <vector>
 #include <qstring.h>
 
-struct TempData
+class TempData
 {
-  QString title;  // title 
+public:
+  QString title;  // title
   QString number; // number of facture
   QString sellingDate; // date of selling
   QString creatingDate;//date of creating
@@ -18,11 +19,11 @@ struct TempData
   QString payDate;
   bool paidCash;
   QString additText;
-  QString bids[4][4];
-  QString Bids;
+  QString bidsArray[4][4];
+  QString bids;
 };
 
-struct TableTemp
+class TableTemp
 {
 public:
     std::vector< std::vector<QString > > vec_temp;

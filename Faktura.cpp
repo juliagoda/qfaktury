@@ -270,16 +270,14 @@ if (additEdit->isEnabled())
       QMessageBox::information (this, "QFaktury", tr("Dane zostały zapisane"),QMessageBox::Ok);
   }
 
-#ifdef QF_base__
   if (invType == FVat)
     {
-      tabletemp.data.Title=tr("Faktura VAT");
+      tabletemp.data.title=tr("Faktura VAT");
     }
   else
     {
-      tabletemp.data.Title=tr("Faktura Pro Forma");
+      tabletemp.data.title=tr("Faktura Pro Forma");
     }
-#endif
 
 #ifdef QF_vatmp__
   if (invType == FVat)
@@ -299,8 +297,8 @@ if (additEdit->isEnabled())
 
   tabletemp.data.number=tr("Nr: ")+frNr->text ();
   // why date format is yyyy-MM-dd???
-  tabletemp.data.sellingDate=tr("Data sprzedaży: ")+sellingDate->date ().toString ("yyyy-MM-dd");
-  tabletemp.data.creatingDate=tr("Data wystawienia: ")+productDate->date ().toString ("yyyy-MM-dd");
+  tabletemp.data.sellingDate=tr("Data sprzedaży: ")+sellingDate->date ().toString (settings.getDateFormat());
+  tabletemp.data.creatingDate=tr("Data wystawienia: ")+productDate->date ().toString (settings.getDateFormat());
   tabletemp.data.client=kontrName->text ();
   int temp_i=0;
  if (settings.value("faktury_pozycje/Lp").toBool())
@@ -362,9 +360,11 @@ if (additEdit->isEnabled())
     }
 
 
+
   for (int i = 0; i < tableTow->rowCount (); ++i)
     {
-      std::vector<QString> v;
+
+	  std::vector<QString> v;
           v.push_back(tableTow->item (i, 0)->text());
           v.push_back(tableTow->item(i, 1)->text());
           v.push_back(tableTow->item (i, 2)->text());
@@ -380,11 +380,11 @@ if (additEdit->isEnabled())
 					  tableTow->item(i, 8)->text().replace (",", ".").toDouble ())));
           v.push_back(tableTow->item (i, 8)->text());
           v.push_back(tableTow->item (i, 9)->text());
-      double vatPrice = tableTow->item(i, 10)->text().replace (",",".").toDouble () -
+          double vatPrice = tableTow->item(i, 10)->text().replace (",",".").toDouble () -
 				  tableTow->item(i,8)->text().replace (",", ".").toDouble ();
+
           v.push_back(fixStr (QString::number (vatPrice)));
           v.push_back(tableTow->item(i, 10)->text());
-          // qDebug() << "TEST4";
    tabletemp.vec_temp.push_back(v);
    }
 
@@ -398,10 +398,10 @@ if (additEdit->isEnabled())
 
   tabletemp.data.sumStr=slownie (sbrutto->text (),currCombo->currentText ());
   tabletemp.data.payMode=platCombo->currentText ();
-  tabletemp.data.payDate=liabDate->date ().toString ("yyyy-MM-dd");
+  tabletemp.data.payDate=liabDate->date ().toString (settings.getDateFormat());
   tabletemp.data.paidCash=(settings.value ("paym1").toString().left (3) == platCombo->currentText ().left (3));
   tabletemp.data.additText=additEdit->text ();
-  tabletemp.data.Bids=getStawkami();
+  tabletemp.data.bids=getStawkami();
 
   Podglad fraWindow(this);
   fraWindow.setTableTemp(tabletemp,progDir2,ret);
@@ -482,10 +482,12 @@ void Faktura::readData (QString fraFile, int co)
   rabatValue->setValue (towary.attribute ("goods::rabat").toInt ());
 
   int towCount = towary.attribute ("goods::count").toInt ();
+  tableTow->setRowCount(towCount);
   int i = 0;
   QDomElement towar;
   towar = towary.firstChild ().toElement ();
 
+  // TR!!!
 static const char *towarColumns[] = {
       "",
 "Nazwa",
@@ -493,6 +495,7 @@ static const char *towarColumns[] = {
 "PKWiU",
 "Ilosc",
 "Jm.",
+"Rabat",
 "Cena_jdn.",
 "Wartosc_Netto",
 "Stawka_VAT",
@@ -503,7 +506,7 @@ static const char *towarColumns[] = {
   for (i = 0; i < towCount; ++i)
     {
         for (int j = 0; j < int(sizeof(towarColumns)/sizeof(*towarColumns)); j++) {
-            tableTow->setItem(i, j, new QTableWidgetItem(towar.attribute(towarColumns[j])));
+			tableTow->setItem(i, j, new QTableWidgetItem(towar.attribute(towarColumns[j])));
         }
       towar = towar.nextSibling ().toElement ();
     }
@@ -1277,22 +1280,30 @@ void Faktura::saveInvoice ()
       towary.setAttribute ("PKWiU", tableTow->item(i, 3)->text());
       towary.setAttribute ("Ilosc", tableTow->item(i, 4)->text());
       towary.setAttribute ("Jm.", tableTow->item(i, 5)->text());
-      towary.setAttribute ("Cena_jdn.", tableTow->item(i, 6)->text());
-      double cenajdn = tableTow->item(i, 6)->text().replace (",", ".").toDouble ();
+      if (!constRab->isChecked ())
+	{
+	  towary.setAttribute ("Rabat", tableTow->item(i, 6)->text());
+	}
+      else
+	{
+	  towary.setAttribute ("Rabat", QString::number (rabatValue->value ()));	// rabat
+	}
+      towary.setAttribute ("Cena_jdn.", tableTow->item(i, 7)->text());
+      double cenajdn = tableTow->item(i, 8)->text().replace (",", ".").toDouble ();
       double kwota =
 	cenajdn * tableTow->item(i, 4)->text().replace (",", ".").toInt ();
 
       towary.setAttribute ("Wartosc_Netto", fixStr (QString::number (kwota)));	// netto
 
-      towary.setAttribute ("Rabat", QString::number (rabatValue->value ()));	// rabat
+      // towary.setAttribute ("Rabat", QString::number (rabatValue->value ()));	// rabat
       towary.setAttribute ("Netto_po_rabacie", tableTow->item(i, 7)->text());
-      towary.setAttribute ("Stawka_VAT", tableTow->item(i, 8)->text());
-      double vatPrice = tableTow->item(i, 9)->text().replace (",",
+      towary.setAttribute ("Stawka_VAT", tableTow->item(i, 9)->text());
+      double vatPrice = tableTow->item(i, 10)->text().replace (",",
 						       ".").toDouble () -
-	tableTow->item(i, 7)->text().replace (",", ".").toDouble ();
+	tableTow->item(i, 8)->text().replace (",", ".").toDouble ();
 
       towary.setAttribute ("Kwota_Vat", fixStr (QString::number (vatPrice)));
-      towary.setAttribute ("Wartosc_Brutto", tableTow->item(i, 9)->text());
+      towary.setAttribute ("Wartosc_Brutto", tableTow->item(i, 10)->text());
       goods.appendChild (towary);
 
     }

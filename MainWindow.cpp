@@ -18,8 +18,6 @@
 #include "Kontrahenci.h"
 #include "config.h"
 
-#define STRING2(x) #x
-#define STRING(x) STRING2(x)
 
 QString pdGlob;
 
