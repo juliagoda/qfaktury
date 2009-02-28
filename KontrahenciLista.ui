@@ -188,7 +188,7 @@
   </connection>
   <connection>
    <sender>listBox1</sender>
-   <signal>doubleClicked(Q3ListBoxItem*)</signal>
+   <signal>doubleClicked(QModelIndex)</signal>
    <receiver>KontrahenciLista</receiver>
    <slot>doAccept()</slot>
    <hints>
