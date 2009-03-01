@@ -105,6 +105,9 @@
            <property name="enabled" >
             <bool>true</bool>
            </property>
+           <property name="readOnly" >
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -146,10 +149,13 @@
            <item>
             <widget class="QLineEdit" name="countEdit" >
              <property name="inputMask" >
-              <string>99999999,99; </string>
+              <string>99999999,999; </string>
              </property>
              <property name="text" >
               <string>,</string>
+             </property>
+             <property name="echoMode" >
+              <enum>QLineEdit::Normal</enum>
              </property>
              <property name="cursorPosition" >
               <number>0</number>

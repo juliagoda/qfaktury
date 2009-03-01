@@ -12,7 +12,7 @@ class TowaryLista: public QDialog, public Ui::TowaryLista {
     	void init ();
 
 
-    	typedef QMap < QString, ProductsListData > ProductsListDataList;
+    	typedef QMap < QString, ProductsListData *> ProductsListDataList;
     	ProductsListDataList listaTowary2;
     	ProductsListDataList listaUslugi2;
 

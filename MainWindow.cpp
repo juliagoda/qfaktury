@@ -102,6 +102,7 @@ void MainWindow::init() {
 	icon.addPixmap(QPixmap(":/res/share/qfaktury/icons/qfaktury_48.png"),
 			QIcon::Normal, QIcon::Off);
 	this->setWindowIcon(icon);
+	this->setWindowTitle(qAppName() + " - " + UTF8("Wersja ") + STRING(QFAKTURY_VERSION));
 
 	// connect slots
 	connect(actionForum, SIGNAL (activated ()), this, SLOT(forum()));
@@ -235,12 +236,15 @@ bool MainWindow::applyFiltr(QString nameToCheck) {
 	tmp = tmp.left(10);
 	tmp = tmp.remove("-");
 
-	int day = tmp.left(2).toInt();
-	tmp = tmp.remove(0, 2);
-	int month = tmp.left(2).toInt();
-	tmp = tmp.remove(0, 2);
+	// not very flexible
+	// assumption is that date comes as yyyymmdd
+	// if its otherwise order of remove methods has to be changed
 	int year = tmp.left(4).toInt();
 	tmp = tmp.remove(0, 4);
+	int month = tmp.left(2).toInt();
+	tmp = tmp.remove(0, 2);
+	int day = tmp.left(2).toInt();
+	tmp = tmp.remove(0, 2);
 	QDate tmpDate(year, month, day);
 
 	// if debugOn()
@@ -282,16 +286,16 @@ void MainWindow::readHist(QString progDir) {
 	QStringList filters;
 	filters << "h*.xml";
 	allFiles.setNameFilters(filters);
-	QStringList pliczki = allFiles.entryList();
-	int i, max = pliczki.count();
+	QStringList files = allFiles.entryList();
+	int i, max = files.count();
 	for (i = 0; i < max; ++i) {
-		if (applyFiltr(pliczki[i])) {
-			// qDebug(pliczki[i]);
+		if (applyFiltr(files[i])) {
+			// qDebug() << files[i];
 			insertRow(tableH, tableH->rowCount());
-			text = pliczki[i];
+			text = files[i];
 			tableH->item(tableH->rowCount() - 1, 0)->setText(text);
 
-			QFile file(progDir + "/faktury/" + pliczki[i]);
+			QFile file(progDir + "/faktury/" + files[i]);
 
 			if (!file.open(QIODevice::ReadOnly)) {
 				qDebug("file doesn't exists");
@@ -309,18 +313,18 @@ void MainWindow::readHist(QString progDir) {
 
 			root = doc.documentElement();
 			tableH->item(tableH->rowCount() - 1, 1)->setText(root.attribute(
-					"nr", "NULL"));
+					"no", "NULL"));
 			tableH->item(tableH->rowCount() - 1, 2)->setText(root.attribute(
-					"data.sprzed", "NULL"));
+					"sellingDate", "NULL"));
 			tableH->item(tableH->rowCount() - 1, 3)->setText(root.attribute(
 					"type", "NULL"));
 			QDomNode nab;
 			nab = root.firstChild();
 			nab = nab.toElement().nextSibling();
 			tableH->item(tableH->rowCount() - 1, 4)->setText(
-					nab.toElement().attribute("nazwa", "NULL"));
+					nab.toElement().attribute("name", "NULL"));
 			tableH->item(tableH->rowCount() - 1, 5)->setText(
-					nab.toElement().attribute("nip", "NULL"));
+					nab.toElement().attribute("tic", "NULL"));
 		}
 	}
 }

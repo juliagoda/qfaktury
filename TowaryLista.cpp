@@ -27,9 +27,10 @@ void TowaryLista::init ()
   connect( okBtn, SIGNAL( clicked() ), this, SLOT( doAccept() ) );
   connect( cancelBtn, SIGNAL( clicked() ), this, SLOT( close() ) );
   connect( comboBox1, SIGNAL( activated(int) ), this, SLOT( comboBox1Changed(int) ) );
-  // connect( listWidget, SIGNAL( selectionChanged(QListViewItem*) ), this, SLOT( lv1selChanged(QListViewItem*) ) );
+  // connect( listWidget, SIGNAL(  itemActivated (QListWidgetItem* ) ), this, SLOT( lv1selChanged(QListWidgetItem* ) ) );
+  connect(listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(lv1selChanged()));
   connect( spinBox2, SIGNAL( valueChanged(int) ), this, SLOT( spinChanged(int) ) );
-  connect( nameEdit, SIGNAL( textChanged(const QString&) ), this, SLOT( setSelItemText() ) );
+  // connect( nameEdit, SIGNAL( textChanged(const QString&) ), this, SLOT( setSelItemText() ) );
   connect( rabatSpin, SIGNAL( valueChanged(int) ), this, SLOT( calcNetto() ) );
   connect( countEdit, SIGNAL( lostFocus() ), this, SLOT( calcNetto() ) );
   connect( countEdit, SIGNAL( selectionChanged() ), this, SLOT( calcNetto() ) );
@@ -44,8 +45,6 @@ void TowaryLista::readTow (QString progDir)
   QDomElement towar;
   QDomElement usluga;
   QString code, curr, pkwiu;
-
-
 
   QFile file (progDir + "/towary.xml");
   if (!file.open (QIODevice::ReadOnly))
@@ -82,7 +81,11 @@ void TowaryLista::readTow (QString progDir)
 	  code = n.toElement ().attribute ("code");
 	  curr = n.toElement ().attribute ("curr");
 	  pkwiu = n.toElement ().attribute ("pkwiu");
-	  listaTowary2[idx] = ProductsListData (code, curr, pkwiu);
+
+	  // ProductsListData* tst1 = new ProductsListData (code, curr, pkwiu);
+	  // listaTowary2[idx] = tst1;
+
+	  listaTowary2.insert(text, new ProductsListData (code, curr, pkwiu));
 
 	}
 
@@ -98,7 +101,7 @@ void TowaryLista::readTow (QString progDir)
 	  code = n.toElement ().attribute ("code");
 	  curr = n.toElement ().attribute ("curr");
 	  pkwiu = n.toElement ().attribute ("pkwiu");
-	  listaUslugi2[idx] = ProductsListData (code, curr, pkwiu);
+	  listaUslugi2[text] = new ProductsListData (code, curr, pkwiu);
 	}
     }
 }
@@ -127,21 +130,27 @@ void TowaryLista::doAccept ()
 	     qDebug( "curr" + listaTowary2[id].currX() );
 	     qDebug( "pkwiu" + listaTowary2[id].pkwiuX() );
 	   */
-	  ret =
-	    selectedItem + "|" + listaTowary2[id].codeX () + "|" +
-	    listaTowary2[id].pkwiuX () + "|" + countEdit->text () + "|" +
-	    listaTowary2[id].currX () + "|" + cenaEdit->text () + "|" +
-	    nettoLabel->text () + "|" + vat + "|" + bruttoLabel->text ();
+    	  ret =
+    	    selectedItem + "|" + listaTowary2[id]->getCode() + "|" +
+    	    listaTowary2[id]->getPkwiu() + "|" + countEdit->text () + "|" +
+    	    listaTowary2[id]->getQuantityType() + "|" +
+    	    QString::number (rabatSpin->value ()) + "|" + cenaEdit->text () +
+    	    "|" + nettoLabel->text () + "|" + vat + "|" +
+    	    bruttoLabel->text ();
+
+
 	}
       if (comboBox1->currentIndex () == 1)
 	{
 	  // int x = listaUslugi.findIndex(selectedItem);
 	  // qDebug( "%d", x );
-	  ret =
-	    selectedItem + "|" + listaUslugi2[id].codeX () + "|" +
-	    listaUslugi2[id].pkwiuX () + "|" + countEdit->text () + "|" +
-	    listaUslugi2[id].currX () + "|" + cenaEdit->text () + "|" +
-	    nettoLabel->text () + "|" + vat + "|" + bruttoLabel->text ();
+
+  	    ret = selectedItem + "|" + listaUslugi2[id]->getCode() + "|" +
+  	    listaUslugi2[id]->getPkwiu() + "|" + countEdit->text () + "|" +
+  	    listaUslugi2[id]->getQuantityType() + "|" +
+  	    QString::number (rabatSpin->value ()) + "|" + cenaEdit->text () +
+  	    "|" + nettoLabel->text () + "|" + vat + "|" +
+  	    bruttoLabel->text ();
 
 	}
       accept ();
@@ -162,13 +171,18 @@ void TowaryLista::comboBox1Changed (int x)
 
 void TowaryLista::calcNetto ()
 {
-  QString brutto1 = QString::number (getPrice (countEdit->text (),
-					       cenaEdit->text (), vat));
-  bruttoLabel->setText (fixStr (brutto1));
+	  QString rabat1 = QString::number (rabatSpin->value ());
+	  if (rabat1.length () == 1)
+	    rabat1 = "0.0" + rabat1;
+	  else
+	    rabat1 = "0." + rabat1;
 
-  QString netto1 = QString::number (getPrice2 (countEdit->text (),
-					       cenaEdit->text ()));
-  nettoLabel->setText (fixStr (netto1));
+	  double rabat2 =
+		  getPriceNett (countEdit->text (), cenaEdit->text ()) * rabat1.toDouble ();
+	  double netto2 = getPriceNett (countEdit->text (), cenaEdit->text ()) - rabat2;
+	  double brutto2 = getPriceGross2 (netto2, vat);
+	  bruttoLabel->setText (fixStr (QString::number (brutto2)));
+	  nettoLabel->setText (fixStr (QString::number (netto2)));
 }
 
 
@@ -220,13 +234,13 @@ void TowaryLista::lv1selChanged ()
   if (items.size() == 1)
     {
       QListWidgetItem *item=items[0];
-	  qDebug()<<"lv1selChanged "<<item->text();
-
+      nameEdit->setText(item->text());
       readNettos (item->text());
       id = item->text ();
       selectedItem = item->text ();
       calcNetto ();
     }
+
 }
 
 void TowaryLista::readNettos (QString index)
@@ -265,7 +279,7 @@ void TowaryLista::readNettos (QString index)
 	       n = n.nextSibling ())
 	    {
 
-	      text = n.toElement ().attribute ("idx");
+	      text = n.toElement ().attribute ("name");
 	      if (text == index)
 		{
 		  nettos[0] = n.toElement ().attribute ("netto1");
@@ -285,7 +299,7 @@ void TowaryLista::readNettos (QString index)
 	  for (QDomNode n = usluga.firstChild (); !n.isNull ();
 	       n = n.nextSibling ())
 	    {
-	      text = n.toElement ().attribute ("idx");
+	      text = n.toElement ().attribute ("name");
 	      if (text == index)
 		{
 		  nettos[0] = n.toElement ().attribute ("netto1");
@@ -300,19 +314,17 @@ void TowaryLista::readNettos (QString index)
 	}
     }
 
-
 }
 
 
 void TowaryLista::spinChanged (int a)
 {
-  // qDebug (__FUNCTION__);
+  qDebug () << __FUNCTION__;
   cenaEdit->setText (nettos[a - 1]);
   calcNetto ();
 }
 TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
     setupUi(this);
-    connect(listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(lv1selChanged()));
     init();
 }
 

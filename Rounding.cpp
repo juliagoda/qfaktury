@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "Rounding.h"
 
 
@@ -15,7 +16,7 @@ doRound (QString in)
       tmp = in;
       QString calk = tmp.remove (tmp.indexOf(","), reszta.length () + 1);	// liczba calk
       // int last = reszta.right(1).toInt();
-      // first 
+      // first
       // if we  have 0,12321321321
       // the wy modify this to: 0,123
       // second
@@ -82,14 +83,25 @@ fixStr (QString in)
   return addZeros (doRound (in)).replace (".", ",");
 }
 
-
 /*!
- This calculate brutto  
+ This calculate brutto
   */
 float
-getPrice (QString count, QString netto, QString vat)
+getPriceGross2 (double netto, QString vat)
 {
-  int cnt = count.toInt ();
+  float nt = netto;		// .replace (",", ".").toFloat ();
+  float tmpVt = vat.toFloat ();
+  float vt = (tmpVt / 100) + 1;
+  return nt * vt;
+}
+
+/*!
+ This calculate brutto
+  */
+float
+getPriceGross (QString count, QString netto, QString vat)
+{
+  float cnt = count.replace (",", ".").toFloat ();
   float nt = netto.replace (",", ".").toFloat ();
   float tmpVt = vat.toFloat ();
   float vt = (tmpVt / 100) + 1;
@@ -100,9 +112,9 @@ getPrice (QString count, QString netto, QString vat)
  This calculate netto
   */
 float
-getPrice2 (QString count, QString netto)
+getPriceNett (QString count, QString netto)
 {
-  int cnt = count.toInt ();
+  float cnt = count.replace (",", ".").toFloat ();
   float nt = netto.replace (",", ".").toFloat ();
   return nt * cnt;
 }

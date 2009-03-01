@@ -7,8 +7,10 @@
 
 QString doRound (QString in);
 QString fixStr (QString in);
-float getPrice (QString count, QString netto, QString vat);
-float getPrice2 (QString count, QString netto);
+float getPriceGross (QString count, QString netto, QString vat);
+float getPriceNett (QString count, QString netto);
+float getPriceGross2 (double netto, QString vat);
+
 QString addZeros (QString in);
 
 #endif

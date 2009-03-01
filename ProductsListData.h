@@ -18,14 +18,18 @@ public:
 		if (pkwiu == "")
 			pkwiu = "-";
 	}
-	QString codeX() const {
+	QString getCode() const {
 		return code;
 	}
-	QString currX() const {
+	QString getQuantityType() const {
 		return curr;
 	}
-	QString pkwiuX() const {
+	QString getPkwiu() const {
 		return pkwiu;
+	}
+
+	QString toString() {
+		return	"ProductsListData \n[" + getCode() + "\n" + getQuantityType() + "\n" + getPkwiu() + "]\n";
 	}
 private:
 	QString code;

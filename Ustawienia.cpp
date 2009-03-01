@@ -168,8 +168,8 @@ void Ustawienia::setDefaultClick() {
  */
 void Ustawienia::addLogoBtnClick()
 {
- QString ofn = QFileDialog::getOpenFileName (this,"Wybierz plik do wstawienia jako logo", "",
-				       "Obrazki (*.jpg *.png)"
+ QString ofn = QFileDialog::getOpenFileName (this,UTF8("Wybierz plik do wstawienia jako logo"), "",
+				       UTF8("Obrazki (*.jpg *.png)")
 				       );
 
  logoEdit->setText( ofn );
