@@ -522,21 +522,23 @@ temp_f=0.0;
    */
 }
 
-void Podglad::setTableTemp( TableTemp & t,QString progdir2,QString reUTF8n )
-{
-	tabletemp=t;
- makePixmap();
- this->setWindowTitle(tabletemp.data.title);
+/** This method generates the pixmap of the invoice and sets it on the label
+ */
+void Podglad::setTableTemp(TableTemp & t, QString progdir2, QString ret) {
+	tabletemp = t;
+	makePixmap();
+	this->setWindowTitle(tabletemp.data.title);
 
- progDir2=progdir2;
- ret=reUTF8n;
- if(tabletemp.data.paidCash==false)
-     pushButton6->setEnabled(true);
-  label->setPixmap(pixmap[0]);
-
-  pixmap[0].save("/tmp/a");
+	progDir2 = progdir2;
+	ret = ret;
+	// add money transfer form
+	if (tabletemp.data.paidCash == false)
+		pushButton6->setEnabled(true);
+	label->setPixmap(pixmap[0]);
 }
 
+/** generate pixmap or pdf
+ */
 void Podglad::makePixmap() {
 	setVisibleColumn();
 	if (makePdf) {
@@ -553,7 +555,6 @@ void Podglad::makePixmap() {
 		pixmap.push_back(QPixmap(840, 1188));
 		pixmap[0].fill();
 		QPainter p(&pixmap[0]);
-		// p.begin(pixmap[0]);
 		drawHeader(p);
 		p.end();
 		drawBody();
