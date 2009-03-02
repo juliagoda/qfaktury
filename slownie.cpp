@@ -5,11 +5,10 @@
 
 QString slownie(QString input, QString waluta)
 {
-    qDebug( __FUNCTION__  );
     QString in = input;
-    
+
     QString tmp = in.remove (in.indexOf(UTF8(",")), 3);
-    
+
     QString setki = tmp.right (3);
     QString tysiace;
     switch (tmp.length ())
@@ -27,27 +26,27 @@ QString slownie(QString input, QString waluta)
 	tysiace = UTF8("");
 	break;
     }
-    
+
     QString out;
-    
+
     QStringList jedynki;
-    
+
     jedynki << UTF8("jeden") << UTF8("dwa")  << UTF8("trzy") << UTF8("cztery") <<
 	    UTF8("pięć") << UTF8("sześć") << UTF8("siedem") << UTF8("osiem") <<
 	    UTF8("dziewięć");
-    
+
 /*
     jedynki << UTF8("jeden złotych") << UTF8("dwa złote")  << UTF8("trzy złote") << UTF8("cztery złote") <<
 	    UTF8("pięć złotych") << UTF8("sześć złotych") << UTF8("siedem złotych") << UTF8("osiem złotych") <<
 	    UTF8("dziewięć złotych");
     */
-    
+
     QStringList jedynki1;
     jedynki1 << UTF8("jeden") << UTF8("dwa")  << UTF8("trzy") << UTF8("cztery") <<
 	    UTF8("pięć") << UTF8("sześć") << UTF8("siedem") << UTF8("osiem") <<
 	    UTF8("dziewięć");
-    
-    
+
+
     QStringList nascie;
     nascie << UTF8("jedenaście") << UTF8("dwanaście") << UTF8("trzynaście") <<
 	    UTF8("czternaście") << UTF8("piętnaście") << UTF8("szesnaście") <<
@@ -58,30 +57,30 @@ QString slownie(QString input, QString waluta)
 	    UTF8("czternaście złotych") << UTF8("piętnaście złotych") << UTF8("szesnaście złotych") <<
 	    UTF8("siedemnaście złotych") << UTF8("osiemnaście złotych") << UTF8("dziewiętnaście złotych") <<
 	    UTF8("dziesięć złotych");
-      
+
       */
-    
+
     QStringList nascie1;
     nascie1<< UTF8("jedenaście") << UTF8("dwanaście") << UTF8("trzynaście") <<
 	    UTF8("czternaście") << UTF8("piętnaście") << UTF8("szesnaście") <<
 	    UTF8("siedemnaście") << UTF8("osiemnaście") << UTF8("dziewiętnaście") <<
 	    UTF8("dziesięć");
-    
-    
+
+
     QStringList escia;
     escia << UTF8("dwadziescia") << UTF8("trzydziesci") << UTF8("czterdzieści") <<
 	    UTF8("piędziesiąt") << UTF8("sześdziesiąt") << UTF8("siedemdziesiąt") <<
 	    UTF8("osiemdziesiąt") << UTF8("dziewięćdziesiąt");
-    
+
     QStringList sta;
     sta << UTF8("sto") << UTF8("dwieście") << UTF8("trzysta") << UTF8("czterysta")
 	    << UTF8("pięćset") << UTF8("sześćset") << UTF8("siedemset") <<
 	    UTF8("osiemset") << UTF8("dziewięćset");
-    
-    
+
+
     // ******************************************************************
     while (tysiace.length () < 3) tysiace = UTF8("0") + tysiace;
-    
+
     switch (tysiace.left (1).toInt ())
     {
     case 1:
@@ -115,12 +114,12 @@ QString slownie(QString input, QString waluta)
 	out += UTF8("");
 	break;
     }
-    
+
     if (tysiace.mid (1, 1).toInt () == 1)
-    {     
+    {
 	switch (tysiace.right(1).toInt ())
 	{
-	case 1: 
+	case 1:
 	    out += UTF8(" ")  + nascie1[0];
 	    break;
 	case 2:
@@ -218,16 +217,16 @@ QString slownie(QString input, QString waluta)
 	    break;
 	}
     }
-    
-    
+
+
     if (out.length () > 2)
 	out += UTF8(" tys.");
-    
-    
+
+
     //***************************************************************
     while (setki.length () < 3)
 	setki = UTF8("0") + setki;
-    
+
     switch (setki.left (1).toInt ())
     {
     case 1:
@@ -261,7 +260,7 @@ QString slownie(QString input, QString waluta)
 	out += UTF8("");
 	break;
     }
-    
+
     switch (setki.mid (1, 1).toInt ())
     {
 	//    case 1: out += nascie[0];
@@ -294,8 +293,8 @@ QString slownie(QString input, QString waluta)
 	out += UTF8("");
 	break;
     }
-    
-    
+
+
     if (setki.mid (1, 1).toInt () == 1)
     {
 	switch (setki.right (1).toInt ())
@@ -367,9 +366,9 @@ QString slownie(QString input, QString waluta)
 	    out += UTF8(" zero"); // waluta; // UTF8(" złotych");
 	    break;
 	}
-	
+
     }
-    
+
     in = input;
     QString grosze =
 	    in.remove (0, in.indexOf(UTF8(",")) + 1);

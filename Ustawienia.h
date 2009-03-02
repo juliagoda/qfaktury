@@ -29,23 +29,6 @@ public slots:
 	void paymAddBtnClick();
 	void defTextBtnClick();
 	void setDefaultClick();
-	void cb1Changed();
-	void cb2Changed();
-	void cb3Changed();
-	void cb4Changed();
-	void cb5Changed();
-	void cb6Changed();
-	void cb7Changed();
-	void cb8Changed();
-	void cb9Changed();
-	void cb10Changed();
-	void cb11Changed();
-	void cb12Changed();
-	void cb13Changed();
-	void cb14Changed();
-	void mdChanged();
-	void sbxChanged();
-	void addBrowser();
 private:
 	bool read;
 	QSettings settings;

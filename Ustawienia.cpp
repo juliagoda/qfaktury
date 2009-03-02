@@ -65,25 +65,7 @@ void Ustawienia::init() {
     connect( cb12, SIGNAL( stateChanged(int) ), this, SLOT( cb12Changed() ) );
     connect( cb13, SIGNAL( stateChanged(int) ), this, SLOT( cb13Changed() ) );
     connect( cb14, SIGNAL( stateChanged(int) ), this, SLOT( cb14Changed() ) );
-    connect( printSpinBoxDown, SIGNAL( valueChanged(int) ), this, SLOT( mdChanged() ) );
-    connect( printSpinBoxLeft, SIGNAL( valueChanged(int) ), this, SLOT( mdChanged() ) );
-    connect( printSpinBoxRight, SIGNAL( valueChanged(int) ), this, SLOT( mdChanged() ) );
-    connect( printSpinBoxTop, SIGNAL( valueChanged(int) ), this, SLOT( mdChanged() ) );
-    connect( sb1, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb2, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb3, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb4, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb5, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb6, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb7, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb8, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb9, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb10, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb11, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb12, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb13, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( sb14, SIGNAL( valueChanged(int) ), this, SLOT( sbxChanged() ) );
-    connect( cbBrowser, SIGNAL( stateChanged(int) ), this, SLOT( addBrowser() ) );
+
     connect( logoEdit, SIGNAL( editingFinished ()), this, SLOT( zastBtnEnable() ) );
     connect( prefixEdit, SIGNAL( editingFinished () ), this, SLOT( zastBtnEnable() ) );
     connect( sufixEdit, SIGNAL( editingFinished () ), this, SLOT( zastBtnEnable() ) );
@@ -192,17 +174,6 @@ void Ustawienia::currAddBtnClick() {
 	zastButton->setEnabled(true);
 }
 
-/** Slot edit browser
- */
-void Ustawienia::addBrowser() {
-	if (!cbBrowser->isChecked()) {
-		editBrName->setEnabled(true);
-	} else {
-		editBrName->setEnabled(false);
-		editBrName->clear();
-	}
-	zastButton->setEnabled(true);
-}
 
 /** Slot del currency
  */
@@ -435,222 +406,9 @@ void Ustawienia::paymDownBtnClick() {
 //---------------------- UP DOWN SLOTS END----
 
 
-// ------------- SLOTS for items on the invoice START ----
-void Ustawienia::cb1Changed() {
-	sb1->setEnabled(cb1->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb2Changed() {
-	sb2->setEnabled(cb2->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb3Changed() {
-	sb3->setEnabled(cb3->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb4Changed() {
-	sb4->setEnabled(cb4->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb5Changed() {
-	sb5->setEnabled(cb5->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb6Changed() {
-	sb6->setEnabled(cb6->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb7Changed() {
-	sb7->setEnabled(cb7->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb8Changed() {
-	sb8->setEnabled(cb8->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb9Changed() {
-	sb9->setEnabled(cb9->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb10Changed() {
-	sb10->setEnabled(cb10->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb11Changed() {
-	sb11->setEnabled(cb11->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb12Changed() {
-	sb12->setEnabled(cb12->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb13Changed() {
-	sb13->setEnabled(cb13->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
-
-void Ustawienia::cb14Changed() {
-	sb14->setEnabled(cb14->isChecked());
-	sumSize();
-	zastButton->setEnabled(true);
-}
 
 
-void Ustawienia::sumSize() {
-	if (read == false)
-		return;
-	int sum = 0;
-	sum += printSpinBoxLeft->value();
-	sum += printSpinBoxRight->value();
 
-	if (cb1->isChecked() == true)
-		sum += sb1->value();
-	if (cb2->isChecked() == true)
-		sum += sb2->value();
-	if (cb3->isChecked() == true)
-		sum += sb3->value();
-	if (cb4->isChecked() == true)
-		sum += sb4->value();
-	if (cb5->isChecked() == true)
-		sum += sb5->value();
-	if (cb6->isChecked() == true)
-		sum += sb6->value();
-	if (cb7->isChecked() == true)
-		sum += sb7->value();
-	if (cb8->isChecked() == true)
-		sum += sb8->value();
-	if (cb9->isChecked() == true)
-		sum += sb9->value();
-	if (cb10->isChecked() == true)
-		sum += sb10->value();
-	if (cb11->isChecked() == true)
-		sum += sb11->value();
-	if (cb12->isChecked() == true)
-		sum += sb12->value();
-	if (cb13->isChecked() == true)
-		sum += sb13->value();
-	if (cb14->isChecked() == true)
-		sum += sb14->value();
-
-	//    sbsetEnabled();
-
-	if (sum >= 210) {
-		if (cb1->isChecked() == false)
-			cb1->setEnabled(false);
-		if (cb2->isChecked() == false)
-			cb2->setEnabled(false);
-		if (cb3->isChecked() == false)
-			cb3->setEnabled(false);
-		if (cb4->isChecked() == false)
-			cb4->setEnabled(false);
-		if (cb5->isChecked() == false)
-			cb5->setEnabled(false);
-		if (cb6->isChecked() == false)
-			cb6->setEnabled(false);
-		if (cb7->isChecked() == false)
-			cb7->setEnabled(false);
-		if (cb8->isChecked() == false)
-			cb8->setEnabled(false);
-		if (cb9->isChecked() == false)
-			cb9->setEnabled(false);
-		if (cb10->isChecked() == false)
-			cb10->setEnabled(false);
-		if (cb11->isChecked() == false)
-			cb11->setEnabled(false);
-		if (cb12->isChecked() == false)
-			cb12->setEnabled(false);
-		if (cb13->isChecked() == false)
-			cb13->setEnabled(false);
-		if (cb14->isChecked() == false)
-			cb14->setEnabled(false);
-	} else {
-		if (cb1->isEnabled() == false)
-			cb1->setEnabled(true);
-		if (cb2->isEnabled() == false)
-			cb2->setEnabled(true);
-		if (cb3->isEnabled() == false)
-			cb3->setEnabled(true);
-		if (cb4->isEnabled() == false)
-			cb4->setEnabled(true);
-		if (cb5->isEnabled() == false)
-			cb5->setEnabled(true);
-		if (cb6->isEnabled() == false)
-			cb6->setEnabled(true);
-		if (cb7->isEnabled() == false)
-			cb7->setEnabled(true);
-		if (cb8->isEnabled() == false)
-			cb8->setEnabled(true);
-		if (cb9->isEnabled() == false)
-			cb9->setEnabled(true);
-		if (cb10->isEnabled() == false)
-			cb10->setEnabled(true);
-		if (cb11->isEnabled() == false)
-			cb11->setEnabled(true);
-		if (cb12->isEnabled() == false)
-			cb12->setEnabled(true);
-		if (cb13->isEnabled() == false)
-			cb13->setEnabled(true);
-		if (cb14->isEnabled() == false)
-			cb14->setEnabled(true);
-	}
-
-	int temp = 210 - sum;
-	sizeleft->setText(QString::number(temp));
-	if (temp < 0)
-		return;
-	sb1->setMaximum(sb1->value() + temp);
-	sb2->setMaximum(sb2->value() + temp);
-	sb3->setMaximum(sb3->value() + temp);
-	sb4->setMaximum(sb4->value() + temp);
-	sb5->setMaximum(sb5->value() + temp);
-	sb6->setMaximum(sb6->value() + temp);
-	sb7->setMaximum(sb7->value() + temp);
-	sb8->setMaximum(sb8->value() + temp);
-	sb9->setMaximum(sb9->value() + temp);
-	sb10->setMaximum(sb10->value() + temp);
-	sb11->setMaximum(sb11->value() + temp);
-	sb12->setMaximum(sb12->value() + temp);
-	sb13->setMaximum(sb13->value() + temp);
-	sb14->setMaximum(sb14->value() + temp);
-	printSpinBoxLeft->setMaximum(printSpinBoxLeft->value() + temp);
-	printSpinBoxTop->setMaximum(printSpinBoxTop->value() + temp);
-}
-
-void Ustawienia::mdChanged() {
-    sumSize();
-	zastButton->setEnabled(true);
-}
-
-
-void Ustawienia::sbxChanged() {
-    sumSize();
-	zastButton->setEnabled(true);
-}
 // ------------- SLOTS for items on the invoice START ----
 
 
@@ -709,8 +467,6 @@ QString Ustawienia::getAll(QListWidget *lb)
 void Ustawienia::saveSettings() {
 	Settings settings;
 
-	settings.setValue("default_browser", cbBrowser->isChecked());
-	settings.setValue("browser_name", editBrName->text());
 	settings.setValue("lang", langList->currentText());
 	settings.setValue("localEnc", codecList->currentText());
 
@@ -741,15 +497,6 @@ void Ustawienia::saveSettings() {
 	settings.setValue("pkorekty", getAll(korlBox));
 	settings.setValue("payments", getAll(paymlBox)); // uwaga!! get first
 	settings.setValue("paym1", paymlBox->item(0)->text());
-	settings.setValue("pdfQuality", comboBox3->currentIndex());
-	settings.setValue("margLeftPrinter", QString::number(
-			printSpinBoxLeft->value()));
-	settings.setValue("margTopPrinter", QString::number(
-			printSpinBoxTop->value()));
-	settings.setValue("margDownPrinter", QString::number(
-			printSpinBoxDown->value()));
-	settings.setValue("margRightPrinter", QString::number(
-			printSpinBoxRight->value()));
 	settings.setValue("addText", additText->toPlainText());
 
 	// settings.setValue ("fiskal", checkBNetto->isChecked ());
@@ -780,22 +527,6 @@ void Ustawienia::saveSettings() {
 	settings.setValue("vatprice", cb13->isChecked());
 	settings.setValue("bruttoval", cb14->isChecked());
 
-	settings.beginGroup("wydruki");
-	settings.setValue("col1", sb1->value());
-	settings.setValue("col2", sb2->value());
-	settings.setValue("col3", sb3->value());
-	settings.setValue("col4", sb4->value());
-	settings.setValue("col5", sb5->value());
-	settings.setValue("col6", sb6->value());
-	settings.setValue("col7", sb7->value());
-	settings.setValue("col8", sb8->value());
-	settings.setValue("col9", sb9->value());
-	settings.setValue("col10", sb10->value());
-	settings.setValue("col11", sb11->value());
-	settings.setValue("col12", sb12->value());
-	settings.setValue("col13", sb13->value());
-	settings.setValue("col14", sb14->value());
-	settings.endGroup();
 }
 
 /** Read all settings
@@ -816,18 +547,6 @@ void Ustawienia::readSettings() {
 	korlBox->clear();
 	korlBox->addItems(settings.value("pkorekty").toString().split("|"));
 
-	comboBox3->setCurrentIndex(settings.value("pdfQuality").toInt());
-
-	/*
-	 spinBox2->setValue(settings.value("margLeft").toInt());
-	 spinBox2_2->setValue(settings.value("margTop").toInt());
-	 spinBox2_4->setValue(settings.value("margDown").toInt());
-	 spinBox2_3->setValue(settings.value("margRight").toInt());
-	 */
-	printSpinBoxDown->setValue(settings.value("margDownPrinter").toInt());
-	printSpinBoxTop->setValue(settings.value("margTopPrinter").toInt());
-	printSpinBoxLeft->setValue(settings.value("margLeftPrinter").toInt());
-	printSpinBoxRight->setValue(settings.value("margRightPrinter").toInt());
 
 	/*
 	 settings.setValue ("payments",   getAll(paymlBox) ); // uwaga!! get first
@@ -863,10 +582,6 @@ void Ustawienia::readSettings() {
 	cbYear->setChecked(settings.value("year").toBool());
 	shortYear->setChecked(settings.value("shortYear").toBool());
 	cbEdit->setChecked(settings.value("edit").toBool());
-	cbBrowser->setChecked(settings. value("default_browser", true).toBool());
-	editBrName->setText(settings.value("browser_name").toString());
-	if (!cbBrowser->isChecked())
-		editBrName->setEnabled(true);
 
 	cbSmbEdit->setChecked(settings.value("editSymbol").toBool());
 	cbSmbEdit_2->setChecked(settings.value("editName").toBool());
@@ -899,22 +614,6 @@ void Ustawienia::readSettings() {
 	userinfowww_2->setChecked(settings.value("clientwww").toBool());
 	settings.endGroup();
 
-	settings.beginGroup("wydruki");
-	sb1->setValue(settings.value("col1").toInt());
-	sb2->setValue(settings.value("col2").toInt());
-	sb3->setValue(settings.value("col3").toInt());
-	sb4->setValue(settings.value("col4").toInt());
-	sb5->setValue(settings.value("col5").toInt());
-	sb6->setValue(settings.value("col6").toInt());
-	sb7->setValue(settings.value("col7").toInt());
-	sb8->setValue(settings.value("col8").toInt());
-	sb9->setValue(settings.value("col9").toInt());
-	sb10->setValue(settings.value("col10").toInt());
-	sb11->setValue(settings.value("col11").toInt());
-	sb12->setValue(settings.value("col12").toInt());
-	sb13->setValue(settings.value("col13").toInt());
-	sb14->setValue(settings.value("col14").toInt());
-	settings.endGroup();
 
 	/*
 	 settings.setValue ("payments",   getAll(paymlBox) ); // uwaga!! get first
