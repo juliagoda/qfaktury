@@ -12,7 +12,7 @@
   <property name="windowTitle" >
    <string>Faktura VAT</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" >
+  <layout class="QVBoxLayout" name="verticalLayout" >
    <item>
     <layout class="QHBoxLayout" >
      <item>
@@ -200,8 +200,14 @@
    </item>
    <item>
     <widget class="QTableWidget" name="tableTow" >
+     <property name="enabled" >
+      <bool>true</bool>
+     </property>
+     <property name="editTriggers" >
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
      <property name="selectionMode" >
-      <enum>QAbstractItemView::MultiSelection</enum>
+      <enum>QAbstractItemView::SingleSelection</enum>
      </property>
      <property name="rowCount" >
       <number>0</number>
@@ -241,6 +247,11 @@
      </column>
      <column>
       <property name="text" >
+       <string>Rabat</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
        <string>Cena jn.</string>
       </property>
      </column>
@@ -259,7 +270,6 @@
        <string>Brutto</string>
       </property>
      </column>
-     <column/>
     </widget>
    </item>
    <item>
@@ -281,21 +291,21 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="addTw" >
+      <widget class="QPushButton" name="addTwBtn" >
        <property name="text" >
         <string>Dodaj</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="rmTow" >
+      <widget class="QPushButton" name="rmTowBtn" >
        <property name="text" >
         <string>Usuń</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="editTw" >
+      <widget class="QPushButton" name="editTwBtn" >
        <property name="text" >
         <string>Edycja</string>
        </property>
@@ -594,7 +604,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" >
+    <layout class="QHBoxLayout" name="horizontalLayout_4" >
      <item>
       <widget class="QFrame" name="frame" >
        <property name="frameShape" >
@@ -606,76 +616,98 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4" >
-       <item>
-        <spacer name="spacer6" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Minimum</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cancelbtn" >
-         <property name="text" >
-          <string>&amp;Anuluj</string>
-         </property>
-         <property name="shortcut" >
-          <string>Alt+A</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="spacer4" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>288</width>
-           <height>23</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="printBtn" >
-         <property name="text" >
-          <string>Dalej</string>
-         </property>
-         <property name="shortcut" >
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="spacer5" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Minimum</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+      <spacer name="spacer6" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>37</width>
+         <height>23</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeBtn" >
+       <property name="text" >
+        <string>&amp;Zamknij</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+A</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer4" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>228</width>
+         <height>23</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveBtn" >
+       <property name="text" >
+        <string>Zapisz</string>
+       </property>
+       <property name="shortcut" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer5_2" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="printBtn" >
+       <property name="text" >
+        <string>Drukuj</string>
+       </property>
+       <property name="shortcut" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer5" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>

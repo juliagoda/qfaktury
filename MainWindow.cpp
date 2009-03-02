@@ -9,7 +9,6 @@
 #include <QTextStream>
 #include <QtDebug>
 
-#include "Podglad.h"
 #include "Ustawienia.h"
 #include "Uzytkownik.h"
 #include "Towary.h"
@@ -586,7 +585,7 @@ void MainWindow::editFHist() {
 		// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 		Faktura *fraWindow = new Faktura(this);
 		fraWindow->progDir2 = pdGlob;
-		qDebug() << pdGlob;
+		// qDebug() << pdGlob;
 		int co = 0;
 		if (tableH->item(row, 3)->text() == "FVAT")
 			co = 0;

@@ -6,6 +6,7 @@ set(QFAKTURY_MINOR 5)
 set(QFAKTURY_REVISION 0)
 set(QFAKTURY_VERSION ${QFAKTURY_MAJOR}.${QFAKTURY_MINOR}.${QFAKTURY_REVISION})
 set(QT_USE_QTXML TRUE)
+set(QT_USE_QTWEBKIT TRUE)
 
 find_package(Qt4 REQUIRED)
 
@@ -25,7 +26,6 @@ TowaryLista.cpp
 Ustawienia.cpp
 Uzytkownik.cpp
 ZmienIlosc.cpp
-Podglad.cpp
 MainWindow.cpp
 )
 
@@ -40,7 +40,6 @@ Towary.ui
 Ustawienia.ui
 Uzytkownik.ui
 ZmienIlosc.ui
-Podglad.ui
 )
 
 set(qfaktury_RCCS

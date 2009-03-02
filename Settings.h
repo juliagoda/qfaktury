@@ -7,7 +7,7 @@
 #include <QLocale>
 #include <QDebug>
 
-#define UTF8(x) QString::fromUtf8(x)
+#define UTF8(x) QObject::trUtf8(x)
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
 
@@ -21,6 +21,7 @@ public:
 		QSettings("elinux", "qfaktury") {
 
 		dateFormat = "dd/MM/yyyy";
+		fileNameDateFormat = "yyyy-MM-dd";
 	}
 
 	// get date from settings as QDate
@@ -30,12 +31,19 @@ public:
 		return locale.toDate( date, getDateFormat());
 	}
 
+	// returns date format used for all dates
 	QString getDateFormat() {
 		// for some reason on Linux i see date as mm/dd/yy
 		// it's better to have a full year... so
 		return dateFormat;
 	}
 
+	// returns date format used while saving the file
+	QString getFnameDateFormat() {
+			// for some reason on Linux i see date as mm/dd/yy
+			// it's better to have a full year... so
+			return fileNameDateFormat;
+		}
 	/**
 	 * validate the settings and set them to default values if required.
 	 */
@@ -470,8 +478,10 @@ public:
 		endGroup();
 	}
 
+
 private:
 	QString dateFormat;
+	QString fileNameDateFormat;
 
 };
 #endif

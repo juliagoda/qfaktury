@@ -1,14 +1,3 @@
-/****************************************************************************
-** ui.h extension file, included from the uic-generated form implementation.
-**
-** If you want to add, delete, or rename functions or slots, use
-** Qt Designer to update this file, preserving your code.
-**
-** You should not define a constructor or destructor in this file.
-** Instead, write your code in functions called init() and destroy().
-** These will automatically be called by the form's constructor and
-** destructor.
-*****************************************************************************/
 #include "Towary.moc"
 #include <qtextcodec.h>
 #include <qdir.h>
@@ -19,22 +8,10 @@
 #include <QtDebug>
 
 
-/*
-idxEdit
-nameEdit
-skrotEdit
-typeCombo
-jednCombo
-nettoEdit
-vatEdit
-*/
-
-
 
 
 void Towary::readData (QString idx, QString type)
 {
-  qDebug (__FUNCTION__);
   if (idx == "")
     {
       netto.append ("0,00");
@@ -45,7 +22,7 @@ void Towary::readData (QString idx, QString type)
     }
   else
     {
-      setWindowTitle ("Edytuj towar/us³ugê");
+      setWindowTitle (UTF8("Edytuj towar/usÅ‚ugi"));
     }
 
   lastId = 1;
@@ -120,7 +97,7 @@ void Towary::readData (QString idx, QString type)
 		  kodEdit->setText (n.toElement ().attribute ("code"));
 		  pkwiuEdit->setText (n.toElement ().attribute ("pkwiu"));
 		  skrotEdit->setText (n.toElement ().attribute ("desc"));
-		  typeCombo->setCurrentIndex(0); //X Text ("us³uga");
+		  typeCombo->setCurrentIndex(0); //X Text ("usï¿½uga");
 		  jednCombo->setCurrentIndex(0); //X Text (n.toElement ().
 					     //attribute ("curr"));
 		  nettoEdit->setText (n.toElement ().attribute ("netto1"));
@@ -200,14 +177,14 @@ void Towary::init ()
   readData ("", "");
   idxEdit->setText (QString::number (lastId));
   // cbVat->setCurrentText ("22");
-  
+
   Settings settings;
-  
+
   //  settings.writeEntry ("firstrun", "nie");
   // logoEdit->setText( settings.readEntry("elinux/faktury/logo") );
- jednCombo->addItems( settings.value("elinux/faktury/jednostki").toString().split("|")); 
- cbVat->addItems( settings.value("elinux/faktury/stawki").toString().split("|")); 
-  
+ jednCombo->addItems( settings.value("jednostki").toString().split("|"));
+ cbVat->addItems( settings.value("stawki").toString().split("|"));
+
 }
 
 bool Towary::saveAll ()
@@ -222,7 +199,7 @@ bool Towary::saveAll ()
      if ((*it) == nameEdit->text ())
      {
      QMessageBox::critical (0, "Faktury",
-     "Towar nie moze zostaæ dodany poniewa¿ istnieje ju¿ kontrahent o tej nazwie.");
+     "Towar nie moze zostaï¿½ dodany poniewaï¿½ istnieje juï¿½ kontrahent o tej nazwie.");
      return false;
      }
    */
@@ -253,7 +230,7 @@ bool Towary::saveAll ()
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
-	  // return;¦
+	  // return;ï¿½
 	}
       else
 	{
@@ -326,7 +303,6 @@ bool Towary::saveAll ()
 
 void Towary::modifyOnly ()
 {
-  qDebug (__FUNCTION__);
   nettoChanged ();
 
   /*
@@ -335,7 +311,7 @@ void Towary::modifyOnly ()
      if ((*it) == nameEdit->text ())
      {
      QMessageBox::critical (0, "GNU Przelewy",
-     "Kontrahent nie moze zostaæ dodany poniewa¿ istnieje ju¿ kontrahent o tej nazwie.");
+     "Kontrahent nie moze zostaï¿½ dodany poniewaï¿½ istnieje juï¿½ kontrahent o tej nazwie.");
      return;
      }
    */
@@ -363,7 +339,7 @@ void Towary::modifyOnly ()
 	{
 	  qDebug ("can not set content ");
 	  file.close ();
-	  // return;¦
+	  return;
 	}
       else
 	{
@@ -457,7 +433,7 @@ void Towary::okClick ()
 
   if (nameEdit->text () == "")
     {
-      QMessageBox::critical (0, "QFaktury", "Musisz podaæ chocia¿ nazwe.");
+      QMessageBox::critical (0, "QFaktury", UTF8("Musisz podaÄ‡ nazwe."));
       return;
     }
 
@@ -480,7 +456,7 @@ void Towary::okClick ()
       QString typ;
       if (typeCombo->currentIndex () == 1)
 	{
-	  typ = "us³uga";
+	  typ = "usï¿½uga";
 	}
       else
 	typ = "towar";
@@ -497,7 +473,7 @@ void Towary::okClick ()
 	  QString typ;
 	  if (typeCombo->currentIndex () == 1)
 	    {
-	      typ = "us³uga";
+	      typ = "usï¿½uga";
 	    }
 	  else
 	    typ = "towar";
@@ -534,8 +510,8 @@ void Towary::pkwiuGet ()
   args += "exec";
   args += "http://www.klasyfikacje.pl/";
   // args += "http://www.stat.gov.pl/klasyfikacje/PKWiU/pkwiu.htm";
-  
-  //X odpalenie przegl¿darki
+
+  //X odpalenie przeglï¿½darki
 //  QProcess cmd (args);
 //  if (!cmd.start ())
 //    {

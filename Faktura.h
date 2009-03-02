@@ -2,8 +2,6 @@
 #define Faktura_H
 #include <QDialog>
 #include "Settings.h"
-#include "tabletemp.h"
-#include "Podglad.h"
 
 #include "ui_Faktura.h"
 
@@ -23,28 +21,34 @@ public slots:
 	void delTowar();
 	void editTowar();
 	void backBtnClick();
-	void makeData();
-	void canCancel();
+	void canQuit();
+	void saveInvoice();
+	void makeInvoice();
+	void print(QPrinter*);
+	void tableActivated ( QTableWidgetItem * item );
+	void textChanged(QString someStr);
+	void dateChanged (QDate someDate);
 private:
 	Settings settings;
+	QStringList fraStrList;
+
 	int type;
 	QString lastInvoice;
 	bool isEdit;
-	TableTemp tabletemp;
-	void countDiscount();
-	void countSum();
-	void saveInvoice();
+	bool canClose;
+	bool saveFailed;
+	void calculateDiscount();
+	void calculateSum();
 	QString getGroupedSums();
 	void saveColumnsWidth();
-	/*
+
 	void makeInvoiceHeadar();
 	void makeInvoiceBody();
-	void makeInvoiceGoods();
+	void makeInvoiceProducts();
 	void makeInvoiceSumm();
 	void makeInvoiceSummAll();
-	void makeInvoice();
 	void makeInvoiceFooter();
-	*/
+
 	QString numbersCount(int in, int x);
 };
 #endif
