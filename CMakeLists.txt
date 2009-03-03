@@ -6,7 +6,6 @@ set(QFAKTURY_MINOR 5)
 set(QFAKTURY_REVISION 0)
 set(QFAKTURY_VERSION ${QFAKTURY_MAJOR}.${QFAKTURY_MINOR}.${QFAKTURY_REVISION})
 set(QT_USE_QTXML TRUE)
-set(QT_USE_QTWEBKIT TRUE)
 
 find_package(Qt4 REQUIRED)
 
@@ -58,6 +57,10 @@ if (WIN32)
         set(WIN32_FLAG WIN32)
     endif (CMAKE_BUILD_TYPE STREQUAL Release)
 endif (WIN32)
+
+  if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0003 NEW)
+  endif(COMMAND cmake_policy)
 
 add_executable(qfaktury ${WIN32_FLAG} ${qfaktury_SRCS} ${qfaktury_UIS_H} ${qfaktury_RCCS})
 target_link_libraries(qfaktury ${QT_LIBRARIES})

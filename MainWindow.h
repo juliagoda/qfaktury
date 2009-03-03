@@ -34,7 +34,7 @@ public slots:
 	void nextPage();
 	void prevPage();
 private:
-	Settings settings;
+	QString workingDir;
 	void saveColumnWidth();
 	bool applyFiltr(QString);
 	void init();
@@ -44,5 +44,6 @@ private:
 	void readHist(QString progDir);
 	void readKontr(QString progDir);
 	void readTw(QString progDir);
+	void setupDir();
 };
 #endif

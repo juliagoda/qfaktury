@@ -94,7 +94,7 @@ void KontrahenciLista::doAccept ()
 
 void KontrahenciLista::comboBox1Changed ()
 {
-  qDebug (__FUNCTION__);
+  // qDebug (__FUNCTION__);
   listBox1->clear ();
   switch (comboBox1->currentIndex ())
     {

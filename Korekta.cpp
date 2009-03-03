@@ -38,8 +38,8 @@ int citem;
 void Korekta::init ()
 {
   // invoice fra1;
-  // dodac do settingsow!!
-	
+  // dodac do sett()ow!!
+
   tableTow->setColumnWidth (0, 30);	//index
   tableTow->setColumnWidth (1, 90);	// nazwa
   tableTow->setColumnWidth (2, 35);	// kod
@@ -66,9 +66,8 @@ void Korekta::init ()
   templDir = templDir + "/templates/";
 
 //  QString tmp;
-  Settings settings;
 /*
-   tmp = settings.value ("elinux/faktury/korNr");
+   tmp = sett().value ("elinux/faktury/korNr");
 
   QStringList one1 = QStringList::split ("/", tmp);
   int nr = one1[0].toInt () + 1;
@@ -76,13 +75,13 @@ void Korekta::init ()
     QString::number (nr) + "/" + QDate::currentDate ().toString ("MM/yyyy");
   korNr->setText (lastInvoice);
   */
-  
- platCombo->addItems( settings.value("elinux/faktury/payments").toString().split("|")); 
 
-// currCombo->insertStringList( QStringList::split("|", settings.value("elinux/faktury/waluty")), -1); 
+ platCombo->addItems( sett().value("payments").toString().split("|"));
+
+// currCombo->insertStringList( QStringList::split("|", sett().value("elinux/faktury/waluty")), -1);
  // reasonCombo->clear();
- reasonCombo->addItems(settings.value("elinux/faktury/pkorekty").toString().split("|")); 
-  
+ reasonCombo->addItems(sett().value("pkorekty").toString().split("|"));
+
 }
 
 
@@ -90,16 +89,16 @@ void Korekta::readData(QString fraFile)
 {
   backBtn->setEnabled(false); // do this another way
   korNr->setEnabled(false);
-  setWindowTitle ("Edytuje korektê");
+  setWindowTitle ("Edytuje korekty");
   fName = fraFile;
-  
+
   // here we would read all data from one xml file to the this window
   QDomDocument doc ("faktury");
   QDomElement root;
   QDomElement nabywca;
   QDomElement towary;
   QDomElement towaryOld;
-  
+
   fName = fraFile;
   QFile file (progDir2 + "/faktury/" + fraFile);
   // qDebug( file.name() );
@@ -164,20 +163,20 @@ void Korekta::readData(QString fraFile)
         }
       towar = towar.nextSibling ().toElement ();
     }
-  
+
  tmp = tmp.toElement ().nextSibling ();
 towaryOld = tmp.toElement ();
-// qDebug(  towaryOld.tagName() ); 
+// qDebug(  towaryOld.tagName() );
   QString tmp1;
   towCount = towaryOld.attribute ("goods::count").toInt ();
   // qDebug( towaryOld.attribute ("goods::count") );
   i = 0;
   towary = towaryOld.firstChild ().toElement ();
-  
+
   oldNetto = 0;
   oldVat = 0;
   oldBrutto = 0;
-  
+
   for (i = 0; i < towCount; ++i)
     {
       tmp1 = QString::number(i);
@@ -197,37 +196,36 @@ towaryOld = tmp.toElement ();
       towary = towary.nextSibling ().toElement ();
       towaryPKor[i] = tmp1;
     }
-  
-  
+
+
   tmp = tmp.toElement ().nextSibling ();
   QDomElement additional = tmp.toElement ();
   additEdit->setText (additional.attribute ("text"));
-  
+
   platCombo->setCurrentIndex(additional.attribute ("forma.plat").toInt ());
-  
+
   reasonCombo->setCurrentIndex(additional.attribute ("przyczyna").toInt ());
 //  addinfo.setAttribute ("przyczyna",
 //			QString::number (reasonCombo->currentItem ()));
-  
+
 //   qDebug( additional.attribute ("przyczyna") );
 //   qDebug( additional.attribute ("forma.plat") );
-   
+
   paymFry->setText( platCombo->currentText() );
   liabDate->
     setDate (QDate::
 	     fromString (additional.attribute ("liabDate"), Qt::ISODate));
   citem = additional.attribute ("waluta").toInt ();
-  Settings settings;
   // currCombo->setCurrentItem (additional.attribute ("waluta").toInt ());
-  QStringList waluty = settings.value("elinux/faktury/waluty").toString().split("|"); 
+  QStringList waluty = sett().value("elinux/faktury/waluty").toString().split("|");
   currency = waluty[additional.attribute ("waluta").toInt ()];
   // qDebug(currency); qFatal("dsadsa");
   fraValLbl->setText( fixStr(QString::number( oldBrutto ).replace(",", ".")) );
-  
-    
+
+
   lastInvoice += "/" + QDate::currentDate ().toString ("dd");
-  
-    if ( !settings.value/*bool*/ ("elinux/faktury/edit") .toBool())
+
+    if ( !sett().value/*bool*/ ("elinux/faktury/edit") .toBool())
   {
       korNr->setEnabled( FALSE );
       backBtn->setEnabled( FALSE );
@@ -258,11 +256,11 @@ editTw->setEnabled( TRUE );
 saveBtn->setEnabled( TRUE );
   }
 
-  
+
   countRabat ();
   countSum ();
-  
-  
+
+
 }
 
 void Korekta::readDataNewKor (QString fraFile)
@@ -272,7 +270,7 @@ void Korekta::readDataNewKor (QString fraFile)
   QDomElement root;
   QDomElement nabywca;
   QDomElement towary;
-  
+
   backBtnClick();
 
   fName = fraFile;
@@ -326,46 +324,46 @@ void Korekta::readDataNewKor (QString fraFile)
     {
       tableTow->item (i, 0)->setText(QString::number (i));	// lp
       tmp1 = QString::number(i);
-      
+
       tableTow->item (i, 1)->setText(towar.attribute ("Nazwa"));	// nazwa
       tmp1 += "|" + towar.attribute ("Nazwa");
-      
+
       tableTow->item (i, 2)->setText(towar.attribute ("Kod"));	// kod
       tmp1 += "|" + towar.attribute ("Kod");
-      
+
       tableTow->item (i, 3)->setText(towar.attribute ("PKWiU"));	// pkwiu
       tmp1 += "|" + towar.attribute ("PKWiU");
-      
+
       tableTow->item (i, 4)->setText(towar.attribute ("Ilosc"));	// ilosc
       tmp1 += "|" + towar.attribute ("Ilosc");
-      
+
       tableTow->item (i, 5)->setText(towar.attribute ("Jm."));	// jm
       tmp1 += "|" + towar.attribute ("Jm.");
-      
+
       tableTow->item (i, 6)->setText(towar.attribute ("Cena_jdn.")); // cena jdn.
       tmp1 += "|" + towar.attribute ("Cena_jdn.");
-      
+
       tableTow->item (i, 7)->setText(towar.attribute ("Wartosc_Netto")); // netto
       tmp1 += "|" + towar.attribute ("Wartosc_Netto");
       oldNetto += towar.attribute ("Wartosc_Netto").replace(",", ".").toDouble();
-      
+
       tableTow->item (i, 8)->setText(towar.attribute ("Stawka_VAT"));	// vat
       tmp1 += "|" + towar.attribute ("Stawka_VAT");
       oldVat += towar.attribute ("Stawka_VAT").replace(",", ".").toDouble();
 
-      
+
       tableTow->item (i, 9)->setText(towar.attribute ("Wartosc_Brutto")); // brutto
       tmp1 += "|" + towar.attribute ("Kwota_Vat");
       tmp1 += "|" + towar.attribute ("Wartosc_Brutto");
       oldBrutto += towar.attribute ("Wartosc_Brutto").replace(",", ".").toDouble();
-      
+
       towar = towar.nextSibling ().toElement ();
       towaryPKor[i] = tmp1;
     }
   tmp = tmp.toElement ().nextSibling ();
   QDomElement additional = tmp.toElement ();
   additEdit->setText (additional.attribute ("text"));
-  
+
   platCombo->setCurrentIndex(additional.attribute ("forma.plat").toInt ());
   paymFry->setText( platCombo->currentText() );
  liabDate->setDate( QDate::currentDate() );
@@ -375,14 +373,14 @@ void Korekta::readDataNewKor (QString fraFile)
 	     fromString (additional.attribute ("liabDate"), Qt::ISODate));
   */
   citem = additional.attribute ("waluta").toInt ();
-  Settings settings;
-  // currCombo->setCurrentItem (additional.attribute ("waluta").toInt ());
-  QStringList waluty = settings.value("elinux/faktury/waluty").toString().split("|"); 
+
+// currCombo->setCurrentItem (additional.attribute ("waluta").toInt ());
+  QStringList waluty = sett().value("waluty").toString().split("|");
   currency = waluty[additional.attribute ("waluta").toInt ()];
   // qDebug(currency); qFatal("dsadsa");
   fraValLbl->setText( fixStr(QString::number( oldBrutto ).replace(",", ".")) );
-  
-  if ( settings.value/*bool*/ ("elinux/faktury/editSymbol") .toBool())
+
+  if ( sett().value/*bool*/ ("elinux/faktury/editSymbol") .toBool())
   {
       korNr->setEnabled( FALSE );
       backBtn->setEnabled( FALSE );
@@ -390,8 +388,8 @@ void Korekta::readDataNewKor (QString fraFile)
       korNr->setEnabled( TRUE );
       backBtn->setEnabled( TRUE );
   }
-  
-  
+
+
   countRabat ();
   countSum ();
 }
@@ -463,10 +461,10 @@ void Korekta::countRabat ()
   cenajdn = 0;
   rabat = 0;
   priceBRab = 0;		// priceBRabN
-/*    
+/*
     rabat1 = QString::number( rabatValue->value());
     if (rabat1.length() == 1) rabat1 = "1.0" + rabat1;
-     else rabat1 = "1." + rabat1;			
+     else rabat1 = "1." + rabat1;
 */
   for (int i = 0; i < tableTow->rowCount (); ++i)
     {
@@ -479,7 +477,7 @@ void Korekta::countRabat ()
 
       vat = vat1.toDouble ();
       if ( vat == 0 ) vat = 1;
-      
+
       netto = tableTow->item(i, 7)->text().replace (",", ".").toDouble ();	// after rab.
 
 //************************************************************************//
@@ -537,8 +535,8 @@ void Korekta::countSum ()
   sRabat =fixStr (QString::number (priceBRab - sbrutto.toDouble ()).
 	      replace (".", ","));
   // setting labels text
-  
-  fvKor->setText( sbrutto ); 
+
+  fvKor->setText( sbrutto );
   diffLabel->setText( fixStr( QString::number( (oldBrutto - sbrutto.replace(",", ".").toDouble()) * -1 ))  );
 }
 
@@ -623,32 +621,32 @@ void Korekta::makeInvoiceHeadar ()
     "<td colspan=\"2\" width=\"60%\" align=\"left\" valign=\"center\" class=\"podpisy\">";
   // logo code
   // eof logo
-  Settings settings;
-  QString logo = settings.value ("elinux/faktury/logo").toString();
+
+  QString logo = sett().value ("elinux/faktury/logo").toString();
   if ( logo != "" ) {
-      fraStrList += "<img src=\"" + logo + "\"  width=\"200\" height=\"100\">";      
+      fraStrList += "<img src=\"" + logo + "\"  width=\"200\" height=\"100\">";
   } else {
-      fraStrList += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pieczêæ wystawcy";
+      fraStrList += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pieczï¿½ï¿½ wystawcy";
   }
   // in case where we don't have a logo :(
 
   fraStrList += "</td>";
   fraStrList += "<td>";
-  fraStrList += "<h2>FAKTURA VAT<br>koryguj±ca<br>";
+  fraStrList += "<h2>FAKTURA VAT<br>korygujï¿½ca<br>";
   fraStrList += "NR: " + korNr->text () + "<br></h2>";
   fraStrList +=
     "<h5>Data wystawienia: " + sellingDate2->date ().toString ("yyyy-MM-dd") +
     "<br>";
   // fraStrList +=
   // QDate::currentDate ().toString ("yyyy-MM-dd")
-  //   "Data sprzeda¿y: " + sellingDate->date ().toString ("yyyy-MM-dd") +
+  //   "Data sprzedaï¿½y: " + sellingDate->date ().toString ("yyyy-MM-dd") +
   //    "<br></h5>";
   fraStrList += "</td>";
   fraStrList += "<td width=\"20\">&nbsp;</td>";
   fraStrList += "</tr>";
   fraStrList += "<tr>";
   fraStrList += "<td colspan=\"3\" align=\"right\" valign=\"top\">";
-  fraStrList += "<br>ORYGINA£/KOPIA<br>";
+  fraStrList += "<br>ORYGINAï¿½/KOPIA<br>";
   fraStrList += "</td>";
   fraStrList += "<td width=\"20\">&nbsp;</td>";
   fraStrList += "</tr>";
@@ -664,15 +662,15 @@ void Korekta::makeInvoiceBody ()
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td width=\"48%\"> ";
   fraStrList += "<h4>Sprzedawca:</h4>";
-  Settings settings;
-  fraStrList += "<h5>" + settings.value ("przelewy/user/nazwa").toString() + "<br>";
+
+  fraStrList += "<h5>" + sett().value ("przelewy/user/nazwa").toString() + "<br>";
   fraStrList +=
-    settings.value ("przelewy/user/kod").toString() + " " +
-    settings.value ("przelewy/user/miejscowosc").toString() + "<br>";
-  fraStrList += "ul. " + settings.value ("przelewy/user/adres").toString() + "<br>";
-  fraStrList += "NIP: " + settings.value ("przelewy/user/nip").toString() + "<br>";
+    sett().value ("przelewy/user/kod").toString() + " " +
+    sett().value ("przelewy/user/miejscowosc").toString() + "<br>";
+  fraStrList += "ul. " + sett().value ("przelewy/user/adres").toString() + "<br>";
+  fraStrList += "NIP: " + sett().value ("przelewy/user/nip").toString() + "<br>";
   fraStrList +=
-    "Nr konta: " + settings.value ("przelewy/user/konto").toString().replace ("-",
+    "Nr konta: " + sett().value ("przelewy/user/konto").toString().replace ("-",
 								       " ") +
     "<br>";
   fraStrList += "</h5>";
@@ -696,13 +694,13 @@ void Korekta::makeInvoiceCorr ()
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td width=\"48%\"> ";
   fraStrList += "<h5>Nr faktury VAT: " + frNr->text();
-  fraStrList += "<br>Data wystawienia: " + sellingDate->date().toString ("yyyy-MM-dd"); // 
-  fraStrList += "<br>Data sprzeda¿y:" + sellingDate->date().toString ("yyyy-MM-dd");
-  fraStrList += "<br>Forma p³atno¶ci faktury: " + paymFry->text() + "</h5>";
+  fraStrList += "<br>Data wystawienia: " + sellingDate->date().toString ("yyyy-MM-dd"); //
+  fraStrList += "<br>Data sprzedaï¿½y:" + sellingDate->date().toString ("yyyy-MM-dd");
+  fraStrList += "<br>Forma pï¿½atnoï¿½ci faktury: " + paymFry->text() + "</h5>";
   fraStrList += "</td>";
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td width=\"48%\" valign=\"bottom\">";
-  fraStrList += "<h5>Powód korekty: " + reasonCombo->currentText() + "<br>";
+  fraStrList += "<h5>Powï¿½d korekty: " + reasonCombo->currentText() + "<br>";
   fraStrList += "Termin rozliczenia: " + liabDate->date().toString ("yyyy-MM-dd") + "<br>";
   fraStrList += "</h5>";
   fraStrList += "</td>";
@@ -715,39 +713,39 @@ void Korekta::makeInvoiceCorr ()
 void Korekta::makeInvoiceGoods2 ()
 {
   fraStrList += "<tr comment=\"goods\" align=\"center\"><td>";
-  fraStrList += "<h4>Pozycje na fakturze przed korekt±: </h4>";
+  fraStrList += "<h4>Pozycje na fakturze przed korektï¿½: </h4>";
   fraStrList += "<table width=\"100%\" border=\"1\" class=\"goods\">";
   fraStrList += "<tr class=\"towaryN\">";
-  
-//  Settings settings;
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
+
+//  Settings sett();
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
   fraStrList += "<td width=\"20\"  align=\"center\">Lp.</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
  fraStrList += "<td width=\"120\" align=\"center\">Nazwa</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Kod</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">PKWiU</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
-  fraStrList += "<td width=\"60\" align=\"center\">Ilo¶æ</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
+  fraStrList += "<td width=\"60\" align=\"center\">Iloï¿½ï¿½</td>";
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">Jm.</td>";
-//if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
+//if ( sett().value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Cena jdn.</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
-//  fraStrList += "<td width=\"60\" align=\"center\">Warto¶æ Netto</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatperc")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
+//  fraStrList += "<td width=\"60\" align=\"center\">Wartoï¿½ï¿½ Netto</td>";
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/rabatperc")  .toBool())
 //  fraStrList += "<td width=\"20\" align=\"center\">Rabat %</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatval")  .toBool())
-//  fraStrList += "<td width=\"20\" align=\"center\">Rabat Warto¶æ</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/nettoafter")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/rabatval")  .toBool())
+//  fraStrList += "<td width=\"20\" align=\"center\">Rabat Wartoï¿½ï¿½</td>";
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/nettoafter")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Netto</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/vatval")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/vatval")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Stawka VAT</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/vatprice")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/vatprice")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Kwota Vat</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/bruttoval")  .toBool())
-  fraStrList += "<td width=\"60\" align=\"center\">Warto¶æ Brutto</td>";
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/bruttoval")  .toBool())
+  fraStrList += "<td width=\"60\" align=\"center\">Wartoï¿½ï¿½ Brutto</td>";
   fraStrList += "</tr>";
  int max = towaryPKor.size();
   for (int i = 0; i < max; ++i)
@@ -757,36 +755,36 @@ void Korekta::makeInvoiceGoods2 ()
 
       fraStrList += "<tr class=\"towaryList\">";
 // lp, nazwa, kod, ilosc, jm, cena jm., netto, vat, brutto
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp")   .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Lp")   .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[0] + "</td>";
- 
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
+
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
  fraStrList += "<td>&nbsp;" + rowTxt[1]+ "</td>";
-//if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
+//if ( sett().value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[2] + "</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[3] + "</td>";
 // pkwiu
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[4] + "</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[5] + "</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[6] + "</td>";
-/*   
+/*
       double cenajdn = tableTow->text (i, 6).replace (",", ".").toDouble ();
       double kwota =
 	cenajdn * tableTow->text (i, 4).replace (",", ".").toInt ();
-if ( settings.value("elinux/faktury_pozycje/wartnetto")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/wartnetto")  .toBool())
       fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota)) + "</td>";	// netto
-if ( settings.value("elinux/faktury_pozycje/rabatperc")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/rabatperc")  .toBool())
       fraStrList += "<td>&nbsp;" + QString::number (rabatValue->value ()) + "% </td>";	// rabat
-if ( settings.value("elinux/faktury_pozycje/rabatval")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
       fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota - tableTow->text (i, 7).replace (",", ".").toDouble ())) + " </td>";	// rabat value
       */
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/nettoafter")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/nettoafter")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[7] + "</td>";	// netto po rab
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/vatval")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/vatval")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[8] + "%</td>";
       /*
       double vatPrice = tableTow->text (i, 9).replace (",",
@@ -796,10 +794,10 @@ if ( settings.value("elinux/faktury_pozycje/rabatval")  .toBool())
 			*/
       fraStrList += "<td>&nbsp;" + rowTxt[9] + "</td>";
       /*
-      if ( settings.value("elinux/faktury_pozycje/vatprice")  .toBool())
+      if ( sett().value("elinux/faktury_pozycje/vatprice")  .toBool())
       fraStrList +=
 	"<td>&nbsp;" + fixStr (QString::number (vatPrice)) + "</td>"; */
-// if ( settings.value("elinux/faktury_pozycje/bruttoval")  .toBool())
+// if ( sett().value("elinux/faktury_pozycje/bruttoval")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[10] + "</td>";
       fraStrList += "</tr>";
     }
@@ -815,36 +813,36 @@ void Korekta::makeInvoiceSumm2 ()
   fraStrList += "<table width=\"100%\" border=\"0\">";
   fraStrList += "<tr class=\"stawki\">";
 
-//  Settings settings;
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
+//  Settings sett();
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
   fraStrList += "<td width=\"20\"  align=\"center\">&nbsp;</td>";
-//if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
+//if ( sett().value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
   fraStrList += "<td width=\"120\" align=\"center\">&nbsp;</td>";
-//if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
+//if ( sett().value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-/*  
-if ( settings.value("elinux/faktury_pozycje/rabatperc")  .toBool())
+/*
+if ( sett().value("elinux/faktury_pozycje/rabatperc")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">&nbsp;</td>";
-if ( settings.value("elinux/faktury_pozycje/rabatval")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">&nbsp;</td>";
 */
 /*
-if ( settings.value("elinux/faktury_pozycje/nettoafter")  .toBool())
-if ( settings.value("elinux/faktury_pozycje/vatval")  .toBool())
-if ( settings.value("elinux/faktury_pozycje/vatprice")  .toBool())
-if ( settings.value("elinux/faktury_pozycje/bruttoval")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/nettoafter")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/vatval")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/vatprice")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/bruttoval")  .toBool())
 */
-  
+
   fraStrList += "<td width=\"140\">&nbsp;Razem:</td>";
   fraStrList += "<td width=\"60\">&nbsp;" + fixStr(QString::number(oldNetto)) + "</td>";	// netto
   fraStrList += "<td width=\"60\">&nbsp;</td>";
@@ -865,36 +863,36 @@ void Korekta::makeInvoiceGoods ()
   fraStrList += "<h4>Pozycje na fakturze po korekcie: </h4>";
   fraStrList += "<table width=\"100%\" border=\"1\" class=\"goods\">";
   fraStrList += "<tr class=\"towaryN\">";
-  
-//  Settings settings;
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
+
+//  Settings sett();
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
   fraStrList += "<td width=\"20\"  align=\"center\">Lp.</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
  fraStrList += "<td width=\"120\" align=\"center\">Nazwa</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Kod</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">PKWiU</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
-  fraStrList += "<td width=\"60\" align=\"center\">Ilo¶æ</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
+  fraStrList += "<td width=\"60\" align=\"center\">Iloï¿½ï¿½</td>";
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">Jm.</td>";
-//if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
+//if ( sett().value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Cena jdn.</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
-//  fraStrList += "<td width=\"60\" align=\"center\">Warto¶æ Netto</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatperc")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
+//  fraStrList += "<td width=\"60\" align=\"center\">Wartoï¿½ï¿½ Netto</td>";
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/rabatperc")  .toBool())
 //  fraStrList += "<td width=\"20\" align=\"center\">Rabat %</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/rabatval")  .toBool())
-//  fraStrList += "<td width=\"20\" align=\"center\">Rabat Warto¶æ</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/nettoafter")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/rabatval")  .toBool())
+//  fraStrList += "<td width=\"20\" align=\"center\">Rabat Wartoï¿½ï¿½</td>";
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/nettoafter")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Netto</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/vatval")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/vatval")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Stawka VAT</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/vatprice")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/vatprice")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">Kwota Vat</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/bruttoval")  .toBool())
-  fraStrList += "<td width=\"60\" align=\"center\">Warto¶æ Brutto</td>";
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/bruttoval")  .toBool())
+  fraStrList += "<td width=\"60\" align=\"center\">Wartoï¿½ï¿½ Brutto</td>";
   fraStrList += "</tr>";
 
   for (int i = 0; i < tableTow->rowCount (); ++i)
@@ -902,36 +900,36 @@ void Korekta::makeInvoiceGoods ()
       // double vatPrice = tableTow->text(i, 9).replace(",", ".").toDouble() - tableTow->text(i, 6).replace(",", ".").toDouble();
       fraStrList += "<tr class=\"towaryList\">";
 // lp, nazwa, kod, ilosc, jm, cena jm., netto, vat, brutto
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp")   .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Lp")   .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item (i, 0)->text() + "</td>";
- 
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
+
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
  fraStrList += "<td>&nbsp;" + tableTow->item (i, 1)->text() + "</td>";
-//if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
+//if ( sett().value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item (i, 2)->text() + "</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item (i, 3)->text() + "</td>";
 // pkwiu
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item (i, 4)->text() + "</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item (i, 5)->text() + "</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item (i, 6)->text() + "</td>";
-/*   
+/*
       double cenajdn = tableTow->text (i, 6).replace (",", ".").toDouble ();
       double kwota =
 	cenajdn * tableTow->text (i, 4).replace (",", ".").toInt ();
-if ( settings.value("elinux/faktury_pozycje/wartnetto")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/wartnetto")  .toBool())
       fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota)) + "</td>";	// netto
-if ( settings.value("elinux/faktury_pozycje/rabatperc")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/rabatperc")  .toBool())
       fraStrList += "<td>&nbsp;" + QString::number (rabatValue->value ()) + "% </td>";	// rabat
-if ( settings.value("elinux/faktury_pozycje/rabatval")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
       fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota - tableTow->text (i, 7).replace (",", ".").toDouble ())) + " </td>";	// rabat value
       */
-// if ( settings.value("elinux/faktury_pozycje/nettoafter")  .toBool())
+// if ( sett().value("elinux/faktury_pozycje/nettoafter")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item(i, 7)->text() + "</td>";	// netto po rab
-// if ( settings.value("elinux/faktury_pozycje/vatval")  .toBool())
+// if ( sett().value("elinux/faktury_pozycje/vatval")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item (i, 8)->text() + "%</td>";
       double vatPrice = tableTow->item(i, 9)->text().replace (",",
 						       ".").toDouble () -
@@ -939,10 +937,10 @@ if ( settings.value("elinux/faktury_pozycje/rabatval")  .toBool())
 			7)->text().replace (",", ".").toDouble ();
       fraStrList += "<td>&nbsp;" + fixStr(QString::number(vatPrice).replace( ",", "." )) + "</td>";
       /*
-      if ( settings.value("elinux/faktury_pozycje/vatprice")  .toBool())
+      if ( sett().value("elinux/faktury_pozycje/vatprice")  .toBool())
       fraStrList +=
 	"<td>&nbsp;" + fixStr (QString::number (vatPrice)) + "</td>"; */
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/bruttoval")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/bruttoval")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item(i, 9)->text() + "</td>";
       fraStrList += "</tr>";
     }
@@ -959,36 +957,36 @@ void Korekta::makeInvoiceSumm ()
   fraStrList += "<table width=\"100%\" border=\"0\">";
   fraStrList += "<tr class=\"stawki\">";
 
-//  Settings settings;
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
+//  Settings sett();
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/Lp") .toBool())
   fraStrList += "<td width=\"20\"  align=\"center\">&nbsp;</td>";
-//if ( settings.value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
+//if ( sett().value/*bool*/("elinux/faktury_pozycje/Nazwa")  .toBool())
   fraStrList += "<td width=\"120\" align=\"center\">&nbsp;</td>";
-//if ( settings.value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
+//if ( sett().value/*bool*/("elinux/faktury_pozycje/Kod")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/pkwiu")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/ilosc")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/jm")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-// if ( settings.value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
+// if ( sett().value/*bool*/("elinux/faktury_pozycje/wartnetto")  .toBool())
   fraStrList += "<td width=\"60\" align=\"center\">&nbsp;</td>";
-/*  
-if ( settings.value("elinux/faktury_pozycje/rabatperc")  .toBool())
+/*
+if ( sett().value("elinux/faktury_pozycje/rabatperc")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">&nbsp;</td>";
-if ( settings.value("elinux/faktury_pozycje/rabatval")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
   fraStrList += "<td width=\"20\" align=\"center\">&nbsp;</td>";
 */
 /*
-if ( settings.value("elinux/faktury_pozycje/nettoafter")  .toBool())
-if ( settings.value("elinux/faktury_pozycje/vatval")  .toBool())
-if ( settings.value("elinux/faktury_pozycje/vatprice")  .toBool())
-if ( settings.value("elinux/faktury_pozycje/bruttoval")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/nettoafter")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/vatval")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/vatprice")  .toBool())
+if ( sett().value("elinux/faktury_pozycje/bruttoval")  .toBool())
 */
-  
+
   fraStrList += "<td width=\"140\">&nbsp;Razem:</td>";
   fraStrList += "<td width=\"60\">&nbsp;" + snetto + "</td>";	// netto
   fraStrList += "<td width=\"60\">&nbsp;</td>";
@@ -1004,34 +1002,31 @@ if ( settings.value("elinux/faktury_pozycje/bruttoval")  .toBool())
 
 void Korekta::makeInvoiceSummAll ()
 {
-    
-  Settings settings;
-    
   fraStrList += "<tr comment=\"podsumowanie\"><td>";
   fraStrList += "<table width=\"100%\" border=\"0\">";
   fraStrList += "<tr>";
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td width=\"48%\"> ";
   double endVal = diffLabel->text().replace(",", ".").toDouble();
-  
+
   if ( endVal > 1)
-  fraStrList += "<h4>Do zap³aty: " + diffLabel->text() + " " + currency + "</h4>";
-  else 
+  fraStrList += "<h4>Do zapï¿½aty: " + diffLabel->text() + " " + currency + "</h4>";
+  else
       fraStrList += "<h4>Do zwrotu: " + fixStr(QString::number(endVal * -1)) + " " + currency + "</h4>";
-  
-  fraStrList += "<h5>s³ownie:" + slownie (diffLabel->text(), currency) + "</h5>";
-  fraStrList += "<h5>forma p³atno¶ci: " + platCombo->currentText () + "<br>";
+
+  fraStrList += "<h5>sï¿½ownie:" + slownie (diffLabel->text(), currency) + "</h5>";
+  fraStrList += "<h5>forma pï¿½atnoï¿½ci: " + platCombo->currentText () + "<br>";
   fraStrList +=
-    "termin p³atno¶ci: " + liabDate->date().toString ("yyyy-MM-dd") + "<br>";
-  
-  QString paym1 = settings.value("elinux/faktury/paym1").toString();
-  
+    "termin pï¿½atnoï¿½ci: " + liabDate->date().toString ("yyyy-MM-dd") + "<br>";
+
+  QString paym1 = sett().value("elinux/faktury/paym1").toString();
+
   if ( paym1.left(3) == platCombo->currentText().left(3) )
-  fraStrList += "<b>Zap³acono gotówk±</b> <br>";
-  
+  fraStrList += "<b>Zapï¿½acono gotï¿½wkï¿½</b> <br>";
+
   fraStrList += "</h5>";
   fraStrList += "<h4>" + additEdit->text () + "</h4>";
-  
+
   fraStrList += "</td>";
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td width=\"48%\" valign=\"top\">";
@@ -1041,10 +1036,10 @@ void Korekta::makeInvoiceSummAll ()
     "<td colspan=\"4\"><hr width=\"100%\" noshade=\"noshade\" color=\"black\" /></td>";
   fraStrList += "</tr>";
   fraStrList += "<tr>";
-  fraStrList += "<td colspan=\"4\"><h5>Ogó³em stawkami:&nbsp;</h5></td>";	// Ogó³em stawkami:
+  fraStrList += "<td colspan=\"4\"><h5>Ogï¿½em stawkami:&nbsp;</h5></td>";	// Ogï¿½em stawkami:
   fraStrList += "</tr>";
   fraStrList += getStawkami();
-  
+
   fraStrList += "<tr>";
   fraStrList += "<td>&nbsp;</td>"; // netto
   fraStrList += "<td>&nbsp;</td>"; // stawka
@@ -1063,17 +1058,16 @@ void Korekta::makeInvoiceSummAll ()
 QString Korekta::getStawkami()
 {
     QStringList out;
-    Settings settings;
-    QStringList stawki = 
-      settings.value("elinux/faktury/stawki").toString().split("|"); 
-    QMap<int, double> stawkiNetto; 
-    QMap<int, double> stawkiVat;     
-    QMap<int, double> stawkiBrutto;     
+    QStringList stawki =
+      sett().value("stawki").toString().split("|");
+    QMap<int, double> stawkiNetto;
+    QMap<int, double> stawkiVat;
+    QMap<int, double> stawkiBrutto;
     // every currency in int value is equeal vat currncy
-    
+
     int ssize = stawki.size();
-    // qDebug( "%d", ssize ); 
-    
+    // qDebug( "%d", ssize );
+
       for (int i = 0; i < tableTow->rowCount (); ++i)
     {
 	for ( int y = 0; y < ssize; ++y )
@@ -1090,7 +1084,7 @@ QString Korekta::getStawkami()
 		}
 	}
       }
-      
+
 	for ( int y = 0; y < ssize; ++y )
 	  {
   out += "<tr>";
@@ -1099,10 +1093,10 @@ QString Korekta::getStawkami()
   out += "<td>" + fixStr(QString::number( stawkiVat[y] )) + "</td>"; // podatek
   out += "<td>" + fixStr(QString::number( stawkiBrutto[y] )) + "</td>"; // brutto
   out += "</tr>";
-	    
+
 	}
 	return out.join(" ");
-      
+
 }
 
 
@@ -1126,12 +1120,12 @@ void Korekta::makeInvoiceFooter ()
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td witdh=\"48%\" align=\"center\"> ";
   fraStrList +=
-    "Imiê i nazwisko osoby upowa¿nionej do wystawienia faktury VAT";
+    "Imiï¿½ i nazwisko osoby upowaï¿½nionej do wystawienia faktury VAT";
   fraStrList += "</td>";
   fraStrList += "<td witdh=\"60\">&nbsp;</td>";
   fraStrList += "<td witdh=\"20\">&nbsp;</td>";
   fraStrList += "<td witdh=\"48%\" align=\"center\"> ";
-  fraStrList += "Imiê i nazwisko osoby upowa¿nionej do odbioru faktury VAT";
+  fraStrList += "Imiï¿½ i nazwisko osoby upowaï¿½nionej do odbioru faktury VAT";
   fraStrList += "</td>";
   fraStrList += "</tr>";
   fraStrList += "</table>";
@@ -1155,7 +1149,7 @@ void Korekta::makeInvoice ()
 
   if (tableTow->rowCount () == 0)
     {
-      QMessageBox::information (this, "QFaktury", "Nie ma towarów",
+      QMessageBox::information (this, "QFaktury", "Nie ma towarï¿½w",
 				QMessageBox::Ok);
       return;
     }
@@ -1197,7 +1191,7 @@ void Korekta::saveInvoice ()
 
   if (tableTow->rowCount () == 0)
     {
-      QMessageBox::information (this, "QFaktury", "Nie ma towarów",
+      QMessageBox::information (this, "QFaktury", "Nie ma towarï¿½w",
 				QMessageBox::Ok);
       return;
     }
@@ -1236,9 +1230,9 @@ void Korekta::saveInvoice ()
       // qDebug( "1" );
     }
 
-  
-  
-  // qDebug( "adsad %s", file.name() ); 
+
+
+  // qDebug( "adsad %s", file.name() );
   // if (!file.open (QIODevice::ReadOnly)) {
 
   root = doc.createElement ("korekta");
@@ -1252,44 +1246,42 @@ void Korekta::saveInvoice ()
   root.setAttribute ("data.sprzed",
 		     sellingDate->date ().toString ("yyyy-MM-dd"));
 
-  Settings settings1;
-  settings1.beginGroup ("elinux");
 
   /*
   if (windowTitle ().right (3) == "VAT")
     {
       root.setAttribute ("type", "FVAT");
-      settings1.writeEntry ("faktury/fvat", frNr->text ());
+      sett()1.writeEntry ("faktury/fvat", frNr->text ());
       ret += "FVAT|";
     }
   else
     {
       root.setAttribute ("type", "FPro");
-      settings1.writeEntry ("faktury/fpro", frNr->text ());
+      sett()1.writeEntry ("faktury/fpro", frNr->text ());
       ret += "FPro|";
     }
   */
    ret += "korekta|";
   root.setAttribute ("type", "korekta");
- settings1.setValue("faktury/korNr", korNr->text ());
-  
-  settings1.endGroup ();
+ sett().setValue("korNr", korNr->text ());
+
+  sett().endGroup ();
 
   doc.appendChild (root);
 
   QDomElement sprzedawca;
   sprzedawca = doc.createElement ("sprzedawca");
-  Settings settings;
+  QSettings userSettings;
   sprzedawca.setAttribute ("nazwa",
-			   settings.value ("przelewy/user/nazwa").toString());
-  sprzedawca.setAttribute ("kod", settings.value ("przelewy/user/kod").toString());
+		  userSettings.value ("przelewy/user/nazwa").toString());
+  sprzedawca.setAttribute ("kod", userSettings.value ("przelewy/user/kod").toString());
   sprzedawca.setAttribute ("miasto",
-			   settings.value ("przelewy/user/miejscowosc").toString());
+		  userSettings.value ("przelewy/user/miejscowosc").toString());
   sprzedawca.setAttribute ("ulica",
-			   settings.value ("przelewy/user/adres").toString());
-  sprzedawca.setAttribute ("nip", settings.value ("przelewy/user/nip").toString());
+		  userSettings.value ("przelewy/user/adres").toString());
+  sprzedawca.setAttribute ("nip", userSettings.value ("przelewy/user/nip").toString());
   sprzedawca.setAttribute ("konto",
-			   settings.value ("przelewy/user/konto").toString().
+		  userSettings.value ("przelewy/user/konto").toString().
 			   replace (" ", "-"));
   root.appendChild (sprzedawca);
 
@@ -1309,7 +1301,7 @@ void Korekta::saveInvoice ()
   root.appendChild (nabywca);
 
 // sellingDate2
-  
+
   QDomElement towary;
   QDomElement goods;
   goods = doc.createElement ("goods");
@@ -1345,11 +1337,11 @@ void Korekta::saveInvoice ()
 
     }
   root.appendChild (goods);
-  
+
   QDomElement goodsRoot;
   QDomElement goodsOld;
   goodsRoot = doc.createElement ("goodsOldRoot");
-  
+
   int y = towaryPKor.count();
   QStringList tmp;
   for (int i = 0; i < y; ++i)
@@ -1363,7 +1355,7 @@ void Korekta::saveInvoice ()
       goodsOld.setAttribute ("PKWiU", tmp[3] );
       goodsOld.setAttribute ("Ilosc", tmp[4] );
       goodsOld.setAttribute ("Cena_jdn.", tmp[6] );
-      
+
       goodsOld.setAttribute ("Jm.", tmp[5] );
       goodsOld.setAttribute ("Wartosc_Netto", tmp[7] );
       // goodsOld.setAttribute ("Rabat", tmp[7] );
@@ -1372,8 +1364,8 @@ void Korekta::saveInvoice ()
       goodsOld.setAttribute ("Wartosc_Brutto", tmp[10] );
       goodsRoot.appendChild (goodsOld);
     }
-  
-  
+
+
   root.appendChild (goodsRoot);
   // }
 
@@ -1389,7 +1381,7 @@ void Korekta::saveInvoice ()
   addinfo.setAttribute ("liabDate", sellingDate->date ().toString ("yyyy-MM-dd"));
 
   // liabDate->date().toString ("yyyy-MM-dd")
-  addinfo.setAttribute ("waluta", 
+  addinfo.setAttribute ("waluta",
 			QString::number (citem));
 //			QString::number (currCombo->currentItem ()));
   root.appendChild (addinfo);
@@ -1417,34 +1409,32 @@ QString Korekta::numbersCount(int in, int x)
 void Korekta::backBtnClick()
 {
   QString tmp;
-  Settings settings;
-
   QString prefix;
 //  int numbers;
-  
-   tmp = settings.value ("elinux/faktury/korNr").toString();
-   prefix = settings.value ("elinux/faktury/prefix").toString();
+
+   tmp = sett().value ("elinux/faktury/korNr").toString();
+   prefix = sett().value ("elinux/faktury/prefix").toString();
 
   QStringList one1 = tmp.split("/");
   one1[0] = one1[0].remove(prefix);
   // qDebug( one1[0] );
   int nr = one1[0].toInt () + 1;
-  lastInvoice = prefix + numbersCount(nr, settings.value("elinux/faktury/chars_in_symbol").toInt());
-  
-  if ( settings.value/*bool*/ ("elinux/faktury/day") .toBool())
+  lastInvoice = prefix + numbersCount(nr, sett().value("elinux/faktury/chars_in_symbol").toInt());
+
+  if ( sett().value/*bool*/ ("elinux/faktury/day") .toBool())
      lastInvoice += "/" + QDate::currentDate ().toString ("dd");
-  
-  if ( settings.value/*bool*/ ("elinux/faktury/month") .toBool())
+
+  if ( sett().value/*bool*/ ("elinux/faktury/month") .toBool())
      lastInvoice += "/" + QDate::currentDate ().toString ("MM");
-      
-  if ( settings.value/*bool*/ ("elinux/faktury/year") .toBool()) {
-  if ( !settings.value/*bool*/ ("elinux/faktury/shortYear") .toBool()) 
+
+  if ( sett().value/*bool*/ ("elinux/faktury/year") .toBool()) {
+  if ( !sett().value/*bool*/ ("elinux/faktury/shortYear") .toBool())
      lastInvoice += "/" + QDate::currentDate ().toString ("yy");
   else
      lastInvoice += "/" + QDate::currentDate ().toString ("yyyy");
  }
- 
-  
+
+
   korNr->setText (lastInvoice);
 }
 
@@ -1453,17 +1443,17 @@ void Korekta::backBtnClick()
 void Korekta::backBtnClick()
 {
   QString tmp;
-  Settings settings;
+  Settings sett();
 
   if (windowTitle ().right (3) == "VAT")
     {
-      tmp = settings.value ("elinux/faktury/fvat");
+      tmp = sett().value ("elinux/faktury/fvat");
     }
   else
     {
-      tmp = settings.value ("elinux/faktury/fpro");
+      tmp = sett().value ("elinux/faktury/fpro");
     }
-   tmp = settings.value ("elinux/faktury/korNr");
+   tmp = sett().value ("elinux/faktury/korNr");
 
   QStringList one1 = QStringList::split ("/", tmp);
   int nr = one1[0].toInt () + 1;

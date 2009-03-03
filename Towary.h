@@ -21,7 +21,7 @@ void pkwiuGet ();
     QStringList netto;
     int lastId;
     QStringList allNames;
-    QString progDir; QString nazwaEdit;
+    QString nazwaEdit;
     public:
     QString ret;
 };

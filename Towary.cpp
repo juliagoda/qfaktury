@@ -7,8 +7,27 @@
 #include <qmessagebox.h>
 #include <QtDebug>
 
+/** Constructor
+ */
+Towary::Towary(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
+}
 
 
+void Towary::init() {
+	readData("", "");
+	idxEdit->setText(QString::number(lastId));
+	// cbVat->setCurrentText ("22");
+	jednCombo->addItems(sett().value("jednostki").toString().split("|"));
+	cbVat->addItems(sett().value("stawki").toString().split("|"));
+
+	connect(okButton, SIGNAL(clicked()), this, SLOT(okClick()));
+	connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
+	connect(nettoEdit, SIGNAL(lostFocus()), this, SLOT(nettoChanged()));
+	connect(spinBox2, SIGNAL(valueChanged(int)), this, SLOT(spinChanged(int)));
+	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
+}
 
 void Towary::readData (QString idx, QString type)
 {
@@ -27,13 +46,12 @@ void Towary::readData (QString idx, QString type)
 
   lastId = 1;
   idxEdit->setText (idx);
-  qDebug ()<<idx << "   " << type;
   QDomDocument doc ("towary");
   QDomElement root;
   QDomElement towar;
   QDomElement usluga;
 
-  QFile file (progDir + "/towary.xml");
+  QFile file (sett().getProductsXml());
   if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
@@ -118,15 +136,12 @@ void Towary::readData (QString idx, QString type)
 
 void Towary::getStuffList ()
 {
-  qDebug (__FUNCTION__);
-  QString progDir2 = QDir::homePath () + "/elinux";
-
   QDomDocument doc ("towary");
   QDomElement root;
   QDomElement towar;
   QDomElement usluga;
 
-  QFile file (progDir2 + "/towary.xml");
+  QFile file (sett().getProductsXml());
   if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
@@ -169,27 +184,10 @@ void Towary::getStuffList ()
 
 }
 
-void Towary::init ()
-{
-  qDebug (__FUNCTION__);
 
-  progDir = QDir::homePath () + "/elinux";
-  readData ("", "");
-  idxEdit->setText (QString::number (lastId));
-  // cbVat->setCurrentText ("22");
-
-  Settings settings;
-
-  //  settings.writeEntry ("firstrun", "nie");
-  // logoEdit->setText( settings.readEntry("elinux/faktury/logo") );
- jednCombo->addItems( settings.value("jednostki").toString().split("|"));
- cbVat->addItems( settings.value("stawki").toString().split("|"));
-
-}
 
 bool Towary::saveAll ()
 {
-  qDebug (__FUNCTION__);
   nettoChanged ();
 
   // getStuffList ();
@@ -209,7 +207,7 @@ bool Towary::saveAll ()
   QDomElement towary;
   QDomElement uslugi;
 
-  QFile file (progDir + "/towary.xml");
+  QFile file (sett().getProductsXml());
   if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("can not open ");
@@ -305,22 +303,12 @@ void Towary::modifyOnly ()
 {
   nettoChanged ();
 
-  /*
-     getFirmList ();
-     QStringList::iterator it = allNames.find (nameEdit->text ());
-     if ((*it) == nameEdit->text ())
-     {
-     QMessageBox::critical (0, "GNU Przelewy",
-     "Kontrahent nie moze zosta� dodany poniewa� istnieje ju� kontrahent o tej nazwie.");
-     return;
-     }
-   */
   QDomDocument doc ("towary");
   QDomElement root;
   QDomElement towary;
   QDomElement uslugi;
 
-  QFile file (progDir + "/towary.xml");
+  QFile file (sett().getProductsXml());
   if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("can not open ");
@@ -437,8 +425,6 @@ void Towary::okClick ()
       return;
     }
 
-  qDebug (__FUNCTION__);
-  qDebug ()<<this->windowTitle ().left (4);
 
   QString pkwiu = pkwiuEdit->text ();
   if (pkwiu == "")
@@ -489,21 +475,18 @@ void Towary::okClick ()
 
 void Towary::spinChanged (int a)
 {
-  qDebug (__FUNCTION__);
   nettoEdit->setText (netto[a - 1]);
 }
 
 
 void Towary::nettoChanged ()
 {
-  qDebug (__FUNCTION__);
   qDebug ()<<nettoEdit->text ();
   netto[spinBox2->value () - 1] = nettoEdit->text ();
 }
 
 void Towary::pkwiuGet ()
 {
-  qDebug (__FUNCTION__);
   // firts we check is KDE working
   QStringList args;
   args += "kfmclient";
@@ -525,9 +508,5 @@ void Towary::pkwiuGet ()
 //    }
 }
 
-Towary::Towary(QWidget *parent): QDialog(parent) {
-    setupUi(this);
-    init();
-}
 
 

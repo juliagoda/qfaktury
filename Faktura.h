@@ -29,11 +29,10 @@ public slots:
 	void textChanged(QString someStr);
 	void dateChanged (QDate someDate);
 private:
-	Settings settings;
 	QStringList fraStrList;
 
 	int type;
-	QString lastInvoice;
+	QString lastInvoice, invoiceType;
 	bool isEdit;
 	bool canClose;
 	bool saveFailed;

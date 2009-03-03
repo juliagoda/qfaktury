@@ -2,27 +2,21 @@
 #define SETTINGS_H
 #include <QSettings>
 #include <QDate>
+#include <QDir>
 #include <QString>
 #include <QVariant>
 #include <QLocale>
 #include <QDebug>
+#include "config.h"
+
 
 #define UTF8(x) QObject::trUtf8(x)
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
 
-
 class Settings: public QSettings {
 public:
 	QLocale locale;
-
-	// constr
-	Settings() :
-		QSettings("elinux", "qfaktury") {
-
-		dateFormat = "dd/MM/yyyy";
-		fileNameDateFormat = "yyyy-MM-dd";
-	}
 
 	// get date from settings as QDate
 	QDate getValueAsDate(QString val) {
@@ -479,9 +473,56 @@ public:
 	}
 
 
+	// Compiles version with appName ready for display
+	QString getVersion(QString appName) {
+		QString str = appName;
+		str.truncate(2);
+		return str.toUpper() + appName.right(6) + UTF8(" - Wersja ") + STRING(QFAKTURY_VERSION);
+	}
+
+	// returns working directory
+	QString getWorkingDir() {
+		return QDir::homePath() + "/elinux";
+	}
+
+	// return invoices dir
+	QString getDataDir() {
+		return "/faktury";
+	}
+
+	// return invoices dir
+	QString getInvoicesDir() {
+		return getWorkingDir() + getDataDir() + "/";
+	}
+
+	// return customers xml
+	QString getCustomersXml() {
+		return getWorkingDir() + "/kontrah.xml";
+	}
+
+	// return customers xml
+	QString getProductsXml() {
+		return getWorkingDir() + "/towary.xml";
+	}
 private:
 	QString dateFormat;
 	QString fileNameDateFormat;
 
+	// constr
+	Settings() :
+		QSettings("elinux", "qfaktury") {
+
+		dateFormat = "dd/MM/yyyy";
+		fileNameDateFormat = "yyyy-MM-dd";
+	}
+	Settings(const Settings&) {}
+
+	friend Settings& sett() {
+	   static Settings sett;
+       return sett;
+	}
 };
+
+Settings& sett();
+
 #endif

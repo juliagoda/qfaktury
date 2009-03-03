@@ -42,20 +42,20 @@ void Faktura::init() {
 		invType = FPro;
 
 	// set width of the columns on the goods list
-	settings.beginGroup("fakturaForm");
-	tableTow->setColumnWidth(0, settings.value("towCol0", QVariant(0)).toInt()); //index
-	tableTow->setColumnWidth(1, settings.value("towCol1", QVariant(90)).toInt()); // nazwa
-	tableTow->setColumnWidth(2, settings.value("towCol2", QVariant(35)).toInt()); // kod
-	tableTow->setColumnWidth(3, settings.value("towCol3", QVariant(35)).toInt()); // kod
-	tableTow->setColumnWidth(4, settings.value("towCol4", QVariant(40)).toInt()); // ilosc
-	tableTow->setColumnWidth(5, settings.value("towCol5", QVariant(30)).toInt()); // jm
-	tableTow->setColumnWidth(6, settings.value("towCol6", QVariant(30)).toInt()); // rabat
-	tableTow->setColumnWidth(7, settings.value("towCol7", QVariant(60)).toInt()); // cena jedn.
-	tableTow->setColumnWidth(8, settings.value("towCol8", QVariant(60)).toInt()); // netto
-	tableTow->setColumnWidth(9, settings.value("towCol9", QVariant(30)).toInt()); // vat
+	sett().beginGroup("fakturaForm");
+	tableTow->setColumnWidth(0, sett().value("towCol0", QVariant(0)).toInt()); //index
+	tableTow->setColumnWidth(1, sett().value("towCol1", QVariant(90)).toInt()); // nazwa
+	tableTow->setColumnWidth(2, sett().value("towCol2", QVariant(35)).toInt()); // kod
+	tableTow->setColumnWidth(3, sett().value("towCol3", QVariant(35)).toInt()); // kod
+	tableTow->setColumnWidth(4, sett().value("towCol4", QVariant(40)).toInt()); // ilosc
+	tableTow->setColumnWidth(5, sett().value("towCol5", QVariant(30)).toInt()); // jm
+	tableTow->setColumnWidth(6, sett().value("towCol6", QVariant(30)).toInt()); // rabat
+	tableTow->setColumnWidth(7, sett().value("towCol7", QVariant(60)).toInt()); // cena jedn.
+	tableTow->setColumnWidth(8, sett().value("towCol8", QVariant(60)).toInt()); // netto
+	tableTow->setColumnWidth(9, sett().value("towCol9", QVariant(30)).toInt()); // vat
 	tableTow->setColumnWidth(10,
-			settings.value("towCol10", QVariant(50)).toInt()); // netto *  (wzor vat)
-	settings.endGroup();
+			sett().value("towCol10", QVariant(50)).toInt()); // netto *  (wzor vat)
+	sett().endGroup();
 
 	// set all the dates to todays date -> could be logical date :)
 	sellingDate->setDate(QDate::currentDate());
@@ -90,9 +90,11 @@ void Faktura::init() {
 	// Calulcate next number of the invoice
 	QString tmp;
 	if (windowTitle().right(3) == "VAT") {
-		tmp = settings.value("fvat").toString();
+		tmp = sett().value("fvat").toString();
+		invoiceType = UTF8("Faktura VAT");
 	} else {
-		tmp = settings.value("fpro").toString();
+		tmp = sett().value("fpro").toString();
+		invoiceType = UTF8("Faktura Pro Forma");
 	}
 
 	QStringList one1 = tmp.split("/");
@@ -102,11 +104,11 @@ void Faktura::init() {
 	frNr->setText(lastInvoice);
 
 	// load payments method and currencies
-	platCombo->insertItems(0, settings.value("payments").toString().split("|"));
-	currCombo->insertItems(0, settings.value("waluty").toString().split("|"));
+	platCombo->insertItems(0, sett().value("payments").toString().split("|"));
+	currCombo->insertItems(0, sett().value("waluty").toString().split("|"));
 
-	if (settings.value ("addText").toString().compare("") == 0 )
-		additEdit->setText(settings.value("addText").toString());
+	if (sett().value ("addText").toString().compare("") == 0 )
+		additEdit->setText(sett().value("addText").toString());
 
 	backBtnClick();
 
@@ -227,36 +229,36 @@ void Faktura::editTowar() {
  */
 void Faktura::backBtnClick() {
 	QString tmp;
-	Settings settings;
+
 	QString prefix, suffix;
 
 	if (windowTitle().right(3) == "VAT") {
-		tmp = settings.value("fvat").toString();
+		tmp = sett().value("fvat").toString();
 	} else {
-		tmp = settings.value("fpro").toString();
+		tmp = sett().value("fpro").toString();
 	}
-	prefix = settings.value("prefix").toString();
+	prefix = sett().value("prefix").toString();
 
 	QStringList one1 = tmp.split("/");
 	one1[0] = one1[0].remove(prefix);
 
 	int nr = one1[0].toInt() + 1;
 	lastInvoice = prefix + numbersCount(nr,
-			settings.value("chars_in_symbol").toInt());
+			sett().value("chars_in_symbol").toInt());
 
-	if (settings.value/*bool*/("day") .toBool())
+	if (sett().value/*bool*/("day") .toBool())
 		lastInvoice += "/" + QDate::currentDate().toString("dd");
 
-	if (settings.value/*bool*/("month") .toBool())
+	if (sett().value/*bool*/("month") .toBool())
 		lastInvoice += "/" + QDate::currentDate().toString("MM");
 
-	if (settings.value/*bool*/("year") .toBool()) {
-		if (!settings.value/*bool*/("shortYear") .toBool())
+	if (sett().value/*bool*/("year") .toBool()) {
+		if (!sett().value/*bool*/("shortYear") .toBool())
 			lastInvoice += "/" + QDate::currentDate().toString("yy");
 		else
 			lastInvoice += "/" + QDate::currentDate().toString("yyyy");
 	}
-	suffix = settings.value("sufix").toString();
+	suffix = sett().value("sufix").toString();
 	lastInvoice += suffix;
 	frNr->setText(lastInvoice);
 	saveBtn->setEnabled(true);
@@ -330,23 +332,23 @@ void Faktura::saveInvoice() {
 
 	QFile file;
 	if (fileName == "") {
-		fileName = QDate::currentDate().toString(settings.getFnameDateFormat());
+		fileName = QDate::currentDate().toString(sett().getFnameDateFormat());
 
 		int pNumber = 0;
-		file.setFileName(progDir2 + "/faktury/h" + fileName + "_"
+		file.setFileName(sett().getInvoicesDir() + "h" + fileName + "_"
 				+ QString::number(pNumber) + ".xml");
 		ret = "h" + fileName + "_" + QString::number(pNumber) + ".xml" + "|";
 		pNumber += 1;
 
 		while (file.exists()) {
-			file.setFileName(progDir2 + "/faktury/h" + fileName + "_"
+			file.setFileName(sett().getInvoicesDir() + "h" + fileName + "_"
 					+ QString::number(pNumber) + ".xml");
 			ret = "h" + fileName + "_" + QString::number(pNumber) + ".xml"
 					+ "|";
 			pNumber += 1;
 		}
 	} else {
-		file.setFileName(progDir2 + "/faktury/" + fileName);
+		file.setFileName(sett().getInvoicesDir() + fileName);
 		ret = fileName + "|";
 	}
 
@@ -356,20 +358,18 @@ void Faktura::saveInvoice() {
 	root.setAttribute("no", frNr->text());
 	ret += frNr->text() + "|";
 	root.setAttribute("issueDate", QDate::currentDate().toString(
-			settings.getDateFormat()));
-	ret += QDate::currentDate().toString(settings.getDateFormat()) + "|";
+			sett().getDateFormat()));
+	ret += QDate::currentDate().toString(sett().getDateFormat()) + "|";
 	root.setAttribute("sellingDate", sellingDate->date().toString(
-			settings.getDateFormat()));
-
-	Settings settings;
+			sett().getDateFormat()));
 
 	if (windowTitle().right(3) == "VAT") {
 		root.setAttribute("type", "FVAT");
-		settings.setValue("fvat", frNr->text());
+		sett().setValue("fvat", frNr->text());
 		ret += "FVAT|";
 	} else {
 		root.setAttribute("type", "FPro");
-		settings.setValue("fpro", frNr->text());
+		sett().setValue("fpro", frNr->text());
 		ret += "FPro|";
 	}
 
@@ -451,7 +451,7 @@ void Faktura::saveInvoice() {
 	addinfo.setAttribute("text", additEdit->text());
 	addinfo.setAttribute("paymentType", platCombo->currentText());
 	addinfo.setAttribute("liabDate", liabDate->date().toString(
-			settings.getDateFormat()));
+			sett().getDateFormat()));
 	addinfo.setAttribute("currency", currCombo->currentText());
 	root.appendChild(addinfo);
 
@@ -496,16 +496,12 @@ void Faktura::makeInvoice() {
 	makeInvoiceFooter();
 
 	//print invoice
-	{
-		QPrinter printer(QPrinter::HighResolution);
-		QPrintPreviewDialog preview(&printer, this);
-		preview.setWindowFlags(Qt::Window);
-		connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(print(QPrinter *)));
-
-		if (preview.exec()) {
-			// then it's a great success;
-		}
-	}
+	QPrinter printer(QPrinter::HighResolution);
+	QPrintPreviewDialog preview(&printer, this);
+	// preview.setWindowFlags(Qt::Window);
+	preview.setWindowTitle(invoiceType);
+	connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(print(QPrinter *)));
+	preview.exec();
 
 	//  QFile file ("/tmp/invoice.html");
 	//  if (file.open (QIODevice::WriteOnly))
@@ -523,8 +519,7 @@ void Faktura::makeInvoice() {
  *  Helper slot used to display print preview
  */
 void Faktura::print(QPrinter *printer) {
-    QTextDocument doc;
-
+    QTextDocument doc(invoiceType);
     QString s;
     for (QStringList::iterator it = fraStrList.begin(); it != fraStrList.end(); ++it) {
         s+=*it+"\n";
@@ -549,9 +544,9 @@ void Faktura::makeInvoiceHeadar() {
 	fraStrList += "</head>";
 
 	if (windowTitle().right(3) == "VAT") {
-		fraStrList += "<title>Faktura VAT</title>";
+		fraStrList += "<title>"+ invoiceType  +"</title>";
 	} else {
-		fraStrList += "<title>Faktura Pro Forma</title>";
+		fraStrList += "<title>" + invoiceType + "</title>";
 	}
 
 	//  fraStrList += "<style type=\"text/css\"><!-- ";
@@ -582,8 +577,8 @@ void Faktura::makeInvoiceHeadar() {
 			+= "<td width=\"60%\" align=\"left\" valign=\"center\" class=\"podpisy\">";
 	// logo code
 	// eof logo
-	Settings settings;
-	QString logo = settings.value("elinux/faktury/logo").toString();
+
+	QString logo = sett().value("logo").toString();
 	if (logo != "") {
 		fraStrList += "<img src=\"" + logo + "\">";
 	} else {
@@ -595,11 +590,8 @@ void Faktura::makeInvoiceHeadar() {
 	fraStrList += "<td align=\"right\">";
 
 	fraStrList += "<span style=\"font-size:12pt; font-weight:600\">";
-	if (windowTitle().right(3) == "VAT") {
-		fraStrList += "FAKTURA VAT";
-	} else {
-		fraStrList += "FAKTURA Pro Forma";
-	}
+
+	fraStrList += invoiceType;
 	fraStrList += "<br/>";
 
 	fraStrList += "NR: " + frNr->text() + "<br></span>";
@@ -630,14 +622,14 @@ void Faktura::makeInvoiceBody() {
 	fraStrList += "<td width=\"48%\"> ";
 	fraStrList
 			+= "<span style=\"font-size:10pt; font-weight:600;\">Sprzedawca:</span><br/>";
-	QSettings settings("elinux", "user");
+	QSettings userSettings("elinux", "user");
 	fraStrList += "<span style=\"font-size:8pt; font-weight:600;\">"
-			+ settings.value("name").toString() + "<br>";
-	fraStrList += settings.value("zip").toString() + " " + settings.value(
+			+ userSettings.value("name").toString() + "<br>";
+	fraStrList += userSettings.value("zip").toString() + " " + userSettings.value(
 			"city").toString() + "<br>";
-	fraStrList += "ul. " + settings.value("address").toString() + "<br>";
-	fraStrList += "NIP: " + settings.value("tic").toString() + "<br>";
-	fraStrList += "Nr konta: " + settings.value("account").toString().replace(
+	fraStrList += "ul. " + userSettings.value("address").toString() + "<br>";
+	fraStrList += "NIP: " + userSettings.value("tic").toString() + "<br>";
+	fraStrList += "Nr konta: " + userSettings.value("account").toString().replace(
 			"-", " ") + "<br>";
 	fraStrList += "</span>";
 	fraStrList += "</td>";
@@ -661,34 +653,33 @@ void Faktura::makeInvoiceProducts() {
 			+= "<table border=\"1\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
 	fraStrList += "<tr>";
 
-	Settings settings;
-	if (settings.value("faktury_pozycje/Lp").toBool())
+	if (sett().value("faktury_pozycje/Lp").toBool())
 		fraStrList += "<td width=\"3%\"  align=\"center\">Lp.</td>";
-	if (settings.value("faktury_pozycje/Nazwa").toBool())
+	if (sett().value("faktury_pozycje/Nazwa").toBool())
 		fraStrList += "<td width=\"25%\" align=\"center\">Nazwa</td>";
-	if (settings.value("faktury_pozycje/Kod").toBool())
+	if (sett().value("faktury_pozycje/Kod").toBool())
 		fraStrList += "<td width=\"7%\" align=\"center\">Kod</td>";
-	if (settings.value("faktury_pozycje/pkwiu").toBool())
+	if (sett().value("faktury_pozycje/pkwiu").toBool())
 		fraStrList += "<td width=\"7%\" align=\"center\">PKWiU</td>";
-	if (settings.value("faktury_pozycje/ilosc").toBool())
+	if (sett().value("faktury_pozycje/ilosc").toBool())
 		fraStrList += UTF8("<td width=\"7%\" align=\"center\">Ilość</td>");
-	if (settings.value("faktury_pozycje/jm").toBool())
+	if (sett().value("faktury_pozycje/jm").toBool())
 		fraStrList += "<td width=\"3%\" align=\"center\">Jm.</td>";
-	if (settings.value("faktury_pozycje/cenajedn").toBool())
+	if (sett().value("faktury_pozycje/cenajedn").toBool())
 		fraStrList += "<td width=\"7%\" align=\"center\">Cena jdn.</td>";
-	if (settings.value("faktury_pozycje/wartnetto").toBool())
+	if (sett().value("faktury_pozycje/wartnetto").toBool())
 		fraStrList += UTF8("<td width=\"7%\" align=\"center\">Wartość Netto</td>");
-	if (settings.value("faktury_pozycje/rabatperc").toBool())
+	if (sett().value("faktury_pozycje/rabatperc").toBool())
 		fraStrList += "<td width=\"3%\" align=\"center\">Rabat %</td>";
-	if (settings.value("faktury_pozycje/rabatval").toBool())
+	if (sett().value("faktury_pozycje/rabatval").toBool())
 		fraStrList += UTF8("<td width=\"3%\" align=\"center\">Rabat Wartość</td>");
-	if (settings.value("faktury_pozycje/nettoafter").toBool())
+	if (sett().value("faktury_pozycje/nettoafter").toBool())
 		fraStrList += "<td width=\"7%\" align=\"center\">Netto po rabacie</td>";
-	if (settings.value("faktury_pozycje/vatval").toBool())
+	if (sett().value("faktury_pozycje/vatval").toBool())
 		fraStrList += "<td width=\"7%\" align=\"center\">Stawka VAT</td>";
-	if (settings.value("faktury_pozycje/vatprice").toBool())
+	if (sett().value("faktury_pozycje/vatprice").toBool())
 		fraStrList += "<td width=\"7%\" align=\"center\">Kwota Vat</td>";
-	if (settings.value("faktury_pozycje/bruttoval").toBool())
+	if (sett().value("faktury_pozycje/bruttoval").toBool())
 		fraStrList += UTF8("<td width=\"7%\" align=\"center\">Wartość Brutto</td>");
 	fraStrList += "</tr>";
 
@@ -696,57 +687,56 @@ void Faktura::makeInvoiceProducts() {
 		// double vatPrice = tableTow->text(i, 9).replace(",", ".").toDouble() - tableTow->text(i, 6).replace(",", ".").toDouble();
 		fraStrList += "<tr>";
 		// lp, nazwa, kod, ilosc, jm, cena jm., netto, vat, brutto
-		if (settings.value/*bool*/("faktury_pozycje/Lp").toBool())
+		if (sett().value/*bool*/("faktury_pozycje/Lp").toBool())
 			fraStrList += "<td>&nbsp;" + QString::number(i + 1) + "</td>";
 
-		if (settings.value/*bool*/("faktury_pozycje/Nazwa") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/Nazwa") .toBool())
 			fraStrList += "<td>&nbsp;" + tableTow->item(i, 1)->text() + "</td>";
-		if (settings.value/*bool*/("faktury_pozycje/Kod") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/Kod") .toBool())
 			fraStrList += "<td>&nbsp;" + tableTow->item(i, 2)->text() + "</td>";
-		if (settings.value/*bool*/("faktury_pozycje/pkwiu") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/pkwiu") .toBool())
 			fraStrList += "<td>&nbsp;" + tableTow->item(i, 3)->text() + "</td>";
 		// pkwiu
-		if (settings.value/*bool*/("faktury_pozycje/ilosc") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/ilosc") .toBool())
 			fraStrList += "<td>&nbsp;" + tableTow->item(i, 4)->text() + "</td>";
-		if (settings.value/*bool*/("faktury_pozycje/jm") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/jm") .toBool())
 			fraStrList += "<td>&nbsp;" + tableTow->item(i, 5)->text() + "</td>";
-		if (settings.value/*bool*/("faktury_pozycje/cenajedn") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/cenajedn") .toBool())
 			fraStrList += "<td>&nbsp;" + tableTow->item(i, 6)->text() + "</td>";
 		double cenajdn =
 				tableTow->item(i, 6)->text().replace(",", ".").toDouble();
 		double kwota = cenajdn
 				* tableTow->item(i, 4)->text().replace(",", ".").toInt();
-		if (settings.value/*bool*/("faktury_pozycje/wartnetto") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/wartnetto") .toBool())
 			fraStrList += "<td>&nbsp;" + fixStr(QString::number(kwota))
 					+ "</td>"; // netto
-		if (settings.value/*bool*/("faktury_pozycje/rabatperc") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/rabatperc") .toBool())
 			fraStrList += "<td>&nbsp;" + QString::number(rabatValue->value())
 					+ "% </td>"; // rabat
-		if (settings.value/*bool*/("faktury_pozycje/rabatval") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/rabatval") .toBool())
 			fraStrList += "<td>&nbsp;" + fixStr(
 					QString::number(
 							kwota - tableTow->item(i, 7)->text().replace(",",
 									".").toDouble())) + " </td>"; // rabat value
-		if (settings.value/*bool*/("faktury_pozycje/nettoafter") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/nettoafter") .toBool())
 			fraStrList += "<td>&nbsp;" + tableTow->item(i, 7)->text() + "</td>"; // netto po rab
-		if (settings.value/*bool*/("faktury_pozycje/vatval") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/vatval") .toBool())
 			fraStrList += "<td>&nbsp;" + tableTow->item(i, 8)->text()
 					+ "%</td>";
 		double
 				vatPrice =
 						tableTow->item(i, 9)->text().replace(",", ".").toDouble()
 								- tableTow->item(i, 7)->text().replace(",", ".").toDouble();
-		if (settings.value/*bool*/("faktury_pozycje/vatprice") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/vatprice") .toBool())
 			fraStrList += "<td>&nbsp;" + fixStr(QString::number(vatPrice))
 					+ "</td>";
-		if (settings.value/*bool*/("faktury_pozycje/bruttoval") .toBool())
+		if (sett().value/*bool*/("faktury_pozycje/bruttoval") .toBool())
 			fraStrList += "<td>&nbsp;" + tableTow->item(i, 9)->text() + "</td>";
 		fraStrList += "</tr>";
 	}
 
 	fraStrList += "</table>";
 	makeInvoiceSumm();
-
 	fraStrList += "<br/></td></tr>";
 }
 
@@ -754,24 +744,17 @@ void Faktura::makeInvoiceSumm() {
 	fraStrList
 			+= "</br><table border=\"0\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
 	fraStrList += "<tr>";
-
 	double vatPrice = sbrutto->text().replace(",", ".").toDouble()
 			- snetto->text().replace(",", ".").toDouble();
-
 	fraStrList += "<tr>";
-
 	fraStrList
 			+= "<td colspan=\"10\" width=\"420\" align=\"right\">&nbsp;</td>";
 	fraStrList += "<td width=\"30\" align=\"center\">&nbsp;" + UTF8("Wartość") + "</br>" + UTF8(" Netto") + "</td>"; // netto
 	fraStrList += "<td width=\"30\" >&nbsp;</td>";
 	fraStrList += "<td width=\"30\" align=\"center\">&nbsp;" + UTF8("Kwota") + "</br>" + UTF8(" VAT") + "</td>";// vat
 	fraStrList += "<td width=\"30\" align=\"center\">&nbsp;" + UTF8("Wartość") + "</br>" + UTF8(" Brutto") + "</td>"; // brutto
-
 	fraStrList += "</tr>";
-
 	fraStrList += "<tr>";
-
-	Settings settings;
 	fraStrList
 			+= "<td colspan=\"10\" width=\"420\" align=\"right\">Razem:&nbsp;</td>";
 	fraStrList += "<td align=\"center\">&nbsp;" + snetto->text() + "</td>"; // netto
@@ -779,15 +762,11 @@ void Faktura::makeInvoiceSumm() {
 	fraStrList += "<td align=\"center\">&nbsp;" + fixStr(QString::number(
 			vatPrice)) + "</td>";// vat
 	fraStrList += "<td align=\"center\">&nbsp;" + sbrutto->text() + "</td>"; // brutto
-
 	fraStrList += "</tr>";
 	fraStrList += "</table>";
 }
 
 void Faktura::makeInvoiceSummAll() {
-
-	Settings settings;
-
 	fraStrList += "<tr comment=\"podsumowanie\"><td>";
 	fraStrList += "<table width=\"100%\" border=\"0\">";
 	fraStrList += "<tr>";
@@ -798,18 +777,14 @@ void Faktura::makeInvoiceSummAll() {
 	fraStrList += UTF8("<span style=\"font-size:8pt; font-weight:600;\">słownie:")
 			+ slownie(sbrutto->text(), currCombo->currentText())
 			+ "</span><br/>";
-
 	fraStrList
 			+= UTF8("<span style=\"font-size:8pt; font-weight:600;\">forma płatności: ")
 					+ platCombo->currentText() + "<br/>";
 	fraStrList += UTF8("termin płatności: ") + liabDate->date().toString("yyyy-MM-dd")
 			+ "<br/>";
-
-	QString paym1 = settings.value("elinux/faktury/paym1").toString();
-
+	QString paym1 = sett().value("paym1").toString();
 	if (paym1.left(3) == platCombo->currentText().left(3))
 		fraStrList += UTF8("<b>Zapłacono gotówką</b> <br/>");
-
 	fraStrList += "</span><br/>";
 	fraStrList += "<span style=\"font-size:10pt; font-weight:600;\">"
 			+ additEdit->text() + "</span>";
@@ -823,14 +798,12 @@ void Faktura::makeInvoiceSummAll() {
 	fraStrList += "</td>"; // Ogółem stawkami:
 	fraStrList += "</tr>";
 	fraStrList += getGroupedSums();
-
 	fraStrList += "<tr>";
 	fraStrList += "<td>&nbsp;</td>"; // netto
 	fraStrList += "<td>&nbsp;</td>"; // stawka
 	fraStrList += "<td>&nbsp;</td>"; // podatek
 	fraStrList += "<td>&nbsp;</td>"; // brutto
 	fraStrList += "</tr>";
-
 	fraStrList += "</table>";
 	fraStrList += "</td>";
 	fraStrList += "</tr>";
@@ -881,8 +854,7 @@ void Faktura::makeInvoiceFooter() {
  */
 QString Faktura::getGroupedSums() {
 	QStringList out;
-	Settings settings;
-	QStringList stawki = settings.value("stawki").toString().split("|");
+	QStringList stawki = sett().value("stawki").toString().split("|");
 	QMap<int, double> stawkiNetto;
 	QMap<int, double> stawkiVat;
 	QMap<int, double> stawkiBrutto;
@@ -1003,7 +975,7 @@ void Faktura::readData(QString fraFile, int co) {
 	liabDate-> setDate(QDate::fromString(additional.attribute("liabDate"),
 			Qt::ISODate));
 	currCombo->setCurrentIndex(additional.attribute("currency").toInt());
-	if (!settings.value("edit").toBool()) {
+	if (!sett().value("edit").toBool()) {
 		isEdit = true;
 		frNr->setEnabled(FALSE);
 		backBtn->setEnabled(FALSE);
@@ -1160,9 +1132,8 @@ QString Faktura::numbersCount(int in, int x) {
 /** Saves width of the columns
  */
 void Faktura::saveColumnsWidth() {
-	Settings settings;
-	settings.beginGroup("fakturaForm");
+	sett().beginGroup("fakturaForm");
 	for (int i = 0; i <= 10; ++i)
-		settings.setValue("towCol" + QString::number(i), tableTow->columnWidth(i));
-	settings.endGroup();
+		sett().setValue("towCol" + QString::number(i), tableTow->columnWidth(i));
+	sett().endGroup();
 }

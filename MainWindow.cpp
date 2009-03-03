@@ -15,10 +15,7 @@
 #include "Faktura.h"
 #include "Korekta.h"
 #include "Kontrahenci.h"
-#include "config.h"
 
-
-QString pdGlob;
 
 
 /** Constructor
@@ -32,22 +29,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
  * init() method
  */
 void MainWindow::init() {
-	// working direcroty
-	QDir tmp;
-	QString progDir = tmp.homePath() + "/elinux"; // move to settings
-	pdGlob = progDir;
 
-	if (!tmp.exists(progDir)) {
-		tmp.mkdir(progDir);
-		tmp.mkdir(progDir + "/faktury");
-	}
-
-	if (!tmp.exists(progDir + "/faktury")) {
-		tmp.mkdir(progDir + "/faktury");
-	}
+	workingDir = sett().getWorkingDir();
 
 	// first run
 	if (firstRun()) {
+		setupDir();
 		// towary/uslugi - wymiary
 		tableT->setColumnWidth(0, 50);
 		tableT->setColumnWidth(1, 140);
@@ -63,45 +50,47 @@ void MainWindow::init() {
 		// qDebug("firstRun");
 		saveAllSettAsDefault();
 	} else {
-		// qDebug() << settings.getValueAsDate("filtrStart")
-		//		<< settings.getValueAsDate("filtrEnd");
+		// qDebug() << sett().getValueAsDate("filtrStart")
+		//		<< sett().getValueAsDate("filtrEnd");
 
-		filtrStart->setDisplayFormat(settings.getDateFormat());
-		filtrStart->setDate(settings.getValueAsDate("filtrStart"));
-		filtrEnd->setDisplayFormat(settings.getDateFormat());
-		filtrEnd->setDate(settings.getValueAsDate("filtrEnd"));
+		filtrStart->setDisplayFormat(sett().getDateFormat());
+		filtrStart->setDate(sett().getValueAsDate("filtrStart"));
+		filtrEnd->setDisplayFormat(sett().getDateFormat());
+		filtrEnd->setDate(sett().getValueAsDate("filtrEnd"));
 	}
 
 	// towary/uslugi - wymiary
-	tableT->setColumnWidth(0, settings.value("towCol0", QVariant(50)) .toInt());
-	tableT->setColumnWidth(1, settings.value("towCol1", QVariant(140)) .toInt());
-	tableT->setColumnWidth(3, settings.value("towCol2", QVariant(40)) .toInt());
-	tableT->setColumnWidth(4, settings.value("towCol3", QVariant(60)) .toInt());
-	tableT->setColumnWidth(5, settings.value("towCol4", QVariant(50)) .toInt());
-	tableT->setColumnWidth(6, settings.value("towCol5", QVariant(55)) .toInt()); // netto1
-	tableT->setColumnWidth(7, settings.value("towCol6", QVariant(55)) .toInt()); // netto2
-	tableT->setColumnWidth(8, settings.value("towCol7", QVariant(55)) .toInt()); // netto3
-	tableT->setColumnWidth(9, settings.value("towCol8", QVariant(55)) .toInt());; // netto4
-	tableT->setColumnWidth(10, settings.value("towCol9", QVariant(55)) .toInt());
+	tableT->setColumnWidth(0, sett().value("towCol0", QVariant(50)) .toInt());
+	tableT->setColumnWidth(1, sett().value("towCol1", QVariant(140)) .toInt());
+	tableT->setColumnWidth(3, sett().value("towCol2", QVariant(40)) .toInt());
+	tableT->setColumnWidth(4, sett().value("towCol3", QVariant(60)) .toInt());
+	tableT->setColumnWidth(5, sett().value("towCol4", QVariant(50)) .toInt());
+	tableT->setColumnWidth(6, sett().value("towCol5", QVariant(55)) .toInt()); // netto1
+	tableT->setColumnWidth(7, sett().value("towCol6", QVariant(55)) .toInt()); // netto2
+	tableT->setColumnWidth(8, sett().value("towCol7", QVariant(55)) .toInt()); // netto3
+	tableT->setColumnWidth(9, sett().value("towCol8", QVariant(55)) .toInt());; // netto4
+	tableT->setColumnWidth(10, sett().value("towCol9", QVariant(55)) .toInt());
 
-	tableH->setColumnWidth(0, settings.value("histCol0", QVariant(0)) .toInt());
-	tableH->setColumnWidth(1, settings.value("histCol1", QVariant(40)) .toInt());
-	tableH->setColumnWidth(3, settings.value("histCol2", QVariant(40)) .toInt());
-	tableH->setColumnWidth(4, settings.value("histCol3", QVariant(140)) .toInt());
-	tableH->setColumnWidth(5, settings.value("histCol4", QVariant(50)) .toInt());
+	tableH->setColumnWidth(0, sett().value("histCol0", QVariant(0)) .toInt());
+	tableH->setColumnWidth(1, sett().value("histCol1", QVariant(40)) .toInt());
+	tableH->setColumnWidth(3, sett().value("histCol2", QVariant(40)) .toInt());
+	tableH->setColumnWidth(4, sett().value("histCol3", QVariant(140)) .toInt());
+	tableH->setColumnWidth(5, sett().value("histCol4", QVariant(50)) .toInt());
 
-	tableK->setColumnWidth(0, settings.value("custCol0", QVariant(50)) .toInt());
-	tableK->setColumnWidth(1, settings.value("custCol1", QVariant(140)) .toInt());
-	tableK->setColumnWidth(3, settings.value("custCol2", QVariant(40)) .toInt());
-	tableK->setColumnWidth(4, settings.value("custCol3", QVariant(60)) .toInt());
-	tableK->setColumnWidth(5, settings.value("custCol4", QVariant(50)) .toInt());
+	tableK->setColumnWidth(0, sett().value("custCol0", QVariant(50)) .toInt());
+	tableK->setColumnWidth(1, sett().value("custCol1", QVariant(140)) .toInt());
+	tableK->setColumnWidth(3, sett().value("custCol2", QVariant(40)) .toInt());
+	tableK->setColumnWidth(4, sett().value("custCol3", QVariant(60)) .toInt());
+	tableK->setColumnWidth(5, sett().value("custCol4", QVariant(50)) .toInt());
 
 	// add Icon
 	QIcon icon;
 	icon.addPixmap(QPixmap(":/res/share/qfaktury/icons/qfaktury_48.png"),
 			QIcon::Normal, QIcon::Off);
 	this->setWindowIcon(icon);
-	this->setWindowTitle(qAppName() + " - " + UTF8("Wersja ") + STRING(QFAKTURY_VERSION));
+
+
+	this->setWindowTitle( sett().getVersion(qAppName() ));
 
 	// connect slots
 	connect(actionForum, SIGNAL (activated ()), this, SLOT(forum()));
@@ -132,79 +121,79 @@ void MainWindow::init() {
 
 	tabChanged(tabWidget2);
 
-	readKontr(progDir);
-	readHist(progDir);
-	readTw(progDir);
+	readKontr(workingDir);
+	readHist(workingDir);
+	readTw(workingDir);
 }
 
 /**
  * firstRun setup()
  */
 bool MainWindow::firstRun() {
-	bool ok = settings.value("firstrun").toBool();
+	bool ok = sett().value("firstrun", false).toBool();
 	if (ok) {
-		settings.checkSettings();
+		sett().checkSettings();
 		// set dates for filter
 		filtrStart->setDate(QDate::currentDate());
 		filtrEnd->setDate(QDate::currentDate());
 		return true;
 	} else {
-		settings.checkSettings();
+		sett().checkSettings();
 		return false;
 	}
 
 }
 
-/** save settings before quit
+/** save sett() before quit
  * save column width
  */
 void MainWindow::saveColumnWidth() {
 	// width of the columns in the towary "goods" tab
-	settings.setValue("towCol0", tableT->columnWidth(0));
-	settings.setValue("towCol1", tableT->columnWidth(1));
-	settings.setValue("towCol2", tableT->columnWidth(2));
-	settings.setValue("towCol3", tableT->columnWidth(3));
-	settings.setValue("towCol4", tableT->columnWidth(4));
-	settings.setValue("towCol5", tableT->columnWidth(5));
-	settings.setValue("towCol6", tableT->columnWidth(6));
-	settings.setValue("towCol7", tableT->columnWidth(7));
-	settings.setValue("towCol8", tableT->columnWidth(8));
-	settings.setValue("towCol9", tableT->columnWidth(9));
-	settings.setValue("towCol10", tableT->columnWidth(10));
+	sett().setValue("towCol0", tableT->columnWidth(0));
+	sett().setValue("towCol1", tableT->columnWidth(1));
+	sett().setValue("towCol2", tableT->columnWidth(2));
+	sett().setValue("towCol3", tableT->columnWidth(3));
+	sett().setValue("towCol4", tableT->columnWidth(4));
+	sett().setValue("towCol5", tableT->columnWidth(5));
+	sett().setValue("towCol6", tableT->columnWidth(6));
+	sett().setValue("towCol7", tableT->columnWidth(7));
+	sett().setValue("towCol8", tableT->columnWidth(8));
+	sett().setValue("towCol9", tableT->columnWidth(9));
+	sett().setValue("towCol10", tableT->columnWidth(10));
 	// width of the columns in the history tab
-	settings.setValue("histCol0", tableH->columnWidth(0));
-	settings.setValue("histCol1", tableH->columnWidth(1));
-	settings.setValue("histCol2", tableH->columnWidth(2));
-	settings.setValue("histCol3", tableH->columnWidth(3));
-	settings.setValue("histCol4", tableH->columnWidth(4));
-	settings.setValue("histCol5", tableH->columnWidth(5));
+	sett().setValue("histCol0", tableH->columnWidth(0));
+	sett().setValue("histCol1", tableH->columnWidth(1));
+	sett().setValue("histCol2", tableH->columnWidth(2));
+	sett().setValue("histCol3", tableH->columnWidth(3));
+	sett().setValue("histCol4", tableH->columnWidth(4));
+	sett().setValue("histCol5", tableH->columnWidth(5));
 	// width of the columns in the customers tab
-	settings.setValue("custCol0", tableK->columnWidth(0));
-	settings.setValue("custCol1", tableK->columnWidth(1));
-	settings.setValue("custCol2", tableK->columnWidth(2));
-	settings.setValue("custCol3", tableK->columnWidth(3));
-	settings.setValue("custCol4", tableK->columnWidth(4));
-	settings.setValue("custCol5", tableK->columnWidth(5));
+	sett().setValue("custCol0", tableK->columnWidth(0));
+	sett().setValue("custCol1", tableK->columnWidth(1));
+	sett().setValue("custCol2", tableK->columnWidth(2));
+	sett().setValue("custCol3", tableK->columnWidth(3));
+	sett().setValue("custCol4", tableK->columnWidth(4));
+	sett().setValue("custCol5", tableK->columnWidth(5));
 }
 
-/** Saves all settings as default - first run
+/** Saves all sett() as default - first run
  */
 void MainWindow::saveAllSettAsDefault() {
-	settings.resetSettings();
+	sett().resetSettings();
 }
 
 
-/** Saves all settings
+/** Saves all sett()
  */
 void MainWindow::saveAllSett() {
 	// save filtr
-	settings.setValue("filtrStart", filtrStart->text());
-	settings.setValue("filtrEnd", filtrEnd->text());
+	sett().setValue("filtrStart", filtrStart->text());
+	sett().setValue("filtrEnd", filtrEnd->text());
 
 	saveColumnWidth();
 
 	// save unsaved
-	settings.sync();
+	sett().sync();
 }
 
 
@@ -280,7 +269,7 @@ void MainWindow::readHist(QString progDir) {
 	QDomElement nadawca;
 	QDomElement odbiorca;
 
-	allFiles.setPath(progDir + "/faktury/");
+	allFiles.setPath(sett().getInvoicesDir());
 	allFiles.setFilter(QDir::Files);
 	QStringList filters;
 	filters << "h*.xml";
@@ -294,7 +283,7 @@ void MainWindow::readHist(QString progDir) {
 			text = files[i];
 			tableH->item(tableH->rowCount() - 1, 0)->setText(text);
 
-			QFile file(progDir + "/faktury/" + files[i]);
+			QFile file(sett().getInvoicesDir() + files[i]);
 
 			if (!file.open(QIODevice::ReadOnly)) {
 				qDebug("file doesn't exists");
@@ -304,7 +293,6 @@ void MainWindow::readHist(QString progDir) {
 
 				if (!doc.setContent(stream.readAll())) {
 					// qDebug ("can not set content ");
-					// qDebug( file.name() );
 					file.close();
 					// return;
 				}
@@ -336,7 +324,7 @@ void MainWindow::readKontr(QString progDir) {
 	QDomElement urzad;
 	QDomElement firma;
 
-	QFile file(progDir + "/kontrah.xml");
+	QFile file(sett().getCustomersXml());
 	if (!file.open(QIODevice::ReadOnly)) {
 		qDebug("file doesn't exists");
 		return;
@@ -392,7 +380,7 @@ void MainWindow::readTw(QString progDir) {
 	QDomElement towary;
 	QDomElement uslugi;
 
-	QFile file(progDir + "/towary.xml");
+	QFile file(sett().getProductsXml());
 	if (!file.open(QIODevice::ReadOnly)) {
 		qDebug("file doesn't exists");
 		return;
@@ -470,6 +458,21 @@ void MainWindow::readTw(QString progDir) {
 	}
 }
 
+/** Creates directories if required
+ */
+void MainWindow::setupDir() {
+	QDir dir(workingDir);
+	if (!dir.exists()) {
+		dir.mkdir(workingDir);
+		dir.mkdir(workingDir + sett().getDataDir());
+	}
+
+	if (!dir.exists(workingDir + sett().getDataDir())) {
+		dir.mkdir(workingDir + sett().getDataDir());
+	}
+}
+
+
 // ----------------------------------------  SLOTS ---------------------------------//
 
 /** Slot which enables/disables menu. It's possible to add/remove goods/customers
@@ -535,15 +538,14 @@ void MainWindow::tabChanged(QWidget * qwdt) {
  */
 void MainWindow::rereadHist() {
 	//  qDebug( __FUNCTION__ );
-	QString progDir = QDir::homePath() + "/elinux";
 	tableClear(tableH);
-	readHist(progDir);
+	readHist(workingDir);
 }
 
 /** Slot used to display aboutQt informations.
  */
 void MainWindow::aboutQt() {
-	QMessageBox::aboutQt(this, "QFaktury");
+	QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
 }
 
 /** Slot used to display information about QFaktury
@@ -552,7 +554,8 @@ void MainWindow::oProg() {
 	QMessageBox::about(
 			this,
 			"O programie",
-			UTF8("Program do wystawiania faktur.\nWersja " STRING(QFAKTURY_VERSION) " \n\nProgramista:\n\tRafał‚ Rusin (rafal.rusin@gmail.com)\n\nSupport: rafal.rusin@gmail.com\n\nPoprzednio pracowali:\nKoordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl\nProgramista:\n\tTomasz 'moux' Pielech\nGrafika:\n\tDariusz Arciszewski"));
+			UTF8("Program do wystawiania faktur.\nWersja ") + sett().getVersion(qAppName()) +
+			UTF8(" \n\nProgramista:\n\tRafał‚ Rusin (rafal.rusin@gmail.com)\n\nSupport: rafal.rusin@gmail.com\n\nPoprzednio pracowali:\nKoordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl\nProgramista:\n\tTomasz 'moux' Pielech\nGrafika:\n\tDariusz Arciszewski"));
 }
 
 /** Slot used to edit the invoice from list of invoices.
@@ -565,9 +568,9 @@ void MainWindow::editFHist() {
 	row = selected[0]->row();
 
 	if (tableH->item(row, 3)->text() == "korekta") {
-		// QMessageBox::information( this, "QFaktury", "Jeszcze nie ma", QMessageBox::Ok );
+		// QMessageBox::information( this, UTF8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
 		Korekta *korWindow = new Korekta(this);
-		korWindow->progDir2 = pdGlob;
+		korWindow->progDir2 = workingDir;
 		korWindow->readData(tableH->item(row, 0)->text());
 		if (korWindow->exec() == QDialog::Accepted) {
 			QStringList rowTxt = korWindow->ret.split("|");
@@ -584,7 +587,7 @@ void MainWindow::editFHist() {
 			|| (tableH->item(row, 3)->text() == "FPro")) {
 		// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 		Faktura *fraWindow = new Faktura(this);
-		fraWindow->progDir2 = pdGlob;
+		fraWindow->progDir2 = workingDir;
 		// qDebug() << pdGlob;
 		int co = 0;
 		if (tableH->item(row, 3)->text() == "FVAT")
@@ -608,11 +611,11 @@ void MainWindow::editFHist() {
 /** Slot used to delete invoices
  */
 void MainWindow::delFHist() {
-	if (QMessageBox::warning(this, "QFaktury", UTF8("Czy napewno chcesz usnąć tą fakturę z historii?"), "Tak",
-			"Nie", 0, 0, 1) == 0) {
+	if (QMessageBox::warning(this, sett().getVersion(qAppName()), UTF8("Czy napewno chcesz usnąć tą fakturę z historii?"), UTF8("Tak"),
+			UTF8("Nie"), 0, 0, 1) == 0) {
 		QString name = tableH->item (tableH->currentRow(), 0)->text();
 
-		QFile file(pdGlob + "/faktury/" + name);
+		QFile file(sett().getInvoicesDir() + name);
 		if (file.exists())
 			file.remove();
 		tableH->removeRow(tableH->currentRow());
@@ -628,7 +631,7 @@ void MainWindow::daneFirmyClick() {
 	daneFirmyWindow->show();
 }
 
-/** Slot used to edit edit settings
+/** Slot used to edit edit sett()
  */
 void MainWindow::settClick() {
 	// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
@@ -639,7 +642,7 @@ void MainWindow::settClick() {
 //void MainWindow::kretorClick ()
 //{
 //  qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-////     QMessageBox::information( this, "QFaktury", "Funkcja jeszcze nie gotowa. Uzyj menu faktury->Nowy", QMessageBox::Ok );
+////     QMessageBox::information( this, UTF8("QFaktury"), "Funkcja jeszcze nie gotowa. Uzyj menu faktury->Nowy", QMessageBox::Ok );
 //  Form3 *kreatorWindow = new Form3;
 //  if (kreatorWindow->exec () == QDialog::Accepted)
 //    {
@@ -666,12 +669,7 @@ void MainWindow::kontrClick() {
 	kontrWindow = new Kontrahenci(this);
 	//qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 	if (kontrWindow->exec() == QDialog::Accepted) {
-		// tableClear (tableK);
-		QDir tmp;
-		QString progDir = tmp.homePath() + "/elinux";
 		// qDebug() << progDir;
-		tmp.mkdir(progDir);
-
 		// readKontr (progDir);
 		insertRow(tableK, tableK->rowCount());
 		QStringList row = kontrWindow->ret.split("|");
@@ -686,14 +684,14 @@ void MainWindow::kontrClick() {
 /** Slot used to delete current customer
  */
 void MainWindow::kontrDel() {
-	if (QMessageBox::warning(this, "QFaktury", UTF8("Czy napewno chcesz usunąć kontrahenta: ") + tableK->item(tableK->currentRow(), 0)->text() + UTF8(" ?"), "Tak", "Nie", 0, 0, 1) == 0) {
+	if (QMessageBox::warning(this, UTF8("QFaktury"), UTF8("Czy napewno chcesz usunąć kontrahenta: ") + tableK->item(tableK->currentRow(), 0)->text() + UTF8(" ?"), UTF8("Tak"), UTF8("Nie"), 0, 0, 1) == 0) {
 		QDomDocument doc("kontrahenci");
 		QDomElement root;
 		QDomElement urzad;
 		QDomElement firma;
 		int row = tableK->currentRow();
 
-		QFile file(pdGlob + "/kontrah.xml");
+		QFile file(sett().getCustomersXml());
 		if (!file.open(QIODevice::ReadOnly)) {
 			qDebug("file doesn't exists");
 			return;
@@ -745,29 +743,28 @@ void MainWindow::kontrDel() {
 
 /** Slot used to edit customer
  */
-void MainWindow::kontrEd ()
-{
-  int row = tableK->selectedItems()[0]->row();
-  // qDebug ()<<tableK->item(row, 0)->text();
+void MainWindow::kontrEd() {
+	int row = tableK->selectedItems()[0]->row();
+	// qDebug ()<<tableK->item(row, 0)->text();
 
-  Kontrahenci *kontrWindow = new Kontrahenci(this);
-  kontrWindow->readData (tableK->item(row, 0)->text(), tableK->item(row, 1)->text());
-  if (kontrWindow->exec () == QDialog::Accepted)
-    {
-      QStringList rowTxt = kontrWindow->ret.split("|");
-      tableK->item (row, 0)->setText(rowTxt[0]);	// name
-      tableK->item (row, 1)->setText(rowTxt[1]);	// type
-      tableK->item (row, 2)->setText(rowTxt[2]);	// place
-      tableK->item (row, 3)->setText(rowTxt[3]);	// address
-      tableK->item (row, 4)->setText(rowTxt[4]);	// telefon
-    }
+	Kontrahenci *kontrWindow = new Kontrahenci(this);
+	kontrWindow->readData(tableK->item(row, 0)->text(),
+			tableK->item(row, 1)->text());
+	if (kontrWindow->exec() == QDialog::Accepted) {
+		QStringList rowTxt = kontrWindow->ret.split("|");
+		tableK->item(row, 0)->setText(rowTxt[0]); // name
+		tableK->item(row, 1)->setText(rowTxt[1]); // type
+		tableK->item(row, 2)->setText(rowTxt[2]); // place
+		tableK->item(row, 3)->setText(rowTxt[3]); // address
+		tableK->item(row, 4)->setText(rowTxt[4]); // telefon
+	}
 }
 
 /** Slot used for creating new invoices
  */
 void MainWindow::newFra() {
 	Faktura *fraWindow = new Faktura(this);
-	fraWindow->progDir2 = pdGlob;
+	fraWindow->progDir2 = workingDir;
 	fraWindow->pforma = false;
 	if (fraWindow->exec() == QDialog::Accepted) {
 		insertRow(tableH, tableH->rowCount());
@@ -785,7 +782,7 @@ void MainWindow::newFra() {
  */
 void MainWindow::newPForm() {
 	Faktura *fraWindow = new Faktura(this);
-	fraWindow->progDir2 = pdGlob;
+	fraWindow->progDir2 = workingDir;
 	fraWindow->pforma = true;
 	fraWindow->setWindowTitle("Faktura Pro Forma");
 	fraWindow->backBtnClick();
@@ -809,7 +806,7 @@ void MainWindow::newKor() {
 	if ((tableH->item(row, 3)->text() == "FVAT")) {
 		Korekta *korWindow = new Korekta(this);
 		// qDebug( pdGlob );
-		korWindow->progDir2 = pdGlob;
+		korWindow->progDir2 = workingDir;
 		korWindow->readDataNewKor(tableH->item(row, 0)->text());
 		if (korWindow->exec() == QDialog::Accepted) {
 			insertRow(tableH, tableH->rowCount());
@@ -822,14 +819,14 @@ void MainWindow::newKor() {
 			tableH->item(tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
 		}
 	}
-	// no UTF8??
+
 	if ((tableH->item(row, 3)->text() == "korekta")) {
 		QMessageBox::information(this, "QFaktury",
-				"Do korekt nie wystawiamy korekt", QMessageBox::Ok);
+				UTF8("Do korekt nie wystawiamy korekt"), QMessageBox::Ok);
 	}
 	if ((tableH->item(row, 3)->text() == "FPro")) {
 		QMessageBox::information(this, "QFaktury",
-				"Do faktur Pro Forma nie wystawiamy korekt", QMessageBox::Ok);
+				UTF8("Do faktur Pro Forma nie wystawiamy korekt"), QMessageBox::Ok);
 	}
 }
 
@@ -860,8 +857,8 @@ void MainWindow::towaryDodaj() {
 void MainWindow::towaryUsun() {
 	int row = tableT->currentRow();
 
-	if (QMessageBox::warning(this, "QFaktury", UTF8("Czy napewno chcesz usunąć towar ") + tableT->item(row, 0)->text()
-			+ "/" + tableT->item(row, 1)->text() + "?", "Tak", "Nie", 0, 0, 1)
+	if (QMessageBox::warning(this, UTF8("QFaktury"), UTF8("Czy napewno chcesz usunąć towar ") + tableT->item(row, 0)->text()
+			+ "/" + tableT->item(row, 1)->text() + "?", UTF8("Tak"), UTF8("Nie"), 0, 0, 1)
 			== 0) {
 
 		QDomDocument doc("towary");
@@ -869,7 +866,7 @@ void MainWindow::towaryUsun() {
 		QDomElement towary;
 		QDomElement uslugi;
 
-		QFile file(pdGlob + "/towary.xml");
+		QFile file(sett().getProductsXml());
 		if (!file.open(QIODevice::ReadOnly)) {
 			qDebug("file doesn't exists");
 			return;
@@ -925,8 +922,6 @@ void MainWindow::towaryUsun() {
  */
 void MainWindow::towaryEdycja() {
 	int row = tableT->selectedItems()[0]->row();
-
-	// qDebug() << tableT->item(row, 0)->text();
 
 	Towary *towWindow = new Towary(this);
 	towWindow->readData(tableT->item(row, 0)->text(),
@@ -1013,6 +1008,10 @@ void MainWindow::forum() {
 #endif
 }
 
+// ----------------------------------------  SLOTS ---------------------------------//
+
+
+
 //-------------------- not used >??? ------------------------------------------
 void MainWindow::nextPage()
 {
@@ -1026,6 +1025,4 @@ void MainWindow::prevPage()
  if ( tabWidget2->currentIndex() !=  0 )
  tabWidget2->setCurrentIndex( tabWidget2->currentIndex() - 1 );
 }
-
-
 
