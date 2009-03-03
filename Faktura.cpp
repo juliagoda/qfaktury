@@ -78,7 +78,6 @@ void Faktura::init() {
 				SLOT(tableActivated ( QTableWidgetItem * )));
 
     connect(additEdit, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
-    connect(printBtn, SIGNAL(clicked()), this, SLOT(makeInvoice()));
 
     connect(platCombo, SIGNAL(editTextChanged(QString)), this, SLOT(textChanged(QString)));
     connect(currCombo, SIGNAL(editTextChanged(QString)), this, SLOT(textChanged(QString)));
@@ -498,10 +497,13 @@ void Faktura::makeInvoice() {
 	//print invoice
 	QPrinter printer(QPrinter::HighResolution);
 	QPrintPreviewDialog preview(&printer, this);
-	// preview.setWindowFlags(Qt::Window);
-	preview.setWindowTitle(invoiceType);
+	preview.setWindowFlags(Qt::Window);
+	preview.setWindowTitle(invoiceType + UTF8(" - Podgląd wydruku"));
+
 	connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(print(QPrinter *)));
-	preview.exec();
+	if (preview.exec() == 1) {
+		// preview.close();
+	}
 
 	//  QFile file ("/tmp/invoice.html");
 	//  if (file.open (QIODevice::WriteOnly))

@@ -58,9 +58,10 @@ if (WIN32)
     endif (CMAKE_BUILD_TYPE STREQUAL Release)
 endif (WIN32)
 
-  if(COMMAND cmake_policy)
-    cmake_policy(SET CMP0003 NEW)
-  endif(COMMAND cmake_policy)
+
+if(COMMAND cmake_policy)
+      cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
 
 add_executable(qfaktury ${WIN32_FLAG} ${qfaktury_SRCS} ${qfaktury_UIS_H} ${qfaktury_RCCS})
 target_link_libraries(qfaktury ${QT_LIBRARIES})

@@ -14,6 +14,8 @@
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
 
+// Singleton class to store all the settings and static values
+
 class Settings: public QSettings {
 public:
 	QLocale locale;

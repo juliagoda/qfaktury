@@ -31,7 +31,6 @@ public slots:
 	void setDefaultClick();
 private:
 	bool read;
-	QSettings settings;
 	void init();
 	void sumSize();
 	void saveSettings();

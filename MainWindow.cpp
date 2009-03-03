@@ -833,7 +833,7 @@ void MainWindow::newKor() {
 /** Slot used to add goods
  */
 void MainWindow::towaryDodaj() {
-	Towary *towWindow = new Towary(this);
+	Towary *towWindow = new Towary(this, 0);
 	if (towWindow->exec() == QDialog::Accepted) {
 		insertRow(tableT, tableT->rowCount());
 		QStringList row = towWindow->ret.split("|");
@@ -923,7 +923,7 @@ void MainWindow::towaryUsun() {
 void MainWindow::towaryEdycja() {
 	int row = tableT->selectedItems()[0]->row();
 
-	Towary *towWindow = new Towary(this);
+	Towary *towWindow = new Towary(this, 1);
 	towWindow->readData(tableT->item(row, 0)->text(),
 			tableT->item(row, 5)->text());
 	if (towWindow->exec() == QDialog::Accepted) {

@@ -9,12 +9,14 @@
 
 /** Constructor
  */
-Towary::Towary(QWidget *parent): QDialog(parent) {
+Towary::Towary(QWidget *parent, int mode): QDialog(parent) {
     setupUi(this);
     init();
+    workMode = mode;
 }
 
-
+/** Init
+ */
 void Towary::init() {
 	readData("", "");
 	idxEdit->setText(QString::number(lastId));
@@ -28,6 +30,61 @@ void Towary::init() {
 	connect(spinBox2, SIGNAL(valueChanged(int)), this, SLOT(spinChanged(int)));
 	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
 }
+
+/******************** SLOTS START ***************************/
+
+/** Slot
+ *  save data to XML file
+ */
+void Towary::okClick() {
+
+	if (nameEdit->text() == "") {
+		QMessageBox::critical(0, "QFaktury", UTF8("Musisz podać nazwe."));
+		return;
+	}
+
+	QString pkwiu = pkwiuEdit->text();
+	if (pkwiu == "")
+		pkwiu = " ";
+	QString skrot = skrotEdit->text();
+	if (skrot == "")
+		skrot = " ";
+	QString kod = kodEdit->text();
+	if (kod == "")
+		kod = " ";
+
+	if (workMode = 1) {
+		modifyOnly();
+		QString typ;
+		if (typeCombo->currentIndex() == 1) {
+			typ = UTF8("usługa");
+		} else {
+			typ = UTF8("towar");
+			ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
+					+ kod + "|" + pkwiu + "|" + typ + "|"
+					+ jednCombo->currentText() + "|" + netto[0] + "|"
+					+ netto[1] + "|" + netto[2] + "|" + netto[3] + "|"
+					+ cbVat->currentText();
+			accept();
+		}
+	} else {
+		if (saveAll()) {
+			QString typ;
+			if (typeCombo->currentIndex() == 1) {
+				typ = UTF8("usługa");
+			} else
+				typ = UTF8("towar");
+			ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
+					+ kod + "|" + pkwiu + "|" + typ + "|"
+					+ jednCombo->currentText() + "|" + netto[0] + "|"
+					+ netto[1] + "|" + netto[2] + "|" + netto[3] + "|"
+					+ cbVat->currentText();
+			accept();
+		}
+	}
+
+}
+
 
 void Towary::readData (QString idx, QString type)
 {
@@ -133,57 +190,6 @@ void Towary::readData (QString idx, QString type)
     }
 
 }
-
-void Towary::getStuffList ()
-{
-  QDomDocument doc ("towary");
-  QDomElement root;
-  QDomElement towar;
-  QDomElement usluga;
-
-  QFile file (sett().getProductsXml());
-  if (!file.open (QIODevice::ReadOnly))
-    {
-      qDebug ("file doesn't exists");
-      return;
-
-    }
-  else
-    {
-      QTextStream stream (&file);
-      if (!doc.setContent (stream.readAll ()))
-	{
-	  qDebug ("can not set content ");
-	  file.close ();
-	  return;
-	}
-      else
-	{
-	  root = doc.documentElement ();
-	  towar = root.firstChild ().toElement ();
-	  usluga = root.lastChild ().toElement ();
-	}
-      QString text;
-
-
-      for (QDomNode n = towar.firstChild (); !n.isNull ();
-	   n = n.nextSibling ())
-	{
-	  text = n.toElement ().attribute ("idx");
-	  allNames << text;
-	}
-
-      for (QDomNode n = usluga.firstChild (); !n.isNull ();
-	   n = n.nextSibling ())
-	{
-	  text = n.toElement ().attribute ("idx");
-	  allNames << text;
-	}
-
-    }
-
-}
-
 
 
 bool Towary::saveAll ()
@@ -413,65 +419,6 @@ void Towary::modifyOnly ()
 
 }
 
-/*!
-  *  save data to XML file
-  !*/
-void Towary::okClick ()
-{
-
-  if (nameEdit->text () == "")
-    {
-      QMessageBox::critical (0, "QFaktury", UTF8("Musisz podać nazwe."));
-      return;
-    }
-
-
-  QString pkwiu = pkwiuEdit->text ();
-  if (pkwiu == "")
-    pkwiu = " ";
-  QString skrot = skrotEdit->text ();
-  if (skrot == "")
-    skrot = " ";
-  QString kod = kodEdit->text ();
-  if (kod == "")
-    kod = " ";
-
-  if (this->windowTitle ().left (4) == "Edyt")
-    {
-      modifyOnly ();
-      QString typ;
-      if (typeCombo->currentIndex () == 1)
-	{
-	  typ = "us�uga";
-	}
-      else
-	typ = "towar";
-      ret = idxEdit->text () + "|" + nameEdit->text () + "|" + skrot +
-	"|" + kod + "|" + pkwiu + "|" + typ + "|" +
-	jednCombo->currentText () + "|" + netto[0] + "|" + netto[1] +
-	"|" + netto[2] + "|" + netto[3] + "|" + cbVat->currentText ();
-      accept ();
-    }
-  else
-    {
-      if (saveAll ())
-	{
-	  QString typ;
-	  if (typeCombo->currentIndex () == 1)
-	    {
-	      typ = "us�uga";
-	    }
-	  else
-	    typ = "towar";
-	  ret = idxEdit->text () + "|" + nameEdit->text () + "|" + skrot +
-	    "|" + kod + "|" + pkwiu + "|" + typ + "|" +
-	    jednCombo->currentText () + "|" + netto[0] + "|" + netto[1] +
-	    "|" + netto[2] + "|" + netto[3] + "|" + cbVat->currentText ();
-	  accept ();
-	}
-    }
-
-}
 
 void Towary::spinChanged (int a)
 {
