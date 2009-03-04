@@ -972,17 +972,18 @@ void MainWindow::pomoc() {
 	args << "exec";
 	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
 	*/
+	program = "http://www.e-linux.pl/modules/qfaktury/index.php";
+	process->start(program, args);
 #endif
 
 
 #if defined Q_WS_WIN
-	qDebug() << "Start WWW";
+	// qDebug() << "Start WWW";
 	// it may need to be changed to something more universal
 	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
 	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
 	process->start(program, args);
 #endif
-
 }
 
 /** Slot forum

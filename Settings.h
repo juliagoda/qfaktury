@@ -506,6 +506,21 @@ public:
 	QString getProductsXml() {
 		return getWorkingDir() + "/towary.xml";
 	}
+
+	// returns inoice doc name stored as a DOCTYPE
+	QString getInoiveDocName() {
+		return "faktura";
+	}
+
+	// returns customers doc name stored as a DOCTYPE
+	QString getCustomersDocName() {
+		return "kontrahenci";
+	}
+
+	// returns products doc name stored as a DOCTYPE
+	QString getProdutcsDocName() {
+		return "towary";
+	}
 private:
 	QString dateFormat;
 	QString fileNameDateFormat;
