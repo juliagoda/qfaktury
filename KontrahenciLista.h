@@ -1,6 +1,9 @@
 #ifndef KontrahenciLista_H
 #define KontrahenciLista_H
 #include <QDialog>
+#include <Qt/qdom.h>
+
+#include "Settings.h"
 #include "ui_KontrahenciLista.h"
 
 class KontrahenciLista: public QDialog, public Ui::KontrahenciLista {
@@ -8,11 +11,18 @@ Q_OBJECT
 public:
 	KontrahenciLista(QWidget *parent);
 	QString ret;
-private:
-	void init();
 public slots:
 	void readKontr(QString progDir);
 	void doAccept();
 	void comboBox1Changed();
+	void updateDetails(QListWidgetItem *);
+private:
+	QStringList companiesList;
+	QStringList officesList;
+	void init();
+	QString xmlDataToString(QDomNode n);
+	void displayDetails(QStringList custDetails);
+	void clearDetails();
+	QString detailsToString();
 };
 #endif

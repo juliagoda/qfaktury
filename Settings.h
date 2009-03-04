@@ -7,10 +7,11 @@
 #include <QVariant>
 #include <QLocale>
 #include <QDebug>
+#include <QTextcodec>
 #include "config.h"
 
 
-#define UTF8(x) QObject::trUtf8(x)
+// #define trUtf8(x) QObject::aaa(x)
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
 
@@ -36,8 +37,6 @@ public:
 
 	// returns date format used while saving the file
 	QString getFnameDateFormat() {
-			// for some reason on Linux i see date as mm/dd/yy
-			// it's better to have a full year... so
 			return fileNameDateFormat;
 		}
 	/**
@@ -58,7 +57,7 @@ public:
 
 		if (value("addText").toString().compare("") == 0)
 			setValue("addText",
-					UTF8("towar odebrałem zgodnie z fakturą"));
+					trUtf8("towar odebrałem zgodnie z fakturą"));
 		if (value("chars_in_symbol").toString().compare("") == 0)
 			setValue("chars_in_symbol", tr("0"));
 		if (value("day").toString().compare("") == 0)
@@ -331,7 +330,7 @@ public:
 		setValue("waluty", tr("ISO-8859-2"));
 		endGroup();
 
-		setValue("addText", UTF8("towar odebrałem zgodnie z fakturą"));
+		setValue("addText", trUtf8("towar odebrałem zgodnie z fakturą"));
 		setValue("chars_in_symbol", tr("0"));
 		setValue("day", "false");
 		setValue("edit", "false");
@@ -356,10 +355,10 @@ public:
 		setValue("margDownPrinter", "10");
 		setValue("margRightPrinter", "10");
 		setValue("month", "false");
-		setValue("paym1", UTF8("gotówka") );
-		setValue("payments", UTF8("gotówka|przelew") );
+		setValue("paym1", trUtf8("gotówka") );
+		setValue("payments", trUtf8("gotówka|przelew") );
 		setValue("pdfQuality", "1");
-		setValue("pkorekty", UTF8("zmiana ilości") );
+		setValue("pkorekty", trUtf8("zmiana ilości") );
 		setValue("prefix", "");
 		setValue("renamed", "tak");
 		setValue("shortYear", "false");
@@ -479,17 +478,19 @@ public:
 	QString getVersion(QString appName) {
 		QString str = appName;
 		str.truncate(2);
-		return str.toUpper() + appName.right(6) + UTF8(" - Wersja ") + STRING(QFAKTURY_VERSION);
+		return str.toUpper() + appName.right(6) + trUtf8(" - Wersja ") + STRING(QFAKTURY_VERSION);
 	}
 
 	// returns working directory
 	QString getWorkingDir() {
-		return QDir::homePath() + "/elinux";
+		return QDir::homePath() + value("working_dir", "/elinux").toString();
 	}
 
 	// return invoices dir
 	QString getDataDir() {
-		return "/faktury";
+		// Changed name of the folder to avoid overwriting the files.
+		// This may require conversion script.
+		return "/invoices";
 	}
 
 	// return invoices dir
@@ -499,27 +500,71 @@ public:
 
 	// return customers xml
 	QString getCustomersXml() {
-		return getWorkingDir() + "/kontrah.xml";
+		return getWorkingDir() + "/customers.xml";
 	}
 
 	// return customers xml
 	QString getProductsXml() {
-		return getWorkingDir() + "/towary.xml";
+		return getWorkingDir() + "/products.xml";
 	}
 
 	// returns inoice doc name stored as a DOCTYPE
 	QString getInoiveDocName() {
-		return "faktura";
+		return "invoice";
 	}
 
 	// returns customers doc name stored as a DOCTYPE
 	QString getCustomersDocName() {
-		return "kontrahenci";
+		return "customers";
 	}
 
 	// returns products doc name stored as a DOCTYPE
 	QString getProdutcsDocName() {
-		return "towary";
+		return "products";
+	}
+
+	// converts customer type into int value
+	int getCustomerType(QString custType) {
+		if (custType.compare(getCompanyName()) == 0) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	// converts product type into int value
+	int getProductType(QString prodName) {
+		if (prodName.compare(getProductName()) == 0) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	QString getCompanyName() {
+		return "company";
+	}
+
+	QString getOfficeName() {
+		return "office";
+	}
+
+	QString getProductName() {
+		return "product";
+	}
+
+	QString getServiceName() {
+		return "service";
+	}
+
+	// Adds Data to input string
+	QString getNameWithData(QString in) {
+		return in + trUtf8("DATA");
+	}
+
+
+	QByteArray getCodecName() {
+		return "UTF-8";
 	}
 private:
 	QString dateFormat;
@@ -531,12 +576,17 @@ private:
 
 		dateFormat = "dd/MM/yyyy";
 		fileNameDateFormat = "yyyy-MM-dd";
+
+		QTextCodec::setCodecForCStrings (QTextCodec::codecForName (getCodecName()));
+		QTextCodec::setCodecForLocale (QTextCodec::codecForName (getCodecName()));
+		QTextCodec::setCodecForTr (QTextCodec::codecForName (getCodecName()));
 	}
+
 	Settings(const Settings&) {}
 
 	friend Settings& sett() {
 	   static Settings sett;
-       return sett;
+	   return sett;
 	}
 };
 

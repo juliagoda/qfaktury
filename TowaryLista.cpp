@@ -8,45 +8,51 @@
 
 #include "Rounding.h"
 
+/** Constructor
+ */
+TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
+    setupUi(this);
+    init();
+}
 
-
-
+/** Init
+ */
 void TowaryLista::init ()
 {
   ret = "";
-  QDir tmp;
-  progDir = tmp.homePath () + "/elinux";
+
   listaTowary.clear ();
   listaUslugi.clear ();
   listaTowary2.clear ();
   listaUslugi2.clear ();
-  readTow (progDir);
-   listWidget->clear();
+  listWidget->clear();
+
+  readTow (sett().getWorkingDir());
   fillLv (0);
 
-  connect( okBtn, SIGNAL( clicked() ), this, SLOT( doAccept() ) );
-  connect( cancelBtn, SIGNAL( clicked() ), this, SLOT( close() ) );
-  connect( comboBox1, SIGNAL( activated(int) ), this, SLOT( comboBox1Changed(int) ) );
-  // connect( listWidget, SIGNAL(  itemActivated (QListWidgetItem* ) ), this, SLOT( lv1selChanged(QListWidgetItem* ) ) );
-  connect(listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(lv1selChanged()));
+  connect( okBtn, SIGNAL( clicked() ), this, SLOT( doAccept()));
+  connect( cancelBtn, SIGNAL( clicked() ), this, SLOT( close()));
+  connect( comboBox1, SIGNAL( activated(int) ), this, SLOT( comboBox1Changed(int)));
+  connect( listWidget, SIGNAL( itemActivated (QListWidgetItem* ) ), this, SLOT( lv1selChanged(QListWidgetItem* ) ) );
+  connect( listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(lv1selChanged()));
   connect( spinBox2, SIGNAL( valueChanged(int) ), this, SLOT( spinChanged(int) ) );
   // connect( nameEdit, SIGNAL( textChanged(const QString&) ), this, SLOT( setSelItemText() ) );
   connect( rabatSpin, SIGNAL( valueChanged(int) ), this, SLOT( calcNetto() ) );
-  connect( countEdit, SIGNAL( lostFocus() ), this, SLOT( calcNetto() ) );
-  connect( countEdit, SIGNAL( selectionChanged() ), this, SLOT( calcNetto() ) );
-  connect( countEdit, SIGNAL( textChanged(const QString&) ), this, SLOT( calcNetto() ) );
+  connect( countSpinBox, SIGNAL( lostFocus() ), this, SLOT( calcNetto() ) );
+  connect( countSpinBox, SIGNAL( selectionChanged() ), this, SLOT( calcNetto() ) );
+  connect( countSpinBox, SIGNAL( valueChanged(const QString&) ), this, SLOT( calcNetto() ) );
 
 }
 
 void TowaryLista::readTow (QString progDir)
 {
-  QDomDocument doc ("towary");
+  QDomDocument doc (sett().getProdutcsDocName());
   QDomElement root;
   QDomElement towar;
   QDomElement usluga;
   QString code, curr, pkwiu;
 
-  QFile file (progDir + "/towary.xml");
+  QFile file (sett().getProductsXml());
   if (!file.open (QIODevice::ReadOnly))
     {
       qDebug ("file doesn't exists");
@@ -110,9 +116,9 @@ void TowaryLista::readTow (QString progDir)
 
 void TowaryLista::doAccept ()
 {
-  if (countEdit->text () == "")
+  if (countSpinBox->text () == "")
     {
-      QMessageBox::information (this, "QFaktury", UTF8("Podaj ilość"),
+      QMessageBox::information (this, "QFaktury", trUtf8("Podaj ilość"),
 				QMessageBox::Ok);
       return;
     }
@@ -132,9 +138,9 @@ void TowaryLista::doAccept ()
 	   */
     	  ret =
     	    selectedItem + "|" + listaTowary2[id]->getCode() + "|" +
-    	    listaTowary2[id]->getPkwiu() + "|" + countEdit->text () + "|" +
+    	    listaTowary2[id]->getPkwiu() + "|" + countSpinBox->cleanText ().replace(".", ",") + "|" +
     	    listaTowary2[id]->getQuantityType() + "|" +
-    	    QString::number (rabatSpin->value ()) + "|" + cenaEdit->text () +
+    	    QString::number (rabatSpin->value ()) + "|" + priceBoxEdit->cleanText ().replace(".", ",") +
     	    "|" + nettoLabel->text () + "|" + vat + "|" +
     	    bruttoLabel->text ();
 
@@ -146,9 +152,9 @@ void TowaryLista::doAccept ()
 	  // qDebug( "%d", x );
 
   	    ret = selectedItem + "|" + listaUslugi2[id]->getCode() + "|" +
-  	    listaUslugi2[id]->getPkwiu() + "|" + countEdit->text () + "|" +
+  	    listaUslugi2[id]->getPkwiu() + "|" + countSpinBox->cleanText ().replace(".", ",") + "|" +
   	    listaUslugi2[id]->getQuantityType() + "|" +
-  	    QString::number (rabatSpin->value ()) + "|" + cenaEdit->text () +
+  	    QString::number (rabatSpin->value ()) + "|" + priceBoxEdit->cleanText ().replace(".", ",") +
   	    "|" + nettoLabel->text () + "|" + vat + "|" +
   	    bruttoLabel->text ();
 
@@ -157,7 +163,7 @@ void TowaryLista::doAccept ()
     }
   else
     {
-      QMessageBox::information (this, "QFaktury", UTF8("Wskaż towar"),
+      QMessageBox::information (this, "QFaktury", trUtf8("Wskaż towar"),
 				QMessageBox::Ok);
     }
 }
@@ -177,9 +183,8 @@ void TowaryLista::calcNetto ()
 	  else
 	    rabat1 = "0." + rabat1;
 
-	  double rabat2 =
-		  getPriceNett (countEdit->text (), cenaEdit->text ()) * rabat1.toDouble ();
-	  double netto2 = getPriceNett (countEdit->text (), cenaEdit->text ()) - rabat2;
+	  double rabat2 = (countSpinBox->value () * priceBoxEdit->value ()) * rabat1.toDouble ();
+	  double netto2 = (countSpinBox->value() * priceBoxEdit->value ()) - rabat2;
 	  double brutto2 = getPriceGross2 (netto2, vat);
 	  bruttoLabel->setText (fixStr (QString::number (brutto2)));
 	  nettoLabel->setText (fixStr (QString::number (netto2)));
@@ -245,15 +250,15 @@ void TowaryLista::lv1selChanged ()
 
 void TowaryLista::readNettos (QString index)
 {
-  QDomDocument doc ("towary");
+  QDomDocument doc (sett().getProdutcsDocName());
   QDomElement root;
   QDomElement towar;
   QDomElement usluga;
 
-  QFile file (progDir + "/towary.xml");
+  QFile file (sett().getProductsXml());
   if (!file.open (QIODevice::ReadOnly))
     {
-      qDebug ("file doesn't exists");
+	qDebug() << "File" << file.fileName() << "doesn't exists";
       return;
     }
   else
@@ -286,7 +291,7 @@ void TowaryLista::readNettos (QString index)
 		  nettos[1] = n.toElement ().attribute ("netto2");
 		  nettos[2] = n.toElement ().attribute ("netto3");
 		  nettos[3] = n.toElement ().attribute ("netto4");
-		  cenaEdit->setText (nettos[0]);
+		  priceBoxEdit->setValue(nettos[0].toDouble());
 		  spinBox2->setValue (1);
 		  vat = n.toElement ().attribute ("vat");
 		}
@@ -306,7 +311,7 @@ void TowaryLista::readNettos (QString index)
 		  nettos[1] = n.toElement ().attribute ("netto2");
 		  nettos[2] = n.toElement ().attribute ("netto3");
 		  nettos[3] = n.toElement ().attribute ("netto4");
-		  cenaEdit->setText (nettos[0]);
+		  priceBoxEdit->setValue(nettos[0].toDouble());
 		  spinBox2->setValue (1);
 		  vat = n.toElement ().attribute ("vat");
 		}
@@ -320,11 +325,6 @@ void TowaryLista::readNettos (QString index)
 void TowaryLista::spinChanged (int a)
 {
   qDebug () << __FUNCTION__;
-  cenaEdit->setText (nettos[a - 1]);
+  priceBoxEdit->setValue (nettos[a - 1].toDouble());
   calcNetto ();
 }
-TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
-    setupUi(this);
-    init();
-}
-

@@ -264,7 +264,7 @@ void MainWindow::readHist(QString progDir) {
 	QDir allFiles;
 	QString text;
 
-	QDomDocument doc("faktury");
+	QDomDocument doc(sett().getInoiveDocName());
 	QDomElement root;
 	QDomElement nadawca;
 	QDomElement odbiorca;
@@ -286,7 +286,7 @@ void MainWindow::readHist(QString progDir) {
 			QFile file(sett().getInvoicesDir() + files[i]);
 
 			if (!file.open(QIODevice::ReadOnly)) {
-				qDebug("file doesn't exists");
+				qDebug() << "File" << file.fileName() << "doesn't exists";
 				return;
 			} else {
 				QTextStream stream(&file);
@@ -319,16 +319,15 @@ void MainWindow::readHist(QString progDir) {
 /** Reads customers from the XML
  */
 void MainWindow::readKontr(QString progDir) {
-	QDomDocument doc("kontrahenci");
+	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement urzad;
 	QDomElement firma;
 
 	QFile file(sett().getCustomersXml());
 	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug("file doesn't exists");
+		qDebug() << "File" << file.fileName() << "doesn't exists";
 		return;
-
 	} else {
 		QTextStream stream(&file);
 		if (!doc.setContent(stream.readAll())) {
@@ -346,7 +345,7 @@ void MainWindow::readKontr(QString progDir) {
 			insertRow(tableK, tableK->rowCount());
 			text = n.toElement().attribute("name");
 			tableK->item(tableK->rowCount() - 1, 0)->setText(text);
-			text = "firma";
+			text = sett().getCompanyName();
 			tableK->item(tableK->rowCount() - 1, 1)->setText(text);
 			text = n.toElement().attribute("place");
 			tableK->item(tableK->rowCount() - 1, 2)->setText(text);
@@ -360,7 +359,7 @@ void MainWindow::readKontr(QString progDir) {
 			insertRow(tableK, tableK->rowCount());
 			text = n.toElement().attribute("name");
 			tableK->item(tableK->rowCount() - 1, 0)->setText(text);
-			text = "urzad";
+			text = sett().getOfficeName();
 			tableK->item(tableK->rowCount() - 1, 1)->setText(text);
 			text = n.toElement().attribute("place");
 			tableK->item(tableK->rowCount() - 1, 2)->setText(text);
@@ -375,14 +374,14 @@ void MainWindow::readKontr(QString progDir) {
 /** Reads goods from the XML
  */
 void MainWindow::readTw(QString progDir) {
-	QDomDocument doc("towary");
+	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
-	QDomElement towary;
-	QDomElement uslugi;
+	QDomElement products;
+	QDomElement services;
 
 	QFile file(sett().getProductsXml());
 	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug("file doesn't exists");
+		qDebug() << "File" << file.fileName() << "doesn't exists";
 		return;
 	} else {
 		QTextStream stream(&file);
@@ -392,12 +391,12 @@ void MainWindow::readTw(QString progDir) {
 			return;
 		} else {
 			root = doc.documentElement();
-			towary = root.firstChild().toElement();
-			uslugi = root.lastChild().toElement();
+			products = root.firstChild().toElement();
+			services = root.lastChild().toElement();
 		}
 		QString text;
 
-		for (QDomNode n = towary.firstChild(); !n.isNull(); n = n.nextSibling()) {
+		for (QDomNode n = products.firstChild(); !n.isNull(); n = n.nextSibling()) {
 
 			insertRow(tableT, tableT->rowCount());
 			text = n.toElement().attribute("idx");
@@ -411,7 +410,7 @@ void MainWindow::readTw(QString progDir) {
 			tableT->item(tableT->rowCount() - 1, 3)->setText(text);
 			text = n.toElement().attribute("pkwiu");
 			tableT->item(tableT->rowCount() - 1, 4)->setText(text);
-			text = "towar";
+			text = trUtf8("Towar");
 			tableT->item(tableT->rowCount() - 1, 5)->setText(text);
 			text = n.toElement().attribute("curr");
 			tableT->item(tableT->rowCount() - 1, 6)->setText(text);
@@ -427,7 +426,7 @@ void MainWindow::readTw(QString progDir) {
 			tableT->item(tableT->rowCount() - 1, 11)->setText(text);
 		}
 
-		for (QDomNode n = uslugi.firstChild(); !n.isNull(); n = n.nextSibling()) {
+		for (QDomNode n = services.firstChild(); !n.isNull(); n = n.nextSibling()) {
 			insertRow(tableT, tableT->rowCount());
 			text = n.toElement().attribute("idx");
 			tableT->item(tableT->rowCount() - 1, 0)->setText(text);
@@ -440,7 +439,7 @@ void MainWindow::readTw(QString progDir) {
 			tableT->item(tableT->rowCount() - 1, 3)->setText(text);
 			text = n.toElement().attribute("pkwiu");
 			tableT->item(tableT->rowCount() - 1, 4)->setText(text);
-			text = "usÅ‚uga";
+			text = trUtf8("Usługa");
 			tableT->item(tableT->rowCount() - 1, 5)->setText(text);
 			text = n.toElement().attribute("curr");
 			tableT->item(tableT->rowCount() - 1, 6)->setText(text);
@@ -554,8 +553,8 @@ void MainWindow::oProg() {
 	QMessageBox::about(
 			this,
 			"O programie",
-			UTF8("Program do wystawiania faktur.\nWersja ") + sett().getVersion(qAppName()) +
-			UTF8(" \n\nProgramista:\n\tRafał‚ Rusin (rafal.rusin@gmail.com)\n\nSupport: rafal.rusin@gmail.com\n\nPoprzednio pracowali:\nKoordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl\nProgramista:\n\tTomasz 'moux' Pielech\nGrafika:\n\tDariusz Arciszewski"));
+			trUtf8("Program do wystawiania faktur.\nWersja ") + sett().getVersion(qAppName()) +
+			trUtf8(" \n\nProgramista:\n\tRafał‚ Rusin (rafal.rusin@gmail.com)\n\nSupport: rafal.rusin@gmail.com\n\nPoprzednio pracowali:\nKoordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl\nProgramista:\n\tTomasz 'moux' Pielech\nGrafika:\n\tDariusz Arciszewski"));
 }
 
 /** Slot used to edit the invoice from list of invoices.
@@ -568,7 +567,7 @@ void MainWindow::editFHist() {
 	row = selected[0]->row();
 
 	if (tableH->item(row, 3)->text() == "korekta") {
-		// QMessageBox::information( this, UTF8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
+		// QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
 		Korekta *korWindow = new Korekta(this);
 		korWindow->progDir2 = workingDir;
 		korWindow->readData(tableH->item(row, 0)->text());
@@ -611,8 +610,8 @@ void MainWindow::editFHist() {
 /** Slot used to delete invoices
  */
 void MainWindow::delFHist() {
-	if (QMessageBox::warning(this, sett().getVersion(qAppName()), UTF8("Czy napewno chcesz usnąć tą fakturę z historii?"), UTF8("Tak"),
-			UTF8("Nie"), 0, 0, 1) == 0) {
+	if (QMessageBox::warning(this, sett().getVersion(qAppName()), trUtf8("Czy napewno chcesz usnąć tą fakturę z historii?"), trUtf8("Tak"),
+			trUtf8("Nie"), 0, 0, 1) == 0) {
 		QString name = tableH->item (tableH->currentRow(), 0)->text();
 
 		QFile file(sett().getInvoicesDir() + name);
@@ -642,7 +641,7 @@ void MainWindow::settClick() {
 //void MainWindow::kretorClick ()
 //{
 //  qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-////     QMessageBox::information( this, UTF8("QFaktury"), "Funkcja jeszcze nie gotowa. Uzyj menu faktury->Nowy", QMessageBox::Ok );
+////     QMessageBox::information( this, trUtf8("QFaktury"), "Funkcja jeszcze nie gotowa. Uzyj menu faktury->Nowy", QMessageBox::Ok );
 //  Form3 *kreatorWindow = new Form3;
 //  if (kreatorWindow->exec () == QDialog::Accepted)
 //    {
@@ -666,7 +665,7 @@ void MainWindow::settClick() {
  */
 void MainWindow::kontrClick() {
 	Kontrahenci *kontrWindow;
-	kontrWindow = new Kontrahenci(this);
+	kontrWindow = new Kontrahenci(this, 0);
 	//qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 	if (kontrWindow->exec() == QDialog::Accepted) {
 		// qDebug() << progDir;
@@ -684,7 +683,7 @@ void MainWindow::kontrClick() {
 /** Slot used to delete current customer
  */
 void MainWindow::kontrDel() {
-	if (QMessageBox::warning(this, UTF8("QFaktury"), UTF8("Czy napewno chcesz usunąć kontrahenta: ") + tableK->item(tableK->currentRow(), 0)->text() + UTF8(" ?"), UTF8("Tak"), UTF8("Nie"), 0, 0, 1) == 0) {
+	if (QMessageBox::warning(this, trUtf8("QFaktury"), trUtf8("Czy napewno chcesz usunąć kontrahenta: ") + tableK->item(tableK->currentRow(), 0)->text() + trUtf8(" ?"), trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
 		QDomDocument doc("kontrahenci");
 		QDomElement root;
 		QDomElement urzad;
@@ -693,9 +692,8 @@ void MainWindow::kontrDel() {
 
 		QFile file(sett().getCustomersXml());
 		if (!file.open(QIODevice::ReadOnly)) {
-			qDebug("file doesn't exists");
+			qDebug() << "File" << file.fileName() << "doesn't exists";
 			return;
-
 		} else {
 			QTextStream stream(&file);
 			if (!doc.setContent(stream.readAll())) {
@@ -747,9 +745,9 @@ void MainWindow::kontrEd() {
 	int row = tableK->selectedItems()[0]->row();
 	// qDebug ()<<tableK->item(row, 0)->text();
 
-	Kontrahenci *kontrWindow = new Kontrahenci(this);
+	Kontrahenci *kontrWindow = new Kontrahenci(this, 1);
 	kontrWindow->readData(tableK->item(row, 0)->text(),
-			tableK->item(row, 1)->text());
+			sett().getCustomerType(tableK->item(row, 1)->text()));
 	if (kontrWindow->exec() == QDialog::Accepted) {
 		QStringList rowTxt = kontrWindow->ret.split("|");
 		tableK->item(row, 0)->setText(rowTxt[0]); // name
@@ -822,11 +820,11 @@ void MainWindow::newKor() {
 
 	if ((tableH->item(row, 3)->text() == "korekta")) {
 		QMessageBox::information(this, "QFaktury",
-				UTF8("Do korekt nie wystawiamy korekt"), QMessageBox::Ok);
+				trUtf8("Do korekt nie wystawiamy korekt"), QMessageBox::Ok);
 	}
 	if ((tableH->item(row, 3)->text() == "FPro")) {
 		QMessageBox::information(this, "QFaktury",
-				UTF8("Do faktur Pro Forma nie wystawiamy korekt"), QMessageBox::Ok);
+				trUtf8("Do faktur Pro Forma nie wystawiamy korekt"), QMessageBox::Ok);
 	}
 }
 
@@ -857,20 +855,19 @@ void MainWindow::towaryDodaj() {
 void MainWindow::towaryUsun() {
 	int row = tableT->currentRow();
 
-	if (QMessageBox::warning(this, UTF8("QFaktury"), UTF8("Czy napewno chcesz usunąć towar ") + tableT->item(row, 0)->text()
-			+ "/" + tableT->item(row, 1)->text() + "?", UTF8("Tak"), UTF8("Nie"), 0, 0, 1)
+	if (QMessageBox::warning(this, trUtf8("QFaktury"), trUtf8("Czy napewno chcesz usunąć towar ") + tableT->item(row, 0)->text()
+			+ "/" + tableT->item(row, 1)->text() + "?", trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1)
 			== 0) {
 
-		QDomDocument doc("towary");
+		QDomDocument doc(sett().getProdutcsDocName());
 		QDomElement root;
-		QDomElement towary;
-		QDomElement uslugi;
+		QDomElement products;
+		QDomElement services;
 
 		QFile file(sett().getProductsXml());
 		if (!file.open(QIODevice::ReadOnly)) {
-			qDebug("file doesn't exists");
+			qDebug() << "File" << file.fileName() << "doesn't exists";
 			return;
-
 		} else {
 			QTextStream stream(&file);
 			if (!doc.setContent(stream.readAll())) {
@@ -879,27 +876,27 @@ void MainWindow::towaryUsun() {
 				return;
 			} else {
 				root = doc.documentElement();
-				towary = root.firstChild().toElement();
-				uslugi = root.lastChild().toElement();
+				products = root.firstChild().toElement();
+				services = root.lastChild().toElement();
 			}
 			QString text;
 
-			for (QDomNode n = uslugi.firstChild(); !n.isNull(); n
+			for (QDomNode n = services.firstChild(); !n.isNull(); n
 					= n.nextSibling()) {
 				// qDebug("aaa");
 				if (n.toElement().attribute("idx"). compare(
 						tableT->item(row, 0)->text()) == 0) {
-					uslugi.removeChild(n);
+					services.removeChild(n);
 					break;
 				}
 			}
 
-			for (QDomNode n = towary.firstChild(); !n.isNull(); n
+			for (QDomNode n = products.firstChild(); !n.isNull(); n
 					= n.nextSibling()) {
 				// qDebug("aaa");
 				if (n.toElement().attribute("idx"). compare(
 						tableT->item(row, 0)->text()) == 0) {
-					towary.removeChild(n);
+					products.removeChild(n);
 					break;
 				}
 			}
@@ -925,7 +922,7 @@ void MainWindow::towaryEdycja() {
 
 	Towary *towWindow = new Towary(this, 1);
 	towWindow->readData(tableT->item(row, 0)->text(),
-			tableT->item(row, 5)->text());
+			sett().getProductType(tableT->item(row, 5)->text()));
 	if (towWindow->exec() == QDialog::Accepted) {
 		QStringList rowTxt = towWindow->ret.split("|");
 		tableT->item(row, 0)->setText(rowTxt[0]);
@@ -947,8 +944,8 @@ void MainWindow::towaryEdycja() {
 /** Slot close
  */
 bool MainWindow::close() {
-	if (QMessageBox::question(this, UTF8("Potwierdź"),
-	UTF8("Czy chcesz wyjść z programu?"), QMessageBox::Yes | QMessageBox::No,
+	if (QMessageBox::question(this, trUtf8("Potwierdź"),
+	trUtf8("Czy chcesz wyjść z programu?"), QMessageBox::Yes | QMessageBox::No,
 			QMessageBox::Yes) == QMessageBox::Yes) {
 		saveAllSett();
 		return QMainWindow::close();

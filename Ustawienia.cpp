@@ -112,13 +112,13 @@ void Ustawienia::zastBtnEnable()
 /** Slot - set default text
  */
 void Ustawienia::defTextBtnClick() {
-	additText->setText ( UTF8("towar odebrałem zgodnie z fakturą") );
+	additText->setText ( trUtf8("towar odebrałem zgodnie z fakturą") );
 }
 
 /** Slot - set all to default
  */
 void Ustawienia::setDefaultClick() {
-	if (QMessageBox::question(this, "QFaktury GPL", UTF8("Czy napewno chcesz przywrócic ustawienia domyślne?"),
+	if (QMessageBox::question(this, "QFaktury GPL", trUtf8("Czy napewno chcesz przywrócic ustawienia domyślne?"),
 			QMessageBox::Yes, QMessageBox::No) == QMessageBox::No)
 		return;
 
@@ -131,8 +131,8 @@ void Ustawienia::setDefaultClick() {
 /** Slot add logo
  */
 void Ustawienia::addLogoBtnClick() {
-	QString ofn = QFileDialog::getOpenFileName(this, UTF8("Wybierz plik do wstawienia jako logo"), "",
-			UTF8("Obrazki (*.jpg *.png)"));
+	QString ofn = QFileDialog::getOpenFileName(this, trUtf8("Wybierz plik do wstawienia jako logo"), "",
+			trUtf8("Obrazki (*.jpg *.png)"));
 
 	logoEdit->setText(ofn);
 	zastButton->setEnabled(true);
@@ -148,7 +148,7 @@ void Ustawienia::currAddBtnClick() {
 		currlBox->addItem(currEdit->text());
 		currEdit->clear();
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"),UTF8("Nie można dodać. Pole jest puste."), QMessageBox::Ok);
+		QMessageBox::information(this, trUtf8("Uwaga!!"),trUtf8("Nie można dodać. Pole jest puste."), QMessageBox::Ok);
 		return;
 	}
 	zastButton->setEnabled(true);
@@ -162,7 +162,7 @@ void Ustawienia::currDelBtnClick() {
 	if (selNr >= 0) {
 		currlBox->takeItem(selNr);
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Musisz coś zaznaczyś, żeby usuwać."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Musisz coś zaznaczyś, żeby usuwać."),
 		QMessageBox::Ok);
 		return;
 	}
@@ -177,7 +177,7 @@ void Ustawienia::korAddBtnClick() {
 		korlBox->addItem(korEdit->text());
 		korEdit->clear();
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Nie można dodać. Pole jest puste."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Nie można dodać. Pole jest puste."),
 		QMessageBox::Ok);
 		return;
 	}
@@ -191,7 +191,7 @@ void Ustawienia::korDelBtnClick() {
 	if (selNr >= 0) {
 		korlBox->takeItem(selNr);
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Musisz coś zaznaczyś, żeby usuwać."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Musisz coś zaznaczyś, żeby usuwać."),
 		QMessageBox::Ok);
 		return;
 	}
@@ -206,8 +206,8 @@ void Ustawienia::vatAddBtnClick() {
 		vatlBox->addItem(vatEdit->text());
 		vatEdit->clear();
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"),
-				UTF8("Nie można dodać. Pole jest puste."), QMessageBox::Ok);
+		QMessageBox::information(this, trUtf8("Uwaga!!"),
+				trUtf8("Nie można dodać. Pole jest puste."), QMessageBox::Ok);
 		return;
 	}
 	zastButton->setEnabled(true);
@@ -221,7 +221,7 @@ void Ustawienia::vatDelBtnClick()
 	if (selNr >= 0) {
 		vatlBox->takeItem(selNr);
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Musisz coś zaznaczyć, żeby usuwać."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Musisz coś zaznaczyć, żeby usuwać."),
 		QMessageBox::Ok);
 		return;
 	}
@@ -236,7 +236,7 @@ void Ustawienia::currencyAddBtnClick()
 	currencylBox->addItem(currencyEdit->text());
 	currencyEdit->clear();
     } else {
-      QMessageBox::information (this, UTF8("Uwaga!!"), UTF8("Nie można dodać. Pole jest puste."),
+      QMessageBox::information (this, trUtf8("Uwaga!!"), trUtf8("Nie można dodać. Pole jest puste."),
 				QMessageBox::Ok);
       return;
     }
@@ -250,7 +250,7 @@ void Ustawienia::currencyDelBtnClick() {
 	if (selNr >= 0) {
 		currencylBox->takeItem(selNr);
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Musisz coś zaznaczyś, żeby usuwać."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Musisz coś zaznaczyś, żeby usuwać."),
 		QMessageBox::Ok);
 		return;
 	}
@@ -264,7 +264,7 @@ void Ustawienia::paymDelBtnClick() {
 	if (selNr >= 0) {
 		paymlBox->takeItem(selNr);
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Musisz coś zaznaczyś, żeby usuwać."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Musisz coś zaznaczyś, żeby usuwać."),
 		QMessageBox::Ok);
 		return;
 	}
@@ -279,8 +279,8 @@ void Ustawienia::paymAddBtnClick() {
 		paymlBox->addItem(paymEdit->text());
 		paymEdit->clear();
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"),
-				UTF8("Nie można dodać. Pole jest puste."), QMessageBox::Ok);
+		QMessageBox::information(this, trUtf8("Uwaga!!"),
+				trUtf8("Nie można dodać. Pole jest puste."), QMessageBox::Ok);
 		return;
 	}
 	zastButton->setEnabled(true);
@@ -294,7 +294,7 @@ void Ustawienia::vatUpBtnClick() {
 	int selNr = vatlBox->currentRow();
 
 	if (selNr == 0) {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Nie można przenieść w górę, już jest najwyżej."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Nie można przenieść w górę, już jest najwyżej."),
 		QMessageBox::Ok);
 		return;
 	}
@@ -305,7 +305,7 @@ void Ustawienia::vatUpBtnClick() {
 		vatlBox->insertItem(selNr - 1, item);
 		vatlBox->setCurrentRow(selNr - 1);
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Musisz coś zaznaczyć, żeby przesuwać."), QMessageBox::Ok);
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Musisz coś zaznaczyć, żeby przesuwać."), QMessageBox::Ok);
 		return;
 	}
 	zastButton->setEnabled(true);
@@ -319,7 +319,7 @@ void Ustawienia::vatDownBtnClick() {
 	qDebug() << selNr << recCount;
 
 	if (selNr == recCount - 1) {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Nie można przenieść w dół, już jest najniżej."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Nie można przenieść w dół, już jest najniżej."),
 				QMessageBox::Ok);
 		return;
 	}
@@ -330,7 +330,7 @@ void Ustawienia::vatDownBtnClick() {
 		vatlBox->insertItem(selNr + 1, item);
 		vatlBox->setCurrentRow(selNr + 1);
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Musisz coś zaznaczyć, żeby przesuwać."), QMessageBox::Ok);
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Musisz coś zaznaczyć, żeby przesuwać."), QMessageBox::Ok);
 		return;
 	}
 	zastButton->setEnabled(true);
@@ -342,7 +342,7 @@ void Ustawienia::paymUpBtnClick() {
 	int selNr = paymlBox->currentRow();
 
 	if (selNr == 0) {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Nie można przenieść w górę, już jest najwyżej."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Nie można przenieść w górę, już jest najwyżej."),
 		QMessageBox::Ok);
 		return;
 	}
@@ -353,7 +353,7 @@ void Ustawienia::paymUpBtnClick() {
 		paymlBox->insertItem(selNr - 1, item);
 		paymlBox->setCurrentRow(selNr - 1);
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Musisz coś zaznaczyć, żeby przesuwać."), QMessageBox::Ok);
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Musisz coś zaznaczyć, żeby przesuwać."), QMessageBox::Ok);
 		return;
 	}
 	zastButton->setEnabled(true);
@@ -366,7 +366,7 @@ void Ustawienia::paymDownBtnClick() {
 	int recCount = paymlBox->count();
 
 	if (selNr == recCount - 1) {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Nie można przenieść w dół, już jest najniżej."),
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Nie można przenieść w dół, już jest najniżej."),
 				QMessageBox::Ok);
 		return;
 	}
@@ -377,7 +377,7 @@ void Ustawienia::paymDownBtnClick() {
 		paymlBox->insertItem(selNr + 1, item);
 		paymlBox->setCurrentRow(selNr + 1);
 	} else {
-		QMessageBox::information(this, UTF8("Uwaga!!"), UTF8("Musisz coś zaznaczyć, żeby przesuwać."), QMessageBox::Ok);
+		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Musisz coś zaznaczyć, żeby przesuwać."), QMessageBox::Ok);
 		return;
 	}
 	zastButton->setEnabled(true);

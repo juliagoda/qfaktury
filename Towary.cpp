@@ -1,7 +1,4 @@
 #include "Towary.moc"
-#include <qtextcodec.h>
-#include <qdir.h>
-#include <Qt/qdom.h>
 #include <qprocess.h>
 #include "Settings.h"
 #include <qmessagebox.h>
@@ -18,9 +15,9 @@ Towary::Towary(QWidget *parent, int mode): QDialog(parent) {
 /** Init
  */
 void Towary::init() {
-	readData("", "");
+
+	readData("", 0);
 	idxEdit->setText(QString::number(lastId));
-	// cbVat->setCurrentText ("22");
 	jednCombo->addItems(sett().value("jednostki").toString().split("|"));
 	cbVat->addItems(sett().value("stawki").toString().split("|"));
 
@@ -39,7 +36,7 @@ void Towary::init() {
 void Towary::okClick() {
 
 	if (nameEdit->text() == "") {
-		QMessageBox::critical(0, "QFaktury", UTF8("Musisz podać nazwe."));
+		QMessageBox::critical(0, "QFaktury", trUtf8("Musisz podać nazwe."));
 		return;
 	}
 
@@ -53,31 +50,23 @@ void Towary::okClick() {
 	if (kod == "")
 		kod = " ";
 
-	if (workMode = 1) {
+	QString typ;
+
+	if (workMode == 1) {
 		modifyOnly();
-		QString typ;
-		if (typeCombo->currentIndex() == 1) {
-			typ = UTF8("usługa");
-		} else {
-			typ = UTF8("towar");
-			ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
-					+ kod + "|" + pkwiu + "|" + typ + "|"
-					+ jednCombo->currentText() + "|" + netto[0] + "|"
-					+ netto[1] + "|" + netto[2] + "|" + netto[3] + "|"
-					+ cbVat->currentText();
-			accept();
-		}
+		ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
+				+ kod + "|" + pkwiu + "|" + typeCombo->currentText() + "|"
+				+ jednCombo->currentText() + "|" + netto[0] + "|"
+				+ netto[1] + "|" + netto[2] + "|" + netto[3] + "|"
+				+ cbVat->currentText();
+		accept();
+
 	} else {
 		if (saveAll()) {
-			QString typ;
-			if (typeCombo->currentIndex() == 1) {
-				typ = UTF8("usługa");
-			} else
-				typ = UTF8("towar");
 			ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
-					+ kod + "|" + pkwiu + "|" + typ + "|"
-					+ jednCombo->currentText() + "|" + netto[0] + "|"
-					+ netto[1] + "|" + netto[2] + "|" + netto[3] + "|"
+				+ kod + "|" + pkwiu + "|" + typeCombo->currentText() + "|"
+				+ jednCombo->currentText() + "|" + netto[0] + "|"
+				+ netto[1] + "|" + netto[2] + "|" + netto[3] + "|"
 					+ cbVat->currentText();
 			accept();
 		}
@@ -108,11 +97,11 @@ void Towary::pkwiuGet ()
 	QStringList args;
 	QString program;
 	QProcess *process = new QProcess(this);
+	args << "http://www.klasyfikacje.pl/";
 
 #if defined Q_OS_UNIX
 	// move to Xlib ??
-	program = "firefox"
-	args << "http://www.klasyfikacje.pl/";
+	program = "firefox";
 	process->start(program, args);
 #endif
 
@@ -120,7 +109,6 @@ void Towary::pkwiuGet ()
 	// qDebug() << "Start WWW";
 	// it may need to be changed to something more universal
 	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
-	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
 	process->start(program, args);
 #endif
 }
@@ -131,7 +119,7 @@ void Towary::pkwiuGet ()
 
 /** Loads data from the XML into the form
  */
-void Towary::readData(QString idx, QString type) {
+void Towary::readData(QString idx, int type) {
 	if (idx == "") {
 		netto.append("0,00");
 		netto.append("0,00");
@@ -139,7 +127,7 @@ void Towary::readData(QString idx, QString type) {
 		netto.append("0,00");
 		nettoEdit->setText("0,00");
 	} else {
-		setWindowTitle(UTF8("Edytuj towar/usługi"));
+		setWindowTitle(trUtf8("Edytuj towar/usługę"));
 	}
 
 	lastId = 1;
@@ -151,7 +139,7 @@ void Towary::readData(QString idx, QString type) {
 
 	QFile file(sett().getProductsXml());
 	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug("file doesn't exists");
+		qDebug() << "File" << file.fileName() << "doesn't exists";
 		return;
 	} else {
 		QTextStream stream(&file);
@@ -167,46 +155,20 @@ void Towary::readData(QString idx, QString type) {
 		}
 		QString text;
 
-		if (type.compare("product") == 0) {
+		if (type == 0) {
 			for (QDomNode n = towar.firstChild(); !n.isNull(); n
 					= n.nextSibling()) {
-				text = n.toElement().attribute("idx");
-				if (text.compare(idx) == 0) {
-					idxEdit->setText(text);
-					nameEdit->setText(n.toElement().attribute("name"));
-					kodEdit->setText(n.toElement().attribute("code"));
-					skrotEdit->setText(n.toElement().attribute("desc"));
-					pkwiuEdit->setText(n.toElement().attribute("pkwiu"));
-					typeCombo->setCurrentIndex(0);
-					jednCombo->setCurrentIndex(0);
-					nettoEdit->setText(n.toElement().attribute("netto1"));
-					netto[0] = n.toElement().attribute("netto1");
-					netto[1] = n.toElement().attribute("netto2");
-					netto[2] = n.toElement().attribute("netto3");
-					netto[3] = n.toElement().attribute("netto4");
-					qDebug() << n.toElement().attribute("netto4");
-					cbVat->setCurrentIndex(0);
+				if (n.toElement().attribute("idx").compare(idx) == 0) {
+					displayData(n);
+					cbVat->setCurrentIndex(type);
 				}
 			}
 		} else {
 			for (QDomNode n = usluga.firstChild(); !n.isNull(); n
 					= n.nextSibling()) {
-				text = n.toElement().attribute("idx");
-				if (text.compare(idx) == 0) {
-					idxEdit->setText(text);
-					nameEdit->setText(n.toElement().attribute("name"));
-					kodEdit->setText(n.toElement().attribute("code"));
-					pkwiuEdit->setText(n.toElement().attribute("pkwiu"));
-					skrotEdit->setText(n.toElement().attribute("desc"));
-					typeCombo->setCurrentIndex(0);
-					jednCombo->setCurrentIndex(0);
-					nettoEdit->setText(n.toElement().attribute("netto1"));
-					netto[0] = n.toElement().attribute("netto1");
-					netto[1] = n.toElement().attribute("netto2");
-					netto[2] = n.toElement().attribute("netto3");
-					netto[3] = n.toElement().attribute("netto4");
-					qDebug() << n.toElement().attribute("netto4");
-					cbVat->setCurrentIndex(0);
+				if (n.toElement().attribute("idx").compare(idx) == 0) {
+					displayData(n);
+					cbVat->setCurrentIndex(type);
 				}
 			}
 		}
@@ -226,20 +188,18 @@ bool Towary::saveAll() {
 
 	QFile file(sett().getProductsXml());
 	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug("can not open ");
+		qDebug("Could not open... creating new.");
 		root = doc.createElement(sett().getProdutcsDocName());
 		lastId++;
 		root.setAttribute("last", QString::number(lastId));
 		doc.appendChild(root);
-		products = doc.createElement("product");
+		products = doc.createElement(sett().getNameWithData(sett().getProductName()));
 		root.appendChild(products);
-		services = doc.createElement("service");
+		services = doc.createElement(sett().getNameWithData(sett().getServiceName()));
 		root.appendChild(services);
 	} else {
 		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll()))
-
-		{
+		if (!doc.setContent(stream.readAll())) {
 			qDebug("can not set content ");
 			file.close();
 			return false;
@@ -255,37 +215,15 @@ bool Towary::saveAll() {
 	root.lastChild();
 
 	if (typeCombo->currentIndex() == 0) {
-		QDomElement elem = doc.createElement("product");
-		elem.setAttribute("idx", idxEdit->text());
-		elem.setAttribute("code", kodEdit->text());
-		elem.setAttribute("name", nameEdit->text());
-		elem.setAttribute("desc", skrotEdit->text());
-		elem.setAttribute("pkwiu", pkwiuEdit->text());
-		elem.setAttribute("curr", jednCombo->currentText());
-		elem.setAttribute("netto1", netto[0]);
-		elem.setAttribute("netto2", netto[1]);
-		elem.setAttribute("netto3", netto[2]);
-		elem.setAttribute("netto4", netto[3]);
-		elem.setAttribute("vat", cbVat->currentText());
+		QDomElement elem = doc.createElement(sett().getProductName());
+		fillElem(elem);
 		products.appendChild(elem);
-		// qDebug ("dodano towar");
 	}
 
 	if (typeCombo->currentIndex() == 1) {
-		QDomElement elem = doc.createElement("service");
-		elem.setAttribute("idx", idxEdit->text());
-		elem.setAttribute("name", nameEdit->text());
-		elem.setAttribute("code", kodEdit->text());
-		elem.setAttribute("pkwiu", pkwiuEdit->text());
-		elem.setAttribute("desc", skrotEdit->text());
-		elem.setAttribute("curr", jednCombo->currentText());
-		elem.setAttribute("netto1", netto[0]);
-		elem.setAttribute("netto2", netto[1]);
-		elem.setAttribute("netto3", netto[2]);
-		elem.setAttribute("netto4", netto[3]);
-		elem.setAttribute("vat", cbVat->currentText());
+		QDomElement elem = doc.createElement(sett().getServiceName());
+		fillElem(elem);
 		services.appendChild(elem);
-		// qDebug ("dodano usluge");
 	}
 
 	QString xml = doc.toString();
@@ -293,7 +231,7 @@ bool Towary::saveAll() {
 	file.close();
 	file.open(QIODevice::WriteOnly);
 	QTextStream ts(&file);
-	ts.setCodec(QTextCodec::codecForName("ISO8859-2"));
+	ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
 	ts << xml;
 	file.close();
 
@@ -314,16 +252,15 @@ void Towary::modifyOnly() {
 	QFile file(sett().getProductsXml());
 	if (!file.open(QIODevice::ReadOnly)) {
 		qDebug("can not open ");
-		root = doc.createElement("towary");
+		root = doc.createElement(sett().getProdutcsDocName());
 		doc.appendChild(root);
-		towary = doc.createElement("towar");
+		towary = doc.createElement(sett().getProductName());
 		root.appendChild(towary);
-		uslugi = doc.createElement("usluga");
+		uslugi = doc.createElement(sett().getServiceName());
 		root.appendChild(uslugi);
 	} else {
 		QTextStream stream(&file);
 		if (!doc.setContent(stream.readAll()))
-
 		{
 			qDebug("can not set content ");
 			file.close();
@@ -336,55 +273,29 @@ void Towary::modifyOnly() {
 	}
 
 	root.lastChild();
-	QString text;
 
 	if (typeCombo->currentIndex() == 0) {
 		QDomElement elem;
 		for (QDomNode n = towary.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			text = n.toElement().attribute("idx");
-			if (text.compare(idxEdit->text()) == 0) {
+			if (n.toElement().attribute("idx").compare(idxEdit->text()) == 0) {
 				elem = n.toElement();
 				break;
 			}
 		}
-		elem.setAttribute("idx", idxEdit->text());
-		elem.setAttribute("name", nameEdit->text());
-		elem.setAttribute("desc", skrotEdit->text());
-		elem.setAttribute("code", kodEdit->text());
-		elem.setAttribute("pkwiu", pkwiuEdit->text());
-		elem.setAttribute("curr", jednCombo->currentText());
-		elem.setAttribute("netto1", netto[0]);
-		elem.setAttribute("netto2", netto[1]);
-		elem.setAttribute("netto3", netto[2]);
-		elem.setAttribute("netto4", netto[3]);
-		// qDebug("2 netto4" + netto[3]);
-		elem.setAttribute("vat", cbVat->currentText());
+		fillElem(elem);
 		towary.appendChild(elem);
-		// qDebug ("modyfikacja towary");
 	}
 
 	if (typeCombo->currentIndex() == 1) {
 		QDomElement elem;
 		for (QDomNode n = uslugi.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			text = n.toElement().attribute("idx");
-			if (text.compare(idxEdit->text()) == 0) {
+			if (n.toElement().attribute("idx").compare(idxEdit->text()) == 0) {
 				elem = n.toElement();
 				break;
 			}
 		}
-		elem.setAttribute("idx", idxEdit->text());
-		elem.setAttribute("name", nameEdit->text());
-		elem.setAttribute("desc", skrotEdit->text());
-		elem.setAttribute("code", kodEdit->text());
-		elem.setAttribute("pkwiu", pkwiuEdit->text());
-		elem.setAttribute("curr", jednCombo->currentText());
-		elem.setAttribute("netto1", netto[0]);
-		elem.setAttribute("netto2", netto[1]);
-		elem.setAttribute("netto3", netto[2]);
-		elem.setAttribute("netto4", netto[3]);
-		elem.setAttribute("vat", cbVat->currentText());
+		fillElem(elem);
 		uslugi.appendChild(elem);
-		// qDebug ("modyfikacja uslugi");
 	}
 
 	QString xml = doc.toString();
@@ -392,13 +303,41 @@ void Towary::modifyOnly() {
 	file.close();
 	file.open(QIODevice::WriteOnly);
 	QTextStream ts(&file);
-	ts.setCodec(QTextCodec::codecForName("ISO8859-2"));
+	ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
 	ts << xml;
 	file.close();
+}
+
+/** Load data from XML unto the labels;
+ */
+void Towary::displayData(QDomNode n) {
+	idxEdit->setText(n.toElement().attribute("idx"));
+	nameEdit->setText(n.toElement().attribute("name"));
+	kodEdit->setText(n.toElement().attribute("code"));
+	skrotEdit->setText(n.toElement().attribute("desc"));
+	pkwiuEdit->setText(n.toElement().attribute("pkwiu"));
+	typeCombo->setCurrentIndex(0);
+	jednCombo->setCurrentIndex(0);
+	nettoEdit->setText(n.toElement().attribute("netto1"));
+	netto[0] = n.toElement().attribute("netto1");
+	netto[1] = n.toElement().attribute("netto2");
+	netto[2] = n.toElement().attribute("netto3");
+	netto[3] = n.toElement().attribute("netto4");
 
 }
 
-
-
-
-
+/** Fill XML element
+ */
+void Towary::fillElem(QDomElement elem) {
+	elem.setAttribute("idx", idxEdit->text());
+	elem.setAttribute("name", nameEdit->text());
+	elem.setAttribute("desc", skrotEdit->text());
+	elem.setAttribute("code", kodEdit->text());
+	elem.setAttribute("pkwiu", pkwiuEdit->text());
+	elem.setAttribute("curr", jednCombo->currentText());
+	elem.setAttribute("netto1", netto[0]);
+	elem.setAttribute("netto2", netto[1]);
+	elem.setAttribute("netto3", netto[2]);
+	elem.setAttribute("netto4", netto[3]);
+	elem.setAttribute("vat", cbVat->currentText());
+}

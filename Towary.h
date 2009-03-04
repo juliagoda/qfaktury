@@ -1,6 +1,8 @@
 #ifndef Towary_H
 #define Towary_H
 #include <QDialog>
+#include <Qt/qdom.h>
+
 #include "ui_Towary.h"
 
 class Towary: public QDialog, public Ui::Towary {
@@ -8,7 +10,7 @@ Q_OBJECT
 public:
 	Towary(QWidget *parent, int mode);
 	QString ret; // return to MainWindow
-	void readData(QString idx, QString type); // called from MainWindow
+	void readData(QString idx, int type); // called from MainWindow
 public slots:
 	void okClick();
 	void spinChanged(int a);
@@ -23,5 +25,7 @@ private:
 	void modifyOnly();
 	void init();
 	bool saveAll();
+	void displayData(QDomNode n);
+	void fillElem(QDomElement elem);
 };
 #endif
