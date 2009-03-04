@@ -961,15 +961,14 @@ void MainWindow::pomoc() {
 	QStringList args;
 	QString program;
 	QProcess *process = new QProcess(this);
+	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
 
 #if defined Q_OS_UNIX
-	// move to Xlib
-	/*
+	program = "gnome-open";
+	process->start(program, args);
+
 	program = "kfmclient";
 	args << "exec";
-	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
-	*/
-	program = "http://www.e-linux.pl/modules/qfaktury/index.php";
 	process->start(program, args);
 #endif
 
@@ -978,7 +977,6 @@ void MainWindow::pomoc() {
 	// qDebug() << "Start WWW";
 	// it may need to be changed to something more universal
 	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
-	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
 	process->start(program, args);
 #endif
 }

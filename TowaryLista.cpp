@@ -33,13 +33,12 @@ void TowaryLista::init ()
   connect( okBtn, SIGNAL( clicked() ), this, SLOT( doAccept()));
   connect( cancelBtn, SIGNAL( clicked() ), this, SLOT( close()));
   connect( comboBox1, SIGNAL( activated(int) ), this, SLOT( comboBox1Changed(int)));
-  connect( listWidget, SIGNAL( itemActivated (QListWidgetItem* ) ), this, SLOT( lv1selChanged(QListWidgetItem* ) ) );
   connect( listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(lv1selChanged()));
   connect( spinBox2, SIGNAL( valueChanged(int) ), this, SLOT( spinChanged(int) ) );
   // connect( nameEdit, SIGNAL( textChanged(const QString&) ), this, SLOT( setSelItemText() ) );
   connect( rabatSpin, SIGNAL( valueChanged(int) ), this, SLOT( calcNetto() ) );
-  connect( countSpinBox, SIGNAL( lostFocus() ), this, SLOT( calcNetto() ) );
-  connect( countSpinBox, SIGNAL( selectionChanged() ), this, SLOT( calcNetto() ) );
+  // connect( countSpinBox, SIGNAL( lostFocus() ), this, SLOT( calcNetto() ) );
+  // connect( countSpinBox, SIGNAL( selectionChanged() ), this, SLOT( calcNetto() ) );
   connect( countSpinBox, SIGNAL( valueChanged(const QString&) ), this, SLOT( calcNetto() ) );
 
 }

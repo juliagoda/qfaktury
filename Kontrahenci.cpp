@@ -1,6 +1,5 @@
 #include "Kontrahenci.moc"
-#include <QMessagebox>
-#include <QTextcodec>
+#include <QMessageBox>
 #include <QtDebug>
 #include "Settings.h"
 

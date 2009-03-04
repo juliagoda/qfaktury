@@ -7,7 +7,7 @@
 #include <QVariant>
 #include <QLocale>
 #include <QDebug>
-#include <QTextcodec>
+#include <QTextCodec>
 #include "config.h"
 
 

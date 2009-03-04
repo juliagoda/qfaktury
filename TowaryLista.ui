@@ -101,7 +101,10 @@
        <item>
         <widget class="QLineEdit" name="nameEdit" >
          <property name="enabled" >
-          <bool>false</bool>
+          <bool>true</bool>
+         </property>
+         <property name="styleSheet" >
+          <string notr="true" >background: rgb(193, 193, 193)</string>
          </property>
          <property name="readOnly" >
           <bool>true</bool>

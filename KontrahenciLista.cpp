@@ -1,5 +1,5 @@
 #include "KontrahenciLista.moc"
-#include <QMessagebox>
+#include <QMessageBox>
 #include <QTextStream>
 
 /** Constructor
