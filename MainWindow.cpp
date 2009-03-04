@@ -1,13 +1,14 @@
 #include "MainWindow.moc"
-#include <qtextcodec.h>
-#include <qdir.h>
-#include <qmessagebox.h>
-#include <qapplication.h>
-#include <qevent.h>
+#include <QTextCodec>
+#include <QMessageBox>
+#include <QApplication>
+#include <QEvent>
+#include <QUrl>
 #include <qprocess.h>
 #include <Qt/qdom.h>
 #include <QTextStream>
 #include <QtDebug>
+#include <QDesktopServices>
 
 #include "Ustawienia.h"
 #include "Uzytkownik.h"
@@ -957,28 +958,7 @@ bool MainWindow::close() {
 /** Slot help
  */
 void MainWindow::pomoc() {
-
-	QStringList args;
-	QString program;
-	QProcess *process = new QProcess(this);
-	args << "http://www.e-linux.pl/modules/qfaktury/index.php";
-
-#if defined Q_OS_UNIX
-	program = "gnome-open";
-	process->start(program, args);
-
-	program = "kfmclient";
-	args << "exec";
-	process->start(program, args);
-#endif
-
-
-#if defined Q_WS_WIN
-	// qDebug() << "Start WWW";
-	// it may need to be changed to something more universal
-	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
-	process->start(program, args);
-#endif
+	QDesktopServices::openUrl(QUrl("http://www.e-linux.pl/modules/qfaktury/index.php"));
 }
 
 /** Slot forum
