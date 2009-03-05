@@ -103,6 +103,9 @@
          <property name="enabled" >
           <bool>true</bool>
          </property>
+         <property name="focusPolicy" >
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="styleSheet" >
           <string notr="true" >background: rgb(193, 193, 193)</string>
          </property>

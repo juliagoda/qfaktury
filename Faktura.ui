@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
-    <height>521</height>
+    <width>672</width>
+    <height>526</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -604,17 +604,14 @@
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4" >
-     <item>
-      <widget class="QFrame" name="frame" >
-       <property name="frameShape" >
-        <enum>QFrame::HLine</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Raised</enum>
-       </property>
-      </widget>
-     </item>
      <item>
       <spacer name="spacer6" >
        <property name="orientation" >

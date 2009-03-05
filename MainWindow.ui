@@ -150,7 +150,7 @@
            <bool>true</bool>
           </property>
           <property name="sorting" stdset="0" >
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <column>
            <property name="text" >
@@ -212,7 +212,7 @@
            <bool>true</bool>
           </property>
           <property name="sorting" stdset="0" >
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <column>
            <property name="text" >
@@ -269,7 +269,7 @@
            <bool>true</bool>
           </property>
           <property name="sorting" stdset="0" >
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <column>
            <property name="text" >
@@ -358,7 +358,7 @@
      <x>0</x>
      <y>0</y>
      <width>796</width>
-     <height>19</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >
@@ -407,7 +407,7 @@
      <string>P&amp;omoc</string>
     </property>
     <addaction name="pomocPomocAction" />
-    <addaction name="actionForum" />
+    <addaction name="actionBug" />
     <addaction name="separator" />
     <addaction name="pomocO_programieAction" />
    </widget>
@@ -625,10 +625,6 @@
    </property>
   </action>
   <action name="pomocO_programieAction" >
-   <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/o_programie.png</normaloff>:/res/share/qfaktury/icons/o_programie.png</iconset>
-   </property>
    <property name="text" >
     <string>O programie</string>
    </property>
@@ -685,15 +681,11 @@
    </property>
   </action>
   <action name="pomocPomocAction" >
-   <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/pomoc.png</normaloff>:/res/share/qfaktury/icons/pomoc.png</iconset>
-   </property>
    <property name="text" >
-    <string>Pomoc</string>
+    <string>Strona programu</string>
    </property>
    <property name="iconText" >
-    <string>Pomoc</string>
+    <string>Strona programu</string>
    </property>
    <property name="name" stdset="0" >
     <string>pomocPomocAction</string>
@@ -889,9 +881,9 @@
     <string>prevPageAction</string>
    </property>
   </action>
-  <action name="actionForum" >
+  <action name="actionBug" >
    <property name="text" >
-    <string>Forum</string>
+    <string>Zgłoś błąd</string>
    </property>
   </action>
  </widget>

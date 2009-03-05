@@ -8,7 +8,7 @@ QString slownie(QString input, QString waluta)
 {
     QString in = input;
 
-    QString tmp = in.remove (in.indexOf(QObject::trUtf8(",")), 3);
+    QString tmp = in.remove (in.indexOf(sett().getDecimalPointStr()), 3);
 
     QString setki = tmp.right (3);
     QString tysiace;
@@ -364,7 +364,7 @@ QString slownie(QString input, QString waluta)
 	    out += QObject::trUtf8(" ") + jedynki[8];
 	    break;
 	case 0:
-	    out += QObject::trUtf8(" zero"); // waluta; // QObject::trUtf8(" złotych");
+	    out += QObject::trUtf8(" "); // waluta; // QObject::trUtf8(" złotych");
 	    break;
 	}
 
@@ -372,6 +372,6 @@ QString slownie(QString input, QString waluta)
 
     in = input;
     QString grosze =
-	    in.remove (0, in.indexOf(QObject::trUtf8(",")) + 1);
+	    in.remove (0, in.indexOf(sett().getDecimalPointStr()) + 1);
     return out + QObject::trUtf8(" ") + grosze + QObject::trUtf8("/100 ") + waluta;
 }

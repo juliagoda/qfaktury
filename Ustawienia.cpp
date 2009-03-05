@@ -70,14 +70,6 @@ void Ustawienia::init() {
     connect( userinfotel, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
     connect( userinfomail, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
     connect( userinfowww, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
-    connect( userinfonazwa_2, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
-    connect( userinfomiejscowosc_2, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
-    connect( userinfoadres_2, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
-    connect( userinfokonto_2, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
-    connect( userinfonip_2, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
-    connect( userinfotel_2, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
-    connect( userinfomail_2, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
-    connect( userinfowww_2, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
 
     getEncodings();
     readSettings();
@@ -454,14 +446,6 @@ void Ustawienia::saveSettings() {
 	sett().setValue("userphone", userinfotel->isChecked());
 	sett().setValue("usermail", userinfomail->isChecked());
 	sett().setValue("userwww", userinfowww->isChecked());
-	sett().setValue("clientnazwa", userinfonazwa_2->isChecked());
-	sett().setValue("clientmiejscowosc", userinfomiejscowosc_2->isChecked());
-	sett().setValue("clientadres", userinfoadres_2->isChecked());
-	sett().setValue("clientkonto", userinfokonto_2->isChecked());
-	sett().setValue("clientnip", userinfonip_2->isChecked());
-	sett().setValue("clientphone", userinfotel_2->isChecked());
-	sett().setValue("clientmail", userinfomail_2->isChecked());
-	sett().setValue("clientwww", userinfowww_2->isChecked());
 	sett().endGroup();
 
 	sett().setValue("firstrun", false);
@@ -576,15 +560,6 @@ void Ustawienia::readSettings() {
 	userinfotel->setChecked(sett().value("userphone").toBool());
 	userinfomail->setChecked(sett().value("usermail").toBool());
 	userinfowww->setChecked(sett().value("userwww").toBool());
-	userinfonazwa_2->setChecked(sett().value("clientnazwa").toBool());
-	userinfomiejscowosc_2->setChecked(
-			sett().value("clientmiejscowosc").toBool());
-	userinfoadres_2->setChecked(sett().value("clientadres").toBool());
-	userinfokonto_2->setChecked(sett().value("clientkonto").toBool());
-	userinfonip_2->setChecked(sett().value("clientnip").toBool());
-	userinfotel_2->setChecked(sett().value("clientphone").toBool());
-	userinfomail_2->setChecked(sett().value("clientmail").toBool());
-	userinfowww_2->setChecked(sett().value("clientwww").toBool());
 	sett().endGroup();
 
 
@@ -594,13 +569,13 @@ void Ustawienia::readSettings() {
 	 */
 	prefixEdit->setText(sett().value("prefix").toString());
 
-	cbDay->setChecked(sett().value/*bool*/("day") .toBool());
-	cbMonth->setChecked(sett().value/*bool*/("month") .toBool());
-	cbYear->setChecked(sett().value/*bool*/("year") .toBool());
-	shortYear->setChecked(sett().value/*bool*/("shortYear") .toBool());
-	cbEdit->setChecked(sett().value/*bool*/("edit") .toBool());
-	cbSmbEdit->setChecked(sett().value/*bool*/("editSymbol") .toBool());
-	spbNumb->setValue(sett().value/*int*/("chars_in_symbol").toInt());
+	cbDay->setChecked(sett().value("day") .toBool());
+	cbMonth->setChecked(sett().value("month") .toBool());
+	cbYear->setChecked(sett().value("year") .toBool());
+	shortYear->setChecked(sett().value("shortYear") .toBool());
+	cbEdit->setChecked(sett().value("edit") .toBool());
+	cbSmbEdit->setChecked(sett().value("editSymbol") .toBool());
+	spbNumb->setValue(sett().value("chars_in_symbol").toInt());
 
 	read=true;
 	// readTemplate();

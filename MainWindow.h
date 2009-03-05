@@ -28,7 +28,7 @@ public slots:
 	void newKor();
 	bool close();
 	void pomoc();
-	void forum();
+	void reportBug();
 	void towaryDodaj();
 	void towaryUsun();
 	void towaryEdycja();

@@ -91,7 +91,7 @@ void MainWindow::init() {
 	this->setWindowTitle( sett().getVersion(qAppName() ));
 
 	// connect slots
-	connect(actionForum, SIGNAL (activated ()), this, SLOT(forum()));
+	connect(actionBug, SIGNAL (activated ()), this, SLOT(reportBug()));
 	connect(applyFiltrBtn, SIGNAL (clicked()), this, SLOT(rereadHist()));
 	connect(plikDane_firmyAction, SIGNAL(activated()), this, SLOT(daneFirmyClick()));
 	connect(plikKoniecAction, SIGNAL(activated()), this, SLOT(close()));
@@ -728,7 +728,6 @@ void MainWindow::kontrEd() {
  */
 void MainWindow::newFra() {
 	Faktura *fraWindow = new Faktura(this);
-	fraWindow->progDir2 = workingDir;
 	fraWindow->pforma = false;
 	if (fraWindow->exec() == QDialog::Accepted) {
 		insertRow(tableH, tableH->rowCount());
@@ -739,6 +738,8 @@ void MainWindow::newFra() {
 		tableH->item(tableH->rowCount() - 1, 3)->setText(row[3]); // type
 		tableH->item(tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
 		tableH->item(tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
+	} else {
+		rereadHist();
 	}
 }
 
@@ -746,7 +747,6 @@ void MainWindow::newFra() {
  */
 void MainWindow::newPForm() {
 	Faktura *fraWindow = new Faktura(this);
-	fraWindow->progDir2 = workingDir;
 	fraWindow->pforma = true;
 	fraWindow->setWindowTitle("Faktura Pro Forma");
 	fraWindow->backBtnClick();
@@ -759,6 +759,8 @@ void MainWindow::newPForm() {
 		tableH->item(tableH->rowCount() - 1, 3)->setText(row[3]); // type
 		tableH->item(tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
 		tableH->item(tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
+	} else {
+		rereadHist();
 	}
 }
 
@@ -770,7 +772,6 @@ void MainWindow::newKor() {
 	if ((tableH->item(row, 3)->text() == "FVAT")) {
 		Korekta *korWindow = new Korekta(this);
 		// qDebug( pdGlob );
-		korWindow->progDir2 = workingDir;
 		korWindow->readDataNewKor(tableH->item(row, 0)->text());
 		if (korWindow->exec() == QDialog::Accepted) {
 			insertRow(tableH, tableH->rowCount());
@@ -926,10 +927,10 @@ void MainWindow::pomoc() {
 	QDesktopServices::openUrl(QUrl("http://www.e-linux.pl/modules/qfaktury/index.php"));
 }
 
-/** Slot forum
+/** Slot reportBug
  */
-void MainWindow::forum() {
-	QDesktopServices::openUrl(QUrl("http://forum.e-linux.pl"));
+void MainWindow::reportBug() {
+	QDesktopServices::openUrl(QUrl("https://sourceforge.net/tracker2/?func=add&group_id=154610&atid=792471"));
 }
 
 // ----------------------------------------  SLOTS ---------------------------------//

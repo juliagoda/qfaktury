@@ -938,1448 +938,892 @@ p, li { white-space: pre-wrap; }
       <attribute name="title" >
        <string>Wydruki</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3" >
-       <item row="0" column="0" >
-        <widget class="QToolBox" name="toolBox" >
-         <property name="currentIndex" >
-          <number>0</number>
+      <layout class="QHBoxLayout" name="horizontalLayout_12" >
+       <item>
+        <widget class="QGroupBox" name="groupBox" >
+         <property name="title" >
+          <string>Dane użytkownika na fakturze:</string>
          </property>
-         <widget class="QWidget" name="page" >
-          <property name="geometry" >
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>476</width>
-            <height>452</height>
-           </rect>
-          </property>
-          <attribute name="label" >
-           <string>Ustawienia ogólne</string>
-          </attribute>
-          <layout class="QHBoxLayout" name="horizontalLayout_6" >
-           <item>
-            <widget class="QGroupBox" name="groupBox_3" >
-             <property name="title" >
-              <string>Dane użytkownika</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_10" >
+         <layout class="QGridLayout" name="gridLayout" >
+          <item row="0" column="0" >
+           <layout class="QVBoxLayout" name="_53" >
+            <item>
+             <layout class="QHBoxLayout" name="_54" >
               <item>
-               <layout class="QHBoxLayout" name="_7" >
-                <item>
-                 <spacer name="spacer52_2" >
-                  <property name="orientation" >
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType" >
-                   <enum>QSizePolicy::Expanding</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0" >
-                   <size>
-                    <width>39</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="_8" >
-                  <item>
-                   <layout class="QHBoxLayout" name="_9" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfonazwa" >
-                      <property name="text" >
-                       <string>Nazwa</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_2" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_2" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_10" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfomiejscowosc" >
-                      <property name="text" >
-                       <string>Miejscowość</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_4" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_3" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_11" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfoadres" >
-                      <property name="text" >
-                       <string>Adres</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_3" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>62</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_4" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_12" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfokonto" >
-                      <property name="text" >
-                       <string>Konto</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_12" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_5" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_13" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfonip" >
-                      <property name="text" >
-                       <string>NIP</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_13" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_6" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_14" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfotel" >
-                      <property name="text" >
-                       <string>Telefon</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_14" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_15" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfomail" >
-                      <property name="text" >
-                       <string>Adres e-mail</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_15" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_7" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_16" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfowww" >
-                      <property name="text" >
-                       <string>Adres www</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_16" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <spacer name="spacer52" >
-                  <property name="orientation" >
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType" >
-                   <enum>QSizePolicy::Expanding</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0" >
-                   <size>
-                    <width>39</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
+               <widget class="QCheckBox" name="userinfonazwa" >
+                <property name="text" >
+                 <string>Nazwa</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <spacer name="spacer55" >
+               <spacer name="spacer27_2" >
                 <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
+                 <enum>Qt::Horizontal</enum>
                 </property>
                 <property name="sizeType" >
                  <enum>QSizePolicy::Expanding</enum>
                 </property>
                 <property name="sizeHint" stdset="0" >
                  <size>
-                  <width>20</width>
-                  <height>16</height>
+                  <width>40</width>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_4" >
-             <property name="title" >
-              <string>Dane klienta</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_4" >
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_55" >
               <item>
-               <layout class="QHBoxLayout" name="_17" >
-                <item>
-                 <spacer name="spacer52_2_2" >
-                  <property name="orientation" >
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType" >
-                   <enum>QSizePolicy::Expanding</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0" >
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="_18" >
-                  <item>
-                   <layout class="QHBoxLayout" name="_19" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfonazwa_2" >
-                      <property name="text" >
-                       <string>Nazwa</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_2_2" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_2_2" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_20" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfomiejscowosc_2" >
-                      <property name="text" >
-                       <string>Miejscowość</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_4_2" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_3_2" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_21" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfoadres_2" >
-                      <property name="text" >
-                       <string>Adres</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_3_2" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_4_2" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_22" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfokonto_2" >
-                      <property name="text" >
-                       <string>Konto</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_12_2" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_5_2" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_23" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfonip_2" >
-                      <property name="text" >
-                       <string>NIP</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_13_2" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_6_2" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_24" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfotel_2" >
-                      <property name="text" >
-                       <string>Telefon</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_14_2" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_8" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_25" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfomail_2" >
-                      <property name="text" >
-                       <string>Adres e-mail</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_15_2" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="spacer44_7_2" >
-                    <property name="orientation" >
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType" >
-                     <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0" >
-                     <size>
-                      <width>20</width>
-                      <height>16</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="_26" >
-                    <item>
-                     <widget class="QCheckBox" name="userinfowww_2" >
-                      <property name="text" >
-                       <string>Adres www</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="spacer27_16_2" >
-                      <property name="orientation" >
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType" >
-                       <enum>QSizePolicy::Expanding</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0" >
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <spacer name="spacer52_3" >
-                  <property name="orientation" >
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType" >
-                   <enum>QSizePolicy::Expanding</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0" >
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
+               <widget class="QCheckBox" name="userinfomiejscowosc" >
+                <property name="text" >
+                 <string>Miejscowość</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <spacer name="spacer55_2" >
+               <spacer name="spacer27_4" >
                 <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
+                 <enum>Qt::Horizontal</enum>
                 </property>
                 <property name="sizeType" >
                  <enum>QSizePolicy::Expanding</enum>
                 </property>
                 <property name="sizeHint" stdset="0" >
                  <size>
-                  <width>20</width>
-                  <height>33</height>
+                  <width>40</width>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
               </item>
              </layout>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="page_3" >
-          <property name="geometry" >
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>574</width>
-            <height>474</height>
-           </rect>
-          </property>
-          <attribute name="label" >
-           <string>Pozycje na fakturze</string>
-          </attribute>
-          <layout class="QGridLayout" name="gridLayout" >
-           <item row="0" column="0" >
-            <layout class="QVBoxLayout" name="_33" >
-             <item>
-              <layout class="QHBoxLayout" name="_34" >
-               <item>
-                <widget class="QCheckBox" name="cb1" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Lp.</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>68</width>
-                   <height>18</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_35" >
-               <item>
-                <widget class="QCheckBox" name="cb2" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Nazwa</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_2" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>12</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_36" >
-               <item>
-                <widget class="QCheckBox" name="cb3" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Kod</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_3" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_37" >
-               <item>
-                <widget class="QCheckBox" name="cb4" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>PKWiU</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_4" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_38" >
-               <item>
-                <widget class="QCheckBox" name="cb5" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Ilość</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_5" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_39" >
-               <item>
-                <widget class="QCheckBox" name="cb6" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>J.m.</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_6" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_40" >
-               <item>
-                <widget class="QCheckBox" name="cb7" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Cena Jedn.</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_14" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_41" >
-               <item>
-                <widget class="QCheckBox" name="cb8" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Wartość netto</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_7" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_42" >
-               <item>
-                <widget class="QCheckBox" name="cb9" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Rabat [%]</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_9" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_43" >
-               <item>
-                <widget class="QCheckBox" name="cb10" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Rabat wartość</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_8" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_44" >
-               <item>
-                <widget class="QCheckBox" name="cb11" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Netto po rabacie</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_11" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_45" >
-               <item>
-                <widget class="QCheckBox" name="cb12" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>VAT [%]</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_10" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_46" >
-               <item>
-                <widget class="QCheckBox" name="cb13" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>VAT wartość</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_12" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="_47" >
-               <item>
-                <widget class="QCheckBox" name="cb14" >
-                 <property name="minimumSize" >
-                  <size>
-                   <width>120</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize" >
-                  <size>
-                   <width>32767</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                 <property name="font" >
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text" >
-                  <string>Wartość brutto</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="spacer63_13" >
-                 <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0" >
-                  <size>
-                   <width>40</width>
-                   <height>15</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_56" >
+              <item>
+               <widget class="QCheckBox" name="userinfoadres" >
+                <property name="text" >
+                 <string>Adres</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer27_3" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>62</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_57" >
+              <item>
+               <widget class="QCheckBox" name="userinfokonto" >
+                <property name="text" >
+                 <string>Konto</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer27_12" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_58" >
+              <item>
+               <widget class="QCheckBox" name="userinfonip" >
+                <property name="text" >
+                 <string>NIP</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer27_13" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_59" >
+              <item>
+               <widget class="QCheckBox" name="userinfotel" >
+                <property name="text" >
+                 <string>Telefon</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer27_14" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_60" >
+              <item>
+               <widget class="QCheckBox" name="userinfomail" >
+                <property name="text" >
+                 <string>Adres e-mail</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer27_15" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_61" >
+              <item>
+               <widget class="QCheckBox" name="userinfowww" >
+                <property name="text" >
+                 <string>Adres www</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer27_16" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="spacer44_7" >
+              <property name="orientation" >
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType" >
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>20</width>
+                <height>16</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2" >
+         <property name="title" >
+          <string>Pola na fakturze:</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2" >
+          <item row="0" column="0" >
+           <layout class="QVBoxLayout" name="_62" >
+            <item>
+             <layout class="QHBoxLayout" name="_63" >
+              <item>
+               <widget class="QCheckBox" name="cb1" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Lp.</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>68</width>
+                  <height>18</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_64" >
+              <item>
+               <widget class="QCheckBox" name="cb2" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Nazwa</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_2" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>12</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_65" >
+              <item>
+               <widget class="QCheckBox" name="cb3" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Kod</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_3" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_66" >
+              <item>
+               <widget class="QCheckBox" name="cb4" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>PKWiU</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_4" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_67" >
+              <item>
+               <widget class="QCheckBox" name="cb5" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Ilość</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_5" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_68" >
+              <item>
+               <widget class="QCheckBox" name="cb6" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>J.m.</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_6" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_69" >
+              <item>
+               <widget class="QCheckBox" name="cb7" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Cena Jedn.</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_14" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_70" >
+              <item>
+               <widget class="QCheckBox" name="cb8" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Wartość netto</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_7" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_71" >
+              <item>
+               <widget class="QCheckBox" name="cb9" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Rabat [%]</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_9" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_72" >
+              <item>
+               <widget class="QCheckBox" name="cb10" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Rabat wartość</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_8" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_73" >
+              <item>
+               <widget class="QCheckBox" name="cb11" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Netto po rabacie</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_11" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_74" >
+              <item>
+               <widget class="QCheckBox" name="cb12" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>VAT [%]</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_10" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_75" >
+              <item>
+               <widget class="QCheckBox" name="cb13" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>VAT wartość</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_12" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="_76" >
+              <item>
+               <widget class="QCheckBox" name="cb14" >
+                <property name="minimumSize" >
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize" >
+                 <size>
+                  <width>32767</width>
+                  <height>17</height>
+                 </size>
+                </property>
+                <property name="font" >
+                 <font>
+                  <pointsize>8</pointsize>
+                 </font>
+                </property>
+                <property name="text" >
+                 <string>Wartość brutto</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="spacer63_13" >
+                <property name="orientation" >
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType" >
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0" >
+                 <size>
+                  <width>40</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_2" >
+              <property name="orientation" >
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>

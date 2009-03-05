@@ -27,6 +27,7 @@ public slots:
 	void print(QPrinter*);
 	void tableActivated ( QTableWidgetItem * item );
 	void textChanged(QString someStr);
+	void payTextChanged(QString someStr);
 	void dateChanged (QDate someDate);
 private:
 	QStringList fraStrList;
