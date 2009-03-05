@@ -31,24 +31,13 @@ void Kontrahenci::okClick() {
 	 */
 	if (workingMode == 1) {
 		modifyOnly();
-		QString typ;
-		if (typeCombo->currentIndex() == 1) {
-			typ = sett().getOfficeName();
-		} else {
-			typ = sett().getCompanyName();
-		}
-		ret = isEmpty(nameEdit->text()) + "|" + isEmpty(typ) + "|" + isEmpty(
+		ret = isEmpty(nameEdit->text()) + "|" + typeCombo->currentText() + "|" + isEmpty(
 				placeEdit->text()) + "|" + isEmpty(addressEdit->text()) + "|"
 				+ isEmpty(telefonEdit->text());
 		accept();
 	} else {
 		if (saveAll()) {
-			QString typ;
-			if (typeCombo->currentIndex() == 1) {
-				typ = sett().getOfficeName();
-			} else
-				typ = sett().getCompanyName();
-			ret = isEmpty(nameEdit->text()) + "|" + isEmpty(typ) + "|"
+			ret = isEmpty(nameEdit->text()) + "|" + typeCombo->currentText() + "|"
 					+ isEmpty(placeEdit->text()) + "|" + isEmpty(
 					addressEdit->text()) + "|" + isEmpty(telefonEdit->text());
 			accept();

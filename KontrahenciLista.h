@@ -16,6 +16,7 @@ public slots:
 	void doAccept();
 	void comboBox1Changed();
 	void updateDetails(QListWidgetItem *);
+	void openCustomerWWW(const QString &url);
 private:
 	QStringList companiesList;
 	QStringList officesList;

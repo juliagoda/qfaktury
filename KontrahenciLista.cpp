@@ -1,6 +1,8 @@
 #include "KontrahenciLista.moc"
 #include <QMessageBox>
 #include <QTextStream>
+#include <QDesktopServices>
+#include <QUrl>
 
 /** Constructor
  */
@@ -30,6 +32,8 @@ void KontrahenciLista::init() {
     connect(comboBox1, SIGNAL(activated(int)), this, SLOT(comboBox1Changed()));
     connect(listBox1, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doAccept()));
     connect(listBox1, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(updateDetails(QListWidgetItem *)));
+    connect(labelWWWE, SIGNAL(linkActivated (const QString &)), this, SLOT(openCustomerWWW(const QString &)));
+    connect(labelWWWE, SIGNAL(linkHovered ( const QString &)), this, SLOT(openCustomerWWW(const QString &)));
 }
 
 // *************************** SLOTS START *************************************
@@ -92,6 +96,15 @@ void KontrahenciLista::updateDetails(QListWidgetItem *item) {
 		}
 		break;
 	}
+}
+
+/** Slot
+ *  Opens the WEBSITE of the customer
+ */
+void KontrahenciLista::openCustomerWWW(const QString &url) {
+	// Doesn't work. Why?
+	qDebug() << __FUNCTION__  << url;
+	QDesktopServices::openUrl(QUrl(url));
 }
 
 // *************************** SLOTS END *************************************
@@ -182,6 +195,7 @@ QString  KontrahenciLista::detailsToString() {
 		ret +=  ", " + labelCityE->text();
 	if (!labelTicE->text().isEmpty())
 		ret += ", " + trUtf8("NIP: ") + labelTicE->text();
+	/* not required
 	if (!labelAccountE->text().isEmpty())
 		ret += ", " + labelAccountE->text();
 	if (!labelPhoneE->text().isEmpty())
@@ -189,7 +203,7 @@ QString  KontrahenciLista::detailsToString() {
 	if (!labelEmailE->text().isEmpty())
 		ret += ", " + labelEmailE->text();
 	if (!labelWWWE->text().isEmpty())
-		ret += ", " + labelWWWE->text();
+		ret += ", " + labelWWWE->text(); */
     return ret;
 }
 

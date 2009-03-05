@@ -4,7 +4,6 @@
 #include <QApplication>
 #include <QEvent>
 #include <QUrl>
-#include <qprocess.h>
 #include <Qt/qdom.h>
 #include <QTextStream>
 #include <QtDebug>
@@ -35,7 +34,7 @@ void MainWindow::init() {
 
 	// first run
 	if (firstRun()) {
-		setupDir();
+		// qDebug("!firstRun");
 		// towary/uslugi - wymiary
 		tableT->setColumnWidth(0, 50);
 		tableT->setColumnWidth(1, 140);
@@ -47,13 +46,11 @@ void MainWindow::init() {
 		tableT->setColumnWidth(8, 55); // netto3
 		tableT->setColumnWidth(9, 55); // netto4
 		tableT->setColumnWidth(10, 55);
-
-		// qDebug("firstRun");
 		saveAllSettAsDefault();
 	} else {
 		// qDebug() << sett().getValueAsDate("filtrStart")
 		//		<< sett().getValueAsDate("filtrEnd");
-
+		setupDir();
 		filtrStart->setDisplayFormat(sett().getDateFormat());
 		filtrStart->setDate(sett().getValueAsDate("filtrStart"));
 		filtrEnd->setDisplayFormat(sett().getDateFormat());
@@ -104,18 +101,16 @@ void MainWindow::init() {
 	connect(fakturyDodajAction, SIGNAL(activated()), this, SLOT(newFra()));
 	connect(fakturyUsunAction, SIGNAL(activated()), this, SLOT(delFHist()));
 	connect(fakturyEdAction, SIGNAL(activated()), this, SLOT(editFHist()));
+	connect(fakturyKorektaAction, SIGNAL(activated()), this, SLOT(newKor()));
+	connect(fakturyPFormaAction, SIGNAL(activated()), this, SLOT(newPForm()));
+	connect(towaryDodajAction, SIGNAL(activated()), this, SLOT(towaryDodaj()));
+	connect(towaryEdycjaAction, SIGNAL(activated()), this, SLOT(towaryEdycja()));
+	connect(towaryUsunAction, SIGNAL(activated()), this, SLOT(towaryUsun()));
 	connect(pomocO_QtAction, SIGNAL(activated()), this, SLOT(aboutQt()));
 	connect(pomocO_programieAction, SIGNAL(activated()), this, SLOT(oProg()));
 	connect(plikUstawieniaAction, SIGNAL(activated()), this, SLOT(settClick()));
 	connect(tabWidget2, SIGNAL(currentChanged(QWidget*)), this, SLOT(tabChanged(QWidget*)));
 	connect(pomocPomocAction, SIGNAL(activated()), this, SLOT(pomoc()));
-	connect(towaryDodajAction, SIGNAL(activated()), this, SLOT(towaryDodaj()));
-	connect(towaryEdycjaAction, SIGNAL(activated()), this, SLOT(towaryEdycja()));
-	connect(towaryUsunAction, SIGNAL(activated()), this, SLOT(towaryUsun()));
-	connect(fakturyKorektaAction, SIGNAL(activated()), this, SLOT(newKor()));
-	connect(fakturyPFormaAction, SIGNAL(activated()), this, SLOT(newPForm()));
-	connect(prevPageAction, SIGNAL(activated()), this, SLOT(prevPage()));
-	connect(nextPageAction, SIGNAL(activated()), this, SLOT(nextPage()));
 	connect(tableH, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(editFHist()));
 	connect(tableK, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(kontrEd()));
 	connect(tableT, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(towaryEdycja()));
@@ -137,10 +132,10 @@ bool MainWindow::firstRun() {
 		// set dates for filter
 		filtrStart->setDate(QDate::currentDate());
 		filtrEnd->setDate(QDate::currentDate());
-		return true;
+		return ok;
 	} else {
 		sett().checkSettings();
-		return false;
+		return ok;
 	}
 
 }
@@ -346,7 +341,7 @@ void MainWindow::readKontr(QString progDir) {
 			insertRow(tableK, tableK->rowCount());
 			text = n.toElement().attribute("name");
 			tableK->item(tableK->rowCount() - 1, 0)->setText(text);
-			text = sett().getCompanyName();
+			text = sett().getCompanyNameTr();
 			tableK->item(tableK->rowCount() - 1, 1)->setText(text);
 			text = n.toElement().attribute("place");
 			tableK->item(tableK->rowCount() - 1, 2)->setText(text);
@@ -360,7 +355,7 @@ void MainWindow::readKontr(QString progDir) {
 			insertRow(tableK, tableK->rowCount());
 			text = n.toElement().attribute("name");
 			tableK->item(tableK->rowCount() - 1, 0)->setText(text);
-			text = sett().getOfficeName();
+			text = sett().getOfficeNameTr();
 			tableK->item(tableK->rowCount() - 1, 1)->setText(text);
 			text = n.toElement().attribute("place");
 			tableK->item(tableK->rowCount() - 1, 2)->setText(text);
@@ -482,13 +477,12 @@ void MainWindow::tabChanged(QWidget * qwdt) {
 
 	int tabNo = tabWidget2->indexOf(qwdt);
 
+	// disable Edit and Remove actions _ONLY_
 	switch (tabNo) {
 	case 0: {
 		// historia
-		kontrahenciDodajAction->setEnabled(false);
 		kontrahenciEdycjaAction->setEnabled(false);
 		kontrahenciUsunAction->setEnabled(false);
-		towaryDodajAction->setEnabled(false);
 		towaryEdycjaAction->setEnabled(false);
 		towaryUsunAction->setEnabled(false);
 		fakturyEdAction->setEnabled(true);
@@ -497,10 +491,8 @@ void MainWindow::tabChanged(QWidget * qwdt) {
 	}
 	case 1: {
 		// kontrahenci
-		kontrahenciDodajAction->setEnabled(true);
 		kontrahenciEdycjaAction->setEnabled(true);
 		kontrahenciUsunAction->setEnabled(true);
-		towaryDodajAction->setEnabled(false);
 		towaryEdycjaAction->setEnabled(false);
 		towaryUsunAction->setEnabled(false);
 		fakturyEdAction->setEnabled(false);
@@ -509,10 +501,8 @@ void MainWindow::tabChanged(QWidget * qwdt) {
 	}
 	case 2: {
 		// towary
-		kontrahenciDodajAction->setEnabled(false);
 		kontrahenciEdycjaAction->setEnabled(false);
 		kontrahenciUsunAction->setEnabled(false);
-		towaryDodajAction->setEnabled(true);
 		towaryEdycjaAction->setEnabled(true);
 		towaryUsunAction->setEnabled(true);
 		fakturyEdAction->setEnabled(false);
@@ -521,10 +511,8 @@ void MainWindow::tabChanged(QWidget * qwdt) {
 	}
 	default: {
 		// historia
-		kontrahenciDodajAction->setEnabled(false);
 		kontrahenciEdycjaAction->setEnabled(false);
 		kontrahenciUsunAction->setEnabled(false);
-		towaryDodajAction->setEnabled(false);
 		towaryEdycjaAction->setEnabled(false);
 		towaryUsunAction->setEnabled(false);
 		fakturyEdAction->setEnabled(true);
@@ -638,29 +626,6 @@ void MainWindow::settClick() {
 	Ustawienia *settWindow = new Ustawienia(this);
 	settWindow->show();
 }
-
-//void MainWindow::kretorClick ()
-//{
-//  qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-////     QMessageBox::information( this, trUtf8("QFaktury"), "Funkcja jeszcze nie gotowa. Uzyj menu faktury->Nowy", QMessageBox::Ok );
-//  Form3 *kreatorWindow = new Form3;
-//  if (kreatorWindow->exec () == QDialog::Accepted)
-//    {
-//      kreatorWindow->print ();
-//      // tableClear (tableH);
-//      // readHist (pdGlob);
-//      /*
-//         QStringList row = QStringList::split( "|",  kreatorWindow->ret );
-//         tableH->insertRows (tableH->rowCount (), 1);
-//         tableH->setText (tableH->rowCount () - 1, 0, row[0]); // nazwa pliku
-//         tableH->setText (tableH->rowCount () - 1, 1, row[1]);
-//         tableH->setText (tableH->rowCount () - 1, 2, row[2]);
-//         tableH->setText (tableH->rowCount () - 1, 4, row[3]);
-//         tableH->setText (tableH->rowCount () - 1, 3, row[4]);
-//       */
-//    }
-//  // delete kreatorWindow;
-//}
 
 /** Slot used to add new customer
  */
@@ -848,6 +813,8 @@ void MainWindow::towaryDodaj() {
 		tableT->item(tableT->rowCount() - 1, 9)->setText(row[9]);
 		tableT->item(tableT->rowCount() - 1, 10)->setText(row[10]);
 		tableT->item(tableT->rowCount() - 1, 11)->setText(row[11]);
+	} else {
+		rereadHist();
 	}
 }
 
@@ -911,9 +878,7 @@ void MainWindow::towaryUsun() {
 			file.close();
 			tableT->removeRow(row);
 		}
-
 	}
-
 }
 
 /** Slot used for editing goods
@@ -964,41 +929,11 @@ void MainWindow::pomoc() {
 /** Slot forum
  */
 void MainWindow::forum() {
-	QMessageBox::information(this, tr("Forum e-linux.pl"), tr(
-			"http://forum.e-linux.pl"));
-	QString program = "kfmclient";
-	QStringList arguments;
-	QProcess *myProcess = new QProcess(this);
-
-#if defined Q_OS_UNIX
-	arguments << "exec" << "http://forum.e-linux.pl/";
-	// add ifdef for windows
-	myProcess->start(program, arguments);
-#endif
-
-#if defined Q_WS_WIN
-	// it may need to be changed to something more universal
-	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
-	arguments << "http://forum.e-linux.pl";
-	myProcess->start(program, arguments);
-#endif
+	QDesktopServices::openUrl(QUrl("http://forum.e-linux.pl"));
 }
 
 // ----------------------------------------  SLOTS ---------------------------------//
 
 
 
-//-------------------- not used >??? ------------------------------------------
-void MainWindow::nextPage()
-{
- if ( tabWidget2->count() != tabWidget2->currentIndex() )
- tabWidget2->setCurrentIndex( tabWidget2->currentIndex() + 1 );
-}
-
-
-void MainWindow::prevPage()
-{
- if ( tabWidget2->currentIndex() !=  0 )
- tabWidget2->setCurrentIndex( tabWidget2->currentIndex() - 1 );
-}
 

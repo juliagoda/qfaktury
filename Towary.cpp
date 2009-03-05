@@ -1,7 +1,8 @@
 #include "Towary.moc"
-#include <qprocess.h>
 #include "Settings.h"
-#include <qmessagebox.h>
+#include <QMessageBox>
+#include <QDesktopServices>
+#include <QUrl>
 #include <QtDebug>
 
 /** Constructor
@@ -23,7 +24,7 @@ void Towary::init() {
 
 	connect(okButton, SIGNAL(clicked()), this, SLOT(okClick()));
 	connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
-	connect(nettoEdit, SIGNAL(lostFocus()), this, SLOT(nettoChanged()));
+	connect(nettoEdit, SIGNAL(valueChanged(int)), this, SLOT(nettoChanged(int)));
 	connect(spinBox2, SIGNAL(valueChanged(int)), this, SLOT(spinChanged(int)));
 	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
 }
@@ -34,7 +35,6 @@ void Towary::init() {
  *  save data to XML file and returns row for products table
  */
 void Towary::okClick() {
-
 	if (nameEdit->text() == "") {
 		QMessageBox::critical(0, "QFaktury", trUtf8("Musisz podać nazwe."));
 		return;
@@ -78,39 +78,22 @@ void Towary::okClick() {
  *  spinBox with list of prices changed
  */
 void Towary::spinChanged(int a) {
-	nettoEdit->setText(netto[a - 1]);
+	nettoEdit->setValue(netto[a - 1].toDouble());
 }
 
 /** Slot
  *  Nett value changed
  */
-void Towary::nettoChanged() {
+void Towary::nettoChanged(int a) {
 	// qDebug ()<<nettoEdit->text ();
-	netto[spinBox2->value() - 1] = nettoEdit->text();
+	netto[spinBox2->value() - 1] = nettoEdit->cleanText();
 }
 
 /** Slot
  *  Find PKWIU code on the net
  */
-void Towary::pkwiuGet ()
-{
-	QStringList args;
-	QString program;
-	QProcess *process = new QProcess(this);
-	args << "http://www.klasyfikacje.pl/";
-
-#if defined Q_OS_UNIX
-	// move to Xlib ??
-	program = "firefox";
-	process->start(program, args);
-#endif
-
-#if defined Q_WS_WIN
-	// qDebug() << "Start WWW";
-	// it may need to be changed to something more universal
-	program = "c:\\Program Files\\Internet Explorer\\iexplore.exe";
-	process->start(program, args);
-#endif
+void Towary::pkwiuGet() {
+	QDesktopServices::openUrl(QUrl(tr("http://www.klasyfikacje.pl/")));
 }
 
 
@@ -120,12 +103,13 @@ void Towary::pkwiuGet ()
 /** Loads data from the XML into the form
  */
 void Towary::readData(QString idx, int type) {
+
 	if (idx == "") {
-		netto.append("0,00");
-		netto.append("0,00");
-		netto.append("0,00");
-		netto.append("0,00");
-		nettoEdit->setText("0,00");
+		netto.append("0");
+		netto.append("0");
+		netto.append("0");
+		netto.append("0");
+		nettoEdit->setValue(0);
 	} else {
 		setWindowTitle(trUtf8("Edytuj towar/usługę"));
 	}
@@ -180,7 +164,7 @@ void Towary::readData(QString idx, int type) {
 /** Saves data from the form
  */
 bool Towary::saveAll() {
-	nettoChanged();
+	nettoChanged(0);
 
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
@@ -188,7 +172,6 @@ bool Towary::saveAll() {
 
 	QFile file(sett().getProductsXml());
 	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug("Could not open... creating new.");
 		root = doc.createElement(sett().getProdutcsDocName());
 		lastId++;
 		root.setAttribute("last", QString::number(lastId));
@@ -242,7 +225,7 @@ bool Towary::saveAll() {
  *  Searches for the right one and saves it.
  */
 void Towary::modifyOnly() {
-	nettoChanged();
+	nettoChanged(0);
 
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
@@ -251,7 +234,6 @@ void Towary::modifyOnly() {
 
 	QFile file(sett().getProductsXml());
 	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug("can not open ");
 		root = doc.createElement(sett().getProdutcsDocName());
 		doc.appendChild(root);
 		towary = doc.createElement(sett().getProductName());
@@ -318,7 +300,7 @@ void Towary::displayData(QDomNode n) {
 	pkwiuEdit->setText(n.toElement().attribute("pkwiu"));
 	typeCombo->setCurrentIndex(0);
 	jednCombo->setCurrentIndex(0);
-	nettoEdit->setText(n.toElement().attribute("netto1"));
+	nettoEdit->setValue(n.toElement().attribute("netto1").toDouble());
 	netto[0] = n.toElement().attribute("netto1");
 	netto[1] = n.toElement().attribute("netto2");
 	netto[2] = n.toElement().attribute("netto3");

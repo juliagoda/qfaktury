@@ -10,7 +10,7 @@ QString fixStr (QString in);
 float getPriceGross (QString count, QString netto, QString vat);
 float getPriceNett (QString count, QString netto);
 float getPriceGross2 (double netto, QString vat);
-
-QString addZeros (QString in);
+QString trimZeros(QString in);
+QString addZeros(QString in);
 
 #endif

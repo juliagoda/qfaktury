@@ -523,9 +523,10 @@ public:
 		return "products";
 	}
 
+	// @TODO enforce that translation won't affect this funcionality
 	// converts customer type into int value
 	int getCustomerType(QString custType) {
-		if (custType.compare(getCompanyName()) == 0) {
+		if (custType.compare(trUtf8("Firma")) == 0) {
 			return 0;
 		} else {
 			return 1;
@@ -534,7 +535,7 @@ public:
 
 	// converts product type into int value
 	int getProductType(QString prodName) {
-		if (prodName.compare(getProductName()) == 0) {
+		if (prodName.compare(trUtf8("Towar")) == 0) {
 			return 0;
 		} else {
 			return 1;
@@ -547,6 +548,14 @@ public:
 
 	QString getOfficeName() {
 		return "office";
+	}
+
+	QString getCompanyNameTr() {
+		return trUtf8("Firma");
+	}
+
+	QString getOfficeNameTr() {
+		return trUtf8("Urząd");
 	}
 
 	QString getProductName() {
@@ -566,6 +575,13 @@ public:
 	QByteArray getCodecName() {
 		return "UTF-8";
 	}
+
+	QString getDecimalPointStr() {
+		QLocale* local = new QLocale();
+		QChar decimalPoint = local->decimalPoint ();
+		return QString(decimalPoint);
+	}
+
 private:
 	QString dateFormat;
 	QString fileNameDateFormat;

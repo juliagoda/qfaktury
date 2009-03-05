@@ -17,6 +17,9 @@ public:
 
 	QStringList listaTowary;
 	QStringList listaUslugi;
+
+	QMap<QString, QString> nettos;
+	QMap<QString, int> vats;
 	QString vat;
 	TowaryLista(QWidget *parent);
 public slots:
@@ -24,15 +27,14 @@ public slots:
 	void doAccept();
 	void comboBox1Changed(int x);
 	void calcNetto();
-	void fillLv(int x);
+	void displayData(int x);
 	void lv1selChanged();
-	void readNettos(QString index);
+	void displayNetto(QString index);
 	void spinChanged(int a);
 public:
 	QString selectedItem;
 	QString progDir;
 	QString ret;
-	QMap<int, QString> nettos;
 	QString id;
 };
 #endif

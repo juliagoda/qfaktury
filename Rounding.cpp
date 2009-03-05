@@ -1,6 +1,7 @@
 #include <QDebug>
-#include "Rounding.h"
 
+#include "Rounding.h"
+#include "Settings.h"
 
 /*!
   This round digits to the 2 places after commas.
@@ -10,18 +11,18 @@ QString
 doRound (QString in)
 {
   QString tmp = in;
-  QString reszta = tmp.remove (0, tmp.indexOf(",") + 1);
+  QString reszta = tmp.remove (0, tmp.indexOf(sett().getDecimalPointStr() ) + 1);
   if (reszta.length () > 2)
     {
       tmp = in;
-      QString calk = tmp.remove (tmp.indexOf(","), reszta.length () + 1);	// liczba calk
+      QString calk = tmp.remove (tmp.indexOf(sett().getDecimalPointStr() ), reszta.length () + 1);	// liczba calk
       // int last = reszta.right(1).toInt();
       // first
       // if we  have 0,12321321321
       // the wy modify this to: 0,123
       // second
       // roud (depending on last digit >5 or < 5)
-      reszta = "0." + reszta;
+      reszta = "0" + sett().getDecimalPointStr()  + reszta;
       double dOriginal = reszta.toDouble ();
       double iTemp = 0;
       //  qDebug(QString::number(last));
@@ -53,17 +54,29 @@ addZeros (QString in)
 {
   // ie. 0, then return 0,00
   QString sth = in;
-  QString reszta = sth.remove (0, sth.indexOf(",") + 1);
+  QString reszta = sth.remove (0, sth.indexOf(sett().getDecimalPointStr()) + 1);
   // qDebug( reszta + " " + in );
   if (reszta.length () == 1)
     {
-      if (in.indexOf(',', 0) == -1)
+      if (in.indexOf(sett().getDecimalPointStr() , 0) == -1)
 	{
-	  return in + ",00";
+	  return in +  sett().getDecimalPointStr()  + "00";
 	}
       return in + "0";
     }
   return in;
+}
+
+QString
+trimZeros (QString in)
+{
+	// code to remove unncessery zeros
+	QStringList quan = in.split(sett().getDecimalPointStr());
+	QString quantity = in;
+	if (quan[1].compare("000") == 0) {
+		quantity = quan[0];
+	}
+	return quantity;
 }
 
 /*!
@@ -73,14 +86,12 @@ addZeros (QString in)
 QString
 fixStr (QString in)
 {
-  in = in.replace (".", ",");
   QString tmp = in;
-  if (tmp.indexOf(',', 0) == -1)
+  if (tmp.indexOf(sett().getDecimalPointStr(), 0) == -1)
     {
-      return tmp + ",00";
+      return tmp + sett().getDecimalPointStr()  + "00";
     }
-  // addZeros(    );
-  return addZeros (doRound (in)).replace (".", ",");
+  return addZeros (doRound (in));
 }
 
 /*!
@@ -101,8 +112,8 @@ getPriceGross2 (double netto, QString vat)
 float
 getPriceGross (QString count, QString netto, QString vat)
 {
-  float cnt = count.replace (",", ".").toFloat ();
-  float nt = netto.replace (",", ".").toFloat ();
+  float cnt = count.toFloat ();
+  float nt = netto.toFloat ();
   float tmpVt = vat.toFloat ();
   float vt = (tmpVt / 100) + 1;
   return (nt * vt) * cnt;
@@ -114,7 +125,7 @@ getPriceGross (QString count, QString netto, QString vat)
 float
 getPriceNett (QString count, QString netto)
 {
-  float cnt = count.replace (",", ".").toFloat ();
-  float nt = netto.replace (",", ".").toFloat ();
+  float cnt = count.toFloat ();
+  float nt = netto.toFloat ();
   return nt * cnt;
 }

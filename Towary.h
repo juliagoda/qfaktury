@@ -14,7 +14,7 @@ public:
 public slots:
 	void okClick();
 	void spinChanged(int a);
-	void nettoChanged();
+	void nettoChanged(int a);
 	void pkwiuGet();
 private:
 	QStringList netto;

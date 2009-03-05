@@ -5,14 +5,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
+    <width>326</width>
     <height>255</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Dodaj towar</string>
   </property>
-  <layout class="QGridLayout" >
+  <layout class="QGridLayout" name="gridLayout" >
    <item row="0" column="0" >
     <layout class="QHBoxLayout" >
      <item>
@@ -106,7 +106,7 @@
     </layout>
    </item>
    <item row="1" column="0" >
-    <layout class="QHBoxLayout" >
+    <layout class="QHBoxLayout" name="horizontalLayout_2" >
      <item>
       <layout class="QVBoxLayout" >
        <item>
@@ -142,7 +142,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout" name="verticalLayout" >
        <item>
         <layout class="QHBoxLayout" >
          <item>
@@ -193,20 +193,14 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="jednCombo" >
-             <item>
-              <property name="text" >
-               <string>szt.</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="jednCombo" />
            </item>
           </layout>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout" name="horizontalLayout" >
          <item>
           <widget class="QSpinBox" name="spinBox2" >
            <property name="minimumSize" >
@@ -224,12 +218,15 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="nettoEdit" >
-           <property name="inputMask" >
-            <string>0000000,00; </string>
-           </property>
+          <widget class="QDoubleSpinBox" name="nettoEdit" >
            <property name="alignment" >
-            <set>Qt::AlignRight</set>
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="buttonSymbols" >
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="maximum" >
+            <double>99999.990000000005239</double>
            </property>
           </widget>
          </item>
@@ -255,6 +252,16 @@
       </layout>
      </item>
     </layout>
+   </item>
+   <item row="2" column="0" >
+    <widget class="Line" name="line3" >
+     <property name="frameShape" >
+      <enum>QFrame::HLine</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+    </widget>
    </item>
    <item row="3" column="0" >
     <layout class="QHBoxLayout" >
@@ -295,16 +302,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="2" column="0" >
-    <widget class="Line" name="line3" >
-     <property name="frameShape" >
-      <enum>QFrame::HLine</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Sunken</enum>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
