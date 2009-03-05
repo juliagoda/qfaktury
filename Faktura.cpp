@@ -78,8 +78,8 @@ void Faktura::init() {
     connect(tableTow, SIGNAL(itemClicked(QTableWidgetItem *)), this,
 				SLOT(tableActivated(QTableWidgetItem *)));
     connect(additEdit, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
-    connect(platCombo, SIGNAL(editTextChanged(QString)), this, SLOT(payTextChanged(QString)));
-    connect(currCombo, SIGNAL(editTextChanged(QString)), this, SLOT(textChanged(QString)));
+    connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
+    connect(currCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(textChanged(QString)));
     connect(sellingDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
     connect(productDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
     connect(liabDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
@@ -290,8 +290,12 @@ void Faktura::tableActivated(QTableWidgetItem * item) {
  *  Activates buttons
  */
 void Faktura::payTextChanged(QString text) {
-	if (platCombo->currentIndex() > 0)
+	// qDebug() << __FUNCTION__ <<  platCombo->currentIndex();
+	if (platCombo->currentIndex() > 0) {
 		liabDate->setEnabled(true);
+	} else {
+		liabDate->setEnabled(false);
+	}
 
 	textChanged(text);
 }
