@@ -19,7 +19,6 @@
 
 class Settings: public QSettings {
 public:
-	QLocale locale;
 
 	// get date from settings as QDate
 	QDate getValueAsDate(QString val) {
@@ -478,7 +477,7 @@ public:
 	QString getVersion(QString appName) {
 		QString str = appName;
 		str.truncate(2);
-		return str.toUpper() + appName.right(6) + trUtf8(" - Wersja ") + STRING(QFAKTURY_VERSION);
+		return str.toUpper() + appName.right(6) + trUtf8(" - wersja ") + STRING(QFAKTURY_VERSION);
 	}
 
 	// returns working directory
@@ -577,14 +576,25 @@ public:
 	}
 
 	QString getDecimalPointStr() {
-		QLocale* local = new QLocale();
-		QChar decimalPoint = local->decimalPoint ();
+		QChar decimalPoint = locale->decimalPoint ();
 		return QString(decimalPoint);
 	}
 
+	QString numberToString(double i, char f = 'f', int prec = 2) {
+			return locale->toString(i, f, prec);
+		}
+
+	QString numberToString(int i) {
+			return locale->toString(i);
+		}
+
+	double stringToDouble(QString s) {
+			return locale->toDouble(s);
+		}
 private:
 	QString dateFormat;
 	QString fileNameDateFormat;
+	QLocale *locale;
 
 	// constr
 	Settings() :
@@ -596,6 +606,9 @@ private:
 		QTextCodec::setCodecForCStrings (QTextCodec::codecForName (getCodecName()));
 		QTextCodec::setCodecForLocale (QTextCodec::codecForName (getCodecName()));
 		QTextCodec::setCodecForTr (QTextCodec::codecForName (getCodecName()));
+
+		locale = new QLocale();
+
 	}
 
 	Settings(const Settings&) {}

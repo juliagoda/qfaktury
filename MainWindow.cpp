@@ -34,7 +34,6 @@ void MainWindow::init() {
 
 	// first run
 	if (firstRun()) {
-		// qDebug("!firstRun");
 		// towary/uslugi - wymiary
 		tableT->setColumnWidth(0, 50);
 		tableT->setColumnWidth(1, 140);
@@ -47,9 +46,15 @@ void MainWindow::init() {
 		tableT->setColumnWidth(9, 55); // netto4
 		tableT->setColumnWidth(10, 55);
 		saveAllSettAsDefault();
+
+		if (QMessageBox::warning(this, "QFaktury", trUtf8("Pierwsze uruchomienie programu. Czy chcesz skonfigurować firmę?"), trUtf8("Tak"), trUtf8("Nie"), 0, 0,
+				1) == 0) {
+			daneFirmyClick();
+		}
+
 	} else {
 		// qDebug() << sett().getValueAsDate("filtrStart")
-		//		<< sett().getValueAsDate("filtrEnd");
+		//	 	 << sett().getValueAsDate("filtrEnd");
 		setupDir();
 		filtrStart->setDisplayFormat(sett().getDateFormat());
 		filtrStart->setDate(sett().getValueAsDate("filtrStart"));
@@ -126,7 +131,8 @@ void MainWindow::init() {
  * firstRun setup()
  */
 bool MainWindow::firstRun() {
-	bool ok = sett().value("firstrun", false).toBool();
+	bool ok = sett().value("firstrun", true).toBool();
+	// qDebug() << "firstRun" << ok;
 	if (ok) {
 		sett().checkSettings();
 		// set dates for filter
@@ -575,7 +581,6 @@ void MainWindow::editFHist() {
 			|| (tableH->item(row, 3)->text() == "FPro")) {
 		// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 		Faktura *fraWindow = new Faktura(this);
-		fraWindow->progDir2 = workingDir;
 		// qDebug() << pdGlob;
 		int co = 0;
 		if (tableH->item(row, 3)->text() == "FVAT")

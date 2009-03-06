@@ -1,15 +1,3 @@
-/****************************************************************************
-** ui.h extension file, included from the uic-generated form implementation.
-**
-** If you want to add, delete, or rename functions or slots, use
-** Qt Designer to update this file, preserving your code.
-**
-** You should not define a constructor or destructor in this file.
-** Instead, write your code in functions called init() and destroy().
-** These will automatically be called by the form's constructor and
-** destructor.
-*****************************************************************************/
-
 #include "Korekta.moc"
 #include <qdatetime.h>
 #include <qdir.h>
@@ -26,8 +14,6 @@
 #include "KontrahenciLista.h"
 #include "TowaryLista.h"
 #include "ZmienIlosc.h"
-
-#include "Rounding.h"
 #include "slownie.h"
 
 
@@ -72,7 +58,7 @@ void Korekta::init ()
   QStringList one1 = QStringList::split ("/", tmp);
   int nr = one1[0].toInt () + 1;
   lastInvoice =
-    QString::number (nr) + "/" + QDate::currentDate ().toString ("MM/yyyy");
+    sett().numberToString(nr) + "/" + QDate::currentDate ().toString ("MM/yyyy");
   korNr->setText (lastInvoice);
   */
 
@@ -179,7 +165,7 @@ towaryOld = tmp.toElement ();
 
   for (i = 0; i < towCount; ++i)
     {
-      tmp1 = QString::number(i);
+      tmp1 = sett().numberToString(i);
       tmp1 += "|" + towary.attribute ("Nazwa");
       tmp1 += "|" + towary.attribute ("Kod");
       tmp1 += "|" + towary.attribute ("PKWiU");
@@ -206,7 +192,7 @@ towaryOld = tmp.toElement ();
 
   reasonCombo->setCurrentIndex(additional.attribute ("przyczyna").toInt ());
 //  addinfo.setAttribute ("przyczyna",
-//			QString::number (reasonCombo->currentItem ()));
+//			sett().numberToString(reasonCombo->currentItem ()));
 
 //   qDebug( additional.attribute ("przyczyna") );
 //   qDebug( additional.attribute ("forma.plat") );
@@ -220,7 +206,7 @@ towaryOld = tmp.toElement ();
   QStringList waluty = sett().value("elinux/faktury/waluty").toString().split("|");
   currency = waluty[additional.attribute ("waluta").toInt ()];
   // qDebug(currency); qFatal("dsadsa");
-  fraValLbl->setText( fixStr(QString::number( oldBrutto ).replace(",", ".")) );
+  fraValLbl->setText( sett().numberToString( oldBrutto, 'f', 2 ) );
 
 
   lastInvoice += "/" + QDate::currentDate ().toString ("dd");
@@ -322,8 +308,8 @@ void Korekta::readDataNewKor (QString fraFile)
   tableTow->setColumnCount(10);
   for (i = 0; i < towCount; ++i)
     {
-      tableTow->item (i, 0)->setText(QString::number (i));	// lp
-      tmp1 = QString::number(i);
+      tableTow->item (i, 0)->setText(sett().numberToString(i));	// lp
+      tmp1 = sett().numberToString(i);
 
       tableTow->item (i, 1)->setText(towar.attribute ("Nazwa"));	// nazwa
       tmp1 += "|" + towar.attribute ("Nazwa");
@@ -378,7 +364,7 @@ void Korekta::readDataNewKor (QString fraFile)
   QStringList waluty = sett().value("waluty").toString().split("|");
   currency = waluty[additional.attribute ("waluta").toInt ()];
   // qDebug(currency); qFatal("dsadsa");
-  fraValLbl->setText( fixStr(QString::number( oldBrutto ).replace(",", ".")) );
+  fraValLbl->setText( sett().numberToString( oldBrutto, 'f', 2 ) );
 
   if ( sett().value/*bool*/ ("elinux/faktury/editSymbol") .toBool())
   {
@@ -416,7 +402,7 @@ void Korekta::addTow ()
       // twarers|21398edwa|45|szt.|15,45|22|848.205
       tableTow->insertRow (tableTow->rowCount());
       QStringList row = twWindow->ret.split("|");
-      tableTow->item (tableTow->rowCount () - 1, 0)->setText(QString::number (tableTow->rowCount ()));	// lp
+      tableTow->item (tableTow->rowCount () - 1, 0)->setText(sett().numberToString(tableTow->rowCount ()));	// lp
       tableTow->item (tableTow->rowCount () - 1, 1)->setText(row[0]);	// nazwa
       tableTow->item (tableTow->rowCount () - 1, 2)->setText(row[1]);	// kod
       tableTow->item (tableTow->rowCount () - 1, 3)->setText(row[2]);	// pkwiu
@@ -434,7 +420,7 @@ void Korekta::addTow ()
 
 void Korekta::countRabat ()
 {
-  QString rabat1 = QString::number (rabatValue->value ());
+  QString rabat1 = sett().numberToString(rabatValue->value ());
   if (rabat1.length () == 1)
     rabat1 = "0.0" + rabat1;
   else
@@ -446,10 +432,10 @@ void Korekta::countRabat ()
   priceBRabN = 0;
   for (int i = 0; i < tableTow->rowCount (); ++i)
     {
-      cenajdn = tableTow->item(i, 6)->text().replace (",", ".").toDouble ();
-      kwota = cenajdn * tableTow->item(i, 4)->text().replace (",", ".").toInt ();
+      cenajdn = tableTow->item(i, 6)->text().toDouble ();
+      kwota = cenajdn * tableTow->item(i, 4)->text().toInt ();
       rabat = kwota * rabat1.toDouble ();
-      tableTow->item(i, 7)->setText(fixStr (QString::number (kwota - rabat)));	// netto
+      tableTow->item(i, 7)->setText(sett().numberToString(kwota - rabat, 'f', 2));	// netto
       priceBRabN = priceBRabN + kwota;
       // qDebug(tableTow->text(i, 6).replace(",", "."));
     }
@@ -462,14 +448,14 @@ void Korekta::countRabat ()
   rabat = 0;
   priceBRab = 0;		// priceBRabN
 /*
-    rabat1 = QString::number( rabatValue->value());
+    rabat1 = sett().numberToString( rabatValue->value());
     if (rabat1.length() == 1) rabat1 = "1.0" + rabat1;
      else rabat1 = "1." + rabat1;
 */
   for (int i = 0; i < tableTow->rowCount (); ++i)
     {
       vat1 = tableTow->item(i, 8)->text().replace (",", ".");
-      // QString::number( rabatValue->value());
+      // sett().numberToString( rabatValue->value());
       if (vat1.length () == 1)
 	vat1 = "1.0" + vat1;
       else
@@ -478,12 +464,12 @@ void Korekta::countRabat ()
       vat = vat1.toDouble ();
       if ( vat == 0 ) vat = 1;
 
-      netto = tableTow->item(i, 7)->text().replace (",", ".").toDouble ();	// after rab.
+      netto = tableTow->item(i, 7)->text().toDouble ();	// after rab.
 
 //************************************************************************//
 
-      cenajdn = tableTow->item(i, 6)->text().replace (",", ".").toDouble ();
-      kwota = cenajdn * tableTow->item(i, 4)->text().replace (",", ".").toInt ();
+      cenajdn = tableTow->item(i, 6)->text().toDouble ();
+      kwota = cenajdn * tableTow->item(i, 4)->text().toInt ();
       rabat = kwota * rabat1.toDouble ();
       // kwota - rabat; // jedn. netto
       priceBRab = priceBRab + (vat * (kwota));
@@ -491,10 +477,8 @@ void Korekta::countRabat ()
 //************************************************************************//
 
       kwota = vat * netto;
-      // qDebug(QString::number(kwota));
-      tableTow->item(i, 9)->setText(fixStr (QString::number (kwota)));
-      // fixStr(
-      // qDebug(tableTow->text(i, 6).replace(",", "."));
+      // qDebug(sett().numberToString(kwota));
+      tableTow->item(i, 9)->setText(sett().numberToString(kwota, 'f', 2));
     }
 
 }
@@ -506,38 +490,39 @@ void Korekta::countSum ()
   double kwota = 0;
   for (int i = 0; i < tableTow->rowCount (); ++i)
     {
-      kwota += tableTow->item(i, 7)->text().replace (",", ".").toDouble ();
+      kwota += tableTow->item(i, 7)->text().toDouble ();
       // qDebug(tableTow->text(i, 6).replace(",", "."));
     }
-  snetto = fixStr (QString::number (kwota));
+  snetto = sett().numberToString(kwota, 'f', 2);
 
   // count brutto sum
   kwota = 0;
   for (int i = 0; i < tableTow->rowCount (); ++i)
     {
-      kwota += tableTow->item(i, 9)->text().replace (",", ".").toDouble ();
+      kwota += tableTow->item(i, 9)->text().toDouble ();
       // qDebug(tableTow->text(i, 6).replace(",", "."));
     }
-  sbrutto = fixStr (QString::number (kwota));
+  sbrutto = sett().numberToString(kwota, 'f', 2);
 
   // count rabat
-  QString rabat1 = QString::number (rabatValue->value ());
+  /* Not used!?
+  QString rabat1 = sett().numberToString(rabatValue->value ());
   if (rabat1.length () == 1)
     rabat1 = "1.0" + rabat1;
   else
     rabat1 = "1." + rabat1;
+    */
   // qDebug( "rabat " +  rabat1 );
   // double rabatVal = rabat1.toDouble();
   // double rabatBr = sbrutto->text().toDouble();
   // double przedRab = rabatVal * rabatBr;
-  // qDebug("przed rabatem1: " + QString::number(priceBRab));
-  // qDebug("przed rabatem2: " + QString::number(przedRab));
-  sRabat =fixStr (QString::number (priceBRab - sbrutto.toDouble ()).
-	      replace (".", ","));
+  // qDebug("przed rabatem1: " + sett().numberToString(priceBRab));
+  // qDebug("przed rabatem2: " + sett().numberToString(przedRab));
+  sRabat = sett().numberToString(priceBRab - sbrutto.toDouble (), 'f', 2);
   // setting labels text
 
   fvKor->setText( sbrutto );
-  diffLabel->setText( fixStr( QString::number( (oldBrutto - sbrutto.replace(",", ".").toDouble()) * -1 ))  );
+  diffLabel->setText( sett().numberToString( (oldBrutto - sbrutto.toDouble()) * -1, 'f', 2 )  );
 }
 
 void Korekta::rabatChange ()
@@ -551,7 +536,7 @@ void Korekta::delTowar ()
   tableTow->removeRow (tableTow->currentRow ());
   for (int i = 0; i < tableTow->rowCount (); ++i)
     {
-      tableTow->item(i, 0)->setText(QString::number (i + 1));
+      tableTow->item(i, 0)->setText(sett().numberToString(i + 1));
     }
   countRabat ();
   countSum ();
@@ -573,7 +558,7 @@ void Korekta::editTowar ()
     {
       // kontrName->setText( klWindow->ret );
       tableTow->item(tableTow->currentRow (), 4)->setText(
-			 QString::number (changeAmount->spinAmount->
+			 sett().numberToString(changeAmount->spinAmount->
 					  value ()));
     }
   countRabat ();
@@ -772,15 +757,15 @@ void Korekta::makeInvoiceGoods2 ()
 // if ( sett().value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[6] + "</td>";
 /*
-      double cenajdn = tableTow->text (i, 6).replace (",", ".").toDouble ();
+      double cenajdn = tableTow->text (i, 6).toDouble ();
       double kwota =
-	cenajdn * tableTow->text (i, 4).replace (",", ".").toInt ();
+	cenajdn * tableTow->text (i, 4).toInt ();
 if ( sett().value("elinux/faktury_pozycje/wartnetto")  .toBool())
-      fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota)) + "</td>";	// netto
+      fraStrList += "<td>&nbsp;" + fixStr (sett().numberToString(kwota)) + "</td>";	// netto
 if ( sett().value("elinux/faktury_pozycje/rabatperc")  .toBool())
-      fraStrList += "<td>&nbsp;" + QString::number (rabatValue->value ()) + "% </td>";	// rabat
+      fraStrList += "<td>&nbsp;" + sett().numberToString(rabatValue->value ()) + "% </td>";	// rabat
 if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
-      fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota - tableTow->text (i, 7).replace (",", ".").toDouble ())) + " </td>";	// rabat value
+      fraStrList += "<td>&nbsp;" + fixStr (sett().numberToString(kwota - tableTow->text (i, 7).toDouble ())) + " </td>";	// rabat value
       */
 // if ( sett().value/*bool*/("elinux/faktury_pozycje/nettoafter")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[7] + "</td>";	// netto po rab
@@ -790,13 +775,13 @@ if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
       double vatPrice = tableTow->text (i, 9).replace (",",
 						       ".").toDouble () -
 	tableTow->text (i,
-			7).replace (",", ".").toDouble ();
+			7).toDouble ();
 			*/
       fraStrList += "<td>&nbsp;" + rowTxt[9] + "</td>";
       /*
       if ( sett().value("elinux/faktury_pozycje/vatprice")  .toBool())
       fraStrList +=
-	"<td>&nbsp;" + fixStr (QString::number (vatPrice)) + "</td>"; */
+	"<td>&nbsp;" + fixStr (sett().numberToString(vatPrice)) + "</td>"; */
 // if ( sett().value("elinux/faktury_pozycje/bruttoval")  .toBool())
       fraStrList += "<td>&nbsp;" + rowTxt[10] + "</td>";
       fraStrList += "</tr>";
@@ -808,7 +793,7 @@ if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
 
 void Korekta::makeInvoiceSumm2 ()
 {
-//   double vatPrice = sbrutto.replace (",",  ".").toDouble () -  snetto.replace (",", ".").toDouble ();
+//   double vatPrice = sbrutto.replace (",",  ".").toDouble () -  snetto.toDouble ();
   fraStrList += "<tr comment=\"razem\" align=\"center\"><td>";
   fraStrList += "<table width=\"100%\" border=\"0\">";
   fraStrList += "<tr class=\"stawki\">";
@@ -844,10 +829,10 @@ if ( sett().value("elinux/faktury_pozycje/bruttoval")  .toBool())
 */
 
   fraStrList += "<td width=\"140\">&nbsp;Razem:</td>";
-  fraStrList += "<td width=\"60\">&nbsp;" + fixStr(QString::number(oldNetto)) + "</td>";	// netto
+  fraStrList += "<td width=\"60\">&nbsp;" + sett().numberToString(oldNetto, 'f', 2) + "</td>";	// netto
   fraStrList += "<td width=\"60\">&nbsp;</td>";
-  fraStrList += "<td width=\"60\">&nbsp;" + fixStr (QString::number (oldVat)) + "</td>";// vat
-  fraStrList += "<td width=\"60\">&nbsp;" + fixStr (QString::number (oldBrutto)) + "</td>";	// brutto
+  fraStrList += "<td width=\"60\">&nbsp;" + sett().numberToString(oldVat, 'f', 2) + "</td>";// vat
+  fraStrList += "<td width=\"60\">&nbsp;" + sett().numberToString(oldBrutto, 'f', 2) + "</td>";	// brutto
 
 
 
@@ -917,15 +902,15 @@ void Korekta::makeInvoiceGoods ()
 // if ( sett().value/*bool*/("elinux/faktury_pozycje/cenajedn")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item (i, 6)->text() + "</td>";
 /*
-      double cenajdn = tableTow->text (i, 6).replace (",", ".").toDouble ();
+      double cenajdn = tableTow->text (i, 6).toDouble ();
       double kwota =
-	cenajdn * tableTow->text (i, 4).replace (",", ".").toInt ();
+	cenajdn * tableTow->text (i, 4).toInt ();
 if ( sett().value("elinux/faktury_pozycje/wartnetto")  .toBool())
-      fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota)) + "</td>";	// netto
+      fraStrList += "<td>&nbsp;" + fixStr (sett().numberToString(kwota)) + "</td>";	// netto
 if ( sett().value("elinux/faktury_pozycje/rabatperc")  .toBool())
-      fraStrList += "<td>&nbsp;" + QString::number (rabatValue->value ()) + "% </td>";	// rabat
+      fraStrList += "<td>&nbsp;" + sett().numberToString(rabatValue->value ()) + "% </td>";	// rabat
 if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
-      fraStrList += "<td>&nbsp;" + fixStr (QString::number (kwota - tableTow->text (i, 7).replace (",", ".").toDouble ())) + " </td>";	// rabat value
+      fraStrList += "<td>&nbsp;" + fixStr (sett().numberToString(kwota - tableTow->text (i, 7).toDouble ())) + " </td>";	// rabat value
       */
 // if ( sett().value("elinux/faktury_pozycje/nettoafter")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item(i, 7)->text() + "</td>";	// netto po rab
@@ -934,12 +919,12 @@ if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
       double vatPrice = tableTow->item(i, 9)->text().replace (",",
 						       ".").toDouble () -
 	tableTow->item(i,
-			7)->text().replace (",", ".").toDouble ();
-      fraStrList += "<td>&nbsp;" + fixStr(QString::number(vatPrice).replace( ",", "." )) + "</td>";
+			7)->text().toDouble ();
+      fraStrList += "<td>&nbsp;" + sett().numberToString(vatPrice, 'f', 2) + "</td>";
       /*
       if ( sett().value("elinux/faktury_pozycje/vatprice")  .toBool())
       fraStrList +=
-	"<td>&nbsp;" + fixStr (QString::number (vatPrice)) + "</td>"; */
+	"<td>&nbsp;" + fixStr (sett().numberToString(vatPrice)) + "</td>"; */
 // if ( sett().value/*bool*/("elinux/faktury_pozycje/bruttoval")  .toBool())
       fraStrList += "<td>&nbsp;" + tableTow->item(i, 9)->text() + "</td>";
       fraStrList += "</tr>";
@@ -952,7 +937,7 @@ if ( sett().value("elinux/faktury_pozycje/rabatval")  .toBool())
 void Korekta::makeInvoiceSumm ()
 {
   double vatPrice = sbrutto.replace (",",  ".").toDouble () -
-    snetto.replace (",", ".").toDouble ();
+    snetto.toDouble ();
   fraStrList += "<tr comment=\"razem\" align=\"center\"><td>";
   fraStrList += "<table width=\"100%\" border=\"0\">";
   fraStrList += "<tr class=\"stawki\">";
@@ -990,7 +975,7 @@ if ( sett().value("elinux/faktury_pozycje/bruttoval")  .toBool())
   fraStrList += "<td width=\"140\">&nbsp;Razem:</td>";
   fraStrList += "<td width=\"60\">&nbsp;" + snetto + "</td>";	// netto
   fraStrList += "<td width=\"60\">&nbsp;</td>";
-  fraStrList += "<td width=\"60\">&nbsp;" + fixStr (QString::number (vatPrice)) + "</td>";// vat
+  fraStrList += "<td width=\"60\">&nbsp;" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
   fraStrList += "<td width=\"60\">&nbsp;" + sbrutto + "</td>";	// brutto
 
 
@@ -1012,7 +997,7 @@ void Korekta::makeInvoiceSummAll ()
   if ( endVal > 1)
   fraStrList += "<h4>Do zap�aty: " + diffLabel->text() + " " + currency + "</h4>";
   else
-      fraStrList += "<h4>Do zwrotu: " + fixStr(QString::number(endVal * -1)) + " " + currency + "</h4>";
+      fraStrList += "<h4>Do zwrotu: " + sett().numberToString(endVal * -1, 'f', 2) + " " + currency + "</h4>";
 
   fraStrList += "<h5>s�ownie:" + slownie (diffLabel->text(), currency) + "</h5>";
   fraStrList += "<h5>forma p�atno�ci: " + platCombo->currentText () + "<br>";
@@ -1088,10 +1073,10 @@ QString Korekta::getStawkami()
 	for ( int y = 0; y < ssize; ++y )
 	  {
   out += "<tr>";
-  out += "<td>" + fixStr(QString::number( stawkiNetto[y] )) + "</td>"; // netto
+  out += "<td>" + sett().numberToString( stawkiNetto[y], 'f', 2) + "</td>"; // netto
   out += "<td>" + stawki[y] + "</td>"; // stawka
-  out += "<td>" + fixStr(QString::number( stawkiVat[y] )) + "</td>"; // podatek
-  out += "<td>" + fixStr(QString::number( stawkiBrutto[y] )) + "</td>"; // brutto
+  out += "<td>" + sett().numberToString( stawkiVat[y] , 'f', 2) + "</td>"; // podatek
+  out += "<td>" + sett().numberToString( stawkiBrutto[y] , 'f', 2) + "</td>"; // brutto
   out += "</tr>";
 
 	}
@@ -1208,17 +1193,17 @@ void Korekta::saveInvoice ()
 
       int pNumber = 0;
       file.setFileName (progDir2 + "/faktury/h" + fileName + "_" +
-		    QString::number (pNumber) + ".xml");
+		    sett().numberToString(pNumber) + ".xml");
       pNumber += 1;
       ret =
-	"h" + fileName + "_" + QString::number (pNumber) + ".xml" + "|";
+	"h" + fileName + "_" + sett().numberToString(pNumber) + ".xml" + "|";
 
       while (file.exists ())
 	{
 	  file.setFileName (progDir2 + "/faktury/h" + fileName + "_" +
-			QString::number (pNumber) + ".xml");
+			sett().numberToString(pNumber) + ".xml");
 	  ret =
-	    "h" + fileName + "_" + QString::number (pNumber) + ".xml" + "|";
+	    "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml" + "|";
 	  pNumber += 1;
 	}
       // qDebug( "2" );
@@ -1305,12 +1290,12 @@ void Korekta::saveInvoice ()
   QDomElement towary;
   QDomElement goods;
   goods = doc.createElement ("goods");
-  goods.setAttribute ("goods::rabat", QString::number (rabatValue->value ()));
+  goods.setAttribute ("goods::rabat", sett().numberToString(rabatValue->value ()));
 
   for (int i = 0; i < tableTow->rowCount (); ++i)
     {
       towary = doc.createElement ("towar:" + tableTow->item (i, 0)->text());
-      goods.setAttribute ("goods::count", QString::number (i + 1));
+      goods.setAttribute ("goods::count", sett().numberToString(i + 1));
       towary.setAttribute ("Lp.", tableTow->item (i, 0)->text());
       towary.setAttribute ("Nazwa", tableTow->item (i, 1)->text());
       towary.setAttribute ("Kod", tableTow->item (i, 2)->text());
@@ -1318,20 +1303,19 @@ void Korekta::saveInvoice ()
       towary.setAttribute ("Ilosc", tableTow->item (i, 4)->text());
       towary.setAttribute ("Jm.", tableTow->item (i, 5)->text());
       towary.setAttribute ("Cena_jdn.", tableTow->item (i, 6)->text());
-      double cenajdn = tableTow->item (i, 6)->text().replace (",", ".").toDouble ();
+      double cenajdn = tableTow->item (i, 6)->text().toDouble ();
       double kwota =
-	cenajdn * tableTow->item (i, 4)->text().replace (",", ".").toInt ();
+	cenajdn * tableTow->item (i, 4)->text().toInt ();
 
-      towary.setAttribute ("Wartosc_Netto", fixStr (QString::number (kwota)));	// netto
+      towary.setAttribute ("Wartosc_Netto", sett().numberToString(kwota, 'f', 2));	// netto
 
-      towary.setAttribute ("Rabat", QString::number (rabatValue->value ()));	// rabat
+      towary.setAttribute ("Rabat", sett().numberToString(rabatValue->value ()));	// rabat
       towary.setAttribute ("Netto_po_rabacie", tableTow->item (i, 7)->text());
       towary.setAttribute ("Stawka_VAT", tableTow->item (i, 8)->text());
-      double vatPrice = tableTow->item (i, 9)->text().replace (",",
-						       ".").toDouble () -
-	tableTow->item (i, 7)->text().replace (",", ".").toDouble ();
+      double vatPrice = tableTow->item (i, 9)->text().toDouble () -
+      tableTow->item (i, 7)->text().toDouble ();
 
-      towary.setAttribute ("Kwota_Vat", fixStr (QString::number (vatPrice)));
+      towary.setAttribute ("Kwota_Vat", sett().numberToString(vatPrice, 'f', 2));
       towary.setAttribute ("Wartosc_Brutto", tableTow->item (i, 9)->text());
       goods.appendChild (towary);
 
@@ -1348,8 +1332,8 @@ void Korekta::saveInvoice ()
     {
       tmp = towaryPKor[i].split("|");
       goodsOld = doc.createElement ("goodOld:" + tmp[0]);
-      goodsRoot.setAttribute ("goods::count", QString::number (i + 1));
-      goodsOld.setAttribute ("Lp.", QString::number (i + 1) );
+      goodsRoot.setAttribute ("goods::count", sett().numberToString(i + 1));
+      goodsOld.setAttribute ("Lp.", sett().numberToString(i + 1) );
       goodsOld.setAttribute ("Nazwa", tmp[1] );
       goodsOld.setAttribute ("Kod", tmp[2] );
       goodsOld.setAttribute ("PKWiU", tmp[3] );
@@ -1374,16 +1358,14 @@ void Korekta::saveInvoice ()
   addinfo = doc.createElement ("addinfo");
   addinfo.setAttribute ("text", additEdit->text ());
   addinfo.setAttribute ("forma.plat",
-			QString::number (platCombo->currentIndex ()));
+			sett().numberToString(platCombo->currentIndex ()));
   addinfo.setAttribute ("przyczyna",
-			QString::number (reasonCombo->currentIndex ()));
-//  qDebug( "moux" );
-  addinfo.setAttribute ("liabDate", sellingDate->date ().toString ("yyyy-MM-dd"));
+			sett().numberToString(reasonCombo->currentIndex ()));
+  addinfo.setAttribute ("liabDate", sellingDate->date ().toString (sett().getDateFormat()));
 
-  // liabDate->date().toString ("yyyy-MM-dd")
   addinfo.setAttribute ("waluta",
-			QString::number (citem));
-//			QString::number (currCombo->currentItem ()));
+			sett().numberToString(citem));
+//			sett().numberToString(currCombo->currentItem ()));
   root.appendChild (addinfo);
 
   QString xml = doc.toString ();
@@ -1398,7 +1380,7 @@ void Korekta::saveInvoice ()
 
 QString Korekta::numbersCount(int in, int x)
 {
-    QString tmp2, tmp = QString::number(in);
+    QString tmp2, tmp = sett().numberToString(in);
     tmp2 = "";
     int incr = x - tmp.length();
     for (int i = 0; i < incr; ++i)
@@ -1458,7 +1440,7 @@ void Korekta::backBtnClick()
   QStringList one1 = QStringList::split ("/", tmp);
   int nr = one1[0].toInt () + 1;
   lastInvoice =
-    QString::number (nr) + "/" + QDate::currentDate ().toString ("MM/yyyy");
+    sett().numberToString(nr) + "/" + QDate::currentDate ().toString ("MM/yyyy");
   korNr->setText (lastInvoice);
 }
 */

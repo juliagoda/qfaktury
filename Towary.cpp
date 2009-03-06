@@ -18,7 +18,7 @@ Towary::Towary(QWidget *parent, int mode): QDialog(parent) {
 void Towary::init() {
 
 	readData("", 0);
-	idxEdit->setText(QString::number(lastId));
+	idxEdit->setText(sett().numberToString(lastId));
 	jednCombo->addItems(sett().value("jednostki").toString().split("|"));
 	cbVat->addItems(sett().value("stawki").toString().split("|"));
 
@@ -174,7 +174,7 @@ bool Towary::saveAll() {
 	if (!file.open(QIODevice::ReadOnly)) {
 		root = doc.createElement(sett().getProdutcsDocName());
 		lastId++;
-		root.setAttribute("last", QString::number(lastId));
+		root.setAttribute("last", sett().numberToString(lastId));
 		doc.appendChild(root);
 		products = doc.createElement(sett().getNameWithData(sett().getProductName()));
 		root.appendChild(products);
@@ -189,7 +189,7 @@ bool Towary::saveAll() {
 		} else {
 			root = doc.documentElement();
 			lastId++;
-			root.setAttribute("last", QString::number(lastId));
+			root.setAttribute("last", sett().numberToString(lastId));
 			products = root.firstChild().toElement();
 			services = root.lastChild().toElement();
 		}
@@ -323,3 +323,4 @@ void Towary::fillElem(QDomElement elem) {
 	elem.setAttribute("netto4", netto[3]);
 	elem.setAttribute("vat", cbVat->currentText());
 }
+

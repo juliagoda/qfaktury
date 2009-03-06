@@ -9,18 +9,7 @@
 class TowaryLista: public QDialog, public Ui::TowaryLista {
 Q_OBJECT
 public:
-	void init();
-
-	typedef QMap<QString, ProductsListData *> ProductsListDataList;
-	ProductsListDataList listaTowary2;
-	ProductsListDataList listaUslugi2;
-
-	QStringList listaTowary;
-	QStringList listaUslugi;
-
-	QMap<QString, QString> nettos;
-	QMap<QString, int> vats;
-	QString vat;
+	QString ret;
 	TowaryLista(QWidget *parent);
 public slots:
 	void readTow(QString progDir);
@@ -31,10 +20,20 @@ public slots:
 	void lv1selChanged();
 	void displayNetto(QString index);
 	void spinChanged(int a);
-public:
+private:
+	void init();
+
+	typedef QMap<QString, ProductsListData *> ProductsListDataList;
+	ProductsListDataList listaTowary2;
+	ProductsListDataList listaUslugi2;
+	QStringList listaTowary;
+	QStringList listaUslugi;
+	QMap<QString, QString> nettos;
+	QMap<QString, int> vats;
+
 	QString selectedItem;
 	QString progDir;
-	QString ret;
 	QString id;
+	QString trimZeros(QString in);
 };
 #endif

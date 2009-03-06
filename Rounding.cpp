@@ -25,7 +25,7 @@ doRound (QString in)
       reszta = "0" + sett().getDecimalPointStr()  + reszta;
       double dOriginal = reszta.toDouble ();
       double iTemp = 0;
-      //  qDebug(QString::number(last));
+      //  qDebug(sett().numberToString(last));
       // if (last < 5)
       iTemp = floor ((dOriginal + .005) * 100);
       /*
@@ -37,7 +37,7 @@ doRound (QString in)
 
 
       // qDebug("!!!" + reszta + " | | " + calk );
-      QString out = QString::number (calk.toInt () + dOriginal);
+      QString out = QLocale::toString (calk.toInt () + dOriginal);
 // in = in.replace(",", ".");
 
 

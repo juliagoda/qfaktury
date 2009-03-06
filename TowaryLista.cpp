@@ -6,8 +6,6 @@
 #include <QTextStream>
 #include <QDebug>
 
-#include "Rounding.h"
-
 /** Constructor
  */
 TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
@@ -72,22 +70,22 @@ void TowaryLista::doAccept() {
 		if (comboBox1->currentIndex() == 0) {
 			ret = selectedItem + "|" + listaTowary2[id]->getCode() + "|"
 					+ listaTowary2[id]->getPkwiu() + "|"
-					+ countSpinBox->cleanText() + "|"
+					+ trimZeros(countSpinBox->cleanText()) + "|"
 					+ listaTowary2[id]->getQuantityType() + "|"
 					+ rabatSpin->cleanText() + "|"
-					+ priceBoxEdit->cleanText() + "|"
-					+ nettoLabel->text() + "|" + QString::number(vats[selectedItem]) + "|"
+					+ sett().numberToString(priceBoxEdit->value()) + "|"
+					+ nettoLabel->text() + "|" + sett().numberToString(vats[selectedItem]) + "|"
 					+ bruttoLabel->text();
 
 		}
 		if (comboBox1->currentIndex() == 1) {
 			ret = selectedItem + "|" + listaUslugi2[id]->getCode() + "|"
 					+ listaUslugi2[id]->getPkwiu() + "|"
-					+ countSpinBox->cleanText() + "|"
+					+ trimZeros(countSpinBox->cleanText()) + "|"
 					+ listaUslugi2[id]->getQuantityType() + "|"
 					+ rabatSpin->cleanText() + "|"
-					+ priceBoxEdit->cleanText() + "|"
-					+ nettoLabel->text() + "|" + QString::number(vats[selectedItem]) + "|"
+					+ sett().numberToString(priceBoxEdit->value()) + "|"
+					+ nettoLabel->text() + "|" + sett().numberToString(vats[selectedItem]) + "|"
 					+ bruttoLabel->text();
 
 		}
@@ -125,12 +123,18 @@ void TowaryLista::lv1selChanged() {
  *  Calulate Netto
  */
 void TowaryLista::calcNetto() {
-	double price = (countSpinBox->value() * priceBoxEdit->value());
-	double discount = price * (rabatSpin->value() * 0.01);
-	double netto2 = price - discount;
-	double brutto2 = getPriceGross2(netto2, vat);
-	bruttoLabel->setText(fixStr(QString::number(brutto2)));
-	nettoLabel->setText(fixStr(QString::number(netto2)));
+	QList<QListWidgetItem *> items = listWidget->selectedItems();
+	if (items.size() == 1) {
+		QListWidgetItem *item = items[0];
+		double price = (countSpinBox->value() * priceBoxEdit->value()); // price * quantity
+		double discount = price * (rabatSpin->value() * 0.01);
+		double netto2 = price - discount;
+		int vat = vats[item->text()];
+		double brutto2 = netto2 * ((vat * 0.01) + 1);
+		// qDebug() << price << discount << netto2 << brutto2 << vat;
+		bruttoLabel->setText(sett().numberToString(brutto2, 'f', 2));
+		nettoLabel->setText(sett().numberToString(netto2, 'f', 2));
+	}
 }
 
 
@@ -222,3 +226,14 @@ void TowaryLista::displayNetto(QString index) {
 }
 
 
+/** Remove unnecessary zeros 1,000 = 1
+ */
+QString TowaryLista::trimZeros(QString in) {
+	// code to remove unncessery zeros
+	QStringList quan = in.split(sett().getDecimalPointStr());
+	QString quantity = in;
+	if (quan[1].compare("000") == 0) {
+		quantity = quan[0];
+	}
+	return quantity;
+}

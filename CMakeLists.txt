@@ -18,7 +18,6 @@ Kontrahenci.cpp
 KontrahenciLista.cpp
 Korekta.cpp
 main.cpp
-Rounding.cpp
 slownie.cpp
 Towary.cpp
 TowaryLista.cpp

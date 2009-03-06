@@ -11,8 +11,7 @@ public:
 	Faktura(QWidget *parent);
 	void init();
 	void readData(QString fraFile, int co);
-	QString fName, progDir2, ret, vatAll;
-	double priceBRabN, priceBRab;
+	QString fName, ret;
 	bool pforma;
 public slots:
 	void getCustomer();
@@ -29,6 +28,7 @@ public slots:
 	void textChanged(QString someStr);
 	void payTextChanged(QString someStr);
 	void dateChanged (QDate someDate);
+	void discountConstChange();
 private:
 	QStringList fraStrList;
 
@@ -50,5 +50,6 @@ private:
 	void makeInvoiceFooter();
 
 	QString numbersCount(int in, int x);
+	void calculateOneDiscount(int a);
 };
 #endif

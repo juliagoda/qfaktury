@@ -124,6 +124,9 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="focusPolicy" >
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="minimum" >
             <number>1</number>
            </property>
@@ -325,6 +328,15 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>listWidget</tabstop>
+  <tabstop>priceBoxEdit</tabstop>
+  <tabstop>countSpinBox</tabstop>
+  <tabstop>rabatSpin</tabstop>
+  <tabstop>okBtn</tabstop>
+  <tabstop>cancelBtn</tabstop>
+  <tabstop>comboBox1</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
