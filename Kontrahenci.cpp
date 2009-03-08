@@ -89,6 +89,7 @@ void Kontrahenci::readData(QString name, int type) {
 			}
 		}
 		setWindowTitle(trUtf8("Edytuj kontrahenta"));
+		typeCombo->setEnabled(false);
 	}
 }
 

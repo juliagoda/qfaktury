@@ -604,6 +604,12 @@ void MainWindow::editFHist() {
 /** Slot used to delete invoices
  */
 void MainWindow::delFHist() {
+	if (tableH->item(tableH->currentRow(), 0) == NULL) {
+		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Nie mozna usuwać."), trUtf8("Ok"), 0, 0, 1);
+		return;
+	}
+
+
 	if (QMessageBox::warning(this, sett().getVersion(qAppName()), trUtf8("Czy napewno chcesz usnąć tą fakturę z historii?"), trUtf8("Tak"),
 			trUtf8("Nie"), 0, 0, 1) == 0) {
 		QString name = tableH->item (tableH->currentRow(), 0)->text();
@@ -654,6 +660,11 @@ void MainWindow::kontrClick() {
 /** Slot used to delete current customer
  */
 void MainWindow::kontrDel() {
+	if (tableK->item(tableK->currentRow(), 0) == NULL) {
+		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Kontrahent nie wybrany. Nie mozna usuwac."), trUtf8("Ok"), 0, 0, 1);
+		return;
+	}
+
 	if (QMessageBox::warning(this, trUtf8("QFaktury"), trUtf8("Czy napewno chcesz usunąć kontrahenta: ") + tableK->item(tableK->currentRow(), 0)->text() + trUtf8(" ?"), trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
 		QDomDocument doc("kontrahenci");
 		QDomElement root;
@@ -827,6 +838,12 @@ void MainWindow::towaryDodaj() {
 /** Slot used to delete goods
  */
 void MainWindow::towaryUsun() {
+	if (tableT->item(tableT->currentRow(), 0) == NULL) {
+		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Towar nie wybrany. Nie mozna usuwac."), trUtf8("Ok"), 0, 0, 1);
+		return;
+	}
+
+
 	int row = tableT->currentRow();
 
 	if (QMessageBox::warning(this, trUtf8("QFaktury"), trUtf8("Czy napewno chcesz usunąć towar ") + tableT->item(row, 0)->text()

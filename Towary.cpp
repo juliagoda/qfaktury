@@ -24,7 +24,7 @@ void Towary::init() {
 
 	connect(okButton, SIGNAL(clicked()), this, SLOT(okClick()));
 	connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
-	connect(nettoEdit, SIGNAL(valueChanged(int)), this, SLOT(nettoChanged(int)));
+	connect(nettoEdit, SIGNAL(valueChanged(double)), this, SLOT(nettoChanged(double)));
 	connect(spinBox2, SIGNAL(valueChanged(int)), this, SLOT(spinChanged(int)));
 	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
 }
@@ -84,7 +84,7 @@ void Towary::spinChanged(int a) {
 /** Slot
  *  Nett value changed
  */
-void Towary::nettoChanged(int a) {
+void Towary::nettoChanged(double a) {
 	// qDebug ()<<nettoEdit->text ();
 	netto[spinBox2->value() - 1] = nettoEdit->cleanText();
 }
@@ -112,6 +112,7 @@ void Towary::readData(QString idx, int type) {
 		nettoEdit->setValue(0);
 	} else {
 		setWindowTitle(trUtf8("Edytuj towar/usługę"));
+		typeCombo->setEnabled(false);
 	}
 
 	lastId = 1;
