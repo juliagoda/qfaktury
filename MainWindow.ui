@@ -347,7 +347,7 @@
      <x>0</x>
      <y>0</y>
      <width>796</width>
-     <height>19</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >
@@ -414,14 +414,15 @@
    <property name="toolButtonStyle" >
     <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
+   <property name="floatable" >
+    <bool>false</bool>
+   </property>
    <attribute name="toolBarArea" >
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak" >
     <bool>false</bool>
    </attribute>
-   <addaction name="plikDane_firmyAction" />
-   <addaction name="separator" />
    <addaction name="fakturyDodajAction" />
    <addaction name="fakturyPFormaAction" />
    <addaction name="separator" />
@@ -592,11 +593,11 @@
    <property name="text" >
     <string>Dane firmy</string>
    </property>
-   <property name="iconText" >
-    <string>Dane firmy</string>
-   </property>
    <property name="shortcut" >
     <string>Ctrl+I</string>
+   </property>
+   <property name="iconVisibleInMenu" >
+    <bool>true</bool>
    </property>
    <property name="name" stdset="0" >
     <string>plikDane_firmyAction</string>
