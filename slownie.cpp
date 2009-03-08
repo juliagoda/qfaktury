@@ -6,7 +6,10 @@
 
 QString slownie(QString input, QString waluta)
 {
-    QString in = input;
+
+    QString in = input.remove(sett().getTPointStr());
+
+    // qDebug() << in;
 
     QString tmp = in.remove (in.indexOf(sett().getDecimalPointStr()), 3);
 

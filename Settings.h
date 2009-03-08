@@ -580,6 +580,11 @@ public:
 		return QString(decimalPoint);
 	}
 
+	QString getTPointStr() {
+		QChar tPoint = locale->groupSeparator();
+		return QString(tPoint);
+	}
+
 	QString numberToString(double i, char f = 'f', int prec = 2) {
 			return locale->toString(i, f, prec);
 		}
