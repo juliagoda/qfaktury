@@ -12,7 +12,7 @@
   <property name="windowTitle" >
    <string>Nowa korekta</string>
   </property>
-  <layout class="QGridLayout" >
+  <layout class="QGridLayout" name="gridLayout" >
    <item row="0" column="0" colspan="3" >
     <layout class="QHBoxLayout" >
      <item>
@@ -64,6 +64,9 @@
            <weight>75</weight>
            <bold>true</bold>
           </font>
+         </property>
+         <property name="calendarPopup" >
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -186,7 +189,7 @@
        <property name="sizeType" >
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>31</width>
          <height>20</height>
@@ -208,6 +211,9 @@
        </item>
        <item>
         <widget class="QDateEdit" name="sellingDate2" >
+         <property name="calendarPopup" >
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -215,174 +221,167 @@
     </layout>
    </item>
    <item row="3" column="0" colspan="3" >
-    <layout class="QVBoxLayout" >
+    <widget class="QLabel" name="textLabel1_2" >
+     <property name="text" >
+      <string>Lista towarów/usług:</string>
+     </property>
+     <property name="wordWrap" >
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="3" >
+    <widget class="QTableWidget" name="tableTow" >
+     <property name="selectionMode" >
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+     <property name="sortingEnabled" >
+      <bool>true</bool>
+     </property>
+     <column>
+      <property name="text" >
+       <string>Lp.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Nazwa</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Kod</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>PKWiU</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Ilość</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Jm.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Cena jn.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Netto</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Vat</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Brutto</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="3" >
+    <layout class="QHBoxLayout" name="horizontalLayout" >
      <item>
-      <widget class="QLabel" name="textLabel1_2" >
-       <property name="text" >
-        <string>Lista towarów/usług:</string>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="wordWrap" >
-        <bool>false</bool>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>58</width>
+         <height>23</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="addTw" >
+       <property name="text" >
+        <string>Dodaj towar</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QTableWidget" name="tableTow" >
-       <property name="selectionMode" >
-        <enum>QAbstractItemView::ExtendedSelection</enum>
+      <widget class="QPushButton" name="rmTow" >
+       <property name="text" >
+        <string>Usuń towar</string>
        </property>
-       <property name="sortingEnabled" >
-        <bool>true</bool>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="editTw" >
+       <property name="text" >
+        <string>Edycja</string>
        </property>
-       <column>
-        <property name="text" >
-         <string>Lp.</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Nazwa</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Kod</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>PKWiU</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Ilość</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Jm.</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Cena jn.</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Netto</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Vat</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Brutto</string>
-        </property>
-       </column>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>58</width>
+         <height>23</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="constRab" >
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>27</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>Stały</string>
+       </property>
       </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" >
        <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>30</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="addTw" >
+        <widget class="QLabel" name="textLabel4" >
          <property name="text" >
-          <string>Dodaj towar</string>
+          <string>Rabat:</string>
+         </property>
+         <property name="wordWrap" >
+          <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="rmTow" >
-         <property name="text" >
-          <string>Usuń towar</string>
+        <widget class="QSpinBox" name="rabatValue" >
+         <property name="enabled" >
+          <bool>true</bool>
          </property>
         </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="editTw" >
-         <property name="text" >
-          <string>Edycja</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType" >
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" >
-         <item>
-          <widget class="QLabel" name="textLabel4" >
-           <property name="text" >
-            <string>Rabat:</string>
-           </property>
-           <property name="wordWrap" >
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="rabatValue" >
-           <property name="enabled" >
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
       </layout>
      </item>
     </layout>
    </item>
-   <item row="4" column="1" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>30</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="0" >
+   <item row="6" column="0" >
     <layout class="QHBoxLayout" >
      <item>
       <layout class="QVBoxLayout" >
@@ -430,7 +429,11 @@
         <widget class="QComboBox" name="platCombo" />
        </item>
        <item>
-        <widget class="QDateEdit" name="liabDate" />
+        <widget class="QDateEdit" name="liabDate" >
+         <property name="calendarPopup" >
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QComboBox" name="reasonCombo" >
@@ -446,116 +449,23 @@
      </item>
     </layout>
    </item>
-   <item row="5" column="0" colspan="3" >
-    <layout class="QHBoxLayout" >
-     <item>
-      <widget class="QLabel" name="textLabel7" >
-       <property name="text" >
-        <string>Dodatkowy tekst:</string>
-       </property>
-       <property name="wordWrap" >
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="additEdit" />
-     </item>
-    </layout>
-   </item>
-   <item row="6" column="0" colspan="3" >
-    <widget class="Line" name="line1" >
-     <property name="frameShape" >
-      <enum>QFrame::HLine</enum>
+   <item row="6" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Sunken</enum>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
      </property>
-    </widget>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>30</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item row="7" column="0" colspan="3" >
-    <layout class="QHBoxLayout" >
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>21</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="printBtn" >
-       <property name="text" >
-        <string>Dru&amp;kuj</string>
-       </property>
-       <property name="shortcut" >
-        <string>Alt+K</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="saveBtn" >
-       <property name="text" >
-        <string>Zapis&amp;z</string>
-       </property>
-       <property name="shortcut" >
-        <string>Alt+Z</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="cancelbtn" >
-       <property name="text" >
-        <string>&amp;Anuluj</string>
-       </property>
-       <property name="shortcut" >
-        <string>Alt+A</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item row="4" column="2" >
+   <item row="6" column="2" >
     <layout class="QHBoxLayout" >
      <item>
       <layout class="QVBoxLayout" >
@@ -639,155 +549,119 @@
      </item>
     </layout>
    </item>
+   <item row="7" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="textLabel7" >
+       <property name="text" >
+        <string>Dodatkowy tekst:</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="additEdit" />
+     </item>
+    </layout>
+   </item>
+   <item row="8" column="0" colspan="3" >
+    <widget class="Line" name="line1" >
+     <property name="frameShape" >
+      <enum>QFrame::HLine</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="3" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>21</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="printBtn" >
+       <property name="text" >
+        <string>Dru&amp;kuj</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+K</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveBtn" >
+       <property name="text" >
+        <string>Zapis&amp;z</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+Z</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelbtn" >
+       <property name="text" >
+        <string>&amp;Anuluj</string>
+       </property>
+       <property name="shortcut" >
+        <string>Alt+A</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <resources/>
- <connections>
-  <connection>
-   <sender>cancelbtn</sender>
-   <signal>clicked()</signal>
-   <receiver>Korekta</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>saveBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>Korekta</receiver>
-   <slot>saveInvoice()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>backBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>Korekta</receiver>
-   <slot>backBtnClick()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>addTw</sender>
-   <signal>clicked()</signal>
-   <receiver>Korekta</receiver>
-   <slot>addTow()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>editTw</sender>
-   <signal>clicked()</signal>
-   <receiver>Korekta</receiver>
-   <slot>editTowar()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rmTow</sender>
-   <signal>clicked()</signal>
-   <receiver>Korekta</receiver>
-   <slot>delTowar()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>printBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>Korekta</receiver>
-   <slot>makeInvoice()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rabatValue</sender>
-   <signal>valueChanged(QString)</signal>
-   <receiver>Korekta</receiver>
-   <slot>rabatChange()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tableTow</sender>
-   <signal>doubleClicked(int,int,int,QPoint)</signal>
-   <receiver>Korekta</receiver>
-   <slot>editTowar()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -41,33 +41,20 @@ void Korekta::init ()
   sellingDate2->setDate (QDate::currentDate ());
   liabDate->setDate( QDate::currentDate() );
 
-
-  QDir abs (qApp->argv ()[0]);
-  if (QString (qApp->argv ()[0]).left (2) == "./")
-    templDir = abs.absolutePath ();
-  else
-    templDir = "/usr/bin/qfaktury";
-  //absPath();
-  templDir = templDir.replace ("bin", "share");
-  templDir = templDir + "/templates/";
-
-//  QString tmp;
-/*
-   tmp = sett().value ("elinux/faktury/korNr");
-
-  QStringList one1 = QStringList::split ("/", tmp);
-  int nr = one1[0].toInt () + 1;
-  lastInvoice =
-    sett().numberToString(nr) + "/" + QDate::currentDate ().toString ("MM/yyyy");
-  korNr->setText (lastInvoice);
-  */
-
  platCombo->addItems( sett().value("payments").toString().split("|"));
 
-// currCombo->insertStringList( QStringList::split("|", sett().value("elinux/faktury/waluty")), -1);
- // reasonCombo->clear();
  reasonCombo->addItems(sett().value("pkorekty").toString().split("|"));
 
+ // connects
+ QObject::connect(cancelbtn, SIGNAL(clicked()), this, SLOT(reject()));
+ QObject::connect(saveBtn, SIGNAL(clicked()), this, SLOT(saveInvoice()));
+ QObject::connect(backBtn, SIGNAL(clicked()), this, SLOT(backBtnClick()));
+ QObject::connect(addTw, SIGNAL(clicked()), this, SLOT(addTow()));
+ QObject::connect(editTw, SIGNAL(clicked()), this, SLOT(editTowar()));
+ QObject::connect(rmTow, SIGNAL(clicked()), this, SLOT(delTowar()));
+ QObject::connect(printBtn, SIGNAL(clicked()), this, SLOT(makeInvoice()));
+ QObject::connect(rabatValue, SIGNAL(valueChanged(QString)), this, SLOT(rabatChange()));
+ QObject::connect(tableTow, SIGNAL(doubleClicked(int,int,int,QPoint)), this, SLOT(editTowar()));
 }
 
 
