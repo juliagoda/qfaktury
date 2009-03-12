@@ -7,7 +7,9 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += ProductData.h \
+HEADERS += InvoiceData.h \
+    ProductData.h \
+    ProductData.h \
     InvoiceData.h \
     config.h \
     Faktura.h \
@@ -37,7 +39,6 @@ HEADERS += ProductData.h \
 FORMS += Faktura.ui \
     Kontrahenci.ui \
     KontrahenciLista.ui \
-    Korekta.ui \
     MainWindow.ui \
     Towary.ui \
     TowaryLista.ui \

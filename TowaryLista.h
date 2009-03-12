@@ -26,8 +26,6 @@ private:
 	typedef QMap<QString, ProductData *> ProductDataList;
 	ProductDataList listaTowary2;
 	ProductDataList listaUslugi2;
-	QStringList listaTowary;
-	QStringList listaUslugi;
 	QMap<QString, QString> nettos;
 	QMap<QString, int> vats;
 

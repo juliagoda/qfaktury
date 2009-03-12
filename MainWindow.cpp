@@ -223,6 +223,7 @@ void MainWindow::insertRow(QTableWidget *t, int row) {
 bool MainWindow::applyFiltr(QString nameToCheck) {
 	QString tmp = nameToCheck;
 	tmp = tmp.remove("h");
+	tmp = tmp.remove("k");
 	tmp = tmp.left(10);
 	tmp = tmp.remove("-");
 
@@ -274,7 +275,7 @@ void MainWindow::readHist(QString progDir) {
 	allFiles.setPath(sett().getInvoicesDir());
 	allFiles.setFilter(QDir::Files);
 	QStringList filters;
-	filters << "h*.xml";
+	filters << "h*.xml" << "k*.xml";
 	allFiles.setNameFilters(filters);
 	QStringList files = allFiles.entryList();
 	int i, max = files.count();
@@ -549,7 +550,7 @@ void MainWindow::oProg() {
 			this,
 			"O programie",
 			trUtf8("Program do wystawiania faktur.\n\n ") + sett().getVersion(qAppName()) +
-			trUtf8("\n\nKoordynator projektu:\n\tGrzegorz Rękawek\n\nProgramiści: \n\tTomasz Pielech\n\tRafał Rusin\n\tSławomir Patyk \n\nIkony:\n\tDariusz Arciszewski"));
+			trUtf8("\n\nKoordynator projektu:\n\tGrzegorz Rękawek\t\t\n\nProgramiści: \n\tTomasz Pielech\n\tRafał Rusin\n\tSławomir Patyk \n\nIkony:\n\tDariusz Arciszewski\n"));
 }
 
 /** Slot used to edit the invoice from list of invoices.
@@ -957,7 +958,7 @@ bool MainWindow::close() {
 /** Slot help
  */
 void MainWindow::pomoc() {
-	QDesktopServices::openUrl(QUrl("http://www.e-linux.pl/modules/qfaktury/index.php"));
+	QDesktopServices::openUrl(QUrl("http://www.e-linux.pl/"));
 }
 
 /** Slot reportBug

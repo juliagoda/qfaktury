@@ -18,8 +18,6 @@ TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
 void TowaryLista::init() {
 	ret = "";
 	// clear all the lists
-	listaTowary.clear();
-	listaUslugi.clear();
 	listaTowary2.clear();
 	listaUslugi2.clear();
 	listWidget->clear();
@@ -167,36 +165,36 @@ void TowaryLista::readTow(QString progDir) {
 		QString text, idx;
 
 		for (QDomNode n = towar.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			idx = n.toElement().attribute("idx");
-			listaTowary.append(idx);
 			text = n.toElement().attribute("name");
-			listaTowary.append(text);
-			code = n.toElement().attribute("code");
-			curr = n.toElement().attribute("curr");
-			pkwiu = n.toElement().attribute("pkwiu");
+			ProductData *product = new ProductData();
+			product->setId(n.toElement().attribute("idx"));
+			product->setName(text);
+			product->setCode(n.toElement().attribute("code"));
+			product->setQuanType(n.toElement().attribute("quanType"));
+			product->setPkwiu(n.toElement().attribute("pkwiu"));
 			vats[text] = n.toElement ().attribute ("vat").toInt();
 			nettos[text] = n.toElement ().attribute ("netto1") + "|" +
 						n.toElement ().attribute ("netto2") + "|" +
 						n.toElement ().attribute ("netto3") + "|" +
 						n.toElement ().attribute ("netto4");
-			listaTowary2.insert(text, new ProductData(code, curr, pkwiu));
+			listaTowary2.insert(text, product);
 
 		}
 
 		for (QDomNode n = usluga.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			idx = n.toElement().attribute("idx");
-			listaUslugi.append(idx);
 			text = n.toElement().attribute("name");
-			listaUslugi.append(text);
-			code = n.toElement().attribute("code");
-			curr = n.toElement().attribute("curr");
-			pkwiu = n.toElement().attribute("pkwiu");
+			ProductData *product = new ProductData();
+			product->setId(n.toElement().attribute("idx"));
+			product->setName(text);
+			product->setCode(n.toElement().attribute("code"));
+			product->setQuanType(n.toElement().attribute("quanType"));
+			product->setPkwiu(n.toElement().attribute("pkwiu"));
 			vats[text] = n.toElement ().attribute ("vat").toInt();
 			nettos[text] = n.toElement ().attribute ("netto1") + "|" +
 						n.toElement ().attribute ("netto2") + "|" +
 						n.toElement ().attribute ("netto3") + "|" +
 						n.toElement ().attribute ("netto4");
-			listaUslugi2[text] = new ProductData(code, curr, pkwiu);
+			listaUslugi2.insert(text, product);
 		}
 	}
 }
@@ -206,13 +204,17 @@ void TowaryLista::readTow(QString progDir) {
 void TowaryLista::displayData(int x) {
 	switch (x) {
 	case 0:
-		for (int i = 1; i < listaTowary.count(); i += 2) {
-			listWidget->addItem(listaTowary[i]);
+		for (QMap<QString, ProductData *>::iterator iter = listaTowary2.begin();
+				iter != listaTowary2.end();
+				++iter) {
+			listWidget->addItem(iter.key());
 		}
 		break;
 	case 1:
-		for (int i = 1; i < listaUslugi.count(); i += 2) {
-			listWidget->addItem(listaUslugi[i]);
+		for (QMap<QString, ProductData *>::iterator iter = listaUslugi2.begin();
+						iter != listaUslugi2.end();
+						++iter) {
+			listWidget->addItem(iter.key());
 		}
 		break;
 	}

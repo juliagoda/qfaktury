@@ -317,7 +317,7 @@ void Towary::fillElem(QDomElement elem) {
 	elem.setAttribute("desc", skrotEdit->text());
 	elem.setAttribute("code", kodEdit->text());
 	elem.setAttribute("pkwiu", pkwiuEdit->text());
-	elem.setAttribute("curr", jednCombo->currentText());
+	elem.setAttribute("quanType", jednCombo->currentText());
 	elem.setAttribute("netto1", netto[0]);
 	elem.setAttribute("netto2", netto[1]);
 	elem.setAttribute("netto3", netto[2]);

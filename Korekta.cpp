@@ -80,35 +80,37 @@ void Korekta::backBtnClick(){
 	saveBtn->setEnabled(true);
 }
 
+/** Slot
+ *  Generate Correction XML
+ */
 void Korekta::saveInvoice(){
 	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__ ;
 
 	QDomDocument doc(sett().getCorrDocName());
 	QDomElement root;
-	QString fileName = fName;
 	if (!editMode) fName = "NULL";
 
 	QFile file;
-	if (fileName.compare("NULL") == 0) {
-		fileName = QDate::currentDate().toString(sett().getFnameDateFormat());
+	if (fName.compare("NULL") == 0) {
+		fName = QDate::currentDate().toString(sett().getFnameDateFormat());
 
 		int pNumber = 0;
-		file.setFileName(sett().getInvoicesDir() + "k" + fileName + "_"
+		file.setFileName(sett().getInvoicesDir() + "k" + fName + "_"
 				+ sett().numberToString(pNumber) + ".xml");
 		ret = file.fileName() + "|";
 		pNumber += 1;
 
 		while (file.exists()) {
-			file.setFileName(sett().getInvoicesDir() + "k" + fileName + "_"
+			file.setFileName(sett().getInvoicesDir() + "k" + fName + "_"
 					+ sett().numberToString(pNumber) + ".xml");
 			ret = file.fileName() + "|";
 			pNumber += 1;
 		}
-		qDebug() << "Create new file " + file.fileName();
+		// qDebug() << "Create new file " + file.fileName();
 	} else {
-		file.setFileName(sett().getInvoicesDir() + fileName);
-		qDebug() << "Use existing file " + file.fileName();
-		ret = fileName + "|";
+		file.setFileName(sett().getInvoicesDir() + fName);
+		// qDebug() << "Use existing file " + file.fileName();
+		ret = fName + "|";
 	}
 
 	// if (!file.open (QIODevice::ReadOnly)) {
