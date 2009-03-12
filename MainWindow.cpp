@@ -548,8 +548,8 @@ void MainWindow::oProg() {
 	QMessageBox::about(
 			this,
 			"O programie",
-			trUtf8("Program do wystawiania faktur.\nWersja ") + sett().getVersion(qAppName()) +
-			trUtf8(" \n\nProgramista:\n\tRafał‚ Rusin (rafal.rusin@gmail.com)\n\nSupport: rafal.rusin@gmail.com\n\nPoprzednio pracowali:\nKoordynator projektu: \n\tGrzegorz Rękawek www.e-linux.pl\nProgramista:\n\tTomasz 'moux' Pielech\nGrafika:\n\tDariusz Arciszewski"));
+			trUtf8("Program do wystawiania faktur.\n\n ") + sett().getVersion(qAppName()) +
+			trUtf8("\n\nKoordynator projektu:\n\tGrzegorz Rękawek\n\nProgramiści: \n\tTomasz Pielech\n\tRafał Rusin \n\nIkony:\n\tDariusz Arciszewski"));
 }
 
 /** Slot used to edit the invoice from list of invoices.
