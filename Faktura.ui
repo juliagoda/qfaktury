@@ -12,8 +12,8 @@
   <property name="windowTitle" >
    <string>Faktura VAT</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" >
-   <item>
+  <layout class="QGridLayout" name="gridLayout" >
+   <item row="0" column="0" >
     <layout class="QHBoxLayout" >
      <item>
       <layout class="QHBoxLayout" >
@@ -101,7 +101,7 @@
      </item>
     </layout>
    </item>
-   <item>
+   <item row="1" column="0" >
     <layout class="QHBoxLayout" name="horizontalLayout" >
      <item>
       <spacer name="spacer8_3" >
@@ -147,7 +147,7 @@
      </item>
     </layout>
    </item>
-   <item>
+   <item row="2" column="0" >
     <layout class="QHBoxLayout" >
      <item>
       <layout class="QHBoxLayout" >
@@ -188,7 +188,7 @@
      </item>
     </layout>
    </item>
-   <item>
+   <item row="3" column="0" >
     <widget class="QLabel" name="textLabel1_2" >
      <property name="text" >
       <string>Lista towarów/usług:</string>
@@ -198,7 +198,7 @@
      </property>
     </widget>
    </item>
-   <item>
+   <item row="4" column="0" >
     <widget class="QTableWidget" name="tableTow" >
      <property name="enabled" >
       <bool>true</bool>
@@ -272,7 +272,7 @@
      </column>
     </widget>
    </item>
-   <item>
+   <item row="5" column="0" >
     <layout class="QHBoxLayout" name="horizontalLayout_2" >
      <item>
       <spacer>
@@ -355,12 +355,12 @@
      </item>
     </layout>
    </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3" >
+   <item row="6" column="0" >
+    <layout class="QHBoxLayout" name="horizontalLayout_5" >
      <item>
       <layout class="QHBoxLayout" >
        <item>
-        <layout class="QVBoxLayout" >
+        <layout class="QVBoxLayout" name="addDataLabels" >
          <item>
           <widget class="QLabel" name="textLabel5" >
            <property name="text" >
@@ -403,7 +403,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" >
+        <layout class="QVBoxLayout" name="addData" >
          <item>
           <widget class="QComboBox" name="platCombo" />
          </item>
@@ -448,13 +448,13 @@
       </spacer>
      </item>
      <item>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout" name="verticalLayout" >
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout" name="horizontalLayout_3" >
          <item>
           <layout class="QVBoxLayout" >
            <item>
-            <widget class="QLabel" name="textLabel2" >
+            <widget class="QLabel" name="textLabelSum1" >
              <property name="minimumSize" >
               <size>
                <width>150</width>
@@ -473,7 +473,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabel2_2_2" >
+            <widget class="QLabel" name="textLabelSum2" >
              <property name="minimumSize" >
               <size>
                <width>150</width>
@@ -492,7 +492,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabel2_2" >
+            <widget class="QLabel" name="textLabelSum3" >
              <property name="minimumSize" >
               <size>
                <width>150</width>
@@ -521,7 +521,7 @@
          <item>
           <layout class="QVBoxLayout" >
            <item>
-            <widget class="QLabel" name="snetto" >
+            <widget class="QLabel" name="sum1" >
              <property name="minimumSize" >
               <size>
                <width>80</width>
@@ -537,7 +537,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="sRabat" >
+            <widget class="QLabel" name="sum2" >
              <property name="minimumSize" >
               <size>
                <width>80</width>
@@ -553,7 +553,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="sbrutto" >
+            <widget class="QLabel" name="sum3" >
              <property name="minimumSize" >
               <size>
                <width>80</width>
@@ -578,11 +578,27 @@
          </item>
         </layout>
        </item>
+       <item>
+        <spacer name="verticalSpacer" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Minimum</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </item>
     </layout>
    </item>
-   <item>
+   <item row="7" column="0" >
     <layout class="QHBoxLayout" >
      <item>
       <widget class="QLabel" name="textLabel7" >
@@ -603,14 +619,14 @@
      </item>
     </layout>
    </item>
-   <item>
+   <item row="8" column="0" >
     <widget class="Line" name="line" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item>
+   <item row="9" column="0" >
     <layout class="QHBoxLayout" name="horizontalLayout_4" >
      <item>
       <spacer name="spacer6" >

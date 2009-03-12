@@ -1,54 +1,37 @@
 #ifndef Korekta_H
 #define Korekta_H
 #include <QDialog>
-#include "ui_Korekta.h"
 
-class Korekta: public QDialog, public Ui::Korekta {
+#include "ui_Faktura.h"
+#include "Faktura.h"
+#include "InvoiceData.h"
+
+
+class Korekta: public Faktura {
 Q_OBJECT
-	void init();
-	QString getStawkami();
-	QString numbersCount(int in, int x);
 public:
 	Korekta(QWidget *parent);
+	~Korekta();
+	bool editMode;
+	virtual void korektaInit(bool mode); // called outside
 public slots:
-	void readData(QString fraFile);
-	void readDataNewKor(QString fraFile);
-	void getKontrahent();
-	void addTow();
-	void countRabat();
-	void countSum();
-	void rabatChange();
-	void delTowar();
-	void editTowar();
-	void makeInvoiceHeadar();
-	void makeInvoiceBody();
-	void makeInvoiceCorr();
-	void makeInvoiceGoods2();
-	void makeInvoiceSumm2();
-	void makeInvoiceGoods();
-	void makeInvoiceSumm();
-	void makeInvoiceSummAll();
-	void makeInvoiceFooter();
-	void makeInvoice();
-	void saveInvoice();
-	void backBtnClick();
+	// to be overwritten in child class
+	virtual void backBtnClick();
+	virtual void saveInvoice();
+	virtual void makeInvoice();
 private:
-	double priceBRabN, priceBRab;
-public:
-	double oldBrutto;
-	double oldVat;
-	double oldNetto;
-	QMap<int, QString> towaryPKor;
-	QStringList fraStrList;
-	QString lastInvoice;
-	int type;
-	QString fName;
-	QString progDir2;
-	QString ret;
-	QString templDir;
-	QString snetto;
-	QString sbrutto;
-	QString sRabat;
-	QString currency;
+	InvoiceData *invData;
+	QComboBox *reasonCombo;
+	QLabel *labelReason1;
+	virtual void calculateDiscount();
+	virtual void calculateSum();
+	virtual QString getGroupedSums();
+	virtual void makeInvoiceProducts();
+	virtual void makeInvoiceSumm();
+	virtual void makeInvoiceSummAll();
+	virtual void calculateOneDiscount(int a);
+	InvoiceData *createOriginalInv();
+	virtual void setIsEditAllowed(bool isAllowed);
+
 };
 #endif

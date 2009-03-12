@@ -549,13 +549,16 @@ void MainWindow::oProg() {
 			this,
 			"O programie",
 			trUtf8("Program do wystawiania faktur.\n\n ") + sett().getVersion(qAppName()) +
-			trUtf8("\n\nKoordynator projektu:\n\tGrzegorz Rękawek\n\nProgramiści: \n\tTomasz Pielech\n\tRafał Rusin \n\nIkony:\n\tDariusz Arciszewski"));
+			trUtf8("\n\nKoordynator projektu:\n\tGrzegorz Rękawek\n\nProgramiści: \n\tTomasz Pielech\n\tRafał Rusin\n\tSławomir Patyk \n\nIkony:\n\tDariusz Arciszewski"));
 }
 
 /** Slot used to edit the invoice from list of invoices.
  */
 void MainWindow::editFHist() {
-	// qDebug() <<  __FUNCTION__;
+	if (tableH->item(tableH->currentRow(), 0) == NULL) {
+		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Nie mozna edytować."), trUtf8("Ok"), 0, 0, 1);
+		return;
+	}
 
 	int row;
 	QList<QTableWidgetItem *> selected = tableH->selectedItems();
@@ -564,8 +567,8 @@ void MainWindow::editFHist() {
 	if (tableH->item(row, 3)->text() == "korekta") {
 		// QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
 		Korekta *korWindow = new Korekta(this);
-		korWindow->progDir2 = workingDir;
-		korWindow->readData(tableH->item(row, 0)->text());
+		korWindow->korektaInit(true);
+		korWindow->readData(tableH->item(row, 0)->text(), 2);
 		if (korWindow->exec() == QDialog::Accepted) {
 			QStringList rowTxt = korWindow->ret.split("|");
 			tableH->item(row, 0)->setText(rowTxt[0]); // file name
@@ -764,7 +767,7 @@ void MainWindow::newFra() {
 void MainWindow::newPForm() {
 	Faktura *fraWindow = new Faktura(this);
 	fraWindow->pforma = true;
-	fraWindow->setWindowTitle("Faktura Pro Forma");
+	fraWindow->setWindowTitle(trUtf8("Faktura Pro Forma"));
 	fraWindow->backBtnClick();
 	if (fraWindow->exec() == QDialog::Accepted) {
 		insertRow(tableH, tableH->rowCount());
@@ -783,21 +786,29 @@ void MainWindow::newPForm() {
 /** Slot used to create new Korkta
  */
 void MainWindow::newKor() {
+	if (tableH->item(tableH->currentRow(), 0) == NULL) {
+		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Wybierz fakurę, do której chcesz wystawić korektę."), trUtf8("Ok"), 0, 0, 1);
+		return;
+	}
+
 	int row = tableH->selectedItems()[0]->row();
 
 	if ((tableH->item(row, 3)->text() == "FVAT")) {
 		Korekta *korWindow = new Korekta(this);
+		korWindow->korektaInit(false);
 		// qDebug( pdGlob );
-		korWindow->readDataNewKor(tableH->item(row, 0)->text());
+		korWindow->readData(tableH->item(row, 0)->text(), 2);
+		korWindow->setWindowTitle(trUtf8("Nowa korekta"));
 		if (korWindow->exec() == QDialog::Accepted) {
 			insertRow(tableH, tableH->rowCount());
 			QStringList row = korWindow->ret.split("|");
-			tableH->item(tableH->rowCount() - 1, 0)->setText(row[0]); // file name
-			tableH->item(tableH->rowCount() - 1, 1)->setText(row[1]); // symbol
-			tableH->item(tableH->rowCount() - 1, 2)->setText(row[2]); // date
-			tableH->item(tableH->rowCount() - 1, 3)->setText(row[3]); // type
-			tableH->item(tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
-			tableH->item(tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
+			int newRow = tableH->rowCount() - 1;
+			tableH->item(newRow, 0)->setText(row[0]); // file name
+			tableH->item(newRow, 1)->setText(row[1]); // symbol
+			tableH->item(newRow, 2)->setText(row[2]); // date
+			tableH->item(newRow, 3)->setText(row[3]); // type
+			tableH->item(newRow, 4)->setText(row[4]); // nabywca
+			tableH->item(newRow, 5)->setText(row[5]); // NIP
 		}
 	}
 

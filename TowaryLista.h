@@ -2,7 +2,7 @@
 #define TowaryLista_H
 #include <QDialog>
 #include "Settings.h"
-#include "ProductsListData.h"
+#include "ProductData.h"
 
 #include "ui_TowaryLista.h"
 
@@ -23,9 +23,9 @@ public slots:
 private:
 	void init();
 
-	typedef QMap<QString, ProductsListData *> ProductsListDataList;
-	ProductsListDataList listaTowary2;
-	ProductsListDataList listaUslugi2;
+	typedef QMap<QString, ProductData *> ProductDataList;
+	ProductDataList listaTowary2;
+	ProductDataList listaUslugi2;
 	QStringList listaTowary;
 	QStringList listaUslugi;
 	QMap<QString, QString> nettos;

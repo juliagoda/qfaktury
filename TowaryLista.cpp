@@ -179,7 +179,7 @@ void TowaryLista::readTow(QString progDir) {
 						n.toElement ().attribute ("netto2") + "|" +
 						n.toElement ().attribute ("netto3") + "|" +
 						n.toElement ().attribute ("netto4");
-			listaTowary2.insert(text, new ProductsListData(code, curr, pkwiu));
+			listaTowary2.insert(text, new ProductData(code, curr, pkwiu));
 
 		}
 
@@ -196,7 +196,7 @@ void TowaryLista::readTow(QString progDir) {
 						n.toElement ().attribute ("netto2") + "|" +
 						n.toElement ().attribute ("netto3") + "|" +
 						n.toElement ().attribute ("netto4");
-			listaUslugi2[text] = new ProductsListData(code, curr, pkwiu);
+			listaUslugi2[text] = new ProductData(code, curr, pkwiu);
 		}
 	}
 }

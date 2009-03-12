@@ -294,8 +294,6 @@ void Kontrahenci::loadDetails(QDomNode n) {
 	wwwEdit->setText(n.toElement().attribute("www"));
 }
 
-/** @TODO isn't in returned always???
- */
 QString Kontrahenci::isEmpty(QString in) {
 	if (in == "")
 		return "-";

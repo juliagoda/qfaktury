@@ -7,7 +7,8 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += ProductsListData.h \
+HEADERS += ProductData.h \
+    InvoiceData.h \
     config.h \
     Faktura.h \
     Kontrahenci.h \
@@ -58,6 +59,6 @@ SOURCES += Faktura.cpp \
     Uzytkownik.cpp \
     ZmienIlosc.cpp
 TRANSLATIONS = qfaktury_en.ts \
-               qfaktury_pl.ts \
-               qfaktury_de.ts    
+    qfaktury_pl.ts \
+    qfaktury_de.ts
 RESOURCES += qfaktury.qrc

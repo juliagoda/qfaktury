@@ -1,6 +1,9 @@
 #ifndef Faktura_H
 #define Faktura_H
 #include <QDialog>
+#include <QDomElement>
+#include <QDomDocument>
+
 #include "Settings.h"
 
 #include "ui_Faktura.h"
@@ -16,40 +19,43 @@ public:
 public slots:
 	void getCustomer();
 	void addTow();
-	void discountChange();
+	virtual void discountChange();
 	void delTowar();
 	void editTowar();
-	void backBtnClick();
-	void canQuit();
-	void saveInvoice();
-	void makeInvoice();
-	void print(QPrinter*);
 	void tableActivated ( QTableWidgetItem * item );
 	void textChanged(QString someStr);
 	void payTextChanged(QString someStr);
 	void dateChanged (QDate someDate);
 	void discountConstChange();
-private:
-	QStringList fraStrList;
-
-	int type;
+	// to be overwritten in child class
+	virtual void backBtnClick();
+	virtual void canQuit();
+	virtual void saveInvoice();
+	virtual void makeInvoice();
+	void printSlot(QPrinter*);
+protected:
 	QString lastInvoice, invoiceType;
 	bool isEdit;
 	bool canClose;
 	bool saveFailed;
-	void calculateDiscount();
-	void calculateSum();
+	QStringList fraStrList;
+	QString numbersCount(int in, int x);
+	int type;
+	virtual void calculateDiscount();
+	virtual void calculateSum();
 	QString getGroupedSums();
 	void saveColumnsWidth();
-
 	void makeInvoiceHeadar();
 	void makeInvoiceBody();
-	void makeInvoiceProducts();
-	void makeInvoiceSumm();
-	void makeInvoiceSummAll();
+	void print();
+	virtual void makeInvoiceProducts();
+	virtual void makeInvoiceSumm();
+	virtual void makeInvoiceSummAll();
 	void makeInvoiceFooter();
-
-	QString numbersCount(int in, int x);
-	void calculateOneDiscount(int a);
+	virtual void calculateOneDiscount(int a);
+	virtual void setIsEditAllowed(bool isAllowed);
+	QDomElement createSellerElement(QDomDocument doc);
+	QDomElement createBuyerElement(QDomDocument doc);
+	bool validateForm();
 };
 #endif

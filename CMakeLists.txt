@@ -31,7 +31,6 @@ set(qfaktury_UIS
 Faktura.ui
 KontrahenciLista.ui
 Kontrahenci.ui
-Korekta.ui
 MainWindow.ui
 TowaryLista.ui
 Towary.ui

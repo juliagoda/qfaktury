@@ -512,6 +512,12 @@ public:
 		return "invoice";
 	}
 
+	// returns correction doc name stored as a DOCTYPE
+	QString getCorrDocName() {
+		return "correction";
+	}
+
+
 	// returns customers doc name stored as a DOCTYPE
 	QString getCustomersDocName() {
 		return "customers";

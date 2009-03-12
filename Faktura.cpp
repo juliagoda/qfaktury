@@ -3,7 +3,6 @@
 #include <QDir>
 #include <QProcess>
 #include <QApplication>
-#include <Qt/qdom.h>
 #include <QMessageBox>
 #include <QTextCodec>
 #include <QTextStream>
@@ -336,19 +335,7 @@ void Faktura::dateChanged(QDate text) {
  *  Generates Invoice XML
  */
 void Faktura::saveInvoice() {
-	if (kontrName->text() == "") {
-		QMessageBox::critical(this, "QFaktury", trUtf8("Nie ma kontrahenta."),
-		QMessageBox::Ok);
-		saveFailed = true;
-		return;
-	}
-
-	if (tableTow->rowCount() == 0) {
-		QMessageBox::critical(this, "QFaktury", trUtf8("Nie ma towarów."),
-		QMessageBox::Ok);
-		saveFailed = true;
-		return;
-	}
+	if (!validateForm()) return;
 
 	QDomDocument doc(sett().getInoiveDocName());
 	QDomElement root;
@@ -399,31 +386,11 @@ void Faktura::saveInvoice() {
 
 	doc.appendChild(root);
 
-	QDomElement sprzedawca;
-	sprzedawca = doc.createElement("seller");
-	QSettings userSettings("elinux", "user");
-	sprzedawca.setAttribute("name", userSettings.value("name").toString());
-	sprzedawca.setAttribute("zip", userSettings.value("zip").toString());
-	sprzedawca.setAttribute("city", userSettings.value("city").toString());
-	sprzedawca.setAttribute("street", userSettings.value("street").toString());
-	// NIP = Taxing Identification Code
-	sprzedawca.setAttribute("tic", userSettings.value("tic").toString());
-	sprzedawca.setAttribute("account",
-			userSettings.value("account").toString(). replace(" ", "-"));
+	QDomElement sprzedawca = createSellerElement(doc);
 	root.appendChild(sprzedawca);
 
 
-	QDomElement nabywca;
-	nabywca = doc.createElement("buyer");
-	QStringList kht = kontrName->text().split(",");
-
-	nabywca.setAttribute("name", kht[0]);
-	ret += kht[0] + "|";
-	nabywca.setAttribute("city", kht[1]);
-	nabywca.setAttribute("street", kht[2]);
-
-	nabywca.setAttribute("tic", kht[3].replace(" ", "").replace(trUtf8("NIP:"), ""));
-	ret += kht[3].replace(" ", "").replace(trUtf8("NIP:"), "");
+	QDomElement nabywca = createBuyerElement(doc);
 	root.appendChild(nabywca);
 
 	QDomElement product;
@@ -452,7 +419,6 @@ void Faktura::saveInvoice() {
 				* tableTow->item(i, 4)->text().toInt();
 
 		product.setAttribute("nett", sett().numberToString(kwota, 'f', 2)); // netto
-
 		// product.setAttribute ("Rabat", QLocale::toString (rabatValue->value ()));	// rabat
 		product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
 		product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
@@ -521,16 +487,6 @@ void Faktura::makeInvoice() {
 	makeInvoiceSummAll();
 	makeInvoiceFooter();
 
-	//print invoice
-	QPrinter printer(QPrinter::HighResolution);
-	QPrintPreviewDialog preview(&printer, this);
-	preview.setWindowFlags(Qt::Window);
-	preview.setWindowTitle(invoiceType + trUtf8(" - Podgląd wydruku"));
-
-	connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(print(QPrinter *)));
-	if (preview.exec() == 1) {
-	}
-
 	//  QFile file ("/tmp/invoice.html");
 	//  if (file.open (QIODevice::WriteOnly))
 	//    {
@@ -546,7 +502,7 @@ void Faktura::makeInvoice() {
 /** Slot print
  *  Helper slot used to display print preview
  */
-void Faktura::print(QPrinter *printer) {
+void Faktura::printSlot(QPrinter *printer) {
     QTextDocument doc(invoiceType);
     QString s;
     for (QStringList::iterator it = fraStrList.begin(); it != fraStrList.end(); ++it) {
@@ -559,6 +515,72 @@ void Faktura::print(QPrinter *printer) {
 
 }
 // ---- SLOTS END --//////////////////////////////////////////////////////////////////////////////////
+
+
+/** Saves width of the columns
+ */
+void Faktura::print() {
+	//print invoice
+	QPrinter printer(QPrinter::HighResolution);
+	QPrintPreviewDialog preview(&printer, this);
+	preview.setWindowFlags(Qt::Window);
+	preview.setWindowTitle(invoiceType + trUtf8(" - Podgląd wydruku"));
+
+	connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(printSlot(QPrinter *)));
+	if (preview.exec() == 1) {
+	}
+}
+
+// ******************************** XML Helpers START **********************************************
+/** Check if data on the form is correct
+ */
+bool Faktura::validateForm() {
+	if (kontrName->text() == "") {
+		QMessageBox::critical(this, "QFaktury", trUtf8("Nie ma kontrahenta."),
+				QMessageBox::Ok);
+		saveFailed = true;
+		return false;
+	}
+
+	if (tableTow->rowCount() == 0) {
+		QMessageBox::critical(this, "QFaktury", trUtf8("Nie ma towarów."),
+				QMessageBox::Ok);
+		saveFailed = true;
+		return false;
+	}
+	return true;
+}
+
+/** Create seller (Dane firmy)
+ */
+QDomElement Faktura::createSellerElement(QDomDocument doc) {
+	QDomElement sprzedawca = doc.createElement("seller");
+	QSettings userSettings("elinux", "user");
+	sprzedawca.setAttribute("name", userSettings.value("name").toString());
+	sprzedawca.setAttribute("zip", userSettings.value("zip").toString());
+	sprzedawca.setAttribute("city", userSettings.value("city").toString());
+	sprzedawca.setAttribute("street", userSettings.value("street").toString());
+	// NIP = Taxing Identification Code
+	sprzedawca.setAttribute("tic", userSettings.value("tic").toString());
+	sprzedawca.setAttribute("account",
+			userSettings.value("account").toString(). replace(" ", "-"));
+	return sprzedawca;
+}
+
+/** Create buyer (Dane firmy)
+ */
+QDomElement Faktura::createBuyerElement(QDomDocument doc) {
+	QDomElement nabywca = doc.createElement("buyer");
+	QStringList kht = kontrName->text().split(",");
+	nabywca.setAttribute("name", kht[0]);
+	ret += kht[0] + "|";
+	nabywca.setAttribute("city", kht[1]);
+	nabywca.setAttribute("street", kht[2]);
+	nabywca.setAttribute("tic", kht[3].replace(" ", "").replace(trUtf8("NIP:"),	""));
+	ret += kht[3].replace(" ", "").replace(trUtf8("NIP:"), "");
+	return nabywca;
+}
+// ******************************** XML Helpers END **********************************************
 
 // Generate Invoice HTML methods --- START ---
 
@@ -847,7 +869,7 @@ void Faktura::makeInvoiceSumm() {
 	fraStrList
 			+= "</br><table border=\"0\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
 	fraStrList += "<tr>";
-	double vatPrice = sett().stringToDouble(sbrutto->text()) - sett().stringToDouble(snetto->text());
+	double vatPrice = sett().stringToDouble(sum3->text()) - sett().stringToDouble(sum1->text());
 	fraStrList += "<tr>";
 	fraStrList
 			+= "<td colspan=\"10\" width=\"420\" align=\"right\">&nbsp;</td>";
@@ -858,10 +880,10 @@ void Faktura::makeInvoiceSumm() {
 	fraStrList += "</tr>";
 	fraStrList += "<tr><td colspan=\"10\" width=\"420\" align=\"right\">";
 	fraStrList += "Razem:&nbsp;</td>";
-	fraStrList += "<td align=\"center\">&nbsp;" + snetto->text(); // netto
+	fraStrList += "<td align=\"center\">&nbsp;" + sum1->text(); // netto
 	// fraStrList += "<td>&nbsp;</td>";
 	fraStrList += "</td><td align=\"center\">&nbsp;" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
-	fraStrList += "<td align=\"center\">&nbsp;" + sbrutto->text() + "</td>"; // brutto
+	fraStrList += "<td align=\"center\">&nbsp;" + sum3->text() + "</td>"; // brutto
 	fraStrList += "</tr>";
 	fraStrList += "</table>";
 }
@@ -872,10 +894,10 @@ void Faktura::makeInvoiceSummAll() {
 	fraStrList += "<tr>";
 	fraStrList += "<td width=\"3%\">&nbsp;</td>";
 	fraStrList += "<td width=\"48%\"><h4>";
-	fraStrList += trUtf8("Do zapłaty: ") + sbrutto->text() + " "
+	fraStrList += trUtf8("Do zapłaty: ") + sum3->text() + " "
 			+ currCombo->currentText() + "</h4><span style=\"font-size:8pt; font-weight:600;\">";
 	fraStrList += trUtf8("słownie:")
-			+ slownie(sbrutto->text(), currCombo->currentText())
+			+ slownie(sum3->text(), currCombo->currentText())
 			+ "</span><br/><span style=\"font-size:8pt; font-weight:600;\">";
 	fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br/>";
 	QString paym1 = sett().value("paym1").toString();
@@ -1070,61 +1092,47 @@ void Faktura::readData(QString fraFile, int co) {
 	int curCurrency = sett().value("waluty").toString().split("|").indexOf(additional.attribute("currency"));
 	currCombo->setCurrentIndex(curCurrency);
 
-	if (!sett().value("edit").toBool()) {
-		isEdit = true;
-		frNr->setEnabled(FALSE);
-		backBtn->setEnabled(FALSE);
-		sellingDate->setEnabled(FALSE);
-		productDate->setEnabled(FALSE);
-		tableTow->setEnabled(FALSE);
-		rabatValue->setEnabled(FALSE);
-		platCombo->setEnabled(FALSE);
-		liabDate->setEnabled(FALSE);
-		//reasonCombo->setEnabled( FALSE );
-		additEdit->setEnabled(FALSE);
-		addTwBtn->setEnabled(FALSE);
-		rmTowBtn->setEnabled(FALSE);
-		editTwBtn->setEnabled(FALSE);
-		constRab->setEnabled(FALSE);
-		kListGet->setEnabled(FALSE);
-		currCombo->setEnabled(FALSE);
-		saveBtn->setEnabled(FALSE);
-		liabDate->setEnabled(false);
-	} else {
-		isEdit = false;
-		frNr->setEnabled(TRUE);
-		backBtn->setEnabled(TRUE);
-		sellingDate->setEnabled(TRUE);
-		productDate->setEnabled(TRUE);
-		tableTow->setEnabled(TRUE);
-		if (rabatValue->value() == 0) {
-			constRab->setChecked(FALSE);
-			rabatValue->setEnabled(FALSE);
-		} else {
-			constRab->setChecked(TRUE);
-			rabatValue->setEnabled(TRUE);
-		}
-		platCombo->setEnabled(TRUE);
-		liabDate->setEnabled(TRUE);
-		//reasonCombo->setEnabled( TRUE );
-		additEdit->setEnabled(TRUE);
-		addTwBtn->setEnabled(true);
-		rmTowBtn->setEnabled(false);
-		editTwBtn->setEnabled(false);
-		kListGet->setEnabled(TRUE);
-		currCombo->setEnabled(TRUE);
-		saveBtn->setEnabled(false);
-		if (platCombo->currentIndex() > 0) {
-			liabDate->setEnabled(true);
-		} else {
-			liabDate->setEnabled(false);
-		}
-	}
-
+	setIsEditAllowed(sett().value("edit").toBool());
 	calculateDiscount();
 	calculateSum();
 	canClose = true;
 	saveBtn->setEnabled(false);
+}
+
+/** Sets the editability
+ */
+void Faktura::setIsEditAllowed(bool isAllowed) {
+	isEdit = true;
+	frNr->setEnabled(isAllowed);
+	backBtn->setEnabled(isAllowed);
+	sellingDate->setEnabled(isAllowed);
+	productDate->setEnabled(isAllowed);
+	tableTow->setEnabled(isAllowed);
+	rabatValue->setEnabled(isAllowed);
+	platCombo->setEnabled(isAllowed);
+	liabDate->setEnabled(isAllowed);
+	//reasonCombo->setEnabled( FALSE );
+	additEdit->setEnabled(isAllowed);
+	addTwBtn->setEnabled(isAllowed);
+	rmTowBtn->setEnabled(isAllowed);
+	editTwBtn->setEnabled(isAllowed);
+	constRab->setEnabled(isAllowed);
+	kListGet->setEnabled(isAllowed);
+	currCombo->setEnabled(isAllowed);
+	saveBtn->setEnabled(isAllowed);
+	liabDate->setEnabled(isAllowed);
+	if (!isAllowed && rabatValue->value() == 0) {
+		constRab->setChecked(false);
+		rabatValue->setEnabled(false);
+	} else {
+		constRab->setChecked(true);
+		rabatValue->setEnabled(true);
+	}
+	if (!isAllowed && platCombo->currentIndex() > 0) {
+		liabDate->setEnabled(true);
+	} else {
+		liabDate->setEnabled(false);
+	}
 }
 
 /** Caclulate Discount
@@ -1185,14 +1193,14 @@ void Faktura::calculateSum() {
 		// qDebug() << netto << discountValue << gross << " | " << tableTow->item(i, 8)->text();
 	}
 
-	snetto->setText(sett().numberToString(nettTotal, 'f', 2));
-	sRabat->setText(sett().numberToString(discountTotal, 'f', 2));
-	sbrutto->setText(sett().numberToString(grossTotal, 'f', 2));
+	sum1->setText(sett().numberToString(nettTotal, 'f', 2));
+	sum2->setText(sett().numberToString(discountTotal, 'f', 2));
+	sum3->setText(sett().numberToString(grossTotal, 'f', 2));
 }
 
 
 /** Number Counts
- *  Used while populating invoice symbol, fills zeros into invoice sybmol
+ *  Used while populating invoice symbol, fills zeros into invoice symbol
  */
 QString Faktura::numbersCount(int in, int x) {
 	QString tmp2, tmp = sett().numberToString(in);
@@ -1211,3 +1219,4 @@ void Faktura::saveColumnsWidth() {
 		sett().setValue("towCol" + sett().numberToString(i), tableTow->columnWidth(i));
 	sett().endGroup();
 }
+
