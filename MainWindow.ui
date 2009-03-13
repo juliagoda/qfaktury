@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>500</height>
+    <width>698</width>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -354,8 +354,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>700</width>
-     <height>31</height>
+     <width>698</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >
@@ -481,7 +481,7 @@
     <string>Nowa faktura</string>
    </property>
    <property name="iconText" >
-    <string>Faktura</string>
+    <string>Nowa Faktura</string>
    </property>
    <property name="shortcut" >
     <string>F5</string>

@@ -32,6 +32,7 @@ public slots:
 	void towaryDodaj();
 	void towaryUsun();
 	void towaryEdycja();
+	void mainUpdateStatus(QTableWidgetItem *item);
 private:
 	QString workingDir;
 	void saveColumnWidth();

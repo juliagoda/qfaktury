@@ -120,6 +120,10 @@ void MainWindow::init() {
 	connect(tableK, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(kontrEd()));
 	connect(tableT, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(towaryEdycja()));
 
+	connect(tableH, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(mainUpdateStatus(QTableWidgetItem *)));
+	connect(tableK, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(mainUpdateStatus(QTableWidgetItem *)));
+	connect(tableT, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(mainUpdateStatus(QTableWidgetItem *)));
+
 	tabChanged(tabWidget2);
 
 	readKontr(workingDir);
@@ -477,6 +481,24 @@ void MainWindow::setupDir() {
 
 // ----------------------------------------  SLOTS ---------------------------------//
 
+/** Slot
+ *  StatusBar slot
+ */
+void MainWindow::mainUpdateStatus(QTableWidgetItem *item) {
+
+	// cast is required since the names of method and objects inside MainWindow class and
+	// QMainWindow and UiMainWindow are the same... I guess there is a way to avoid it.
+	QStatusBar* stat = dynamic_cast<QMainWindow *>(this)->statusBar();
+
+	QTableWidget *table = item->tableWidget();
+	QString message;
+	message += table->horizontalHeaderItem(1)->text() + " : " + table->item(item->row(), 1)->text() + ", ";
+	message += table->horizontalHeaderItem(2)->text() + " : " + table->item(item->row(), 2)->text() + ", ";
+	message += table->horizontalHeaderItem(3)->text() + " : " + table->item(item->row(), 3)->text();
+
+	stat->showMessage(trUtf8("Wybrana pozycja: ") + message);
+}
+
 /** Slot which enables/disables menu. It's possible to add/remove goods/customers
  *  only if this is the current tab.
  */
@@ -802,6 +824,7 @@ void MainWindow::newKor() {
 		korWindow->setWindowTitle(trUtf8("Nowa korekta"));
 		if (korWindow->exec() == QDialog::Accepted) {
 			insertRow(tableH, tableH->rowCount());
+			// qDebug() << korWindow->ret;
 			QStringList row = korWindow->ret.split("|");
 			int newRow = tableH->rowCount() - 1;
 			tableH->item(newRow, 0)->setText(row[0]); // file name

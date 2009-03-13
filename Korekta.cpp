@@ -117,6 +117,7 @@ void Korekta::saveInvoice(){
 
 	root = doc.createElement("correction");
 	root.setAttribute("no", frNr->text());
+	root.setAttribute("originalInvoiceNo", invData->frNr);
 	ret += frNr->text() + "|";
 	root.setAttribute("issueDate", QDate::currentDate().toString(
 			sett().getDateFormat()));
@@ -200,12 +201,15 @@ void Korekta::saveInvoice(){
 	ts << xml;
 	file.close();
 
+	sett().setValue("korNr", frNr->text());
+
 	saveBtn->setEnabled(false);
 	rmTowBtn->setEnabled(false);
 	editTwBtn->setEnabled(false);
 
 	saveFailed = false;
 	canClose = true;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << ": canClose " << canClose;
 }
 
 void Korekta::makeInvoice(){
@@ -217,11 +221,36 @@ void Korekta::makeInvoice(){
 	print();
 }
 
+/** Slot
+ *  Validate close and save if requested
+ */
+void Korekta::canQuit() {
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__ << ": canClose " << canClose;
+	if (canClose) {
+		accept();
+	} else {
+		if (QMessageBox::warning(this, "QFaktury", trUtf8("Dane zostały zmienione czy chcesz zapisać?"),
+					trUtf8("Tak"), trUtf8("Nie"), 0, 0,	1) == 1) {
+			saveColumnsWidth();
+			reject();
+		} else {
+			saveInvoice();
+			if (saveFailed) {
+				return;
+			}
+			saveColumnsWidth();
+			accept();
+		}
+	}
+}
 //*********************************************** SLOTS END ****************************************/
 
 void Korekta::setIsEditAllowed(bool isAllowed){
 	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-	if (editMode == false) isAllowed = true;
+	if (editMode == false) {
+		isAllowed = true;
+		canClose = false;
+	}
 
 	isEdit = true;
 	frNr->setEnabled(isAllowed);
@@ -229,15 +258,15 @@ void Korekta::setIsEditAllowed(bool isAllowed){
 	sellingDate->setEnabled(isAllowed);
 	productDate->setEnabled(isAllowed);
 	tableTow->setEnabled(isAllowed);
-	rabatValue->setEnabled(isAllowed);
+	rabatValue->setEnabled(false); // don't allow for now
 	platCombo->setEnabled(isAllowed);
 	liabDate->setEnabled(isAllowed);
 	additEdit->setEnabled(isAllowed);
 	addTwBtn->setEnabled(isAllowed);
 	rmTowBtn->setEnabled(isAllowed);
 	editTwBtn->setEnabled(isAllowed);
-	constRab->setEnabled(isAllowed);
-	kListGet->setEnabled(isAllowed);
+	constRab->setEnabled(false); // don't allow for now
+	kListGet->setEnabled(false); // don't allow to change kontrahent
 	currCombo->setEnabled(isAllowed);
 	saveBtn->setEnabled(isAllowed);
 	liabDate->setEnabled(isAllowed);
@@ -262,7 +291,7 @@ void Korekta::setIsEditAllowed(bool isAllowed){
 
 InvoiceData* Korekta::createOriginalInv() {
 	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-	InvoiceData *invData = new InvoiceData();
+	invData = new InvoiceData();
 
 	invData->customer = kontrName->text();
 
@@ -293,6 +322,7 @@ InvoiceData* Korekta::createOriginalInv() {
 	invData->currencyType = currCombo->currentText();
 	invData->additText = additEdit->text();
 
+	backBtnClick(); // populate correct correction symbol
 	return invData;
 }
 
@@ -302,6 +332,32 @@ void Korekta::calculateDiscount(){
 
 void Korekta::calculateSum(){
 	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
+	double corrTotal = 0, invTotal = 0, diffTotal = 0;
+
+	for (int i = 0; i < tableTow->rowCount(); ++i) {
+		corrTotal += sett().stringToDouble(tableTow->item(i, 10)->text());
+	}
+
+	if (invData == NULL) invData = createOriginalInv();
+
+	for (QMap<int, ProductData *>::iterator iter = invData->products.begin();
+			iter != invData->products.end();
+			++iter) {
+		invTotal += iter.value()->getGross();
+	}
+
+	diffTotal = corrTotal - invTotal;
+
+	sum1->setText(sett().numberToString(corrTotal, 'f', 2));
+	sum2->setText(sett().numberToString(invTotal, 'f', 2));
+	sum3->setText(sett().numberToString(diffTotal, 'f', 2));
+
+	if (diffTotal < 0) {
+		textLabelSum3->setText(trUtf8("Do zwrotu:"));
+	} else {
+		textLabelSum3->setText(trUtf8("Do zapłaty:"));
+	}
 }
 
 QString Korekta::getGroupedSums(){
@@ -320,8 +376,6 @@ void Korekta::makeInvoiceSummAll(){
 	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 }
 
-void Korekta::calculateOneDiscount(int a){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-}
+
 
 

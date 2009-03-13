@@ -275,6 +275,9 @@ void Faktura::backBtnClick() {
  *  Validate close and save if requested
  */
 void Faktura::canQuit() {
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__ << ": canClose " << canClose;
+
+	// canClose == false -> data changed
 	if (canClose || QMessageBox::warning(this, "QFaktury", trUtf8("Dane zostały zmienione czy chcesz zapisać?"), trUtf8("Tak"), trUtf8("Nie"), 0, 0,
 			1) == 1) {
 		saveColumnsWidth();
@@ -1069,7 +1072,7 @@ void Faktura::readData(QString fraFile, int co) {
 	QDomElement towar;
 	towar = product.firstChild().toElement();
 
-	static const char *towarColumns[] = { "", "name", "code", "PKWiU",
+	static const char *towarColumns[] = { "id", "name", "code", "PKWiU",
 			"quantity", "quantityType", "discount", "price", "nett",
 			"vatBucket", "gross" };
 
@@ -1092,11 +1095,12 @@ void Faktura::readData(QString fraFile, int co) {
 	int curCurrency = sett().value("waluty").toString().split("|").indexOf(additional.attribute("currency"));
 	currCombo->setCurrentIndex(curCurrency);
 
+	canClose = true;
+	saveBtn->setEnabled(false);
+
 	setIsEditAllowed(sett().value("edit").toBool());
 	calculateDiscount();
 	calculateSum();
-	canClose = true;
-	saveBtn->setEnabled(false);
 }
 
 /** Sets the editability

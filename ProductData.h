@@ -7,17 +7,6 @@
  *
  */
 
-// id
-// name
-// code
-// pkwiu
-// quantity
-// qType
-// discount
-// price
-// nett
-// vat
-// gross
 
 class ProductData {
 public:

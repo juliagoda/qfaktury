@@ -19,6 +19,7 @@ public slots:
 	virtual void backBtnClick();
 	virtual void saveInvoice();
 	virtual void makeInvoice();
+	virtual void canQuit();
 private:
 	InvoiceData *invData;
 	QComboBox *reasonCombo;
@@ -29,7 +30,6 @@ private:
 	virtual void makeInvoiceProducts();
 	virtual void makeInvoiceSumm();
 	virtual void makeInvoiceSummAll();
-	virtual void calculateOneDiscount(int a);
 	InvoiceData *createOriginalInv();
 	virtual void setIsEditAllowed(bool isAllowed);
 
