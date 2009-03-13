@@ -485,6 +485,13 @@ public:
 		return QDir::homePath() + value("working_dir", "/elinux").toString();
 	}
 
+	// returns templates directory
+	QString getTemplate() {
+		// @TODO
+		return QDir::currentPath() + "/templates/style.css";
+	}
+
+
 	// return invoices dir
 	QString getDataDir() {
 		// Changed name of the folder to avoid overwriting the files.

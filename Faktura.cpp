@@ -112,7 +112,7 @@ void Faktura::init() {
 
 	// set window icon
 	QIcon icon;
-	icon.addPixmap(QPixmap(":/res/share/qfaktury/icons/nowa_faktura.png"),
+	icon.addPixmap(QPixmap(":/res/icons/nowa_faktura.png"),
 			QIcon::Normal, QIcon::Off);
 	this->setWindowIcon(icon);
 
@@ -506,13 +506,15 @@ void Faktura::makeInvoice() {
  *  Helper slot used to display print preview
  */
 void Faktura::printSlot(QPrinter *printer) {
+	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
     QTextDocument doc(invoiceType);
     QString s;
     for (QStringList::iterator it = fraStrList.begin(); it != fraStrList.end(); ++it) {
         s+=*it+"\n";
     }
     // qDebug of the whole invoice :)
-	// qDebug() << s;
+	qDebug() << s;
     doc.setHtml(s);
     doc.print(printer);
 
@@ -523,6 +525,8 @@ void Faktura::printSlot(QPrinter *printer) {
 /** Saves width of the columns
  */
 void Faktura::print() {
+	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
 	//print invoice
 	QPrinter printer(QPrinter::HighResolution);
 	QPrintPreviewDialog preview(&printer, this);
@@ -602,23 +606,19 @@ void Faktura::makeInvoiceHeadar() {
 		fraStrList += "<title>" + invoiceType + "</title>";
 	}
 
-	//  fraStrList += "<style type=\"text/css\"><!-- ";
-	//  // qDebug( templDir  );
-	//
-	//  QFile file (templDir + "style.css");
-	//  if (file.open (QIODevice::ReadOnly))
-	//    {
-	//      QTextStream stream (&file);
-	//      QString line;
-	//      while (!stream.atEnd ())
-	//	{
-	//	  line = stream.readLine ();
-	//	  fraStrList += line;
-	//	}
-	//      file.close ();
-	//    }
-	//
-	//  fraStrList += "--></style>";
+	fraStrList += "<style type=\"text/css\"><!-- ";
+	QFile file(sett().getTemplate());
+	if (file.open(QIODevice::ReadOnly)) {
+		QTextStream stream(&file);
+		QString line;
+		while (!stream.atEnd()) {
+			line = stream.readLine();
+			fraStrList += line;
+		}
+		file.close();
+	}
+	fraStrList += "--></style>";
+
 	fraStrList += "<body>";
 	fraStrList
 			+= "<table border=\"`0\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-family:'Arial'\">";

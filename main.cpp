@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 	QResource::registerResource("qfaktury.rcc"); // using the rcc file so it's more portable
 	// Q_INIT_RESOURCE(qfaktury);
 
-	QSplashScreen splash(QPixmap(":/res/share/qfaktury/icons/splash.png"));
+	QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
 	splash.show();
 
 	a.processEvents();

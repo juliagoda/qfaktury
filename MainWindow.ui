@@ -457,7 +457,7 @@
   <action name="fakturyUsunAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/usun_fakture.png</normaloff>:/res/share/qfaktury/icons/usun_fakture.png</iconset>
+     <normaloff>:/res/icons/usun_fakture.png</normaloff>:/res/icons/usun_fakture.png</iconset>
    </property>
    <property name="text" >
     <string>Usuń</string>
@@ -475,7 +475,7 @@
   <action name="fakturyDodajAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/nowa_faktura.png</normaloff>:/res/share/qfaktury/icons/nowa_faktura.png</iconset>
+     <normaloff>:/res/icons/nowa_faktura.png</normaloff>:/res/icons/nowa_faktura.png</iconset>
    </property>
    <property name="text" >
     <string>Nowa faktura</string>
@@ -493,7 +493,7 @@
   <action name="kontrahenciDodajAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/dodaj_kontrahentow.png</normaloff>:/res/share/qfaktury/icons/dodaj_kontrahentow.png</iconset>
+     <normaloff>:/res/icons/dodaj_kontrahentow.png</normaloff>:/res/icons/dodaj_kontrahentow.png</iconset>
    </property>
    <property name="text" >
     <string>Dodaj</string>
@@ -511,7 +511,7 @@
   <action name="kontrahenciUsunAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/usun_kontrahentow.png</normaloff>:/res/share/qfaktury/icons/usun_kontrahentow.png</iconset>
+     <normaloff>:/res/icons/usun_kontrahentow.png</normaloff>:/res/icons/usun_kontrahentow.png</iconset>
    </property>
    <property name="text" >
     <string>Usuń</string>
@@ -529,7 +529,7 @@
   <action name="kontrahenciEdycjaAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/edytuj_kontrahentow.png</normaloff>:/res/share/qfaktury/icons/edytuj_kontrahentow.png</iconset>
+     <normaloff>:/res/icons/edytuj_kontrahentow.png</normaloff>:/res/icons/edytuj_kontrahentow.png</iconset>
    </property>
    <property name="text" >
     <string>Edycja</string>
@@ -547,7 +547,7 @@
   <action name="pomocO_QtAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/pomoc.png</normaloff>:/res/share/qfaktury/icons/pomoc.png</iconset>
+     <normaloff>:/res/icons/pomoc.png</normaloff>:/res/icons/pomoc.png</iconset>
    </property>
    <property name="text" >
     <string>O Qt</string>
@@ -562,7 +562,7 @@
   <action name="plikKoniecAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/koniec.png</normaloff>:/res/share/qfaktury/icons/koniec.png</iconset>
+     <normaloff>:/res/icons/koniec.png</normaloff>:/res/icons/koniec.png</iconset>
    </property>
    <property name="text" >
     <string>Koniec</string>
@@ -580,7 +580,7 @@
   <action name="fakturyEdAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/edytuj_fakture.png</normaloff>:/res/share/qfaktury/icons/edytuj_fakture.png</iconset>
+     <normaloff>:/res/icons/edytuj_fakture.png</normaloff>:/res/icons/edytuj_fakture.png</iconset>
    </property>
    <property name="text" >
     <string>Edytuj</string>
@@ -598,7 +598,7 @@
   <action name="plikDane_firmyAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/dane_firmy.png</normaloff>:/res/share/qfaktury/icons/dane_firmy.png</iconset>
+     <normaloff>:/res/icons/dane_firmy.png</normaloff>:/res/icons/dane_firmy.png</iconset>
    </property>
    <property name="text" >
     <string>Dane firmy</string>
@@ -641,7 +641,7 @@
   <action name="plikUstawieniaAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/ustawienia.png</normaloff>:/res/share/qfaktury/icons/ustawienia.png</iconset>
+     <normaloff>:/res/icons/ustawienia.png</normaloff>:/res/icons/ustawienia.png</iconset>
    </property>
    <property name="text" >
     <string>Ustawienia</string>
@@ -708,7 +708,7 @@
   <action name="towaryEdycjaAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/edytuj_towar.png</normaloff>:/res/share/qfaktury/icons/edytuj_towar.png</iconset>
+     <normaloff>:/res/icons/edytuj_towar.png</normaloff>:/res/icons/edytuj_towar.png</iconset>
    </property>
    <property name="text" >
     <string>Edycja</string>
@@ -726,7 +726,7 @@
   <action name="towaryUsunAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/usun_towar.png</normaloff>:/res/share/qfaktury/icons/usun_towar.png</iconset>
+     <normaloff>:/res/icons/usun_towar.png</normaloff>:/res/icons/usun_towar.png</iconset>
    </property>
    <property name="text" >
     <string>Usuń</string>
@@ -744,7 +744,7 @@
   <action name="towaryDodajAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/dodaj_towar.png</normaloff>:/res/share/qfaktury/icons/dodaj_towar.png</iconset>
+     <normaloff>:/res/icons/dodaj_towar.png</normaloff>:/res/icons/dodaj_towar.png</iconset>
    </property>
    <property name="text" >
     <string>Dodaj</string>
@@ -832,7 +832,7 @@
   <action name="fakturyKorektaAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/nowa_korekta.png</normaloff>:/res/share/qfaktury/icons/nowa_korekta.png</iconset>
+     <normaloff>:/res/icons/nowa_korekta.png</normaloff>:/res/icons/nowa_korekta.png</iconset>
    </property>
    <property name="text" >
     <string>Nowa korekta</string>
@@ -850,7 +850,7 @@
   <action name="fakturyPFormaAction" >
    <property name="icon" >
     <iconset resource="qfaktury.qrc" >
-     <normaloff>:/res/share/qfaktury/icons/nowa_proforma.png</normaloff>:/res/share/qfaktury/icons/nowa_proforma.png</iconset>
+     <normaloff>:/res/icons/nowa_proforma.png</normaloff>:/res/icons/nowa_proforma.png</iconset>
    </property>
    <property name="text" >
     <string>Nowa pro forma</string>

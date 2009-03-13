@@ -1,33 +1,31 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource prefix="/res">
-    <file>share/qfaktury/icons/dane_firmy.png</file>
-    <file>share/qfaktury/icons/dodaj_towar.png</file>
-    <file>share/qfaktury/icons/dodaj_kontrahentow.png</file>
-    <file>share/qfaktury/icons/edytuj_fakture.png</file>
-    <file>share/qfaktury/icons/edytuj_towar.png</file>
-    <file>share/qfaktury/icons/edytuj_kontrahentow.png</file>
-    <file>share/qfaktury/icons/edytuj_przelew.png</file>
-    <file>share/qfaktury/icons/k2.png</file>
-    <file>share/qfaktury/icons/koniec.png</file>
-    <file>share/qfaktury/icons/kreator.png</file>
-    <file>share/qfaktury/icons/nowa_faktura.png</file>
-    <file>share/qfaktury/icons/nowa_korekta.png</file>
-    <file>share/qfaktury/icons/nowa_proforma.png</file>
-    <file>share/qfaktury/icons/o_programie.png</file>
-    <file>share/qfaktury/icons/pomoc.png</file>
-    <file>share/qfaktury/icons/qfaktury.desktop</file>
-    <file>share/qfaktury/icons/qfaktury_128.png</file>
-    <file>share/qfaktury/icons/qfaktury_16.png</file>
-    <file>share/qfaktury/icons/qfaktury_22.png</file>
-    <file>share/qfaktury/icons/qfaktury_32.png</file>
-    <file>share/qfaktury/icons/qfaktury_48.png</file>
-    <file>share/qfaktury/icons/qfaktury_64.png</file>
-    <file>share/qfaktury/icons/QT_original_R.png</file>
-    <file>share/qfaktury/icons/splash.png</file>
-    <file>share/qfaktury/icons/ustawienia.png</file>
-    <file>share/qfaktury/icons/usun_fakture.png</file>
-    <file>share/qfaktury/icons/usun_towar.png</file>
-    <file>share/qfaktury/icons/usun_kontrahentow.png</file>
-    <file>share/qfaktury/icons/usun_przelew.png</file>
-</qresource>
+<RCC>
+    <qresource prefix="/res" >
+        <file>icons/QT_original_R.png</file>
+        <file>icons/dane_firmy.png</file>
+        <file>icons/dodaj_kontrahentow.png</file>
+        <file>icons/dodaj_towar.png</file>
+        <file>icons/edytuj_fakture.png</file>
+        <file>icons/edytuj_kontrahentow.png</file>
+        <file>icons/edytuj_przelew.png</file>
+        <file>icons/edytuj_towar.png</file>
+        <file>icons/koniec.png</file>
+        <file>icons/kreator.png</file>
+        <file>icons/nowa_faktura.png</file>
+        <file>icons/nowa_korekta.png</file>
+        <file>icons/nowa_proforma.png</file>
+        <file>icons/o_programie.png</file>
+        <file>icons/pomoc.png</file>
+        <file>icons/qfaktury_128.png</file>
+        <file>icons/qfaktury_16.png</file>
+        <file>icons/qfaktury_22.png</file>
+        <file>icons/qfaktury_32.png</file>
+        <file>icons/qfaktury_48.png</file>
+        <file>icons/qfaktury_64.png</file>
+        <file>icons/splash.png</file>
+        <file>icons/ustawienia.png</file>
+        <file>icons/usun_fakture.png</file>
+        <file>icons/usun_kontrahentow.png</file>
+        <file>icons/usun_przelew.png</file>
+        <file>icons/usun_towar.png</file>
+    </qresource>
 </RCC>
