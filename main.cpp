@@ -1,14 +1,13 @@
 #include <QApplication>
-#include "MainWindow.h"
-
-// do splasha
-#include <QLabel>
 #include <QTimer>
 #include <QResource>
-#include <QDir>
 #include <QDesktopWidget>
 #include <QSplashScreen>
 #include <QWaitCondition>
+
+#include "MainWindow.h"
+
+// do splasha
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
@@ -37,6 +36,12 @@ int main(int argc, char **argv) {
 	closeSplash->start(4960);
 
 	a.connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
+
+	QIcon icon;
+	icon.addPixmap(QPixmap(":/res/icons/qfaktury_48.png"), QIcon::Normal, QIcon::Off);
+	a.setWindowIcon(icon);
+	a.setApplicationName("QFaktury");
+	a.setOrganizationName("www.e-linux.pl");
 	return a.exec();
 }
 

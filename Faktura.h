@@ -45,7 +45,7 @@ protected:
 	virtual void calculateSum();
 	QString getGroupedSums();
 	void saveColumnsWidth();
-	void makeInvoiceHeadar();
+	void makeInvoiceHeadar(bool sellDate);
 	void makeInvoiceBody();
 	void print();
 	virtual void makeInvoiceProducts();

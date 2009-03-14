@@ -22,7 +22,7 @@ Korekta::~Korekta() {
 /* Init
  */
 void Korekta::korektaInit (bool mode){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
 	labelReason1 = new QLabel();
 	labelReason1->setText(trUtf8("Przyczyna korekty:"));
@@ -49,7 +49,7 @@ void Korekta::korektaInit (bool mode){
  *  Used populate invoice symbol
  */
 void Korekta::backBtnClick(){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
 	QString tmp = sett().value("korNr").toString();
 	QString prefix, suffix;
@@ -84,7 +84,7 @@ void Korekta::backBtnClick(){
  *  Generate Correction XML
  */
 void Korekta::saveInvoice(){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__ ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__ ;
 
 	QDomDocument doc(sett().getCorrDocName());
 	QDomElement root;
@@ -213,9 +213,13 @@ void Korekta::saveInvoice(){
 }
 
 void Korekta::makeInvoice(){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-	makeInvoiceHeadar();
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	invoiceType = trUtf8("Faktura VAT korygująca");
+	makeInvoiceHeadar(false);
 	makeInvoiceBody();
+	makeInvoceProductsTitle(0);
+	makeInvoiceProducts();
+	makeInvoceProductsTitle(1);
 	makeInvoiceFooter();
 
 	print();
@@ -331,15 +335,17 @@ void Korekta::calculateDiscount(){
 }
 
 void Korekta::calculateSum(){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
+	if (invData == NULL) invData = createOriginalInv();
+
+	if (invData == NULL) return;
 
 	double corrTotal = 0, invTotal = 0, diffTotal = 0;
 
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
 		corrTotal += sett().stringToDouble(tableTow->item(i, 10)->text());
 	}
-
-	if (invData == NULL) invData = createOriginalInv();
 
 	for (QMap<int, ProductData *>::iterator iter = invData->products.begin();
 			iter != invData->products.end();
@@ -364,8 +370,13 @@ QString Korekta::getGroupedSums(){
 	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 }
 
-void Korekta::makeInvoiceProducts(){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+void Korekta::makeInvoceProductsTitle(short a) {
+	if (a==1) {
+		fraStrList += trUtf8("Pozycje na fakturze po korekcie:") + "<br>";
+	}
+	if (a==0) {
+		fraStrList += trUtf8("Pozycje na fakturze przed korektą:") + "<br>";
+	}
 }
 
 void Korekta::makeInvoiceSumm(){

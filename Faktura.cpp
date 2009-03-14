@@ -470,7 +470,6 @@ void Faktura::saveInvoice() {
  *  Generate html with invoice and show Print Preview dialog
  */
 void Faktura::makeInvoice() {
-
 	if (kontrName->text() == "") {
 		QMessageBox::information(this, "QFaktury", trUtf8("Wybierz kontrahenta"),
 				QMessageBox::Ok);
@@ -484,7 +483,7 @@ void Faktura::makeInvoice() {
 	}
 
 	fraStrList.clear();
-	makeInvoiceHeadar();
+	makeInvoiceHeadar(true);
 	makeInvoiceBody();
 	makeInvoiceProducts();
 	makeInvoiceSummAll();
@@ -499,7 +498,7 @@ void Faktura::makeInvoice() {
 	//	stream << *it << "\n";
 	//      file.close ();
 	//    }
-
+	print();
 }
 
 /** Slot print
@@ -514,18 +513,17 @@ void Faktura::printSlot(QPrinter *printer) {
         s+=*it+"\n";
     }
     // qDebug of the whole invoice :)
-	qDebug() << s;
+	// qDebug() << s;
     doc.setHtml(s);
     doc.print(printer);
 
 }
-// ---- SLOTS END --//////////////////////////////////////////////////////////////////////////////////
 
-
-/** Saves width of the columns
+/** Slot
+ *  Print slot
  */
 void Faktura::print() {
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
 	//print invoice
 	QPrinter printer(QPrinter::HighResolution);
@@ -537,6 +535,10 @@ void Faktura::print() {
 	if (preview.exec() == 1) {
 	}
 }
+
+// ---- SLOTS END --//////////////////////////////////////////////////////////////////////////////////
+
+
 
 // ******************************** XML Helpers START **********************************************
 /** Check if data on the form is correct
@@ -591,7 +593,7 @@ QDomElement Faktura::createBuyerElement(QDomDocument doc) {
 
 // Generate Invoice HTML methods --- START ---
 
-void Faktura::makeInvoiceHeadar() {
+void Faktura::makeInvoiceHeadar(bool sellDate) {
 
 	fraStrList += "<html><head>";
 	fraStrList
@@ -648,12 +650,13 @@ void Faktura::makeInvoiceHeadar() {
 	fraStrList += "<br/>";
 
 	fraStrList += trUtf8("Nr: ") + frNr->text() + "<br></span>";
-	fraStrList
-			+= "<span style=\"font-size:8pt; font-weight:600\">" + trUtf8("Data wystawienia: ")
+	fraStrList += "<span style=\"font-size:8pt; font-weight:600\">" + trUtf8("Data wystawienia: ")
 					+ productDate->date().toString(sett().getDateFormat()) + "<br>";
+
+	if (sellDate)
 	fraStrList += trUtf8("Data sprzedaży: ") + sellingDate->date().toString(sett().getDateFormat())
-			+ "<br></span>";
-	fraStrList += "</td>";
+			+ "<br>";
+	fraStrList += "</span></td>";
 	fraStrList += "<td width=\"3%\">&nbsp;</td>";
 	fraStrList += "</tr>";
 	fraStrList += "<tr>";
@@ -663,6 +666,7 @@ void Faktura::makeInvoiceHeadar() {
 	fraStrList += "<td width=\"3%\">&nbsp;</td>";
 	fraStrList += "</tr>";
 	fraStrList += "</table>";
+	fraStrList += "<hr>";
 	fraStrList += "</td></tr>";
 }
 
@@ -706,6 +710,7 @@ void Faktura::makeInvoiceBody() {
 	fraStrList += "</td>";
 	fraStrList += "</tr>";
 	fraStrList += "</table>";
+	fraStrList += "<hr>";
 	fraStrList += "</td></tr>";
 }
 
@@ -865,7 +870,7 @@ void Faktura::makeInvoiceProducts() {
 
 	fraStrList += "</table>";
 	makeInvoiceSumm();
-	fraStrList += "<br/></td></tr>";
+	fraStrList += "</br></td></tr>";
 }
 
 void Faktura::makeInvoiceSumm() {

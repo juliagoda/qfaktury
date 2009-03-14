@@ -88,7 +88,7 @@ void MainWindow::init() {
 
 	// add Icon
 	QIcon icon;
-	icon.addPixmap(QPixmap(":/res/icons/qfaktury_16.png"),
+	icon.addPixmap(QPixmap(":/res/icons/qfaktury_48.png"),
 			QIcon::Normal, QIcon::Off);
 	this->setWindowIcon(icon);
 

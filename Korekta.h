@@ -27,9 +27,9 @@ private:
 	virtual void calculateDiscount();
 	virtual void calculateSum();
 	virtual QString getGroupedSums();
-	virtual void makeInvoiceProducts();
 	virtual void makeInvoiceSumm();
 	virtual void makeInvoiceSummAll();
+	virtual void makeInvoceProductsTitle(short a);
 	InvoiceData *createOriginalInv();
 	virtual void setIsEditAllowed(bool isAllowed);
 

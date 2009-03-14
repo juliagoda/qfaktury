@@ -6,6 +6,8 @@ set(QFAKTURY_MINOR 6)
 set(QFAKTURY_REVISION 0)
 set(QFAKTURY_VERSION ${QFAKTURY_MAJOR}.${QFAKTURY_MINOR}.${QFAKTURY_REVISION})
 set(QT_USE_QTXML TRUE)
+set(CMAKE_CXX_FLAGS_DISTRIBUTION "-O3")
+
 
 find_package(Qt4 REQUIRED)
 
@@ -57,9 +59,6 @@ if (WIN32)
 endif (WIN32)
 
 
-if(COMMAND cmake_policy)
-      cmake_policy(SET CMP0003 NEW)
-endif(COMMAND cmake_policy)
 
 add_executable(qfaktury ${WIN32_FLAG} ${qfaktury_SRCS} ${qfaktury_UIS_H} ${qfaktury_RCCS})
 target_link_libraries(qfaktury ${QT_LIBRARIES})
@@ -90,7 +89,7 @@ SET(CPACK_NSIS_CONTACT "rafal.rusin@gmail.com")
 IF(WIN32 AND NOT UNIX)
     # There is a bug in NSI that does not handle full unix paths properly. Make
     # sure there is at least one set of four (4) backlasshes.
-    SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/share/qfaktury/icons/qfaktury_128.png")
+    SET(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/icons/qfaktury_128.png")
     SET(CPACK_NSIS_INSTALLED_ICON_NAME "qfaktury.exe")
     SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY} QFaktury")
     SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\qfaktury.sf.net")
