@@ -35,6 +35,7 @@ public slots:
 	void printSlot(QPrinter*);
 protected:
 	QString lastInvoice, invoiceType;
+	double discountTotal, nettTotal, grossTotal;
 	bool isEdit;
 	bool canClose;
 	bool saveFailed;
@@ -51,6 +52,7 @@ protected:
 	virtual void makeInvoiceProducts();
 	virtual void makeInvoiceSumm();
 	virtual void makeInvoiceSummAll();
+	virtual void makeInvoiceProductsTitle();
 	void makeInvoiceFooter();
 	virtual void calculateOneDiscount(int a);
 	virtual void setIsEditAllowed(bool isAllowed);

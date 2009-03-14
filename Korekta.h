@@ -27,11 +27,14 @@ private:
 	virtual void calculateDiscount();
 	virtual void calculateSum();
 	virtual QString getGroupedSums();
-	virtual void makeInvoiceSumm();
 	virtual void makeInvoiceSummAll();
 	virtual void makeInvoceProductsTitle(short a);
+	virtual void makeBeforeInvoiceProducts();
+	virtual void makeBeforeInvoiceSumm();
 	InvoiceData *createOriginalInv();
 	virtual void setIsEditAllowed(bool isAllowed);
-
+protected:
+	double origDiscTotal, origNettTotal, origGrossTotal;
+	double diffTotal;
 };
 #endif

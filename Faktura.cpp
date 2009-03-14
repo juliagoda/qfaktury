@@ -486,6 +486,7 @@ void Faktura::makeInvoice() {
 	makeInvoiceHeadar(true);
 	makeInvoiceBody();
 	makeInvoiceProducts();
+	makeInvoiceSumm();
 	makeInvoiceSummAll();
 	makeInvoiceFooter();
 
@@ -505,7 +506,7 @@ void Faktura::makeInvoice() {
  *  Helper slot used to display print preview
  */
 void Faktura::printSlot(QPrinter *printer) {
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
     QTextDocument doc(invoiceType);
     QString s;
@@ -714,13 +715,7 @@ void Faktura::makeInvoiceBody() {
 	fraStrList += "</td></tr>";
 }
 
-void Faktura::makeInvoiceProducts() {
-	fraStrList += "<tr align=\"center\"><td>";
-	fraStrList += "<br><br>";
-	fraStrList
-			+= "<table border=\"1\" width=\"100%\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
-	fraStrList += "<tr>";
-
+void Faktura::makeInvoiceProductsTitle() {
 	int currentPercent = 0;
 	if (sett().value("faktury_pozycje/Lp").toBool()) {
 		currentPercent = 3;
@@ -822,6 +817,17 @@ void Faktura::makeInvoiceProducts() {
 	}
 	fraStrList += "</tr>";
 
+}
+
+void Faktura::makeInvoiceProducts() {
+	fraStrList += "<tr align=\"center\"><td>";
+	fraStrList += "<br>";
+	fraStrList
+			+= "<table border=\"1\" width=\"100%\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
+	fraStrList += "<tr>";
+
+	makeInvoiceProductsTitle();
+
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
 		// for (int j=1; j<11;++j)
 		// 	qDebug() << j << " : " << tableTow->item(i, j)->text();
@@ -868,14 +874,12 @@ void Faktura::makeInvoiceProducts() {
 		fraStrList += "</tr>";
 	}
 
-	fraStrList += "</table>";
-	makeInvoiceSumm();
-	fraStrList += "</br></td></tr>";
+	fraStrList += "</table><br><br>";
 }
 
 void Faktura::makeInvoiceSumm() {
 	fraStrList
-			+= "</br><table border=\"0\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
+			+= "<table border=\"0\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
 	fraStrList += "<tr>";
 	double vatPrice = sett().stringToDouble(sum3->text()) - sett().stringToDouble(sum1->text());
 	fraStrList += "<tr>";
@@ -894,6 +898,7 @@ void Faktura::makeInvoiceSumm() {
 	fraStrList += "<td align=\"center\">&nbsp;" + sum3->text() + "</td>"; // brutto
 	fraStrList += "</tr>";
 	fraStrList += "</table>";
+	fraStrList += "<br></td></tr>";
 }
 
 void Faktura::makeInvoiceSummAll() {
@@ -1118,6 +1123,7 @@ void Faktura::setIsEditAllowed(bool isAllowed) {
 	productDate->setEnabled(isAllowed);
 	tableTow->setEnabled(isAllowed);
 	rabatValue->setEnabled(isAllowed);
+	rabatLabel->setEnabled(isAllowed);
 	platCombo->setEnabled(isAllowed);
 	liabDate->setEnabled(isAllowed);
 	//reasonCombo->setEnabled( FALSE );
@@ -1186,7 +1192,7 @@ void Faktura::calculateOneDiscount(int i) {
  */
 void Faktura::calculateSum() {
 	double netto = 0, price = 0, quantity = 0, gross = 00;
-	double discountValue = 0, discountTotal = 0, nettTotal = 0, grossTotal = 0;
+	double discountValue = 0;
 
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
 		price = sett().stringToDouble(tableTow->item(i, 7)->text());

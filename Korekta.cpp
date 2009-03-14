@@ -39,6 +39,9 @@ void Korekta::korektaInit (bool mode){
 
 	invoiceType = trUtf8("Korekta");
 
+	invData = NULL; // set to null
+	origGrossTotal = -1; // -1
+
 	editMode = mode;
 	// connects
     connect(reasonCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(textChanged(QString)));
@@ -215,11 +218,18 @@ void Korekta::saveInvoice(){
 void Korekta::makeInvoice(){
 	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 	invoiceType = trUtf8("Faktura VAT korygująca");
+	fraStrList.clear();
 	makeInvoiceHeadar(false);
 	makeInvoiceBody();
+
 	makeInvoceProductsTitle(0);
-	makeInvoiceProducts();
+	makeBeforeInvoiceProducts();
+	makeBeforeInvoiceSumm();
+
 	makeInvoceProductsTitle(1);
+	makeInvoiceProducts();
+	makeInvoiceSumm();
+
 	makeInvoiceFooter();
 
 	print();
@@ -250,7 +260,7 @@ void Korekta::canQuit() {
 //*********************************************** SLOTS END ****************************************/
 
 void Korekta::setIsEditAllowed(bool isAllowed){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 	if (editMode == false) {
 		isAllowed = true;
 		canClose = false;
@@ -263,6 +273,7 @@ void Korekta::setIsEditAllowed(bool isAllowed){
 	productDate->setEnabled(isAllowed);
 	tableTow->setEnabled(isAllowed);
 	rabatValue->setEnabled(false); // don't allow for now
+	rabatLabel->setEnabled(false); // don't allow for now
 	platCombo->setEnabled(isAllowed);
 	liabDate->setEnabled(isAllowed);
 	additEdit->setEnabled(isAllowed);
@@ -274,6 +285,8 @@ void Korekta::setIsEditAllowed(bool isAllowed){
 	currCombo->setEnabled(isAllowed);
 	saveBtn->setEnabled(isAllowed);
 	liabDate->setEnabled(isAllowed);
+	/*
+	 const discount not allowed at all at the correction level
 	if (!isAllowed && rabatValue->value() == 0) {
 		constRab->setChecked(false);
 		rabatValue->setEnabled(false);
@@ -281,6 +294,7 @@ void Korekta::setIsEditAllowed(bool isAllowed){
 		constRab->setChecked(true);
 		rabatValue->setEnabled(true);
 	}
+	*/
 	if (!isAllowed && platCombo->currentIndex() > 0) {
 		liabDate->setEnabled(true);
 	} else {
@@ -294,7 +308,7 @@ void Korekta::setIsEditAllowed(bool isAllowed){
 }
 
 InvoiceData* Korekta::createOriginalInv() {
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 	invData = new InvoiceData();
 
 	invData->customer = kontrName->text();
@@ -330,33 +344,49 @@ InvoiceData* Korekta::createOriginalInv() {
 	return invData;
 }
 
+/* Not used in this class
+ */
 void Korekta::calculateDiscount(){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 }
 
 void Korekta::calculateSum(){
 	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
-	if (invData == NULL) invData = createOriginalInv();
 
-	if (invData == NULL) return;
+	double netto = 0, price = 0, quantity = 0, gross = 00;
+	double discountValue = 0;
 
-	double corrTotal = 0, invTotal = 0, diffTotal = 0;
-
+	// sum of after correction invoice
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
-		corrTotal += sett().stringToDouble(tableTow->item(i, 10)->text());
+		price = sett().stringToDouble(tableTow->item(i, 7)->text());
+		quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
+		netto = sett().stringToDouble(tableTow->item(i, 8)->text());
+		gross = sett().stringToDouble(tableTow->item(i, 10)->text());
+		discountValue = (price * quantity) - netto;
+
+		nettTotal += netto;
+		discountTotal += discountValue;
+		grossTotal += gross;
 	}
 
-	for (QMap<int, ProductData *>::iterator iter = invData->products.begin();
-			iter != invData->products.end();
-			++iter) {
-		invTotal += iter.value()->getGross();
+	if (origGrossTotal < 0) {
+		if (invData == NULL)
+			invData = createOriginalInv();
+
+		for (QMap<int, ProductData *>::const_iterator iter =
+				invData->products.begin(); iter != invData->products.end(); ++iter) {
+			// qDebug() << iter.value()->toString();
+			origGrossTotal += iter.value()->getGross();
+			origDiscTotal += iter.value()->getDiscount();
+			origNettTotal += iter.value()->getNett();
+		}
 	}
 
-	diffTotal = corrTotal - invTotal;
+	diffTotal = grossTotal - origGrossTotal;
 
-	sum1->setText(sett().numberToString(corrTotal, 'f', 2));
-	sum2->setText(sett().numberToString(invTotal, 'f', 2));
+	sum1->setText(sett().numberToString(grossTotal, 'f', 2));
+	sum2->setText(sett().numberToString(origGrossTotal, 'f', 2));
 	sum3->setText(sett().numberToString(diffTotal, 'f', 2));
 
 	if (diffTotal < 0) {
@@ -372,16 +402,97 @@ QString Korekta::getGroupedSums(){
 
 void Korekta::makeInvoceProductsTitle(short a) {
 	if (a==1) {
-		fraStrList += trUtf8("Pozycje na fakturze po korekcie:") + "<br>";
+		fraStrList += trUtf8("Pozycje na fakturze po korekcie:");
 	}
 	if (a==0) {
-		fraStrList += trUtf8("Pozycje na fakturze przed korektą:") + "<br>";
+		fraStrList += trUtf8("Pozycje na fakturze przed korektą:");
 	}
 }
 
-void Korekta::makeInvoiceSumm(){
-	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+void Korekta::makeBeforeInvoiceProducts(){
+	fraStrList += "<tr align=\"center\"><td>";
+	fraStrList += "<br>";
+	fraStrList
+			+= "<table border=\"1\" width=\"100%\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
+	fraStrList += "<tr>";
+
+	makeInvoiceProductsTitle();
+
+	for (QMap<int, ProductData *>::const_iterator iter = invData->products.begin();
+			iter != invData->products.end();
+			++iter) {
+		// qDebug() << iter.value()->toString();
+		fraStrList += "<tr>";
+		// lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
+		if (sett().value("faktury_pozycje/Lp").toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(iter.key() + 1) + "</td>";
+		if (sett().value("faktury_pozycje/Nazwa") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + iter.value()->getName() + "</td>";
+		if (sett().value("faktury_pozycje/Kod") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + iter.value()->getCode() + "</td>";
+		if (sett().value("faktury_pozycje/pkwiu") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + iter.value()->getPkwiu() + "</td>";
+		if (sett().value("faktury_pozycje/ilosc") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(iter.value()->getQuantity()) + "</td>";
+		if (sett().value("faktury_pozycje/jm") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + iter.value()->getQuantityType() + "</td>";
+		if (sett().value("faktury_pozycje/cenajedn") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(iter.value()->getPrice()) + "</td>";
+		double discountVal = iter.value()->getNett() * (iter.value()->getDiscount() * 0.01);
+		double nettMinusDisc = iter.value()->getNett() - discountVal;
+		if (sett().value("faktury_pozycje/wartnetto") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(iter.value()->getNett())
+					+ "</td>"; // netto
+		if (sett().value("faktury_pozycje/rabatperc") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(iter.value()->getDiscount())
+					+ "% </td>"; // rabat
+		if (sett().value("faktury_pozycje/rabatval") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(discountVal, 'f',  2)	+ " </td>";
+		if (sett().value("faktury_pozycje/nettoafter") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(nettMinusDisc, 'f', 2) + "</td>";
+		if (sett().value("faktury_pozycje/vatval") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(iter.value()->getVat())
+					+ "%</td>";
+		double vatPrice = iter.value()->getGross() - iter.value()->getNett(); // brutt-nett :)
+		if (sett().value("faktury_pozycje/vatprice") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(vatPrice, 'f', 2)
+					+ "</td>";
+		if (sett().value("faktury_pozycje/bruttoval") .toBool())
+			fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(iter.value()->getGross()) + "</td>";
+		fraStrList += "</tr>";
+	}
+
+
+	fraStrList += "</table><br><br>";
+
 }
+
+void Korekta::makeBeforeInvoiceSumm(){
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	fraStrList
+			+= "<table border=\"0\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
+	fraStrList += "<tr>";
+	double vatPrice = grossTotal - nettTotal;
+	fraStrList += "<tr>";
+	fraStrList
+			+= "<td colspan=\"10\" width=\"420\" align=\"right\">&nbsp;</td>";
+	fraStrList += "<td width=\"30\" align=\"center\">&nbsp;" + trUtf8("Wartość Netto") + "</td>"; // netto
+	// fraStrList += "<td width=\"30\" >&nbsp;</td>";
+	fraStrList += "<td width=\"30\" align=\"center\">&nbsp;" + trUtf8("Kwota VAT") + "</td>";// vat
+	fraStrList += "<td width=\"30\" align=\"center\">&nbsp;" + trUtf8("Wartość Brutto") + "</td>"; // brutto
+	fraStrList += "</tr>";
+	fraStrList += "<tr><td colspan=\"10\" width=\"420\" align=\"right\">";
+	fraStrList += "Razem:&nbsp;</td>";
+	fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(nettTotal, 'f', 2); // netto
+	// fraStrList += "<td>&nbsp;</td>";
+	fraStrList += "</td><td align=\"center\">&nbsp;" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
+	fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(grossTotal, 'f', 2) + "</td>"; // brutto
+	fraStrList += "</tr>";
+	fraStrList += "</table>";
+	fraStrList += "<br></td></tr>";
+
+}
+
 
 void Korekta::makeInvoiceSummAll(){
 	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;

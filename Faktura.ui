@@ -341,7 +341,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="textLabel4" >
+      <widget class="QLabel" name="rabatLabel" >
        <property name="text" >
         <string>Rabat:</string>
        </property>
