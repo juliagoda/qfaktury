@@ -202,6 +202,8 @@ void TowaryLista::readTow(QString progDir) {
 /** DisplatData
  */
 void TowaryLista::displayData(int x) {
+	listWidget->clear();
+
 	switch (x) {
 	case 0:
 		for (QMap<QString, ProductData *>::iterator iter = listaTowary2.begin();

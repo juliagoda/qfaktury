@@ -14,6 +14,7 @@ public:
 	~Korekta();
 	bool editMode;
 	virtual void korektaInit(bool mode); // called outside
+	virtual void readCorrData(QString fraFile);
 public slots:
 	// to be overwritten in child class
 	virtual void backBtnClick();
@@ -26,7 +27,7 @@ private:
 	QLabel *labelReason1;
 	virtual void calculateDiscount();
 	virtual void calculateSum();
-	virtual QString getGroupedSums();
+	// virtual QString getGroupedSums();
 	virtual void makeInvoiceSummAll();
 	virtual void makeInvoiceSumm();
 	virtual void makeInvoceProductsTitle(short a);

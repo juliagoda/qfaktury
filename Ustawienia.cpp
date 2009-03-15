@@ -207,8 +207,7 @@ void Ustawienia::vatAddBtnClick() {
 
 /** Slot predefined VAT value delete
  */
-void Ustawienia::vatDelBtnClick()
-{
+void Ustawienia::vatDelBtnClick() {
 	int selNr = vatlBox->currentRow();
 	if (selNr >= 0) {
 		vatlBox->takeItem(selNr);
@@ -308,7 +307,7 @@ void Ustawienia::vatUpBtnClick() {
 void Ustawienia::vatDownBtnClick() {
 	int selNr = vatlBox->currentRow();
 	int recCount = vatlBox->count();
-	qDebug() << selNr << recCount;
+	// qDebug() << selNr << recCount;
 
 	if (selNr == recCount - 1) {
 		QMessageBox::information(this, trUtf8("Uwaga!!"), trUtf8("Nie można przenieść w dół, już jest najniżej."),

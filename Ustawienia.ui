@@ -28,7 +28,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget2" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="TabPage1" >
       <attribute name="title" >
@@ -133,7 +133,7 @@
          <property name="title" >
           <string>Numeracja: </string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3" >
+         <layout class="QVBoxLayout" name="verticalLayout_6" >
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout" >
             <item>
@@ -243,7 +243,7 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5" >
+           <layout class="QHBoxLayout" name="horizontalLayout_7" >
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_2" >
               <item>
@@ -266,8 +266,8 @@
                 </property>
                 <property name="sizeHint" stdset="0" >
                  <size>
-                  <width>20</width>
-                  <height>40</height>
+                  <width>93</width>
+                  <height>38</height>
                  </size>
                 </property>
                </spacer>
@@ -289,241 +289,18 @@
             </item>
            </layout>
           </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="TabPage3" >
-      <attribute name="title" >
-       <string>Jedn/Korekty</string>
-      </attribute>
-      <layout class="QGridLayout" >
-       <item row="0" column="0" >
-        <widget class="QFrame" name="frame10" >
-         <property name="frameShape" >
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="frameShadow" >
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QGridLayout" >
-          <item row="0" column="0" >
-           <layout class="QHBoxLayout" >
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QHBoxLayout" >
-                <item>
-                 <widget class="QLabel" name="textLabel1_3" >
-                  <property name="maximumSize" >
-                   <size>
-                    <width>150</width>
-                    <height>32767</height>
-                   </size>
-                  </property>
-                  <property name="text" >
-                   <string>Spis jednostek:</string>
-                  </property>
-                  <property name="alignment" >
-                   <set>Qt::AlignTop</set>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QListWidget" name="currlBox" />
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" >
-                <item>
-                 <widget class="QLabel" name="textLabel2_4" >
-                  <property name="text" >
-                   <string>Nowa:</string>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="currEdit" >
-                  <property name="maxLength" >
-                   <number>10</number>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QVBoxLayout" />
-              </item>
-              <item>
-               <spacer>
-                <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType" >
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0" >
-                 <size>
-                  <width>21</width>
-                  <height>51</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" >
-                <item>
-                 <widget class="QPushButton" name="currDelBtn" >
-                  <property name="text" >
-                   <string>&amp;Usuń</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+U</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="currAddBtn" >
-                  <property name="text" >
-                   <string>&amp;Dodaj</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+D</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="QFrame" name="frame18" >
-         <property name="frameShape" >
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="frameShadow" >
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QGridLayout" >
-          <item row="0" column="0" >
-           <layout class="QHBoxLayout" >
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QHBoxLayout" >
-                <item>
-                 <widget class="QLabel" name="textLabel1_3_2" >
-                  <property name="maximumSize" >
-                   <size>
-                    <width>150</width>
-                    <height>32767</height>
-                   </size>
-                  </property>
-                  <property name="text" >
-                   <string>Przyczyny 
-korekt:</string>
-                  </property>
-                  <property name="alignment" >
-                   <set>Qt::AlignTop</set>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QListWidget" name="korlBox" />
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" >
-                <item>
-                 <widget class="QLabel" name="textLabel2_4_2" >
-                  <property name="text" >
-                   <string>Nowa:</string>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="korEdit" >
-                  <property name="maxLength" >
-                   <number>25</number>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QVBoxLayout" />
-              </item>
-              <item>
-               <spacer>
-                <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType" >
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0" >
-                 <size>
-                  <width>21</width>
-                  <height>51</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" >
-                <item>
-                 <widget class="QPushButton" name="korDelBtn" >
-                  <property name="text" >
-                   <string>&amp;Usuń</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+U</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="korAddBtn" >
-                  <property name="text" >
-                   <string>&amp;Dodaj</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+D</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
+          <item>
+           <spacer name="verticalSpacer_3" >
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>20</width>
+              <height>67</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -532,404 +309,701 @@ korekt:</string>
      </widget>
      <widget class="QWidget" name="TabPage4" >
       <attribute name="title" >
-       <string>Stawki/Waluty</string>
+       <string>Słowniki</string>
       </attribute>
-      <layout class="QGridLayout" >
-       <item row="1" column="0" >
-        <widget class="QFrame" name="frame6" >
-         <property name="frameShape" >
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="frameShadow" >
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QGridLayout" >
-          <item row="0" column="0" >
-           <layout class="QHBoxLayout" >
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QHBoxLayout" >
-                <item>
-                 <widget class="QLabel" name="textLabel1_3_3_3" >
-                  <property name="text" >
-                   <string>Spis walut:</string>
-                  </property>
-                  <property name="alignment" >
-                   <set>Qt::AlignTop</set>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QListWidget" name="currencylBox" />
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" >
-                <item>
-                 <widget class="QLabel" name="textLabel2_4_3_3" >
-                  <property name="text" >
-                   <string>Nowa:</string>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="currencyEdit" >
-                  <property name="maxLength" >
-                   <number>3</number>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QVBoxLayout" />
-              </item>
-              <item>
-               <spacer>
-                <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType" >
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0" >
-                 <size>
-                  <width>21</width>
-                  <height>51</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" >
-                <item>
-                 <widget class="QPushButton" name="currencyDelBtn" >
-                  <property name="text" >
-                   <string>&amp;Usuń</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+U</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="currencyAddBtn" >
-                  <property name="text" >
-                   <string>&amp;Dodaj</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+D</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
+      <layout class="QGridLayout" name="gridLayout_11" >
        <item row="0" column="0" >
-        <widget class="QFrame" name="frame7" >
-         <property name="frameShape" >
-          <enum>QFrame::NoFrame</enum>
+        <widget class="QToolBox" name="toolBox" >
+         <property name="currentIndex" >
+          <number>4</number>
          </property>
-         <property name="frameShadow" >
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QGridLayout" >
-          <item row="0" column="0" >
-           <layout class="QHBoxLayout" >
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QHBoxLayout" >
+         <widget class="QWidget" name="page_6" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>454</width>
+            <height>353</height>
+           </rect>
+          </property>
+          <attribute name="label" >
+           <string>Formy płatności</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_10" >
+           <item row="0" column="0" >
+            <widget class="QFrame" name="frame8" >
+             <property name="frameShape" >
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow" >
+              <enum>QFrame::Plain</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_8" >
+              <item row="0" column="0" >
+               <layout class="QHBoxLayout" name="_29" >
                 <item>
-                 <widget class="QLabel" name="textLabel1_3_3" >
-                  <property name="text" >
-                   <string>Spis stawek:</string>
-                  </property>
-                  <property name="alignment" >
-                   <set>Qt::AlignTop</set>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>false</bool>
-                  </property>
-                 </widget>
+                 <layout class="QVBoxLayout" name="_30" >
+                  <item>
+                   <layout class="QHBoxLayout" name="_31" >
+                    <item>
+                     <widget class="QLabel" name="paym" >
+                      <property name="text" >
+                       <string>Forma płatności:</string>
+                      </property>
+                      <property name="alignment" >
+                       <set>Qt::AlignTop</set>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QListWidget" name="paymlBox" />
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="_32" >
+                    <item>
+                     <widget class="QLabel" name="textLabel2_4_3_2" >
+                      <property name="text" >
+                       <string>Nowa:</string>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="paymEdit" >
+                      <property name="maxLength" >
+                       <number>25</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
                 </item>
                 <item>
-                 <widget class="QListWidget" name="vatlBox" />
+                 <layout class="QVBoxLayout" name="_33" >
+                  <item>
+                   <layout class="QVBoxLayout" name="_34" >
+                    <item>
+                     <widget class="QPushButton" name="paymUpBtn" >
+                      <property name="text" >
+                       <string>Gó&amp;ra</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+R</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="paymDownBtn" >
+                      <property name="text" >
+                       <string>&amp;Dół</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+D</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <spacer>
+                    <property name="orientation" >
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeType" >
+                     <enum>QSizePolicy::Expanding</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0" >
+                     <size>
+                      <width>21</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="_35" >
+                    <item>
+                     <widget class="QPushButton" name="paymDelBtn" >
+                      <property name="text" >
+                       <string>&amp;Usuń</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+U</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="paymAddBtn" >
+                      <property name="text" >
+                       <string>Dod&amp;aj</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+A</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
                 </item>
                </layout>
               </item>
-              <item>
-               <layout class="QHBoxLayout" >
-                <item>
-                 <widget class="QLabel" name="textLabel2_4_3" >
-                  <property name="text" >
-                   <string>Nowa:</string>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="vatEdit" >
-                  <property name="maxLength" >
-                   <number>6</number>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QVBoxLayout" >
-                <item>
-                 <widget class="QPushButton" name="vatUpBtn" >
-                  <property name="text" >
-                   <string>&amp;Góra</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+G</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="vatDownBtn" >
-                  <property name="text" >
-                   <string>Dół</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <spacer>
-                <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
+              <item row="1" column="0" >
+               <widget class="Line" name="line3" >
+                <property name="frameShape" >
+                 <enum>QFrame::HLine</enum>
                 </property>
-                <property name="sizeType" >
-                 <enum>QSizePolicy::Expanding</enum>
+                <property name="frameShadow" >
+                 <enum>QFrame::Sunken</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
-                 <size>
-                  <width>21</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
+               </widget>
               </item>
-              <item>
-               <layout class="QVBoxLayout" >
-                <item>
-                 <widget class="QPushButton" name="vatDelBtn" >
-                  <property name="text" >
-                   <string>&amp;Usuń</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+U</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="vatAddBtn" >
-                  <property name="text" >
-                   <string>&amp;Dodaj</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+D</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="TabPage5" >
-      <attribute name="title" >
-       <string>Płatności</string>
-      </attribute>
-      <layout class="QGridLayout" >
-       <item row="0" column="0" >
-        <widget class="QFrame" name="frame8" >
-         <property name="frameShape" >
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="frameShadow" >
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QGridLayout" >
-          <item row="0" column="0" >
-           <layout class="QHBoxLayout" >
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QHBoxLayout" >
-                <item>
-                 <widget class="QLabel" name="paym" >
-                  <property name="text" >
-                   <string>Forma płatności:</string>
-                  </property>
-                  <property name="alignment" >
-                   <set>Qt::AlignTop</set>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QListWidget" name="paymlBox" />
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" >
-                <item>
-                 <widget class="QLabel" name="textLabel2_4_3_2" >
-                  <property name="text" >
-                   <string>Nowa:</string>
-                  </property>
-                  <property name="wordWrap" >
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="paymEdit" >
-                  <property name="maxLength" >
-                   <number>25</number>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" >
-              <item>
-               <layout class="QVBoxLayout" >
-                <item>
-                 <widget class="QPushButton" name="paymUpBtn" >
-                  <property name="text" >
-                   <string>Gó&amp;ra</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+R</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="paymDownBtn" >
-                  <property name="text" >
-                   <string>&amp;Dół</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+D</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <spacer>
-                <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType" >
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0" >
-                 <size>
-                  <width>21</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" >
-                <item>
-                 <widget class="QPushButton" name="paymDelBtn" >
-                  <property name="text" >
-                   <string>&amp;Usuń</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+U</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="paymAddBtn" >
-                  <property name="text" >
-                   <string>Dod&amp;aj</string>
-                  </property>
-                  <property name="shortcut" >
-                   <string>Alt+A</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0" >
-           <widget class="Line" name="line3" >
-            <property name="frameShape" >
-             <enum>QFrame::HLine</enum>
-            </property>
-            <property name="frameShadow" >
-             <enum>QFrame::Sunken</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <widget class="QLabel" name="textLabel5" >
-            <property name="text" >
-             <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+              <item row="2" column="0" >
+               <widget class="QLabel" name="textLabel5" >
+                <property name="text" >
+                 <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 &lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'DejaVu Sans'; font-size:9pt; font-weight:400; font-style:normal;">
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif';">&lt;span style=" font-weight:600;">Uwaga!!&lt;/span>&lt;br />Pozycja, która znajduje się na samym początku tej listy w większości przypadków powinna być gotówką, gdyż jeśli przy wystawianiu faktury wybierzemy pierwszy elemant to na fakturze pojawi sie napis: zapłacono.&lt;/p>&lt;/body>&lt;/html></string>
-            </property>
-            <property name="wordWrap" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+                </property>
+                <property name="wordWrap" >
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>470</width>
+            <height>349</height>
+           </rect>
+          </property>
+          <attribute name="label" >
+           <string>Stawki</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_3" >
+           <item row="0" column="0" >
+            <widget class="QFrame" name="frame7" >
+             <property name="frameShape" >
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow" >
+              <enum>QFrame::Plain</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_5" >
+              <item row="0" column="0" >
+               <layout class="QHBoxLayout" >
+                <item>
+                 <layout class="QVBoxLayout" >
+                  <item>
+                   <layout class="QHBoxLayout" >
+                    <item>
+                     <widget class="QLabel" name="textLabel1_3_3" >
+                      <property name="text" >
+                       <string>Spis stawek:</string>
+                      </property>
+                      <property name="alignment" >
+                       <set>Qt::AlignTop</set>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QListWidget" name="vatlBox" />
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" >
+                    <item>
+                     <widget class="QLabel" name="textLabel2_4_3" >
+                      <property name="text" >
+                       <string>Nowa:</string>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="vatEdit" >
+                      <property name="maxLength" >
+                       <number>6</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" >
+                  <item>
+                   <layout class="QVBoxLayout" >
+                    <item>
+                     <widget class="QPushButton" name="vatUpBtn" >
+                      <property name="text" >
+                       <string>&amp;Góra</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+G</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="vatDownBtn" >
+                      <property name="text" >
+                       <string>Dół</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <spacer>
+                    <property name="orientation" >
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeType" >
+                     <enum>QSizePolicy::Expanding</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0" >
+                     <size>
+                      <width>21</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" >
+                    <item>
+                     <widget class="QPushButton" name="vatDelBtn" >
+                      <property name="text" >
+                       <string>&amp;Usuń</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+U</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="vatAddBtn" >
+                      <property name="text" >
+                       <string>&amp;Dodaj</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+D</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_2" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>309</width>
+            <height>166</height>
+           </rect>
+          </property>
+          <attribute name="label" >
+           <string>Jednostki</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_4" >
+           <item row="0" column="0" >
+            <widget class="QFrame" name="frame10" >
+             <property name="frameShape" >
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow" >
+              <enum>QFrame::Plain</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_12" >
+              <item row="0" column="0" >
+               <layout class="QHBoxLayout" name="horizontalLayout_6" >
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_4" >
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_5" >
+                    <item>
+                     <widget class="QLabel" name="textLabel1_3" >
+                      <property name="maximumSize" >
+                       <size>
+                        <width>150</width>
+                        <height>32767</height>
+                       </size>
+                      </property>
+                      <property name="text" >
+                       <string>Spis jednostek:</string>
+                      </property>
+                      <property name="alignment" >
+                       <set>Qt::AlignTop</set>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QListWidget" name="currlBox" />
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="_20" >
+                    <item>
+                     <widget class="QLabel" name="textLabel2_4" >
+                      <property name="text" >
+                       <string>Nowa:</string>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="currEdit" >
+                      <property name="maxLength" >
+                       <number>10</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_3" >
+                  <item>
+                   <spacer>
+                    <property name="orientation" >
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeType" >
+                     <enum>QSizePolicy::Expanding</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0" >
+                     <size>
+                      <width>74</width>
+                      <height>48</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="currDelBtn" >
+                    <property name="text" >
+                     <string>&amp;Usuń</string>
+                    </property>
+                    <property name="shortcut" >
+                     <string>Alt+U</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="currAddBtn" >
+                    <property name="text" >
+                     <string>&amp;Dodaj</string>
+                    </property>
+                    <property name="shortcut" >
+                     <string>Alt+D</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_3" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>284</width>
+            <height>166</height>
+           </rect>
+          </property>
+          <attribute name="label" >
+           <string>Przyczyny korekt</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_6" >
+           <item row="0" column="0" >
+            <widget class="QFrame" name="frame18" >
+             <property name="frameShape" >
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow" >
+              <enum>QFrame::Plain</enum>
+             </property>
+             <layout class="QGridLayout" name="_21" >
+              <item row="0" column="0" >
+               <layout class="QHBoxLayout" name="_22" >
+                <item>
+                 <layout class="QVBoxLayout" name="_23" >
+                  <item>
+                   <layout class="QHBoxLayout" name="_24" >
+                    <item>
+                     <widget class="QLabel" name="textLabel1_3_2" >
+                      <property name="maximumSize" >
+                       <size>
+                        <width>150</width>
+                        <height>32767</height>
+                       </size>
+                      </property>
+                      <property name="text" >
+                       <string>Przyczyny 
+korekt:</string>
+                      </property>
+                      <property name="alignment" >
+                       <set>Qt::AlignTop</set>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QListWidget" name="korlBox" />
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="_25" >
+                    <item>
+                     <widget class="QLabel" name="textLabel2_4_2" >
+                      <property name="text" >
+                       <string>Nowa:</string>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="korEdit" >
+                      <property name="maxLength" >
+                       <number>25</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="_26" >
+                  <item>
+                   <layout class="QVBoxLayout" name="_27" />
+                  </item>
+                  <item>
+                   <spacer>
+                    <property name="orientation" >
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeType" >
+                     <enum>QSizePolicy::Expanding</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0" >
+                     <size>
+                      <width>21</width>
+                      <height>51</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="_28" >
+                    <item>
+                     <widget class="QPushButton" name="korDelBtn" >
+                      <property name="text" >
+                       <string>&amp;Usuń</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+U</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="korAddBtn" >
+                      <property name="text" >
+                       <string>&amp;Dodaj</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+D</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="Spiswalut" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>470</width>
+            <height>349</height>
+           </rect>
+          </property>
+          <attribute name="label" >
+           <string>Spis walut</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_7" >
+           <item row="0" column="0" >
+            <widget class="QFrame" name="frame6" >
+             <property name="frameShape" >
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow" >
+              <enum>QFrame::Plain</enum>
+             </property>
+             <layout class="QGridLayout" name="_12" >
+              <item row="0" column="0" >
+               <layout class="QHBoxLayout" name="_13" >
+                <item>
+                 <layout class="QVBoxLayout" name="_14" >
+                  <item>
+                   <layout class="QHBoxLayout" name="_15" >
+                    <item>
+                     <widget class="QLabel" name="textLabel1_3_3_4" >
+                      <property name="text" >
+                       <string>Spis walut:</string>
+                      </property>
+                      <property name="alignment" >
+                       <set>Qt::AlignTop</set>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QListWidget" name="currencylBox" />
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="_16" >
+                    <item>
+                     <widget class="QLabel" name="textLabel2_4_3_4" >
+                      <property name="text" >
+                       <string>Nowa:</string>
+                      </property>
+                      <property name="wordWrap" >
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="currencyEdit" >
+                      <property name="maxLength" >
+                       <number>3</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="_17" >
+                  <item>
+                   <layout class="QVBoxLayout" name="_18" />
+                  </item>
+                  <item>
+                   <spacer>
+                    <property name="orientation" >
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeType" >
+                     <enum>QSizePolicy::Expanding</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0" >
+                     <size>
+                      <width>21</width>
+                      <height>51</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="_19" >
+                    <item>
+                     <widget class="QPushButton" name="currencyDelBtn" >
+                      <property name="text" >
+                       <string>&amp;Usuń</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+U</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="currencyAddBtn" >
+                      <property name="text" >
+                       <string>&amp;Dodaj</string>
+                      </property>
+                      <property name="shortcut" >
+                       <string>Alt+D</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>

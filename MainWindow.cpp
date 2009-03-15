@@ -587,11 +587,11 @@ void MainWindow::editFHist() {
 	QList<QTableWidgetItem *> selected = tableH->selectedItems();
 	row = selected[0]->row();
 
-	if (tableH->item(row, 3)->text() == "korekta") {
+	if (tableH->item(row, 3)->text() == trUtf8("korekta")) {
 		// QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
 		Korekta *korWindow = new Korekta(this);
 		korWindow->korektaInit(true);
-		korWindow->readData(tableH->item(row, 0)->text(), 2);
+		korWindow->readCorrData(tableH->item(row, 0)->text());
 		if (korWindow->exec() == QDialog::Accepted) {
 			QStringList rowTxt = korWindow->ret.split("|");
 			tableH->item(row, 0)->setText(rowTxt[0]); // file name
@@ -603,8 +603,8 @@ void MainWindow::editFHist() {
 		}
 	}
 
-	if ((tableH->item(row, 3)->text() == "FVAT")
-			|| (tableH->item(row, 3)->text() == "FPro")) {
+	if ((tableH->item(row, 3)->text() == trUtf8("FVAT"))
+			|| (tableH->item(row, 3)->text() == trUtf8("FPro"))) {
 		// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 		Faktura *fraWindow = new Faktura(this);
 		// qDebug() << pdGlob;
