@@ -223,8 +223,8 @@ void Korekta::makeInvoice(){
 	makeInvoiceBody();
 
 	makeInvoceProductsTitle(0);
-	makeBeforeInvoiceProducts();
-	makeBeforeInvoiceSumm();
+	makeBeforeCorrProducts();
+	makeBeforeCorrSumm();
 
 	makeInvoceProductsTitle(1);
 	makeInvoiceProducts();
@@ -409,14 +409,14 @@ void Korekta::makeInvoceProductsTitle(short a) {
 	}
 }
 
-void Korekta::makeBeforeInvoiceProducts(){
+void Korekta::makeBeforeCorrProducts(){
 	fraStrList += "<tr align=\"center\"><td>";
 	fraStrList += "<br>";
 	fraStrList
 			+= "<table border=\"1\" width=\"100%\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
 	fraStrList += "<tr>";
 
-	makeInvoiceProductsTitle();
+	makeInvoiceProductsHeadar();
 
 	for (QMap<int, ProductData *>::const_iterator iter = invData->products.begin();
 			iter != invData->products.end();
@@ -462,12 +462,36 @@ void Korekta::makeBeforeInvoiceProducts(){
 		fraStrList += "</tr>";
 	}
 
-
 	fraStrList += "</table><br><br>";
-
+	// fraStrList += "</td></tr>";
 }
 
-void Korekta::makeBeforeInvoiceSumm(){
+void Korekta::makeBeforeCorrSumm(){
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+	fraStrList
+			+= "<table border=\"0\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
+	fraStrList += "<tr>";
+	double vatPrice = origGrossTotal - origNettTotal;
+	fraStrList += "<tr>";
+	fraStrList
+			+= "<td colspan=\"10\" width=\"420\" align=\"right\">&nbsp;</td>";
+	fraStrList += "<td width=\"30\" align=\"center\">&nbsp;" + trUtf8("Wartość Netto") + "</td>"; // netto
+	// fraStrList += "<td width=\"30\" >&nbsp;</td>";
+	fraStrList += "<td width=\"30\" align=\"center\">&nbsp;" + trUtf8("Kwota VAT") + "</td>";// vat
+	fraStrList += "<td width=\"30\" align=\"center\">&nbsp;" + trUtf8("Wartość Brutto") + "</td>"; // brutto
+	fraStrList += "</tr>";
+	fraStrList += "<tr><td colspan=\"10\" width=\"420\" align=\"right\">";
+	fraStrList += "Razem:&nbsp;</td>";
+	fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(origNettTotal, 'f', 2); // netto
+	// fraStrList += "<td>&nbsp;</td>";
+	fraStrList += "</td><td align=\"center\">&nbsp;" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
+	fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(origGrossTotal, 'f', 2) + "</td>"; // brutto
+	fraStrList += "</tr>";
+	fraStrList += "</table>";
+	// fraStrList += "<br></td></tr>";
+}
+
+void Korekta::makeInvoiceSumm() {
 	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 	fraStrList
 			+= "<table border=\"0\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
@@ -489,10 +513,8 @@ void Korekta::makeBeforeInvoiceSumm(){
 	fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(grossTotal, 'f', 2) + "</td>"; // brutto
 	fraStrList += "</tr>";
 	fraStrList += "</table>";
-	fraStrList += "<br></td></tr>";
-
+	// fraStrList += "<br></td></tr>";
 }
-
 
 void Korekta::makeInvoiceSummAll(){
 	qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;

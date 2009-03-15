@@ -624,7 +624,7 @@ void Faktura::makeInvoiceHeadar(bool sellDate) {
 
 	fraStrList += "<body>";
 	fraStrList
-			+= "<table border=\"`0\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-family:'Arial'\">";
+			+= "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-family:'Arial'\">";
 	fraStrList += "<tr comment=\"headar\"><td>";
 	fraStrList
 			+= "<table comment=\"headar table\" width=\"100%\" border=\"0\">";
@@ -644,9 +644,7 @@ void Faktura::makeInvoiceHeadar(bool sellDate) {
 
 	fraStrList += "</td>";
 	fraStrList += "<td align=\"right\">";
-
 	fraStrList += "<span style=\"font-size:12pt; font-weight:600\">";
-
 	fraStrList += invoiceType;
 	fraStrList += "<br/>";
 
@@ -661,7 +659,7 @@ void Faktura::makeInvoiceHeadar(bool sellDate) {
 	fraStrList += "<td width=\"3%\">&nbsp;</td>";
 	fraStrList += "</tr>";
 	fraStrList += "<tr>";
-	fraStrList += "<td colspan=\"3\" align=\"right\" valign=\"top\"><br>";
+	fraStrList += "<td colspan=\"2\" align=\"right\" valign=\"top\"><br>";
 	fraStrList += trUtf8("ORYGINAŁ/KOPIA");
 	fraStrList += "<br></td>";
 	fraStrList += "<td width=\"3%\">&nbsp;</td>";
@@ -715,7 +713,7 @@ void Faktura::makeInvoiceBody() {
 	fraStrList += "</td></tr>";
 }
 
-void Faktura::makeInvoiceProductsTitle() {
+void Faktura::makeInvoiceProductsHeadar() {
 	int currentPercent = 0;
 	if (sett().value("faktury_pozycje/Lp").toBool()) {
 		currentPercent = 3;
@@ -826,7 +824,7 @@ void Faktura::makeInvoiceProducts() {
 			+= "<table border=\"1\" width=\"100%\" cellspacing=\"0\" style=\"font-size:8pt; font-weight:400;\">";
 	fraStrList += "<tr>";
 
-	makeInvoiceProductsTitle();
+	makeInvoiceProductsHeadar();
 
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
 		// for (int j=1; j<11;++j)
@@ -897,11 +895,11 @@ void Faktura::makeInvoiceSumm() {
 	fraStrList += "</td><td align=\"center\">&nbsp;" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
 	fraStrList += "<td align=\"center\">&nbsp;" + sum3->text() + "</td>"; // brutto
 	fraStrList += "</tr>";
-	fraStrList += "</table>";
-	fraStrList += "<br></td></tr>";
+	fraStrList += "</table><br>";
 }
 
 void Faktura::makeInvoiceSummAll() {
+	fraStrList += "</td></tr>";
 	fraStrList += "<tr comment=\"podsumowanie\"><td>";
 	fraStrList += "<table width=\"100%\" border=\"0\">";
 	fraStrList += "<tr>";

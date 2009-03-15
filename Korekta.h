@@ -28,9 +28,10 @@ private:
 	virtual void calculateSum();
 	virtual QString getGroupedSums();
 	virtual void makeInvoiceSummAll();
+	virtual void makeInvoiceSumm();
 	virtual void makeInvoceProductsTitle(short a);
-	virtual void makeBeforeInvoiceProducts();
-	virtual void makeBeforeInvoiceSumm();
+	virtual void makeBeforeCorrProducts();
+	virtual void makeBeforeCorrSumm();
 	InvoiceData *createOriginalInv();
 	virtual void setIsEditAllowed(bool isAllowed);
 protected:

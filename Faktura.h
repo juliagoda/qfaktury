@@ -52,7 +52,7 @@ protected:
 	virtual void makeInvoiceProducts();
 	virtual void makeInvoiceSumm();
 	virtual void makeInvoiceSummAll();
-	virtual void makeInvoiceProductsTitle();
+	virtual void makeInvoiceProductsHeadar();
 	void makeInvoiceFooter();
 	virtual void calculateOneDiscount(int a);
 	virtual void setIsEditAllowed(bool isAllowed);
