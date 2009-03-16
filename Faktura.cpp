@@ -920,9 +920,13 @@ void Faktura::makeInvoiceSummAll() {
 	fraStrList += "<td width=\"48%\"><h4>";
 	fraStrList += trUtf8("Do zapłaty: ") + sum3->text() + " "
 			+ currCombo->currentText() + "</h4><span style=\"font-size:8pt; font-weight:600;\">";
+
+	Convert* conv = new Convert();
 	fraStrList += trUtf8("słownie:")
-			+ slownie(sum3->text(), currCombo->currentText())
+			+ conv->convertPL(sum3->text(), currCombo->currentText())
 			+ "</span><br/><span style=\"font-size:8pt; font-weight:600;\">";
+	delete conv;
+
 	fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br/>";
 	QString paym1 = sett().value("paym1").toString();
 	if (platCombo->currentIndex() == 0) {

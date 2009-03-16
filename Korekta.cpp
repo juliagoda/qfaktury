@@ -5,7 +5,7 @@
 #include <QTextStream>
 #include <QtDebug>
 
-#include "slownie.h"
+#include "Convert.h"
 #include "Settings.h"
 
 
@@ -709,9 +709,12 @@ void Korekta::makeInvoiceSummAll(){
 		fraStrList += sum3->text() + " " + currCombo->currentText();
 	}
 	fraStrList += "</h4><span style=\"font-size:8pt; font-weight:600;\">";
+
+	Convert* conv = new Convert();
 	fraStrList += trUtf8("słownie:")
-			+ slownie(sum3->text(), currCombo->currentText())
+			+ conv->convertPL(sum3->text(), currCombo->currentText())
 			+ "</span><br/><span style=\"font-size:8pt; font-weight:600;\">";
+	delete conv;
 	fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br/>";
 	QString paym1 = sett().value("paym1").toString();
 	if (platCombo->currentIndex() == 0) {
