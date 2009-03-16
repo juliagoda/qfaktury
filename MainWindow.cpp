@@ -601,6 +601,8 @@ void MainWindow::editFHist() {
 			tableH->item(row, 4)->setText(rowTxt[4]); // nabywca
 			tableH->item(row, 5)->setText(rowTxt[5]); // NIP
 		}
+		delete korWindow;
+		korWindow = NULL;
 	}
 
 	if ((tableH->item(row, 3)->text() == trUtf8("FVAT"))
@@ -624,6 +626,8 @@ void MainWindow::editFHist() {
 			tableH->item(row, 4)->setText(rowTxt[4]); // nabywca
 			tableH->item(row, 5)->setText(rowTxt[5]); // NIP
 		}
+		delete fraWindow;
+		fraWindow = NULL;
 	}
 }
 
@@ -681,6 +685,8 @@ void MainWindow::kontrClick() {
 		tableK->item(tableK->rowCount() - 1, 3)->setText(row[3]); // address
 		tableK->item(tableK->rowCount() - 1, 4)->setText(row[4]); // telefon
 	}
+	delete kontrWindow;
+	kontrWindow = NULL;
 }
 
 /** Slot used to delete current customer
@@ -764,6 +770,8 @@ void MainWindow::kontrEd() {
 		tableK->item(row, 3)->setText(rowTxt[3]); // address
 		tableK->item(row, 4)->setText(rowTxt[4]); // telefon
 	}
+	delete kontrWindow;
+	kontrWindow = NULL;
 }
 
 /** Slot used for creating new invoices
@@ -783,6 +791,9 @@ void MainWindow::newFra() {
 	} else {
 		rereadHist();
 	}
+
+	delete fraWindow;
+	fraWindow = NULL;
 }
 
 /** Slot used to create new ProForma Invoice
@@ -804,6 +815,9 @@ void MainWindow::newPForm() {
 	} else {
 		rereadHist();
 	}
+
+	delete fraWindow;
+	fraWindow = NULL;
 }
 
 /** Slot used to create new Korkta
@@ -834,6 +848,8 @@ void MainWindow::newKor() {
 			tableH->item(newRow, 4)->setText(row[4]); // nabywca
 			tableH->item(newRow, 5)->setText(row[5]); // NIP
 		}
+		delete korWindow;
+		korWindow = NULL;
 	}
 
 	if ((tableH->item(row, 3)->text() == "korekta")) {
@@ -868,6 +884,8 @@ void MainWindow::towaryDodaj() {
 	} else {
 		rereadHist();
 	}
+	delete towWindow;
+	towWindow = NULL;
 }
 
 /** Slot used to delete goods
@@ -962,6 +980,8 @@ void MainWindow::towaryEdycja() {
 		tableT->item(row, 10)->setText(rowTxt[10]);
 		tableT->item(row, 11)->setText(rowTxt[11]);
 	}
+	delete towWindow;
+	towWindow = NULL;
 
 }
 

@@ -138,6 +138,8 @@ void Faktura::getCustomer () {
       saveBtn->setEnabled(true);
       canClose = false;
     }
+  delete klWindow;
+  klWindow = NULL;
 }
 
 /** Slot
@@ -194,6 +196,8 @@ void Faktura::addTow() {
 			calculateDiscount();
 		calculateSum();
 	}
+	delete twWindow;
+	twWindow = NULL;
 }
 
 /** Slot delTowar
@@ -229,6 +233,8 @@ void Faktura::editTowar() {
 		calculateOneDiscount(currentRow);
 		calculateSum();
 	}
+	delete changeQuant;
+	changeQuant = NULL;
 }
 
 /** Slot
@@ -1134,7 +1140,7 @@ void Faktura::setIsEditAllowed(bool isAllowed) {
 	currCombo->setEnabled(isAllowed);
 	saveBtn->setEnabled(isAllowed);
 	liabDate->setEnabled(isAllowed);
-	if (!isAllowed && rabatValue->value() == 0) {
+	if (!isAllowed || rabatValue->value() == 0) {
 		constRab->setChecked(false);
 		rabatValue->setEnabled(false);
 	} else {
@@ -1191,6 +1197,10 @@ void Faktura::calculateOneDiscount(int i) {
 void Faktura::calculateSum() {
 	double netto = 0, price = 0, quantity = 0, gross = 00;
 	double discountValue = 0;
+
+	nettTotal = 0;
+	discountTotal = 0;
+	grossTotal = 0;
 
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
 		price = sett().stringToDouble(tableTow->item(i, 7)->text());
