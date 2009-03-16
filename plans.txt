@@ -3,3 +3,7 @@
 -użycie xml schema z xmlbeansxx (xmlbeansxx.sf.net) po to, żeby walidować tworzone dane z fakturami, kontrahentami i towarami oraz po to, żeby lepiej się edytowało kod w C++, który operuje na xmlu
 -użycie sqlite do trzymania danych o fakturach; zrobienie exportu / importu do xml danych
 
+-wystawianie faktur od cen brutto
+-integracja z ksiazka adresowa
+-raport miesieczny wystawionych faktur 
+

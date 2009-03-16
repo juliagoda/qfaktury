@@ -8,5 +8,3 @@ compilacja na windows:
 cmake -G "MinGW Makefiles"
 make
 
-TODO: 
-integracja z jakas ksiazka adresowa???
