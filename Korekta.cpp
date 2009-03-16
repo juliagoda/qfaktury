@@ -326,6 +326,9 @@ void Korekta::readCorrData(QString fraFile){
 	sellingDate->setDate(QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
 	productDate->setDate(QDate::fromString(root.attribute("issueDate"),	sett().getDateFormat()));
 
+	invData = new InvoiceData();
+	invData->frNr = root.attribute("originalInvoiceNo");
+
 	QDomNode tmp;
 	tmp = root.firstChild();
 	tmp = tmp.toElement().nextSibling(); // nabywca
@@ -335,19 +338,25 @@ void Korekta::readCorrData(QString fraFile){
 			+ nabywca.attribute("tic"));
 	kontrName->setCursorPosition(1);
 
-	tmp = tmp.toElement().nextSibling(); // product
-	product = tmp.toElement();
-
-	rabatValue->setValue(product.attribute("discount").toInt());
-
-	int towCount = product.attribute("productsCount").toInt();
+	//*********************** Load Products Vars ***************************
+	int towCount = 0;
 	int i = 0;
 	QDomElement towar;
-	towar = product.firstChild().toElement();
 
 	static const char *towarColumns[] = { "id", "name", "code", "PKWiU",
 			"quantity", "quantityType", "discount", "price", "nett",
 			"vatBucket", "gross" };
+
+	//*********************** Load Products After ***************************
+	tmp = tmp.toElement().nextSibling(); // product after
+	product = tmp.toElement();
+	towCount = product.attribute("productsCount").toInt();
+	rabatValue->setValue(product.attribute("discount").toInt());
+	// qDebug() << "product.nodeName() : "  << product.nodeName();
+
+	towCount = product.attribute("productsCount").toInt();
+	i = 0;
+	towar = product.firstChild().toElement();
 
 	tableTow->setRowCount(towCount);
 	for (i = 0; i < towCount; ++i) {
@@ -359,6 +368,41 @@ void Korekta::readCorrData(QString fraFile){
 		towar = towar.nextSibling().toElement();
 	}
 
+	//*********************** Load Products Before ***************************
+	tmp = tmp.toElement().nextSibling(); // product before
+	product = tmp.toElement();
+	towCount = product.attribute("productsCount").toInt();
+	// qDebug() << "product.nodeName() : "  << product.nodeName();
+	towar = product.firstChild().toElement();
+	/*
+	// those fields are not stored in correction xml... for now
+	invData->customer = kontrName->text();
+	invData->liabDate = liabDate->date();
+	invData->sellingDate = sellingDate->date();
+	invData->productDate = productDate->date();
+	invData->paymentType = platCombo->currentText();
+	invData->currencyType = currCombo->currentText();
+	invData->additText = additEdit->text();
+	*/
+	for (i = 0; i < towCount; ++i) {
+		ProductData *product = new ProductData();
+		product->setId(towar.attribute(towarColumns[0]));
+		product->setName(towar.attribute(towarColumns[1]));
+		product->setCode(towar.attribute(towarColumns[2]));
+		product->setPkwiu(towar.attribute(towarColumns[3]));
+		product->setQuantity(towar.attribute(towarColumns[4]));
+		product->setQuanType(towar.attribute(towarColumns[5]));
+		product->setDiscount(towar.attribute(towarColumns[6]));
+		product->setPrice(towar.attribute(towarColumns[7]));
+		product->setNett(towar.attribute(towarColumns[8]));
+		product->setVat(towar.attribute(towarColumns[9]));
+		product->setGross(towar.attribute(towarColumns[10]));
+		// qDebug() << product->toString();
+		invData->products[i] = product;
+		towar = towar.nextSibling().toElement();
+	}
+
+
 	tmp = tmp.toElement().nextSibling();
 	QDomElement additional = tmp.toElement();
 	additEdit->setText(additional.attribute("text"));
@@ -367,6 +411,9 @@ void Korekta::readCorrData(QString fraFile){
 	liabDate-> setDate(QDate::fromString(additional.attribute("liabDate"), sett().getDateFormat()));
 	int curCurrency = sett().value("waluty").toString().split("|").indexOf(additional.attribute("currency"));
 	currCombo->setCurrentIndex(curCurrency);
+
+	int corrReason = sett().value("pkorekty").toString().split("|").indexOf(additional.attribute("reason"));
+	reasonCombo->setCurrentIndex(corrReason);
 
 	canClose = true;
 	saveBtn->setEnabled(false);
@@ -422,8 +469,8 @@ void Korekta::setIsEditAllowed(bool isAllowed){
 	reasonCombo->setEnabled(isAllowed);
 
 	//@TODO move it somewhere else, needs to be called after readData
-    invData = createOriginalInv();
-
+	if (invData == NULL)
+		invData = createOriginalInv();
 }
 
 /**  Creates object with the orignal invoice
@@ -475,6 +522,15 @@ void Korekta::calculateSum(){
 	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 	double netto = 0, price = 0, quantity = 0, gross = 00;
 	double discountValue = 0;
+
+	// set to 0
+	nettTotal = 0;
+	discountTotal = 0;
+	grossTotal = 0;
+	// origGrossTotal = -1;
+	origDiscTotal = 0;
+	origNettTotal = 0;
+	diffTotal = 0;
 
 	// sum of after correction invoice
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
@@ -579,7 +635,7 @@ void Korekta::makeBeforeCorrProducts(){
 		fraStrList += "</tr>";
 	}
 
-	fraStrList += "</table><br><br>";
+	fraStrList += "</table>";
 	// fraStrList += "</td></tr>";
 }
 
@@ -604,7 +660,7 @@ void Korekta::makeBeforeCorrSumm(){
 	fraStrList += "</td><td align=\"center\">&nbsp;" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
 	fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(origGrossTotal, 'f', 2) + "</td>"; // brutto
 	fraStrList += "</tr>";
-	fraStrList += "</table>";
+	fraStrList += "</table><br><br><hr class=\"hrdiv1\">";
 	// fraStrList += "<br></td></tr>";
 }
 
@@ -629,7 +685,7 @@ void Korekta::makeInvoiceSumm() {
 	fraStrList += "</td><td align=\"center\">&nbsp;" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
 	fraStrList += "<td align=\"center\">&nbsp;" + sett().numberToString(grossTotal, 'f', 2) + "</td>"; // brutto
 	fraStrList += "</tr>";
-	fraStrList += "</table>";
+	fraStrList += "</table><br><br>";
 	// fraStrList += "<br></td></tr>";
 }
 
@@ -640,13 +696,18 @@ void Korekta::makeInvoiceSummAll(){
 	fraStrList += "<table width=\"100%\" border=\"0\">";
 	fraStrList += "<tr>";
 	fraStrList += "<td width=\"3%\">&nbsp;</td>";
-	fraStrList += "<td width=\"48%\"><h4>";
+	fraStrList += "<td width=\"48%\"><h6>";
+	fraStrList += trUtf8("Wartość faktury: ") + sett().numberToString(origGrossTotal) + "<br>";
+	fraStrList += trUtf8("Wartość korekty: ") + sett().numberToString(grossTotal) + "<br>";
+	// fraStrList += trUtf8("Wartość korekty: ") + sett().numberToString(diffTotal) + "<br>";
+	fraStrList += "</h6><h4>";
 	if (diffTotal > 0) {
 		fraStrList += trUtf8("Do zapłaty: ");
-	} else {
+		fraStrList += sum3->text() + " " + currCombo->currentText();
+	} else if (diffTotal < 0) {
 		fraStrList += trUtf8("Do zwrotu: ");
+		fraStrList += sum3->text() + " " + currCombo->currentText();
 	}
-	fraStrList += sum3->text() + " " + currCombo->currentText();
 	fraStrList += "</h4><span style=\"font-size:8pt; font-weight:600;\">";
 	fraStrList += trUtf8("słownie:")
 			+ slownie(sum3->text(), currCombo->currentText())
@@ -659,7 +720,10 @@ void Korekta::makeInvoiceSummAll(){
 		fraStrList += trUtf8("termin płatności: ") + liabDate->date().toString(sett().getDateFormat())
 				+ "<br/>";
 	}
-	fraStrList += "</b> <br/></span><br/>";
+	fraStrList += "</b> <br/></span>";
+	fraStrList += "<br><span style=\"font-size:8pt; font-weight:600;\">"
+		+ trUtf8("przyczyna korekty: ") +  reasonCombo->currentText()
+		+ "</span><br>";
 	fraStrList += "<span style=\"font-size:10pt; font-weight:600;\">"
 			+ additEdit->text() + "</span>";
 	fraStrList += "</td>";

@@ -593,13 +593,7 @@ void MainWindow::editFHist() {
 		korWindow->korektaInit(true);
 		korWindow->readCorrData(tableH->item(row, 0)->text());
 		if (korWindow->exec() == QDialog::Accepted) {
-			QStringList rowTxt = korWindow->ret.split("|");
-			tableH->item(row, 0)->setText(rowTxt[0]); // file name
-			tableH->item(row, 1)->setText(rowTxt[1]); // symbol
-			tableH->item(row, 2)->setText(rowTxt[2]); // date
-			tableH->item(row, 3)->setText(rowTxt[3]); // type
-			tableH->item(row, 4)->setText(rowTxt[4]); // nabywca
-			tableH->item(row, 5)->setText(rowTxt[5]); // NIP
+			// edit window shouln't return anything
 		}
 		delete korWindow;
 		korWindow = NULL;
@@ -618,6 +612,8 @@ void MainWindow::editFHist() {
 		fraWindow->readData(tableH->item(row, 0)->text(), co);
 		if (fraWindow->exec() == QDialog::Accepted) {
 			// tableH->insertRows (tableH->rowCount (), 1);
+			// edit window shouln't return anything
+			/*
 			QStringList rowTxt = fraWindow->ret.split("|");
 			tableH->item(row, 0)->setText(rowTxt[0]); // file name
 			tableH->item(row, 1)->setText(rowTxt[1]); // symbol
@@ -625,6 +621,7 @@ void MainWindow::editFHist() {
 			tableH->item(row, 3)->setText(rowTxt[3]); // type
 			tableH->item(row, 4)->setText(rowTxt[4]); // nabywca
 			tableH->item(row, 5)->setText(rowTxt[5]); // NIP
+			*/
 		}
 		delete fraWindow;
 		fraWindow = NULL;

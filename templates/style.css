@@ -32,7 +32,7 @@ h4 {
 }
 .towaryList {
  font-family: Verdana, Tahoma, Arial;
- font-size: 10px;
+ font-size: 14px;
  color: #000000; font-style: normal;
 }
 
@@ -65,4 +65,11 @@ h6 {
  font-family: Verdana, Tahoma, Arial;
  font-size: 8px;
  color: #000000; font-style: normal;
+}
+
+.hrdiv1  
+{
+	color: #f00; 
+	background-color: #f00; 
+	height: 0.5px;
 }

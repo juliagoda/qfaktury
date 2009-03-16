@@ -625,6 +625,8 @@ void Faktura::makeInvoiceHeadar(bool sellDate) {
 			fraStrList += line;
 		}
 		file.close();
+	} else {
+		qDebug() << "Could not open CSS file: " << file.fileName();
 	}
 	fraStrList += "--></style>";
 
@@ -878,7 +880,7 @@ void Faktura::makeInvoiceProducts() {
 		fraStrList += "</tr>";
 	}
 
-	fraStrList += "</table><br><br>";
+	fraStrList += "</table>";
 }
 
 void Faktura::makeInvoiceSumm() {
@@ -901,7 +903,7 @@ void Faktura::makeInvoiceSumm() {
 	fraStrList += "</td><td align=\"center\">&nbsp;" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
 	fraStrList += "<td align=\"center\">&nbsp;" + sum3->text() + "</td>"; // brutto
 	fraStrList += "</tr>";
-	fraStrList += "</table><br>";
+	fraStrList += "</table><br><br>";
 }
 
 void Faktura::makeInvoiceSummAll() {
