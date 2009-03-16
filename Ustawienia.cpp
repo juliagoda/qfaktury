@@ -1,23 +1,11 @@
 #include "Ustawienia.moc"
-#include <qtextcodec.h>
-#include "Settings.h"
-#include <qfiledialog.h>
-
-
-#include <qprinter.h>
-#include <qpainter.h>
-#include <qimage.h>
-#include <qpicture.h>
-
-#include <qdatetime.h>
-#include <qdir.h>
+#include <QTextCodec>
+#include <QFileDialog>
 #include <Qt/qdom.h>
-#include <qfont.h>
+#include <QMessageBox>
 
-#include <qmessagebox.h>
-#include <qapplication.h>
+#include "Settings.h"
 
-// #include "preview.h"
 
 
 Ustawienia::Ustawienia(QWidget *parent) :
@@ -50,6 +38,8 @@ void Ustawienia::init() {
 	connect(pushButton, SIGNAL(clicked()), this, SLOT(setDefaultClick()));
 
 	// QFaktury 0.6.0
+    connect( langList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
+    connect( codecList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
     connect( logoEdit, SIGNAL( editingFinished ()), this, SLOT( zastBtnEnable() ) );
     connect( prefixEdit, SIGNAL( editingFinished () ), this, SLOT( zastBtnEnable() ) );
     connect( sufixEdit, SIGNAL( editingFinished () ), this, SLOT( zastBtnEnable() ) );
@@ -71,11 +61,15 @@ void Ustawienia::init() {
     connect( userinfomail, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
     connect( userinfowww, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
 
+    langList->clear();
+    langList->insertItems(0, sett().getTranslations());
+
     getEncodings();
     readSettings();
 
     // disable apply button :)
     zastButton->setEnabled(false);
+
 }
 
 /** Slot - Apply
@@ -384,8 +378,6 @@ void Ustawienia::getEncodings() {
 	QMap<QString, QTextCodec *> codecMap;
 	QRegExp iso8859RegExp("ISO[- ]8859-([0-9]+).*");
 
-	QList<QTextCodec *> codecs;
-
 	foreach (int mib, QTextCodec::availableMibs()) {
 			QTextCodec *codec = QTextCodec::codecForMib(mib);
 
@@ -491,6 +483,8 @@ void Ustawienia::saveSettings() {
 /** Read all sett()
  */
 void Ustawienia::readSettings() {
+	int curr = 0;
+
 	logoEdit->setText(sett().value("logo").toString());
 	currlBox->clear();
 	currlBox->addItems(sett().value("jednostki").toString().split("|"));
@@ -500,8 +494,15 @@ void Ustawienia::readSettings() {
 	currencylBox->addItems(sett().value("waluty").toString().split("|"));
 	paymlBox->clear();
 	paymlBox->addItems(sett().value("payments").toString().split("|"));
+
+	curr = codecs.indexOf(QTextCodec::codecForName(sett().value("localEnc").toByteArray()));
+	codecList->setCurrentIndex(curr);
+
 	korlBox->clear();
 	korlBox->addItems(sett().value("pkorekty").toString().split("|"));
+
+	curr = sett().getTranslations().indexOf(sett().value("lang").toString());
+	langList->setCurrentIndex(curr);
 
 
 	/*
@@ -543,12 +544,6 @@ void Ustawienia::readSettings() {
 	cbSmbEdit_2->setChecked(sett().value("editName").toBool());
 
 	spbNumb->setValue(sett(). value("chars_in_symbol").toInt());
-
-	codecList->setCurrentIndex(5);
-
-	langList->clear();
-	langList->insertItem(0, "polski"); //@TODO
-	// langList->setCurrentIndex(0);
 
 	sett().beginGroup("printpos");
 	userinfonazwa->setChecked(sett().value("usernazwa").toBool());

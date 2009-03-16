@@ -8,6 +8,7 @@
 #include <QLocale>
 #include <QDebug>
 #include <QTextCodec>
+#include <QTranslator>
 #include "config.h"
 
 
@@ -36,21 +37,49 @@ public:
 	// returns date format used while saving the file
 	QString getFnameDateFormat() {
 			return fileNameDateFormat;
+	}
+
+	// returns a translator
+	QStringList getTranslations() {
+		if (translations.isEmpty()) {
+			QDir allFiles;
+			allFiles.setPath(QDir::currentPath());
+			allFiles.setFilter(QDir::Files);
+			QStringList filters;
+			filters << "*qm";
+			allFiles.setNameFilters(filters);
+			QStringList tmp = allFiles.entryList();
+			tmp = tmp.replaceInStrings("qfaktury_", "");
+			tmp = tmp.replaceInStrings(".qm", "");
+			translations = tmp;
 		}
+		return translations;
+	}
+
+
+	// returns a translator
+	QTranslator* getTranslation() {
+	    translator = new QTranslator();
+	    QString lang = value("lang", "pl").toString();
+	    // The easiest way
+	    // On windows and during testing files have to be in executable dir
+	    if (!translator->load(QString("qfaktury_") + lang))
+	    	translator->load(QString("qfaktury_") + lang, "/usr/share/qfaktury");
+		return translator;
+	}
+
 	/**
 	 * validate the settings and set them to default values if required.
 	 */
 	void checkSettings() {
-		beginGroup("general");
 		if (value("browser_name").toString().compare("") == 0)
 			setValue("browser_name", "");
 		if (value("default_browser").toString().compare("") == 0)
 			setValue("default_browser", "true");
 		if (value("lang").toString().compare("") == 0)
-			setValue("lang", tr("polski"));
+			setValue("lang", tr("pl"));
 		if (value("localEnc").toString().compare("") == 0)
-			setValue("waluty", tr("ISO-8859-2"));
-		endGroup();
+			setValue("localEnc", tr("ISO-8859-2"));
 
 
 		if (value("addText").toString().compare("") == 0)
@@ -324,7 +353,7 @@ public:
 		beginGroup("General");
 		setValue("browser_name", "");
 		setValue("default_browser", "true");
-		setValue("lang", tr("polski"));
+		setValue("lang", tr("pl"));
 		setValue("waluty", tr("ISO-8859-2"));
 		endGroup();
 
@@ -612,6 +641,8 @@ private:
 	QString dateFormat;
 	QString fileNameDateFormat;
 	QLocale *locale;
+    QTranslator* translator;
+    QStringList translations;
 
 	// constr
 	Settings() :

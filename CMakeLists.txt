@@ -15,12 +15,12 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.in ${CMAKE_CURRENT_BINARY_DIR}
 
 include(${QT_USE_FILE})
 set(qfaktury_SRCS
+main.cpp
 ConvertAmount.cpp
 Faktura.cpp
 Kontrahenci.cpp
 KontrahenciLista.cpp
 Korekta.cpp
-main.cpp
 Towary.cpp
 TowaryLista.cpp
 Ustawienia.cpp

@@ -37,5 +37,7 @@ private:
 	void readSettings();
 	void getEncodings();
 	QString getAll(QListWidget *lb);
+	QList<QTextCodec *> codecs;
+
 };
 #endif

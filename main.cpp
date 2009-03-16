@@ -3,14 +3,21 @@
 #include <QResource>
 #include <QDesktopWidget>
 #include <QSplashScreen>
+#include <QTranslator>
 #include <QWaitCondition>
 
 #include "MainWindow.h"
+#include "Settings.h"
 
 // do splasha
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
+
+
+	// multilangage
+    a.installTranslator(sett().getTranslation());
+
 
 	QResource::registerResource("qfaktury.rcc"); // using the rcc file so it's more portable
 	// Q_INIT_RESOURCE(qfaktury);

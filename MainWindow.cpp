@@ -578,7 +578,7 @@ void MainWindow::oProg() {
 /** Slot used to edit the invoice from list of invoices.
  */
 void MainWindow::editFHist() {
-	if (tableH->item(tableH->currentRow(), 0) == NULL) {
+	if (tableH->selectedItems().count() <= 0) {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Nie mozna edytować."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
@@ -631,7 +631,7 @@ void MainWindow::editFHist() {
 /** Slot used to delete invoices
  */
 void MainWindow::delFHist() {
-	if (tableH->item(tableH->currentRow(), 0) == NULL) {
+	if (tableH->selectedItems().count() <= 0) {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Nie mozna usuwać."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
@@ -689,7 +689,7 @@ void MainWindow::kontrClick() {
 /** Slot used to delete current customer
  */
 void MainWindow::kontrDel() {
-	if (tableK->item(tableK->currentRow(), 0) == NULL) {
+	if (tableK->selectedItems().count() <= 0) {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Kontrahent nie wybrany. Nie mozna usuwac."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
@@ -753,6 +753,12 @@ void MainWindow::kontrDel() {
 /** Slot used to edit customer
  */
 void MainWindow::kontrEd() {
+	if (tableK->selectedItems().count() <= 0) {
+		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Kontrahent nie wybrany."), trUtf8("Ok"), 0, 0, 1);
+		return;
+	}
+
+
 	int row = tableK->selectedItems()[0]->row();
 	// qDebug ()<<tableK->item(row, 0)->text();
 
@@ -820,7 +826,7 @@ void MainWindow::newPForm() {
 /** Slot used to create new Korkta
  */
 void MainWindow::newKor() {
-	if (tableH->item(tableH->currentRow(), 0) == NULL) {
+	if (tableH->selectedItems().count() <= 0) {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Wybierz fakurę, do której chcesz wystawić korektę."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
@@ -888,7 +894,7 @@ void MainWindow::towaryDodaj() {
 /** Slot used to delete goods
  */
 void MainWindow::towaryUsun() {
-	if (tableT->item(tableT->currentRow(), 0) == NULL) {
+	if (tableT->selectedItems().count() <= 0) {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Towar nie wybrany. Nie mozna usuwac."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
@@ -957,6 +963,13 @@ void MainWindow::towaryUsun() {
 /** Slot used for editing goods
  */
 void MainWindow::towaryEdycja() {
+
+	if (tableT->selectedItems().count() <= 0) {
+		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Towar nie wybrany. Nie można edytować."), trUtf8("Ok"), 0, 0, 1);
+		return;
+	}
+
+
 	int row = tableT->selectedItems()[0]->row();
 
 	Towary *towWindow = new Towary(this, 1);
