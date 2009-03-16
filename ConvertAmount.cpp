@@ -1,22 +1,22 @@
 /*
- * Convert.cpp
+ * ConvertAmount.cpp
  *
  *  Created on: Mar 16, 2009
  *      Author: tpielech
  */
 
-#include "Convert.h"
+#include "ConvertAmount.h"
 
-Convert::Convert() {
+ConvertAmount::ConvertAmount() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Convert::~Convert() {
+ConvertAmount::~ConvertAmount() {
 	// TODO Auto-generated destructor stub
 }
 
-QString convertPL(QString input, QString waluta) {
+QString ConvertAmount::convertPL(QString input, QString waluta) {
 	// qDebug() << in;
 	QString in = input.remove(sett().getTPointStr());
 
