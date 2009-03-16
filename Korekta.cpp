@@ -5,8 +5,6 @@
 #include <QTextStream>
 #include <QtDebug>
 
-#include "Convert.h"
-#include "Settings.h"
 
 
 // constructor
@@ -710,11 +708,12 @@ void Korekta::makeInvoiceSummAll(){
 	}
 	fraStrList += "</h4><span style=\"font-size:8pt; font-weight:600;\">";
 
-	Convert* conv = new Convert();
+	ConvertAmount* conv = new ConvertAmount();
 	fraStrList += trUtf8("słownie:")
 			+ conv->convertPL(sum3->text(), currCombo->currentText())
 			+ "</span><br/><span style=\"font-size:8pt; font-weight:600;\">";
 	delete conv;
+
 	fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br/>";
 	QString paym1 = sett().value("paym1").toString();
 	if (platCombo->currentIndex() == 0) {

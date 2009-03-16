@@ -4,7 +4,9 @@
 #include <QDomElement>
 #include <QDomDocument>
 
+#include "ConvertAmount.h"
 #include "Settings.h"
+
 
 #include "ui_Faktura.h"
 

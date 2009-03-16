@@ -4,6 +4,9 @@
 
 #include "ui_Faktura.h"
 #include "Faktura.h"
+
+#include "ConvertAmount.h"
+#include "Settings.h"
 #include "InvoiceData.h"
 
 

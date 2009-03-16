@@ -29,7 +29,6 @@ public:
 
 	// returns date format used for all dates
 	QString getDateFormat() {
-		// for some reason on Linux i see date as mm/dd/yy
 		// it's better to have a full year... so
 		return dateFormat;
 	}

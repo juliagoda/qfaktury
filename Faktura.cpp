@@ -16,8 +16,6 @@
 #include "TowaryLista.h"
 #include "ZmienIlosc.h"
 #include "MainWindow.h"
-#include "Convert.h"
-#include "Settings.h"
 
 
 enum InvoiceType {FVat, FPro, EFVat, EFPro};
@@ -921,7 +919,7 @@ void Faktura::makeInvoiceSummAll() {
 	fraStrList += trUtf8("Do zapłaty: ") + sum3->text() + " "
 			+ currCombo->currentText() + "</h4><span style=\"font-size:8pt; font-weight:600;\">";
 
-	Convert* conv = new Convert();
+	ConvertAmount* conv = new ConvertAmount();
 	fraStrList += trUtf8("słownie:")
 			+ conv->convertPL(sum3->text(), currCombo->currentText())
 			+ "</span><br/><span style=\"font-size:8pt; font-weight:600;\">";

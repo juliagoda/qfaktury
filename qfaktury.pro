@@ -7,7 +7,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += Convert.h \
+HEADERS += ConvertAmount.h \
     InvoiceData.h \
     ProductData.h \
     ProductData.h \
@@ -20,7 +20,6 @@ HEADERS += Convert.h \
     MainWindow.h \
     Rounding.h \
     Settings.h \
-    slownie.h \
     Towary.h \
     TowaryLista.h \
     Ustawienia.h \
@@ -46,7 +45,7 @@ FORMS += Faktura.ui \
     Ustawienia.ui \
     Uzytkownik.ui \
     ZmienIlosc.ui
-SOURCES += Convert.cpp \
+SOURCES += ConvertAmount.cpp \
     Faktura.cpp \
     Kontrahenci.cpp \
     KontrahenciLista.cpp \
@@ -55,7 +54,6 @@ SOURCES += Convert.cpp \
     MainWindow.cpp \
     qrc_qfaktury.cxx \
     Rounding.cpp \
-    slownie.cpp \
     Towary.cpp \
     TowaryLista.cpp \
     Ustawienia.cpp \
