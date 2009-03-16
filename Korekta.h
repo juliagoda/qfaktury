@@ -11,7 +11,7 @@ class Korekta: public Faktura {
 Q_OBJECT
 public:
 	Korekta(QWidget *parent);
-	~Korekta();
+	virtual ~Korekta();
 	bool editMode;
 	virtual void korektaInit(bool mode); // called outside
 	virtual void readCorrData(QString fraFile);

@@ -16,7 +16,7 @@
 #include "TowaryLista.h"
 #include "ZmienIlosc.h"
 #include "MainWindow.h"
-#include "slownie.h"
+#include "Convert.h"
 #include "Settings.h"
 
 
@@ -31,6 +31,11 @@ Faktura::Faktura(QWidget *parent) :
 	init();
 }
 
+/** Destructor
+ */
+Faktura::~Faktura() {
+
+}
 /** Init method
  */
 void Faktura::init() {

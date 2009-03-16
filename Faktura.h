@@ -12,6 +12,7 @@ class Faktura: public QDialog, public Ui::Faktura {
 Q_OBJECT
 public:
 	Faktura(QWidget *parent);
+	virtual ~Faktura();
 	void init();
 	void readData(QString fraFile, int co);
 	QString fName, ret;

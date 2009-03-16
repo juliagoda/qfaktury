@@ -7,7 +7,8 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += InvoiceData.h \
+HEADERS += Convert.h \
+    InvoiceData.h \
     ProductData.h \
     ProductData.h \
     InvoiceData.h \
@@ -45,7 +46,8 @@ FORMS += Faktura.ui \
     Ustawienia.ui \
     Uzytkownik.ui \
     ZmienIlosc.ui
-SOURCES += Faktura.cpp \
+SOURCES += Convert.cpp \
+    Faktura.cpp \
     Kontrahenci.cpp \
     KontrahenciLista.cpp \
     Korekta.cpp \
