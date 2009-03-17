@@ -901,7 +901,7 @@ void Faktura::makeInvoiceSummAll() {
 		fraStrList += trUtf8("słownie:")
 				+ conv->convertPL(sum3->text(), currCombo->currentText()) + "<br>";
 		delete conv;
-		fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br>";
+		fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br><b>";
 		QString paym1 = sett().value("paym1").toString();
 		if (platCombo->currentIndex() == 0) {
 			fraStrList += trUtf8("Zapłacono gotówką") + "<br>";
