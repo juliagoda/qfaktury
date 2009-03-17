@@ -23,53 +23,106 @@ h4 {
  color: #000000; font-style: normal;
  font-weight: bold;
 }
-.towaryN { 
+
+.persons {
  font-family: Verdana, Tahoma, Arial;
- font-size: 10px;
- color: #000000; 
- font-style: normal;
- font-weight: bold;
+ font-size: 8pt; font-weight:600;
+ text-align: left;
 }
-.towaryList {
+
+.productsHeader {
  font-family: Verdana, Tahoma, Arial;
- font-size: 14px;
+ font-size:6pt; font-weight:800;
+ color: #000000; 
+  text-align: center;
+}
+
+.products {
+ 	font-family: Verdana, Tahoma, Arial;
+ 	font-size: 14px;
+ 	color: #000000; font-style: normal;
+ 	font-size:8pt; font-weight:400;
+ 	text-align: center;
+}
+
+.productsSumHeader {
+ font-family: Verdana, Tahoma, Arial;
  color: #000000; font-style: normal;
+ font-size:6pt; font-weight:400;
+ text-align: center;
+ table-layout: auto;
+}
+
+.productsSum {
+ font-family: Verdana, Tahoma, Arial;
+ color: #000000; font-style: normal;
+ font-size:8pt; font-weight:400;
+ text-align: right;
+ border: 0px 
+}
+
+.stawkiHeader {
+ font-family: Verdana, Tahoma, Arial;
+ font-size:8pt; font-weight:600;
 }
 
 .stawki {
  font-family: Verdana, Tahoma, Arial;
- font-size: 10px;
- font-weight: normal; 
+ font-size:6pt; font-weight:400;
  color: #000000; font-style: normal;
 }
 
-h5 {
+.payDate {
  font-family: Verdana, Tahoma, Arial;
- font-size: 10px;
+ font-size: 12px;
  color: #000000; font-style: normal;
- font-weight: bold; 
+ font-weight: bold;
 }
-h6 {
+
+.toPay {
  font-family: Verdana, Tahoma, Arial;
- font-size: 8px;
+ font-size: 12px;
  color: #000000; font-style: normal;
- font-weight: bold; 
+ font-weight: bold;
 }
 
-.goods {
- border: 1px #FFFFFF ridge;
- border-spacing: 0px;
+.summary {
+ font-size:8pt; 
+ font-weight:600;
 }
 
-.podpisy {
+.additionalText {
+ font-size:10pt; 
+ font-weight:600;
+}
+
+
+.stamp {
  font-family: Verdana, Tahoma, Arial;
- font-size: 8px;
- color: #000000; font-style: normal;
+ font-size:6pt; font-weight:400;
+ text-align: left;
 }
 
-.hrdiv1  
-{
-	color: #f00; 
+.dates {
+ font-family: Verdana, Tahoma, Arial;
+ font-size:8pt; font-weight: 600;
+ text-align: center;
+}
+
+.signature {
+ font-family: Verdana, Tahoma, Arial;
+ font-size:6pt; font-weight:400;
+ color: #000000; font-style: normal;
+ text-align: center;
+}
+
+.summarySmall {
+ font-weight: normal;
+ font-size:6pt; font-weight:400;
+}
+
+.hrdiv1 {
+	color: #f0f; 
 	background-color: #f00; 
-	height: 0.5px;
+	height: 1px;
 }

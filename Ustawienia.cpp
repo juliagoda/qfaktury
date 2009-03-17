@@ -36,14 +36,15 @@ void Ustawienia::init() {
 	connect(vatDownBtn, SIGNAL(clicked()), this, SLOT(vatDownBtnClick()));
 	connect(addLogoBtn, SIGNAL(clicked()), this, SLOT(addLogoBtnClick()));
 	connect(pushButton, SIGNAL(clicked()), this, SLOT(setDefaultClick()));
+	connect(defTextBtn, SIGNAL(clicked()), this, SLOT(defTextBtnClick()));
 
 	// QFaktury 0.6.0
     connect( langList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
     connect( codecList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
-    connect( logoEdit, SIGNAL( editingFinished ()), this, SLOT( zastBtnEnable() ) );
-    connect( prefixEdit, SIGNAL( editingFinished () ), this, SLOT( zastBtnEnable() ) );
-    connect( sufixEdit, SIGNAL( editingFinished () ), this, SLOT( zastBtnEnable() ) );
-    connect( spbNumb, SIGNAL( editingFinished () ), this, SLOT( zastBtnEnable() ) );
+    connect( logoEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( zastBtnEnable() ) );
+    connect( prefixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
+    connect( sufixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
+    connect( spbNumb, SIGNAL(  valueChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
     connect( cbDay, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable()) );
     connect( cbMonth, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
     connect( cbYear, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
@@ -60,6 +61,22 @@ void Ustawienia::init() {
     connect( userinfotel, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
     connect( userinfomail, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
     connect( userinfowww, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+
+    connect( cb1, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb2, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb3, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb4, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb5, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb6, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb7, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb8, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb9, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb10, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb11, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb12, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb13, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+    connect( cb14, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
+
 
     langList->clear();
     langList->insertItems(0, sett().getTranslations());
