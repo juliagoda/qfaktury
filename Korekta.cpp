@@ -96,15 +96,15 @@ void Korekta::saveInvoice(){
 		fName = QDate::currentDate().toString(sett().getFnameDateFormat());
 
 		int pNumber = 0;
-		file.setFileName(sett().getInvoicesDir() + "k" + fName + "_"
-				+ sett().numberToString(pNumber) + ".xml");
-		ret = file.fileName() + "|";
+		QString fname = "k" + fName + "_"	+ sett().numberToString(pNumber) + ".xml";
+		file.setFileName(sett().getInvoicesDir() + fname);
+		ret = fname + "|";
 		pNumber += 1;
 
 		while (file.exists()) {
-			file.setFileName(sett().getInvoicesDir() + "k" + fName + "_"
-					+ sett().numberToString(pNumber) + ".xml");
-			ret = file.fileName() + "|";
+			QString fname = "k" + fName + "_"	+ sett().numberToString(pNumber) + ".xml";
+			file.setFileName(sett().getInvoicesDir() + fname);
+			ret = fname + "|";
 			pNumber += 1;
 		}
 		// qDebug() << "Create new file " + file.fileName();
