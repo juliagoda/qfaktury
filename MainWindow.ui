@@ -355,7 +355,7 @@
      <x>0</x>
      <y>0</y>
      <width>698</width>
-     <height>19</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >
@@ -602,6 +602,9 @@
    </property>
    <property name="text" >
     <string>Dane firmy</string>
+   </property>
+   <property name="iconText" >
+    <string>Firma</string>
    </property>
    <property name="shortcut" >
     <string>Ctrl+I</string>
