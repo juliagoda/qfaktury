@@ -329,7 +329,7 @@ void Faktura::payTextChanged(QString text) {
 /** Slot textChanged
  *  Activates buttons
  */
-void Faktura::textChanged(QString text) {
+void Faktura::textChanged(QString ) {
 	saveBtn->setEnabled(true);
 	canClose = false;
 }
@@ -337,7 +337,7 @@ void Faktura::textChanged(QString text) {
 /** Slot dateChanged
  *  Activates buttons
  */
-void Faktura::dateChanged(QDate text) {
+void Faktura::dateChanged(QDate ) {
 	saveBtn->setEnabled(true);
 	canClose = false;
 }

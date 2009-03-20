@@ -1,6 +1,7 @@
 project(qfaktury)
 cmake_minimum_required(VERSION 2.4.7)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+set(DEBIAN_FOUND)
 set(QFAKTURY_MAJOR 0)
 set(QFAKTURY_MINOR 6)
 set(QFAKTURY_REVISION 0)

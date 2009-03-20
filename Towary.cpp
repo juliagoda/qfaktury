@@ -84,7 +84,7 @@ void Towary::spinChanged(int a) {
 /** Slot
  *  Nett value changed
  */
-void Towary::nettoChanged(double a) {
+void Towary::nettoChanged(double ) {
 	// qDebug ()<<nettoEdit->text ();
 	netto[spinBox2->value() - 1] = nettoEdit->cleanText();
 }
@@ -157,6 +157,8 @@ void Towary::readData(QString idx, int type) {
 				}
 			}
 		}
+		typeCombo->setCurrentIndex(type);
+
 	}
 
 }
@@ -299,8 +301,9 @@ void Towary::displayData(QDomNode n) {
 	kodEdit->setText(n.toElement().attribute("code"));
 	skrotEdit->setText(n.toElement().attribute("desc"));
 	pkwiuEdit->setText(n.toElement().attribute("pkwiu"));
-	typeCombo->setCurrentIndex(0);
-	jednCombo->setCurrentIndex(0);
+	// typeCombo->setCurrentIndex(0);
+	int quanType = sett().value("jednostki").toString().split("|").indexOf(n.toElement().attribute("quanType"));
+	jednCombo->setCurrentIndex(quanType);
 	nettoEdit->setValue(n.toElement().attribute("netto1").toDouble());
 	netto[0] = n.toElement().attribute("netto1");
 	netto[1] = n.toElement().attribute("netto2");

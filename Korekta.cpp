@@ -193,7 +193,7 @@ void Korekta::saveInvoice(){
 		}
 		product.setAttribute("price", sett().numberToString(iter.value()->getPrice()));
 		double cenajdn = iter.value()->getPrice();
-		double kwota = cenajdn * iter.value()->getQuantity();
+		// double kwota = cenajdn * iter.value()->getQuantity();
 		product.setAttribute("nett", sett().numberToString(iter.value()->getNett())); // netto
 		// product.setAttribute ("Rabat", QLocale::toString (rabatValue->value ()));	// rabat
 		double discNett = iter.value()->getNett() -

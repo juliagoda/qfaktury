@@ -566,7 +566,7 @@ public:
 	// @TODO enforce that translation won't affect this funcionality
 	// converts customer type into int value
 	int getCustomerType(QString custType) {
-		if (custType.compare(trUtf8("Firma")) == 0) {
+		if (custType.compare(trUtf8("Firma")) == 0 || custType.compare(trUtf8("firma")) == 0) {
 			return 0;
 		} else {
 			return 1;
@@ -575,7 +575,7 @@ public:
 
 	// converts product type into int value
 	int getProductType(QString prodName) {
-		if (prodName.compare(trUtf8("Towar")) == 0) {
+		if (prodName.compare(trUtf8("Towar")) == 0 || prodName.compare(trUtf8("towar")) == 0) {
 			return 0;
 		} else {
 			return 1;

@@ -973,6 +973,7 @@ void MainWindow::towaryEdycja() {
 	int row = tableT->selectedItems()[0]->row();
 
 	Towary *towWindow = new Towary(this, 1);
+	// qDebug() << tableT->item(row, 5)->text() << sett().getProductType(tableT->item(row, 5)->text());
 	towWindow->readData(tableT->item(row, 0)->text(),
 			sett().getProductType(tableT->item(row, 5)->text()));
 	if (towWindow->exec() == QDialog::Accepted) {
