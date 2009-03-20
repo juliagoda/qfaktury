@@ -145,7 +145,7 @@ void Towary::readData(QString idx, int type) {
 					= n.nextSibling()) {
 				if (n.toElement().attribute("idx").compare(idx) == 0) {
 					displayData(n);
-					cbVat->setCurrentIndex(type);
+					// cbVat->setCurrentIndex(type);
 				}
 			}
 		} else {
@@ -153,7 +153,7 @@ void Towary::readData(QString idx, int type) {
 					= n.nextSibling()) {
 				if (n.toElement().attribute("idx").compare(idx) == 0) {
 					displayData(n);
-					cbVat->setCurrentIndex(type);
+					// cbVat->setCurrentIndex(type);
 				}
 			}
 		}
@@ -302,8 +302,13 @@ void Towary::displayData(QDomNode n) {
 	skrotEdit->setText(n.toElement().attribute("desc"));
 	pkwiuEdit->setText(n.toElement().attribute("pkwiu"));
 	// typeCombo->setCurrentIndex(0);
-	int quanType = sett().value("jednostki").toString().split("|").indexOf(n.toElement().attribute("quanType"));
-	jednCombo->setCurrentIndex(quanType);
+	int current = 0;
+	current = sett().value("jednostki").toString().split("|").indexOf(n.toElement().attribute("quanType"));
+	jednCombo->setCurrentIndex(current);
+
+	current = sett().value("stawki").toString().split("|").indexOf(n.toElement().attribute("vat"));
+	cbVat->setCurrentIndex(current);
+
 	nettoEdit->setValue(n.toElement().attribute("netto1").toDouble());
 	netto[0] = n.toElement().attribute("netto1");
 	netto[1] = n.toElement().attribute("netto2");
