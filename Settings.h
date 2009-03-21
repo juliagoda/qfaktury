@@ -515,8 +515,14 @@ public:
 
 	// returns templates directory
 	QString getTemplate() {
-		// @TODO
-		return QDir::currentPath() + "/templates/style.css";
+		QString ret = QDir::currentPath() + "/templates/style.css";
+		QFile f(ret);
+		if (!f.exists())
+			ret = "/usr/share/qfaktury/templates/style.css";
+
+		// qDebug() << ret;
+
+		return ret;
 	}
 
 
