@@ -41,9 +41,15 @@ public:
 
 	// returns a translator
 	QStringList getTranslations() {
+		QString path  = QDir::currentPath() + "/qfaktury_en.qm";
+
+		QFile f(path);
+		if (!f.exists())
+			path = "/usr/local/share/qfaktury/";
+
 		if (translations.isEmpty()) {
 			QDir allFiles;
-			allFiles.setPath(QDir::currentPath());
+			allFiles.setPath(path);
 			allFiles.setFilter(QDir::Files);
 			QStringList filters;
 			filters << "*qm";
@@ -64,7 +70,7 @@ public:
 	    // The easiest way
 	    // On windows and during testing files have to be in executable dir
 	    if (!translator->load(QString("qfaktury_") + lang))
-	    	translator->load(QString("qfaktury_") + lang, "/usr/share/qfaktury");
+	    	translator->load(QString("qfaktury_") + lang, "/usr/local/share/qfaktury");
 		return translator;
 	}
 
@@ -518,10 +524,8 @@ public:
 		QString ret = QDir::currentPath() + "/templates/style.css";
 		QFile f(ret);
 		if (!f.exists())
-			ret = "/usr/share/qfaktury/templates/style.css";
-
+			ret = "/usr/local/share/qfaktury/templates/style.css";
 		// qDebug() << ret;
-
 		return ret;
 	}
 
