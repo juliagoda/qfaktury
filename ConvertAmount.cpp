@@ -87,9 +87,9 @@ QString ConvertAmount::convertPL(QString input, QString waluta) {
 			"dziewiętnaście") << QObject::trUtf8("dziesięć");
 
 	QStringList escia;
-	escia << QObject::trUtf8("dwadziescia") << QObject::trUtf8("trzydziesci")
+	escia << QObject::trUtf8("dwadzieścia") << QObject::trUtf8("trzydzieści")
 			<< QObject::trUtf8("czterdzieści")
-			<< QObject::trUtf8("piędziesiąt")
+			<< QObject::trUtf8("pięćdziesiąt")
 			<< QObject::trUtf8("sześdziesiąt") << QObject::trUtf8(
 			"siedemdziesiąt") << QObject::trUtf8("osiemdziesiąt")
 			<< QObject::trUtf8("dziewięćdziesiąt");
