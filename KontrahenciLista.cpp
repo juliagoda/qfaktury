@@ -14,8 +14,16 @@ KontrahenciLista::KontrahenciLista(QWidget *parent): QDialog(parent) {
 /** Init
  */
 void KontrahenciLista::init() {
+	// qDebug () << __FUNCTION__;
+
 	companiesList.clear();
 	officesList.clear();
+
+#ifdef WIN32
+	// i have no idea why but for some unknown reason WIN
+	// was failing without this line.
+	sett();
+#endif
 
 	// read data
 	readKontr(sett().getWorkingDir());

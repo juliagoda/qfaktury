@@ -7,6 +7,9 @@ set(QFAKTURY_REVISION 0)
 set(QFAKTURY_VERSION ${QFAKTURY_MAJOR}.${QFAKTURY_MINOR}.${QFAKTURY_REVISION})
 set(QT_USE_QTXML TRUE)
 
+set(CMAKE_BUILD_TYPE Release)
+
+
 find_package(Qt4 REQUIRED)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
@@ -43,6 +46,7 @@ set(qfaktury_RCCS
 qfaktury.qrc
 )
 
+
 QT4_ADD_RESOURCES(qfaktury_SRCS ${qfaktury_RCCS})
 QT4_WRAP_UI(qfaktury_UIS_H ${qfaktury_UIS})
 
@@ -56,7 +60,7 @@ if (WIN32)
     endif (CMAKE_BUILD_TYPE STREQUAL Release)
 endif (WIN32)
 
-
+set(CMAKE_BUILD_TYPE Release)
 
 add_executable(qfaktury ${WIN32_FLAG} ${qfaktury_SRCS} ${qfaktury_UIS_H} ${qfaktury_RCCS})
 target_link_libraries(qfaktury ${QT_LIBRARIES})
