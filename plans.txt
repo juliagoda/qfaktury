@@ -7,3 +7,5 @@
 -integracja z ksiazka adresowa
 -raport miesieczny wystawionych faktur 
 -mozliwosc zmiany seperatora daty
+
+-zmien format NIP (dodac do opcji).
