@@ -108,7 +108,7 @@ void Faktura::init() {
 	platCombo->insertItems(0, sett().value("payments").toString().split("|"));
 	currCombo->insertItems(0, sett().value("waluty").toString().split("|"));
 
-	if (sett().value ("addText").toString().compare("") == 0 )
+	if (sett().value ("addText").toString().compare("") != 0 )
 		additEdit->setText(sett().value("addText").toString());
 
 	backBtnClick();

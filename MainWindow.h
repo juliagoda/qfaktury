@@ -10,6 +10,7 @@ Q_OBJECT
 public:
 	MainWindow(QWidget *parent);
 	static void insertRow(QTableWidget *t, int row);
+	~MainWindow();
 public slots:
 	void tableClear(QTableWidget * tab);
 	void tabChanged(QWidget * aaa);

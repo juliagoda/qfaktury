@@ -25,6 +25,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     init();
 }
 
+/** Destructor
+ */
+MainWindow::~MainWindow() {
+	// saveAllSett();
+}
+
 /**
  * init() method
  */
