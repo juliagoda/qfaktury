@@ -8,7 +8,6 @@
 #ifndef CONVERTAMOUNT_H_
 #define CONVERTAMOUNT_H_
 
-#include <QObject>
 #include <QString>
 #include "Settings.h"
 

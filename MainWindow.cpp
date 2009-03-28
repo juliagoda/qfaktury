@@ -1,8 +1,9 @@
-#include "MainWindow.moc"
+#include "moc_MainWindow.cpp"
 #include <QTextCodec>
 #include <QMessageBox>
 #include <QApplication>
 #include <QEvent>
+#include <QMenu>
 #include <QUrl>
 #include <Qt/qdom.h>
 #include <QTextStream>
@@ -35,8 +36,6 @@ MainWindow::~MainWindow() {
  * init() method
  */
 void MainWindow::init() {
-
-	workingDir = sett().getWorkingDir();
 
 	// first run
 	if (firstRun()) {
@@ -125,6 +124,7 @@ void MainWindow::init() {
 	connect(tableH, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(editFHist()));
 	connect(tableK, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(kontrEd()));
 	connect(tableT, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(towaryEdycja()));
+	connect(tableT, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showTableMenu(QPoint)));
 
 	connect(tableH, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(mainUpdateStatus(QTableWidgetItem *)));
 	connect(tableK, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(mainUpdateStatus(QTableWidgetItem *)));
@@ -132,9 +132,9 @@ void MainWindow::init() {
 
 	tabChanged(tabWidget2);
 
-	readKontr(workingDir);
-	readHist(workingDir);
-	readTw(workingDir);
+	readKontr();
+	readHist();
+	readTw();
 }
 
 /**
@@ -270,7 +270,7 @@ bool MainWindow::applyFiltr(QString nameToCheck) {
 /** Reads the invoices from the directory passed in the input.
  *  @param QString - directory from where the invoices should be read
  */
-void MainWindow::readHist(QString progDir) {
+void MainWindow::readHist() {
 	/*!
 	 * step one: get list of files from directory
 	 */
@@ -331,7 +331,7 @@ void MainWindow::readHist(QString progDir) {
 
 /** Reads customers from the XML
  */
-void MainWindow::readKontr(QString progDir) {
+void MainWindow::readKontr() {
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement urzad;
@@ -386,7 +386,7 @@ void MainWindow::readKontr(QString progDir) {
 
 /** Reads goods from the XML
  */
-void MainWindow::readTw(QString progDir) {
+void MainWindow::readTw() {
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
 	QDomElement products;
@@ -487,6 +487,13 @@ void MainWindow::setupDir() {
 
 // ----------------------------------------  SLOTS ---------------------------------//
 
+void MainWindow::showTableMenu(QPoint p) {
+	// qDebug() << __FUNCTION__ << __LINE__;
+	QMenu *menuTableT = new QMenu(tableT);
+	menuTableT->addAction(fakturyUsunAction);
+	menuTableT->exec(tableT->mapToGlobal(p));
+}
+
 /** Slot
  *  StatusBar slot
  */
@@ -562,7 +569,7 @@ void MainWindow::tabChanged(QWidget * qwdt) {
 void MainWindow::rereadHist() {
 	//  qDebug( __FUNCTION__ );
 	tableClear(tableH);
-	readHist(workingDir);
+	readHist();
 }
 
 /** Slot used to display aboutQt informations.

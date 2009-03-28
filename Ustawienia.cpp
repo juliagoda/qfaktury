@@ -1,8 +1,11 @@
-#include "Ustawienia.moc"
+#include "moc_Ustawienia.cpp"
 #include <QTextCodec>
 #include <QFileDialog>
 #include <Qt/qdom.h>
 #include <QMessageBox>
+#include <QDesktopServices>
+#include <QUrl>
+
 
 #include "Settings.h"
 
@@ -37,11 +40,15 @@ void Ustawienia::init() {
 	connect(addLogoBtn, SIGNAL(clicked()), this, SLOT(addLogoBtnClick()));
 	connect(pushButton, SIGNAL(clicked()), this, SLOT(setDefaultClick()));
 	connect(defTextBtn, SIGNAL(clicked()), this, SLOT(defTextBtnClick()));
+	connect(pushButtonMaskHelp, SIGNAL(clicked()), this, SLOT(maskHelpClick()));
 
-	// QFaktury 0.6.0
+    connect( cssList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
+// QFaktury 0.6.0
     connect( langList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
     connect( codecList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
     connect( logoEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( zastBtnEnable() ) );
+    connect( nipMaskEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( zastBtnEnable() ) );
+    connect( accountMaskEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( zastBtnEnable() ) );
     connect( prefixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
     connect( sufixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
     connect( spbNumb, SIGNAL(  valueChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
@@ -79,7 +86,10 @@ void Ustawienia::init() {
 
 
     langList->clear();
-    langList->insertItems(0, sett().getTranslations());
+    langList->insertItems(0, getTranslations());
+
+    cssList->clear();
+    cssList->insertItems(0, getTemplates());
 
     getEncodings();
     readSettings();
@@ -89,10 +99,15 @@ void Ustawienia::init() {
 
 }
 
+/** Slot - maskHelpClick
+ */
+void Ustawienia::maskHelpClick() {
+	QDesktopServices::openUrl(QUrl("http://doc.trolltech.com/4.5/qlineedit.html#inputMask-prop"));
+}
+
 /** Slot - Apply
  */
-void Ustawienia::apply ()
-{
+void Ustawienia::apply () {
   saveSettings ();
   zastButton->setEnabled(false);
 }
@@ -443,6 +458,7 @@ QString Ustawienia::getAll(QListWidget *lb)
  */
 void Ustawienia::saveSettings() {
 	sett().setValue("lang", langList->currentText());
+	sett().setValue("css", cssList->currentText());
 	sett().setValue("localEnc", codecList->currentText());
 
 	sett().beginGroup("printpos");
@@ -477,6 +493,8 @@ void Ustawienia::saveSettings() {
 	sett().setValue("editName", cbSmbEdit_2->isChecked());
 	sett().setValue("shortYear", shortYear->isChecked());
 	sett().setValue("chars_in_symbol", spbNumb->value());
+	sett().setValue("ticMask", nipMaskEdit->text());
+	sett().setValue("accountMask", accountMaskEdit->text());
 
 	sett().beginGroup("faktury_pozycje");
 	sett().setValue("Lp", cb1->isChecked());
@@ -518,8 +536,14 @@ void Ustawienia::readSettings() {
 	korlBox->clear();
 	korlBox->addItems(sett().value("pkorekty").toString().split("|"));
 
-	curr = sett().getTranslations().indexOf(sett().value("lang").toString());
+	curr = getTranslations().indexOf(sett().value("lang").toString());
 	langList->setCurrentIndex(curr);
+
+	curr = getTemplates().indexOf(sett().value("css").toString());
+	cssList->setCurrentIndex(curr);
+
+	nipMaskEdit->setText(sett().value("ticMask", "999-99-999-99; ").toString());
+	accountMaskEdit->setText(sett().value("accountMask", "99-9999-9999-9999-9999-9999-9999; ").toString());
 
 
 	/*
@@ -593,4 +617,64 @@ void Ustawienia::readSettings() {
 }
 
 
+// returns list of translations
+QStringList Ustawienia::getTemplates() {
+
+	QStringList templates;
+	QString ret;
+	QString path = sett().getWorkingDir() + "/templates/";
+
+	if (templates.isEmpty()) {
+		QDir allFiles;
+		allFiles.setPath(path);
+		allFiles.setFilter(QDir::Files);
+		QStringList filters;
+		filters << "*css";
+		allFiles.setNameFilters(filters);
+		QStringList tmp = allFiles.entryList();
+		templates = tmp;
+	}
+
+	if (templates.count() > 1) {
+		ret = QDir::currentPath() + "/templates/style.css";
+		path = QDir::currentPath() + "/templates/";
+	} else {
+		return templates;
+	}
+
+	QFile f;
+	f.setFileName(ret);
+	if (!f.exists()) {
+		ret = "/usr/share/local/qfaktury/templates/style.css";
+		templates.append("style.css");
+		return templates;
+	}
+
+	return templates;
+}
+
+
+// returns list of translations
+QStringList Ustawienia::getTranslations() {
+    QStringList translations;
+	QString path  = QDir::currentPath() + "/qfaktury_en.qm";
+
+	QFile f(path);
+	if (!f.exists())
+		path = "/usr/local/share/qfaktury/";
+
+	if (translations.isEmpty()) {
+		QDir allFiles;
+		allFiles.setPath(path);
+		allFiles.setFilter(QDir::Files);
+		QStringList filters;
+		filters << "*qm";
+		allFiles.setNameFilters(filters);
+		QStringList tmp = allFiles.entryList();
+		tmp = tmp.replaceInStrings("qfaktury_", "");
+		tmp = tmp.replaceInStrings(".qm", "");
+		translations = tmp;
+	}
+	return translations;
+}
 

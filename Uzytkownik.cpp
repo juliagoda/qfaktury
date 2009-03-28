@@ -1,12 +1,11 @@
-#include "Uzytkownik.moc"
+#include "moc_Uzytkownik.cpp"
 #include "Settings.h"
 
 
 /*!
   * init function read settings
   !*/
-void Uzytkownik::init ()
-{
+void Uzytkownik::init () {
   QSettings settings("elinux", "user");
   nameEdit->setText (settings.value ("name").toString());
   placeEdit->setText (settings.value ("city").toString());
@@ -18,6 +17,9 @@ void Uzytkownik::init ()
 			       //value ("przelewy/user/secIdType").toString());
   nipEdit->setText (settings.value ("tic").toString());
   regonEdit->setText (settings.value ("regon").toString()); // i guess it's statistical number
+
+  nipEdit->setInputMask(sett().value("ticMask", "999-99-999-99; ").toString());
+  accountEdit->setInputMask(sett().value("accountMask", "99-9999-9999-9999-9999-9999-9999; ").toString());
 }
 
 /*!

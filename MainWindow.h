@@ -34,17 +34,18 @@ public slots:
 	void towaryUsun();
 	void towaryEdycja();
 	void mainUpdateStatus(QTableWidgetItem *item);
+	void showTableMenu(QPoint p);
 private:
-	QString workingDir;
+	QString workingDir; // should be deprecated
 	void saveColumnWidth();
 	bool applyFiltr(QString);
 	void init();
 	bool firstRun();
 	void saveAllSett();
 	void saveAllSettAsDefault();
-	void readHist(QString progDir);
-	void readKontr(QString progDir);
-	void readTw(QString progDir);
+	void readHist();
+	void readKontr();
+	void readTw();
 	void setupDir();
 };
 #endif

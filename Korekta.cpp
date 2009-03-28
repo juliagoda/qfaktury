@@ -1,4 +1,4 @@
-#include "Korekta.moc"
+#include "moc_Korekta.cpp"
 #include <Qt/qdom.h>
 #include <QMessageBox>
 #include <QTextCodec>
@@ -192,7 +192,6 @@ void Korekta::saveInvoice(){
 					sett().numberToString(rabatValue->value())); // rabat
 		}
 		product.setAttribute("price", sett().numberToString(iter.value()->getPrice()));
-		double cenajdn = iter.value()->getPrice();
 		// double kwota = cenajdn * iter.value()->getQuantity();
 		product.setAttribute("nett", sett().numberToString(iter.value()->getNett())); // netto
 		// product.setAttribute ("Rabat", QLocale::toString (rabatValue->value ()));	// rabat

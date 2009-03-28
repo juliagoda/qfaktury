@@ -1,4 +1,4 @@
-#include "Towary.moc"
+#include "moc_Towary.cpp"
 #include "Settings.h"
 #include <QMessageBox>
 #include <QDesktopServices>

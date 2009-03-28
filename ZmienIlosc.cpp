@@ -1,4 +1,4 @@
-#include "ZmienIlosc.moc"
+#include "moc_ZmienIlosc.cpp"
 
 ZmienIlosc::ZmienIlosc(QWidget *parent): QDialog(parent) {
     setupUi(this);

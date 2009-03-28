@@ -11,7 +11,6 @@ QT += gui \
 # Input
 HEADERS += ConvertAmount.h \
     config.h \
-    ConvertAmount.h \
     Faktura.h \
     InvoiceData.h \
     Kontrahenci.h \
@@ -35,7 +34,6 @@ FORMS += Faktura.ui \
     Uzytkownik.ui \
     ZmienIlosc.ui
 SOURCES += ConvertAmount.cpp \
-    ConvertAmount.cpp \
     Faktura.cpp \
     Kontrahenci.cpp \
     KontrahenciLista.cpp \

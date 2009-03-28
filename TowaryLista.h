@@ -12,7 +12,7 @@ public:
 	QString ret;
 	TowaryLista(QWidget *parent);
 public slots:
-	void readTow(QString progDir);
+	void readTow();
 	void doAccept();
 	void comboBox1Changed(int x);
 	void calcNetto();

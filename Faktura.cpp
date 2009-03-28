@@ -1,4 +1,4 @@
-#include "Faktura.moc"
+#include "moc_Faktura.cpp"
 #include <QDateTime>
 #include <QDir>
 #include <QProcess>
@@ -606,6 +606,7 @@ QDomElement Faktura::createBuyerElement(QDomDocument doc) {
 // Generate Invoice HTML methods --- START ---
 
 void Faktura::makeInvoiceHeadar(bool sellDate) {
+	sett();
 
 	fraStrList += "<html><head>";
 	fraStrList += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"; //@TODO
@@ -643,7 +644,7 @@ void Faktura::makeInvoiceHeadar(bool sellDate) {
 		fraStrList += "<span class=\"stamp\">";
 		QString logo = sett().value("logo").toString();
 		if (logo != "") {
-			fraStrList += "<img src=\"" + logo + "\">";
+			fraStrList += "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
 		} else {
 			fraStrList += trUtf8("Pieczęć wystawcy");
 		}
@@ -687,12 +688,12 @@ void Faktura::makeInvoiceBody() {
 		sett().beginGroup("printpos");
 		if (sett().value("usernazwa").toBool())
 			fraStrList += userSettings.value("name").toString() + "<br>";
+		if (sett().value("useradres").toBool())
+			fraStrList += userSettings.value("address").toString() + "<br>"; // trUtf8("Ul. ") +
 		if (sett().value("usermiejscowosc").toBool())
 			fraStrList += userSettings.value("zip").toString() + " ";
 		if (sett().value("usermiejscowosc").toBool())
 			fraStrList += userSettings.value("city").toString() + "<br>";
-		if (sett().value("useradres").toBool())
-			fraStrList += trUtf8("Ul. ") + userSettings.value("address").toString() + "<br>";
 		if (sett().value("usernip").toBool())
 			fraStrList += trUtf8("NIP: ") + userSettings.value("tic").toString() + "<br>";
 		if (sett().value("userkonto").toBool())

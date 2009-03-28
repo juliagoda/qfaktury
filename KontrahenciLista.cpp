@@ -1,4 +1,4 @@
-#include "KontrahenciLista.moc"
+#include "moc_KontrahenciLista.cpp"
 #include <QMessageBox>
 #include <QTextStream>
 #include <QDesktopServices>
@@ -26,7 +26,7 @@ void KontrahenciLista::init() {
 #endif
 
 	// read data
-	readKontr(sett().getWorkingDir());
+	readKontr();
 
 	// load data
 	QString customer;
@@ -119,7 +119,7 @@ void KontrahenciLista::openCustomerWWW(const QString &url) {
 
 /** Load selected customer data
  */
-void KontrahenciLista::readKontr(QString progDir) {
+void KontrahenciLista::readKontr() {
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement office;
@@ -157,7 +157,7 @@ QString KontrahenciLista::xmlDataToString(QDomNode n) {
 	QString text;
 	text = n.toElement().attribute("name") + "|";
 	text += n.toElement().attribute("address") + "|";
-	text += n.toElement().attribute("place") + "|";
+	text += n.toElement().attribute("code") + " " + n.toElement().attribute("place") + "|";
 	text += n.toElement().attribute("tic") + "|";
 	text += n.toElement().attribute("account") + "|";
 	text += n.toElement().attribute("phone") + "|";

@@ -1,4 +1,4 @@
-#include "TowaryLista.moc"
+#include "moc_TowaryLista.cpp"
 #include <Qt/qdom.h>
 #include <qdir.h>
 #include <qmessagebox.h>
@@ -23,8 +23,16 @@ void TowaryLista::init() {
 	listWidget->clear();
 
 	// load data
-	readTow (sett().getWorkingDir());
+	readTow ();
 	displayData(0);
+
+	if (sett().value("editName", false).toBool()) {
+		nameEdit->setEnabled(true);
+		// nameEdit->setStyleSheet("background: #1F1F1F");
+	} else {
+		nameEdit->setEnabled(false);
+		// nameEdit->setStyleSheet("background: #000000");
+	}
 
 	// connects
 	connect(okBtn, SIGNAL( clicked() ), this, SLOT( doAccept()));
@@ -63,6 +71,8 @@ void TowaryLista::doAccept() {
 				QMessageBox::Ok);
 		return;
 	}
+
+	selectedItem = nameEdit->text();
 
 	if (selectedItem != "") {
 		if (comboBox1->currentIndex() == 0) {
@@ -140,7 +150,7 @@ void TowaryLista::calcNetto() {
 
 /** Read the XML
  */
-void TowaryLista::readTow(QString progDir) {
+void TowaryLista::readTow() {
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
 	QDomElement towar;

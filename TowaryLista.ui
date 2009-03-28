@@ -104,13 +104,13 @@
           <bool>true</bool>
          </property>
          <property name="focusPolicy" >
-          <enum>Qt::NoFocus</enum>
+          <enum>Qt::WheelFocus</enum>
          </property>
          <property name="styleSheet" >
-          <string notr="true" >background: rgb(193, 193, 193)</string>
+          <string notr="true" >background: #A1A1A1</string>
          </property>
          <property name="readOnly" >
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>

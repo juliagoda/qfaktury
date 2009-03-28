@@ -40,30 +40,6 @@ public:
 	}
 
 	// returns a translator
-	QStringList getTranslations() {
-		QString path  = QDir::currentPath() + "/qfaktury_en.qm";
-
-		QFile f(path);
-		if (!f.exists())
-			path = "/usr/local/share/qfaktury/";
-
-		if (translations.isEmpty()) {
-			QDir allFiles;
-			allFiles.setPath(path);
-			allFiles.setFilter(QDir::Files);
-			QStringList filters;
-			filters << "*qm";
-			allFiles.setNameFilters(filters);
-			QStringList tmp = allFiles.entryList();
-			tmp = tmp.replaceInStrings("qfaktury_", "");
-			tmp = tmp.replaceInStrings(".qm", "");
-			translations = tmp;
-		}
-		return translations;
-	}
-
-
-	// returns a translator
 	QTranslator* getTranslation() {
 	    translator = new QTranslator();
 	    QString lang = value("lang", "pl").toString();
@@ -369,9 +345,9 @@ public:
 		setValue("edit", "false");
 		setValue("editName", "false");
 		setValue("editSymbol", "false");
-		setValue("editSymbol", "false");
-		setValue("editSymbol", "false");
-		//      setValue ("filtrEnd", QDate::currentDate ().toString (Qt::ISODate));
+		setValue("nipMask", "999-99-999-99; ");
+		setValue("accountMask", "99-9999-9999-9999-9999-9999-9999; ");
+	//      setValue ("filtrEnd", QDate::currentDate ().toString (Qt::ISODate));
 		setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
 		setValue("firstrun", false);
 		setValue("jednostki", tr("szt.|kg.|g.|m.|km.|godz."));
@@ -521,10 +497,28 @@ public:
 
 	// returns templates directory
 	QString getTemplate() {
-		QString ret = QDir::currentPath() + "/templates/style.css";
-		QFile f(ret);
-		if (!f.exists())
-			ret = "/usr/local/share/qfaktury/templates/style.css";
+
+		QString style = value("css", "style.css").toString();
+		if (style.compare("") == 0) {
+			style = "style.css";
+		}
+
+		QString ret = getWorkingDir() + "/templates/" + style;
+		QString path = getWorkingDir() + "/templates/";
+
+		QFile f;
+		f.setFileName(ret);
+		if (!f.exists()) {
+			ret = QDir::currentPath() + "/templates/" + style;
+			return ret;
+		}
+
+		f.setFileName(ret);
+		if (!f.exists()) {
+			ret = "/usr/share/local/qfaktury/templates/style.css";
+			return ret;
+		}
+
 		// qDebug() << ret;
 		return ret;
 	}
@@ -652,7 +646,6 @@ private:
 	QString fileNameDateFormat;
 	QLocale *locale;
     QTranslator* translator;
-    QStringList translations;
 
 	// constr
 	Settings() :
@@ -669,7 +662,7 @@ private:
 
 	}
 
-	Settings(const Settings&) {}
+	Settings(const Settings&):QSettings() {}
 
 	friend Settings& sett() {
 	   static Settings sett;

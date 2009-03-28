@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>412</width>
-    <height>330</height>
+    <height>370</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -107,6 +107,9 @@
         <widget class="QLineEdit" name="nipEdit" >
          <property name="inputMask" >
           <string>999-99-999-99; </string>
+         </property>
+         <property name="text" >
+          <string>---</string>
          </property>
         </widget>
        </item>

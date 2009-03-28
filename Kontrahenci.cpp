@@ -1,4 +1,4 @@
-#include "Kontrahenci.moc"
+#include "moc_Kontrahenci.cpp"
 #include <QMessageBox>
 #include <QtDebug>
 #include "Settings.h"
@@ -16,6 +16,9 @@ Kontrahenci::Kontrahenci(QWidget *parent, int mode) :
  */
 void Kontrahenci::init() {
 	getFirmList();
+
+	nipEdit->setInputMask(sett().value("ticMask", "999-99-999-99; ").toString());
+	accountEdit->setInputMask(sett().value("accountMask", "99-9999-9999-9999-9999-9999-9999; ").toString());
 
 	// connects
 	connect(okButton, SIGNAL(clicked()), this, SLOT(okClick()));

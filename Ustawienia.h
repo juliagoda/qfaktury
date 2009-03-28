@@ -29,6 +29,7 @@ public slots:
 	void paymAddBtnClick();
 	void defTextBtnClick();
 	void setDefaultClick();
+	void maskHelpClick();
 private:
 	bool read;
 	void init();
@@ -36,6 +37,8 @@ private:
 	void saveSettings();
 	void readSettings();
 	void getEncodings();
+	QStringList getTemplates();
+	QStringList getTranslations();
 	QString getAll(QListWidget *lb);
 	QList<QTextCodec *> codecs;
 

@@ -12,7 +12,7 @@ public:
 	KontrahenciLista(QWidget *parent);
 	QString ret;
 public slots:
-	void readKontr(QString progDir);
+	void readKontr();
 	void doAccept();
 	void comboBox1Changed();
 	void updateDetails(QListWidgetItem *);

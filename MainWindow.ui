@@ -29,7 +29,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex" >
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab1" >
        <attribute name="title" >
@@ -160,7 +160,7 @@
            <bool>true</bool>
           </property>
           <property name="sorting" stdset="0" >
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <column>
            <property name="text" >
@@ -260,6 +260,9 @@
        <layout class="QGridLayout" >
         <item row="0" column="0" >
          <widget class="QTableWidget" name="tableT" >
+          <property name="contextMenuPolicy" >
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="editTriggers" >
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -418,6 +421,9 @@
   <widget class="QToolBar" name="toolBar" >
    <property name="windowTitle" >
     <string>toolBar</string>
+   </property>
+   <property name="movable" >
+    <bool>false</bool>
    </property>
    <property name="toolButtonStyle" >
     <enum>Qt::ToolButtonTextBesideIcon</enum>
