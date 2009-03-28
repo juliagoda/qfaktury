@@ -4,6 +4,7 @@
 	- zdefiniowania kilku CSS do wydruku faktur
 	- format nip i konto bankowego w ustawieniach
 	- menu kontextowe
+	- sortowanie danych w historii, kontrahentach i towarach
 
 0.6.0
 	Initial release po zlaczeniu funkcji z 0.0.3 z wersja 0.5.0
