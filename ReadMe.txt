@@ -10,4 +10,16 @@ Kompilacja:
 Do skompilowania wystaczy wydac dwa polecenia: 
 qmake
 make
-make install
+
+Instalacja
+Program mozna zainstalowac przy uzyciu polecenia:
+sudo make install
+
+powoduje to skopiowanie wszystkich potrzebnych plikow do:
+qfaktury - /usr/local/bin
+grafiki - /usr/local/share/qfaktury/icons
+css - /usr/local/share/qfaktury/templates
+jezyki - /usr/local/share/qfaktury
+
+
+ 
