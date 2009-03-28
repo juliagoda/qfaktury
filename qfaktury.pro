@@ -49,3 +49,18 @@ RESOURCES += qfaktury.qrc
 TRANSLATIONS += qfaktury_de.ts \
     qfaktury_en.ts \
     qfaktury_pl.ts
+
+pixmaps.path = /usr/local/share/qfaktury/icons
+pixmaps.files = icons/*.png
+
+css.path = /usr/local/share/qfaktury/templates
+css.files = templates/*.css
+
+languages.path = /usr/local/share/qfaktury
+languages.files = *.qm
+
+target.path = /usr/local/bin
+INSTALLS += target \
+	pixmaps \
+	css \
+	languages 

@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QTextCodec>
 #include <QTranslator>
+#include <QMessageBox>
 #include "config.h"
 
 
@@ -61,7 +62,7 @@ public:
 		if (value("lang").toString().compare("") == 0)
 			setValue("lang", tr("pl"));
 		if (value("localEnc").toString().compare("") == 0)
-			setValue("localEnc", tr("ISO-8859-2"));
+			setValue("localEnc", tr("UTF-8"));
 
 
 		if (value("addText").toString().compare("") == 0)
@@ -336,7 +337,7 @@ public:
 		setValue("browser_name", "");
 		setValue("default_browser", "true");
 		setValue("lang", tr("pl"));
-		setValue("waluty", tr("ISO-8859-2"));
+		setValue("waluty", tr("PLN"));
 		endGroup();
 
 		setValue("addText", trUtf8("towar odebrałem zgodnie z fakturą"));
@@ -498,6 +499,7 @@ public:
 	// returns templates directory
 	QString getTemplate() {
 
+
 		QString style = value("css", "style.css").toString();
 		if (style.compare("") == 0) {
 			style = "style.css";
@@ -515,7 +517,7 @@ public:
 
 		f.setFileName(ret);
 		if (!f.exists()) {
-			ret = "/usr/share/local/qfaktury/templates/style.css";
+			ret = "/usr/share/local/share/qfaktury/templates/style.css";
 			return ret;
 		}
 

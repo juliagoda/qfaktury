@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>698</width>
+    <width>712</width>
     <height>487</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex" >
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab1" >
        <attribute name="title" >
@@ -51,19 +51,29 @@
           <item>
            <widget class="QDateEdit" name="filtrStart" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
-              <horstretch>111</horstretch>
-              <verstretch>21</verstretch>
+             <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="focusPolicy" >
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="correctionMode" >
+             <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+            </property>
             <property name="displayFormat" >
-             <string>MM/dd/yyyy</string>
+             <string>dd/MM/yyyy</string>
             </property>
             <property name="calendarPopup" >
              <bool>true</bool>
+            </property>
+            <property name="date" >
+             <date>
+              <year>2009</year>
+              <month>3</month>
+              <day>1</day>
+             </date>
             </property>
            </widget>
           </item>
@@ -92,25 +102,37 @@
           <item>
            <widget class="QDateEdit" name="filtrEnd" >
             <property name="sizePolicy" >
-             <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
-              <horstretch>111</horstretch>
-              <verstretch>21</verstretch>
+             <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="minimumSize" >
-             <size>
-              <width>60</width>
-              <height>0</height>
-             </size>
+            <property name="font" >
+             <font>
+              <pointsize>9</pointsize>
+             </font>
             </property>
             <property name="focusPolicy" >
              <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="wrapping" >
+             <bool>true</bool>
+            </property>
+            <property name="frame" >
+             <bool>true</bool>
             </property>
             <property name="displayFormat" >
              <string>MM/dd/yyyy</string>
             </property>
             <property name="calendarPopup" >
              <bool>true</bool>
+            </property>
+            <property name="date" >
+             <date>
+              <year>2010</year>
+              <month>1</month>
+              <day>1</day>
+             </date>
             </property>
            </widget>
           </item>
@@ -141,6 +163,9 @@
         </item>
         <item row="1" column="0" >
          <widget class="QTableWidget" name="tableH" >
+          <property name="contextMenuPolicy" >
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="editTriggers" >
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -203,6 +228,9 @@
        <layout class="QGridLayout" >
         <item row="0" column="0" >
          <widget class="QTableWidget" name="tableK" >
+          <property name="contextMenuPolicy" >
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="editTriggers" >
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -357,7 +385,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>698</width>
+     <width>712</width>
      <height>29</height>
     </rect>
    </property>
@@ -484,7 +512,7 @@
      <normaloff>:/res/icons/nowa_faktura.png</normaloff>:/res/icons/nowa_faktura.png</iconset>
    </property>
    <property name="text" >
-    <string>Nowa faktura</string>
+    <string>Dodaj</string>
    </property>
    <property name="iconText" >
     <string>Nowa Faktura</string>

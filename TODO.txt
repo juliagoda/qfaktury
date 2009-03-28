@@ -1,0 +1,4 @@
+-wystawianie faktur od cen brutto
+-integracja z ksiazka adresowa
+-raport miesieczny wystawionych faktur 
+-mozliwosc zmiany seperatora daty

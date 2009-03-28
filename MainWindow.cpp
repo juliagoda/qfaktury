@@ -37,6 +37,8 @@ MainWindow::~MainWindow() {
  */
 void MainWindow::init() {
 
+
+
 	// first run
 	if (firstRun()) {
 		// towary/uslugi - wymiary
@@ -122,9 +124,11 @@ void MainWindow::init() {
 	connect(tabWidget2, SIGNAL(currentChanged(QWidget*)), this, SLOT(tabChanged(QWidget*)));
 	connect(pomocPomocAction, SIGNAL(activated()), this, SLOT(pomoc()));
 	connect(tableH, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(editFHist()));
+	connect(tableH, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showTableMenuH(QPoint)));
 	connect(tableK, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(kontrEd()));
+	connect(tableK, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showTableMenuK(QPoint)));
 	connect(tableT, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(towaryEdycja()));
-	connect(tableT, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showTableMenu(QPoint)));
+	connect(tableT, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showTableMenuT(QPoint)));
 
 	connect(tableH, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(mainUpdateStatus(QTableWidgetItem *)));
 	connect(tableK, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(mainUpdateStatus(QTableWidgetItem *)));
@@ -473,6 +477,7 @@ void MainWindow::readTw() {
 /** Creates directories if required
  */
 void MainWindow::setupDir() {
+	workingDir = sett().getWorkingDir();
 	QDir dir(workingDir);
 	if (!dir.exists()) {
 		dir.mkdir(workingDir);
@@ -487,11 +492,48 @@ void MainWindow::setupDir() {
 
 // ----------------------------------------  SLOTS ---------------------------------//
 
-void MainWindow::showTableMenu(QPoint p) {
+/** Slot
+ *  Show context menu
+ */
+void MainWindow::showTableMenuT(QPoint p) {
 	// qDebug() << __FUNCTION__ << __LINE__;
 	QMenu *menuTableT = new QMenu(tableT);
-	menuTableT->addAction(fakturyUsunAction);
+	menuTableT->addAction(towaryDodajAction);
+	menuTableT->addAction(towaryUsunAction);
+	menuTableT->addAction(towaryEdycjaAction);
 	menuTableT->exec(tableT->mapToGlobal(p));
+	delete menuTableT;
+	menuTableT = NULL;
+}
+
+
+/** Slot
+ *  Show context menu
+ */
+void MainWindow::showTableMenuK(QPoint p) {
+	// qDebug() << __FUNCTION__ << __LINE__;
+	QMenu *menuTable = new QMenu(tableK);
+	menuTable->addAction(kontrahenciDodajAction);
+	menuTable->addAction(kontrahenciUsunAction);
+	menuTable->addAction(kontrahenciEdycjaAction);
+	menuTable->exec(tableK->mapToGlobal(p));
+	delete menuTable;
+	menuTable = NULL;
+}
+
+
+/** Slot
+ *  Show context menu
+ */
+void MainWindow::showTableMenuH(QPoint p) {
+	// qDebug() << __FUNCTION__ << __LINE__;
+	QMenu *menuTable = new QMenu(tableH);
+	menuTable->addAction(fakturyDodajAction);
+	menuTable->addAction(fakturyUsunAction);
+	menuTable->addAction(fakturyEdAction);
+	menuTable->exec(tableH->mapToGlobal(p));
+	delete menuTable;
+	menuTable = NULL;
 }
 
 /** Slot

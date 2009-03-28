@@ -34,7 +34,9 @@ public slots:
 	void towaryUsun();
 	void towaryEdycja();
 	void mainUpdateStatus(QTableWidgetItem *item);
-	void showTableMenu(QPoint p);
+	void showTableMenuT(QPoint p);
+	void showTableMenuK(QPoint p);
+	void showTableMenuH(QPoint p);
 private:
 	QString workingDir; // should be deprecated
 	void saveColumnWidth();

@@ -19,12 +19,6 @@ void KontrahenciLista::init() {
 	companiesList.clear();
 	officesList.clear();
 
-#ifdef WIN32
-	// i have no idea why but for some unknown reason WIN
-	// was failing without this line.
-	sett();
-#endif
-
 	// read data
 	readKontr();
 
