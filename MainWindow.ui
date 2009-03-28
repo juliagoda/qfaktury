@@ -175,6 +175,12 @@
           <property name="selectionBehavior" >
            <enum>QAbstractItemView::SelectItems</enum>
           </property>
+          <property name="sortingEnabled" >
+           <bool>false</bool>
+          </property>
+          <property name="cornerButtonEnabled" >
+           <bool>true</bool>
+          </property>
           <property name="numRows" stdset="0" >
            <number>0</number>
           </property>
@@ -185,7 +191,7 @@
            <bool>true</bool>
           </property>
           <property name="sorting" stdset="0" >
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <column>
            <property name="text" >
@@ -512,7 +518,7 @@
      <normaloff>:/res/icons/nowa_faktura.png</normaloff>:/res/icons/nowa_faktura.png</iconset>
    </property>
    <property name="text" >
-    <string>Dodaj</string>
+    <string>Nowa faktura</string>
    </property>
    <property name="iconText" >
     <string>Nowa Faktura</string>

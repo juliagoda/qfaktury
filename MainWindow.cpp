@@ -331,6 +331,8 @@ void MainWindow::readHist() {
 					nab.toElement().attribute("tic", "NULL"));
 		}
 	}
+
+	tableH->setSortingEnabled(true);
 }
 
 /** Reads customers from the XML
@@ -386,6 +388,7 @@ void MainWindow::readKontr() {
 			tableK->item(tableK->rowCount() - 1, 4)->setText(text);
 		}
 	}
+	tableK->setSortingEnabled(true);
 }
 
 /** Reads goods from the XML
@@ -472,6 +475,8 @@ void MainWindow::readTw() {
 			tableT->item(tableT->rowCount() - 1, 11)->setText(text);
 		}
 	}
+
+	tableT->setSortingEnabled(true);
 }
 
 /** Creates directories if required
@@ -531,6 +536,8 @@ void MainWindow::showTableMenuH(QPoint p) {
 	menuTable->addAction(fakturyDodajAction);
 	menuTable->addAction(fakturyUsunAction);
 	menuTable->addAction(fakturyEdAction);
+	menuTable->addSeparator();
+	menuTable->addAction(fakturyKorektaAction);
 	menuTable->exec(tableH->mapToGlobal(p));
 	delete menuTable;
 	menuTable = NULL;
@@ -611,6 +618,7 @@ void MainWindow::tabChanged(QWidget * qwdt) {
 void MainWindow::rereadHist() {
 	//  qDebug( __FUNCTION__ );
 	tableClear(tableH);
+	tableH->setSortingEnabled(false);
 	readHist();
 }
 
