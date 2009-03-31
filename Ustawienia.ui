@@ -144,8 +144,8 @@
       <attribute name="title" >
        <string>Faktury</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_6" >
-       <item>
+      <layout class="QGridLayout" name="gridLayout_16" >
+       <item row="0" column="0" >
         <widget class="QGroupBox" name="groupBox1" >
          <property name="title" >
           <string>Numeracja: </string>
@@ -237,41 +237,69 @@
          </layout>
         </widget>
        </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_3" >
-         <property name="title" >
-          <string>Edycja: </string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_13" >
-          <item row="0" column="0" >
-           <layout class="QVBoxLayout" name="verticalLayout" >
-            <item>
-             <widget class="QCheckBox" name="cbEdit" >
-              <property name="text" >
-               <string>Włącz możliwość edycji faktur i korekt</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="cbSmbEdit" >
-              <property name="text" >
-               <string>Blokuj zmianę symbolu faktury</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="cbSmbEdit_2" >
-              <property name="text" >
-               <string>Możliwość zmiany nazwy dodawanego produktu</string>
-              </property>
-             </widget>
+       <item row="1" column="0" >
+        <layout class="QHBoxLayout" name="horizontalLayout_13" >
+         <item>
+          <widget class="QGroupBox" name="groupBox_3" >
+           <property name="title" >
+            <string>Edycja: </string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_13" >
+            <item row="0" column="0" >
+             <layout class="QVBoxLayout" name="verticalLayout" >
+              <item>
+               <widget class="QCheckBox" name="cbEdit" >
+                <property name="text" >
+                 <string>Włącz możliwość edycji faktur i korekt</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="cbSmbEdit" >
+                <property name="text" >
+                 <string>Blokuj zmianę symbolu faktury</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="cbSmbEdit_2" >
+                <property name="text" >
+                 <string>Możliwość zmiany nazwy dodawanego produktu</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
-          </item>
-         </layout>
-        </widget>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10" >
+           <item>
+            <widget class="QLabel" name="labelNumCopies" >
+             <property name="text" >
+              <string>Liczba kopii</string>
+             </property>
+             <property name="wordWrap" >
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spbNumCopies" >
+             <property name="minimum" >
+              <number>1</number>
+             </property>
+             <property name="maximum" >
+              <number>6</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </item>
-       <item>
+       <item row="2" column="0" >
         <widget class="QGroupBox" name="groupBox_4" >
          <property name="title" >
           <string>Maski: </string>
@@ -433,7 +461,7 @@ p, li { white-space: pre-wrap; }
          </layout>
         </widget>
        </item>
-       <item>
+       <item row="3" column="0" >
         <layout class="QHBoxLayout" name="horizontalLayout_7" >
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2" >
@@ -497,8 +525,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>454</width>
-            <height>354</height>
+            <width>470</width>
+            <height>366</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -665,8 +693,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
-            <height>182</height>
+            <width>256</width>
+            <height>172</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -809,8 +837,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>315</width>
-            <height>167</height>
+            <width>267</width>
+            <height>131</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -931,8 +959,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>286</width>
-            <height>167</height>
+            <width>245</width>
+            <height>131</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -1061,8 +1089,8 @@ korekt:</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>292</width>
-            <height>167</height>
+            <width>248</width>
+            <height>131</height>
            </rect>
           </property>
           <attribute name="label" >

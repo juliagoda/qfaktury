@@ -49,13 +49,15 @@ protected:
 	virtual void calculateSum();
 	QString getGroupedSums();
 	void saveColumnsWidth();
-	void makeInvoiceHeadar(bool sellDate);
+	void makeInvoiceHeadar(bool sellDate, bool brakePage, bool original);
 	void makeInvoiceBody();
 	void print();
 	virtual void makeInvoiceProducts();
 	virtual void makeInvoiceSumm();
 	virtual void makeInvoiceSummAll();
 	virtual void makeInvoiceProductsHeadar();
+	virtual void makeInvoiceFooterHtml();
+	virtual void makeInvoiceHeadarHTML();
 	void makeInvoiceFooter();
 	virtual void calculateOneDiscount(int a);
 	virtual void setIsEditAllowed(bool isAllowed);

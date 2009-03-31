@@ -52,6 +52,7 @@ void Ustawienia::init() {
     connect( prefixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
     connect( sufixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
     connect( spbNumb, SIGNAL(  valueChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
+    connect( spbNumCopies, SIGNAL(  valueChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
     connect( cbDay, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable()) );
     connect( cbMonth, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
     connect( cbYear, SIGNAL( stateChanged(int) ), this, SLOT( zastBtnEnable() ) );
@@ -495,6 +496,7 @@ void Ustawienia::saveSettings() {
 	sett().setValue("chars_in_symbol", spbNumb->value());
 	sett().setValue("ticMask", nipMaskEdit->text());
 	sett().setValue("accountMask", accountMaskEdit->text());
+	sett().setValue("numberOfCopies", spbNumCopies->value());
 
 	sett().beginGroup("faktury_pozycje");
 	sett().setValue("Lp", cb1->isChecked());
@@ -585,6 +587,7 @@ void Ustawienia::readSettings() {
 	cbSmbEdit_2->setChecked(sett().value("editName").toBool());
 
 	spbNumb->setValue(sett(). value("chars_in_symbol").toInt());
+	spbNumCopies->setValue(sett(). value("numberOfCopies").toInt());
 
 	sett().beginGroup("printpos");
 	userinfonazwa->setChecked(sett().value("usernazwa").toBool());

@@ -128,6 +128,9 @@ public:
 			setValue("waluty", tr("PLN|EUR|USD"));
 		if (value("year").toString().compare("") == 0)
 			setValue("year", "false");
+		if (value("numberOfCopies").toString().compare("") == 0)
+			setValue("numberOfCopies", 1);
+
 
 		// here we could add special code for Rachunek
 		beginGroup("faktury_pozycje");
@@ -346,6 +349,7 @@ public:
 		setValue("edit", "false");
 		setValue("editName", "false");
 		setValue("editSymbol", "false");
+		setValue("numberOfCopies", 1);
 		setValue("nipMask", "999-99-999-99; ");
 		setValue("accountMask", "99-9999-9999-9999-9999-9999-9999; ");
 	//      setValue ("filtrEnd", QDate::currentDate ().toString (Qt::ISODate));

@@ -250,20 +250,35 @@ void Korekta::makeInvoice(){
 	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 	invoiceType = trUtf8("Faktura VAT korygująca");
 	fraStrList.clear();
-	makeInvoiceHeadar(false);
-	makeInvoiceBody();
 
+	makeInvoiceHeadarHTML();
+
+	makeInvoiceHeadar(false, false, true);
+	makeInvoiceBody();
 	makeInvoceProductsTitle(0);
 	makeBeforeCorrProducts();
 	makeBeforeCorrSumm();
-
 	makeInvoceProductsTitle(1);
 	makeInvoiceProducts();
 	makeInvoiceSumm();
-
 	makeInvoiceSummAll();
-
 	makeInvoiceFooter();
+
+	int numberOfCopies = sett().value("numberOfCopies", 2).toInt();
+	for (int i = 1; i <= numberOfCopies; i++) {
+		makeInvoiceHeadar(false, true, false);
+		makeInvoiceBody();
+		makeInvoceProductsTitle(0);
+		makeBeforeCorrProducts();
+		makeBeforeCorrSumm();
+		makeInvoceProductsTitle(1);
+		makeInvoiceProducts();
+		makeInvoiceSumm();
+		makeInvoiceSummAll();
+		makeInvoiceFooter();
+	}
+
+	makeInvoiceFooterHtml();
 
 	print();
 }

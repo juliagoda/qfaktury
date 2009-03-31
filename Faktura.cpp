@@ -492,12 +492,29 @@ void Faktura::makeInvoice() {
 	}
 
 	fraStrList.clear();
-	makeInvoiceHeadar(true);
+	makeInvoiceHeadarHTML();
+
+	makeInvoiceHeadar(true, false, true);
 	makeInvoiceBody();
 	makeInvoiceProducts();
 	makeInvoiceSumm();
 	makeInvoiceSummAll();
 	makeInvoiceFooter();
+
+    // fraStrList +="    <h1 class=\"page_break\">&nbsp;</h1>";
+
+	int numberOfCopies = sett().value("numberOfCopies", 2).toInt();
+	for (int i = 1; i <= numberOfCopies; i++) {
+		// prrint copy
+		makeInvoiceHeadar(true, true, false);
+		makeInvoiceBody();
+		makeInvoiceProducts();
+		makeInvoiceSumm();
+		makeInvoiceSummAll();
+		makeInvoiceFooter();
+	}
+
+	makeInvoiceFooterHtml();
 
 	print();
 }
@@ -603,9 +620,7 @@ QDomElement Faktura::createBuyerElement(QDomDocument doc) {
 
 // Generate Invoice HTML methods --- START ---
 
-void Faktura::makeInvoiceHeadar(bool sellDate) {
-	sett();
-
+void Faktura::makeInvoiceHeadarHTML() {
 	fraStrList += "<html><head>";
 	fraStrList += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"; //@TODO
 	fraStrList += "<meta name=\"creator\" value=\"http://www.e-linux.pl\" />";
@@ -635,8 +650,15 @@ void Faktura::makeInvoiceHeadar(bool sellDate) {
 
 
 	fraStrList += "<body>";
+}
 
-	fraStrList += "<table comment=\"headar table\" width=\"100%\" border=\"0\">";
+
+void Faktura::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
+
+	QString breakPageStr = "class=\"page_break\"";
+	if (breakPage == false) breakPageStr = "";
+
+	fraStrList += "<table comment=\"headar table\" width=\"100%\" border=\"0\"" + breakPageStr + ">";
 	fraStrList += "<tr>";
 		fraStrList += "<td width=\"60%\" align=\"center\" valign=\"bottom\">";
 		fraStrList += "<span class=\"stamp\">";
@@ -664,8 +686,12 @@ void Faktura::makeInvoiceHeadar(bool sellDate) {
 	fraStrList += "</tr>";
 	fraStrList += "<tr>";
 		fraStrList += "<td colspan=\"2\" align=\"right\" valign=\"top\"><br>";
-		fraStrList += trUtf8("ORYGINAŁ/KOPIA") + "<br></td>";
-		fraStrList += "<td width=\"3%\">&nbsp;</td>";
+		if (original) {
+		fraStrList += trUtf8("ORYGINAŁ");
+		} else {
+		fraStrList += trUtf8("KOPIA");
+		}
+		fraStrList += "<br></td><td width=\"3%\">&nbsp;</td>";
 	fraStrList += "</tr>";
 	fraStrList += "</table>";
 	fraStrList += "<hr>";
@@ -970,6 +996,9 @@ void Faktura::makeInvoiceFooter() {
 	fraStrList += "</td></tr>";
 	fraStrList += "</table>";
 
+}
+
+void Faktura::makeInvoiceFooterHtml() {
 	fraStrList += "</body>";
 	fraStrList += "</html>";
 }
