@@ -9,6 +9,7 @@
 #include <QTextStream>
 #include <QtDebug>
 #include <QDesktopServices>
+#include <QProcess>
 
 #include "Ustawienia.h"
 #include "Uzytkownik.h"
@@ -139,6 +140,37 @@ void MainWindow::init() {
 	readKontr();
 	readHist();
 	readTw();
+
+	loadPlugins();
+}
+
+/**
+ *  Loads PyQt plugins
+ */
+void MainWindow::loadPlugins() {
+	QDir allFiles;
+	QString text, path;
+	path = sett().getWorkingDir() + "/plugins/";
+	allFiles.setPath(path);
+	allFiles.setFilter(QDir::Files);
+	QStringList filters;
+	filters << "*.py" << "*.Py" << "*.PY" << "*.pY";
+	allFiles.setNameFilters(filters);
+	QStringList files = allFiles.entryList();
+	int i, max = files.count();
+	for (i = 0; i < max; ++i) {
+		QFile skrypt(path + allFiles[i]);
+		if (!skrypt.open(QIODevice::ReadOnly)) {
+			// return;
+		} else {
+			QTextStream t(&skrypt);
+			menuPlugins->addAction(t.readLine().remove("# "), this, SLOT (pluginSlot (int)));
+			// scripts[tmp] = QDir::homeDirPath () + "/elinux/scripts/" + pliczki[i];
+			plugins[i] = path + allFiles[i];
+		}
+	}
+	menuPlugins->addSeparator();
+	menuPlugins->addAction("Informacje", this, SLOT (pluginInfoSlot()));
 }
 
 /**
@@ -496,6 +528,33 @@ void MainWindow::setupDir() {
 
 
 // ----------------------------------------  SLOTS ---------------------------------//
+
+/** Slot
+ *  Just show the message.
+ */
+void MainWindow::pluginInfoSlot() {
+	QMessageBox::information(this, trUtf8("QFaktury"),
+			trUtf8("To menu służy do obsługi pluginów pythona, \n np. archiwizacji danych, generowania raportów, wysyłki SMS etc.\n\nSkrypty pythona sa czytane z folderu \"~/elinux/plugins/\"."),
+			trUtf8("Ok"), 0, 0, 1);
+
+}
+
+/** Slot
+ *  Used while calling python script from the menu
+ */
+void MainWindow::pluginSlot(int i) {
+	QString program = "python";
+
+	QStringList args;
+	args += plugins[i];
+
+	QProcess *cmd = new QProcess(this);
+	cmd->start(program, args);
+	if (!cmd->waitForStarted()) {
+		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8(
+				"Uruchomienie się nie powiodło."), QMessageBox::Ok);
+	}
+}
 
 /** Slot
  *  Show context menu

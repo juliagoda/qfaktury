@@ -37,8 +37,11 @@ public slots:
 	void showTableMenuT(QPoint p);
 	void showTableMenuK(QPoint p);
 	void showTableMenuH(QPoint p);
+	void pluginSlot(int i);
+	void pluginInfoSlot();
 private:
 	QString workingDir; // should be deprecated
+	QMap<int, QString> plugins;
 	void saveColumnWidth();
 	bool applyFiltr(QString);
 	void init();
@@ -49,5 +52,6 @@ private:
 	void readKontr();
 	void readTw();
 	void setupDir();
+	virtual void loadPlugins();
 };
 #endif

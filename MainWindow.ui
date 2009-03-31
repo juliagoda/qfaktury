@@ -392,7 +392,7 @@
      <x>0</x>
      <y>0</y>
      <width>712</width>
-     <height>29</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >
@@ -445,10 +445,16 @@
     <addaction name="separator" />
     <addaction name="pomocO_programieAction" />
    </widget>
+   <widget class="QMenu" name="menuPlugins" >
+    <property name="title" >
+     <string>&amp;Dodatki</string>
+    </property>
+   </widget>
    <addaction name="plikAct" />
    <addaction name="fakturyAct" />
    <addaction name="kontrahenciAct" />
    <addaction name="towaryAct" />
+   <addaction name="menuPlugins" />
    <addaction name="pomocAct" />
    <addaction name="separator" />
   </widget>
