@@ -497,14 +497,8 @@ void Faktura::makeInvoice() {
 	makeInvoiceProducts();
 	makeInvoiceSumm();
 	makeInvoiceSummAll();
-
-    fraStrList +="    <hr class=\"page_break\">";
-	makeInvoiceBody();
-	makeInvoiceProducts();
-	makeInvoiceSumm();
-	makeInvoiceSummAll();
 	makeInvoiceFooter();
-    
+
 	print();
 }
 
