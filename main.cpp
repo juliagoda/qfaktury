@@ -22,25 +22,31 @@ int main(int argc, char **argv) {
 	QResource::registerResource("qfaktury.rcc"); // using the rcc file so it's more portable
 	// Q_INIT_RESOURCE(qfaktury);
 
-	QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
-	splash.show();
-
-	a.processEvents();
 
 	QRect screen = QApplication::desktop()->screenGeometry();
 
-	MainWindow w(0);
+	QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
 
+	MainWindow w(0);
 	w.move(screen.center() - QPoint(w.width() / 2, w.height() / 2));
 
-	QTimer *showSplash = new QTimer();
-	a.connect(showSplash, SIGNAL(timeout()), &w, SLOT(show()));
 
-	QTimer *closeSplash = new QTimer();
-	a.connect(closeSplash, SIGNAL(timeout()), &splash, SLOT(close()));
+	if (a.arguments().contains("--nosplash")) {
+		w.show();
+	} else {
+		splash.show();
 
-	showSplash->start(5000);
-	closeSplash->start(4960);
+		a.processEvents();
+
+		QTimer *showSplash = new QTimer();
+		a.connect(showSplash, SIGNAL(timeout()), &w, SLOT(show()));
+
+		QTimer *closeSplash = new QTimer();
+		a.connect(closeSplash, SIGNAL(timeout()), &splash, SLOT(close()));
+
+		showSplash->start(5000);
+		closeSplash->start(4960);
+	}
 
 	a.connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
 

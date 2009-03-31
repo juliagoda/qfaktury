@@ -717,7 +717,9 @@ void MainWindow::delFHist() {
 void MainWindow::daneFirmyClick() {
 	// qDebug("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 	Uzytkownik *daneFirmyWindow = new Uzytkownik(this);
-	daneFirmyWindow->show();
+	daneFirmyWindow->exec();
+	delete daneFirmyWindow;
+	daneFirmyWindow = NULL;
 }
 
 /** Slot used to edit edit sett()
@@ -725,7 +727,9 @@ void MainWindow::daneFirmyClick() {
 void MainWindow::settClick() {
 	// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 	Ustawienia *settWindow = new Ustawienia(this);
-	settWindow->show();
+	settWindow->exec();
+	delete settWindow;
+	settWindow = NULL;
 }
 
 /** Slot used to add new customer

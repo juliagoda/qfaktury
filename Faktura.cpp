@@ -497,8 +497,14 @@ void Faktura::makeInvoice() {
 	makeInvoiceProducts();
 	makeInvoiceSumm();
 	makeInvoiceSummAll();
-	makeInvoiceFooter();
 
+    fraStrList +="    <hr class=\"page_break\">";
+	makeInvoiceBody();
+	makeInvoiceProducts();
+	makeInvoiceSumm();
+	makeInvoiceSummAll();
+	makeInvoiceFooter();
+    
 	print();
 }
 
@@ -515,7 +521,6 @@ void Faktura::printSlot(QPrinter *printer) {
     }
     // qDebug of the whole invoice :)
 
-    /*
 	QFile file(sett().getWorkingDir() + "/invoice.html");
 	if (file.open(QIODevice::WriteOnly)) {
 		QTextStream stream(&file);
@@ -524,7 +529,6 @@ void Faktura::printSlot(QPrinter *printer) {
 			stream << *it << "\n";
 		file.close();
 	}
-	*/
 
     doc.setHtml(s);
     doc.print(printer);
