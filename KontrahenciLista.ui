@@ -64,6 +64,9 @@
         <property name="focusPolicy" >
          <enum>Qt::TabFocus</enum>
         </property>
+        <property name="selectionBehavior" >
+         <enum>QAbstractItemView::SelectItems</enum>
+        </property>
        </widget>
        <widget class="QWidget" name="layoutWidget" >
         <layout class="QVBoxLayout" name="verticalLayout" >
