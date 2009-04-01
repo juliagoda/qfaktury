@@ -347,6 +347,8 @@ void Faktura::dateChanged(QDate ) {
  *  Generates Invoice XML
  */
 void Faktura::saveInvoice() {
+	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
 	if (!validateForm()) return;
 
 	QDomDocument doc(sett().getInoiveDocName());

@@ -19,6 +19,7 @@ public:
 	void readData(QString fraFile, int co);
 	QString fName, ret;
 	bool pforma;
+	virtual void setIsEditAllowed(bool isAllowed);
 public slots:
 	void getCustomer();
 	void addTow();
@@ -49,9 +50,9 @@ protected:
 	virtual void calculateSum();
 	QString getGroupedSums();
 	void saveColumnsWidth();
-	void makeInvoiceHeadar(bool sellDate, bool brakePage, bool original);
-	void makeInvoiceBody();
-	void print();
+	virtual void makeInvoiceHeadar(bool sellDate, bool brakePage, bool original);
+	virtual void makeInvoiceBody();
+	virtual void print();
 	virtual void makeInvoiceProducts();
 	virtual void makeInvoiceSumm();
 	virtual void makeInvoiceSummAll();
@@ -60,7 +61,6 @@ protected:
 	virtual void makeInvoiceHeadarHTML();
 	void makeInvoiceFooter();
 	virtual void calculateOneDiscount(int a);
-	virtual void setIsEditAllowed(bool isAllowed);
 	QDomElement createSellerElement(QDomDocument doc);
 	QDomElement createBuyerElement(QDomDocument doc);
 	bool validateForm();

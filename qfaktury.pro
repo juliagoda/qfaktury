@@ -7,9 +7,11 @@ DEPENDPATH += .
 INCLUDEPATH += .
 QT += gui \
     xml
+CONFIG += release
 
 # Input
-HEADERS += ConvertAmount.h \
+HEADERS += Duplikat.h \
+    ConvertAmount.h \
     config.h \
     Faktura.h \
     InvoiceData.h \
@@ -33,7 +35,8 @@ FORMS += Faktura.ui \
     Ustawienia.ui \
     Uzytkownik.ui \
     ZmienIlosc.ui
-SOURCES += ConvertAmount.cpp \
+SOURCES += Duplikat.cpp \
+    ConvertAmount.cpp \
     Faktura.cpp \
     Kontrahenci.cpp \
     KontrahenciLista.cpp \
@@ -49,18 +52,14 @@ RESOURCES += qfaktury.qrc
 TRANSLATIONS += qfaktury_de.ts \
     qfaktury_en.ts \
     qfaktury_pl.ts
-
 pixmaps.path = /usr/local/share/qfaktury/icons
 pixmaps.files = icons/*.png
-
 css.path = /usr/local/share/qfaktury/templates
 css.files = templates/*.css
-
 languages.path = /usr/local/share/qfaktury
 languages.files = *.qm
-
 target.path = /usr/local/bin
 INSTALLS += target \
-	pixmaps \
-	css \
-	languages 
+    pixmaps \
+    css \
+    languages

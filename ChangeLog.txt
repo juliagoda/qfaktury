@@ -1,3 +1,8 @@
+0.6.2
+	- Oryginal i kopia osobno, nie trzeba skreslac + mozliwosc zdefiniowania ilosci kopii
+	- Osluga pluginow pythona, PyQt
+	- Duplikaty faktur, nie sa one zapisywane
+
 0.6.1
 	- przenisienia z cmake na qmake (cmake ma duzo limitacji), np. build nie dziala z eclipse, deb nie dodaje plikow ikon
 	- bugi: 2713949, 2700432, 2706600 (piecdziesiat), 2718411, 2718718

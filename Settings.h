@@ -516,13 +516,11 @@ public:
 		f.setFileName(ret);
 		if (!f.exists()) {
 			ret = QDir::currentPath() + "/templates/" + style;
-			return ret;
 		}
 
 		f.setFileName(ret);
 		if (!f.exists()) {
-			ret = "/usr/share/local/share/qfaktury/templates/style.css";
-			return ret;
+			ret = "/usr/local/share/qfaktury/templates/style.css";
 		}
 
 		// qDebug() << ret;

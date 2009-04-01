@@ -299,7 +299,7 @@
      <item>
       <widget class="QPushButton" name="cancelBtn" >
        <property name="text" >
-        <string>Can&amp;cel</string>
+        <string>&amp;Anuluj</string>
        </property>
        <property name="shortcut" >
         <string>Alt+C</string>

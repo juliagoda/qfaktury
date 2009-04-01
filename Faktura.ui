@@ -40,6 +40,9 @@
              <bold>true</bold>
             </font>
            </property>
+           <property name="focusPolicy" >
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="text" >
             <string>1/1/2006</string>
            </property>
@@ -48,12 +51,18 @@
         </layout>
        </item>
        <item>
-        <widget class="QToolButton" name="backBtn" >
+        <widget class="QPushButton" name="backBtn" >
+         <property name="focusPolicy" >
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text" >
           <string>co&amp;fnij</string>
          </property>
          <property name="shortcut" >
           <string>Alt+F</string>
+         </property>
+         <property name="flat" >
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -89,6 +98,9 @@
        </item>
        <item>
         <widget class="QDateEdit" name="sellingDate" >
+         <property name="focusPolicy" >
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="displayFormat" >
           <string>dd/MM/yyyy</string>
          </property>
@@ -137,6 +149,9 @@
      </item>
      <item>
       <widget class="QDateEdit" name="productDate" >
+       <property name="focusPolicy" >
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="displayFormat" >
         <string>dd/MM/yyyy</string>
        </property>
@@ -172,17 +187,23 @@
            <bold>true</bold>
           </font>
          </property>
+         <property name="focusPolicy" >
+          <enum>Qt::NoFocus</enum>
+         </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <widget class="QToolButton" name="kListGet" >
+      <widget class="QPushButton" name="kListGet" >
+       <property name="focusPolicy" >
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text" >
         <string>wybier&amp;z</string>
        </property>
        <property name="shortcut" >
-        <string>Alt+Z</string>
+        <string>Ctrl+K</string>
        </property>
       </widget>
      </item>
@@ -292,8 +313,17 @@
      </item>
      <item>
       <widget class="QPushButton" name="addTwBtn" >
+       <property name="focusPolicy" >
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text" >
         <string>Dodaj</string>
+       </property>
+       <property name="shortcut" >
+        <string>Ctrl+T</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -302,12 +332,24 @@
        <property name="text" >
         <string>Usuń</string>
        </property>
+       <property name="shortcut" >
+        <string>Ctrl+U</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="editTwBtn" >
        <property name="text" >
         <string>Edycja</string>
+       </property>
+       <property name="shortcut" >
+        <string>Ctrl+E</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -650,7 +692,10 @@
         <string>&amp;Zamknij</string>
        </property>
        <property name="shortcut" >
-        <string>Alt+A</string>
+        <string>Ctrl+X</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -676,7 +721,10 @@
         <string>Zapisz</string>
        </property>
        <property name="shortcut" >
-        <string/>
+        <string>Ctrl+S</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -702,7 +750,10 @@
         <string>Drukuj</string>
        </property>
        <property name="shortcut" >
-        <string/>
+        <string>Ctrl+P</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -728,6 +779,22 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>kListGet</tabstop>
+  <tabstop>addTwBtn</tabstop>
+  <tabstop>rmTowBtn</tabstop>
+  <tabstop>editTwBtn</tabstop>
+  <tabstop>constRab</tabstop>
+  <tabstop>rabatValue</tabstop>
+  <tabstop>platCombo</tabstop>
+  <tabstop>liabDate</tabstop>
+  <tabstop>currCombo</tabstop>
+  <tabstop>additEdit</tabstop>
+  <tabstop>closeBtn</tabstop>
+  <tabstop>saveBtn</tabstop>
+  <tabstop>printBtn</tabstop>
+  <tabstop>tableTow</tabstop>
+ </tabstops>
  <resources>
   <include location="qfaktury.qrc" />
  </resources>

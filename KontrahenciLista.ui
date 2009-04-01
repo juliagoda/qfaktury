@@ -61,6 +61,9 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="focusPolicy" >
+         <enum>Qt::TabFocus</enum>
+        </property>
        </widget>
        <widget class="QWidget" name="layoutWidget" >
         <layout class="QVBoxLayout" name="verticalLayout" >
@@ -422,7 +425,7 @@
        <item>
         <widget class="QPushButton" name="cancelBtn" >
          <property name="text" >
-          <string>Can&amp;cel</string>
+          <string>&amp;Anuluj</string>
          </property>
          <property name="shortcut" >
           <string>Alt+C</string>
@@ -453,6 +456,12 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>listBox1</tabstop>
+  <tabstop>okBtn</tabstop>
+  <tabstop>cancelBtn</tabstop>
+  <tabstop>comboBox1</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

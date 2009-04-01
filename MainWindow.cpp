@@ -16,6 +16,7 @@
 #include "Towary.h"
 #include "Faktura.h"
 #include "Korekta.h"
+#include "Duplikat.h"
 #include "Kontrahenci.h"
 
 
@@ -114,6 +115,7 @@ void MainWindow::init() {
 	connect(fakturyDodajAction, SIGNAL(activated()), this, SLOT(newFra()));
 	connect(fakturyUsunAction, SIGNAL(activated()), this, SLOT(delFHist()));
 	connect(fakturyEdAction, SIGNAL(activated()), this, SLOT(editFHist()));
+	connect(fakturyDuplikatAction, SIGNAL(activated()), this, SLOT(newDuplikat()));
 	connect(fakturyKorektaAction, SIGNAL(activated()), this, SLOT(newKor()));
 	connect(fakturyPFormaAction, SIGNAL(activated()), this, SLOT(newPForm()));
 	connect(towaryDodajAction, SIGNAL(activated()), this, SLOT(towaryDodaj()));
@@ -143,6 +145,7 @@ void MainWindow::init() {
 
 	loadPlugins();
 }
+
 
 /**
  *  Loads PyQt plugins
@@ -174,6 +177,7 @@ void MainWindow::loadPlugins() {
 }
 
 /**
+>>>>>>> .r178
  * firstRun setup()
  */
 bool MainWindow::firstRun() {
@@ -268,8 +272,9 @@ void MainWindow::insertRow(QTableWidget *t, int row) {
  */
 bool MainWindow::applyFiltr(QString nameToCheck) {
 	QString tmp = nameToCheck;
-	tmp = tmp.remove("h");
-	tmp = tmp.remove("k");
+	tmp = tmp.remove("h"); // invoice
+	tmp = tmp.remove("k"); // correction
+	tmp = tmp.remove("d"); // duplicate
 	tmp = tmp.left(10);
 	tmp = tmp.remove("-");
 
@@ -321,7 +326,7 @@ void MainWindow::readHist() {
 	allFiles.setPath(sett().getInvoicesDir());
 	allFiles.setFilter(QDir::Files);
 	QStringList filters;
-	filters << "h*.xml" << "k*.xml";
+	filters << "h*.xml" << "k*.xml" << "d*.xml";
 	allFiles.setNameFilters(filters);
 	QStringList files = allFiles.entryList();
 	int i, max = files.count();
@@ -595,6 +600,7 @@ void MainWindow::showTableMenuH(QPoint p) {
 	menuTable->addAction(fakturyDodajAction);
 	menuTable->addAction(fakturyUsunAction);
 	menuTable->addAction(fakturyEdAction);
+	menuTable->addAction(fakturyDuplikatAction);
 	menuTable->addSeparator();
 	menuTable->addAction(fakturyKorektaAction);
 	menuTable->exec(tableH->mapToGlobal(p));
@@ -692,7 +698,7 @@ void MainWindow::aboutQt() {
 void MainWindow::oProg() {
 	QMessageBox::about(
 			this,
-			"O programie",
+			trUtf8("O programie"),
 			trUtf8("Program do wystawiania faktur.\n\n ") + sett().getVersion(qAppName()) +
 			trUtf8("\n\nKoordynator projektu:\n\tGrzegorz Rękawek\t\t\n\nProgramiści: \n\tTomasz Pielech\n\tRafał Rusin\n\tSławomir Patyk \n\nIkony:\n\tDariusz Arciszewski\n"));
 }
@@ -704,6 +710,8 @@ void MainWindow::editFHist() {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Nie mozna edytować."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
+
+	tableH->setSortingEnabled(false);
 
 	int row;
 	QList<QTableWidgetItem *> selected = tableH->selectedItems();
@@ -744,10 +752,13 @@ void MainWindow::editFHist() {
 			tableH->item(row, 4)->setText(rowTxt[4]); // nabywca
 			tableH->item(row, 5)->setText(rowTxt[5]); // NIP
 			*/
+			rereadHist();
 		}
 		delete fraWindow;
 		fraWindow = NULL;
 	}
+
+	tableH->setSortingEnabled(true);
 }
 
 /** Slot used to delete invoices
@@ -757,7 +768,6 @@ void MainWindow::delFHist() {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Nie mozna usuwać."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
-
 
 	if (QMessageBox::warning(this, sett().getVersion(qAppName()), trUtf8("Czy napewno chcesz usnąć tą fakturę z historii?"), trUtf8("Tak"),
 			trUtf8("Nie"), 0, 0, 1) == 0) {
@@ -796,6 +806,7 @@ void MainWindow::settClick() {
 void MainWindow::kontrClick() {
 	Kontrahenci *kontrWindow;
 	kontrWindow = new Kontrahenci(this, 0);
+	tableK->setSortingEnabled(false);
 	//qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 	if (kontrWindow->exec() == QDialog::Accepted) {
 		// qDebug() << progDir;
@@ -808,6 +819,7 @@ void MainWindow::kontrClick() {
 		tableK->item(tableK->rowCount() - 1, 3)->setText(row[3]); // address
 		tableK->item(tableK->rowCount() - 1, 4)->setText(row[4]); // telefon
 	}
+	tableK->setSortingEnabled(true);
 	delete kontrWindow;
 	kontrWindow = NULL;
 }
@@ -884,6 +896,7 @@ void MainWindow::kontrEd() {
 		return;
 	}
 
+	tableK->setSortingEnabled(false);
 
 	int row = tableK->selectedItems()[0]->row();
 	// qDebug ()<<tableK->item(row, 0)->text();
@@ -901,7 +914,10 @@ void MainWindow::kontrEd() {
 	}
 	delete kontrWindow;
 	kontrWindow = NULL;
+
+	tableK->setSortingEnabled(true);
 }
+
 
 /** Slot used for creating new invoices
  */
@@ -960,6 +976,7 @@ void MainWindow::newKor() {
 	int row = tableH->selectedItems()[0]->row();
 
 	if ((tableH->item(row, 3)->text() == "FVAT")) {
+		tableH->setSortingEnabled(false);
 		Korekta *korWindow = new Korekta(this);
 		korWindow->korektaInit(false);
 		// qDebug( pdGlob );
@@ -979,16 +996,53 @@ void MainWindow::newKor() {
 		}
 		delete korWindow;
 		korWindow = NULL;
+		tableH->setSortingEnabled(true);
+	} else {
+		QMessageBox::information(this, "QFaktury",
+				trUtf8("Do faktury typu ") + tableH->item(row, 3)->text()
+				+ (" nie wystawiamy korekt."), QMessageBox::Ok);
 	}
 
-	if ((tableH->item(row, 3)->text() == "korekta")) {
-		QMessageBox::information(this, "QFaktury",
-				trUtf8("Do korekt nie wystawiamy korekt"), QMessageBox::Ok);
+
+}
+
+void MainWindow::newDuplikat() {
+	if (tableH->selectedItems().count() <= 0) {
+		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Wybierz fakurę, do której chcesz wystawić duplikat."), trUtf8("Ok"), 0, 0, 1);
+		return;
 	}
-	if ((tableH->item(row, 3)->text() == "FPro")) {
+
+
+	int row = tableH->selectedItems()[0]->row();
+
+	if ((tableH->item(row, 3)->text() == "FVAT")) {
+		tableH->setSortingEnabled(false);
+		Duplikat *dupWindow = new Duplikat(this);
+		// qDebug( pdGlob );
+		dupWindow->readData(tableH->item(row, 0)->text(), 2);
+		dupWindow->setWindowTitle(trUtf8("Duplikat"));
+		dupWindow->duplikatInit();
+		if (dupWindow->exec() == QDialog::Accepted) {
+			insertRow(tableH, tableH->rowCount());
+			// qDebug() << dupWindow->ret;
+			QStringList row = dupWindow->ret.split("|");
+			int newRow = tableH->rowCount() - 1;
+			tableH->item(newRow, 0)->setText(row[0]); // file name
+			tableH->item(newRow, 1)->setText(row[1]); // symbol
+			tableH->item(newRow, 2)->setText(row[2]); // date
+			tableH->item(newRow, 3)->setText(row[3]); // type
+			tableH->item(newRow, 4)->setText(row[4]); // nabywca
+			tableH->item(newRow, 5)->setText(row[5]); // NIP
+		}
+		delete dupWindow;
+		dupWindow = NULL;
+		tableH->setSortingEnabled(true);
+	} else {
 		QMessageBox::information(this, "QFaktury",
-				trUtf8("Do faktur Pro Forma nie wystawiamy korekt"), QMessageBox::Ok);
+				trUtf8("Do faktury typu ") + tableH->item(row, 3)->text()
+				+ (" nie wystawiamy duplikatów."), QMessageBox::Ok);
 	}
+
 }
 
 /** Slot used to add goods

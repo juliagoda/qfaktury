@@ -27,6 +27,7 @@ public slots:
 	void newFra();
 	void newPForm();
 	void newKor();
+	void newDuplikat();
 	bool close();
 	void pomoc();
 	void reportBug();

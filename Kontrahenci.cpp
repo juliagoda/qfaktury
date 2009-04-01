@@ -135,9 +135,54 @@ void Kontrahenci::getFirmList() {
 	}
 }
 
+/** Validate form
+ *  Don't save when no
+ *  "name", "city", "street", "tic"
+ *
+ */
+bool Kontrahenci::validateForm(QString &missing) {
+	if (nameEdit->text().isEmpty()) {
+		missing = trUtf8("Nazwa");
+		return false;
+	}
+
+	if (placeEdit->text().isEmpty()) {
+		missing = trUtf8("Miejscowość");
+		return false;
+	}
+
+	if (codeEdit->text().isEmpty()) {
+		missing = trUtf8("Kod pocztowy");
+		return false;
+	}
+
+
+	if (addressEdit->text().isEmpty()) {
+		missing = trUtf8("Adres");
+		return false;
+	}
+
+	if (nipEdit->text().isEmpty()) {
+		missing = trUtf8("Nip");
+		return false;
+	}
+
+	return true;
+}
+
 /** Save data used in okClick()
  */
 bool Kontrahenci::saveAll() {
+	QString missing;
+
+	if (!validateForm(missing)) {
+		QMessageBox::critical(
+				0,
+				"QFaktury",
+				trUtf8("Kontrahent nie moze zostać zapisany pownieważ brakuje wymaganych danych w polu: ") + missing);
+		return false;
+	}
+
 	if (allNames.indexOf(QRegExp(nameEdit->text(), Qt::CaseSensitive,
 			QRegExp::FixedString)) != -1) {
 		QMessageBox::critical(

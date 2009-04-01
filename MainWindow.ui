@@ -107,11 +107,6 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="font" >
-             <font>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
             <property name="focusPolicy" >
              <enum>Qt::NoFocus</enum>
             </property>
@@ -392,7 +387,7 @@
      <x>0</x>
      <y>0</y>
      <width>712</width>
-     <height>19</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >
@@ -416,6 +411,7 @@
     <addaction name="fakturyDodajAction" />
     <addaction name="fakturyPFormaAction" />
     <addaction name="fakturyKorektaAction" />
+    <addaction name="fakturyDuplikatAction" />
     <addaction name="separator" />
     <addaction name="fakturyUsunAction" />
     <addaction name="fakturyEdAction" />
@@ -447,7 +443,7 @@
    </widget>
    <widget class="QMenu" name="menuPlugins" >
     <property name="title" >
-     <string>&amp;Dodatki</string>
+     <string>Dodatk&amp;i</string>
     </property>
    </widget>
    <addaction name="plikAct" />
@@ -936,6 +932,15 @@
   <action name="actionBug" >
    <property name="text" >
     <string>Zgłoś błąd</string>
+   </property>
+  </action>
+  <action name="fakturyDuplikatAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/icons/nowa_duplikat.png</normaloff>:/res/icons/nowa_duplikat.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Duplikat</string>
    </property>
   </action>
  </widget>

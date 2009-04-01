@@ -24,5 +24,6 @@ private:
 	void modifyOnly();
 	void loadDetails(QDomNode n);
 	void dataToElem(QDomElement elem);
+	bool validateForm(QString &missing);
 };
 #endif
