@@ -274,7 +274,6 @@ bool MainWindow::applyFiltr(QString nameToCheck) {
 	QString tmp = nameToCheck;
 	tmp = tmp.remove("h"); // invoice
 	tmp = tmp.remove("k"); // correction
-	tmp = tmp.remove("d"); // duplicate
 	tmp = tmp.left(10);
 	tmp = tmp.remove("-");
 
@@ -326,7 +325,7 @@ void MainWindow::readHist() {
 	allFiles.setPath(sett().getInvoicesDir());
 	allFiles.setFilter(QDir::Files);
 	QStringList filters;
-	filters << "h*.xml" << "k*.xml" << "d*.xml";
+	filters << "h*.xml" << "k*.xml";
 	allFiles.setNameFilters(filters);
 	QStringList files = allFiles.entryList();
 	int i, max = files.count();
@@ -741,17 +740,6 @@ void MainWindow::editFHist() {
 			co = 1;
 		fraWindow->readData(tableH->item(row, 0)->text(), co);
 		if (fraWindow->exec() == QDialog::Accepted) {
-			// tableH->insertRows (tableH->rowCount (), 1);
-			// edit window shouln't return anything
-			/*
-			QStringList rowTxt = fraWindow->ret.split("|");
-			tableH->item(row, 0)->setText(rowTxt[0]); // file name
-			tableH->item(row, 1)->setText(rowTxt[1]); // symbol
-			tableH->item(row, 2)->setText(rowTxt[2]); // date
-			tableH->item(row, 3)->setText(rowTxt[3]); // type
-			tableH->item(row, 4)->setText(rowTxt[4]); // nabywca
-			tableH->item(row, 5)->setText(rowTxt[5]); // NIP
-			*/
 			rereadHist();
 		}
 		delete fraWindow;
@@ -1020,19 +1008,9 @@ void MainWindow::newDuplikat() {
 		Duplikat *dupWindow = new Duplikat(this);
 		// qDebug( pdGlob );
 		dupWindow->readData(tableH->item(row, 0)->text(), 2);
-		dupWindow->setWindowTitle(trUtf8("Duplikat"));
+		dupWindow->setWindowTitle(trUtf8("Nowy duplikat"));
 		dupWindow->duplikatInit();
 		if (dupWindow->exec() == QDialog::Accepted) {
-			insertRow(tableH, tableH->rowCount());
-			// qDebug() << dupWindow->ret;
-			QStringList row = dupWindow->ret.split("|");
-			int newRow = tableH->rowCount() - 1;
-			tableH->item(newRow, 0)->setText(row[0]); // file name
-			tableH->item(newRow, 1)->setText(row[1]); // symbol
-			tableH->item(newRow, 2)->setText(row[2]); // date
-			tableH->item(newRow, 3)->setText(row[3]); // type
-			tableH->item(newRow, 4)->setText(row[4]); // nabywca
-			tableH->item(newRow, 5)->setText(row[5]); // NIP
 		}
 		delete dupWindow;
 		dupWindow = NULL;
