@@ -118,6 +118,7 @@ void MainWindow::init() {
 	connect(fakturyEdAction, SIGNAL(activated()), this, SLOT(editFHist()));
 	connect(fakturyDuplikatAction, SIGNAL(activated()), this, SLOT(newDuplikat()));
 	connect(fakturyBruttoAction, SIGNAL(activated()), this, SLOT(newFBrutto()));
+	connect(fakturyRachunekAction, SIGNAL(activated()), this, SLOT(newFRachunek()));
 	connect(fakturyKorektaAction, SIGNAL(activated()), this, SLOT(newKor()));
 	connect(fakturyPFormaAction, SIGNAL(activated()), this, SLOT(newPForm()));
 	connect(towaryDodajAction, SIGNAL(activated()), this, SLOT(towaryDodaj()));
@@ -599,11 +600,12 @@ void MainWindow::showTableMenuH(QPoint p) {
 	// qDebug() << __FUNCTION__ << __LINE__;
 	QMenu *menuTable = new QMenu(tableH);
 	menuTable->addAction(fakturyDodajAction);
-	menuTable->addAction(fakturyUsunAction);
-	menuTable->addAction(fakturyEdAction);
 	menuTable->addAction(fakturyDuplikatAction);
-	menuTable->addSeparator();
 	menuTable->addAction(fakturyKorektaAction);
+	menuTable->addSeparator();
+	menuTable->addAction(fakturyEdAction);
+	menuTable->addSeparator();
+	menuTable->addAction(fakturyUsunAction);
 	menuTable->exec(tableH->mapToGlobal(p));
 	delete menuTable;
 	menuTable = NULL;
@@ -950,6 +952,35 @@ void MainWindow::newFra() {
 	delete fraWindow;
 	fraWindow = NULL;
 }
+
+
+/** Slot used for creating new invoices
+ */
+void MainWindow::newFRachunek() {
+	/*
+	FakturaBrutto *fraWindow = new FakturaBrutto(this);
+	fraWindow->pforma = false;
+	fraWindow->setWindowTitle(trUtf8("Faktura VAT Brutto"));
+	if (fraWindow->exec() == QDialog::Accepted) {
+		tableH->setSortingEnabled(false);
+		insertRow(tableH, tableH->rowCount());
+		QStringList row = fraWindow->ret.split("|");
+		tableH->item(tableH->rowCount() - 1, 0)->setText(row[0]); // file name
+		tableH->item(tableH->rowCount() - 1, 1)->setText(row[1]); // symbol
+		tableH->item(tableH->rowCount() - 1, 2)->setText(row[2]); // date
+		tableH->item(tableH->rowCount() - 1, 3)->setText(row[3]); // type
+		tableH->item(tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
+		tableH->item(tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
+		tableH->setSortingEnabled(true);
+	} else {
+		rereadHist();
+	}
+
+	delete fraWindow;
+	fraWindow = NULL;
+	*/
+}
+
 
 /** Slot used for creating new invoices
  */

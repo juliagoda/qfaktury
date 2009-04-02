@@ -56,8 +56,9 @@ void Duplikat::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 		fraStrList += "<span style=\"font-size:12pt; font-weight:600\">";
 		fraStrList += invoiceType + "<br/>";
 		fraStrList += trUtf8("Nr: ") + frNr->text() + "<br></span>";
-		fraStrList += trUtf8("Duplikat z dnia:") + "<b>" +
-				duplicateDate->date().toString(sett().getDateFormat()) +  "</b><br>";
+		fraStrList += "<span style=\"font-size:11pt; font-weight:600\">";
+		fraStrList += trUtf8("Duplikat z dnia: ") + "<b>" +
+				duplicateDate->date().toString(sett().getDateFormat()) +  "</b></span><br>";
 		fraStrList += "<span class=\"dates\">" + trUtf8("Data wystawienia: ")
 				    + productDate->date().toString(sett().getDateFormat()) + "<br>";
 

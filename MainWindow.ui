@@ -387,7 +387,7 @@
      <x>0</x>
      <y>0</y>
      <width>712</width>
-     <height>19</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >
@@ -410,6 +410,8 @@
     </property>
     <addaction name="fakturyDodajAction" />
     <addaction name="fakturyBruttoAction" />
+    <addaction name="fakturyRachunekAction" />
+    <addaction name="separator" />
     <addaction name="fakturyPFormaAction" />
     <addaction name="fakturyKorektaAction" />
     <addaction name="fakturyDuplikatAction" />
@@ -881,7 +883,7 @@
      <normaloff>:/res/icons/nowa_korekta.png</normaloff>:/res/icons/nowa_korekta.png</iconset>
    </property>
    <property name="text" >
-    <string>Korekta</string>
+    <string>Faktura korygująca</string>
    </property>
    <property name="iconText" >
     <string>Nowa korekta</string>
@@ -899,7 +901,7 @@
      <normaloff>:/res/icons/nowa_proforma.png</normaloff>:/res/icons/nowa_proforma.png</iconset>
    </property>
    <property name="text" >
-    <string>Pro Forma</string>
+    <string>Faktura Pro Forma</string>
    </property>
    <property name="iconText" >
     <string>Pro forma</string>
@@ -941,12 +943,25 @@
      <normaloff>:/res/icons/nowa_duplikat.png</normaloff>:/res/icons/nowa_duplikat.png</iconset>
    </property>
    <property name="text" >
-    <string>Duplikat</string>
+    <string>Duplikat faktury</string>
    </property>
   </action>
   <action name="fakturyBruttoAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/icons/nowa_brutto.png</normaloff>:/res/icons/nowa_brutto.png</iconset>
+   </property>
    <property name="text" >
     <string>Faktura Brutto</string>
+   </property>
+  </action>
+  <action name="fakturyRachunekAction" >
+   <property name="icon" >
+    <iconset resource="qfaktury.qrc" >
+     <normaloff>:/res/icons/nowa_rachunek.png</normaloff>:/res/icons/nowa_rachunek.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Rachunek</string>
    </property>
   </action>
  </widget>

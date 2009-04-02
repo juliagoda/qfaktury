@@ -6,7 +6,6 @@
  */
 
 #include "moc_FakturaBrutto.cpp"
-#include <QLabel>
 
 // constructor
 FakturaBrutto::FakturaBrutto(QWidget *parent): Faktura(parent) {

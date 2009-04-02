@@ -29,6 +29,7 @@ public slots:
 	void newKor();
 	void newDuplikat();
 	void newFBrutto();
+	void newFRachunek();
 	bool close();
 	void pomoc();
 	void reportBug();
