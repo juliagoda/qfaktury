@@ -4,7 +4,7 @@ i kontrahentÃ³w.
 
 
 Wymagania:
-Dowolny Linux, Windows, MacOSX z zainstalowanym Qt4. 
+Dowolny Linux, Windows, MacOSX z zainstalowanym >=Qt4.4 
 
 Kompilacja:
 Do skompilowania wystaczy wydac dwa polecenia: 
@@ -20,6 +20,18 @@ qfaktury - /usr/local/bin
 grafiki - /usr/local/share/qfaktury/icons
 css - /usr/local/share/qfaktury/templates
 jezyki - /usr/local/share/qfaktury
+
+
+
+Skroty klawiszowe
+
+
+
+Uwagi!!
+
+Duplikat wystawiony nie jest przechowywany w programie. 
+W przypadku faktur brutto, zalozenie jest, ze w karotece towarow ceny sa brutto.  
+
 
 
  

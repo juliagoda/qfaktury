@@ -30,7 +30,7 @@ public slots:
 	void textChanged(QString someStr);
 	void payTextChanged(QString someStr);
 	void dateChanged (QDate someDate);
-	void discountConstChange();
+	virtual void discountConstChange(); // Overwritten in FakturaBrutto
 	// to be overwritten in child class
 	virtual void backBtnClick();
 	virtual void canQuit();

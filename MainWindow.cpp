@@ -117,7 +117,7 @@ void MainWindow::init() {
 	connect(fakturyUsunAction, SIGNAL(activated()), this, SLOT(delFHist()));
 	connect(fakturyEdAction, SIGNAL(activated()), this, SLOT(editFHist()));
 	connect(fakturyDuplikatAction, SIGNAL(activated()), this, SLOT(newDuplikat()));
-	connect(fakturyDuplikatAction, SIGNAL(activated()), this, SLOT(newFBrutto()));
+	connect(fakturyBruttoAction, SIGNAL(activated()), this, SLOT(newFBrutto()));
 	connect(fakturyKorektaAction, SIGNAL(activated()), this, SLOT(newKor()));
 	connect(fakturyPFormaAction, SIGNAL(activated()), this, SLOT(newPForm()));
 	connect(towaryDodajAction, SIGNAL(activated()), this, SLOT(towaryDodaj()));
@@ -814,9 +814,9 @@ void MainWindow::settClick() {
 void MainWindow::kontrClick() {
 	Kontrahenci *kontrWindow;
 	kontrWindow = new Kontrahenci(this, 0);
-	tableK->setSortingEnabled(false);
 	//qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 	if (kontrWindow->exec() == QDialog::Accepted) {
+		tableK->setSortingEnabled(false);
 		// qDebug() << progDir;
 		// readKontr (progDir);
 		insertRow(tableK, tableK->rowCount());
@@ -826,8 +826,8 @@ void MainWindow::kontrClick() {
 		tableK->item(tableK->rowCount() - 1, 2)->setText(row[2]); // place
 		tableK->item(tableK->rowCount() - 1, 3)->setText(row[3]); // address
 		tableK->item(tableK->rowCount() - 1, 4)->setText(row[4]); // telefon
+		tableK->setSortingEnabled(true);
 	}
-	tableK->setSortingEnabled(true);
 	delete kontrWindow;
 	kontrWindow = NULL;
 }
@@ -904,7 +904,6 @@ void MainWindow::kontrEd() {
 		return;
 	}
 
-	tableK->setSortingEnabled(false);
 
 	int row = tableK->selectedItems()[0]->row();
 	// qDebug ()<<tableK->item(row, 0)->text();
@@ -913,17 +912,18 @@ void MainWindow::kontrEd() {
 	kontrWindow->readData(tableK->item(row, 0)->text(),
 			sett().getCustomerType(tableK->item(row, 1)->text()));
 	if (kontrWindow->exec() == QDialog::Accepted) {
+		tableK->setSortingEnabled(false);
 		QStringList rowTxt = kontrWindow->ret.split("|");
 		tableK->item(row, 0)->setText(rowTxt[0]); // name
 		tableK->item(row, 1)->setText(rowTxt[1]); // type
 		tableK->item(row, 2)->setText(rowTxt[2]); // place
 		tableK->item(row, 3)->setText(rowTxt[3]); // address
 		tableK->item(row, 4)->setText(rowTxt[4]); // telefon
+		tableK->setSortingEnabled(true);
 	}
 	delete kontrWindow;
 	kontrWindow = NULL;
 
-	tableK->setSortingEnabled(true);
 }
 
 
@@ -933,6 +933,7 @@ void MainWindow::newFra() {
 	Faktura *fraWindow = new Faktura(this);
 	fraWindow->pforma = false;
 	if (fraWindow->exec() == QDialog::Accepted) {
+		tableH->setSortingEnabled(false);
 		insertRow(tableH, tableH->rowCount());
 		QStringList row = fraWindow->ret.split("|");
 		tableH->item(tableH->rowCount() - 1, 0)->setText(row[0]); // file name
@@ -941,6 +942,7 @@ void MainWindow::newFra() {
 		tableH->item(tableH->rowCount() - 1, 3)->setText(row[3]); // type
 		tableH->item(tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
 		tableH->item(tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
+		tableH->setSortingEnabled(true);
 	} else {
 		rereadHist();
 	}
@@ -954,7 +956,9 @@ void MainWindow::newFra() {
 void MainWindow::newFBrutto() {
 	FakturaBrutto *fraWindow = new FakturaBrutto(this);
 	fraWindow->pforma = false;
+	fraWindow->setWindowTitle(trUtf8("Faktura VAT Brutto"));
 	if (fraWindow->exec() == QDialog::Accepted) {
+		tableH->setSortingEnabled(false);
 		insertRow(tableH, tableH->rowCount());
 		QStringList row = fraWindow->ret.split("|");
 		tableH->item(tableH->rowCount() - 1, 0)->setText(row[0]); // file name
@@ -963,6 +967,7 @@ void MainWindow::newFBrutto() {
 		tableH->item(tableH->rowCount() - 1, 3)->setText(row[3]); // type
 		tableH->item(tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
 		tableH->item(tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
+		tableH->setSortingEnabled(true);
 	} else {
 		rereadHist();
 	}
@@ -980,6 +985,7 @@ void MainWindow::newPForm() {
 	fraWindow->setWindowTitle(trUtf8("Faktura Pro Forma"));
 	fraWindow->backBtnClick();
 	if (fraWindow->exec() == QDialog::Accepted) {
+		tableH->setSortingEnabled(false);
 		insertRow(tableH, tableH->rowCount());
 		QStringList row = fraWindow->ret.split("|");
 		tableH->item(tableH->rowCount() - 1, 0)->setText(row[0]); // file name
@@ -988,6 +994,7 @@ void MainWindow::newPForm() {
 		tableH->item(tableH->rowCount() - 1, 3)->setText(row[3]); // type
 		tableH->item(tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
 		tableH->item(tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
+		tableH->setSortingEnabled(true);
 	} else {
 		rereadHist();
 	}

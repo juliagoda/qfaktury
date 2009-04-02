@@ -392,7 +392,7 @@
    </property>
    <widget class="QMenu" name="plikAct" >
     <property name="title" >
-     <string>&amp;Plik</string>
+     <string>&amp;Program</string>
     </property>
     <addaction name="plikDane_firmyAction" />
     <addaction name="plikUstawieniaAction" />
@@ -409,8 +409,8 @@
      <string>&amp;Faktury</string>
     </property>
     <addaction name="fakturyDodajAction" />
-    <addaction name="fakturyPFormaAction" />
     <addaction name="fakturyBruttoAction" />
+    <addaction name="fakturyPFormaAction" />
     <addaction name="fakturyKorektaAction" />
     <addaction name="fakturyDuplikatAction" />
     <addaction name="separator" />
@@ -521,10 +521,10 @@
      <normaloff>:/res/icons/nowa_faktura.png</normaloff>:/res/icons/nowa_faktura.png</iconset>
    </property>
    <property name="text" >
-    <string>Nowa faktura</string>
+    <string>Faktura VAT</string>
    </property>
    <property name="iconText" >
-    <string>Nowa Faktura</string>
+    <string>Nowa faktura</string>
    </property>
    <property name="shortcut" >
     <string>F5</string>
@@ -881,7 +881,7 @@
      <normaloff>:/res/icons/nowa_korekta.png</normaloff>:/res/icons/nowa_korekta.png</iconset>
    </property>
    <property name="text" >
-    <string>Nowa korekta</string>
+    <string>Korekta</string>
    </property>
    <property name="iconText" >
     <string>Nowa korekta</string>
@@ -899,7 +899,7 @@
      <normaloff>:/res/icons/nowa_proforma.png</normaloff>:/res/icons/nowa_proforma.png</iconset>
    </property>
    <property name="text" >
-    <string>Nowa pro forma</string>
+    <string>Pro Forma</string>
    </property>
    <property name="iconText" >
     <string>Pro forma</string>
@@ -946,7 +946,7 @@
   </action>
   <action name="fakturyBruttoAction" >
    <property name="text" >
-    <string>Nowa faktura brutto</string>
+    <string>Faktura Brutto</string>
    </property>
   </action>
  </widget>

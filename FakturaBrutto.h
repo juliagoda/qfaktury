@@ -25,8 +25,9 @@ public:
 	virtual ~FakturaBrutto();
 public slots:
 	void fakturaBruttoInit();
-	virtual void canQuit();
 protected:
+	virtual void calculateDiscount();
+	virtual void calculateSum();
 
 private:
 

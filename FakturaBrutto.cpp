@@ -19,3 +19,11 @@ FakturaBrutto::~FakturaBrutto() {
 void FakturaBrutto::fakturaBruttoInit() {
 
 }
+
+void FakturaBrutto::calculateDiscount() {
+
+}
+
+void FakturaBrutto::calculateSum() {
+
+}
