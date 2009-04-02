@@ -10,7 +10,8 @@ QT += gui \
 CONFIG += release
 
 # Input
-HEADERS += Duplikat.h \
+HEADERS += FakturaBrutto.h \
+    Duplikat.h \
     ConvertAmount.h \
     config.h \
     Faktura.h \
@@ -35,7 +36,8 @@ FORMS += Faktura.ui \
     Ustawienia.ui \
     Uzytkownik.ui \
     ZmienIlosc.ui
-SOURCES += Duplikat.cpp \
+SOURCES += FakturaBrutto.cpp \
+    Duplikat.cpp \
     ConvertAmount.cpp \
     Faktura.cpp \
     Kontrahenci.cpp \

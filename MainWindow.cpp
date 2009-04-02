@@ -17,6 +17,7 @@
 #include "Faktura.h"
 #include "Korekta.h"
 #include "Duplikat.h"
+#include "FakturaBrutto.h"
 #include "Kontrahenci.h"
 
 
@@ -116,6 +117,7 @@ void MainWindow::init() {
 	connect(fakturyUsunAction, SIGNAL(activated()), this, SLOT(delFHist()));
 	connect(fakturyEdAction, SIGNAL(activated()), this, SLOT(editFHist()));
 	connect(fakturyDuplikatAction, SIGNAL(activated()), this, SLOT(newDuplikat()));
+	connect(fakturyDuplikatAction, SIGNAL(activated()), this, SLOT(newFBrutto()));
 	connect(fakturyKorektaAction, SIGNAL(activated()), this, SLOT(newKor()));
 	connect(fakturyPFormaAction, SIGNAL(activated()), this, SLOT(newPForm()));
 	connect(towaryDodajAction, SIGNAL(activated()), this, SLOT(towaryDodaj()));
@@ -746,6 +748,24 @@ void MainWindow::editFHist() {
 		fraWindow = NULL;
 	}
 
+	if ((tableH->item(row, 3)->text() == trUtf8("FBrutto"))
+			|| (tableH->item(row, 3)->text() == trUtf8("FBPro"))) {
+		// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
+		FakturaBrutto *fraWindow = new FakturaBrutto(this);
+		// qDebug() << pdGlob;
+		int co = 0;
+		if (tableH->item(row, 3)->text() == "FBrutto")
+			co = 0;
+		else
+			co = 1;
+		fraWindow->readData(tableH->item(row, 0)->text(), co);
+		if (fraWindow->exec() == QDialog::Accepted) {
+			rereadHist();
+		}
+		delete fraWindow;
+		fraWindow = NULL;
+	}
+
 	tableH->setSortingEnabled(true);
 }
 
@@ -929,6 +949,29 @@ void MainWindow::newFra() {
 	fraWindow = NULL;
 }
 
+/** Slot used for creating new invoices
+ */
+void MainWindow::newFBrutto() {
+	FakturaBrutto *fraWindow = new FakturaBrutto(this);
+	fraWindow->pforma = false;
+	if (fraWindow->exec() == QDialog::Accepted) {
+		insertRow(tableH, tableH->rowCount());
+		QStringList row = fraWindow->ret.split("|");
+		tableH->item(tableH->rowCount() - 1, 0)->setText(row[0]); // file name
+		tableH->item(tableH->rowCount() - 1, 1)->setText(row[1]); // symbol
+		tableH->item(tableH->rowCount() - 1, 2)->setText(row[2]); // date
+		tableH->item(tableH->rowCount() - 1, 3)->setText(row[3]); // type
+		tableH->item(tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
+		tableH->item(tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
+	} else {
+		rereadHist();
+	}
+
+	delete fraWindow;
+	fraWindow = NULL;
+}
+
+
 /** Slot used to create new ProForma Invoice
  */
 void MainWindow::newPForm() {
@@ -994,6 +1037,9 @@ void MainWindow::newKor() {
 
 }
 
+/** Slot
+ *  Creates duplicate
+ */
 void MainWindow::newDuplikat() {
 	if (tableH->selectedItems().count() <= 0) {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Wybierz fakurę, do której chcesz wystawić duplikat."), trUtf8("Ok"), 0, 0, 1);

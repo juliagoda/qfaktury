@@ -28,6 +28,7 @@ public slots:
 	void newPForm();
 	void newKor();
 	void newDuplikat();
+	void newFBrutto();
 	bool close();
 	void pomoc();
 	void reportBug();

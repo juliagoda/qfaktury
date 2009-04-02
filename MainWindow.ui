@@ -387,7 +387,7 @@
      <x>0</x>
      <y>0</y>
      <width>712</width>
-     <height>29</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct" >
@@ -410,6 +410,7 @@
     </property>
     <addaction name="fakturyDodajAction" />
     <addaction name="fakturyPFormaAction" />
+    <addaction name="fakturyBruttoAction" />
     <addaction name="fakturyKorektaAction" />
     <addaction name="fakturyDuplikatAction" />
     <addaction name="separator" />
@@ -941,6 +942,11 @@
    </property>
    <property name="text" >
     <string>Duplikat</string>
+   </property>
+  </action>
+  <action name="fakturyBruttoAction" >
+   <property name="text" >
+    <string>Nowa faktura brutto</string>
    </property>
   </action>
  </widget>
