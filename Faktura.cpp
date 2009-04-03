@@ -1126,6 +1126,7 @@ void Faktura::readData(QString fraFile, int co) {
 	saveBtn->setEnabled(false);
 
 	setIsEditAllowed(sett().value("edit").toBool());
+	// if (constRab->isChecked())
 	calculateDiscount();
 	calculateSum();
 }

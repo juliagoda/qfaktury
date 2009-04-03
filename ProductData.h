@@ -1,3 +1,7 @@
+#ifndef PRODUCTDATA_H_
+#define PRODUCTDATA_H_
+
+
 #include <QString>
 #include <QTextStream>
 
@@ -181,3 +185,6 @@ private:
 	double gross;
 	QString curr;
 };
+
+
+#endif

@@ -24,12 +24,10 @@ public slots:
 	virtual void saveInvoice();
 	virtual void makeInvoice();
 	virtual void canQuit();
-private:
+protected:
 	InvoiceData *invData;
 	QComboBox *reasonCombo;
 	QLabel *labelReason1;
-	virtual void calculateDiscount();
-	virtual void calculateSum();
 	// virtual QString getGroupedSums();
 	virtual void makeInvoiceSummAll();
 	virtual void makeInvoiceSumm();
@@ -38,7 +36,8 @@ private:
 	virtual void makeBeforeCorrSumm();
 	InvoiceData *createOriginalInv();
 	virtual void setIsEditAllowed(bool isAllowed);
-protected:
+	virtual void calculateDiscount();
+	virtual void calculateSum();
 	double origDiscTotal, origNettTotal, origGrossTotal;
 	double diffTotal;
 };

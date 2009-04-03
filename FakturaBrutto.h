@@ -26,10 +26,12 @@ public:
 public slots:
 	void fakturaBruttoInit();
 	void addTow();
-private:
+protected:
+	void calculateOneDiscount(int i);
 	QString getInvoiceTypeAndSaveNr();
+
 	// virtual double calcPrice(double quant, double price);
-	virtual double calcVATPrice(double nett, double gross);
+	// virtual double calcVATPrice(double nett, double gross);
 
 };
 

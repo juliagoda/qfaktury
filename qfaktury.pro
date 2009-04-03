@@ -10,7 +10,8 @@ QT += gui \
 CONFIG += release
 
 # Input
-HEADERS += TowaryBruttoLista.h \
+HEADERS += KorektaBrutto.h \
+    TowaryBruttoLista.h \
     Rachunek.h \
     FakturaBrutto.h \
     Duplikat.h \
@@ -29,7 +30,8 @@ HEADERS += TowaryBruttoLista.h \
     Ustawienia.h \
     Uzytkownik.h \
     ZmienIlosc.h
-FORMS += Faktura.ui \
+FORMS += Zaliczkowa.ui \
+    Faktura.ui \
     Kontrahenci.ui \
     KontrahenciLista.ui \
     MainWindow.ui \
@@ -38,7 +40,8 @@ FORMS += Faktura.ui \
     Ustawienia.ui \
     Uzytkownik.ui \
     ZmienIlosc.ui
-SOURCES += TowaryBruttoLista.cpp \
+SOURCES += KorektaBrutto.cpp \
+    TowaryBruttoLista.cpp \
     Rachunek.cpp \
     FakturaBrutto.cpp \
     Duplikat.cpp \

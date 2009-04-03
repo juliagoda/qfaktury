@@ -27,10 +27,11 @@ Skroty klawiszowe
 
 
 
-Uwagi!!
+Ograniczenia!!
 
-Duplikat wystawiony nie jest przechowywany w programie. 
-W przypadku faktur brutto, zalozenie jest, ze w karotece towarow ceny sa brutto.  
+1. Duplikat wystawiony nie jest przechowywany w programie. 
+2. W przypadku faktur brutto, zalozenie jest, ze w karotece towarow ceny sa brutto.
+3. Do rachunku nie wystawimy duplikatu, ani korekty.  
 
 
 

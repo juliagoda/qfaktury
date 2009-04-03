@@ -18,6 +18,7 @@
 #include "Korekta.h"
 #include "Duplikat.h"
 #include "FakturaBrutto.h"
+#include "KorektaBrutto.h"
 #include "Rachunek.h"
 #include "Kontrahenci.h"
 
@@ -601,11 +602,14 @@ void MainWindow::showTableMenuH(QPoint p) {
 	// qDebug() << __FUNCTION__ << __LINE__;
 	QMenu *menuTable = new QMenu(tableH);
 	menuTable->addAction(fakturyDodajAction);
-	menuTable->addAction(fakturyDuplikatAction);
+	menuTable->addAction(fakturyBruttoAction);
+	menuTable->addAction(fakturyRachunekAction);
+	menuTable->addSeparator();
+	menuTable->addAction(fakturyPFormaAction);
 	menuTable->addAction(fakturyKorektaAction);
+	menuTable->addAction(fakturyDuplikatAction);
 	menuTable->addSeparator();
 	menuTable->addAction(fakturyEdAction);
-	menuTable->addSeparator();
 	menuTable->addAction(fakturyUsunAction);
 	menuTable->exec(tableH->mapToGlobal(p));
 	delete menuTable;
@@ -1059,9 +1063,20 @@ void MainWindow::newKor() {
 
 	int row = tableH->selectedItems()[0]->row();
 
-	if ((tableH->item(row, 3)->text() == "FVAT")) {
+	QStringList invTypes;
+	invTypes << "FVAT" << "FBrutto";
+
+	if (invTypes.contains(tableH->item(row, 3)->text())) {
 		tableH->setSortingEnabled(false);
-		Korekta *korWindow = new Korekta(this);
+
+		Korekta *korWindow;
+
+		if (tableH->item(row, 3)->text().contains("FVAT") == 0) {
+			korWindow = new Korekta(this);
+		} else  {
+			korWindow = new KorektaBrutto(this);
+		}
+
 		korWindow->korektaInit(false);
 		// qDebug( pdGlob );
 		korWindow->readData(tableH->item(row, 0)->text(), 2);
@@ -1102,8 +1117,11 @@ void MainWindow::newDuplikat() {
 
 	int row = tableH->selectedItems()[0]->row();
 
-	if ((tableH->item(row, 3)->text() == "FVAT")) {
-		tableH->setSortingEnabled(false);
+	// types of invoices for which it's ok to issue a duplicate
+	QStringList invTypes;
+	invTypes << "FVAT" << "FBrutto";
+
+	if (invTypes.contains(tableH->item(row, 3)->text())) {
 		Duplikat *dupWindow = new Duplikat(this);
 		// qDebug( pdGlob );
 		dupWindow->readData(tableH->item(row, 0)->text(), 2);
@@ -1113,7 +1131,6 @@ void MainWindow::newDuplikat() {
 		}
 		delete dupWindow;
 		dupWindow = NULL;
-		tableH->setSortingEnabled(true);
 	} else {
 		QMessageBox::information(this, "QFaktury",
 				trUtf8("Do faktury typu ") + tableH->item(row, 3)->text()

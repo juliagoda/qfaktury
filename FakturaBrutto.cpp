@@ -27,6 +27,35 @@ QString FakturaBrutto::getInvoiceTypeAndSaveNr() {
 	return ftype;
 }
 
+/** Caclulate Discount
+ */
+void FakturaBrutto::calculateOneDiscount(int i) {
+	double quantity = 0, vat = 0, gross = 0;
+	double netto = 0,  price = 0;
+	double discountValue = 0, discount;
+
+	price = sett().stringToDouble(tableTow->item(i, 7)->text());
+	if (constRab->isChecked()) {
+		discount = rabatValue->value() * 0.01;
+	} else {
+		discount = sett().stringToDouble(tableTow->item(i, 6)->text()) * 0.01;
+	}
+	quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
+	netto = (price * quantity);
+	discountValue = netto * discount;
+	netto -= discountValue;
+	vat = sett().stringToDouble(tableTow->item(i, 9)->text());
+	gross = netto * ((vat * 0.01) + 1);
+
+	// qDebug() << price << quantity << netto << discount << discountValue << vat << gross;
+
+    tableTow->item(i, 6)->setText(sett().numberToString(discount * 100, 'f', 0)); // discount
+	// tableTow->item(i, 7)->setText(price); // price
+	tableTow->item(i, 8)->setText(sett().numberToString(netto)); // nett
+	// tableTow->item(i, 9)->setText(sett().numberToString(gross - vat)); // vat
+	tableTow->item(i, 10)->setText(sett().numberToString(gross)); // gross
+
+}
 
 
 /** Slot
