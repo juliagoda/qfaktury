@@ -28,10 +28,6 @@ QString FakturaBrutto::getInvoiceTypeAndSaveNr() {
 }
 
 
-// calcVATAmount - kwota VAT
-double FakturaBrutto::calcVATPrice(double gross, double nett) {
-	return nett - gross;
-}
 
 /** Slot
  *  Add new towar
