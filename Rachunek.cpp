@@ -17,6 +17,12 @@ Rachunek::~Rachunek() {
 }
 
 void Rachunek::rachunekInit() {
-
+	invoiceType = "Rachunek";
 }
 
+
+QString Rachunek::getInvoiceTypeAndSaveNr() {
+	QString rachunek = "rachunek";
+	sett().setValue("rachunekNumber", frNr->text());
+	return rachunek;
+}

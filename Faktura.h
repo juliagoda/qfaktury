@@ -22,7 +22,7 @@ public:
 	virtual void setIsEditAllowed(bool isAllowed);
 public slots:
 	void getCustomer();
-	void addTow();
+	virtual void addTow();
 	virtual void discountChange();
 	void delTowar();
 	void editTowar();
@@ -63,6 +63,9 @@ protected:
 	virtual void calculateOneDiscount(int a);
 	QDomElement createSellerElement(QDomDocument doc);
 	QDomElement createBuyerElement(QDomDocument doc);
+
+	virtual QString getInvoiceTypeAndSaveNr();
+
 	bool validateForm();
 };
 #endif

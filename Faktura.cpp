@@ -388,15 +388,9 @@ void Faktura::saveInvoice() {
 	root.setAttribute("sellingDate", sellingDate->date().toString(
 			sett().getDateFormat()));
 
-	if (windowTitle().right(3) == "VAT") {
-		root.setAttribute("type", "FVAT");
-		sett().setValue("fvat", frNr->text());
-		ret += "FVAT|";
-	} else {
-		root.setAttribute("type", "FPro");
-		sett().setValue("fpro", frNr->text());
-		ret += "FPro|";
-	}
+	QString invType = getInvoiceTypeAndSaveNr();
+	root.setAttribute("type", invType);
+	ret += invType + "|";
 
 	doc.appendChild(root);
 
@@ -1263,3 +1257,18 @@ void Faktura::saveColumnsWidth() {
 	sett().endGroup();
 }
 
+/**
+ *  Return invoice type
+ */
+QString Faktura::getInvoiceTypeAndSaveNr() {
+	QString ret = "FVAT";
+
+	if (windowTitle().right(3) == "VAT") {
+		sett().setValue("fvat", frNr->text());
+	} else {
+		ret = "FPro";
+		sett().setValue("fpro", frNr->text());
+	}
+
+	return ret;
+}

@@ -18,6 +18,7 @@
 #include "Korekta.h"
 #include "Duplikat.h"
 #include "FakturaBrutto.h"
+#include "Rachunek.h"
 #include "Kontrahenci.h"
 
 
@@ -727,9 +728,24 @@ void MainWindow::editFHist() {
 		korWindow->readCorrData(tableH->item(row, 0)->text());
 		if (korWindow->exec() == QDialog::Accepted) {
 			// edit window shouln't return anything
+			rereadHist();
 		}
 		delete korWindow;
 		korWindow = NULL;
+	}
+
+	if (tableH->item(row, 3)->text() == trUtf8("rachunek")) {
+		// QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
+		Rachunek *raWindow = new Rachunek(this);
+		raWindow->readData(tableH->item(row, 0)->text(), 0);
+		raWindow->rachunekInit();
+		raWindow->setWindowTitle(trUtf8("Edytuje Rachunek"));
+		if (raWindow->exec() == QDialog::Accepted) {
+			// edit window shouln't return anything
+			rereadHist();
+		}
+		delete raWindow;
+		raWindow = NULL;
 	}
 
 	if ((tableH->item(row, 3)->text() == trUtf8("FVAT"))
@@ -957,10 +973,10 @@ void MainWindow::newFra() {
 /** Slot used for creating new invoices
  */
 void MainWindow::newFRachunek() {
-	/*
-	FakturaBrutto *fraWindow = new FakturaBrutto(this);
+	Rachunek *fraWindow = new Rachunek(this);
 	fraWindow->pforma = false;
-	fraWindow->setWindowTitle(trUtf8("Faktura VAT Brutto"));
+	fraWindow->setWindowTitle(trUtf8("Rachunek"));
+	fraWindow->rachunekInit();
 	if (fraWindow->exec() == QDialog::Accepted) {
 		tableH->setSortingEnabled(false);
 		insertRow(tableH, tableH->rowCount());
@@ -978,7 +994,6 @@ void MainWindow::newFRachunek() {
 
 	delete fraWindow;
 	fraWindow = NULL;
-	*/
 }
 
 

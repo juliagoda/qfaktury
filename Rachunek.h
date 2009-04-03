@@ -24,8 +24,7 @@ public:
 public slots:
 	void rachunekInit();
 protected:
-
-private:
+	QString getInvoiceTypeAndSaveNr();
 
 
 };
