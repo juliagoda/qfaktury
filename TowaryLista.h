@@ -13,14 +13,14 @@ public:
 	TowaryLista(QWidget *parent);
 public slots:
 	void readTow();
-	void doAccept();
+	virtual void doAccept();
 	void comboBox1Changed(int x);
-	void calcNetto();
+	virtual void calcNetto();
 	void displayData(int x);
 	void lv1selChanged();
 	void displayNetto(QString index);
 	void spinChanged(int a);
-private:
+protected:
 	void init();
 
 	typedef QMap<QString, ProductData *> ProductDataList;

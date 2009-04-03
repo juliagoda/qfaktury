@@ -423,15 +423,14 @@ void Faktura::saveInvoice() {
 		}
 		product.setAttribute("price", tableTow->item(i, 7)->text());
 		double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
-		double kwota = cenajdn
-				* tableTow->item(i, 4)->text().toInt();
+		double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
 		// qDebug() << kwota << " = " << tableTow->item(i, 4)->text().toInt() << " * " <<  cenajdn;
-		product.setAttribute("nett", sett().numberToString(kwota, 'f', 2)); // netto
+		product.setAttribute("nett", sett().numberToString(kwota, 'f', 2)); // netto without discount
 		// product.setAttribute ("Rabat", QLocale::toString (rabatValue->value ()));	// rabat
 		product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
 		product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
-		double vatPrice = sett().stringToDouble(tableTow->item(i, 10)->text())
-							- sett().stringToDouble(tableTow->item(i, 8)->text());
+		double vatPrice = sett().stringToDouble(tableTow->item(i, 10)->text()) -
+				sett().stringToDouble(tableTow->item(i, 8)->text());
 
 		product.setAttribute("vatAmout", sett().numberToString(vatPrice, 'f', 2));
 		product.setAttribute("gross", tableTow->item(i, 10)->text());

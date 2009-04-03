@@ -7,6 +7,9 @@
 
 #include "moc_FakturaBrutto.cpp"
 
+#include "TowaryBruttoLista.h"
+#include "MainWindow.h"
+
 // constructor
 FakturaBrutto::FakturaBrutto(QWidget *parent): Faktura(parent) {
 
@@ -16,19 +19,25 @@ FakturaBrutto::~FakturaBrutto() {
 }
 
 void FakturaBrutto::fakturaBruttoInit() {
-
+	// invoiceType = "FB"
 }
 
-void FakturaBrutto::calculateDiscount() {
-
+QString FakturaBrutto::getInvoiceTypeAndSaveNr() {
+	QString ftype = "FBrutto";
+	return ftype;
 }
 
-void FakturaBrutto::calculateSum() {
 
+// calcVATAmount - kwota VAT
+double FakturaBrutto::calcVATPrice(double gross, double nett) {
+	return nett - gross;
 }
 
+/** Slot
+ *  Add new towar
+ */
 void FakturaBrutto::addTow() {
-	TowaryLista *twWindow = new TowaryLista(this);
+	TowaryBruttoLista *twWindow = new TowaryBruttoLista(this);
 	if (twWindow->exec() == QDialog::Accepted) {
 		MainWindow::insertRow(tableTow, tableTow->rowCount());
 		// qDebug() << twWindow->ret;

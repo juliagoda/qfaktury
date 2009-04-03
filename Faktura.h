@@ -65,7 +65,6 @@ protected:
 	QDomElement createBuyerElement(QDomDocument doc);
 
 	virtual QString getInvoiceTypeAndSaveNr();
-
 	bool validateForm();
 };
 #endif
