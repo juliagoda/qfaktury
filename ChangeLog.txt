@@ -1,10 +1,10 @@
 0.6.2
-	- Oryginal i kopia osobno, nie trzeba skreslac + mozliwosc zdefiniowania ilosci kopii
+	- Oryginal i kopia osobno, nie trzeba skreslac 
+	- Mozliwosc zdefiniowania ilosci kopii
 	- Duplikaty faktur
-	- Faktury brutto
+	- Faktury brutto wystawiane od cen brutto
 	- Rachunki 
 	- Obsluga pluginow pythona, PyQt
-	
 
 0.6.1
 	- przenisienia z cmake na qmake (cmake ma duzo limitacji), np. build nie dziala z eclipse, deb nie dodaje plikow ikon

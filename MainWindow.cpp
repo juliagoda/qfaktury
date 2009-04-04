@@ -543,7 +543,7 @@ void MainWindow::setupDir() {
  */
 void MainWindow::pluginInfoSlot() {
 	QMessageBox::information(this, trUtf8("QFaktury"),
-			trUtf8("To menu służy do obsługi pluginów pythona, \n np. archiwizacji danych, generowania raportów, wysyłki SMS etc.\n\nSkrypty pythona sa czytane z folderu \"~/elinux/plugins/\"."),
+			trUtf8("To menu służy do obsługi pluginów pythona, \n np. archiwizacji danych, generowania raportów etc.\n\nSkrypty pythona sa czytane z folderu \"~/elinux/plugins/\"."),
 			trUtf8("Ok"), 0, 0, 1);
 
 }
