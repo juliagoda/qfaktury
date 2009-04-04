@@ -424,9 +424,7 @@ void Faktura::saveInvoice() {
 		product.setAttribute("price", tableTow->item(i, 7)->text());
 		double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
 		double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
-		// qDebug() << kwota << " = " << tableTow->item(i, 4)->text().toInt() << " * " <<  cenajdn;
-		product.setAttribute("nett", sett().numberToString(kwota, 'f', 2)); // netto without discount
-		// product.setAttribute ("Rabat", QLocale::toString (rabatValue->value ()));	// rabat
+		product.setAttribute("nett", tableTow->item(i, 8)->text()); // netto without discount
 		product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
 		product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
 		double vatPrice = sett().stringToDouble(tableTow->item(i, 10)->text()) -
@@ -1179,6 +1177,8 @@ void Faktura::calculateDiscount() {
 /** Caclulate Discount
  */
 void Faktura::calculateOneDiscount(int i) {
+	// qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+
 	double quantity = 0, vat = 0, gross = 0;
 	double netto = 0,  price = 0;
 	double discountValue = 0, discount;
@@ -1261,6 +1261,8 @@ void Faktura::saveColumnsWidth() {
  *  Return invoice type
  */
 QString Faktura::getInvoiceTypeAndSaveNr() {
+	qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+
 	QString ret = "FVAT";
 
 	if (windowTitle().right(3) == "VAT") {

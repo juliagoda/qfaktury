@@ -708,7 +708,16 @@ void MainWindow::oProg() {
 			this,
 			trUtf8("O programie"),
 			trUtf8("Program do wystawiania faktur.\n\n ") + sett().getVersion(qAppName()) +
-			trUtf8("\n\nKoordynator projektu:\n\tGrzegorz Rękawek\t\t\n\nProgramiści: \n\tTomasz Pielech\n\tRafał Rusin\n\tSławomir Patyk \n\nIkony:\n\tDariusz Arciszewski\n"));
+			trUtf8("\n\nKoordynator projektu:\n\tGrzegorz Rękawek\t\t\n\nProgramiści: \n\tTomasz Pielech\n\t") +
+			trUtf8("Rafał Rusin\n\tSławomir Patyk \n\nIkony:\n\tDariusz Arciszewski\n") +
+			trUtf8("UWAGA!!!\n") +
+			trUtf8("Ten program komputerowy dostarczany jest przez autora w formie \"takiej, jaki jest\". ") +
+			trUtf8("Autor nie udziela żadnej gwarancji oraz rękojmi, że program będzie działał ") +
+			trUtf8("prawidłowo, jest odpowiedniej jakości oraz że spełni oczekiwania ") +
+			trUtf8("użytkownika. Autor nie odpowiada za jakiekolwiek straty wynikające z użytkowania ") +
+			trUtf8("programu, w tym utratą spodziewanych korzyści, danych, informacji ") +
+			trUtf8("gospodarczych lub koszt urządzeń lub programów zastępczych."));
+
 }
 
 /** Slot used to edit the invoice from list of invoices.
@@ -737,6 +746,20 @@ void MainWindow::editFHist() {
 		delete korWindow;
 		korWindow = NULL;
 	}
+
+	if (tableH->item(row, 3)->text() == trUtf8("kbrutto")) {
+		// QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
+		KorektaBrutto *korWindow = new KorektaBrutto(this);
+		korWindow->korektaInit(true);
+		korWindow->readCorrData(tableH->item(row, 0)->text());
+		if (korWindow->exec() == QDialog::Accepted) {
+			// edit window shouln't return anything
+			rereadHist();
+		}
+		delete korWindow;
+		korWindow = NULL;
+	}
+
 
 	if (tableH->item(row, 3)->text() == trUtf8("rachunek")) {
 		// QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
@@ -1071,7 +1094,7 @@ void MainWindow::newKor() {
 
 		Korekta *korWindow;
 
-		if (tableH->item(row, 3)->text().contains("FVAT") == 0) {
+		if (tableH->item(row, 3)->text().contains("FVAT")) {
 			korWindow = new Korekta(this);
 		} else  {
 			korWindow = new KorektaBrutto(this);

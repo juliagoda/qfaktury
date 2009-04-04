@@ -125,8 +125,10 @@ void Korekta::saveInvoice(){
 	ret += QDate::currentDate().toString(sett().getDateFormat()) + "|";
 	root.setAttribute("sellingDate", sellingDate->date().toString(
 			sett().getDateFormat()));
-	root.setAttribute("type", "korekta");
-	ret += "korekta|";
+
+	QString invType = getInvoiceTypeAndSaveNr();
+	root.setAttribute("type", invType);
+	ret += invType + "|";
 	doc.appendChild(root);
 
 	QDomElement sprzedawca = createSellerElement(doc);
@@ -157,12 +159,12 @@ void Korekta::saveInvoice(){
 		product.setAttribute("price", tableTow->item(i, 7)->text());
 		double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
 		double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
-		product.setAttribute("nett", sett().numberToString(kwota, 'f', 2)); // netto
-		// product.setAttribute ("Rabat", QLocale::toString (rabatValue->value ()));	// rabat
+		product.setAttribute("nett", tableTow->item(i, 8)->text()); // netto without discount
 		product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
 		product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
-		double vatPrice = sett().stringToDouble(tableTow->item(i, 10)->text())
-							- sett().stringToDouble(tableTow->item(i, 8)->text());
+		double vatPrice = sett().stringToDouble(tableTow->item(i, 10)->text()) -
+				sett().stringToDouble(tableTow->item(i, 8)->text());
+
 		product.setAttribute("vatAmout", sett().numberToString(vatPrice, 'f', 2));
 		product.setAttribute("gross", tableTow->item(i, 10)->text());
 		productsCorrected.appendChild(product);
@@ -231,8 +233,6 @@ void Korekta::saveInvoice(){
 	// qDebug() << xml;
 	ts << xml;
 	file.close();
-
-	sett().setValue("korNr", frNr->text());
 
 	saveBtn->setEnabled(false);
 	rmTowBtn->setEnabled(false);
@@ -583,6 +583,20 @@ void Korekta::calculateSum(){
 		textLabelSum3->setText(trUtf8("Do zapłaty:"));
 	}
 }
+
+
+void Korekta::calculateOneDiscount(int i) {
+	qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+
+	calculateOneDiscount(i);
+}
+
+QString Korekta::getInvoiceTypeAndSaveNr() {
+	qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+	sett().setValue("korNr", frNr->text());
+	return "korekta";
+}
+
 
 //*************** HTML methods START  *** *****************************
 void Korekta::makeInvoceProductsTitle(short a) {

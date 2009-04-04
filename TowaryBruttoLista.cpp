@@ -21,9 +21,8 @@ TowaryBruttoLista::~TowaryBruttoLista() {
 
 
 QString TowaryBruttoLista::getPriceOfCurrent() {
-	// nettoLabel->text() / ilosc
-	double netto = sett().stringToDouble(nettoLabel->text()) / countSpinBox->value();
-	return sett().numberToString(netto, 'f', 2);
+	double price = sett().stringToDouble(bruttoLabel->text()) / countSpinBox->value();
+	return sett().numberToString(price, 'f', 2);
 }
 
 /** Slot

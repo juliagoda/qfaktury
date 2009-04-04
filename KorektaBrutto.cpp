@@ -13,13 +13,52 @@
 
 /* Constructor
  */
-KorektaBrutto::KorektaBrutto(QWidget *parent):Korekta(parent) {
+KorektaBrutto::KorektaBrutto(QWidget *parent): Korekta(parent) {
 
 }
 
 /* Descturctor
  */
 KorektaBrutto::~KorektaBrutto() {
+
+}
+
+QString KorektaBrutto::getInvoiceTypeAndSaveNr() {
+	sett().setValue("korNr", frNr->text());
+	return "kbrutto";
+}
+
+/** Caclulate Discount
+ */
+void KorektaBrutto::calculateOneDiscount(int i) {
+	// qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+	double quantity = 0, vat = 0, gross = 0;
+	double netto = 0,  price = 0;
+	double discountValue = 0, discount;
+
+	price = sett().stringToDouble(tableTow->item(i, 7)->text());
+	if (constRab->isChecked()) {
+		discount = rabatValue->value() * 0.01;
+	} else {
+		discount = sett().stringToDouble(tableTow->item(i, 6)->text()) * 0.01;
+	}
+	quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
+	price = price * quantity;
+	discountValue = price * discount;
+
+	gross = price - discountValue;
+	int vatValue = sett().stringToDouble(tableTow->item(i, 9)->text());
+	vat = (gross * vatValue)/100;
+
+	netto = gross - vat;
+
+	// qDebug() << price << quantity << netto << discount << discountValue << vat << gross;
+
+    tableTow->item(i, 6)->setText(sett().numberToString(discount * 100, 'f', 0)); // discount
+	// tableTow->item(i, 7)->setText(price); // price
+	tableTow->item(i, 8)->setText(sett().numberToString(netto)); // nett
+	// tableTow->item(i, 9)->setText(sett().numberToString(gross - vat)); // vat
+	tableTow->item(i, 10)->setText(sett().numberToString(gross)); // gross
 
 }
 

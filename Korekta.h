@@ -40,5 +40,8 @@ protected:
 	virtual void calculateSum();
 	double origDiscTotal, origNettTotal, origGrossTotal;
 	double diffTotal;
+	virtual void calculateOneDiscount(int i);
+	virtual QString getInvoiceTypeAndSaveNr();
+
 };
 #endif

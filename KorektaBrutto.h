@@ -16,6 +16,10 @@ public:
 	KorektaBrutto(QWidget *parent);
 	~KorektaBrutto();
 	void addTow();
+protected:
+	void calculateOneDiscount(int i);
+	QString getInvoiceTypeAndSaveNr();
+
 };
 
 

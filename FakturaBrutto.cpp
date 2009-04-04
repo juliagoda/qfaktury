@@ -30,6 +30,8 @@ QString FakturaBrutto::getInvoiceTypeAndSaveNr() {
 /** Caclulate Discount
  */
 void FakturaBrutto::calculateOneDiscount(int i) {
+	// qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+
 	double quantity = 0, vat = 0, gross = 0;
 	double netto = 0,  price = 0;
 	double discountValue = 0, discount;
@@ -41,11 +43,14 @@ void FakturaBrutto::calculateOneDiscount(int i) {
 		discount = sett().stringToDouble(tableTow->item(i, 6)->text()) * 0.01;
 	}
 	quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
-	netto = (price * quantity);
-	discountValue = netto * discount;
-	netto -= discountValue;
-	vat = sett().stringToDouble(tableTow->item(i, 9)->text());
-	gross = netto * ((vat * 0.01) + 1);
+	price = price * quantity;
+	discountValue = price * discount;
+
+	gross = price - discountValue;
+	int vatValue = sett().stringToDouble(tableTow->item(i, 9)->text());
+	vat = (gross * vatValue)/100;
+
+	netto = gross - vat;
 
 	// qDebug() << price << quantity << netto << discount << discountValue << vat << gross;
 
@@ -56,7 +61,6 @@ void FakturaBrutto::calculateOneDiscount(int i) {
 	tableTow->item(i, 10)->setText(sett().numberToString(gross)); // gross
 
 }
-
 
 /** Slot
  *  Add new towar
