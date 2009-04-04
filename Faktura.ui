@@ -41,7 +41,7 @@
             </font>
            </property>
            <property name="focusPolicy" >
-            <enum>Qt::NoFocus</enum>
+            <enum>Qt::ClickFocus</enum>
            </property>
            <property name="text" >
             <string>1/1/2006</string>
@@ -62,7 +62,7 @@
           <string>Alt+F</string>
          </property>
          <property name="flat" >
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -229,6 +229,12 @@
      </property>
      <property name="selectionMode" >
       <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior" >
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="showGrid" >
+      <bool>true</bool>
      </property>
      <property name="rowCount" >
       <number>0</number>
@@ -782,17 +788,18 @@
  <tabstops>
   <tabstop>kListGet</tabstop>
   <tabstop>addTwBtn</tabstop>
-  <tabstop>rmTowBtn</tabstop>
-  <tabstop>editTwBtn</tabstop>
   <tabstop>constRab</tabstop>
   <tabstop>rabatValue</tabstop>
   <tabstop>platCombo</tabstop>
   <tabstop>liabDate</tabstop>
   <tabstop>currCombo</tabstop>
   <tabstop>additEdit</tabstop>
-  <tabstop>closeBtn</tabstop>
   <tabstop>saveBtn</tabstop>
   <tabstop>printBtn</tabstop>
+  <tabstop>closeBtn</tabstop>
+  <tabstop>rmTowBtn</tabstop>
+  <tabstop>editTwBtn</tabstop>
+  <tabstop>frNr</tabstop>
   <tabstop>tableTow</tabstop>
  </tabstops>
  <resources>

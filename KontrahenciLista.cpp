@@ -33,12 +33,18 @@ void KontrahenciLista::init() {
     connect(cancelBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect(comboBox1, SIGNAL(activated(int)), this, SLOT(comboBox1Changed()));
     connect(listBox1, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doAccept()));
+    connect(listBox1, SIGNAL(itemSelectionChanged ()), this, SLOT(mouseSelect()));
     connect(listBox1, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(updateDetails(QListWidgetItem *)));
     connect(labelWWWE, SIGNAL(linkActivated (const QString &)), this, SLOT(openCustomerWWW(const QString &)));
     connect(labelWWWE, SIGNAL(linkHovered ( const QString &)), this, SLOT(openCustomerWWW(const QString &)));
 }
 
 // *************************** SLOTS START *************************************
+
+void KontrahenciLista::mouseSelect() {
+	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+	updateDetails(listBox1->currentItem());
+}
 
 /** Slot
  *  Connected to accept signal

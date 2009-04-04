@@ -109,7 +109,7 @@ public:
 		if (value("paym1").toString().compare("") == 0)
 			setValue("paym1", tr("gotówka"));
 		if (value("payments").toString().compare("") == 0)
-			setValue("payments", tr("gotówka|przelew"));
+			setValue("payments", tr("gotówka|przelew|zaliczka"));
 		if (value("pdfQuality").toString().compare("") == 0)
 			setValue("pdfQuality", "1");
 		if (value("pkorekty").toString().compare("") == 0)
@@ -370,7 +370,7 @@ public:
 		setValue("margRightPrinter", "10");
 		setValue("month", "false");
 		setValue("paym1", trUtf8("gotówka") );
-		setValue("payments", trUtf8("gotówka|przelew") );
+		setValue("payments", trUtf8("gotówka|przelew|zaliczka") );
 		setValue("pdfQuality", "1");
 		setValue("pkorekty", trUtf8("zmiana ilości") );
 		setValue("prefix", "");

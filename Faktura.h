@@ -7,6 +7,7 @@
 #include "ConvertAmount.h"
 #include "Settings.h"
 
+#include "CustomPaymData.h"
 
 #include "ui_Faktura.h"
 
@@ -20,6 +21,7 @@ public:
 	QString fName, ret;
 	bool pforma;
 	virtual void setIsEditAllowed(bool isAllowed);
+	void keyPressEvent(QKeyEvent * event);
 public slots:
 	void getCustomer();
 	virtual void addTow();
@@ -43,6 +45,7 @@ protected:
 	bool isEdit;
 	bool canClose;
 	bool saveFailed;
+	CustomPaymData *custPaymData;
 	QStringList fraStrList;
 	QString numbersCount(int in, int x);
 	int type;

@@ -67,6 +67,12 @@
         <property name="selectionBehavior" >
          <enum>QAbstractItemView::SelectItems</enum>
         </property>
+        <property name="currentRow" >
+         <number>-1</number>
+        </property>
+        <property name="sortingEnabled" >
+         <bool>true</bool>
+        </property>
        </widget>
        <widget class="QWidget" name="layoutWidget" >
         <layout class="QVBoxLayout" name="verticalLayout" >

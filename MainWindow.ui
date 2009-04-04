@@ -57,7 +57,7 @@
              </sizepolicy>
             </property>
             <property name="focusPolicy" >
-             <enum>Qt::NoFocus</enum>
+             <enum>Qt::TabFocus</enum>
             </property>
             <property name="correctionMode" >
              <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
@@ -108,7 +108,7 @@
              </sizepolicy>
             </property>
             <property name="focusPolicy" >
-             <enum>Qt::NoFocus</enum>
+             <enum>Qt::TabFocus</enum>
             </property>
             <property name="wrapping" >
              <bool>true</bool>
@@ -511,7 +511,7 @@
     <string>Usuń</string>
    </property>
    <property name="shortcut" >
-    <string>Alt+D</string>
+    <string>U</string>
    </property>
    <property name="name" stdset="0" >
     <string>fakturyUsunAction</string>
@@ -529,7 +529,7 @@
     <string>Nowa faktura</string>
    </property>
    <property name="shortcut" >
-    <string>F5</string>
+    <string>F</string>
    </property>
    <property name="name" stdset="0" >
     <string>fakturyDodajAction</string>
@@ -634,7 +634,7 @@
     <string>Edytuj</string>
    </property>
    <property name="shortcut" >
-    <string>F8</string>
+    <string>E</string>
    </property>
    <property name="name" stdset="0" >
     <string>fakturyEdAction</string>
@@ -697,6 +697,9 @@
    <property name="iconText" >
     <string>Ustawienia</string>
    </property>
+   <property name="shortcut" >
+    <string>Ctrl+Shift+U</string>
+   </property>
    <property name="name" stdset="0" >
     <string>plikUstawieniaAction</string>
    </property>
@@ -737,6 +740,9 @@
    </property>
    <property name="iconText" >
     <string>Strona programu</string>
+   </property>
+   <property name="shortcut" >
+    <string>F1</string>
    </property>
    <property name="name" stdset="0" >
     <string>pomocPomocAction</string>
@@ -889,7 +895,7 @@
     <string>Nowa korekta</string>
    </property>
    <property name="shortcut" >
-    <string/>
+    <string>K</string>
    </property>
    <property name="name" stdset="0" >
     <string>fakturyKorektaAction</string>
@@ -905,6 +911,9 @@
    </property>
    <property name="iconText" >
     <string>Pro forma</string>
+   </property>
+   <property name="shortcut" >
+    <string>P</string>
    </property>
    <property name="name" stdset="0" >
     <string>fakturyPFormaAction</string>
@@ -945,6 +954,9 @@
    <property name="text" >
     <string>Duplikat faktury</string>
    </property>
+   <property name="shortcut" >
+    <string>D</string>
+   </property>
   </action>
   <action name="fakturyBruttoAction" >
    <property name="icon" >
@@ -953,6 +965,9 @@
    </property>
    <property name="text" >
     <string>Faktura Brutto</string>
+   </property>
+   <property name="shortcut" >
+    <string>B</string>
    </property>
   </action>
   <action name="fakturyRachunekAction" >
@@ -963,9 +978,21 @@
    <property name="text" >
     <string>Rachunek</string>
    </property>
+   <property name="shortcut" >
+    <string>R</string>
+   </property>
   </action>
  </widget>
  <layoutdefault spacing="4" margin="9" />
+ <tabstops>
+  <tabstop>tabWidget2</tabstop>
+  <tabstop>applyFiltrBtn</tabstop>
+  <tabstop>tableH</tabstop>
+  <tabstop>filtrStart</tabstop>
+  <tabstop>filtrEnd</tabstop>
+  <tabstop>tableK</tabstop>
+  <tabstop>tableT</tabstop>
+ </tabstops>
  <resources>
   <include location="qfaktury.qrc" />
  </resources>

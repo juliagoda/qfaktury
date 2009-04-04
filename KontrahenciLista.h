@@ -2,6 +2,7 @@
 #define KontrahenciLista_H
 #include <QDialog>
 #include <Qt/qdom.h>
+#include <QKeyEvent>
 
 #include "Settings.h"
 #include "ui_KontrahenciLista.h"
@@ -17,6 +18,8 @@ public slots:
 	void comboBox1Changed();
 	void updateDetails(QListWidgetItem *);
 	void openCustomerWWW(const QString &url);
+	void mouseSelect();
+
 private:
 	QStringList companiesList;
 	QStringList officesList;

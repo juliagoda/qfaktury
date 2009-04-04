@@ -157,8 +157,8 @@ void Korekta::saveInvoice(){
 					sett().numberToString(rabatValue->value())); // rabat
 		}
 		product.setAttribute("price", tableTow->item(i, 7)->text());
-		double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
-		double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
+		// double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
+		// double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
 		product.setAttribute("nett", tableTow->item(i, 8)->text()); // netto without discount
 		product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
 		product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
@@ -586,13 +586,13 @@ void Korekta::calculateSum(){
 
 
 void Korekta::calculateOneDiscount(int i) {
-	qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+	// qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
 
 	calculateOneDiscount(i);
 }
 
 QString Korekta::getInvoiceTypeAndSaveNr() {
-	qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+	// qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
 	sett().setValue("korNr", frNr->text());
 	return "korekta";
 }

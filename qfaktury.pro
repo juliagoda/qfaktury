@@ -10,7 +10,9 @@ QT += gui \
 CONFIG += release
 
 # Input
-HEADERS += KorektaBrutto.h \
+HEADERS += CustomPaymData.h \
+    CustomPayment.h \
+    KorektaBrutto.h \
     TowaryBruttoLista.h \
     Rachunek.h \
     FakturaBrutto.h \
@@ -30,7 +32,7 @@ HEADERS += KorektaBrutto.h \
     Ustawienia.h \
     Uzytkownik.h \
     ZmienIlosc.h
-FORMS += Zaliczkowa.ui \
+FORMS += CustomPaymentDialog.ui \
     Faktura.ui \
     Kontrahenci.ui \
     KontrahenciLista.ui \
@@ -40,7 +42,9 @@ FORMS += Zaliczkowa.ui \
     Ustawienia.ui \
     Uzytkownik.ui \
     ZmienIlosc.ui
-SOURCES += KorektaBrutto.cpp \
+SOURCES += CustomPaymData.cpp \
+    CustomPayment.cpp \
+    KorektaBrutto.cpp \
     TowaryBruttoLista.cpp \
     Rachunek.cpp \
     FakturaBrutto.cpp \

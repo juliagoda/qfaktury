@@ -15,6 +15,7 @@
 #include "KontrahenciLista.h"
 #include "TowaryLista.h"
 #include "ZmienIlosc.h"
+#include "CustomPayment.h"
 #include "MainWindow.h"
 
 
@@ -26,6 +27,7 @@ short invType;
 Faktura::Faktura(QWidget *parent) :
 	QDialog(parent) {
 	setupUi(this);
+	pforma = false;
 	init();
 }
 
@@ -86,14 +88,15 @@ void Faktura::init() {
 	connect(constRab, SIGNAL(stateChanged(int)), this, SLOT(discountConstChange()));
 
 
+
 	// Calulcate next number of the invoice
 	QString tmp;
-	if (windowTitle().right(3) == "VAT") {
-		tmp = sett().value("fvat").toString();
-		invoiceType = trUtf8("Faktura VAT");
-	} else {
+	if (pforma) {
 		tmp = sett().value("fpro").toString();
 		invoiceType = trUtf8("Faktura Pro Forma");
+	} else {
+		tmp = sett().value("fvat").toString();
+		invoiceType = trUtf8("Faktura VAT");
 	}
 
 	/*
@@ -128,6 +131,14 @@ void Faktura::init() {
 
 
 // ---- SLOTS START  --//////////////////////////////////////////////////////////////////////////////////
+
+void Faktura::keyPressEvent(QKeyEvent * event) {
+	// qDebug() << __FUNCTION__;
+	if (event->key() == Qt::Key_Escape) {
+		canQuit();
+	}
+
+}
 
 /** Slot getCustomer
  *  Opens window with the list of the customers
@@ -248,10 +259,10 @@ void Faktura::backBtnClick() {
 
 	QString prefix, suffix;
 
-	if (windowTitle().right(3) == "VAT") {
-		tmp = sett().value("fvat").toString();
-	} else {
+	if (pforma) {
 		tmp = sett().value("fpro").toString();
+	} else {
+		tmp = sett().value("fvat").toString();
 	}
 	prefix = sett().value("prefix").toString();
 
@@ -321,6 +332,22 @@ void Faktura::payTextChanged(QString text) {
 		liabDate->setEnabled(true);
 	} else {
 		liabDate->setEnabled(false);
+	}
+
+	// qDebug() << platCombo->currentIndex()  <<  platCombo->count();
+	if (platCombo->currentIndex() == platCombo->count() - 1) {
+		CustomPayment *cp = new CustomPayment(this);
+		if (cp->exec() ==  QDialog::Accepted) {
+			custPaymData = new CustomPaymData();
+			custPaymData->amount1 = 0.1;
+			custPaymData->date1 = QDate::currentDate();
+			custPaymData->payment1 = "przelew";
+			custPaymData->amount2 = 0.2;
+			custPaymData->date2 = QDate::currentDate();
+			custPaymData->payment2 = "przelew";
+		}
+		delete cp;
+		cp = NULL;
 	}
 
 	textChanged(text);
@@ -422,8 +449,8 @@ void Faktura::saveInvoice() {
 					sett().numberToString(rabatValue->value())); // rabat
 		}
 		product.setAttribute("price", tableTow->item(i, 7)->text());
-		double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
-		double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
+		// double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
+		// double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
 		product.setAttribute("nett", tableTow->item(i, 8)->text()); // netto without discount
 		product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
 		product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
@@ -445,6 +472,10 @@ void Faktura::saveInvoice() {
 	addinfo.setAttribute("liabDate", liabDate->date().toString(
 			sett().getDateFormat()));
 	addinfo.setAttribute("currency", currCombo->currentText());
+
+
+	// addinfo.
+
 	root.appendChild(addinfo);
 
 	QString xml = doc.toString();
@@ -484,6 +515,9 @@ void Faktura::makeInvoice() {
 		return;
 	}
 
+	// if (fraStrList.isEmpty()) {
+	// for perfomance reasons could be done... but not now TODO
+
 	fraStrList.clear();
 	makeInvoiceHeadarHTML();
 
@@ -510,6 +544,8 @@ void Faktura::makeInvoice() {
 	makeInvoiceFooterHtml();
 
 	print();
+
+	saveBtn->setFocus();
 }
 
 /** Slot print
@@ -544,11 +580,11 @@ void Faktura::printSlot(QPrinter *printer) {
  */
 void Faktura::print() {
 	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-
 	//print invoice
 	QPrinter printer(QPrinter::HighResolution);
 	QPrintPreviewDialog preview(&printer, this);
 	preview.setWindowFlags(Qt::Window);
+	// preview.setZoomMode(QPrintPreviewWidget::FitToWidth);
 	preview.setWindowTitle(invoiceType + trUtf8(" - Podgląd wydruku"));
 
 	connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(printSlot(QPrinter *)));
@@ -923,12 +959,22 @@ void Faktura::makeInvoiceSummAll() {
 		QString paym1 = sett().value("paym1").toString();
 		if (platCombo->currentIndex() == 0) {
 			fraStrList += trUtf8("Zapłacono gotówką") + "<br>";
-		} else {
+		} else if ((platCombo->currentIndex() == platCombo->count() -1) && (custPaymData != NULL)) {
+			fraStrList += "<span style=\"toPay\">";
+			fraStrList += QString(trUtf8("Zapłacono: ") + custPaymData->payment1 + ": "
+					+  sett().numberToString(custPaymData->amount1) + " " + currCombo->currentText() + " "
+					+ custPaymData->date1.toString(sett().getDateFormat()) + "<br>");
+			fraStrList += QString(trUtf8("Zaległości: ") + custPaymData->payment2 + ": "
+					+  sett().numberToString(custPaymData->amount2) + " " + currCombo->currentText() + " "
+					+ custPaymData->date2.toString(sett().getDateFormat()));
+			fraStrList += "</span>";
+		}  else {
 			fraStrList += "<span style=\"payDate\">";
 			fraStrList += trUtf8("termin płatności: ")
 				+ liabDate->date().toString(sett().getDateFormat())	+ "<br>";
 			fraStrList += "</span>";
 		}
+
 		fraStrList += "</b><br><br>";
 		fraStrList += "<span class=\"additionalText\">"	+ additEdit->text() + "</span>";
 		fraStrList += "</td>";
@@ -1115,7 +1161,19 @@ void Faktura::readData(QString fraFile, int co) {
 	QDomElement additional = tmp.toElement();
 	additEdit->setText(additional.attribute("text"));
 	int curPayment = sett().value("payments").toString().split("|").indexOf(additional.attribute("paymentType"));
-	platCombo->setCurrentIndex(curPayment);
+
+	qDebug() << curPayment << sett().value("payments").toString().split("|").count();
+	if (curPayment == sett().value("payments").toString().split("|").count() - 1) {
+	    disconnect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
+
+		platCombo->setCurrentIndex(curPayment);
+
+		// custPaymData = new CustomPaymData();
+		// and so on
+		connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
+	} else {
+		platCombo->setCurrentIndex(curPayment);
+	}
 	liabDate-> setDate(QDate::fromString(additional.attribute("liabDate"), sett().getDateFormat()));
 	int curCurrency = sett().value("waluty").toString().split("|").indexOf(additional.attribute("currency"));
 	currCombo->setCurrentIndex(curCurrency);
@@ -1261,7 +1319,7 @@ void Faktura::saveColumnsWidth() {
  *  Return invoice type
  */
 QString Faktura::getInvoiceTypeAndSaveNr() {
-	qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+	// qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
 
 	QString ret = "FVAT";
 

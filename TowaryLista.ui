@@ -104,7 +104,7 @@
           <bool>true</bool>
          </property>
          <property name="focusPolicy" >
-          <enum>Qt::WheelFocus</enum>
+          <enum>Qt::StrongFocus</enum>
          </property>
          <property name="styleSheet" >
           <string notr="true" >background: #A1A1A1</string>

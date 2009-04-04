@@ -143,27 +143,32 @@ void Kontrahenci::getFirmList() {
 bool Kontrahenci::validateForm(QString &missing) {
 	if (nameEdit->text().isEmpty()) {
 		missing = trUtf8("Nazwa");
+		nameEdit->setFocus();
 		return false;
 	}
 
 	if (placeEdit->text().isEmpty()) {
 		missing = trUtf8("Miejscowość");
+		placeEdit->setFocus();
 		return false;
 	}
 
 	if (codeEdit->text().isEmpty()) {
 		missing = trUtf8("Kod pocztowy");
+		codeEdit->setFocus();
 		return false;
 	}
 
 
 	if (addressEdit->text().isEmpty()) {
 		missing = trUtf8("Adres");
+		addressEdit->setFocus();
 		return false;
 	}
 
 	if (nipEdit->text().isEmpty()) {
 		missing = trUtf8("Nip");
+		nipEdit->setFocus();
 		return false;
 	}
 
