@@ -336,15 +336,17 @@ void Faktura::payTextChanged(QString text) {
 
 	// qDebug() << platCombo->currentIndex()  <<  platCombo->count();
 	if (platCombo->currentIndex() == platCombo->count() - 1) {
+		if (sett().stringToDouble(sum3->text()) == 0) {
+			QMessageBox::critical(this, "QFaktury", trUtf8("Taki sposób płatności nie może zostać wybrany ponieważ kwota do zapłaty wynosi 0."));
+			platCombo->setCurrentIndex(0);
+			return;
+		}
 		CustomPayment *cp = new CustomPayment(this);
+		cp->setInvoiceAmount(sett().stringToDouble(sum3->text()));
 		if (cp->exec() ==  QDialog::Accepted) {
-			custPaymData = new CustomPaymData();
-			custPaymData->amount1 = 0.1;
-			custPaymData->date1 = QDate::currentDate();
-			custPaymData->payment1 = "przelew";
-			custPaymData->amount2 = 0.2;
-			custPaymData->date2 = QDate::currentDate();
-			custPaymData->payment2 = "przelew";
+			custPaymData = cp->custPaymData;
+		} else {
+			platCombo->setCurrentIndex(0);
 		}
 		delete cp;
 		cp = NULL;
@@ -1162,14 +1164,19 @@ void Faktura::readData(QString fraFile, int co) {
 	additEdit->setText(additional.attribute("text"));
 	int curPayment = sett().value("payments").toString().split("|").indexOf(additional.attribute("paymentType"));
 
-	qDebug() << curPayment << sett().value("payments").toString().split("|").count();
 	if (curPayment == sett().value("payments").toString().split("|").count() - 1) {
 	    disconnect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
 
 		platCombo->setCurrentIndex(curPayment);
 
-		// custPaymData = new CustomPaymData();
-		// and so on
+		custPaymData = new CustomPaymData();
+		custPaymData->payment1 = additional.attribute("payment1");
+		custPaymData->amount1  = additional.attribute("amount1").toDouble();
+		custPaymData->date1    = QDate::fromString(additional.attribute("date1"), sett().getDateFormat());
+		custPaymData->payment2 = additional.attribute("payment2");
+		custPaymData->amount2  = additional.attribute("amount2").toDouble();
+		custPaymData->date2    = QDate::fromString(additional.attribute("date2"), sett().getDateFormat());
+
 		connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
 	} else {
 		platCombo->setCurrentIndex(curPayment);
