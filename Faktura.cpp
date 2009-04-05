@@ -17,7 +17,7 @@
 #include "ZmienIlosc.h"
 #include "CustomPayment.h"
 #include "MainWindow.h"
-
+#include "Kontrahenci.h"
 
 enum InvoiceType {FVat, FPro, EFVat, EFPro};
 short invType;
@@ -28,6 +28,7 @@ Faktura::Faktura(QWidget *parent) :
 	QDialog(parent) {
 	setupUi(this);
 	pforma = false;
+	kAdded = false;
 	init();
 }
 
@@ -86,6 +87,7 @@ void Faktura::init() {
     connect(liabDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
 	connect(rabatValue, SIGNAL(valueChanged(int)), this, SLOT(discountChange()));
 	connect(constRab, SIGNAL(stateChanged(int)), this, SLOT(discountConstChange()));
+	connect(addKButton, SIGNAL(clicked()), this, SLOT(kontrClick()));
 
 
 
@@ -132,8 +134,24 @@ void Faktura::init() {
 
 // ---- SLOTS START  --//////////////////////////////////////////////////////////////////////////////////
 
+void Faktura::kontrClick() {
+	Kontrahenci *kontrWindow;
+	kontrWindow = new Kontrahenci(this, 0);
+	//qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
+	if (kontrWindow->exec() == QDialog::Accepted) {
+		kAdded = true;
+		QStringList row = kontrWindow->ret.split("|");
+		kontrName->setText (row[0] + "," + row[3] + "," + row[6] + " " + row[2] + "," +  trUtf8("NIP: ") + row[5]);
+		kontrName->setCursorPosition(0);
+	}
+	delete kontrWindow;
+	kontrWindow = NULL;
+
+}
+
 void Faktura::keyPressEvent(QKeyEvent * event) {
 	// qDebug() << __FUNCTION__;
+	// for now not really used could be deleted
 	if (event->key() == Qt::Key_Escape) {
 		canQuit();
 	}
@@ -231,6 +249,7 @@ void Faktura::delTowar() {
  *  Allows to edit selected product. Opens changeAmount window.
  */
 void Faktura::editTowar() {
+	// qDebug() << __FUNCTION__ << ": ENTER";
 	// we can only modify quantity
 	ZmienIlosc *changeQuant = new ZmienIlosc(this);
 	changeQuant->nameTow->setText(
@@ -249,6 +268,7 @@ void Faktura::editTowar() {
 	}
 	delete changeQuant;
 	changeQuant = NULL;
+	// qDebug() << __FUNCTION__ << ": EXIT";
 }
 
 /** Slot
@@ -345,6 +365,7 @@ void Faktura::payTextChanged(QString text) {
 		cp->setInvoiceAmount(sett().stringToDouble(sum3->text()));
 		if (cp->exec() ==  QDialog::Accepted) {
 			custPaymData = cp->custPaymData;
+			liabDate->setEnabled(false);
 		} else {
 			platCombo->setCurrentIndex(0);
 		}
@@ -376,7 +397,7 @@ void Faktura::dateChanged(QDate ) {
  *  Generates Invoice XML
  */
 void Faktura::saveInvoice() {
-	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << fName;
 
 	if (!validateForm()) return;
 
@@ -397,10 +418,11 @@ void Faktura::saveInvoice() {
 		while (file.exists()) {
 			file.setFileName(sett().getInvoicesDir() + "h" + fileName + "_"
 					+ sett().numberToString(pNumber) + ".xml");
-			ret = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml"
-					+ "|";
+			ret = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml" + "|";
 			pNumber += 1;
 		}
+
+		fName = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
 	} else {
 		file.setFileName(sett().getInvoicesDir() + fileName);
 		ret = fileName + "|";
@@ -475,9 +497,17 @@ void Faktura::saveInvoice() {
 			sett().getDateFormat()));
 	addinfo.setAttribute("currency", currCombo->currentText());
 
+	if (platCombo->currentIndex() == sett().value("payments").toString().split("|").count() - 1) {
+		addinfo.setAttribute("payment1", custPaymData->payment1);
+		addinfo.setAttribute("amount1", sett().numberToString(custPaymData->amount1, 'f', 2));
+		addinfo.setAttribute("liabDate1", custPaymData->date1.toString(
+				sett().getDateFormat()));
 
-	// addinfo.
-
+		addinfo.setAttribute("payment2", custPaymData->payment2);
+		addinfo.setAttribute("amount2", sett().numberToString(custPaymData->amount2, 'f', 2));
+		addinfo.setAttribute("liabDate2", custPaymData->date2.toString(
+				sett().getDateFormat()));
+	}
 	root.appendChild(addinfo);
 
 	QString xml = doc.toString();
@@ -957,9 +987,9 @@ void Faktura::makeInvoiceSummAll() {
 		fraStrList += trUtf8("słownie:")
 				+ conv->convertPL(sum3->text(), currCombo->currentText()) + "<br>";
 		delete conv;
-		fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br><b>";
 		QString paym1 = sett().value("paym1").toString();
 		if (platCombo->currentIndex() == 0) {
+			fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br><b>";
 			fraStrList += trUtf8("Zapłacono gotówką") + "<br>";
 		} else if ((platCombo->currentIndex() == platCombo->count() -1) && (custPaymData != NULL)) {
 			fraStrList += "<span style=\"toPay\">";
@@ -971,6 +1001,7 @@ void Faktura::makeInvoiceSummAll() {
 					+ custPaymData->date2.toString(sett().getDateFormat()));
 			fraStrList += "</span>";
 		}  else {
+			fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br><b>";
 			fraStrList += "<span style=\"payDate\">";
 			fraStrList += trUtf8("termin płatności: ")
 				+ liabDate->date().toString(sett().getDateFormat())	+ "<br>";
@@ -1127,7 +1158,7 @@ void Faktura::readData(QString fraFile, int co) {
 	tmp = tmp.toElement().nextSibling(); // nabywca
 	nabywca = tmp.toElement();
 	kontrName->setText(nabywca.attribute("name") + "," + nabywca.attribute(
-			"city") + "," + nabywca.attribute("street") + ","
+			"city") + "," + nabywca.attribute("street") + "," + trUtf8("NIP: ")
 			+ nabywca.attribute("tic"));
 			/* not required
 			+ ", " + nabywca.attribute("account")
@@ -1172,10 +1203,10 @@ void Faktura::readData(QString fraFile, int co) {
 		custPaymData = new CustomPaymData();
 		custPaymData->payment1 = additional.attribute("payment1");
 		custPaymData->amount1  = additional.attribute("amount1").toDouble();
-		custPaymData->date1    = QDate::fromString(additional.attribute("date1"), sett().getDateFormat());
+		custPaymData->date1    = QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
 		custPaymData->payment2 = additional.attribute("payment2");
 		custPaymData->amount2  = additional.attribute("amount2").toDouble();
-		custPaymData->date2    = QDate::fromString(additional.attribute("date2"), sett().getDateFormat());
+		custPaymData->date2    = QDate::fromString(additional.attribute("liabDate2"), sett().getDateFormat());
 
 		connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
 	} else {
@@ -1274,6 +1305,7 @@ void Faktura::calculateOneDiscount(int i) {
 /** Calculate sum
  */
 void Faktura::calculateSum() {
+	// qDebug() << __FUNCTION__;
 	double netto = 0, price = 0, quantity = 0, gross = 00;
 	double discountValue = 0;
 

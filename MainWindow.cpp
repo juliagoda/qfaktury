@@ -42,8 +42,6 @@ MainWindow::~MainWindow() {
  */
 void MainWindow::init() {
 
-
-
 	// first run
 	if (firstRun()) {
 		// towary/uslugi - wymiary
@@ -182,7 +180,6 @@ void MainWindow::loadPlugins() {
 }
 
 /**
->>>>>>> .r178
  * firstRun setup()
  */
 bool MainWindow::firstRun() {
@@ -379,6 +376,9 @@ void MainWindow::readHist() {
 /** Reads customers from the XML
  */
 void MainWindow::readKontr() {
+
+	tableClear(tableK);
+
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement urzad;
@@ -743,6 +743,7 @@ void MainWindow::editFHist() {
 			// edit window shouln't return anything
 			rereadHist();
 		}
+		if (korWindow->kAdded) readKontr();
 		delete korWindow;
 		korWindow = NULL;
 	}
@@ -756,6 +757,7 @@ void MainWindow::editFHist() {
 			// edit window shouln't return anything
 			rereadHist();
 		}
+		if (korWindow->kAdded) readKontr();
 		delete korWindow;
 		korWindow = NULL;
 	}
@@ -771,6 +773,7 @@ void MainWindow::editFHist() {
 			// edit window shouln't return anything
 			rereadHist();
 		}
+		if (raWindow->kAdded) readKontr();
 		delete raWindow;
 		raWindow = NULL;
 	}
@@ -789,6 +792,7 @@ void MainWindow::editFHist() {
 		if (fraWindow->exec() == QDialog::Accepted) {
 			rereadHist();
 		}
+		if (fraWindow->kAdded) readKontr();
 		delete fraWindow;
 		fraWindow = NULL;
 	}
@@ -807,6 +811,7 @@ void MainWindow::editFHist() {
 		if (fraWindow->exec() == QDialog::Accepted) {
 			rereadHist();
 		}
+		if (fraWindow->kAdded) readKontr();
 		delete fraWindow;
 		fraWindow = NULL;
 	}
@@ -992,6 +997,8 @@ void MainWindow::newFra() {
 		rereadHist();
 	}
 
+	if (fraWindow->kAdded) readKontr();
+
 	delete fraWindow;
 	fraWindow = NULL;
 }
@@ -1019,6 +1026,7 @@ void MainWindow::newFRachunek() {
 		rereadHist();
 	}
 
+	if (fraWindow->kAdded) readKontr();
 	delete fraWindow;
 	fraWindow = NULL;
 }
@@ -1045,6 +1053,7 @@ void MainWindow::newFBrutto() {
 		rereadHist();
 	}
 
+	if (fraWindow->kAdded) readKontr();
 	delete fraWindow;
 	fraWindow = NULL;
 }
@@ -1072,6 +1081,7 @@ void MainWindow::newPForm() {
 		rereadHist();
 	}
 
+	if (fraWindow->kAdded) readKontr();
 	delete fraWindow;
 	fraWindow = NULL;
 }
@@ -1116,6 +1126,7 @@ void MainWindow::newKor() {
 			tableH->item(newRow, 4)->setText(row[4]); // nabywca
 			tableH->item(newRow, 5)->setText(row[5]); // NIP
 		}
+		if (korWindow->kAdded) readKontr();
 		delete korWindow;
 		korWindow = NULL;
 		tableH->setSortingEnabled(true);
@@ -1136,8 +1147,6 @@ void MainWindow::newDuplikat() {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Wybierz fakurę, do której chcesz wystawić duplikat."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
-
-
 	int row = tableH->selectedItems()[0]->row();
 
 	// types of invoices for which it's ok to issue a duplicate

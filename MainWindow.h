@@ -9,8 +9,8 @@ class MainWindow: public QMainWindow, public Ui::MainWindow {
 Q_OBJECT
 public:
 	MainWindow(QWidget *parent);
-	static void insertRow(QTableWidget *t, int row);
 	~MainWindow();
+	static void insertRow(QTableWidget *t, int row);
 public slots:
 	void tableClear(QTableWidget * tab);
 	void tabChanged(QWidget * aaa);
@@ -51,10 +51,11 @@ private:
 	bool firstRun();
 	void saveAllSett();
 	void saveAllSettAsDefault();
+	void setupDir();
 	void readHist();
 	void readKontr();
 	void readTw();
-	void setupDir();
+protected:
 	virtual void loadPlugins();
 };
 #endif

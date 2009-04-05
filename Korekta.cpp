@@ -41,6 +41,7 @@ void Korekta::korektaInit (bool mode){
 	origGrossTotal = -1; // -1
 
 	editMode = mode;
+
 	// connects
     connect(reasonCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(textChanged(QString)));
 }
@@ -79,20 +80,26 @@ void Korekta::backBtnClick(){
 	lastInvoice += suffix;
 	frNr->setText(lastInvoice);
 	saveBtn->setEnabled(true);
+
+	fName = "";
 }
 
 /** Slot
  *  Generate Correction XML
  */
 void Korekta::saveInvoice(){
-	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__ ;
+	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << fName;
 
 	QDomDocument doc(sett().getCorrDocName());
 	QDomElement root;
-	if (!editMode) fName = "NULL";
+	if (!editMode && (fName == "")) {
+		fName = "NULL";
+	}
+
+	// qDebug() << fName;
 
 	QFile file;
-	if (fName.compare("NULL") == 0) {
+	if (fName == "NULL") {
 		fName = QDate::currentDate().toString(sett().getFnameDateFormat());
 
 		int pNumber = 0;
@@ -102,12 +109,13 @@ void Korekta::saveInvoice(){
 		pNumber += 1;
 
 		while (file.exists()) {
-			QString fname = "k" + fName + "_"	+ sett().numberToString(pNumber) + ".xml";
+			fname = "k" + fName + "_"	+ sett().numberToString(pNumber) + ".xml";
 			file.setFileName(sett().getInvoicesDir() + fname);
 			ret = fname + "|";
 			pNumber += 1;
 		}
 		// qDebug() << "Create new file " + file.fileName();
+		fName = fname;
 	} else {
 		file.setFileName(sett().getInvoicesDir() + fName);
 		// qDebug() << "Use existing file " + file.fileName();
@@ -218,6 +226,20 @@ void Korekta::saveInvoice(){
 	addinfo.setAttribute("liabDate", liabDate->date().toString(sett().getDateFormat()));
 	addinfo.setAttribute("currency", currCombo->currentText());
 	addinfo.setAttribute("reason", reasonCombo->currentText());
+
+	if (platCombo->currentIndex() == sett().value("payments").toString().split("|").count() - 1) {
+		addinfo.setAttribute("payment1", custPaymData->payment1);
+		addinfo.setAttribute("amount1", sett().numberToString(custPaymData->amount1, 'f', 2));
+		addinfo.setAttribute("liabDate1", custPaymData->date1.toString(
+				sett().getDateFormat()));
+
+		addinfo.setAttribute("payment2", custPaymData->payment2);
+		addinfo.setAttribute("amount2", sett().numberToString(custPaymData->amount2, 'f', 2));
+		addinfo.setAttribute("liabDate2", custPaymData->date2.toString(
+				sett().getDateFormat()));
+	}
+
+
 	root.appendChild(addinfo);
 
 	QString xml = doc.toString();
@@ -346,7 +368,7 @@ void Korekta::readCorrData(QString fraFile){
 	tmp = tmp.toElement().nextSibling(); // nabywca
 	nabywca = tmp.toElement();
 	kontrName->setText(nabywca.attribute("name") + "," + nabywca.attribute(
-			"city") + "," + nabywca.attribute("street") + ","
+			"city") + "," + nabywca.attribute("street") + "," + trUtf8("NIP: ")
 			+ nabywca.attribute("tic"));
 	kontrName->setCursorPosition(1);
 
@@ -419,7 +441,25 @@ void Korekta::readCorrData(QString fraFile){
 	QDomElement additional = tmp.toElement();
 	additEdit->setText(additional.attribute("text"));
 	int curPayment = sett().value("payments").toString().split("|").indexOf(additional.attribute("paymentType"));
-	platCombo->setCurrentIndex(curPayment);
+
+	if (curPayment == sett().value("payments").toString().split("|").count() - 1) {
+	    disconnect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
+
+		platCombo->setCurrentIndex(curPayment);
+
+		custPaymData = new CustomPaymData();
+		custPaymData->payment1 = additional.attribute("payment1");
+		custPaymData->amount1  = additional.attribute("amount1").toDouble();
+		custPaymData->date1    = QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
+		custPaymData->payment2 = additional.attribute("payment2");
+		custPaymData->amount2  = additional.attribute("amount2").toDouble();
+		custPaymData->date2    = QDate::fromString(additional.attribute("liabDate2"), sett().getDateFormat());
+
+		connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
+	} else {
+		platCombo->setCurrentIndex(curPayment);
+	}
+
 	liabDate-> setDate(QDate::fromString(additional.attribute("liabDate"), sett().getDateFormat()));
 	int curCurrency = sett().value("waluty").toString().split("|").indexOf(additional.attribute("currency"));
 	currCombo->setCurrentIndex(curCurrency);
@@ -531,7 +571,7 @@ void Korekta::calculateDiscount(){
 /** Calculates the sums original invoice and the new one
  */
 void Korekta::calculateSum(){
-	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+    // qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 	double netto = 0, price = 0, quantity = 0, gross = 00;
 	double discountValue = 0;
 
@@ -588,7 +628,39 @@ void Korekta::calculateSum(){
 void Korekta::calculateOneDiscount(int i) {
 	// qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
 
-	calculateOneDiscount(i);
+	double quantity = 0, vat = 0, gross = 0;
+	double netto = 0,  price = 0;
+	double discountValue = 0, discount;
+
+	price = sett().stringToDouble(tableTow->item(i, 7)->text());
+	if (constRab->isChecked()) {
+		discount = rabatValue->value() * 0.01;
+	} else {
+		discount = sett().stringToDouble(tableTow->item(i, 6)->text()) * 0.01;
+	}
+	quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
+	netto = (price * quantity);
+	discountValue = netto * discount;
+	netto -= discountValue;
+	vat = sett().stringToDouble(tableTow->item(i, 9)->text());
+	gross = netto * ((vat * 0.01) + 1);
+
+	// qDebug() << price << quantity << netto << discount << discountValue << vat << gross;
+
+    tableTow->item(i, 6)->setText(sett().numberToString(discount * 100, 'f', 0)); // discount
+	// tableTow->item(i, 7)->setText(price); // price
+	tableTow->item(i, 8)->setText(sett().numberToString(netto)); // nett
+	// tableTow->item(i, 9)->setText(sett().numberToString(gross - vat)); // vat
+	tableTow->item(i, 10)->setText(sett().numberToString(gross)); // gross
+
+	/*
+	qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+	Faktura *a = static_cast<Faktura *> (parent());
+
+	a->calculateOneDiscount(i);
+	// calculateOneDiscount(i);
+	qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+	*/
 }
 
 QString Korekta::getInvoiceTypeAndSaveNr() {
@@ -729,11 +801,21 @@ void Korekta::makeInvoiceSummAll(){
 				+ "<br>";
 		delete conv;
 
-		fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br>";
 		QString paym1 = sett().value("paym1").toString();
 		if (platCombo->currentIndex() == 0) {
+			fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br><b>";
 			fraStrList += trUtf8("Zapłacono gotówką") + "<br>";
-		} else {
+		} else if ((platCombo->currentIndex() == platCombo->count() -1) && (custPaymData != NULL)) {
+			fraStrList += "<span style=\"toPay\">";
+			fraStrList += QString(trUtf8("Zapłacono: ") + custPaymData->payment1 + ": "
+					+  sett().numberToString(custPaymData->amount1) + " " + currCombo->currentText() + " "
+					+ custPaymData->date1.toString(sett().getDateFormat()) + "<br>");
+			fraStrList += QString(trUtf8("Zaległości: ") + custPaymData->payment2 + ": "
+					+  sett().numberToString(custPaymData->amount2) + " " + currCombo->currentText() + " "
+					+ custPaymData->date2.toString(sett().getDateFormat()));
+			fraStrList += "</span>";
+		}  else {
+			fraStrList += trUtf8("forma płatności: ") + platCombo->currentText() + "<br><b>";
 			fraStrList += "<span style=\"payDate\">";
 			fraStrList += trUtf8("termin płatności: ")
 				+ liabDate->date().toString(sett().getDateFormat())	+ "<br>";

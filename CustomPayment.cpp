@@ -51,8 +51,18 @@ void CustomPayment::setInvoiceAmount(double a) {
 }
 
 bool CustomPayment::validateForm() {
+	if ((amount1->value() == 0) ||  (amount2->value() == 0)) {
+		QMessageBox::critical(
+				0,
+				"QFaktury",
+				trUtf8("Jedna z kwot do zapłaty jest równa 0. Wybierz inny sposób płatności lub zmień kwoty."));
+		return false;
+	}
+
 	return true;
 }
+
+// ---------- SLOT START ------------
 
 void CustomPayment::amount1Changed(double a) {
 	// qDebug() << __FUNCTION__;
@@ -70,14 +80,15 @@ void CustomPayment::amount2Changed(double a) {
 
 void CustomPayment::okClicked() {
 	if (validateForm()) {
-	custPaymData = new CustomPaymData();
-	custPaymData->payment1 = paymCombo1->currentText();
-	custPaymData->amount1  = amount1->value();
-	custPaymData->date1    = liabDate1->date();
-	custPaymData->payment2 = paymCombo2->currentText();
-	custPaymData->amount2  = amount2->value();
-	custPaymData->date2    = liabDate2->date();
-	accept();
+		custPaymData = new CustomPaymData();
+		custPaymData->payment1 = paymCombo1->currentText();
+		custPaymData->amount1 = amount1->value();
+		custPaymData->date1 = liabDate1->date();
+		custPaymData->payment2 = paymCombo2->currentText();
+		custPaymData->amount2 = amount2->value();
+		custPaymData->date2 = liabDate2->date();
+		accept();
 	}
 }
 
+// ---------- SLOT END ------------

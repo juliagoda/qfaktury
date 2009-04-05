@@ -634,7 +634,7 @@
     <string>Edytuj</string>
    </property>
    <property name="shortcut" >
-    <string>E</string>
+    <string>Return</string>
    </property>
    <property name="name" stdset="0" >
     <string>fakturyEdAction</string>

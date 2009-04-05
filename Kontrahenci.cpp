@@ -36,13 +36,15 @@ void Kontrahenci::okClick() {
 		modifyOnly();
 		ret = isEmpty(nameEdit->text()) + "|" + typeCombo->currentText() + "|" + isEmpty(
 				placeEdit->text()) + "|" + isEmpty(addressEdit->text()) + "|"
-				+ isEmpty(telefonEdit->text());
+				+ isEmpty(telefonEdit->text()) + "|" + nipEdit->text() + "|"
+				+ codeEdit->text();
 		accept();
 	} else {
 		if (saveAll()) {
 			ret = isEmpty(nameEdit->text()) + "|" + typeCombo->currentText() + "|"
 					+ isEmpty(placeEdit->text()) + "|" + isEmpty(
-					addressEdit->text()) + "|" + isEmpty(telefonEdit->text());
+					addressEdit->text()) + "|" + isEmpty(telefonEdit->text())
+					+ "|" + nipEdit->text() + "|" + codeEdit->text();
 			accept();
 		}
 	}

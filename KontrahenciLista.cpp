@@ -198,11 +198,11 @@ void KontrahenciLista::clearDetails() {
 QString  KontrahenciLista::detailsToString() {
 	QString ret = labelNameE->text();
 	if (!labelAddressE->text().isEmpty())
-		ret += ", " +  labelAddressE->text();
+		ret += "," +  labelAddressE->text();
 	if (!labelCityE->text().isEmpty())
-		ret +=  ", " + labelCityE->text();
+		ret +=  "," + labelCityE->text();
 	if (!labelTicE->text().isEmpty())
-		ret += ", " + trUtf8("NIP: ") + labelTicE->text();
+		ret += "," + trUtf8("NIP: ") + labelTicE->text();
 	/* not required
 	if (!labelAccountE->text().isEmpty())
 		ret += ", " + labelAccountE->text();

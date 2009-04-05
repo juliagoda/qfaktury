@@ -19,9 +19,11 @@ public:
 	void init();
 	void readData(QString fraFile, int co);
 	QString fName, ret;
-	bool pforma;
+	bool pforma, kAdded;
 	virtual void setIsEditAllowed(bool isAllowed);
 	void keyPressEvent(QKeyEvent * event);
+
+	virtual void calculateOneDiscount(int a);
 public slots:
 	void getCustomer();
 	virtual void addTow();
@@ -39,6 +41,7 @@ public slots:
 	virtual void saveInvoice();
 	virtual void makeInvoice();
 	void printSlot(QPrinter*);
+	void kontrClick();
 protected:
 	QString lastInvoice, invoiceType;
 	double discountTotal, nettTotal, grossTotal;
@@ -63,7 +66,6 @@ protected:
 	virtual void makeInvoiceFooterHtml();
 	virtual void makeInvoiceHeadarHTML();
 	void makeInvoiceFooter();
-	virtual void calculateOneDiscount(int a);
 	QDomElement createSellerElement(QDomDocument doc);
 	QDomElement createBuyerElement(QDomDocument doc);
 
