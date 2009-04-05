@@ -6,6 +6,7 @@
 	- Rachunki 
 	- Obsluga pluginow pythona, PyQt
 	- Faktury zaliczkowe, czesc platnosci gotowka, czesc platnosci przelew
+	- Mozliwosc dodania kontrahenta bezposrednio w oknie faktury
 
 0.6.1
 	- przenisienia z cmake na qmake (cmake ma duzo limitacji), np. build nie dziala z eclipse, deb nie dodaje plikow ikon
