@@ -1,6 +1,7 @@
 #ifndef MainWindow_H
 #define MainWindow_H
 #include <QMainWindow>
+#include <QKeyEvent>
 #include "Settings.h"
 #include "ui_MainWindow.h"
 
@@ -42,6 +43,7 @@ public slots:
 	void showTableMenuH(QPoint p);
 	void pluginSlot(int i);
 	void pluginInfoSlot();
+	void keyPressEvent(QKeyEvent * event);
 private:
 	QString workingDir; // should be deprecated
 	QMap<int, QString> plugins;

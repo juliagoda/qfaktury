@@ -538,6 +538,16 @@ void MainWindow::setupDir() {
 
 // ----------------------------------------  SLOTS ---------------------------------//
 
+void MainWindow::keyPressEvent(QKeyEvent * event) {
+	// qDebug() << __FUNCTION__;
+	// for now not really used could be deleted
+	if (event->key() == Qt::Key_F5) {
+		newFra();
+	}
+
+}
+
+
 /** Slot
  *  Just show the message.
  */
