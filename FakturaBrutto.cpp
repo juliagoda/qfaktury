@@ -24,6 +24,7 @@ void FakturaBrutto::fakturaBruttoInit() {
 
 QString FakturaBrutto::getInvoiceTypeAndSaveNr() {
 	QString ftype = "FBrutto";
+	sett().setValue("fvat", frNr->text());
 	return ftype;
 }
 
