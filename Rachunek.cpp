@@ -6,6 +6,7 @@
  */
 
 #include "moc_Rachunek.cpp"
+#include "Const.h"
 
 // constructor
 Rachunek::Rachunek(QWidget *parent): Faktura(parent) {
@@ -17,7 +18,7 @@ Rachunek::~Rachunek() {
 }
 
 void Rachunek::rachunekInit() {
-	invoiceType = "Rachunek";
+	invoiceType = s_BILL;
 }
 
 

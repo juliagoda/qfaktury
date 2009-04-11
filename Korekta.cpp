@@ -6,6 +6,7 @@
 #include <QtDebug>
 
 
+#include "Const.h"
 
 // constructor
 Korekta::Korekta(QWidget *parent): Faktura(parent) {
@@ -270,7 +271,7 @@ void Korekta::saveInvoice(){
  */
 void Korekta::makeInvoice(){
 	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-	invoiceType = trUtf8("Faktura VAT korygująca");
+	invoiceType = s_CORRECTION;
 	fraStrList.clear();
 
 	makeInvoiceHeadarHTML();

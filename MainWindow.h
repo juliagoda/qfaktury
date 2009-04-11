@@ -41,12 +41,12 @@ public slots:
 	void showTableMenuT(QPoint p);
 	void showTableMenuK(QPoint p);
 	void showTableMenuH(QPoint p);
-	void pluginSlot(int i);
+	void pluginSlot();
 	void pluginInfoSlot();
 	void keyPressEvent(QKeyEvent * event);
 private:
 	QString workingDir; // should be deprecated
-	QMap<int, QString> plugins;
+	QMap<int, QString> customActions;
 	void saveColumnWidth();
 	bool applyFiltr(QString);
 	void init();

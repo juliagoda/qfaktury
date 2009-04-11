@@ -10,7 +10,8 @@ QT += gui \
 CONFIG += release
 
 # Input
-HEADERS += CustomPaymData.h \
+HEADERS += Const.h \
+    CustomPaymData.h \
     CustomPayment.h \
     KorektaBrutto.h \
     TowaryBruttoLista.h \

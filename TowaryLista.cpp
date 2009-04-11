@@ -1,7 +1,7 @@
 #include "moc_TowaryLista.cpp"
 #include <Qt/qdom.h>
-#include <qdir.h>
-#include <qmessagebox.h>
+#include <QDir>
+#include <QMessageBox>
 #include <QTextCodec>
 #include <QTextStream>
 #include <QDebug>

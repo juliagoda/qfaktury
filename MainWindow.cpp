@@ -170,9 +170,12 @@ void MainWindow::loadPlugins() {
 			// return;
 		} else {
 			QTextStream t(&skrypt);
-			menuPlugins->addAction(t.readLine().remove("# "), this, SLOT (pluginSlot (int)));
-			// scripts[tmp] = QDir::homeDirPath () + "/elinux/scripts/" + pliczki[i];
-			plugins[i] = path + allFiles[i];
+			t.readLine ();
+			QAction *action = new QAction(t.readLine ().remove ("# "), this);
+			action->setData(QVariant(i));
+			connect(action, SIGNAL(triggered()), this, SLOT (pluginSlot()));
+			this->menuPlugins->addAction(action);
+			customActions[i] = path + allFiles[i];
 		}
 	}
 	menuPlugins->addSeparator();
@@ -561,11 +564,16 @@ void MainWindow::pluginInfoSlot() {
 /** Slot
  *  Used while calling python script from the menu
  */
-void MainWindow::pluginSlot(int i) {
+void MainWindow::pluginSlot() {
+
 	QString program = "python";
 
+	QAction *a = static_cast<QAction *> (this->sender());
+
+	int scriptId = a->data().toInt();
+
 	QStringList args;
-	args += plugins[i];
+	args += customActions[scriptId];
 
 	QProcess *cmd = new QProcess(this);
 	cmd->start(program, args);

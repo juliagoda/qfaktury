@@ -19,6 +19,8 @@
 #include "MainWindow.h"
 #include "Kontrahenci.h"
 
+#include "Const.h"
+
 enum InvoiceType {FVat, FPro, EFVat, EFPro};
 short invType;
 
@@ -95,10 +97,10 @@ void Faktura::init() {
 	QString tmp;
 	if (pforma) {
 		tmp = sett().value("fpro").toString();
-		invoiceType = trUtf8("Faktura Pro Forma");
+		invoiceType = s_PROFORMA;
 	} else {
 		tmp = sett().value("fvat").toString();
-		invoiceType = trUtf8("Faktura VAT");
+		invoiceType = s_INVOICE;
 	}
 
 	/*
@@ -141,7 +143,7 @@ void Faktura::kontrClick() {
 	if (kontrWindow->exec() == QDialog::Accepted) {
 		kAdded = true;
 		QStringList row = kontrWindow->ret.split("|");
-		kontrName->setText (row[0] + "," + row[3] + "," + row[6] + " " + row[2] + "," +  trUtf8("NIP: ") + row[5]);
+		kontrName->setText (row[0] + "," + row[3] + "," + row[6] + " " + row[2] + "," +  s_TIC + row[5]);
 		kontrName->setCursorPosition(0);
 	}
 	delete kontrWindow;
@@ -617,7 +619,7 @@ void Faktura::print() {
 	QPrintPreviewDialog preview(&printer, this);
 	preview.setWindowFlags(Qt::Window);
 	// preview.setZoomMode(QPrintPreviewWidget::FitToWidth);
-	preview.setWindowTitle(invoiceType + trUtf8(" - Podgląd wydruku"));
+	preview.setWindowTitle(invoiceType + s_WIN_PRINTPREVIEW);
 
 	connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(printSlot(QPrinter *)));
 	if (preview.exec() == 1) {
@@ -1125,9 +1127,9 @@ void Faktura::readData(QString fraFile, int co) {
 	backBtn->setEnabled(false);
 	frNr->setEnabled(false);
 	if (co == 0) {
-		setWindowTitle(trUtf8("Edytuje Fakturę VAT"));
+		setWindowTitle(s_WIN_INVOICE_EDIT);
 	} else {
-		setWindowTitle(trUtf8("Edytuje Fakturę Pro Forma"));
+		setWindowTitle(s_WIN_PROFORMA_EDIT);
 	}
 
 	QDomDocument doc(sett().getInoiveDocName());
