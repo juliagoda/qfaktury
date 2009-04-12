@@ -72,8 +72,11 @@ css.path = /usr/local/share/qfaktury/templates
 css.files = templates/*.css
 languages.path = /usr/local/share/qfaktury
 languages.files = *.qm
+desktop.path = /usr/local/share/applications
+desktop.files = *.desktop
 target.path = /usr/local/bin
 INSTALLS += target \
     pixmaps \
     css \
-    languages
+    languages \
+    desktop

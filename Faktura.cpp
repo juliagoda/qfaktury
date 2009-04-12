@@ -1249,6 +1249,7 @@ void Faktura::setIsEditAllowed(bool isAllowed) {
 	kListGet->setEnabled(isAllowed);
 	currCombo->setEnabled(isAllowed);
 	saveBtn->setEnabled(isAllowed);
+	addKButton->setEnabled(isAllowed);
 	liabDate->setEnabled(isAllowed);
 	if (!isAllowed || rabatValue->value() == 0) {
 		constRab->setChecked(false);
@@ -1257,7 +1258,7 @@ void Faktura::setIsEditAllowed(bool isAllowed) {
 		constRab->setChecked(true);
 		rabatValue->setEnabled(true);
 	}
-	if (!isAllowed && platCombo->currentIndex() > 0) {
+	if (isAllowed && (platCombo->currentIndex() > 0)) {
 		liabDate->setEnabled(true);
 	} else {
 		liabDate->setEnabled(false);
