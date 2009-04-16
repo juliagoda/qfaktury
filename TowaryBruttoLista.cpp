@@ -77,7 +77,7 @@ void TowaryBruttoLista::calcNetto(){
 
 		double wb = price - discount;
 		int sp = vats[item->text()];
-		double vat = (wb * sp) / 100;
+		double vat = (wb * sp) / (100 + sp);
 		QString vatStr = sett().numberToString(vat, 'f', 8);
 
 		double netto2 = wb - vat;

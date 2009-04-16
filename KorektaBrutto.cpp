@@ -48,7 +48,7 @@ void KorektaBrutto::calculateOneDiscount(int i) {
 
 	gross = price - discountValue;
 	int vatValue = sett().stringToDouble(tableTow->item(i, 9)->text());
-	vat = (gross * vatValue)/100;
+	vat = (gross * vatValue)/(100 + vatValue);
 
 	netto = gross - vat;
 

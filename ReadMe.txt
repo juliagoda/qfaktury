@@ -22,9 +22,9 @@ css - /usr/local/share/qfaktury/templates
 jezyki - /usr/local/share/qfaktury
 
 
-
-Skroty klawiszowe
-
+Upgrade do wersji 0.6.2
+Przy upgradzie do wersji 0.6.2 konieczne jest dodanie nowej formy platnosci np. terminowa. W przeciwnym
+wypadku po wybraniu ostatniej formy platnosci pojawi sie okienko do wystawiania faktur zaliczkowych. 
 
 
 Ograniczenia!!
