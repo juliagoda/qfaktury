@@ -68,8 +68,10 @@ void Duplikat::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 				+ "<br>";
 		fraStrList += "</span>";
 		fraStrList += "</td><td width=\"3%\">&nbsp;</td>";
+
 	fraStrList += "</tr>";
 	fraStrList += "<tr>";
+
 		fraStrList += "<td colspan=\"2\" align=\"right\" valign=\"top\"><br>";
 		if (original) {
 		fraStrList += trUtf8("ORYGINAŁ");

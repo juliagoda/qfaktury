@@ -10,59 +10,65 @@ QT += gui \
 CONFIG += release
 
 # Input
-HEADERS += Const.h \
-    CustomPaymData.h \
-    CustomPayment.h \
-    KorektaBrutto.h \
-    TowaryBruttoLista.h \
-    Rachunek.h \
-    FakturaBrutto.h \
-    Duplikat.h \
-    ConvertAmount.h \
-    config.h \
-    Faktura.h \
-    InvoiceData.h \
-    Kontrahenci.h \
-    KontrahenciLista.h \
-    Korekta.h \
-    MainWindow.h \
-    ProductData.h \
-    Settings.h \
-    Towary.h \
-    TowaryLista.h \
-    Ustawienia.h \
-    Uzytkownik.h \
-    ZmienIlosc.h
-FORMS += CustomPaymentDialog.ui \
-    Faktura.ui \
-    Kontrahenci.ui \
-    KontrahenciLista.ui \
-    MainWindow.ui \
-    Towary.ui \
-    TowaryLista.ui \
-    Ustawienia.ui \
-    Uzytkownik.ui \
-    ZmienIlosc.ui
-SOURCES += CustomPaymData.cpp \
-    CustomPayment.cpp \
-    KorektaBrutto.cpp \
-    TowaryBruttoLista.cpp \
-    Rachunek.cpp \
-    FakturaBrutto.cpp \
-    Duplikat.cpp \
-    ConvertAmount.cpp \
-    Faktura.cpp \
-    Kontrahenci.cpp \
-    KontrahenciLista.cpp \
-    Korekta.cpp \
-    main.cpp \
-    MainWindow.cpp \
-    Towary.cpp \
-    TowaryLista.cpp \
-    Ustawienia.cpp \
-    Uzytkownik.cpp \
-    ZmienIlosc.cpp
+HEADERS += src/XmlDataLayer.h \
+    src/IDataLayer.h \
+    ./src/Const.h \
+    ./src/CustomPaymData.h \
+    ./src/CustomPayment.h \
+    ./src/KorektaBrutto.h \
+    ./src/TowaryBruttoLista.h \
+    ./src/Rachunek.h \
+    ./src/FakturaBrutto.h \
+    ./src/Duplikat.h \
+    ./src/ConvertAmount.h \
+    ./src/config.h \
+    ./src/Faktura.h \
+    ./src/InvoiceData.h \
+    ./src/Kontrahenci.h \
+    ./src/KontrahenciLista.h \
+    ./src/Korekta.h \
+    ./src/MainWindow.h \
+    ./src/ProductData.h \
+    ./src/Settings.h \
+    ./src/Towary.h \
+    ./src/TowaryLista.h \
+    ./src/Ustawienia.h \
+    ./src/Uzytkownik.h \
+    ./src/ZmienIlosc.h
+FORMS += ./ui/CustomPaymentDialog.ui \
+    ./ui/Faktura.ui \
+    ./ui/Kontrahenci.ui \
+    ./ui/KontrahenciLista.ui \
+    ./ui/MainWindow.ui \
+    ./ui/Towary.ui \
+    ./ui/TowaryLista.ui \
+    ./ui/Ustawienia.ui \
+    ./ui/Uzytkownik.ui \
+    ./ui/ZmienIlosc.ui
+SOURCES += ./src/CustomPaymData.cpp \
+    ./src/CustomPayment.cpp \
+    ./src/KorektaBrutto.cpp \
+    ./src/TowaryBruttoLista.cpp \
+    ./src/Rachunek.cpp \
+    ./src/FakturaBrutto.cpp \
+    ./src/Duplikat.cpp \
+    ./src/ConvertAmount.cpp \
+    ./src/Faktura.cpp \
+    ./src/Kontrahenci.cpp \
+    ./src/KontrahenciLista.cpp \
+    ./src/Korekta.cpp \
+    ./src/main.cpp \
+    ./src/MainWindow.cpp \
+    ./src/Towary.cpp \
+    ./src/TowaryLista.cpp \
+    ./src/Ustawienia.cpp \
+    ./src/Uzytkownik.cpp \
+    ./src/ZmienIlosc.cpp
 RESOURCES += qfaktury.qrc
+MOC_DIR = .moc
+UI_DIR = .ui
+OBJECTS_DIR = .obj
+RCC_DIR = .rcc
 TRANSLATIONS += qfaktury_de.ts \
     qfaktury_en.ts \
     qfaktury_pl.ts
