@@ -22,6 +22,8 @@
 #include "Rachunek.h"
 #include "Kontrahenci.h"
 
+#include "XmlDataLayer.h"
+
 
 
 /** Constructor
@@ -71,6 +73,10 @@ void MainWindow::init() {
 		filtrEnd->setDisplayFormat(sett().getDateFormat());
 		filtrEnd->setDate(sett().getValueAsDate("filtrEnd"));
 	}
+
+
+	// choose data access mode
+	dl = new XmlDataLayer();
 
 	// towary/uslugi - wymiary
 	tableT->setColumnWidth(0, sett().value("towCol0", QVariant(50)) .toInt());
@@ -881,7 +887,7 @@ void MainWindow::settClick() {
  */
 void MainWindow::kontrClick() {
 	Kontrahenci *kontrWindow;
-	kontrWindow = new Kontrahenci(this, 0);
+	kontrWindow = new Kontrahenci(this, 0, dl);
 	//qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 	if (kontrWindow->exec() == QDialog::Accepted) {
 		tableK->setSortingEnabled(false);
@@ -976,7 +982,7 @@ void MainWindow::kontrEd() {
 	int row = tableK->selectedItems()[0]->row();
 	// qDebug ()<<tableK->item(row, 0)->text();
 
-	Kontrahenci *kontrWindow = new Kontrahenci(this, 1);
+	Kontrahenci *kontrWindow = new Kontrahenci(this, 1, dl);
 	kontrWindow->readData(tableK->item(row, 0)->text(),
 			sett().getCustomerType(tableK->item(row, 1)->text()));
 	if (kontrWindow->exec() == QDialog::Accepted) {

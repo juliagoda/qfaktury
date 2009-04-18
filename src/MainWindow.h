@@ -5,6 +5,9 @@
 #include "Settings.h"
 #include "ui_MainWindow.h"
 
+#include "IDataLayer.h"
+
+
 class MainWindow: public QMainWindow, public Ui::MainWindow {
 
 Q_OBJECT
@@ -12,6 +15,8 @@ public:
 	MainWindow(QWidget *parent);
 	~MainWindow();
 	static void insertRow(QTableWidget *t, int row);
+
+	IDataLayer *dl;
 public slots:
 	void tableClear(QTableWidget * tab);
 	void tabChanged(QWidget * aaa);

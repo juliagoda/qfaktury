@@ -8,10 +8,16 @@
 #ifndef IDATALAYER_H_
 #define IDATALAYER_H_
 
+#include "KontrData.h"
+
 class IDataLayer {
 public:
-	virtual void saveInvoiceData();
-	virtual void readInvoiceData();
+	IDataLayer() {};
+	virtual ~IDataLayer() {};
+	virtual void saveInvoiceData() {};
+	virtual void readInvoiceData() {};
+	virtual KontrData kontrahenciReadData(QString, int) {}; // warning: @TODO solve it
+	virtual QStringList kontrahenciGetFirmList() {};
 
 };
 

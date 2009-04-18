@@ -10,8 +10,9 @@ QT += gui \
 CONFIG += release
 
 # Input
-HEADERS += src/XmlDataLayer.h \
-    src/IDataLayer.h \
+HEADERS += ./src/XmlDataLayer.h \
+    ./src/KontrData.h \
+    ./src/IDataLayer.h \
     ./src/Const.h \
     ./src/CustomPaymData.h \
     ./src/CustomPayment.h \
@@ -45,7 +46,9 @@ FORMS += ./ui/CustomPaymentDialog.ui \
     ./ui/Ustawienia.ui \
     ./ui/Uzytkownik.ui \
     ./ui/ZmienIlosc.ui
-SOURCES += ./src/CustomPaymData.cpp \
+SOURCES += ./src/XmlDataLayer.cpp \
+    ./src/KontrData.cpp \
+    ./src/CustomPaymData.cpp \
     ./src/CustomPayment.cpp \
     ./src/KorektaBrutto.cpp \
     ./src/TowaryBruttoLista.cpp \

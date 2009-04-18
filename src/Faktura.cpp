@@ -137,6 +137,7 @@ void Faktura::init() {
 // ---- SLOTS START  --//////////////////////////////////////////////////////////////////////////////////
 
 void Faktura::kontrClick() {
+	/*
 	Kontrahenci *kontrWindow;
 	kontrWindow = new Kontrahenci(this, 0);
 	//qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
@@ -148,7 +149,7 @@ void Faktura::kontrClick() {
 	}
 	delete kontrWindow;
 	kontrWindow = NULL;
-
+	*/
 }
 
 void Faktura::keyPressEvent(QKeyEvent * event) {

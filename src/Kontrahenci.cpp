@@ -5,9 +5,10 @@
 
 /** Constructor
  */
-Kontrahenci::Kontrahenci(QWidget *parent, int mode) :
+Kontrahenci::Kontrahenci(QWidget *parent, int mode, IDataLayer *dl) :
 	QDialog(parent) {
 	workingMode = mode;
+	dataLayer = dl;
 	setupUi(this);
 	init();
 }
@@ -57,84 +58,16 @@ void Kontrahenci::okClick() {
  */
 void Kontrahenci::readData(QString name, int type) {
 	nazwaEdit = name;
-	QDomDocument doc(sett().getCustomersDocName());
-	QDomElement root;
-	QDomElement office;
-	QDomElement company;
-
-	QFile file(sett().getCustomersXml());
-	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return;
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
-			file.close();
-			return;
-		} else {
-			root = doc.documentElement();
-			office = root.firstChild().toElement();
-			company = root.lastChild().toElement();
-		}
-
-		if (type == 0) {
-			for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
-				if (n.toElement().attribute("name").compare(name) == 0) {
-					loadDetails(n);
-					typeCombo->setCurrentIndex(0);
-				}
-			}
-		} else {
-			for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
-				if (n.toElement().attribute("name").compare(name) == 0) {
-					loadDetails(n);
-					typeCombo->setCurrentIndex(1);
-				}
-			}
-		}
-		setWindowTitle(trUtf8("Edytuj kontrahenta"));
-		typeCombo->setEnabled(false);
-	}
+	setWindowTitle(trUtf8("Edytuj kontrahenta"));
+	loadDetails(dataLayer->kontrahenciReadData(name, type));
+	typeCombo->setCurrentIndex(type);
+	typeCombo->setEnabled(false);
 }
 
 /** Load list of the companies into allNames QStringList
  */
 void Kontrahenci::getFirmList() {
-	QDomDocument doc(sett().getCustomersDocName());
-	QDomElement root;
-	QDomElement office;
-	QDomElement company;
-
-	QFile file(sett().getCustomersXml());
-	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return;
-
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
-			file.close();
-			return;
-		} else {
-			root = doc.documentElement();
-			office = root.firstChild().toElement();
-			company = root.lastChild().toElement();
-		}
-		QString text;
-
-		for (QDomNode n = company.firstChild(); !n.isNull(); n
-				= n.nextSibling()) {
-			text = n.toElement().attribute("name");
-			allNames << text;
-		}
-
-		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			text = n.toElement().attribute("name");
-			allNames << text;
-		}
-	}
+	allNames = dataLayer->kontrahenciGetFirmList();
 }
 
 /** Validate form
@@ -337,16 +270,16 @@ void Kontrahenci::dataToElem(QDomElement elem) {
 
 /** Load details
  */
-void Kontrahenci::loadDetails(QDomNode n) {
-	nameEdit->setText(n.toElement().attribute("name"));
-	placeEdit->setText(n.toElement().attribute("place"));
-	codeEdit->setText(n.toElement().attribute("code"));
-	addressEdit->setText(n.toElement().attribute("address"));
-	nipEdit->setText(n.toElement().attribute("tic"));
-	accountEdit->setText(n.toElement().attribute("account"));
-	telefonEdit->setText(n.toElement().attribute("phone"));
-	emailEdit->setText(n.toElement().attribute("email"));
-	wwwEdit->setText(n.toElement().attribute("www"));
+void Kontrahenci::loadDetails(KontrData kontrData) {
+	nameEdit->setText(kontrData.name);
+	placeEdit->setText(kontrData.place);
+	codeEdit->setText(kontrData.code);
+	addressEdit->setText(kontrData.address);
+	nipEdit->setText(kontrData.tic);
+	accountEdit->setText(kontrData.account);
+	telefonEdit->setText(kontrData.phone);
+	emailEdit->setText(kontrData.email);
+	wwwEdit->setText(kontrData.www);
 }
 
 QString Kontrahenci::isEmpty(QString in) {
