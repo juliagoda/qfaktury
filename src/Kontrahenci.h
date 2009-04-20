@@ -13,20 +13,21 @@ public:
 	QString ret;
 	QStringList allNames;
 	Kontrahenci(QWidget *parent, int mode, IDataLayer *dl);
-	void readData(QString name, int type); // 0 - company, 1 - office
+	void selectData(QString name, int type); // 0 - company, 1 - office
+	bool insertData();
+	bool updateData();
 public slots:
 	void okClick();
 private:
 	IDataLayer *dataLayer;
-	QString nazwaEdit;
 	int workingMode; // 0 = new
 	void init();
 	QString isEmpty(QString in);
-	void getFirmList();
-	bool saveAll();
-	void modifyOnly();
-	void loadDetails(KontrData kontrData);
-	void dataToElem(QDomElement elem);
+
+	void getData(KontrData kontrData);
+	void setData(KontrData &kontrData);
+
+	bool validate();
 	bool validateForm(QString &missing);
 };
 #endif

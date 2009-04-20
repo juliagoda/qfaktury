@@ -891,8 +891,6 @@ void MainWindow::kontrClick() {
 	//qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 	if (kontrWindow->exec() == QDialog::Accepted) {
 		tableK->setSortingEnabled(false);
-		// qDebug() << progDir;
-		// readKontr (progDir);
 		insertRow(tableK, tableK->rowCount());
 		QStringList row = kontrWindow->ret.split("|");
 		tableK->item(tableK->rowCount() - 1, 0)->setText(row[0]); // name
@@ -914,59 +912,10 @@ void MainWindow::kontrDel() {
 		return;
 	}
 
-	if (QMessageBox::warning(this, trUtf8("QFaktury"), trUtf8("Czy napewno chcesz usunąć kontrahenta: ") + tableK->item(tableK->currentRow(), 0)->text() + trUtf8(" ?"), trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
-		QDomDocument doc("kontrahenci");
-		QDomElement root;
-		QDomElement urzad;
-		QDomElement firma;
-		int row = tableK->currentRow();
-
-		QFile file(sett().getCustomersXml());
-		if (!file.open(QIODevice::ReadOnly)) {
-			qDebug() << "File" << file.fileName() << "doesn't exists";
-			return;
-		} else {
-			QTextStream stream(&file);
-			if (!doc.setContent(stream.readAll())) {
-				qDebug("can not set content ");
-				file.close();
-				return;
-			} else {
-				root = doc.documentElement();
-				urzad = root.firstChild().toElement();
-				firma = root.lastChild().toElement();
-			}
-			QString text;
-
-			for (QDomNode n = firma.firstChild(); !n.isNull(); n
-					= n.nextSibling()) {
-				if (n.toElement().attribute("name"). compare(tableK->item(row,
-						0)->text()) == 0) {
-					firma.removeChild(n);
-					break;
-				}
-			}
-
-			for (QDomNode n = urzad.firstChild(); !n.isNull(); n
-					= n.nextSibling()) {
-				// qDebug("aaa");
-				if (n.toElement().attribute("name"). compare(tableK->item(row,
-						0)->text()) == 0) {
-					urzad.removeChild(n);
-					break;
-				}
-			}
-
-			QString xml = doc.toString();
-			file.close();
-			file.open(QIODevice::WriteOnly);
-			QTextStream ts(&file);
-			ts << xml;
-
-			file.close();
-			tableK->removeRow(row);
-		}
-
+	if (QMessageBox::warning(this, trUtf8("QFaktury"), trUtf8("Czy napewno chcesz usunąć kontrahenta: ") +
+			tableK->item(tableK->currentRow(), 0)->text() + trUtf8(" ?"), trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
+			dl->kontrahenciDeleteData(tableK->item(tableK->currentRow(), 0)->text());
+			tableK->removeRow(tableK->currentRow());
 	}
 }
 
@@ -983,7 +932,7 @@ void MainWindow::kontrEd() {
 	// qDebug ()<<tableK->item(row, 0)->text();
 
 	Kontrahenci *kontrWindow = new Kontrahenci(this, 1, dl);
-	kontrWindow->readData(tableK->item(row, 0)->text(),
+	kontrWindow->selectData(tableK->item(row, 0)->text(),
 			sett().getCustomerType(tableK->item(row, 1)->text()));
 	if (kontrWindow->exec() == QDialog::Accepted) {
 		tableK->setSortingEnabled(false);
@@ -1159,8 +1108,6 @@ void MainWindow::newKor() {
 				trUtf8("Do faktury typu ") + tableH->item(row, 3)->text()
 				+ (" nie wystawiamy korekt."), QMessageBox::Ok);
 	}
-
-
 }
 
 /** Slot
@@ -1198,7 +1145,7 @@ void MainWindow::newDuplikat() {
 /** Slot used to add goods
  */
 void MainWindow::towaryDodaj() {
-	Towary *towWindow = new Towary(this, 0);
+	Towary *towWindow = new Towary(this, 0, dl);
 	if (towWindow->exec() == QDialog::Accepted) {
 		insertRow(tableT, tableT->rowCount());
 		QStringList row = towWindow->ret.split("|");
@@ -1215,7 +1162,7 @@ void MainWindow::towaryDodaj() {
 		tableT->item(tableT->rowCount() - 1, 10)->setText(row[10]);
 		tableT->item(tableT->rowCount() - 1, 11)->setText(row[11]);
 	} else {
-		rereadHist();
+
 	}
 	delete towWindow;
 	towWindow = NULL;
@@ -1302,9 +1249,9 @@ void MainWindow::towaryEdycja() {
 
 	int row = tableT->selectedItems()[0]->row();
 
-	Towary *towWindow = new Towary(this, 1);
+	Towary *towWindow = new Towary(this, 1, dl);
 	// qDebug() << tableT->item(row, 5)->text() << sett().getProductType(tableT->item(row, 5)->text());
-	towWindow->readData(tableT->item(row, 0)->text(),
+	towWindow->selectData(tableT->item(row, 0)->text(),
 			sett().getProductType(tableT->item(row, 5)->text()));
 	if (towWindow->exec() == QDialog::Accepted) {
 		QStringList rowTxt = towWindow->ret.split("|");

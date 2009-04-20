@@ -9,6 +9,7 @@
 #define IDATALAYER_H_
 
 #include "KontrData.h"
+#include "ProductData.h"
 
 class IDataLayer {
 public:
@@ -16,8 +17,18 @@ public:
 	virtual ~IDataLayer() {};
 	virtual void saveInvoiceData() {};
 	virtual void readInvoiceData() {};
-	virtual KontrData kontrahenciReadData(QString, int) {}; // warning: @TODO solve it
-	virtual QStringList kontrahenciGetFirmList() {};
+
+	virtual KontrData kontrahenciSelectData(QString, int) { return KontrData(); };
+	virtual bool kontrahenciInsertData(KontrData&, int) { return true; };
+	virtual bool kontrahenciUpdateData(KontrData&, int, QString) { return true; };
+	virtual bool kontrahenciDeleteData(QString ) { return true; };
+	virtual QStringList kontrahenciGetFirmList() { return QStringList(); };
+
+	virtual ProductData productsSelectData(QString, int) { return ProductData(); };
+	virtual bool productsInsertData(ProductData&, int) { return true; };
+	virtual bool productsUpdateData(ProductData&, int, QString) { return true; };
+	virtual bool productsDeleteData(QString) { return true; };
+
 
 };
 

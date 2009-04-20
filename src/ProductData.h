@@ -171,7 +171,6 @@ public:
 			<< "curr: " << curr;
 		return	"ProductData: [" + str + "]";
 	}
-private:
 	int id;
 	QString name;
 	QString code;
@@ -184,6 +183,9 @@ private:
 	int vat;
 	double gross;
 	QString curr;
+
+	QMap<int, double> prices;
+	int lastProdId;
 };
 
 

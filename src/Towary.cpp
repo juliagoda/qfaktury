@@ -7,17 +7,20 @@
 
 /** Constructor
  */
-Towary::Towary(QWidget *parent, int mode): QDialog(parent) {
-    setupUi(this);
-    init();
+Towary::Towary(QWidget *parent, int mode, IDataLayer *dl): QDialog(parent) {
+
     workMode = mode;
+    dataLayer = dl;
+
+	setupUi(this);
+    init();
 }
 
 /** Init
  */
 void Towary::init() {
 
-	readData("", 0);
+	selectData("", 0);
 	idxEdit->setText(sett().numberToString(lastId));
 	jednCombo->addItems(sett().value("jednostki").toString().split("|"));
 	cbVat->addItems(sett().value("stawki").toString().split("|"));
@@ -53,7 +56,7 @@ void Towary::okClick() {
 	QString typ;
 
 	if (workMode == 1) {
-		modifyOnly();
+		updateData();
 		ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
 				+ kod + "|" + pkwiu + "|" + typeCombo->currentText() + "|"
 				+ jednCombo->currentText() + "|" + netto[0] + "|"
@@ -62,7 +65,7 @@ void Towary::okClick() {
 		accept();
 
 	} else {
-		if (saveAll()) {
+		if (insertData()) {
 			ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
 				+ kod + "|" + pkwiu + "|" + typeCombo->currentText() + "|"
 				+ jednCombo->currentText() + "|" + netto[0] + "|"
@@ -102,7 +105,7 @@ void Towary::pkwiuGet() {
 
 /** Loads data from the XML into the form
  */
-void Towary::readData(QString idx, int type) {
+void Towary::selectData(QString idx, int type) {
 
 	if (idx == "") {
 		netto.append("0");
@@ -117,56 +120,15 @@ void Towary::readData(QString idx, int type) {
 
 	lastId = 1;
 	idxEdit->setText(idx);
-	QDomDocument doc(sett().getProdutcsDocName());
-	QDomElement root;
-	QDomElement towar;
-	QDomElement usluga;
 
-	QFile file(sett().getProductsXml());
-	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return;
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
-			file.close();
-			return;
-		} else {
-			root = doc.documentElement();
-			lastId = root.attribute("last", "1").toInt();
-			towar = root.firstChild().toElement();
-			usluga = root.lastChild().toElement();
-		}
-		QString text;
-
-		if (type == 0) {
-			for (QDomNode n = towar.firstChild(); !n.isNull(); n
-					= n.nextSibling()) {
-				if (n.toElement().attribute("idx").compare(idx) == 0) {
-					displayData(n);
-					// cbVat->setCurrentIndex(type);
-				}
-			}
-		} else {
-			for (QDomNode n = usluga.firstChild(); !n.isNull(); n
-					= n.nextSibling()) {
-				if (n.toElement().attribute("idx").compare(idx) == 0) {
-					displayData(n);
-					// cbVat->setCurrentIndex(type);
-				}
-			}
-		}
-		typeCombo->setCurrentIndex(type);
-
-	}
+	typeCombo->setCurrentIndex(type);
 
 }
 
 
 /** Saves data from the form
  */
-bool Towary::saveAll() {
+bool Towary::insertData() {
 	nettoChanged(0);
 
 	QDomDocument doc(sett().getProdutcsDocName());
@@ -227,7 +189,7 @@ bool Towary::saveAll() {
 /** Modify product
  *  Searches for the right one and saves it.
  */
-void Towary::modifyOnly() {
+void Towary::updateData() {
 	nettoChanged(0);
 
 	QDomDocument doc(sett().getProdutcsDocName());

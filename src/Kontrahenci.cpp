@@ -16,7 +16,7 @@ Kontrahenci::Kontrahenci(QWidget *parent, int mode, IDataLayer *dl) :
 /** init()
  */
 void Kontrahenci::init() {
-	getFirmList();
+	allNames = dataLayer->kontrahenciGetFirmList();
 
 	nipEdit->setInputMask(sett().value("ticMask", "999-99-999-99; ").toString());
 	accountEdit->setInputMask(sett().value("accountMask", "99-9999-9999-9999-9999-9999-9999; ").toString());
@@ -26,22 +26,18 @@ void Kontrahenci::init() {
 }
 
 // --------- SLOTS START --
-
 /** Slot - ok & save
  */
 void Kontrahenci::okClick() {
-	/* @TODO
-	 * validation - account must have 26 chars
-	 */
 	if (workingMode == 1) {
-		modifyOnly();
+		updateData();
 		ret = isEmpty(nameEdit->text()) + "|" + typeCombo->currentText() + "|" + isEmpty(
 				placeEdit->text()) + "|" + isEmpty(addressEdit->text()) + "|"
 				+ isEmpty(telefonEdit->text()) + "|" + nipEdit->text() + "|"
 				+ codeEdit->text();
 		accept();
 	} else {
-		if (saveAll()) {
+		if (insertData()) {
 			ret = isEmpty(nameEdit->text()) + "|" + typeCombo->currentText() + "|"
 					+ isEmpty(placeEdit->text()) + "|" + isEmpty(
 					addressEdit->text()) + "|" + isEmpty(telefonEdit->text())
@@ -51,29 +47,47 @@ void Kontrahenci::okClick() {
 	}
 
 }
-
 // --------- SLOTS END --
 
-/** Parse xml and load data for edit
- */
-void Kontrahenci::readData(QString name, int type) {
-	nazwaEdit = name;
+//***** DATA access START ****
+// load data modification mode
+void Kontrahenci::selectData(QString name, int type) {
 	setWindowTitle(trUtf8("Edytuj kontrahenta"));
-	loadDetails(dataLayer->kontrahenciReadData(name, type));
+	getData(dataLayer->kontrahenciSelectData(name, type));
 	typeCombo->setCurrentIndex(type);
 	typeCombo->setEnabled(false);
 }
 
-/** Load list of the companies into allNames QStringList
- */
-void Kontrahenci::getFirmList() {
-	allNames = dataLayer->kontrahenciGetFirmList();
+// new customer insert data
+bool Kontrahenci::insertData() {
+	bool result = false;
+	if (validate()) {
+		KontrData kontrData;
+		setData(kontrData);
+		result = dataLayer->kontrahenciInsertData(kontrData,
+					typeCombo->currentIndex());
+	}
+	return result;
 }
 
+// update existing
+bool Kontrahenci::updateData() {
+	bool result = false;
+	if (validate()) {
+		KontrData kontrData;
+		setData(kontrData);
+		result = dataLayer->kontrahenciUpdateData(kontrData,
+					typeCombo->currentIndex(), nameEdit->text());
+	}
+	return result;
+}
+//***** DATA access END ****
+
+
+//********************** VALIDATION START ************************
 /** Validate form
  *  Don't save when no
  *  "name", "city", "street", "tic"
- *
  */
 bool Kontrahenci::validateForm(QString &missing) {
 	if (nameEdit->text().isEmpty()) {
@@ -110,9 +124,9 @@ bool Kontrahenci::validateForm(QString &missing) {
 	return true;
 }
 
-/** Save data used in okClick()
+/** validate()
  */
-bool Kontrahenci::saveAll() {
+bool Kontrahenci::validate() {
 	QString missing;
 
 	if (!validateForm(missing)) {
@@ -132,145 +146,29 @@ bool Kontrahenci::saveAll() {
 		return false;
 	}
 
-	QDomDocument doc(sett().getCustomersDocName());
-	QDomElement root;
-	QDomElement office;
-	QDomElement company;
-
-	QFile file(sett().getCustomersXml());
-	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug("can not open ");
-		root = doc.createElement(sett().getCustomersDocName());
-		doc.appendChild(root);
-		office = doc.createElement(sett().getOfficeName());
-		root.appendChild(office);
-		company = doc.createElement(sett().getCompanyName());
-		root.appendChild(company);
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
-			file.close();
-			// return;
-		} else {
-			root = doc.documentElement();
-			office = root.firstChild().toElement();
-			company = root.lastChild().toElement();
-		}
-	}
-
-	root.lastChild();
-
-	// firma = 0; urzad = 1;
-	if (typeCombo->currentIndex() == 0) {
-		QDomElement elem = doc.createElement(sett().getCompanyName());
-		dataToElem(elem);
-		company.appendChild(elem);
-	}
-
-	if (typeCombo->currentIndex() == 1) {
-		QDomElement elem = doc.createElement(sett().getOfficeName());
-		dataToElem(elem);
-		office.appendChild(elem);
-	}
-
-	QString xml = doc.toString();
-
-	file.close();
-	file.open(QIODevice::WriteOnly);
-	QTextStream ts(&file);
-	ts << xml;
-	file.close();
-
 	return true;
 }
+//********************** VALIDATION  END ************************
 
-/** Saves when modfied
+
+//********************** DATA METHODS START *********************
+/** Loads data from labels into Data object
  */
-void Kontrahenci::modifyOnly() {
-	QDomDocument doc(sett().getCustomersDocName());
-	QDomElement root;
-	QDomElement office;
-	QDomElement company;
-
-	QFile file(sett().getCustomersXml());
-	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		root = doc.createElement(sett().getCustomersDocName());
-		doc.appendChild(root);
-		office = doc.createElement(sett().getOfficeName());
-		root.appendChild(office);
-		company = doc.createElement(sett().getCompanyName());
-		root.appendChild(company);
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
-			file.close();
-			// return;
-		} else {
-			root = doc.documentElement();
-			office = root.firstChild().toElement();
-			company = root.lastChild().toElement();
-		}
-	}
-
-	root.lastChild();
-	QString text;
-
-	// firma = 0; urzad = 1;
-	if (typeCombo->currentIndex() == 0) {
-		QDomElement elem; // = doc.createElement ("firma");
-		for (QDomNode n = company.firstChild(); !n.isNull(); n
-				= n.nextSibling()) {
-			if (n.toElement().attribute("name").compare(nazwaEdit) == 0) {
-				elem = n.toElement();
-				break;
-			}
-		}
-		dataToElem(elem);
-		company.appendChild(elem);
-	}
-
-	if (typeCombo->currentIndex() == 1) {
-		QDomElement elem; //  = doc.createElement ("urzad");
-		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			if (n.toElement().attribute("name").compare(nazwaEdit) == 0) {
-				elem = n.toElement();
-				break;
-			}
-		}
-		dataToElem(elem);
-		office.appendChild(elem);
-	}
-
-	QString xml = doc.toString();
-
-	file.close();
-	file.open(QIODevice::WriteOnly);
-	QTextStream ts(&file);
-	ts << xml;
-	file.close();
-
-}
-
-/** Loads data from labels into DOM object
- */
-void Kontrahenci::dataToElem(QDomElement elem) {
-	elem.setAttribute("name", nameEdit->text());
-	elem.setAttribute("place", placeEdit->text());
-	elem.setAttribute("code", codeEdit->text());
-	elem.setAttribute("address", addressEdit->text());
-	elem.setAttribute("tic", nipEdit->text());
-	elem.setAttribute("account", accountEdit->text());
-	elem.setAttribute("phone", telefonEdit->text());
-	elem.setAttribute("email", emailEdit->text());
-	elem.setAttribute("www", wwwEdit->text());
+void Kontrahenci::setData(KontrData& kontrData) {
+	kontrData.name = nameEdit->text();
+	kontrData.place= placeEdit->text();
+	kontrData.code = codeEdit->text();
+	kontrData.address = addressEdit->text();
+	kontrData.tic = nipEdit->text();
+	kontrData.account = accountEdit->text();
+	kontrData.phone = telefonEdit->text();
+	kontrData.email = emailEdit->text();
+	kontrData.www = wwwEdit->text();
 }
 
 /** Load details
  */
-void Kontrahenci::loadDetails(KontrData kontrData) {
+void Kontrahenci::getData(KontrData kontrData) {
 	nameEdit->setText(kontrData.name);
 	placeEdit->setText(kontrData.place);
 	codeEdit->setText(kontrData.code);
@@ -281,10 +179,11 @@ void Kontrahenci::loadDetails(KontrData kontrData) {
 	emailEdit->setText(kontrData.email);
 	wwwEdit->setText(kontrData.www);
 }
+//********************** DATA METHODS END *********************
 
+// helper method which sets "-" in input forms
 QString Kontrahenci::isEmpty(QString in) {
-	if (in == "")
-		return "-";
+	if (in == "") return "-";
 	return in;
 }
 
