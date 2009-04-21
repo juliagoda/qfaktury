@@ -444,86 +444,34 @@ void MainWindow::readKontr() {
 /** Reads goods from the XML
  */
 void MainWindow::readTw() {
-	QDomDocument doc(sett().getProdutcsDocName());
-	QDomElement root;
-	QDomElement products;
-	QDomElement services;
 
-	QFile file(sett().getProductsXml());
-	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return;
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
-			qDebug("can't set content ");
-			file.close();
-			return;
-		} else {
-			root = doc.documentElement();
-			products = root.firstChild().toElement();
-			services = root.lastChild().toElement();
-		}
-		QString text;
-
-		for (QDomNode n = products.firstChild(); !n.isNull(); n = n.nextSibling()) {
-
-			insertRow(tableT, tableT->rowCount());
-			text = n.toElement().attribute("idx");
-			tableT->item(tableT->rowCount() - 1, 0)->setText(text);
-			// text = "towar";
-			text = n.toElement().attribute("name");
-			tableT->item(tableT->rowCount() - 1, 1)->setText(text);
-			text = n.toElement().attribute("desc");
-			tableT->item(tableT->rowCount() - 1, 2)->setText(text);
-			text = n.toElement().attribute("code");
-			tableT->item(tableT->rowCount() - 1, 3)->setText(text);
-			text = n.toElement().attribute("pkwiu");
-			tableT->item(tableT->rowCount() - 1, 4)->setText(text);
-			text = trUtf8("Towar");
-			tableT->item(tableT->rowCount() - 1, 5)->setText(text);
-			text = n.toElement().attribute("curr");
-			tableT->item(tableT->rowCount() - 1, 6)->setText(text);
-			text = n.toElement().attribute("netto1");
-			tableT->item(tableT->rowCount() - 1, 7)->setText(text);
-			text = n.toElement().attribute("netto2");
-			tableT->item(tableT->rowCount() - 1, 8)->setText(text);
-			text = n.toElement().attribute("netto3");
-			tableT->item(tableT->rowCount() - 1, 9)->setText(text);
-			text = n.toElement().attribute("netto4");
-			tableT->item(tableT->rowCount() - 1, 10)->setText(text);
-			text = n.toElement().attribute("vat");
-			tableT->item(tableT->rowCount() - 1, 11)->setText(text);
-		}
-
-		for (QDomNode n = services.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			insertRow(tableT, tableT->rowCount());
-			text = n.toElement().attribute("idx");
-			tableT->item(tableT->rowCount() - 1, 0)->setText(text);
-			// text = "towar";
-			text = n.toElement().attribute("name");
-			tableT->item(tableT->rowCount() - 1, 1)->setText(text);
-			text = n.toElement().attribute("desc");
-			tableT->item(tableT->rowCount() - 1, 2)->setText(text);
-			text = n.toElement().attribute("code");
-			tableT->item(tableT->rowCount() - 1, 3)->setText(text);
-			text = n.toElement().attribute("pkwiu");
-			tableT->item(tableT->rowCount() - 1, 4)->setText(text);
-			text = trUtf8("Usługa");
-			tableT->item(tableT->rowCount() - 1, 5)->setText(text);
-			text = n.toElement().attribute("curr");
-			tableT->item(tableT->rowCount() - 1, 6)->setText(text);
-			text = n.toElement().attribute("netto1");
-			tableT->item(tableT->rowCount() - 1, 7)->setText(text);
-			text = n.toElement().attribute("netto2");
-			tableT->item(tableT->rowCount() - 1, 8)->setText(text);
-			text = n.toElement().attribute("netto3");
-			tableT->item(tableT->rowCount() - 1, 9)->setText(text);
-			text = n.toElement().attribute("netto4");
-			tableT->item(tableT->rowCount() - 1, 10)->setText(text);
-			text = n.toElement().attribute("vat");
-			tableT->item(tableT->rowCount() - 1, 11)->setText(text);
-		}
+	QVector<ProductData> prodVec = dl->productsSelectAllData();
+	for (int i = 0; i < prodVec.size(); ++i) {
+		insertRow(tableT, tableT->rowCount());
+		QString text = QString::number(prodVec.at(i).id);
+		tableT->item(tableT->rowCount() - 1, 0)->setText(text);
+		text = prodVec.at(i).name;
+		tableT->item(tableT->rowCount() - 1, 1)->setText(text);
+		text = prodVec.at(i).desc;
+		tableT->item(tableT->rowCount() - 1, 2)->setText(text);
+		text = prodVec.at(i).code;
+		tableT->item(tableT->rowCount() - 1, 3)->setText(text);
+		text = prodVec.at(i).pkwiu;
+		tableT->item(tableT->rowCount() - 1, 4)->setText(text);
+		text = prodVec.at(i).type;
+		tableT->item(tableT->rowCount() - 1, 5)->setText(text);
+		text = prodVec.at(i).quanType;
+		tableT->item(tableT->rowCount() - 1, 6)->setText(text);
+		text = sett().numberToString(prodVec.at(i).prices[0]);
+		tableT->item(tableT->rowCount() - 1, 7)->setText(text);
+		text = sett().numberToString(prodVec.at(i).prices[0]);
+		tableT->item(tableT->rowCount() - 1, 8)->setText(text);
+		text = sett().numberToString(prodVec.at(i).prices[0]);
+		tableT->item(tableT->rowCount() - 1, 9)->setText(text);
+		text = sett().numberToString(prodVec.at(i).prices[0]);
+		tableT->item(tableT->rowCount() - 1, 10)->setText(text);
+		text = QString::number(prodVec.at(i).vat);
+		tableT->item(tableT->rowCount() - 1, 11)->setText(text);
 	}
 
 	tableT->setSortingEnabled(true);
@@ -1131,6 +1079,7 @@ void MainWindow::newDuplikat() {
 		dupWindow->setWindowTitle(trUtf8("Nowy duplikat"));
 		dupWindow->duplikatInit();
 		if (dupWindow->exec() == QDialog::Accepted) {
+			// not saving duplicate
 		}
 		delete dupWindow;
 		dupWindow = NULL;
@@ -1147,6 +1096,7 @@ void MainWindow::newDuplikat() {
 void MainWindow::towaryDodaj() {
 	Towary *towWindow = new Towary(this, 0, dl);
 	if (towWindow->exec() == QDialog::Accepted) {
+		tableT->setSortingEnabled(false);
 		insertRow(tableT, tableT->rowCount());
 		QStringList row = towWindow->ret.split("|");
 		tableT->item(tableT->rowCount() - 1, 0)->setText(row[0]);
@@ -1161,8 +1111,7 @@ void MainWindow::towaryDodaj() {
 		tableT->item(tableT->rowCount() - 1, 9)->setText(row[9]);
 		tableT->item(tableT->rowCount() - 1, 10)->setText(row[10]);
 		tableT->item(tableT->rowCount() - 1, 11)->setText(row[11]);
-	} else {
-
+		tableT->setSortingEnabled(true);
 	}
 	delete towWindow;
 	towWindow = NULL;
@@ -1176,76 +1125,24 @@ void MainWindow::towaryUsun() {
 		return;
 	}
 
-
 	int row = tableT->currentRow();
 
 	if (QMessageBox::warning(this, trUtf8("QFaktury"), trUtf8("Czy napewno chcesz usunąć towar ") + tableT->item(row, 0)->text()
 			+ "/" + tableT->item(row, 1)->text() + "?", trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1)
 			== 0) {
-
-		QDomDocument doc(sett().getProdutcsDocName());
-		QDomElement root;
-		QDomElement products;
-		QDomElement services;
-
-		QFile file(sett().getProductsXml());
-		if (!file.open(QIODevice::ReadOnly)) {
-			qDebug() << "File" << file.fileName() << "doesn't exists";
-			return;
-		} else {
-			QTextStream stream(&file);
-			if (!doc.setContent(stream.readAll())) {
-				qDebug("can not set content ");
-				file.close();
-				return;
-			} else {
-				root = doc.documentElement();
-				products = root.firstChild().toElement();
-				services = root.lastChild().toElement();
-			}
-			QString text;
-
-			for (QDomNode n = services.firstChild(); !n.isNull(); n
-					= n.nextSibling()) {
-				// qDebug("aaa");
-				if (n.toElement().attribute("idx"). compare(
-						tableT->item(row, 0)->text()) == 0) {
-					services.removeChild(n);
-					break;
-				}
-			}
-
-			for (QDomNode n = products.firstChild(); !n.isNull(); n
-					= n.nextSibling()) {
-				// qDebug("aaa");
-				if (n.toElement().attribute("idx"). compare(
-						tableT->item(row, 0)->text()) == 0) {
-					products.removeChild(n);
-					break;
-				}
-			}
-
-			QString xml = doc.toString();
-			file.close();
-			file.open(QIODevice::WriteOnly);
-			QTextStream ts(&file);
-			ts << xml;
-
-			file.close();
+			dl->productsDeleteData(tableT->item(row, 0)->text());
 			tableT->removeRow(row);
 		}
-	}
+
 }
 
 /** Slot used for editing goods
  */
 void MainWindow::towaryEdycja() {
-
 	if (tableT->selectedItems().count() <= 0) {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Towar nie wybrany. Nie można edytować."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
-
 
 	int row = tableT->selectedItems()[0]->row();
 
@@ -1254,6 +1151,7 @@ void MainWindow::towaryEdycja() {
 	towWindow->selectData(tableT->item(row, 0)->text(),
 			sett().getProductType(tableT->item(row, 5)->text()));
 	if (towWindow->exec() == QDialog::Accepted) {
+		tableT->setSortingEnabled(false);
 		QStringList rowTxt = towWindow->ret.split("|");
 		tableT->item(row, 0)->setText(rowTxt[0]);
 		tableT->item(row, 1)->setText(rowTxt[1]);
@@ -1267,10 +1165,10 @@ void MainWindow::towaryEdycja() {
 		tableT->item(row, 9)->setText(rowTxt[9]);
 		tableT->item(row, 10)->setText(rowTxt[10]);
 		tableT->item(row, 11)->setText(rowTxt[11]);
+		tableT->setSortingEnabled(true);
 	}
 	delete towWindow;
 	towWindow = NULL;
-
 }
 
 /** Slot close

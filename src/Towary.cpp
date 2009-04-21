@@ -19,9 +19,8 @@ Towary::Towary(QWidget *parent, int mode, IDataLayer *dl): QDialog(parent) {
 /** Init
  */
 void Towary::init() {
-
 	selectData("", 0);
-	idxEdit->setText(sett().numberToString(lastId));
+
 	jednCombo->addItems(sett().value("jednostki").toString().split("|"));
 	cbVat->addItems(sett().value("stawki").toString().split("|"));
 
@@ -52,8 +51,6 @@ void Towary::okClick() {
 	QString kod = kodEdit->text();
 	if (kod == "")
 		kod = " ";
-
-	QString typ;
 
 	if (workMode == 1) {
 		updateData();
@@ -103,10 +100,9 @@ void Towary::pkwiuGet() {
 /******************** SLOTS END ***************************/
 
 
-/** Loads data from the XML into the form
+/** Loads data into the form
  */
 void Towary::selectData(QString idx, int type) {
-
 	if (idx == "") {
 		netto.append("0");
 		netto.append("0");
@@ -118,11 +114,15 @@ void Towary::selectData(QString idx, int type) {
 		typeCombo->setEnabled(false);
 	}
 
-	lastId = 1;
-	idxEdit->setText(idx);
+	ProductData prodData = dataLayer->productsSelectData(idx, type);
+	if (workMode==0) {
+		idx = QString::number(prodData.lastProdId);
+		idxEdit->setText(idx);
+	} else {
+		getData(prodData);
+	}
 
 	typeCombo->setCurrentIndex(type);
-
 }
 
 
@@ -130,168 +130,59 @@ void Towary::selectData(QString idx, int type) {
  */
 bool Towary::insertData() {
 	nettoChanged(0);
-
-	QDomDocument doc(sett().getProdutcsDocName());
-	QDomElement root;
-	QDomElement products, services;
-
-	QFile file(sett().getProductsXml());
-	if (!file.open(QIODevice::ReadOnly)) {
-		root = doc.createElement(sett().getProdutcsDocName());
-		lastId++;
-		root.setAttribute("last", sett().numberToString(lastId));
-		doc.appendChild(root);
-		products = doc.createElement(sett().getNameWithData(sett().getProductName()));
-		root.appendChild(products);
-		services = doc.createElement(sett().getNameWithData(sett().getServiceName()));
-		root.appendChild(services);
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
-			file.close();
-			return false;
-		} else {
-			root = doc.documentElement();
-			lastId++;
-			root.setAttribute("last", sett().numberToString(lastId));
-			products = root.firstChild().toElement();
-			services = root.lastChild().toElement();
-		}
-	}
-
-	root.lastChild();
-
-	if (typeCombo->currentIndex() == 0) {
-		QDomElement elem = doc.createElement(sett().getProductName());
-		fillElem(elem);
-		products.appendChild(elem);
-	}
-
-	if (typeCombo->currentIndex() == 1) {
-		QDomElement elem = doc.createElement(sett().getServiceName());
-		fillElem(elem);
-		services.appendChild(elem);
-	}
-
-	QString xml = doc.toString();
-
-	file.close();
-	file.open(QIODevice::WriteOnly);
-	QTextStream ts(&file);
-	ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-	ts << xml;
-	file.close();
-
+	ProductData prodData;
+	setData(prodData);
+	dataLayer->productsInsertData(prodData, typeCombo->currentIndex());
 	return true;
 }
 
 /** Modify product
  *  Searches for the right one and saves it.
  */
-void Towary::updateData() {
+bool Towary::updateData() {
 	nettoChanged(0);
+	ProductData prodData;
+	setData(prodData);
+	dataLayer->productsUpdateData(prodData, typeCombo->currentIndex(), idxEdit->text() );
+	return true;
 
-	QDomDocument doc(sett().getProdutcsDocName());
-	QDomElement root;
-	QDomElement towary;
-	QDomElement uslugi;
-
-	QFile file(sett().getProductsXml());
-	if (!file.open(QIODevice::ReadOnly)) {
-		root = doc.createElement(sett().getProdutcsDocName());
-		doc.appendChild(root);
-		towary = doc.createElement(sett().getProductName());
-		root.appendChild(towary);
-		uslugi = doc.createElement(sett().getServiceName());
-		root.appendChild(uslugi);
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll()))
-		{
-			qDebug("can not set content ");
-			file.close();
-			return;
-		} else {
-			root = doc.documentElement();
-			towary = root.firstChild().toElement();
-			uslugi = root.lastChild().toElement();
-		}
-	}
-
-	root.lastChild();
-
-	if (typeCombo->currentIndex() == 0) {
-		QDomElement elem;
-		for (QDomNode n = towary.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			if (n.toElement().attribute("idx").compare(idxEdit->text()) == 0) {
-				elem = n.toElement();
-				break;
-			}
-		}
-		fillElem(elem);
-		towary.appendChild(elem);
-	}
-
-	if (typeCombo->currentIndex() == 1) {
-		QDomElement elem;
-		for (QDomNode n = uslugi.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			if (n.toElement().attribute("idx").compare(idxEdit->text()) == 0) {
-				elem = n.toElement();
-				break;
-			}
-		}
-		fillElem(elem);
-		uslugi.appendChild(elem);
-	}
-
-	QString xml = doc.toString();
-
-	file.close();
-	file.open(QIODevice::WriteOnly);
-	QTextStream ts(&file);
-	ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-	ts << xml;
-	file.close();
 }
 
-/** Load data from XML unto the labels;
+/** Load from the form to Data object
  */
-void Towary::displayData(QDomNode n) {
-	idxEdit->setText(n.toElement().attribute("idx"));
-	nameEdit->setText(n.toElement().attribute("name"));
-	kodEdit->setText(n.toElement().attribute("code"));
-	skrotEdit->setText(n.toElement().attribute("desc"));
-	pkwiuEdit->setText(n.toElement().attribute("pkwiu"));
-	// typeCombo->setCurrentIndex(0);
-	int current = 0;
-	current = sett().value("jednostki").toString().split("|").indexOf(n.toElement().attribute("quanType"));
-	jednCombo->setCurrentIndex(current);
+void Towary::getData(ProductData prodData) {
+	idxEdit->setText(QString::number(prodData.id));
+	nameEdit->setText(prodData.name);
+	kodEdit->setText(prodData.code);
+	skrotEdit->setText(prodData.desc);
+	pkwiuEdit->setText(prodData.pkwiu);
 
-	current = sett().value("stawki").toString().split("|").indexOf(n.toElement().attribute("vat"));
+	int current = 0;
+	current = sett().value("jednostki").toString().split("|").indexOf(prodData.quanType);
+	jednCombo->setCurrentIndex(current);
+	current = sett().value("stawki").toString().split("|").indexOf(QString::number(prodData.vat));
 	cbVat->setCurrentIndex(current);
 
-	nettoEdit->setValue(n.toElement().attribute("netto1").toDouble());
-	netto[0] = n.toElement().attribute("netto1");
-	netto[1] = n.toElement().attribute("netto2");
-	netto[2] = n.toElement().attribute("netto3");
-	netto[3] = n.toElement().attribute("netto4");
-
+	nettoEdit->setValue(prodData.prices[0]);
+	netto[0] = sett().numberToString( prodData.prices[0]);
+	netto[1] = sett().numberToString( prodData.prices[1]);
+	netto[2] = sett().numberToString( prodData.prices[2]);
+	netto[3] = sett().numberToString( prodData.prices[3]);
 }
 
-/** Fill XML element
+/** Display productData
  */
-void Towary::fillElem(QDomElement elem) {
-	elem.setAttribute("idx", idxEdit->text());
-	elem.setAttribute("name", nameEdit->text());
-	elem.setAttribute("desc", skrotEdit->text());
-	elem.setAttribute("code", kodEdit->text());
-	elem.setAttribute("pkwiu", pkwiuEdit->text());
-	elem.setAttribute("quanType", jednCombo->currentText());
-	elem.setAttribute("netto1", netto[0]);
-	elem.setAttribute("netto2", netto[1]);
-	elem.setAttribute("netto3", netto[2]);
-	elem.setAttribute("netto4", netto[3]);
-	elem.setAttribute("vat", cbVat->currentText());
+void Towary::setData(ProductData &prodData) {
+	prodData.id = idxEdit->text().toInt();
+	prodData.name = nameEdit->text();
+	prodData.desc = skrotEdit->text();
+	prodData.code = kodEdit->text();
+	prodData.pkwiu = pkwiuEdit->text();
+	prodData.quanType = jednCombo->currentText();
+	prodData.prices[0] = sett().stringToDouble(netto[0]);
+	prodData.prices[1] = sett().stringToDouble(netto[1]);
+	prodData.prices[2] = sett().stringToDouble(netto[2]);
+	prodData.prices[3] = sett().stringToDouble(netto[3]);
+	prodData.vat = cbVat->currentText().toInt();
 }
 

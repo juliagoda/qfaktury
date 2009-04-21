@@ -25,6 +25,7 @@ public:
 	virtual QStringList kontrahenciGetFirmList() { return QStringList(); };
 
 	virtual ProductData productsSelectData(QString, int) { return ProductData(); };
+	virtual QVector<ProductData> productsSelectAllData() { QVector<ProductData> a; return a; };
 	virtual bool productsInsertData(ProductData&, int) { return true; };
 	virtual bool productsUpdateData(ProductData&, int, QString) { return true; };
 	virtual bool productsDeleteData(QString) { return true; };

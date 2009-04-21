@@ -10,8 +10,6 @@
 /* Class used in the Products list
  *
  */
-
-
 class ProductData {
 public:
 	ProductData() {
@@ -184,8 +182,10 @@ public:
 	double gross;
 	QString curr;
 
+	QString desc;
 	QMap<int, double> prices;
 	int lastProdId;
+	QString type;
 };
 
 

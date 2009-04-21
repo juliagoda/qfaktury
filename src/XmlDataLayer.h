@@ -28,6 +28,7 @@ public:
 	virtual QStringList kontrahenciGetFirmList();
 
 	virtual ProductData productsSelectData(QString name, int type);
+	virtual QVector<ProductData> productsSelectAllData();
 	virtual bool productsInsertData(ProductData& prodData, int type);
 	virtual bool productsUpdateData(ProductData& prodData, int type, QString name);
 	virtual bool productsDeleteData(QString name);
@@ -38,6 +39,10 @@ public:
 private:
 	void kontrahenciElemToData(KontrData &o_kontrData, QDomElement i_element);
 	void kontrahenciDataToElem(KontrData &i_kontrData, QDomElement &o_element);
+
+	void productsElemToData(ProductData& o_prodData, QDomElement i_element);
+	void productsDataToElem(ProductData& i_prodData, QDomElement &o_element);
+
 };
 
 #endif /* XMLDATALAYER_H_ */

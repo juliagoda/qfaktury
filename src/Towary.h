@@ -3,6 +3,7 @@
 #include <QDialog>
 #include <Qt/qdom.h>
 #include "IDataLayer.h"
+#include "ProductData.h"
 
 #include "ui_Towary.h"
 
@@ -19,16 +20,16 @@ public slots:
 	void pkwiuGet();
 private:
 	IDataLayer* dataLayer;
-
 	QStringList netto;
-	int lastId;
-	QString nazwaEdit;
 	// Working mode - 0 = new; 1 = edit
 	int workMode;
-	void updateData();
+
 	void init();
+
+	void getData(ProductData prodData);
+	void setData(ProductData &prodData);
+
+	bool updateData();
 	bool insertData();
-	void displayData(QDomNode n);
-	void fillElem(QDomElement elem);
 };
 #endif
