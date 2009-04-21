@@ -8,8 +8,11 @@
 #ifndef IDATALAYER_H_
 #define IDATALAYER_H_
 
+#include "Settings.h"
+
 #include "KontrData.h"
 #include "ProductData.h"
+#include "InvoiceData.h"
 
 class IDataLayer {
 public:
@@ -19,6 +22,7 @@ public:
 	virtual void readInvoiceData() {};
 
 	virtual KontrData kontrahenciSelectData(QString, int) { return KontrData(); };
+	virtual QVector<KontrData > kontrahenciSelectAllData() { QVector<KontrData > a; return a; };
 	virtual bool kontrahenciInsertData(KontrData&, int) { return true; };
 	virtual bool kontrahenciUpdateData(KontrData&, int, QString) { return true; };
 	virtual bool kontrahenciDeleteData(QString ) { return true; };
@@ -30,6 +34,11 @@ public:
 	virtual bool productsUpdateData(ProductData&, int, QString) { return true; };
 	virtual bool productsDeleteData(QString) { return true; };
 
+	virtual InvoiceData invoiceSelectData(QString, int) { return InvoiceData(); };
+	virtual QVector<InvoiceData> invoiceSelectAllData() { QVector<InvoiceData> a; return a; };
+	virtual bool invoiceInsertData(InvoiceData&, int) { return true; };
+	virtual bool invoiceUpdateData(InvoiceData&, int, QString) { return true; };
+	virtual bool invoiceDeleteData(QString) { return true; };
 
 };
 

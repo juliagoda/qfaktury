@@ -45,6 +45,48 @@ void XmlDataLayer::kontrahenciDataToElem(KontrData &i_kontrData, QDomElement &o_
 	o_element.setAttribute("www", i_kontrData.www);
 }
 
+QVector<KontrData> XmlDataLayer::XmlDataLayer::kontrahenciSelectAllData() {
+	QVector<KontrData> kontrVec;
+
+	QDomDocument doc(sett().getCustomersDocName());
+	QDomElement root;
+	QDomElement office;
+	QDomElement company;
+
+	QFile file(sett().getCustomersXml());
+	if (!file.open(QIODevice::ReadOnly)) {
+		qDebug() << "File" << file.fileName() << "doesn't exists";
+		return kontrVec;
+	} else {
+		QTextStream stream(&file);
+		if (!doc.setContent(stream.readAll())) {
+			qDebug("can not set content ");
+			file.close();
+			return kontrVec;
+		} else {
+			root = doc.documentElement();
+			office = root.firstChild().toElement();
+			company = root.lastChild().toElement();
+		}
+
+		for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
+			KontrData kontrData;
+			kontrahenciElemToData(kontrData, n.toElement());
+			kontrData.type = QObject::trUtf8("Firma");
+			kontrVec.push_front(kontrData);
+		}
+
+		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
+			KontrData kontrData;
+			kontrahenciElemToData(kontrData, n.toElement());
+			kontrData.type = QObject::trUtf8("Urząd");
+			kontrVec.push_front(kontrData);
+		}
+	}
+
+	return kontrVec;
+}
+
 
 KontrData XmlDataLayer::kontrahenciSelectData(QString name, int type) {
 	KontrData o_kontrData;
@@ -595,3 +637,110 @@ bool XmlDataLayer::productsDeleteData(QString name) {
 }
 
 // ************ TOWARY END   *****************
+
+// ************ INVOICES START *****************
+bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end) {
+	QString tmp = nameToCheck;
+	tmp = tmp.remove("h"); // invoice
+	tmp = tmp.remove("k"); // correction
+	tmp = tmp.left(10);
+	tmp = tmp.remove("-");
+
+	// not very flexible
+	// assumption is that date comes as yyyymmdd
+	// if its otherwise order of remove methods has to be changed
+	int year = tmp.left(4).toInt();
+	tmp = tmp.remove(0, 4);
+	int month = tmp.left(2).toInt();
+	tmp = tmp.remove(0, 2);
+	int day = tmp.left(2).toInt();
+	tmp = tmp.remove(0, 2);
+	QDate tmpDate(year, month, day);
+
+	if (tmpDate < start) {
+		return false;
+	}
+
+	if (tmpDate > end) {
+		return false;
+	}
+
+	// default true?
+	return true;
+}
+
+
+InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
+	InvoiceData o_invData;
+	return o_invData;
+}
+
+QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) {
+	QVector<InvoiceData> o_invDataVec;
+
+	QDir allFiles;
+	QString text;
+
+	QDomDocument doc(sett().getInoiveDocName());
+	QDomElement root;
+	QDomElement nadawca;
+	QDomElement odbiorca;
+
+	allFiles.setPath(sett().getInvoicesDir());
+	allFiles.setFilter(QDir::Files);
+	QStringList filters;
+	filters << "h*.xml" << "k*.xml";
+	allFiles.setNameFilters(filters);
+	QStringList files = allFiles.entryList();
+	int i, max = files.count();
+	for (i = 0; i < max; ++i) {
+		if (applyFiltr(files[i])) {
+			// qDebug() << files[i];
+			QFile file(sett().getInvoicesDir() + files[i]);
+
+			if (!file.open(QIODevice::ReadOnly)) {
+				qDebug() << "File" << file.fileName() << "doesn't exists";
+				return o_invDataVec;
+			} else {
+				QTextStream stream(&file);
+				if (!doc.setContent(stream.readAll())) {
+					// qDebug ("can not set content ");
+					file.close();
+					// return o_invDataVec;
+				}
+			}
+
+			root = doc.documentElement();
+			tableH->item(tableH->rowCount() - 1, 1)->setText(root.attribute(
+					"no", "NULL"));
+			tableH->item(tableH->rowCount() - 1, 2)->setText(root.attribute(
+					"sellingDate", "NULL"));
+			tableH->item(tableH->rowCount() - 1, 3)->setText(root.attribute(
+					"type", "NULL"));
+			QDomNode nab;
+			nab = root.firstChild();
+			nab = nab.toElement().nextSibling();
+			tableH->item(tableH->rowCount() - 1, 4)->setText(
+					nab.toElement().attribute("name", "NULL"));
+			tableH->item(tableH->rowCount() - 1, 5)->setText(
+					nab.toElement().attribute("tic", "NULL"));
+		}
+	}
+
+
+
+	return o_invDataVec;
+}
+
+bool XmlDataLayer::invoiceInsertData(InvoiceData& invData, int type) {
+	return true;
+}
+
+bool XmlDataLayer::invoiceUpdateData(InvoiceData& invData, int type, QString name) {
+	return true;
+}
+
+bool XmlDataLayer::invoiceDeleteData(QString name) {
+	return true;
+}
+// ************ INVOICES END *****************

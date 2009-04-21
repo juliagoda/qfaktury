@@ -299,13 +299,6 @@ bool MainWindow::applyFiltr(QString nameToCheck) {
 	tmp = tmp.remove(0, 2);
 	QDate tmpDate(year, month, day);
 
-	// if debugOn()
-	// qDebug() << __FUNCTION__ << __LINE__ << nameToCheck
-	//		<< filtrStart->date().toString()
-	//		<< year << month << day
-	//		<< tmpDate.toString()
-	//		<< filtrEnd->date().toString();
-
 	if (tmpDate < filtrStart->date()) {
 		return false;
 	}
@@ -322,62 +315,6 @@ bool MainWindow::applyFiltr(QString nameToCheck) {
  *  @param QString - directory from where the invoices should be read
  */
 void MainWindow::readHist() {
-	/*!
-	 * step one: get list of files from directory
-	 */
-	QDir allFiles;
-	QString text;
-
-	QDomDocument doc(sett().getInoiveDocName());
-	QDomElement root;
-	QDomElement nadawca;
-	QDomElement odbiorca;
-
-	allFiles.setPath(sett().getInvoicesDir());
-	allFiles.setFilter(QDir::Files);
-	QStringList filters;
-	filters << "h*.xml" << "k*.xml";
-	allFiles.setNameFilters(filters);
-	QStringList files = allFiles.entryList();
-	int i, max = files.count();
-	for (i = 0; i < max; ++i) {
-		if (applyFiltr(files[i])) {
-			// qDebug() << files[i];
-			insertRow(tableH, tableH->rowCount());
-			text = files[i];
-			tableH->item(tableH->rowCount() - 1, 0)->setText(text);
-
-			QFile file(sett().getInvoicesDir() + files[i]);
-
-			if (!file.open(QIODevice::ReadOnly)) {
-				qDebug() << "File" << file.fileName() << "doesn't exists";
-				return;
-			} else {
-				QTextStream stream(&file);
-
-				if (!doc.setContent(stream.readAll())) {
-					// qDebug ("can not set content ");
-					file.close();
-					// return;
-				}
-			}
-
-			root = doc.documentElement();
-			tableH->item(tableH->rowCount() - 1, 1)->setText(root.attribute(
-					"no", "NULL"));
-			tableH->item(tableH->rowCount() - 1, 2)->setText(root.attribute(
-					"sellingDate", "NULL"));
-			tableH->item(tableH->rowCount() - 1, 3)->setText(root.attribute(
-					"type", "NULL"));
-			QDomNode nab;
-			nab = root.firstChild();
-			nab = nab.toElement().nextSibling();
-			tableH->item(tableH->rowCount() - 1, 4)->setText(
-					nab.toElement().attribute("name", "NULL"));
-			tableH->item(tableH->rowCount() - 1, 5)->setText(
-					nab.toElement().attribute("tic", "NULL"));
-		}
-	}
 
 	tableH->setSortingEnabled(true);
 }
@@ -385,58 +322,21 @@ void MainWindow::readHist() {
 /** Reads customers from the XML
  */
 void MainWindow::readKontr() {
-
 	tableClear(tableK);
-
-	QDomDocument doc(sett().getCustomersDocName());
-	QDomElement root;
-	QDomElement urzad;
-	QDomElement firma;
-
-	QFile file(sett().getCustomersXml());
-	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return;
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
-			file.close();
-			return;
-		} else {
-			root = doc.documentElement();
-			urzad = root.firstChild().toElement();
-			firma = root.lastChild().toElement();
-		}
-		QString text;
-
-		for (QDomNode n = firma.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			insertRow(tableK, tableK->rowCount());
-			text = n.toElement().attribute("name");
-			tableK->item(tableK->rowCount() - 1, 0)->setText(text);
-			text = sett().getCompanyNameTr();
-			tableK->item(tableK->rowCount() - 1, 1)->setText(text);
-			text = n.toElement().attribute("place");
-			tableK->item(tableK->rowCount() - 1, 2)->setText(text);
-			text = n.toElement().attribute("address");
-			tableK->item(tableK->rowCount() - 1, 3)->setText(text);
-			text = n.toElement().attribute("telefon");
-			tableK->item(tableK->rowCount() - 1, 4)->setText(text);
-		}
-
-		for (QDomNode n = urzad.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			insertRow(tableK, tableK->rowCount());
-			text = n.toElement().attribute("name");
-			tableK->item(tableK->rowCount() - 1, 0)->setText(text);
-			text = sett().getOfficeNameTr();
-			tableK->item(tableK->rowCount() - 1, 1)->setText(text);
-			text = n.toElement().attribute("place");
-			tableK->item(tableK->rowCount() - 1, 2)->setText(text);
-			text = n.toElement().attribute("address");
-			tableK->item(tableK->rowCount() - 1, 3)->setText(text);
-			text = n.toElement().attribute("telefon");
-			tableK->item(tableK->rowCount() - 1, 4)->setText(text);
-		}
+	tableK->setSortingEnabled(false);
+	QVector<KontrData> kontrVec = dl->kontrahenciSelectAllData();
+	for (int i = 0; i < kontrVec.size(); ++i) {
+		insertRow(tableK, tableK->rowCount());
+		QString text = kontrVec.at(i).name;
+		tableK->item(tableK->rowCount() - 1, 0)->setText(text);
+		text = kontrVec.at(i).type;
+		tableK->item(tableK->rowCount() - 1, 1)->setText(text);
+		text = kontrVec.at(i).place;
+		tableK->item(tableK->rowCount() - 1, 2)->setText(text);
+		text = kontrVec.at(i).address;
+		tableK->item(tableK->rowCount() - 1, 3)->setText(text);
+		text = kontrVec.at(i).phone;
+		tableK->item(tableK->rowCount() - 1, 4)->setText(text);
 	}
 	tableK->setSortingEnabled(true);
 }
@@ -444,7 +344,7 @@ void MainWindow::readKontr() {
 /** Reads goods from the XML
  */
 void MainWindow::readTw() {
-
+	tableClear(tableT);
 	QVector<ProductData> prodVec = dl->productsSelectAllData();
 	for (int i = 0; i < prodVec.size(); ++i) {
 		insertRow(tableT, tableT->rowCount());
@@ -510,7 +410,8 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
  */
 void MainWindow::pluginInfoSlot() {
 	QMessageBox::information(this, trUtf8("QFaktury"),
-			trUtf8("To menu służy do obsługi pluginów pythona, \n np. archiwizacji danych, generowania raportów etc.\n\nSkrypty pythona sa czytane z folderu \"~/elinux/plugins/\"."),
+			trUtf8("To menu służy do obsługi pluginów pythona, \n np. archiwizacji danych, generowania raportów etc.\n\n") +
+			trUtf8("Skrypty pythona sa czytane z folderu \"~/elinux/plugins/\"."),
 			trUtf8("Ok"), 0, 0, 1);
 
 }
@@ -875,9 +776,7 @@ void MainWindow::kontrEd() {
 		return;
 	}
 
-
 	int row = tableK->selectedItems()[0]->row();
-	// qDebug ()<<tableK->item(row, 0)->text();
 
 	Kontrahenci *kontrWindow = new Kontrahenci(this, 1, dl);
 	kontrWindow->selectData(tableK->item(row, 0)->text(),

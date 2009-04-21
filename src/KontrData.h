@@ -24,6 +24,8 @@ public:
 	QString phone;
 	QString email;
 	QString www;
+
+	QString type;
 };
 
 #endif /* KONTRDATA_H_ */

@@ -10,11 +10,7 @@
 
 #include <Qt/qdom.h>
 
-#include "Settings.h"
 #include "IDataLayer.h"
-
-#include "KontrData.h"
-#include "ProductData.h"
 
 class XmlDataLayer: public IDataLayer {
 public:
@@ -22,6 +18,7 @@ public:
 	virtual ~XmlDataLayer();
 	// methods used for accessing customers
 	virtual KontrData kontrahenciSelectData(QString name, int type);
+	virtual QVector<KontrData > kontrahenciSelectAllData();
 	virtual bool kontrahenciInsertData(KontrData& kontrData, int type);
 	virtual bool kontrahenciUpdateData(KontrData& kontrData, int type, QString name);
 	virtual bool kontrahenciDeleteData(QString name);
@@ -33,6 +30,11 @@ public:
 	virtual bool productsUpdateData(ProductData& prodData, int type, QString name);
 	virtual bool productsDeleteData(QString name);
 
+	virtual InvoiceData invoiceSelectData(QString name, int type);
+	virtual QVector<InvoiceData> invoiceSelectAllData();
+	virtual bool invoiceInsertData(InvoiceData& invData, int type);
+	virtual bool invoiceUpdateData(InvoiceData& invData, int type, QString name);
+	virtual bool invoiceDeleteData(QString name);
 
 	virtual void saveInvoiceData() {};
 	virtual void readInvoiceData() {};
@@ -42,6 +44,8 @@ private:
 
 	void productsElemToData(ProductData& o_prodData, QDomElement i_element);
 	void productsDataToElem(ProductData& i_prodData, QDomElement &o_element);
+
+	bool nameFilter(QString nameToCheck, QDate start, QDate end);
 
 };
 

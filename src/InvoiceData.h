@@ -24,5 +24,10 @@ public:
 	QString paymentType;
 	QString currencyType;
 	QString additText;
+
+	QString type;
+	QString id; // in case of xml, here goes filename
+	QString symbol;
+	QString tic;
 };
 #endif
