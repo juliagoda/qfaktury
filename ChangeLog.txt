@@ -1,3 +1,9 @@
+0.6.5
+	- Sktory klawiszowe na zmiane zakladek w oknie glownym
+	- Poprawiony bug z wystawianiem faktur brutto
+	- Skrot klawiszowy na edycje faktur = E a takze enter w zakladce z fakturami
+	
+
 0.6.2
 	- Oryginal i kopia osobno, nie trzeba skreslac 
 	- Mozliwosc zdefiniowania ilosci kopii

@@ -35,7 +35,7 @@ public:
 	virtual bool productsDeleteData(QString) { return true; };
 
 	virtual InvoiceData invoiceSelectData(QString, int) { return InvoiceData(); };
-	virtual QVector<InvoiceData> invoiceSelectAllData() { QVector<InvoiceData> a; return a; };
+	virtual QVector<InvoiceData> invoiceSelectAllData(QDate, QDate) { QVector<InvoiceData> a; return a; };
 	virtual bool invoiceInsertData(InvoiceData&, int) { return true; };
 	virtual bool invoiceUpdateData(InvoiceData&, int, QString) { return true; };
 	virtual bool invoiceDeleteData(QString) { return true; };

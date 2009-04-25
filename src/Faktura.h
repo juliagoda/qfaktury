@@ -9,12 +9,14 @@
 
 #include "CustomPaymData.h"
 
+#include "IDataLayer.h"
+
 #include "ui_Faktura.h"
 
 class Faktura: public QDialog, public Ui::Faktura {
 Q_OBJECT
 public:
-	Faktura(QWidget *parent);
+	Faktura(QWidget *parent, IDataLayer *dl);
 	virtual ~Faktura();
 	void init();
 	void readData(QString fraFile, int co);
@@ -43,6 +45,7 @@ public slots:
 	void printSlot(QPrinter*);
 	void kontrClick();
 protected:
+	IDataLayer *dataLayer;
 	QString lastInvoice, invoiceType;
 	double discountTotal, nettTotal, grossTotal;
 	bool isEdit;

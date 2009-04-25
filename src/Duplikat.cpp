@@ -8,11 +8,8 @@
 #include <QLabel>
 
 // constructor
-Duplikat::Duplikat(QWidget *parent): Faktura(parent) {
+Duplikat::Duplikat(QWidget *parent, IDataLayer *dl): Faktura(parent, dl) {
 	// editMode = false;
-}
-
-Duplikat::~Duplikat() {
 }
 
 void Duplikat::duplikatInit() {

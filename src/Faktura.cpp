@@ -26,9 +26,11 @@ short invType;
 
 /** Constructor
  */
-Faktura::Faktura(QWidget *parent) :
+Faktura::Faktura(QWidget *parent, IDataLayer *dl) :
 	QDialog(parent) {
 	setupUi(this);
+
+	dataLayer = dl;
 	pforma = false;
 	kAdded = false;
 	init();
@@ -137,9 +139,8 @@ void Faktura::init() {
 // ---- SLOTS START  --//////////////////////////////////////////////////////////////////////////////////
 
 void Faktura::kontrClick() {
-	/*
 	Kontrahenci *kontrWindow;
-	kontrWindow = new Kontrahenci(this, 0);
+	kontrWindow = new Kontrahenci(this, 0, dataLayer);
 	//qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 	if (kontrWindow->exec() == QDialog::Accepted) {
 		kAdded = true;
@@ -149,7 +150,6 @@ void Faktura::kontrClick() {
 	}
 	delete kontrWindow;
 	kontrWindow = NULL;
-	*/
 }
 
 void Faktura::keyPressEvent(QKeyEvent * event) {

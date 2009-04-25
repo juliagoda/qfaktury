@@ -185,7 +185,7 @@ void MainWindow::loadPlugins() {
 		}
 	}
 	menuPlugins->addSeparator();
-	menuPlugins->addAction("Informacje", this, SLOT (pluginInfoSlot()));
+	menuPlugins->addAction(trUtf8("Informacje"), this, SLOT (pluginInfoSlot()));
 }
 
 /**
@@ -277,45 +277,27 @@ void MainWindow::insertRow(QTableWidget *t, int row) {
 	}
 }
 
-/** Used while loading history, returns true if XML with the invoice should be read or not.
- *  Only files which names are in between the dates from filer on the UI should be read.
- *  @param QString - name of the file.
- */
-bool MainWindow::applyFiltr(QString nameToCheck) {
-	QString tmp = nameToCheck;
-	tmp = tmp.remove("h"); // invoice
-	tmp = tmp.remove("k"); // correction
-	tmp = tmp.left(10);
-	tmp = tmp.remove("-");
-
-	// not very flexible
-	// assumption is that date comes as yyyymmdd
-	// if its otherwise order of remove methods has to be changed
-	int year = tmp.left(4).toInt();
-	tmp = tmp.remove(0, 4);
-	int month = tmp.left(2).toInt();
-	tmp = tmp.remove(0, 2);
-	int day = tmp.left(2).toInt();
-	tmp = tmp.remove(0, 2);
-	QDate tmpDate(year, month, day);
-
-	if (tmpDate < filtrStart->date()) {
-		return false;
-	}
-
-	if (tmpDate > filtrEnd->date()) {
-		return false;
-	}
-
-	// default true?
-	return true;
-}
-
 /** Reads the invoices from the directory passed in the input.
  *  @param QString - directory from where the invoices should be read
  */
 void MainWindow::readHist() {
-
+	QVector<InvoiceData> invoicesVec;
+	invoicesVec = dl->invoiceSelectAllData(filtrStart->date(), filtrEnd->date());
+	for (int i = 0; i < invoicesVec.size(); ++i) {
+		insertRow(tableH, tableH->rowCount());
+		QString text = invoicesVec.at(i).id;
+		tableH->item(tableH->rowCount() - 1, 0)->setText(text);
+		text = invoicesVec.at(i).frNr;
+		tableH->item(tableH->rowCount() - 1, 1)->setText(text);
+		text = invoicesVec.at(i).sellingDate.toString(sett().getDateFormat());
+		tableH->item(tableH->rowCount() - 1, 2)->setText(text);
+		text = invoicesVec.at(i).type;
+		tableH->item(tableH->rowCount() - 1, 3)->setText(text);
+		text = invoicesVec.at(i).custName;
+		tableH->item(tableH->rowCount() - 1, 4)->setText(text);
+		text = invoicesVec.at(i).custTic;
+		tableH->item(tableH->rowCount() - 1, 5)->setText(text);
+	}
 	tableH->setSortingEnabled(true);
 }
 
@@ -401,7 +383,38 @@ void MainWindow::keyPressEvent(QKeyEvent * event) {
 	if (event->key() == Qt::Key_F5) {
 		newFra();
 	}
+	if (event->key() == Qt::Key_Return) {
+		// int tabNo = tabWidget2-
+		switch (tabWidget2->currentIndex()) {
+		case 0: {
+			editFHist();
+			break;
+		}
+		case 1: {
+			kontrEd();
+			break;
+		}
+		case 2: {
+			towaryEdycja();
+			break;
+		}
 
+		}
+	}
+	if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_PageUp) {
+		if (tabWidget2->currentIndex() != tabWidget2->count() - 1) {
+			tabWidget2->setCurrentIndex(tabWidget2->currentIndex() + 1);
+		} else {
+			tabWidget2->setCurrentIndex(0);
+		}
+	}
+	if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_PageDown) {
+		if (tabWidget2->currentIndex() != 0) {
+			tabWidget2->setCurrentIndex(tabWidget2->currentIndex() - 1);
+		} else {
+			tabWidget2->setCurrentIndex(tabWidget2->count() - 1);
+		}
+	}
 }
 
 
@@ -590,7 +603,6 @@ void MainWindow::oProg() {
 			trUtf8("użytkownika. Autor nie odpowiada za jakiekolwiek straty wynikające z użytkowania ") +
 			trUtf8("programu, w tym utratą spodziewanych korzyści, danych, informacji ") +
 			trUtf8("gospodarczych lub koszt urządzeń lub programów zastępczych."));
-
 }
 
 /** Slot used to edit the invoice from list of invoices.
@@ -609,7 +621,7 @@ void MainWindow::editFHist() {
 
 	if (tableH->item(row, 3)->text() == trUtf8("korekta")) {
 		// QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
-		Korekta *korWindow = new Korekta(this);
+		Korekta *korWindow = new Korekta(this, dl);
 		korWindow->korektaInit(true);
 		korWindow->readCorrData(tableH->item(row, 0)->text());
 		if (korWindow->exec() == QDialog::Accepted) {
@@ -623,7 +635,7 @@ void MainWindow::editFHist() {
 
 	if (tableH->item(row, 3)->text() == trUtf8("kbrutto")) {
 		// QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
-		KorektaBrutto *korWindow = new KorektaBrutto(this);
+		KorektaBrutto *korWindow = new KorektaBrutto(this, dl);
 		korWindow->korektaInit(true);
 		korWindow->readCorrData(tableH->item(row, 0)->text());
 		if (korWindow->exec() == QDialog::Accepted) {
@@ -638,7 +650,7 @@ void MainWindow::editFHist() {
 
 	if (tableH->item(row, 3)->text() == trUtf8("rachunek")) {
 		// QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
-		Rachunek *raWindow = new Rachunek(this);
+		Rachunek *raWindow = new Rachunek(this, dl);
 		raWindow->readData(tableH->item(row, 0)->text(), 0);
 		raWindow->rachunekInit();
 		raWindow->setWindowTitle(trUtf8("Edytuje Rachunek"));
@@ -654,7 +666,7 @@ void MainWindow::editFHist() {
 	if ((tableH->item(row, 3)->text() == trUtf8("FVAT"))
 			|| (tableH->item(row, 3)->text() == trUtf8("FPro"))) {
 		// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-		Faktura *fraWindow = new Faktura(this);
+		Faktura *fraWindow = new Faktura(this, dl);
 		// qDebug() << pdGlob;
 		int co = 0;
 		if (tableH->item(row, 3)->text() == "FVAT")
@@ -673,7 +685,7 @@ void MainWindow::editFHist() {
 	if ((tableH->item(row, 3)->text() == trUtf8("FBrutto"))
 			|| (tableH->item(row, 3)->text() == trUtf8("FBPro"))) {
 		// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-		FakturaBrutto *fraWindow = new FakturaBrutto(this);
+		FakturaBrutto *fraWindow = new FakturaBrutto(this, dl);
 		// qDebug() << pdGlob;
 		int co = 0;
 		if (tableH->item(row, 3)->text() == "FBrutto")
@@ -703,10 +715,7 @@ void MainWindow::delFHist() {
 	if (QMessageBox::warning(this, sett().getVersion(qAppName()), trUtf8("Czy napewno chcesz usnąć tą fakturę z historii?"), trUtf8("Tak"),
 			trUtf8("Nie"), 0, 0, 1) == 0) {
 		QString name = tableH->item (tableH->currentRow(), 0)->text();
-
-		QFile file(sett().getInvoicesDir() + name);
-		if (file.exists())
-			file.remove();
+		dl->invoiceDeleteData(name);
 		tableH->removeRow(tableH->currentRow());
 	}
 
@@ -800,7 +809,7 @@ void MainWindow::kontrEd() {
 /** Slot used for creating new invoices
  */
 void MainWindow::newFra() {
-	Faktura *fraWindow = new Faktura(this);
+	Faktura *fraWindow = new Faktura(this, dl);
 	fraWindow->pforma = false;
 	if (fraWindow->exec() == QDialog::Accepted) {
 		tableH->setSortingEnabled(false);
@@ -827,7 +836,7 @@ void MainWindow::newFra() {
 /** Slot used for creating new invoices
  */
 void MainWindow::newFRachunek() {
-	Rachunek *fraWindow = new Rachunek(this);
+	Rachunek *fraWindow = new Rachunek(this, dl);
 	fraWindow->pforma = false;
 	fraWindow->setWindowTitle(trUtf8("Rachunek"));
 	fraWindow->rachunekInit();
@@ -855,7 +864,7 @@ void MainWindow::newFRachunek() {
 /** Slot used for creating new invoices
  */
 void MainWindow::newFBrutto() {
-	FakturaBrutto *fraWindow = new FakturaBrutto(this);
+	FakturaBrutto *fraWindow = new FakturaBrutto(this, dl);
 	fraWindow->pforma = false;
 	fraWindow->setWindowTitle(trUtf8("Faktura VAT Brutto"));
 	if (fraWindow->exec() == QDialog::Accepted) {
@@ -882,7 +891,7 @@ void MainWindow::newFBrutto() {
 /** Slot used to create new ProForma Invoice
  */
 void MainWindow::newPForm() {
-	Faktura *fraWindow = new Faktura(this);
+	Faktura *fraWindow = new Faktura(this, dl);
 	fraWindow->pforma = true;
 	fraWindow->setWindowTitle(trUtf8("Faktura Pro Forma"));
 	fraWindow->backBtnClick();
@@ -925,9 +934,9 @@ void MainWindow::newKor() {
 		Korekta *korWindow;
 
 		if (tableH->item(row, 3)->text().contains("FVAT")) {
-			korWindow = new Korekta(this);
+			korWindow = new Korekta(this, dl);
 		} else  {
-			korWindow = new KorektaBrutto(this);
+			korWindow = new KorektaBrutto(this, dl);
 		}
 
 		korWindow->korektaInit(false);
@@ -972,7 +981,7 @@ void MainWindow::newDuplikat() {
 	invTypes << "FVAT" << "FBrutto";
 
 	if (invTypes.contains(tableH->item(row, 3)->text())) {
-		Duplikat *dupWindow = new Duplikat(this);
+		Duplikat *dupWindow = new Duplikat(this, dl);
 		// qDebug( pdGlob );
 		dupWindow->readData(tableH->item(row, 0)->text(), 2);
 		dupWindow->setWindowTitle(trUtf8("Nowy duplikat"));
@@ -1042,7 +1051,6 @@ void MainWindow::towaryEdycja() {
 		QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Towar nie wybrany. Nie można edytować."), trUtf8("Ok"), 0, 0, 1);
 		return;
 	}
-
 	int row = tableT->selectedItems()[0]->row();
 
 	Towary *towWindow = new Towary(this, 1, dl);

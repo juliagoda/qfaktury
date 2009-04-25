@@ -21,8 +21,7 @@
 class FakturaBrutto: public Faktura {
 Q_OBJECT
 public:
-	FakturaBrutto(QWidget *parent);
-	virtual ~FakturaBrutto();
+	FakturaBrutto(QWidget *parent, IDataLayer *dl);
 public slots:
 	void fakturaBruttoInit();
 	void addTow();

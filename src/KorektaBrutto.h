@@ -13,8 +13,7 @@
 class KorektaBrutto: public Korekta {
 Q_OBJECT
 public:
-	KorektaBrutto(QWidget *parent);
-	~KorektaBrutto();
+	KorektaBrutto(QWidget *parent, IDataLayer *dl);
 	void addTow();
 protected:
 	void calculateOneDiscount(int i);

@@ -13,13 +13,7 @@
 
 /* Constructor
  */
-KorektaBrutto::KorektaBrutto(QWidget *parent): Korekta(parent) {
-
-}
-
-/* Descturctor
- */
-KorektaBrutto::~KorektaBrutto() {
+KorektaBrutto::KorektaBrutto(QWidget *parent, IDataLayer *dl): Korekta(parent, dl) {
 
 }
 

@@ -21,8 +21,7 @@
 class Duplikat: public Faktura {
 Q_OBJECT
 public:
-	Duplikat(QWidget *parent);
-	virtual ~Duplikat();
+	Duplikat(QWidget *parent, IDataLayer *dl);
 public slots:
 	void duplikatInit();
 	virtual void canQuit();

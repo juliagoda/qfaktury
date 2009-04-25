@@ -11,11 +11,8 @@
 #include "MainWindow.h"
 
 // constructor
-FakturaBrutto::FakturaBrutto(QWidget *parent): Faktura(parent) {
+FakturaBrutto::FakturaBrutto(QWidget *parent, IDataLayer *dl): Faktura(parent, dl) {
 
-}
-
-FakturaBrutto::~FakturaBrutto() {
 }
 
 void FakturaBrutto::fakturaBruttoInit() {

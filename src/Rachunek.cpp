@@ -9,11 +9,7 @@
 #include "Const.h"
 
 // constructor
-Rachunek::Rachunek(QWidget *parent): Faktura(parent) {
-
-}
-
-Rachunek::~Rachunek() {
+Rachunek::Rachunek(QWidget *parent, IDataLayer *dl): Faktura(parent, dl) {
 
 }
 

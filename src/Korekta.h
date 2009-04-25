@@ -13,7 +13,7 @@
 class Korekta: public Faktura {
 Q_OBJECT
 public:
-	Korekta(QWidget *parent);
+	Korekta(QWidget *parent, IDataLayer *dl);
 	virtual ~Korekta();
 	bool editMode;
 	virtual void korektaInit(bool mode); // called outside

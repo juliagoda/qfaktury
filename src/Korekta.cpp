@@ -9,7 +9,7 @@
 #include "Const.h"
 
 // constructor
-Korekta::Korekta(QWidget *parent): Faktura(parent) {
+Korekta::Korekta(QWidget *parent, IDataLayer *dl): Faktura(parent, dl) {
 	// editMode = false;
 }
 

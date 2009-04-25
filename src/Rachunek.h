@@ -19,8 +19,7 @@
 class Rachunek: public Faktura {
 Q_OBJECT
 public:
-	Rachunek(QWidget *parent);
-	virtual ~Rachunek();
+	Rachunek(QWidget *parent, IDataLayer *dl);
 public slots:
 	void rachunekInit();
 protected:

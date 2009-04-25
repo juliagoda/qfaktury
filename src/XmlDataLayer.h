@@ -31,7 +31,7 @@ public:
 	virtual bool productsDeleteData(QString name);
 
 	virtual InvoiceData invoiceSelectData(QString name, int type);
-	virtual QVector<InvoiceData> invoiceSelectAllData();
+	virtual QVector<InvoiceData> invoiceSelectAllData(QDate start, QDate end);
 	virtual bool invoiceInsertData(InvoiceData& invData, int type);
 	virtual bool invoiceUpdateData(InvoiceData& invData, int type, QString name);
 	virtual bool invoiceDeleteData(QString name);
@@ -44,6 +44,9 @@ private:
 
 	void productsElemToData(ProductData& o_prodData, QDomElement i_element);
 	void productsDataToElem(ProductData& i_prodData, QDomElement &o_element);
+
+	void invoiceProdElemToData(InvoiceData& o_invData, QDomElement i_element);
+	void invoiceProdDataToElem(InvoiceData& i_invData, QDomElement &o_element);
 
 	bool nameFilter(QString nameToCheck, QDate start, QDate end);
 

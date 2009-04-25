@@ -27,7 +27,10 @@ public:
 
 	QString type;
 	QString id; // in case of xml, here goes filename
-	QString symbol;
-	QString tic;
+
+	QString custStreet;
+	QString custTic;
+	QString custCity;
+	QString custName;
 };
 #endif

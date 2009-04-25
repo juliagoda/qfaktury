@@ -501,7 +501,7 @@
   </action>
   <action name="fakturyUsunAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/usun_fakture.png</normaloff>:/res/icons/usun_fakture.png</iconset>
    </property>
    <property name="text" >
@@ -519,7 +519,7 @@
   </action>
   <action name="fakturyDodajAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/nowa_faktura.png</normaloff>:/res/icons/nowa_faktura.png</iconset>
    </property>
    <property name="text" >
@@ -537,7 +537,7 @@
   </action>
   <action name="kontrahenciDodajAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/dodaj_kontrahentow.png</normaloff>:/res/icons/dodaj_kontrahentow.png</iconset>
    </property>
    <property name="text" >
@@ -555,7 +555,7 @@
   </action>
   <action name="kontrahenciUsunAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/usun_kontrahentow.png</normaloff>:/res/icons/usun_kontrahentow.png</iconset>
    </property>
    <property name="text" >
@@ -573,7 +573,7 @@
   </action>
   <action name="kontrahenciEdycjaAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/edytuj_kontrahentow.png</normaloff>:/res/icons/edytuj_kontrahentow.png</iconset>
    </property>
    <property name="text" >
@@ -591,7 +591,7 @@
   </action>
   <action name="pomocO_QtAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/pomoc.png</normaloff>:/res/icons/pomoc.png</iconset>
    </property>
    <property name="text" >
@@ -606,7 +606,7 @@
   </action>
   <action name="plikKoniecAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/koniec.png</normaloff>:/res/icons/koniec.png</iconset>
    </property>
    <property name="text" >
@@ -624,7 +624,7 @@
   </action>
   <action name="fakturyEdAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/edytuj_fakture.png</normaloff>:/res/icons/edytuj_fakture.png</iconset>
    </property>
    <property name="text" >
@@ -634,7 +634,7 @@
     <string>Edytuj</string>
    </property>
    <property name="shortcut" >
-    <string>Return</string>
+    <string>E</string>
    </property>
    <property name="name" stdset="0" >
     <string>fakturyEdAction</string>
@@ -642,7 +642,7 @@
   </action>
   <action name="plikDane_firmyAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/dane_firmy.png</normaloff>:/res/icons/dane_firmy.png</iconset>
    </property>
    <property name="text" >
@@ -688,7 +688,7 @@
   </action>
   <action name="plikUstawieniaAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/ustawienia.png</normaloff>:/res/icons/ustawienia.png</iconset>
    </property>
    <property name="text" >
@@ -761,7 +761,7 @@
   </action>
   <action name="towaryEdycjaAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/edytuj_towar.png</normaloff>:/res/icons/edytuj_towar.png</iconset>
    </property>
    <property name="text" >
@@ -779,7 +779,7 @@
   </action>
   <action name="towaryUsunAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/usun_towar.png</normaloff>:/res/icons/usun_towar.png</iconset>
    </property>
    <property name="text" >
@@ -797,7 +797,7 @@
   </action>
   <action name="towaryDodajAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/dodaj_towar.png</normaloff>:/res/icons/dodaj_towar.png</iconset>
    </property>
    <property name="text" >
@@ -885,7 +885,7 @@
   </action>
   <action name="fakturyKorektaAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/nowa_korekta.png</normaloff>:/res/icons/nowa_korekta.png</iconset>
    </property>
    <property name="text" >
@@ -903,7 +903,7 @@
   </action>
   <action name="fakturyPFormaAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/nowa_proforma.png</normaloff>:/res/icons/nowa_proforma.png</iconset>
    </property>
    <property name="text" >
@@ -948,7 +948,7 @@
   </action>
   <action name="fakturyDuplikatAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/nowa_duplikat.png</normaloff>:/res/icons/nowa_duplikat.png</iconset>
    </property>
    <property name="text" >
@@ -960,7 +960,7 @@
   </action>
   <action name="fakturyBruttoAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/nowa_brutto.png</normaloff>:/res/icons/nowa_brutto.png</iconset>
    </property>
    <property name="text" >
@@ -972,7 +972,7 @@
   </action>
   <action name="fakturyRachunekAction" >
    <property name="icon" >
-    <iconset resource="qfaktury.qrc" >
+    <iconset resource="../qfaktury.qrc" >
      <normaloff>:/res/icons/nowa_rachunek.png</normaloff>:/res/icons/nowa_rachunek.png</iconset>
    </property>
    <property name="text" >
@@ -994,7 +994,7 @@
   <tabstop>tableT</tabstop>
  </tabstops>
  <resources>
-  <include location="qfaktury.qrc" />
+  <include location="../qfaktury.qrc" />
  </resources>
  <connections/>
 </ui>

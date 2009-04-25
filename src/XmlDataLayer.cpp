@@ -639,6 +639,15 @@ bool XmlDataLayer::productsDeleteData(QString name) {
 // ************ TOWARY END   *****************
 
 // ************ INVOICES START *****************
+void XmlDataLayer::invoiceProdElemToData(InvoiceData& o_invData, QDomElement i_element) {
+
+}
+
+void XmlDataLayer::invoiceProdDataToElem(InvoiceData& i_invData, QDomElement &o_element) {
+
+}
+
+
 bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end) {
 	QString tmp = nameToCheck;
 	tmp = tmp.remove("h"); // invoice
@@ -694,41 +703,44 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 	QStringList files = allFiles.entryList();
 	int i, max = files.count();
 	for (i = 0; i < max; ++i) {
-		if (applyFiltr(files[i])) {
+		if (nameFilter(files[i], start, end)) {
+
+			InvoiceData invDt;
 			// qDebug() << files[i];
 			QFile file(sett().getInvoicesDir() + files[i]);
 
 			if (!file.open(QIODevice::ReadOnly)) {
 				qDebug() << "File" << file.fileName() << "doesn't exists";
-				return o_invDataVec;
+				continue;
 			} else {
 				QTextStream stream(&file);
 				if (!doc.setContent(stream.readAll())) {
 					// qDebug ("can not set content ");
 					file.close();
 					// return o_invDataVec;
+					continue;
 				}
 			}
 
+			invDt.id = files[i];
 			root = doc.documentElement();
-			tableH->item(tableH->rowCount() - 1, 1)->setText(root.attribute(
-					"no", "NULL"));
-			tableH->item(tableH->rowCount() - 1, 2)->setText(root.attribute(
-					"sellingDate", "NULL"));
-			tableH->item(tableH->rowCount() - 1, 3)->setText(root.attribute(
-					"type", "NULL"));
+			invDt.frNr = root.attribute("no");
+			invDt.sellingDate = QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
+			invDt.productDate = QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
+			invDt.type = root.attribute("type");
+
 			QDomNode nab;
 			nab = root.firstChild();
 			nab = nab.toElement().nextSibling();
-			tableH->item(tableH->rowCount() - 1, 4)->setText(
-					nab.toElement().attribute("name", "NULL"));
-			tableH->item(tableH->rowCount() - 1, 5)->setText(
-					nab.toElement().attribute("tic", "NULL"));
+
+			invDt.custStreet = nab.toElement().attribute("street", "NULL");
+			invDt.custTic  = nab.toElement().attribute("tic", "NULL");
+			invDt.custCity  = nab.toElement().attribute("city", "NULL");
+			invDt.custName = nab.toElement().attribute("name", "NULL");
+
+			o_invDataVec.push_back(invDt);
 		}
 	}
-
-
-
 	return o_invDataVec;
 }
 
@@ -741,6 +753,10 @@ bool XmlDataLayer::invoiceUpdateData(InvoiceData& invData, int type, QString nam
 }
 
 bool XmlDataLayer::invoiceDeleteData(QString name) {
+	QFile file(sett().getInvoicesDir() + name);
+	if (file.exists())
+		file.remove();
+
 	return true;
 }
 // ************ INVOICES END *****************
