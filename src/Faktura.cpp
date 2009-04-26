@@ -18,6 +18,7 @@
 #include "CustomPayment.h"
 #include "MainWindow.h"
 #include "Kontrahenci.h"
+#include "IDataLayer.h"
 
 #include "Const.h"
 
@@ -404,127 +405,9 @@ void Faktura::saveInvoice() {
 
 	if (!validateForm()) return;
 
-	QDomDocument doc(sett().getInoiveDocName());
-	QDomElement root;
-	QString fileName = fName;
-
-	QFile file;
-	if (fileName == "") {
-		fileName = QDate::currentDate().toString(sett().getFnameDateFormat());
-
-		int pNumber = 0;
-		file.setFileName(sett().getInvoicesDir() + "h" + fileName + "_"
-				+ sett().numberToString(pNumber) + ".xml");
-		ret = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml" + "|";
-		pNumber += 1;
-
-		while (file.exists()) {
-			file.setFileName(sett().getInvoicesDir() + "h" + fileName + "_"
-					+ sett().numberToString(pNumber) + ".xml");
-			ret = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml" + "|";
-			pNumber += 1;
-		}
-
-		fName = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
-	} else {
-		file.setFileName(sett().getInvoicesDir() + fileName);
-		ret = fileName + "|";
-	}
-
-	// if (!file.open (QIODevice::ReadOnly)) {
-
-	root = doc.createElement("invoice");
-	root.setAttribute("no", frNr->text());
-	ret += frNr->text() + "|";
-	root.setAttribute("issueDate", QDate::currentDate().toString(
-			sett().getDateFormat()));
-	ret += QDate::currentDate().toString(sett().getDateFormat()) + "|";
-	root.setAttribute("sellingDate", sellingDate->date().toString(
-			sett().getDateFormat()));
-
-	QString invType = getInvoiceTypeAndSaveNr();
-	root.setAttribute("type", invType);
-	ret += invType + "|";
-
-	doc.appendChild(root);
-
-	QDomElement sprzedawca = createSellerElement(doc);
-	root.appendChild(sprzedawca);
-
-
-	QDomElement nabywca = createBuyerElement(doc);
-	root.appendChild(nabywca);
-
-	QDomElement product;
-	QDomElement products;
-	products = doc.createElement("products");
-	products.setAttribute("discount", sett().numberToString(rabatValue->value()));
-
-	for (int i = 0; i < tableTow->rowCount(); ++i) {
-		product = doc.createElement("product"); //  + tableTow->item(i, 0)->text());
-		products.setAttribute("productsCount", sett().numberToString(i + 1));
-		product.setAttribute("id", tableTow->item(i, 0)->text());
-		product.setAttribute("name", tableTow->item(i, 1)->text());
-		product.setAttribute("code", tableTow->item(i, 2)->text());
-		product.setAttribute("PKWiU", tableTow->item(i, 3)->text()); // Polish Classification of STH
-		product.setAttribute("quantity", tableTow->item(i, 4)->text());
-		product.setAttribute("quantityType", tableTow->item(i, 5)->text());
-		if (!constRab->isChecked()) {
-			product.setAttribute("discount", tableTow->item(i, 6)->text());
-		} else {
-			product.setAttribute("discount",
-					sett().numberToString(rabatValue->value())); // rabat
-		}
-		product.setAttribute("price", tableTow->item(i, 7)->text());
-		// double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
-		// double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
-		product.setAttribute("nett", tableTow->item(i, 8)->text()); // netto without discount
-		product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
-		product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
-		double vatPrice = sett().stringToDouble(tableTow->item(i, 10)->text()) -
-				sett().stringToDouble(tableTow->item(i, 8)->text());
-
-		product.setAttribute("vatAmout", sett().numberToString(vatPrice, 'f', 2));
-		product.setAttribute("gross", tableTow->item(i, 10)->text());
-		products.appendChild(product);
-
-	}
-	root.appendChild(products);
-
-
-	QDomElement addinfo;
-	addinfo = doc.createElement("addinfo");
-	addinfo.setAttribute("text", additEdit->text());
-	addinfo.setAttribute("paymentType", platCombo->currentText());
-	addinfo.setAttribute("liabDate", liabDate->date().toString(
-			sett().getDateFormat()));
-	addinfo.setAttribute("currency", currCombo->currentText());
-
-	if (platCombo->currentIndex() == sett().value("payments").toString().split("|").count() - 1) {
-		addinfo.setAttribute("payment1", custPaymData->payment1);
-		addinfo.setAttribute("amount1", sett().numberToString(custPaymData->amount1, 'f', 2));
-		addinfo.setAttribute("liabDate1", custPaymData->date1.toString(
-				sett().getDateFormat()));
-
-		addinfo.setAttribute("payment2", custPaymData->payment2);
-		addinfo.setAttribute("amount2", sett().numberToString(custPaymData->amount2, 'f', 2));
-		addinfo.setAttribute("liabDate2", custPaymData->date2.toString(
-				sett().getDateFormat()));
-	}
-	root.appendChild(addinfo);
-
-	QString xml = doc.toString();
-	file.close();
-	if (!file.open(QIODevice::WriteOnly)) {
-		QMessageBox::critical(this, "QFaktury", trUtf8("Nie można zapisać. Sprawdź czy folder:\n") +
-				sett().getInvoicesDir() + trUtf8("\nistnieje i czy masz do niego prawa zapisu."),
-		QMessageBox::Ok);
-		saveFailed = true;
-		return;
-	}
-	QTextStream ts(&file);
-	ts << xml;
-	file.close();
+	InvoiceData invData;
+	setData(invData);
+	result = dataLayer->invoiceInsertData(inv, invType);
 
 	saveBtn->setEnabled(false);
 	rmTowBtn->setEnabled(false);
@@ -607,7 +490,6 @@ void Faktura::printSlot(QPrinter *printer) {
 
     doc.setHtml(s);
     doc.print(printer);
-
 }
 
 /** Slot
@@ -628,9 +510,6 @@ void Faktura::print() {
 }
 
 // ---- SLOTS END --//////////////////////////////////////////////////////////////////////////////////
-
-
-
 // ******************************** XML Helpers START **********************************************
 /** Check if data on the form is correct
  */
@@ -651,35 +530,6 @@ bool Faktura::validateForm() {
 	return true;
 }
 
-/** Create seller (Dane firmy)
- */
-QDomElement Faktura::createSellerElement(QDomDocument doc) {
-	QDomElement sprzedawca = doc.createElement("seller");
-	QSettings userSettings("elinux", "user");
-	sprzedawca.setAttribute("name", userSettings.value("name").toString());
-	sprzedawca.setAttribute("zip", userSettings.value("zip").toString());
-	sprzedawca.setAttribute("city", userSettings.value("city").toString());
-	sprzedawca.setAttribute("street", userSettings.value("street").toString());
-	// NIP = Taxing Identification Code
-	sprzedawca.setAttribute("tic", userSettings.value("tic").toString());
-	sprzedawca.setAttribute("account",
-			userSettings.value("account").toString(). replace(" ", "-"));
-	return sprzedawca;
-}
-
-/** Create buyer (Dane firmy)
- */
-QDomElement Faktura::createBuyerElement(QDomDocument doc) {
-	QDomElement nabywca = doc.createElement("buyer");
-	QStringList kht = kontrName->text().split(",");
-	nabywca.setAttribute("name", kht[0]);
-	ret += kht[0] + "|";
-	nabywca.setAttribute("city", kht[1]);
-	nabywca.setAttribute("street", kht[2]);
-	nabywca.setAttribute("tic", kht[3].replace(" ", "").replace(trUtf8("NIP:"),	""));
-	ret += kht[3].replace(" ", "").replace(trUtf8("NIP:"), "");
-	return nabywca;
-}
 // ******************************** XML Helpers END **********************************************
 
 // Generate Invoice HTML methods --- START ---
@@ -1133,91 +983,8 @@ void Faktura::readData(QString fraFile, int co) {
 		setWindowTitle(s_WIN_PROFORMA_EDIT);
 	}
 
-	QDomDocument doc(sett().getInoiveDocName());
-	QDomElement root;
-	QDomElement nabywca;
-	QDomElement product;
-	fName = fraFile;
-
-	QFile file(sett().getInvoicesDir() + fraFile);
-	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug("file doesn't exist");
-		return;
-	} else {
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
-			file.close();
-			return;
-		}
-	}
-
-	root = doc.documentElement();
-	frNr->setText(root.attribute("no"));
-	sellingDate->setDate(QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
-	productDate->setDate(QDate::fromString(root.attribute("issueDate"),	sett().getDateFormat()));
-
-	QDomNode tmp;
-	tmp = root.firstChild();
-	tmp = tmp.toElement().nextSibling(); // nabywca
-	nabywca = tmp.toElement();
-	kontrName->setText(nabywca.attribute("name") + "," + nabywca.attribute(
-			"city") + "," + nabywca.attribute("street") + "," + trUtf8("NIP: ")
-			+ nabywca.attribute("tic"));
-			/* not required
-			+ ", " + nabywca.attribute("account")
-			+ ", " + nabywca.attribute("phone") + ", " + nabywca.attribute(
-			"email") + ", " + nabywca.attribute("www")) */
-	kontrName->setCursorPosition(1);
-
-	tmp = tmp.toElement().nextSibling(); // product
-	product = tmp.toElement();
-
-	rabatValue->setValue(product.attribute("discount").toInt());
-
-	int towCount = product.attribute("productsCount").toInt();
-	int i = 0;
-	QDomElement towar;
-	towar = product.firstChild().toElement();
-
-	static const char *towarColumns[] = { "id", "name", "code", "PKWiU",
-			"quantity", "quantityType", "discount", "price", "nett",
-			"vatBucket", "gross" };
-
-	tableTow->setRowCount(towCount);
-	for (i = 0; i < towCount; ++i) {
-		for (int j = 0; j < int(sizeof(towarColumns) / sizeof(*towarColumns)); j++) {
-			tableTow->setItem(i, j, new QTableWidgetItem(towar.attribute(
-					towarColumns[j])));
-			// qDebug() << towarColumns[j] << towar.attribute(towarColumns[j]);
-		}
-		towar = towar.nextSibling().toElement();
-	}
-
-	tmp = tmp.toElement().nextSibling();
-	QDomElement additional = tmp.toElement();
-	additEdit->setText(additional.attribute("text"));
-	int curPayment = sett().value("payments").toString().split("|").indexOf(additional.attribute("paymentType"));
-
-	if (curPayment == sett().value("payments").toString().split("|").count() - 1) {
-	    disconnect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
-
-		platCombo->setCurrentIndex(curPayment);
-
-		custPaymData = new CustomPaymData();
-		custPaymData->payment1 = additional.attribute("payment1");
-		custPaymData->amount1  = additional.attribute("amount1").toDouble();
-		custPaymData->date1    = QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
-		custPaymData->payment2 = additional.attribute("payment2");
-		custPaymData->amount2  = additional.attribute("amount2").toDouble();
-		custPaymData->date2    = QDate::fromString(additional.attribute("liabDate2"), sett().getDateFormat());
-
-		connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
-	} else {
-		platCombo->setCurrentIndex(curPayment);
-	}
-	liabDate-> setDate(QDate::fromString(additional.attribute("liabDate"), sett().getDateFormat()));
-	int curCurrency = sett().value("waluty").toString().split("|").indexOf(additional.attribute("currency"));
-	currCombo->setCurrentIndex(curCurrency);
+	InvoiceData invData;
+	getData(dataLayer->invoiceSelectData(inv, invType));
 
 	canClose = true;
 	saveBtn->setEnabled(false);
