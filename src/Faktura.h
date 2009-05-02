@@ -40,7 +40,7 @@ public slots:
 	// to be overwritten in child class
 	virtual void backBtnClick();
 	virtual void canQuit();
-	virtual void saveInvoice();
+	virtual bool saveInvoice();
 	virtual void makeInvoice();
 	void printSlot(QPrinter*);
 	void kontrClick();
@@ -68,11 +68,14 @@ protected:
 	virtual void makeInvoiceProductsHeadar();
 	virtual void makeInvoiceFooterHtml();
 	virtual void makeInvoiceHeadarHTML();
-	void makeInvoiceFooter();
-	QDomElement createSellerElement(QDomDocument doc);
-	QDomElement createBuyerElement(QDomDocument doc);
 
-	virtual QString getInvoiceTypeAndSaveNr();
+	virtual void setData(InvoiceData &invData);
+	virtual void getData(InvoiceData invData);
+
+	void makeInvoiceFooter();
+
+	// virtual QString getInvoiceTypeAndSaveNr();
 	bool validateForm();
+
 };
 #endif

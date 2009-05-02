@@ -7,7 +7,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 QT += gui \
     xml
-CONFIG += release
+CONFIG += debug
 
 # Input
 HEADERS += ./src/XmlDataLayer.h \

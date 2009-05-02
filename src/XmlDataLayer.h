@@ -45,8 +45,12 @@ private:
 	void productsElemToData(ProductData& o_prodData, QDomElement i_element);
 	void productsDataToElem(ProductData& i_prodData, QDomElement &o_element);
 
-	void invoiceProdElemToData(InvoiceData& o_invData, QDomElement i_element);
-	void invoiceProdDataToElem(InvoiceData& i_invData, QDomElement &o_element);
+	void invoiceSellerDataToElem(InvoiceData &i_invData, QDomElement &o_element);
+	void invoiceSellerElemToData(InvoiceData &o_invData, QDomElement i_element);
+	void invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o_element);
+	void invoiceBuyerElemToData(InvoiceData &o_invData, QDomElement i_element);
+	void invoiceProdDataToElem(InvoiceData &i_invData, QDomElement &o_element);
+	void invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element);
 
 	bool nameFilter(QString nameToCheck, QDate start, QDate end);
 

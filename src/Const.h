@@ -19,4 +19,6 @@ static const QString s_WIN_PRINTPREVIEW = QObject::trUtf8(" - Podgląd wydruku")
 static const QString s_WIN_INVOICE_EDIT = QObject::trUtf8("Edytuje Fakturę VAT");
 static const QString s_WIN_PROFORMA_EDIT = QObject::trUtf8("Edytuje Fakturę Pro Forma");
 
+
+
 #endif /* CONST_H_ */

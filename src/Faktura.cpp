@@ -397,17 +397,32 @@ void Faktura::dateChanged(QDate ) {
 }
 
 
+/** Copy data from the screen to the object
+ */
+void Faktura::setData(InvoiceData &invData) {
+
+}
+
+/** Copy data from the screen to the object
+ */
+void Faktura::getData(InvoiceData invData) {
+
+}
+
+
 /** Slot saveInvoice
  *  Generates Invoice XML
  */
-void Faktura::saveInvoice() {
+bool Faktura::saveInvoice() {
 	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << fName;
 
-	if (!validateForm()) return;
+	bool result = false;
+	if (!validateForm()) return false;
 
 	InvoiceData invData;
 	setData(invData);
-	result = dataLayer->invoiceInsertData(inv, invType);
+	// result =
+	result = dataLayer->invoiceInsertData(invData, type);
 
 	saveBtn->setEnabled(false);
 	rmTowBtn->setEnabled(false);
@@ -415,6 +430,7 @@ void Faktura::saveInvoice() {
 
 	saveFailed = false;
 	canClose = true;
+	return result;
 }
 
 /** Slot makeInvoice
@@ -984,7 +1000,7 @@ void Faktura::readData(QString fraFile, int co) {
 	}
 
 	InvoiceData invData;
-	getData(dataLayer->invoiceSelectData(inv, invType));
+	getData(dataLayer->invoiceSelectData(fraFile, co));
 
 	canClose = true;
 	saveBtn->setEnabled(false);
@@ -1125,20 +1141,3 @@ void Faktura::saveColumnsWidth() {
 	sett().endGroup();
 }
 
-/**
- *  Return invoice type
- */
-QString Faktura::getInvoiceTypeAndSaveNr() {
-	// qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
-
-	QString ret = "FVAT";
-
-	if (windowTitle().right(3) == "VAT") {
-		sett().setValue("fvat", frNr->text());
-	} else {
-		ret = "FPro";
-		sett().setValue("fpro", frNr->text());
-	}
-
-	return ret;
-}

@@ -88,9 +88,9 @@ void Korekta::backBtnClick(){
 /** Slot
  *  Generate Correction XML
  */
-void Korekta::saveInvoice(){
+bool Korekta::saveInvoice(){
 	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << fName;
-
+/*
 	QDomDocument doc(sett().getCorrDocName());
 	QDomElement root;
 	if (!editMode && (fName == "")) {
@@ -264,6 +264,8 @@ void Korekta::saveInvoice(){
 	saveFailed = false;
 	canClose = true;
 	// qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << ": canClose " << canClose;
+
+	 */
 }
 
 /** Slot

@@ -442,6 +442,9 @@ void MainWindow::pluginSlot() {
 
 	QStringList args;
 	args += customActions[scriptId];
+	args += QString("%1").arg(winId(), 0, 10);
+
+	qDebug() << find(winId())->windowTitle();
 
 	QProcess *cmd = new QProcess(this);
 	cmd->start(program, args);

@@ -8,7 +8,6 @@
 #include "XmlDataLayer.h"
 #include "IDataLayer.h"
 
-
 XmlDataLayer::XmlDataLayer():IDataLayer() {
 	// TODO Auto-generated constructor stub
 
@@ -639,75 +638,49 @@ bool XmlDataLayer::productsDeleteData(QString name) {
 // ************ TOWARY END   *****************
 
 // ************ INVOICES START *****************
-/** Create seller (Dane firmy)
- */
-QDomElement XmlDataLayer::invoiceSellerElement(QDomDocument doc) {
-	QDomElement sprzedawca = doc.createElement("seller");
-	QSettings userSettings("elinux", "user");
-	sprzedawca.setAttribute("name", userSettings.value("name").toString());
-	sprzedawca.setAttribute("zip", userSettings.value("zip").toString());
-	sprzedawca.setAttribute("city", userSettings.value("city").toString());
-	sprzedawca.setAttribute("street", userSettings.value("street").toString());
-	// NIP = Taxing Identification Code
-	sprzedawca.setAttribute("tic", userSettings.value("tic").toString());
-	sprzedawca.setAttribute("account",
-			userSettings.value("account").toString(). replace(" ", "-"));
-	return sprzedawca;
+void XmlDataLayer::invoiceSellerDataToElem(InvoiceData &i_invData, QDomElement &o_element) {
 }
 
-/** Create seller (Dane firmy)
- */
-QDomElement XmlDataLayer::invoiceSellerData(QDomDocument doc) {
-	QDomElement sprzedawca = doc.createElement("seller");
-	QSettings userSettings("elinux", "user");
-	sprzedawca.setAttribute("name", userSettings.value("name").toString());
-	sprzedawca.setAttribute("zip", userSettings.value("zip").toString());
-	sprzedawca.setAttribute("city", userSettings.value("city").toString());
-	sprzedawca.setAttribute("street", userSettings.value("street").toString());
-	// NIP = Taxing Identification Code
-	sprzedawca.setAttribute("tic", userSettings.value("tic").toString());
-	sprzedawca.setAttribute("account",
-			userSettings.value("account").toString(). replace(" ", "-"));
-	return sprzedawca;
+void XmlDataLayer::invoiceSellerElemToData(InvoiceData &o_invData, QDomElement i_element) {
 }
 
-/** Create buyer (Dane firmy)
- */
-QDomElement XmlDataLayer::invoiceBuyerToElem(QDomDocument doc) {
-	QDomElement nabywca = doc.createElement("buyer");
-	QStringList kht = kontrName->text().split(",");
-	nabywca.setAttribute("name", kht[0]);
-	ret += kht[0] + "|";
-	nabywca.setAttribute("city", kht[1]);
-	nabywca.setAttribute("street", kht[2]);
-	nabywca.setAttribute("tic", kht[3].replace(" ", "").replace(trUtf8("NIP:"),	""));
-	ret += kht[3].replace(" ", "").replace(trUtf8("NIP:"), "");
-	return nabywca;
+void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o_element) {
 }
 
-/** Create buyer (Dane firmy)
- */
-QDomElement XmlDataLayer::invoiceElemToBuyer(QDomDocument doc) {
-	QDomElement nabywca = doc.createElement("buyer");
-	QStringList kht = kontrName->text().split(",");
-	nabywca.setAttribute("name", kht[0]);
-	ret += kht[0] + "|";
-	nabywca.setAttribute("city", kht[1]);
-	nabywca.setAttribute("street", kht[2]);
-	nabywca.setAttribute("tic", kht[3].replace(" ", "").replace(trUtf8("NIP:"),	""));
-	ret += kht[3].replace(" ", "").replace(trUtf8("NIP:"), "");
-	return nabywca;
+void XmlDataLayer::invoiceBuyerElemToData(InvoiceData &o_invData, QDomElement i_element) {
 }
 
+void XmlDataLayer::invoiceProdDataToElem(InvoiceData &i_invData, QDomElement &o_element) {
+	/*
+	products.setAttribute("productsCount", sett().numberToString(i + 1));
+	product.setAttribute("id", tableTow->item(i, 0)->text());
+	product.setAttribute("name", tableTow->item(i, 1)->text());
+	product.setAttribute("code", tableTow->item(i, 2)->text());
+	product.setAttribute("PKWiU", tableTow->item(i, 3)->text()); // Polish Classification of STH
+	product.setAttribute("quantity", tableTow->item(i, 4)->text());
+	product.setAttribute("quantityType", tableTow->item(i, 5)->text());
+	if (!constRab->isChecked()) {
+		product.setAttribute("discount", tableTow->item(i, 6)->text());
+	} else {
+		product.setAttribute("discount",
+				sett().numberToString(rabatValue->value())); // rabat
+	}
+	product.setAttribute("price", tableTow->item(i, 7)->text());
+	// double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
+	// double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
+	product.setAttribute("nett", tableTow->item(i, 8)->text()); // netto without discount
+	product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
+	product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
+	double vatPrice = sett().stringToDouble(tableTow->item(i, 10)->text()) -
+			sett().stringToDouble(tableTow->item(i, 8)->text());
 
-void XmlDataLayer::invoiceProdElemToData(InvoiceData& o_invData, QDomElement i_element) {
-
+	product.setAttribute("vatAmout", sett().numberToString(vatPrice, 'f', 2));
+	product.setAttribute("gross", tableTow->item(i, 10)->text());
+	*/
 }
 
-void XmlDataLayer::invoiceProdDataToElem(InvoiceData& i_invData, QDomElement &o_element) {
-
+void XmlDataLayer::invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element) {
 }
-
 
 bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end) {
 	QString tmp = nameToCheck;
@@ -746,42 +719,42 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 	QDomElement root;
 	QDomElement nabywca;
 	QDomElement product;
-	fName = fraFile;
+	QString fName = name;
 
-	QFile file(sett().getInvoicesDir() + fraFile);
+	QFile file(sett().getInvoicesDir() + fName);
 	if (!file.open(QIODevice::ReadOnly)) {
 		qDebug("file doesn't exist");
-		return;
+		return o_invData;
 	} else {
 		QTextStream stream(&file);
 		if (!doc.setContent(stream.readAll())) {
 			file.close();
-			return;
+			return o_invData;
 		}
 	}
 
 	root = doc.documentElement();
-	frNr->setText(root.attribute("no"));
-	sellingDate->setDate(QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
-	productDate->setDate(QDate::fromString(root.attribute("issueDate"),	sett().getDateFormat()));
+	o_invData.frNr = root.attribute("no");
+	o_invData.sellingDate = QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
+	o_invData.productDate = QDate::fromString(root.attribute("issueDate"),	sett().getDateFormat());
 
 	QDomNode tmp;
 	tmp = root.firstChild();
 	tmp = tmp.toElement().nextSibling(); // nabywca
 	nabywca = tmp.toElement();
-	kontrName->setText(nabywca.attribute("name") + "," + nabywca.attribute(
-			"city") + "," + nabywca.attribute("street") + "," + trUtf8("NIP: ")
-			+ nabywca.attribute("tic"));
+	o_invData.customer = nabywca.attribute("name") + "," + nabywca.attribute(
+			"city") + "," + nabywca.attribute("street") + "," + QObject::trUtf8("NIP: ")
+			+ nabywca.attribute("tic");
 			/* not required
 			+ ", " + nabywca.attribute("account")
 			+ ", " + nabywca.attribute("phone") + ", " + nabywca.attribute(
 			"email") + ", " + nabywca.attribute("www")) */
-	kontrName->setCursorPosition(1);
+	// kontrName->setCursorPosition(1);
 
 	tmp = tmp.toElement().nextSibling(); // product
 	product = tmp.toElement();
 
-	rabatValue->setValue(product.attribute("discount").toInt());
+	o_invData.discount = product.attribute("discount").toInt();
 
 	int towCount = product.attribute("productsCount").toInt();
 	int i = 0;
@@ -792,11 +765,11 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 			"quantity", "quantityType", "discount", "price", "nett",
 			"vatBucket", "gross" };
 
-	tableTow->setRowCount(towCount);
+	// tableTow->setRowCount(towCount);
 	for (i = 0; i < towCount; ++i) {
 		for (int j = 0; j < int(sizeof(towarColumns) / sizeof(*towarColumns)); j++) {
-			tableTow->setItem(i, j, new QTableWidgetItem(towar.attribute(
-					towarColumns[j])));
+			// tableTow->setItem(i, j, new QTableWidgetItem(towar.attribute(
+			//		towarColumns[j])));
 			// qDebug() << towarColumns[j] << towar.attribute(towarColumns[j]);
 		}
 		towar = towar.nextSibling().toElement();
@@ -804,29 +777,30 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 
 	tmp = tmp.toElement().nextSibling();
 	QDomElement additional = tmp.toElement();
-	additEdit->setText(additional.attribute("text"));
+	o_invData.additText = additional.attribute("text");
 	int curPayment = sett().value("payments").toString().split("|").indexOf(additional.attribute("paymentType"));
 
 	if (curPayment == sett().value("payments").toString().split("|").count() - 1) {
-	    disconnect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
+	    // disconnect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
 
-		platCombo->setCurrentIndex(curPayment);
+		// platCombo->setCurrentIndex(curPayment);
 
-		custPaymData = new CustomPaymData();
-		custPaymData->payment1 = additional.attribute("payment1");
-		custPaymData->amount1  = additional.attribute("amount1").toDouble();
-		custPaymData->date1    = QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
-		custPaymData->payment2 = additional.attribute("payment2");
-		custPaymData->amount2  = additional.attribute("amount2").toDouble();
-		custPaymData->date2    = QDate::fromString(additional.attribute("liabDate2"), sett().getDateFormat());
+		// ; //  = new CustomPaymData();
+		o_invData.custPaym.payment1 = additional.attribute("payment1");
+		o_invData.custPaym.amount1  = additional.attribute("amount1").toDouble();
+		o_invData.custPaym.date1    = QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
+		o_invData.custPaym.payment2 = additional.attribute("payment2");
+		o_invData.custPaym.amount2  = additional.attribute("amount2").toDouble();
+		o_invData.custPaym.date2    = QDate::fromString(additional.attribute("liabDate2"), sett().getDateFormat());
 
-		connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
+		// connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
 	} else {
-		platCombo->setCurrentIndex(curPayment);
+		// platCombo->setCurrentIndex(curPayment);
 	}
-	liabDate-> setDate(QDate::fromString(additional.attribute("liabDate"), sett().getDateFormat()));
+
+	o_invData.liabDate = QDate::fromString(additional.attribute("liabDate"), sett().getDateFormat());
 	int curCurrency = sett().value("waluty").toString().split("|").indexOf(additional.attribute("currency"));
-	currCombo->setCurrentIndex(curCurrency);
+	o_invData.currencyTypeId = curCurrency;
 
 	return o_invData;
 }
@@ -891,10 +865,10 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 	return o_invDataVec;
 }
 
-bool XmlDataLayer::invoiceInsertData(InvoiceData& invData, int type) {
+bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 	QDomDocument doc(sett().getInoiveDocName());
 	QDomElement root;
-	QString fileName = fName;
+	QString fileName = oi_invData.id;
 
 	QFile file;
 	if (fileName == "") {
@@ -903,77 +877,53 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& invData, int type) {
 		int pNumber = 0;
 		file.setFileName(sett().getInvoicesDir() + "h" + fileName + "_"
 				+ sett().numberToString(pNumber) + ".xml");
-		ret = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml" + "|";
+		oi_invData.id = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
 		pNumber += 1;
 
 		while (file.exists()) {
 			file.setFileName(sett().getInvoicesDir() + "h" + fileName + "_"
 					+ sett().numberToString(pNumber) + ".xml");
-			ret = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml" + "|";
+			oi_invData.id = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
 			pNumber += 1;
 		}
 
-		fName = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
+		// fName = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
 	} else {
 		file.setFileName(sett().getInvoicesDir() + fileName);
-		ret = fileName + "|";
+		oi_invData.id = fileName + "|";
 	}
 
 	// if (!file.open (QIODevice::ReadOnly)) {
 
 	root = doc.createElement("invoice");
-	root.setAttribute("no", frNr->text());
-	ret += frNr->text() + "|";
-	root.setAttribute("issueDate", QDate::currentDate().toString(
-			sett().getDateFormat()));
-	ret += QDate::currentDate().toString(sett().getDateFormat()) + "|";
-	root.setAttribute("sellingDate", sellingDate->date().toString(
-			sett().getDateFormat()));
+	root.setAttribute("no", oi_invData.frNr);
+	oi_invData.issueDate = QDate::currentDate();
+	root.setAttribute("issueDate", oi_invData.issueDate.toString(sett().getDateFormat()));
+	root.setAttribute("sellingDate", oi_invData.sellingDate.toString(sett().getDateFormat()));
 
-	QString invType = getInvoiceTypeAndSaveNr();
+	QString invType = oi_invData.getInvoiceTypeAndSaveNr(type);
 	root.setAttribute("type", invType);
-	ret += invType + "|";
 
 	doc.appendChild(root);
 
-	QDomElement sprzedawca = createSellerElement(doc);
+	QDomElement sprzedawca;
+	invoiceSellerDataToElem(oi_invData, sprzedawca);
 	root.appendChild(sprzedawca);
 
 
-	QDomElement nabywca = createBuyerElement(doc);
+	QDomElement nabywca;
+	invoiceBuyerDataToElem(oi_invData, nabywca);
 	root.appendChild(nabywca);
 
 	QDomElement product;
 	QDomElement products;
 	products = doc.createElement("products");
-	products.setAttribute("discount", sett().numberToString(rabatValue->value()));
+	products.setAttribute("discount", sett().numberToString(oi_invData.discount));
 
-	for (int i = 0; i < tableTow->rowCount(); ++i) {
-		product = doc.createElement("product"); //  + tableTow->item(i, 0)->text());
-		products.setAttribute("productsCount", sett().numberToString(i + 1));
-		product.setAttribute("id", tableTow->item(i, 0)->text());
-		product.setAttribute("name", tableTow->item(i, 1)->text());
-		product.setAttribute("code", tableTow->item(i, 2)->text());
-		product.setAttribute("PKWiU", tableTow->item(i, 3)->text()); // Polish Classification of STH
-		product.setAttribute("quantity", tableTow->item(i, 4)->text());
-		product.setAttribute("quantityType", tableTow->item(i, 5)->text());
-		if (!constRab->isChecked()) {
-			product.setAttribute("discount", tableTow->item(i, 6)->text());
-		} else {
-			product.setAttribute("discount",
-					sett().numberToString(rabatValue->value())); // rabat
-		}
-		product.setAttribute("price", tableTow->item(i, 7)->text());
-		// double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
-		// double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
-		product.setAttribute("nett", tableTow->item(i, 8)->text()); // netto without discount
-		product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
-		product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
-		double vatPrice = sett().stringToDouble(tableTow->item(i, 10)->text()) -
-				sett().stringToDouble(tableTow->item(i, 8)->text());
-
-		product.setAttribute("vatAmout", sett().numberToString(vatPrice, 'f', 2));
-		product.setAttribute("gross", tableTow->item(i, 10)->text());
+	QMap<int, ProductData*>::const_iterator i = oi_invData.products.constBegin();
+	while (i != oi_invData.products.constEnd()) {
+		product = doc.createElement("product");
+		invoiceProdDataToElem(oi_invData, product);
 		products.appendChild(product);
 
 	}
@@ -982,12 +932,12 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& invData, int type) {
 
 	QDomElement addinfo;
 	addinfo = doc.createElement("addinfo");
-	addinfo.setAttribute("text", additEdit->text());
-	addinfo.setAttribute("paymentType", platCombo->currentText());
-	addinfo.setAttribute("liabDate", liabDate->date().toString(
-			sett().getDateFormat()));
-	addinfo.setAttribute("currency", currCombo->currentText());
+	addinfo.setAttribute("text", oi_invData.additText);
+	addinfo.setAttribute("paymentType", oi_invData.paymentType );
+	addinfo.setAttribute("liabDate", oi_invData.liabDate.toString(sett().getDateFormat()));
+	addinfo.setAttribute("currency", oi_invData.currencyType);
 
+	/*
 	if (platCombo->currentIndex() == sett().value("payments").toString().split("|").count() - 1) {
 		addinfo.setAttribute("payment1", custPaymData->payment1);
 		addinfo.setAttribute("amount1", sett().numberToString(custPaymData->amount1, 'f', 2));
@@ -999,16 +949,14 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& invData, int type) {
 		addinfo.setAttribute("liabDate2", custPaymData->date2.toString(
 				sett().getDateFormat()));
 	}
+	*/
 	root.appendChild(addinfo);
 
 	QString xml = doc.toString();
 	file.close();
 	if (!file.open(QIODevice::WriteOnly)) {
-		QMessageBox::critical(this, "QFaktury", trUtf8("Nie można zapisać. Sprawdź czy folder:\n") +
-				sett().getInvoicesDir() + trUtf8("\nistnieje i czy masz do niego prawa zapisu."),
-		QMessageBox::Ok);
-		saveFailed = true;
-		return;
+		// saveFailed = true;
+		return false;
 	}
 	QTextStream ts(&file);
 	ts << xml;

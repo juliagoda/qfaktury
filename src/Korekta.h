@@ -21,7 +21,7 @@ public:
 public slots:
 	// to be overwritten in child class
 	virtual void backBtnClick();
-	virtual void saveInvoice();
+	virtual bool saveInvoice();
 	virtual void makeInvoice();
 	virtual void canQuit();
 protected:

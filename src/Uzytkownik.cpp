@@ -12,9 +12,11 @@ void Uzytkownik::init () {
   codeEdit->setText (settings.value ("zip").toString());
   addressEdit->setText (settings.value ("address").toString());
   accountEdit->setText (settings.value ("account").toString());
-  if (!settings.value ("secIdType").isNull ())
-    secIdType->setCurrentIndex (0); //X settings.
-			       //value ("przelewy/user/secIdType").toString());
+  if (!settings.value ("secIdType").isNull ()) {
+	 int current = secIdType->findText(settings.value ("secIdType").toString());
+	 secIdType->setCurrentIndex (current);
+  }
+
   nipEdit->setText (settings.value ("tic").toString());
   regonEdit->setText (settings.value ("regon").toString()); // i guess it's statistical number
 
@@ -38,6 +40,7 @@ void Uzytkownik::okClick ()
   settings.setValue ("regon", regonEdit->text ());
   close ();
 }
+
 Uzytkownik::Uzytkownik(QWidget *parent): QDialog(parent) {
     setupUi(this);
     init();
