@@ -639,12 +639,33 @@ bool XmlDataLayer::productsDeleteData(QString name) {
 
 // ************ INVOICES START *****************
 void XmlDataLayer::invoiceSellerDataToElem(InvoiceData &i_invData, QDomElement &o_element) {
+	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+    QSettings userSettings("elinux", "user");
+    o_element.setAttribute("name", userSettings.value("name").toString());
+    o_element.setAttribute("zip", userSettings.value("zip").toString());
+    o_element.setAttribute("city", userSettings.value("city").toString());
+    o_element.setAttribute("street", userSettings.value("street").toString());
+    // NIP = Taxing Identification Code
+    o_element.setAttribute("tic", userSettings.value("tic").toString());
+    o_element.setAttribute("account",
+                    userSettings.value("account").toString(). replace(" ", "-"));
 }
 
 void XmlDataLayer::invoiceSellerElemToData(InvoiceData &o_invData, QDomElement i_element) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
 
 void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o_element) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_invData.customer;
+
+    QStringList kht = i_invData.customer.split(",");
+    o_element.setAttribute("name", kht[0]);
+    // ret += kht[0] + "|";
+    o_element.setAttribute("city", kht[1]);
+    o_element.setAttribute("street", kht[2]);
+    o_element.setAttribute("tic", kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"),     ""));
+    // ret += kht[3].replace(" ", "").replace(trUtf8("NIP:"), "");
 }
 
 void XmlDataLayer::invoiceBuyerElemToData(InvoiceData &o_invData, QDomElement i_element) {
@@ -866,6 +887,8 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 }
 
 bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
+	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
 	QDomDocument doc(sett().getInoiveDocName());
 	QDomElement root;
 	QString fileName = oi_invData.id;
@@ -906,12 +929,12 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 
 	doc.appendChild(root);
 
-	QDomElement sprzedawca;
+	QDomElement sprzedawca = doc.createElement("seller");
 	invoiceSellerDataToElem(oi_invData, sprzedawca);
 	root.appendChild(sprzedawca);
 
 
-	QDomElement nabywca;
+	QDomElement nabywca = doc.createElement("buyer");
 	invoiceBuyerDataToElem(oi_invData, nabywca);
 	root.appendChild(nabywca);
 
@@ -928,7 +951,6 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 
 	}
 	root.appendChild(products);
-
 
 	QDomElement addinfo;
 	addinfo = doc.createElement("addinfo");

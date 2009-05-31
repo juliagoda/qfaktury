@@ -400,6 +400,27 @@ void Faktura::dateChanged(QDate ) {
 /** Copy data from the screen to the object
  */
 void Faktura::setData(InvoiceData &invData) {
+	invData.customer = kontrName->text();
+
+    // lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
+    for (int i = 0; i < tableTow->rowCount(); ++i) {
+        ProductData *product = new ProductData();
+
+        product->setId(tableTow->item(i, 0)->text());
+        product->setName(tableTow->item(i, 1)->text());
+        product->setCode(tableTow->item(i, 2)->text());
+        product->setPkwiu(tableTow->item(i, 3)->text());
+        product->setQuantity(tableTow->item(i, 4)->text());
+        product->setQuanType(tableTow->item(i, 5)->text());
+        product->setDiscount(tableTow->item(i, 6)->text());
+        product->setPrice(tableTow->item(i, 7)->text());
+        product->setNett(tableTow->item(i, 8)->text());
+        product->setVat(tableTow->item(i, 9)->text());
+        product->setGross(tableTow->item(i, 10)->text());
+        qDebug() << product->toString();
+        invData.products[i] = product;
+    }
+
 
 }
 
