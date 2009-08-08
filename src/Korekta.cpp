@@ -422,18 +422,18 @@ void Korekta::readCorrData(QString fraFile){
 	invData->additText = additEdit->text();
 	*/
 	for (i = 0; i < towCount; ++i) {
-		ProductData *product = new ProductData();
-		product->setId(towar.attribute(towarColumns[0]));
-		product->setName(towar.attribute(towarColumns[1]));
-		product->setCode(towar.attribute(towarColumns[2]));
-		product->setPkwiu(towar.attribute(towarColumns[3]));
-		product->setQuantity(towar.attribute(towarColumns[4]));
-		product->setQuanType(towar.attribute(towarColumns[5]));
-		product->setDiscount(towar.attribute(towarColumns[6]));
-		product->setPrice(towar.attribute(towarColumns[7]));
-		product->setNett(towar.attribute(towarColumns[8]));
-		product->setVat(towar.attribute(towarColumns[9]));
-		product->setGross(towar.attribute(towarColumns[10]));
+		ProductData product; //  = new ProductData();
+		product.setId(towar.attribute(towarColumns[0]));
+		product.setName(towar.attribute(towarColumns[1]));
+		product.setCode(towar.attribute(towarColumns[2]));
+		product.setPkwiu(towar.attribute(towarColumns[3]));
+		product.setQuantity(towar.attribute(towarColumns[4]));
+		product.setQuanType(towar.attribute(towarColumns[5]));
+		product.setDiscount(towar.attribute(towarColumns[6]));
+		product.setPrice(towar.attribute(towarColumns[7]));
+		product.setNett(towar.attribute(towarColumns[8]));
+		product.setVat(towar.attribute(towarColumns[9]));
+		product.setGross(towar.attribute(towarColumns[10]));
 		// qDebug() << product->toString();
 		invData->products[i] = product;
 		towar = towar.nextSibling().toElement();
@@ -537,18 +537,18 @@ InvoiceData* Korekta::createOriginalInv() {
 	invData->customer = kontrName->text();
 
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
-		ProductData *product = new ProductData();
-		product->setId(tableTow->item(i, 0)->text());
-		product->setName(tableTow->item(i, 1)->text());
-		product->setCode(tableTow->item(i, 2)->text());
-		product->setPkwiu(tableTow->item(i, 3)->text());
-		product->setQuantity(tableTow->item(i, 4)->text());
-		product->setQuanType(tableTow->item(i, 5)->text());
-		product->setDiscount(tableTow->item(i, 6)->text());
-		product->setPrice(tableTow->item(i, 7)->text());
-		product->setNett(tableTow->item(i, 8)->text());
-		product->setVat(tableTow->item(i, 9)->text());
-		product->setGross(tableTow->item(i, 10)->text());
+		ProductData product; //  = new ProductData();
+		product.setId(tableTow->item(i, 0)->text());
+		product.setName(tableTow->item(i, 1)->text());
+		product.setCode(tableTow->item(i, 2)->text());
+		product.setPkwiu(tableTow->item(i, 3)->text());
+		product.setQuantity(tableTow->item(i, 4)->text());
+		product.setQuanType(tableTow->item(i, 5)->text());
+		product.setDiscount(tableTow->item(i, 6)->text());
+		product.setPrice(tableTow->item(i, 7)->text());
+		product.setNett(tableTow->item(i, 8)->text());
+		product.setVat(tableTow->item(i, 9)->text());
+		product.setGross(tableTow->item(i, 10)->text());
 		// qDebug() << product->toString();
 		invData->products[i] = product;
 	}
@@ -606,12 +606,12 @@ void Korekta::calculateSum(){
 		if (invData == NULL)
 			invData = createOriginalInv();
 
-		for (QMap<int, ProductData *>::const_iterator iter =
+		for (QMap<int, ProductData>::const_iterator iter =
 				invData->products.begin(); iter != invData->products.end(); ++iter) {
 			// qDebug() << iter.value()->toString();
-			origGrossTotal += iter.value()->getGross();
-			origDiscTotal += iter.value()->getDiscount();
-			origNettTotal += iter.value()->getNett();
+			origGrossTotal += iter.value().getGross();
+			origDiscTotal += iter.value().getDiscount();
+			origNettTotal += iter.value().getNett();
 		}
 	}
 
@@ -691,9 +691,10 @@ void Korekta::makeBeforeCorrProducts(){
 
 	makeInvoiceProductsHeadar();
 
-	for (QMap<int, ProductData *>::const_iterator iter = invData->products.begin();
+	for (QMap<int, ProductData>::const_iterator iter = invData->products.begin();
 			iter != invData->products.end();
 			++iter) {
+		/*
 		// qDebug() << iter.value()->toString();
 		fraStrList += "<tr valign=\"middle\" align=\"center\" class=\"products\">";
 		// lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
@@ -733,6 +734,7 @@ void Korekta::makeBeforeCorrProducts(){
 		if (sett().value("faktury_pozycje/bruttoval") .toBool())
 			fraStrList += "<td align=\"center\">" + sett().numberToString(iter.value()->getGross()) + "</td>";
 		fraStrList += "</tr>";
+		*/
 	}
 
 	fraStrList += "</table>";

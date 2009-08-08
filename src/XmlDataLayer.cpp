@@ -639,7 +639,7 @@ bool XmlDataLayer::productsDeleteData(QString name) {
 
 // ************ INVOICES START *****************
 void XmlDataLayer::invoiceSellerDataToElem(InvoiceData &i_invData, QDomElement &o_element) {
-	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
     QSettings userSettings("elinux", "user");
     o_element.setAttribute("name", userSettings.value("name").toString());
@@ -657,7 +657,7 @@ void XmlDataLayer::invoiceSellerElemToData(InvoiceData &o_invData, QDomElement i
 }
 
 void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o_element) {
-	qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_invData.customer;
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_invData.customer;
 
     QStringList kht = i_invData.customer.split(",");
     o_element.setAttribute("name", kht[0]);
@@ -669,41 +669,51 @@ void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o
 }
 
 void XmlDataLayer::invoiceBuyerElemToData(InvoiceData &o_invData, QDomElement i_element) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
 
-void XmlDataLayer::invoiceProdDataToElem(InvoiceData &i_invData, QDomElement &o_element) {
+void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData, QDomElement &o_element) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+	// o_element.setAttribute("productsCount", sett().numberToString(i + 1));
+	o_element.setAttribute("id", i_prodData.id);
+	o_element.setAttribute("name", i_prodData.name);
+	o_element.setAttribute("code", i_prodData.code);
+	o_element.setAttribute("PKWiU", i_prodData.pkwiu); // Polish Classification of STH
+	o_element.setAttribute("quantity", i_prodData.quantity);
+	o_element.setAttribute("quantityType", i_prodData.quanType);
 	/*
-	products.setAttribute("productsCount", sett().numberToString(i + 1));
-	product.setAttribute("id", tableTow->item(i, 0)->text());
-	product.setAttribute("name", tableTow->item(i, 1)->text());
-	product.setAttribute("code", tableTow->item(i, 2)->text());
-	product.setAttribute("PKWiU", tableTow->item(i, 3)->text()); // Polish Classification of STH
-	product.setAttribute("quantity", tableTow->item(i, 4)->text());
-	product.setAttribute("quantityType", tableTow->item(i, 5)->text());
 	if (!constRab->isChecked()) {
-		product.setAttribute("discount", tableTow->item(i, 6)->text());
+		o_element.setAttribute("discount", tableTow->item(i, 6)->text());
 	} else {
-		product.setAttribute("discount",
+		o_element.setAttribute("discount",
 				sett().numberToString(rabatValue->value())); // rabat
 	}
-	product.setAttribute("price", tableTow->item(i, 7)->text());
-	// double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
-	// double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
-	product.setAttribute("nett", tableTow->item(i, 8)->text()); // netto without discount
-	product.setAttribute("discountedNett", tableTow->item(i, 7)->text());
-	product.setAttribute("vatBucket", tableTow->item(i, 9)->text());
+	*/
+	o_element.setAttribute("price", i_prodData.price);
+	/*
+	double cenajdn = sett().stringToDouble(tableTow->item(i, 7)->text());
+	double kwota = cenajdn * tableTow->item(i, 4)->text().toInt();
+	*/
+	o_element.setAttribute("nett", i_prodData.nett); // netto without discount
+	// o_element.setAttribute("discountedNett", i_prodData.);
+	/*
+	o_element.setAttribute("vatBucket", i_prodData.);
 	double vatPrice = sett().stringToDouble(tableTow->item(i, 10)->text()) -
 			sett().stringToDouble(tableTow->item(i, 8)->text());
 
-	product.setAttribute("vatAmout", sett().numberToString(vatPrice, 'f', 2));
-	product.setAttribute("gross", tableTow->item(i, 10)->text());
+	o_element.setAttribute("vatAmout", sett().numberToString(vatPrice, 'f', 2));
+	o_element.setAttribute("gross", tableTow->item(i, 10)->text());
 	*/
 }
 
 void XmlDataLayer::invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
 
 bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
 	QString tmp = nameToCheck;
 	tmp = tmp.remove("h"); // invoice
 	tmp = tmp.remove("k"); // correction
@@ -734,6 +744,8 @@ bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end) {
 }
 
 InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
 	InvoiceData o_invData;
 
 	QDomDocument doc(sett().getInoiveDocName());
@@ -827,6 +839,8 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 }
 
 QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
 	QVector<InvoiceData> o_invDataVec;
 
 	QDir allFiles;
@@ -887,7 +901,7 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 }
 
 bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
-	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+        qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
 	QDomDocument doc(sett().getInoiveDocName());
 	QDomElement root;
@@ -943,13 +957,16 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 	products = doc.createElement("products");
 	products.setAttribute("discount", sett().numberToString(oi_invData.discount));
 
-	QMap<int, ProductData*>::const_iterator i = oi_invData.products.constBegin();
+	QMap<int, ProductData>::const_iterator i = oi_invData.products.constBegin();
+	int abc = 0;
 	while (i != oi_invData.products.constEnd()) {
 		product = doc.createElement("product");
-		invoiceProdDataToElem(oi_invData, product);
+		// ProductData pr = i.value();
+		invoiceProdDataToElem(i.value(), product);
 		products.appendChild(product);
-
+		i++;
 	}
+
 	root.appendChild(products);
 
 	QDomElement addinfo;
@@ -988,10 +1005,14 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 }
 
 bool XmlDataLayer::invoiceUpdateData(InvoiceData& invData, int type, QString name) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
 	return true;
 }
 
 bool XmlDataLayer::invoiceDeleteData(QString name) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
 	QFile file(sett().getInvoicesDir() + name);
 	if (file.exists())
 		file.remove();

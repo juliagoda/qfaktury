@@ -77,19 +77,19 @@ void Faktura::init() {
 	connect(editTwBtn, SIGNAL(clicked()), this, SLOT(editTowar()));
 	connect(backBtn, SIGNAL(clicked()), this, SLOT(backBtnClick()));
 	connect(closeBtn, SIGNAL(clicked()), this, SLOT(canQuit()));
-    connect(saveBtn, SIGNAL(clicked()), this, SLOT(saveInvoice()));
-    connect(printBtn, SIGNAL(clicked()), this, SLOT(makeInvoice()));
+        connect(saveBtn, SIGNAL(clicked()), this, SLOT(saveInvoice()));
+        connect(printBtn, SIGNAL(clicked()), this, SLOT(makeInvoice()));
 	connect(tableTow, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(editTowar()));
-    connect(tableTow, SIGNAL(itemActivated(QTableWidgetItem *)), this,
+        connect(tableTow, SIGNAL(itemActivated(QTableWidgetItem *)), this,
 				SLOT(tableActivated(QTableWidgetItem *)));
-    connect(tableTow, SIGNAL(itemClicked(QTableWidgetItem *)), this,
+        connect(tableTow, SIGNAL(itemClicked(QTableWidgetItem *)), this,
 				SLOT(tableActivated(QTableWidgetItem *)));
-    connect(additEdit, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
-    connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
-    connect(currCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(textChanged(QString)));
-    connect(sellingDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
-    connect(productDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
-    connect(liabDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
+        connect(additEdit, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
+        connect(platCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(payTextChanged(QString)));
+        connect(currCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(textChanged(QString)));
+        connect(sellingDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
+        connect(productDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
+        connect(liabDate, SIGNAL(dateChanged (QDate)), this, SLOT(dateChanged (QDate)));
 	connect(rabatValue, SIGNAL(valueChanged(int)), this, SLOT(discountChange()));
 	connect(constRab, SIGNAL(stateChanged(int)), this, SLOT(discountConstChange()));
 	connect(addKButton, SIGNAL(clicked()), this, SLOT(kontrClick()));
@@ -404,20 +404,20 @@ void Faktura::setData(InvoiceData &invData) {
 
     // lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
     for (int i = 0; i < tableTow->rowCount(); ++i) {
-        ProductData *product = new ProductData();
+        ProductData product; //  = new ProductData();
 
-        product->setId(tableTow->item(i, 0)->text());
-        product->setName(tableTow->item(i, 1)->text());
-        product->setCode(tableTow->item(i, 2)->text());
-        product->setPkwiu(tableTow->item(i, 3)->text());
-        product->setQuantity(tableTow->item(i, 4)->text());
-        product->setQuanType(tableTow->item(i, 5)->text());
-        product->setDiscount(tableTow->item(i, 6)->text());
-        product->setPrice(tableTow->item(i, 7)->text());
-        product->setNett(tableTow->item(i, 8)->text());
-        product->setVat(tableTow->item(i, 9)->text());
-        product->setGross(tableTow->item(i, 10)->text());
-        qDebug() << product->toString();
+        product.setId(tableTow->item(i, 0)->text());
+        product.setName(tableTow->item(i, 1)->text());
+        product.setCode(tableTow->item(i, 2)->text());
+        product.setPkwiu(tableTow->item(i, 3)->text());
+        product.setQuantity(tableTow->item(i, 4)->text());
+        product.setQuanType(tableTow->item(i, 5)->text());
+        product.setDiscount(tableTow->item(i, 6)->text());
+        product.setPrice(tableTow->item(i, 7)->text());
+        product.setNett(tableTow->item(i, 8)->text());
+        product.setVat(tableTow->item(i, 9)->text());
+        product.setGross(tableTow->item(i, 10)->text());
+        qDebug() << product.toString();
         invData.products[i] = product;
     }
 
@@ -443,7 +443,7 @@ bool Faktura::saveInvoice() {
 	InvoiceData invData;
 	setData(invData);
 	// result =
-	result = dataLayer->invoiceInsertData(invData, type);
+        result = dataLayer->invoiceInsertData(invData, type);
 
 	saveBtn->setEnabled(false);
 	rmTowBtn->setEnabled(false);
