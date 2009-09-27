@@ -451,10 +451,43 @@ void Faktura::setData(InvoiceData &invData) {
     invData.currencyType = currCombo->currentText();
 }
 
-/** Copy data from the screen to the object
+/** Copy data from the object to the form
  */
 void Faktura::getData(InvoiceData invData) {
+	kontrName->setText(invData.customer);
+	frNr->setText(invData.frNr);
+	sellingDate->setDate(invData.sellingDate );
+	productDate->setDate(invData.issueDate);
 
+	if (invData.discount == 0) {
+		rabatValue->setValue(0);
+	} else {
+		constRab->setChecked(true);
+		rabatValue->setValue(invData.discount);
+	}
+
+    // lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
+	ProductData product;
+	foreach (product, invData.products) {
+		/*
+		product.setId(tableTow->item(i, 0)->text());
+        product.setName(tableTow->item(i, 1)->text());
+        product.setCode(tableTow->item(i, 2)->text());
+        product.setPkwiu(tableTow->item(i, 3)->text());
+        product.setQuantity(tableTow->item(i, 4)->text());
+        product.setQuanType(tableTow->item(i, 5)->text());
+        product.setDiscount(tableTow->item(i, 6)->text());
+        product.setPrice(tableTow->item(i, 7)->text());
+        product.setNett(tableTow->item(i, 8)->text());
+        product.setVat(tableTow->item(i, 9)->text());
+        product.setGross(tableTow->item(i, 10)->text());
+        */
+    }
+
+    additEdit->setText(invData.additText);
+    // invData.paymentType = platCombo->currentText();
+    liabDate->setDate(invData.liabDate);
+    // invData.currencyType = currCombo->currentText();
 }
 
 
