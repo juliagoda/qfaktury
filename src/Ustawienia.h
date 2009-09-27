@@ -30,6 +30,7 @@ public slots:
 	void defTextBtnClick();
 	void setDefaultClick();
 	void maskHelpClick();
+	void workingDirBtnClick();
 private:
 	bool read;
 	void init();

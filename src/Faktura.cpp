@@ -136,6 +136,24 @@ void Faktura::init() {
 	canClose = true;
 }
 
+/**
+ *  Return invoice type
+ */
+QString Faktura::getInvoiceTypeAndSaveNr() {
+        // qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+
+        QString ret = "FVAT";
+
+        if (windowTitle().right(3) == "VAT") {
+                sett().setValue("fvat", frNr->text());
+        } else {
+                ret = "FPro";
+                sett().setValue("fpro", frNr->text());
+        }
+
+        return ret;
+}
+
 
 // ---- SLOTS START  --//////////////////////////////////////////////////////////////////////////////////
 
@@ -401,6 +419,13 @@ void Faktura::dateChanged(QDate ) {
  */
 void Faktura::setData(InvoiceData &invData) {
 	invData.customer = kontrName->text();
+	invData.frNr = frNr->text();
+	invData.sellingDate = sellingDate->date();
+	invData.issueDate = productDate->date();
+	if (constRab->isChecked())
+		invData.discount = rabatValue->value();
+	else
+		invData.discount = 0;
 
     // lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
     for (int i = 0; i < tableTow->rowCount(); ++i) {
@@ -417,11 +442,13 @@ void Faktura::setData(InvoiceData &invData) {
         product.setNett(tableTow->item(i, 8)->text());
         product.setVat(tableTow->item(i, 9)->text());
         product.setGross(tableTow->item(i, 10)->text());
-        qDebug() << product.toString();
         invData.products[i] = product;
     }
 
-
+    invData.additText = additEdit->text();
+    invData.paymentType = platCombo->currentText();
+    invData.liabDate = liabDate->date();
+    invData.currencyType = currCombo->currentText();
 }
 
 /** Copy data from the screen to the object
@@ -442,8 +469,12 @@ bool Faktura::saveInvoice() {
 
 	InvoiceData invData;
 	setData(invData);
-	// result =
-        result = dataLayer->invoiceInsertData(invData, type);
+
+    result = dataLayer->invoiceInsertData(invData, type);
+
+    if (result) {
+    	getInvoiceTypeAndSaveNr();
+    }
 
 	saveBtn->setEnabled(false);
 	rmTowBtn->setEnabled(false);

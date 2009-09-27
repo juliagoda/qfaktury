@@ -497,7 +497,7 @@ public:
 
 	// returns working directory
 	QString getWorkingDir() {
-		return QDir::homePath() + value("working_dir", "/elinux").toString();
+		return value("working_dir", QDir::homePath()).toString() + "/elinux";
 	}
 
 	// returns templates directory

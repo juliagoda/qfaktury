@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>Faktura</class>
- <widget class="QDialog" name="Faktura" >
-  <property name="geometry" >
+ <widget class="QDialog" name="Faktura">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,41 +10,41 @@
     <height>526</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Faktura VAT</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <layout class="QHBoxLayout" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout">
      <item>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout">
          <item>
-          <widget class="QLabel" name="textLabel1_3" >
-           <property name="text" >
+          <widget class="QLabel" name="textLabel1_3">
+           <property name="text">
             <string>Symbol:</string>
            </property>
-           <property name="wordWrap" >
+           <property name="wordWrap">
             <bool>false</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="frNr" >
-           <property name="enabled" >
+          <widget class="QLineEdit" name="frNr">
+           <property name="enabled">
             <bool>true</bool>
            </property>
-           <property name="font" >
+           <property name="font">
             <font>
              <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
-           <property name="focusPolicy" >
+           <property name="focusPolicy">
             <enum>Qt::ClickFocus</enum>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>1/1/2006</string>
            </property>
           </widget>
@@ -51,17 +52,17 @@
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="backBtn" >
-         <property name="focusPolicy" >
+        <widget class="QPushButton" name="backBtn">
+         <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>co&amp;fnij</string>
          </property>
-         <property name="shortcut" >
+         <property name="shortcut">
           <string>Alt+F</string>
          </property>
-         <property name="flat" >
+         <property name="flat">
           <bool>false</bool>
          </property>
         </widget>
@@ -70,13 +71,13 @@
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>31</width>
          <height>20</height>
@@ -85,26 +86,26 @@
       </spacer>
      </item>
      <item>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QLabel" name="textLabel3" >
-         <property name="text" >
+        <widget class="QLabel" name="textLabel3">
+         <property name="text">
           <string>Data sprzedaży:</string>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QDateEdit" name="sellingDate" >
-         <property name="focusPolicy" >
+        <widget class="QDateEdit" name="sellingDate">
+         <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
-         <property name="displayFormat" >
+         <property name="displayFormat">
           <string>dd/MM/yyyy</string>
          </property>
-         <property name="calendarPopup" >
+         <property name="calendarPopup">
           <bool>true</bool>
          </property>
         </widget>
@@ -113,17 +114,17 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0" >
-    <layout class="QHBoxLayout" name="horizontalLayout" >
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <spacer name="spacer8_3" >
-       <property name="orientation" >
+      <spacer name="spacer8_3">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>468</width>
          <height>17</height>
@@ -132,187 +133,187 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="textLabel3_2" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+      <widget class="QLabel" name="textLabel3_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Data wystawienia:</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QDateEdit" name="productDate" >
-       <property name="focusPolicy" >
+      <widget class="QDateEdit" name="productDate">
+       <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
        </property>
-       <property name="displayFormat" >
+       <property name="displayFormat">
         <string>dd/MM/yyyy</string>
        </property>
-       <property name="calendarPopup" >
+       <property name="calendarPopup">
         <bool>true</bool>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="2" column="0" >
-    <layout class="QHBoxLayout" name="horizontalLayout_6" >
+   <item row="2" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
-      <widget class="QLabel" name="textLabel1" >
-       <property name="text" >
+      <widget class="QLabel" name="textLabel1">
+       <property name="text">
         <string>Kontrahent:</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="kontrName" >
-       <property name="enabled" >
+      <widget class="QLineEdit" name="kontrName">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="font" >
+       <property name="font">
         <font>
          <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
-       <property name="focusPolicy" >
+       <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="kListGet" >
-       <property name="focusPolicy" >
+      <widget class="QPushButton" name="kListGet">
+       <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>wybier&amp;z</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string>Ctrl+K</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="addKButton" >
-       <property name="text" >
+      <widget class="QPushButton" name="addKButton">
+       <property name="text">
         <string>do&amp;daj</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="3" column="0" >
-    <widget class="QLabel" name="textLabel1_2" >
-     <property name="text" >
+   <item row="3" column="0">
+    <widget class="QLabel" name="textLabel1_2">
+     <property name="text">
       <string>Lista towarów/usług:</string>
      </property>
-     <property name="wordWrap" >
+     <property name="wordWrap">
       <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" >
-    <widget class="QTableWidget" name="tableTow" >
-     <property name="enabled" >
+   <item row="4" column="0">
+    <widget class="QTableWidget" name="tableTow">
+     <property name="enabled">
       <bool>true</bool>
      </property>
-     <property name="editTriggers" >
+     <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
-     <property name="selectionMode" >
+     <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
      </property>
-     <property name="selectionBehavior" >
+     <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
-     <property name="showGrid" >
+     <property name="showGrid">
       <bool>true</bool>
      </property>
-     <property name="rowCount" >
+     <property name="rowCount">
       <number>0</number>
      </property>
-     <property name="columnCount" >
+     <property name="columnCount">
       <number>11</number>
      </property>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Lp.</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Nazwa</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Kod</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>PKWiU</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Ilość</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Jm.</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Rabat</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Cena jn.</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Netto</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Vat</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Brutto</string>
       </property>
      </column>
     </widget>
    </item>
-   <item row="5" column="0" >
-    <layout class="QHBoxLayout" name="horizontalLayout_2" >
+   <item row="5" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>30</width>
          <height>20</height>
@@ -321,56 +322,56 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="addTwBtn" >
-       <property name="focusPolicy" >
+      <widget class="QPushButton" name="addTwBtn">
+       <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Dodaj</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string>Ctrl+T</string>
        </property>
-       <property name="autoDefault" >
+       <property name="autoDefault">
         <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="rmTowBtn" >
-       <property name="text" >
+      <widget class="QPushButton" name="rmTowBtn">
+       <property name="text">
         <string>Usuń</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string>Ctrl+U</string>
        </property>
-       <property name="autoDefault" >
+       <property name="autoDefault">
         <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="editTwBtn" >
-       <property name="text" >
+      <widget class="QPushButton" name="editTwBtn">
+       <property name="text">
         <string>Edycja</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string>Ctrl+E</string>
        </property>
-       <property name="autoDefault" >
+       <property name="autoDefault">
         <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
          <height>20</height>
@@ -379,74 +380,74 @@
       </spacer>
      </item>
      <item>
-      <widget class="QCheckBox" name="constRab" >
-       <property name="minimumSize" >
+      <widget class="QCheckBox" name="constRab">
+       <property name="minimumSize">
         <size>
          <width>0</width>
          <height>27</height>
         </size>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Stały</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="rabatLabel" >
-       <property name="text" >
+      <widget class="QLabel" name="rabatLabel">
+       <property name="text">
         <string>Rabat:</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="rabatValue" />
+      <widget class="QSpinBox" name="rabatValue"/>
      </item>
     </layout>
    </item>
-   <item row="6" column="0" >
-    <layout class="QHBoxLayout" name="horizontalLayout_5" >
+   <item row="6" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <layout class="QHBoxLayout" >
+      <layout class="QHBoxLayout">
        <item>
-        <layout class="QVBoxLayout" name="addDataLabels" >
+        <layout class="QVBoxLayout" name="addDataLabels">
          <item>
-          <widget class="QLabel" name="textLabel5" >
-           <property name="text" >
+          <widget class="QLabel" name="textLabel5">
+           <property name="text">
             <string>Płatność:</string>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
-           <property name="wordWrap" >
+           <property name="wordWrap">
             <bool>false</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="textLabel6" >
-           <property name="text" >
+          <widget class="QLabel" name="textLabel6">
+           <property name="text">
             <string>Termin:</string>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
-           <property name="wordWrap" >
+           <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="textLabel2_3" >
-           <property name="text" >
+          <widget class="QLabel" name="textLabel2_3">
+           <property name="text">
             <string>Waluta:</string>
            </property>
-           <property name="alignment" >
+           <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
-           <property name="wordWrap" >
+           <property name="wordWrap">
             <bool>false</bool>
            </property>
           </widget>
@@ -454,23 +455,23 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="addData" >
+        <layout class="QVBoxLayout" name="addData">
          <item>
-          <widget class="QComboBox" name="platCombo" />
+          <widget class="QComboBox" name="platCombo"/>
          </item>
          <item>
-          <widget class="QDateEdit" name="liabDate" >
-           <property name="displayFormat" >
+          <widget class="QDateEdit" name="liabDate">
+           <property name="displayFormat">
             <string>dd/MM/yyyy</string>
            </property>
-           <property name="calendarPopup" >
+           <property name="calendarPopup">
             <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="currCombo" >
-           <property name="minimumSize" >
+          <widget class="QComboBox" name="currCombo">
+           <property name="minimumSize">
             <size>
              <width>80</width>
              <height>0</height>
@@ -484,13 +485,13 @@
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Maximum</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>100</width>
          <height>20</height>
@@ -499,70 +500,70 @@
       </spacer>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout" >
+      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3" >
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <layout class="QVBoxLayout" >
+          <layout class="QVBoxLayout">
            <item>
-            <widget class="QLabel" name="textLabelSum1" >
-             <property name="minimumSize" >
+            <widget class="QLabel" name="textLabelSum1">
+             <property name="minimumSize">
               <size>
                <width>150</width>
                <height>0</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Razem netto:</string>
              </property>
-             <property name="alignment" >
+             <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
-             <property name="wordWrap" >
+             <property name="wordWrap">
               <bool>false</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabelSum2" >
-             <property name="minimumSize" >
+            <widget class="QLabel" name="textLabelSum2">
+             <property name="minimumSize">
               <size>
                <width>150</width>
                <height>0</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Rabat:</string>
              </property>
-             <property name="alignment" >
+             <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
-             <property name="wordWrap" >
+             <property name="wordWrap">
               <bool>false</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabelSum3" >
-             <property name="minimumSize" >
+            <widget class="QLabel" name="textLabelSum3">
+             <property name="minimumSize">
               <size>
                <width>150</width>
                <height>0</height>
               </size>
              </property>
-             <property name="font" >
+             <property name="font">
               <font>
                <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Do zaplaty:</string>
              </property>
-             <property name="alignment" >
+             <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
-             <property name="wordWrap" >
+             <property name="wordWrap">
               <bool>false</bool>
              </property>
             </widget>
@@ -570,57 +571,57 @@
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout" >
+          <layout class="QVBoxLayout">
            <item>
-            <widget class="QLabel" name="sum1" >
-             <property name="minimumSize" >
+            <widget class="QLabel" name="sum1">
+             <property name="minimumSize">
               <size>
                <width>80</width>
                <height>0</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>0,00</string>
              </property>
-             <property name="wordWrap" >
+             <property name="wordWrap">
               <bool>false</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="sum2" >
-             <property name="minimumSize" >
+            <widget class="QLabel" name="sum2">
+             <property name="minimumSize">
               <size>
                <width>80</width>
                <height>0</height>
               </size>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>0,00</string>
              </property>
-             <property name="wordWrap" >
+             <property name="wordWrap">
               <bool>false</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="sum3" >
-             <property name="minimumSize" >
+            <widget class="QLabel" name="sum3">
+             <property name="minimumSize">
               <size>
                <width>80</width>
                <height>0</height>
               </size>
              </property>
-             <property name="font" >
+             <property name="font">
               <font>
                <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>0,00</string>
              </property>
-             <property name="wordWrap" >
+             <property name="wordWrap">
               <bool>false</bool>
              </property>
             </widget>
@@ -630,14 +631,14 @@
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer" >
-         <property name="orientation" >
+        <spacer name="verticalSpacer">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Minimum</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>20</height>
@@ -649,45 +650,45 @@
      </item>
     </layout>
    </item>
-   <item row="7" column="0" >
-    <layout class="QHBoxLayout" >
+   <item row="7" column="0">
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QLabel" name="textLabel7" >
-       <property name="text" >
+      <widget class="QLabel" name="textLabel7">
+       <property name="text">
         <string>Dodatkowy tekst:</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="additEdit" >
-       <property name="text" >
+      <widget class="QLineEdit" name="additEdit">
+       <property name="text">
         <string>towar odebrałem zgodnie z fakturą</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="8" column="0" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
+   <item row="8" column="0">
+    <widget class="Line" name="line">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="9" column="0" >
-    <layout class="QHBoxLayout" name="horizontalLayout_4" >
+   <item row="9" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <spacer name="spacer6" >
-       <property name="orientation" >
+      <spacer name="spacer6">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Minimum</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>37</width>
          <height>23</height>
@@ -696,27 +697,27 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="closeBtn" >
-       <property name="text" >
+      <widget class="QPushButton" name="closeBtn">
+       <property name="text">
         <string>&amp;Zamknij</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string>Ctrl+X</string>
        </property>
-       <property name="autoDefault" >
+       <property name="autoDefault">
         <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="spacer4" >
-       <property name="orientation" >
+      <spacer name="spacer4">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>228</width>
          <height>23</height>
@@ -725,27 +726,27 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="saveBtn" >
-       <property name="text" >
+      <widget class="QPushButton" name="saveBtn">
+       <property name="text">
         <string>Zapisz</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string>Ctrl+S</string>
        </property>
-       <property name="autoDefault" >
+       <property name="autoDefault">
         <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="spacer5_2" >
-       <property name="orientation" >
+      <spacer name="spacer5_2">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Minimum</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
          <height>20</height>
@@ -754,27 +755,27 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="printBtn" >
-       <property name="text" >
+      <widget class="QPushButton" name="printBtn">
+       <property name="text">
         <string>Drukuj</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string>Ctrl+P</string>
        </property>
-       <property name="autoDefault" >
+       <property name="autoDefault">
         <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="spacer5" >
-       <property name="orientation" >
+      <spacer name="spacer5">
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Minimum</enum>
        </property>
-       <property name="sizeHint" stdset="0" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
          <height>20</height>
@@ -786,7 +787,7 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>kListGet</tabstop>
@@ -807,7 +808,7 @@
   <tabstop>tableTow</tabstop>
  </tabstops>
  <resources>
-  <include location="qfaktury.qrc" />
+  <include location="../qfaktury.qrc"/>
  </resources>
  <connections/>
 </ui>

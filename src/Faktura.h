@@ -74,7 +74,7 @@ protected:
 
 	void makeInvoiceFooter();
 
-	// virtual QString getInvoiceTypeAndSaveNr();
+	virtual QString getInvoiceTypeAndSaveNr();
 	bool validateForm();
 
 };

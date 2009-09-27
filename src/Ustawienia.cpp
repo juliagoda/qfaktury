@@ -38,6 +38,7 @@ void Ustawienia::init() {
 	connect(vatUpBtn, SIGNAL(clicked()), this, SLOT(vatUpBtnClick()));
 	connect(vatDownBtn, SIGNAL(clicked()), this, SLOT(vatDownBtnClick()));
 	connect(addLogoBtn, SIGNAL(clicked()), this, SLOT(addLogoBtnClick()));
+	connect(workingDirBtn, SIGNAL(clicked()), this, SLOT(workingDirBtnClick()));
 	connect(pushButton, SIGNAL(clicked()), this, SLOT(setDefaultClick()));
 	connect(defTextBtn, SIGNAL(clicked()), this, SLOT(defTextBtnClick()));
 	connect(pushButtonMaskHelp, SIGNAL(clicked()), this, SLOT(maskHelpClick()));
@@ -47,6 +48,7 @@ void Ustawienia::init() {
     connect( langList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
     connect( codecList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
     connect( logoEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( zastBtnEnable() ) );
+    connect( workingDirEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( zastBtnEnable() ) );
     connect( nipMaskEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( zastBtnEnable() ) );
     connect( accountMaskEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( zastBtnEnable() ) );
     connect( prefixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( zastBtnEnable() ) );
@@ -144,6 +146,16 @@ void Ustawienia::setDefaultClick() {
 	sett().resetSettings();
 	// is this required?
 	readSettings();
+}
+
+/** Slot used to change location of invoiced
+ */
+void Ustawienia::workingDirBtnClick() {
+	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+			"/home", QFileDialog::ShowDirsOnly
+					| QFileDialog::DontResolveSymlinks);
+	workingDirEdit->setText(dir);
+	zastButton->setEnabled(true);
 }
 
 
@@ -461,6 +473,7 @@ void Ustawienia::saveSettings() {
 	sett().setValue("lang", langList->currentText());
 	sett().setValue("css", cssList->currentText());
 	sett().setValue("localEnc", codecList->currentText());
+	sett().setValue("working_dir", workingDirEdit->text());
 
 	sett().beginGroup("printpos");
 	sett().setValue("usernazwa", userinfonazwa->isChecked());
@@ -523,6 +536,8 @@ void Ustawienia::readSettings() {
 	int curr = 0;
 
 	logoEdit->setText(sett().value("logo").toString());
+	workingDirEdit->setText(sett().value("working_dir").toString());
+
 	currlBox->clear();
 	currlBox->addItems(sett().value("jednostki").toString().split("|"));
 	vatlBox->clear();
@@ -662,11 +677,13 @@ QStringList Ustawienia::getTranslations() {
     QStringList translations;
 	QString path  = QDir::currentPath() + "/qfaktury_en.qm";
 
+	qDebug() << path;
 	QFile f(path);
 	if (!f.exists())
 		path = "/usr/local/share/qfaktury/";
 
 	if (translations.isEmpty()) {
+		qDebug() << path;
 		QDir allFiles;
 		allFiles.setPath(path);
 		allFiles.setFilter(QDir::Files);

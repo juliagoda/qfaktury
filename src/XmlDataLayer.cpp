@@ -709,6 +709,7 @@ void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData, QDomElem
 
 void XmlDataLayer::invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element) {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
 }
 
 bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end) {
