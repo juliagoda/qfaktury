@@ -598,7 +598,7 @@ void MainWindow::oProg() {
 			trUtf8("O programie"),
 			trUtf8("Program do wystawiania faktur.\n\n ") + sett().getVersion(qAppName()) +
 			trUtf8("\n\nKoordynator projektu:\n\tGrzegorz Rękawek\t\t\n\nProgramiści: \n\tTomasz Pielech\n\t") +
-			trUtf8("Rafał Rusin\n\tSławomir Patyk \n\nIkony:\n\tDariusz Arciszewski\n") +
+			trUtf8("Rafał Rusin http://people.apache.org/~rr/\n\tSławomir Patyk \n\nIkony:\n\tDariusz Arciszewski\n\n") +
 			trUtf8("UWAGA!!!\n") +
 			trUtf8("Ten program komputerowy dostarczany jest przez autora w formie \"takiej, jaki jest\". ") +
 			trUtf8("Autor nie udziela żadnej gwarancji oraz rękojmi, że program będzie działał ") +

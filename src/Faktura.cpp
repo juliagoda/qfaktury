@@ -454,6 +454,7 @@ void Faktura::setData(InvoiceData &invData) {
 /** Copy data from the object to the form
  */
 void Faktura::getData(InvoiceData invData) {
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 	kontrName->setText(invData.customer);
 	frNr->setText(invData.frNr);
 	sellingDate->setDate(invData.sellingDate );
@@ -469,6 +470,7 @@ void Faktura::getData(InvoiceData invData) {
     // lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
 	ProductData product;
 	foreach (product, invData.products) {
+		qDebug() << product.name;
 		/*
 		product.setId(tableTow->item(i, 0)->text());
         product.setName(tableTow->item(i, 1)->text());
