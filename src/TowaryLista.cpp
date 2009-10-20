@@ -82,7 +82,7 @@ void TowaryLista::doAccept() {
 					+ listaTowary2[id]->getQuantityType() + "|"
 					+ rabatSpin->cleanText() + "|"
 					+ sett().numberToString(priceBoxEdit->value()) + "|"
-					+ nettoLabel->text() + "|" + sett().numberToString(vats[selectedItem]) + "|"
+					+ nettoLabel->text() + "|" + sett().numberToString(listaTowary2[id]->getVat()) + "|"
 					+ bruttoLabel->text();
 
 		}
@@ -93,7 +93,7 @@ void TowaryLista::doAccept() {
 					+ listaUslugi2[id]->getQuantityType() + "|"
 					+ rabatSpin->cleanText() + "|"
 					+ sett().numberToString(priceBoxEdit->value()) + "|"
-					+ nettoLabel->text() + "|" + sett().numberToString(vats[selectedItem]) + "|"
+					+ nettoLabel->text() + "|" + sett().numberToString(listaUslugi2[id]->getVat()) + "|"
 					+ bruttoLabel->text();
 
 		}
@@ -180,7 +180,8 @@ void TowaryLista::readTow() {
 			product->setId(n.toElement().attribute("idx"));
 			product->setName(text);
 			product->setCode(n.toElement().attribute("code"));
-			product->setQuanType(n.toElement().attribute("quanType"));
+			product->setVat(n.toElement().attribute("vat"));
+						product->setQuanType(n.toElement().attribute("quanType"));
 			product->setPkwiu(n.toElement().attribute("pkwiu"));
 			vats[text] = n.toElement ().attribute ("vat").toInt();
 			nettos[text] = n.toElement ().attribute ("netto1") + "|" +
@@ -196,6 +197,7 @@ void TowaryLista::readTow() {
 			ProductData *product = new ProductData();
 			product->setId(n.toElement().attribute("idx"));
 			product->setName(text);
+			product->setVat(n.toElement().attribute("vat"));
 			product->setCode(n.toElement().attribute("code"));
 			product->setQuanType(n.toElement().attribute("quanType"));
 			product->setPkwiu(n.toElement().attribute("pkwiu"));
