@@ -21,6 +21,7 @@
 #include "KorektaBrutto.h"
 #include "Rachunek.h"
 #include "Kontrahenci.h"
+#include "DateWidgetItem.h"
 
 #include "XmlDataLayer.h"
 
@@ -283,14 +284,14 @@ void MainWindow::insertRow(QTableWidget *t, int row) {
 void MainWindow::readHist() {
 	QVector<InvoiceData> invoicesVec;
 	invoicesVec = dl->invoiceSelectAllData(filtrStart->date(), filtrEnd->date());
+	tableH->setSortingEnabled(false);
 	for (int i = 0; i < invoicesVec.size(); ++i) {
 		insertRow(tableH, tableH->rowCount());
 		QString text = invoicesVec.at(i).id;
 		tableH->item(tableH->rowCount() - 1, 0)->setText(text);
 		text = invoicesVec.at(i).frNr;
 		tableH->item(tableH->rowCount() - 1, 1)->setText(text);
-		text = invoicesVec.at(i).sellingDate.toString(sett().getDateFormat());
-		tableH->item(tableH->rowCount() - 1, 2)->setText(text);
+        tableH -> setItem(tableH->rowCount() - 1, 2, new DateWidgetItem(invoicesVec.at(i).sellingDate));
 		text = invoicesVec.at(i).type;
 		tableH->item(tableH->rowCount() - 1, 3)->setText(text);
 		text = invoicesVec.at(i).custName;
