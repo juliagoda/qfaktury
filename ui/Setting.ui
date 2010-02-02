@@ -1769,17 +1769,6 @@ korekt:</string>
                   <height>0</height>
                  </size>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Lp.</string>
                 </property>
@@ -1812,17 +1801,6 @@ korekt:</string>
                   <width>120</width>
                   <height>0</height>
                  </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
                 </property>
                 <property name="text">
                  <string>Nazwa</string>
@@ -1857,17 +1835,6 @@ korekt:</string>
                   <height>0</height>
                  </size>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Kod</string>
                 </property>
@@ -1900,17 +1867,6 @@ korekt:</string>
                   <width>120</width>
                   <height>0</height>
                  </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
                 </property>
                 <property name="text">
                  <string>PKWiU</string>
@@ -1945,17 +1901,6 @@ korekt:</string>
                   <height>0</height>
                  </size>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Ilość</string>
                 </property>
@@ -1988,17 +1933,6 @@ korekt:</string>
                   <width>120</width>
                   <height>0</height>
                  </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
                 </property>
                 <property name="text">
                  <string>J.m.</string>
@@ -2033,17 +1967,6 @@ korekt:</string>
                   <height>0</height>
                  </size>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Cena Jedn.</string>
                 </property>
@@ -2076,17 +1999,6 @@ korekt:</string>
                   <width>120</width>
                   <height>0</height>
                  </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
                 </property>
                 <property name="text">
                  <string>Wartość netto</string>
@@ -2121,17 +2033,6 @@ korekt:</string>
                   <height>0</height>
                  </size>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Rabat [%]</string>
                 </property>
@@ -2164,17 +2065,6 @@ korekt:</string>
                   <width>120</width>
                   <height>0</height>
                  </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
                 </property>
                 <property name="text">
                  <string>Rabat wartość</string>
@@ -2209,17 +2099,6 @@ korekt:</string>
                   <height>0</height>
                  </size>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>Netto po rabacie</string>
                 </property>
@@ -2252,17 +2131,6 @@ korekt:</string>
                   <width>120</width>
                   <height>0</height>
                  </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
                 </property>
                 <property name="text">
                  <string>VAT [%]</string>
@@ -2297,17 +2165,6 @@ korekt:</string>
                   <height>0</height>
                  </size>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
                 <property name="text">
                  <string>VAT wartość</string>
                 </property>
@@ -2340,17 +2197,6 @@ korekt:</string>
                   <width>120</width>
                   <height>0</height>
                  </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>32767</width>
-                  <height>17</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                 </font>
                 </property>
                 <property name="text">
                  <string>Wartość brutto</string>
