@@ -1,6 +1,5 @@
-QFaktury to darmowy system fakturujący, pracujący w systemach Windows, Linux i Mac OS X.
-Umożliwia on drukowanie faktur, faktur pro forma, rachunków, korekt i duplikatów. Umożliwia zarządzanie bazą faktur, towarów 
-i kontrahentów.
+QFaktury to darmowy system fakturujący, pracujący w systemach Linux.
+Umożliwia on drukowanie faktur, faktur pro forma, rachunków, korekt i duplikatów. Umożliwia zarządzanie bazą faktur, towarów i kontrahentów.
 
 Wymagania:
 System Linux

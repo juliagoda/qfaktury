@@ -19,9 +19,9 @@
 	- Edytowanie duplikatu równa się temu, że nie można niczego zmieniać, oprócz przeglądania rat faktury zaliczkowej oraz możliwości wydrukowania aktualnego duplikatu
 	- W plikach xml zapisuje się więcej danych, szczególnie dla faktur
 	- W pliku bureau.xml znajdują się aktualne wartości kursu walut. Plik tworzy się po pierwszym użyciu konwersji w oknie faktury
-	- Możliwość wybrania języka angielskiego. Translacja jest kompletna i działa po ponownym uruchomieniu programu
 	- Wprowadzenie zabezpieczenia na wypadek zmiany lokalizacji w systemie oraz wynikających z tego brak formatowania liczb double odczytywanych z plików xml
 	- Dodanie wartości milionowych i miliardowych do zapisu słownego na fakturze
+	- Zmiana ścieżki folderu z ~/elinux na ~/.local/share/data/elinux
 
 0.6.5
 	- Skróty klawiszowe na zmianę zakładek w oknie głównym
