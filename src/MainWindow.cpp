@@ -1252,13 +1252,13 @@ bool MainWindow::close() {
 /** Slot help
  */
 void MainWindow::pomoc() {
-    QDesktopServices::openUrl(QUrl("https://github.com/rafalrusin/qfaktury/"));
+    QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury"));
 }
 
 /** Slot reportBug
  */
 void MainWindow::reportBug() {
-	QDesktopServices::openUrl(QUrl("https://sourceforge.net/tracker2/?func=add&group_id=154610&atid=792471"));
+    QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury/issues"));
 }
 
 // ----------------------------------------  SLOTS ---------------------------------//
