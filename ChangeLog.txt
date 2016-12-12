@@ -1,0 +1,50 @@
+0.7.0
+	- Przeportowanie na Qt5
+	- Dodanie walidacji oraz obliczanie sum kontrolnych dla rubryk formularzy
+	- Usunięcie wyboru maski w ustawieniach i zastąpienie jej działaniem regularnymi wyrażeniami
+	- Dodanie możliwości przekształcania waluty według aktualnego kursu walut. Zmiana wartości co pół godziny
+	- Uzupełnienie opcji płatności "zaliczki" o podgląd kwoty rat oraz sposobu płatności pod podsumowaniem w oknie faktury
+	- Dodanie w ustawieniach możliwość wyboru danych kontrahenta, jakie mają znaleźć się na fakturze
+	- Przyciski "Dodaj" i "Usuń" kolejno dla faktur, kontrahentów i towarów są nieczynne dopóki nie pojawi się przynajmniej    	jeden wpis. Zmiany są na bieżąco wykrywane
+	- Filtr dat dla listy faktur działa według dat w drugiej rubryce zamiast nazwy pliku, zawierającej datę stworzenia pliku
+	- Poprawa rozmiaru czcionki dla elementów tabelki na fakturze
+	- Komunikat w przypadku wybraniu daty wcześniejszej w polu daty końcowej niż wskazuje data początkowa w filtrze.  Komunikat występuje także w przypadku próby wybrania daty wcześniejszej dla wystawienia faktury niż data sprzedaży towaru oraz przy próbie wybrania daty wcześniejszej dla drugiej raty niż data pierwszej zapłaty. Dodatkowo w przypadku zaliczki obie daty nie mogą być sobie równe
+	- Dodanie kolumn dla adresów e-mail oraz stron www w tabeli kontrahentów
+	- Kliknięcie na odsyłacz w tablicy kontrahentów oraz na liście kontrahentów przy dodawaniu danych do faktury powoduje uruchomienie domyślnej przeglądarki systemowej oraz przejście na adres odsyłacza
+	- Podmiana nieaktywnych lub nieaktualnych adresów url
+	- Zmiana domyślnych stawek VAT 22 i 7 na 23, 8 i 5
+	- Dodanie do domyślnej listy powodów korekty 7 kolejnych możliwych powodów
+	- Dodanie 3 rubryk do formularza dla danych użytkownika: możliwość podania numeru telefonu, adresu e-mail i strony internetowej
+	- Duplikat faktury zapisuje się w katalogu systemowym oraz ukazuje się na liście faktur po jego zapisie, wraz z adnotacją o tym, że jest to duplikat
+	- Edytowanie duplikatu równa się temu, że nie można niczego zmieniać, oprócz przeglądania rat faktury zaliczkowej oraz możliwości wydrukowania aktualnego duplikatu
+	- W plikach xml zapisuje się więcej danych, szczególnie dla faktur
+	- W pliku bureau.xml znajdują się aktualne wartości kursu walut. Plik tworzy się po pierwszym użyciu konwersji w oknie faktury
+	- Możliwość wybrania języka angielskiego. Translacja jest kompletna i działa po ponownym uruchomieniu programu
+	- Wprowadzenie zabezpieczenia na wypadek zmiany lokalizacji w systemie oraz wynikających z tego brak formatowania liczb double odczytywanych z plików xml
+	- Dodanie wartości milionowych i miliardowych do zapisu słownego na fakturze
+
+0.6.5
+	- Skróty klawiszowe na zmianę zakładek w oknie głównym
+	- Poprawiony bug z wystawianiem faktur brutto
+	- Skrót klawiszowy na edycje faktur = E a także enter w zakładce z fakturami
+
+0.6.2
+	- Oryginał i kopia osobno, nie trzeba skreślać 
+	- Możliwość zdefiniowania ilości kopii
+	- Duplikaty faktur
+	- Faktury brutto wystawiane od cen brutto
+	- Rachunki 
+	- Obsługa pluginów Python'a, PyQt
+	- Faktury zaliczkowe, część płatności gotówką, część płatności przelewem
+	- Możliwość dodania kontrahenta bezpośrednio w oknie faktury
+
+0.6.1
+	- przeniesienia z cmake na qmake (cmake ma duzo limitacji), np. build nie działa z eclipse, deb nie dodaje plików ikon
+	- bugi: 2713949, 2700432, 2706600 (pięćdziesiąt), 2718411, 2718718
+	- zdefiniowania kilku CSS do wydruku faktur
+	- format nip i konto bankowego w ustawieniach
+	- menu kontekstowe
+	- sortowanie danych w historii, kontrahentach i towarach
+
+0.6.0
+	Initial release po złączeniu funkcji z 0.0.3 z wersja 0.5.0

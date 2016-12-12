@@ -1,0 +1,5 @@
+-sprawdzanie nowej wersji przez http przy każdym uruchomieniu (żeby sprawdzać, ile osób aktywnie korzysta z programu)
+-użycie xslt do generowania html'a z fakturą (będą template'y do faktur)
+-użycie xml schema z xmlbeansxx (xmlbeansxx.sf.net) po to, żeby walidować tworzone dane z fakturami, kontrahentami i towarami oraz po to, żeby lepiej się edytowało kod w C++, który operuje na xmlu
+-użycie sqlite do trzymania danych o fakturach; zrobienie exportu / importu do xml danych
+
