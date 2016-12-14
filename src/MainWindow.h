@@ -14,13 +14,14 @@ class MainWindow: public QMainWindow {
 Q_OBJECT
 
 public:
+
     MainWindow(QWidget *parent=0);
 	~MainWindow();
 	static void insertRow(QTableWidget *t, int row);
-    Ui::MainWindow *ui;
-	IDataLayer *dl;
+
 
 public slots:
+
 	void tableClear(QTableWidget * tab);
     void tabChanged();
     void rereadHist(bool if_clicked);
@@ -54,8 +55,15 @@ public slots:
 	void keyPressEvent(QKeyEvent * event);
     void openWebTableK(int,int);
 
+
 private:
-	QString workingDir; // should be deprecated
+
+
+    IDataLayer *dl;
+    Ui::MainWindow *ui;
+
+    QVector<QAction*> plugActions;
+    QString workingDir;
 	QMap<int, QString> customActions;
     QTimer *timer;
 	void saveColumnWidth();
@@ -68,7 +76,10 @@ private:
 	void readHist();
 	void readKontr();
 	void readTw();
+
+
 protected:
+
 	virtual void loadPlugins();
 };
 #endif

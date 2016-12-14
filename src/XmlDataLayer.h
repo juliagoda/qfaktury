@@ -31,8 +31,6 @@ public:
 	virtual bool productsInsertData(ProductData& prodData, int type);
 	virtual bool productsUpdateData(ProductData& prodData, int type, QString name);
 	virtual bool productsDeleteData(QString name);
-    virtual double getPreviousLocDoub(QString number);
-    virtual int getPreviousLocInt(QString number);
 
     virtual InvoiceData invoiceSelectData(QString name, int type);
 	virtual QVector<InvoiceData> invoiceSelectAllData(QDate start, QDate end);

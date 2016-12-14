@@ -11,11 +11,17 @@
 #include "Korekta.h"
 
 class KorektaBrutto: public Korekta {
+
 Q_OBJECT
+
 public:
+
     KorektaBrutto(QWidget *parent, IDataLayer *dl, QString in_form = QString());
 	void addTow();
+
+
 protected:
+
 	void calculateOneDiscount(int i);
 	QString getInvoiceTypeAndSaveNr();
 

@@ -20,6 +20,7 @@ void Rachunek::rachunekInit() {
 
 
 QString Rachunek::getInvoiceTypeAndSaveNr() {
+
 	QString rachunek = "rachunek";
 	sett().setValue("fvat", frNr->text());
 	return rachunek;

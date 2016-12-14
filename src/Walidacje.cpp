@@ -225,16 +225,7 @@ bool Walidacje::checkSumNIP(QString text)
 {
     QString removedHyph = text.remove("-");
     QVector<int> list;
-    QVector<int> numbersCheck;
-    numbersCheck.append(6);
-    numbersCheck.append(5);
-    numbersCheck.append(7);
-    numbersCheck.append(2);
-    numbersCheck.append(3);
-    numbersCheck.append(4);
-    numbersCheck.append(5);
-    numbersCheck.append(6);
-    numbersCheck.append(7);
+    QVector<int> numbersCheck = validateNumb(6,5,7,2,3,4,5,6,7);
 
     for (int i = 0; i < removedHyph.length(); i++)
     {
@@ -267,23 +258,11 @@ bool Walidacje::checkSumREGON(QString text)
     QVector<int> numbersCheck;
 
     if (text.length() == 7) {
-    numbersCheck.append(2);
-    numbersCheck.append(3);
-    numbersCheck.append(4);
-    numbersCheck.append(5);
-    numbersCheck.append(6);
-    numbersCheck.append(7);
+        numbersCheck = validateNumb(2,3,4,5,6,7);
     }
 
     if (text.length() == 9) {
-    numbersCheck.append(8);
-    numbersCheck.append(9);
-    numbersCheck.append(2);
-    numbersCheck.append(3);
-    numbersCheck.append(4);
-    numbersCheck.append(5);
-    numbersCheck.append(6);
-    numbersCheck.append(7);
+        numbersCheck = validateNumb(8,9,2,3,4,5,6,7);
     }
 
     for (int i = 0; i < text.length(); i++)
@@ -314,19 +293,7 @@ bool Walidacje::checkSumREGON(QString text)
 bool Walidacje::checkSumPESEL(QString text)
 {
     QVector<int> list;
-    QVector<int> numbersCheck;
-    numbersCheck.append(9);
-    numbersCheck.append(7);
-    numbersCheck.append(3);
-    numbersCheck.append(1);
-    numbersCheck.append(9);
-    numbersCheck.append(7);
-    numbersCheck.append(3);
-    numbersCheck.append(1);
-    numbersCheck.append(9);
-    numbersCheck.append(7);
-    numbersCheck.append(1);
-
+    QVector<int> numbersCheck = validateNumb(9,7,3,1,9,7,3,1,9,7,1);
 
     for (int i = 0; i < text.length(); i++)
     {
@@ -355,49 +322,8 @@ bool Walidacje::checkSumPESEL(QString text)
 
 bool Walidacje::checkSumAccount(QString text)
 {
-    QMap<QChar,int> symbols;
-    symbols.insert('A',10);
-    symbols.insert('B',11);
-    symbols.insert('C',12);
-    symbols.insert('D',13);
-    symbols.insert('E',14);
-    symbols.insert('F',15);
-    symbols.insert('G',16);
-    symbols.insert('H',17);
-    symbols.insert('I',18);
-    symbols.insert('J',19);
-    symbols.insert('K',20);
-    symbols.insert('L',21);
-    symbols.insert('M',22);
-    symbols.insert('N',23);
-    symbols.insert('O',24);
-    symbols.insert('P',25);
-    symbols.insert('Q',26);
-    symbols.insert('R',27);
-    symbols.insert('S',28);
-    symbols.insert('T',29);
-    symbols.insert('U',30);
-    symbols.insert('V',31);
-    symbols.insert('W',32);
-    symbols.insert('X',33);
-    symbols.insert('Y',34);
-    symbols.insert('Z',35);
 
-    QVector<int> numbersCheck;
-    numbersCheck.append(7);
-    numbersCheck.append(3);
-    numbersCheck.append(1);
-    numbersCheck.append(7);
-    numbersCheck.append(3);
-    numbersCheck.append(1);
-    numbersCheck.append(7);
-    numbersCheck.append(3);
-    numbersCheck.append(9);
-    numbersCheck.append(7);
-    numbersCheck.append(1);
-
-
-    if (symbols.contains(text.at(0)) && symbols.contains(text.at(1))) {
+    if (symbols().contains(text.at(0)) && symbols().contains(text.at(1))) {
 
     QString trimmedText = text;
     if (text.contains(QRegExp("(\\s)"))) trimmedText = text.remove(" ");
@@ -412,10 +338,10 @@ bool Walidacje::checkSumAccount(QString text)
         list.append(trimmedText.at(i).digitValue());
     }
 
-    list.append(symbols.value(trimmedText.at(0)));
-    qDebug() << "numer z rachunku po przeniesieniu i przekształceniu: " << symbols.value(trimmedText.at(0));
-    list.append(symbols.value(trimmedText.at(1)));
-    qDebug() << "numer z rachunku po przeniesieniu i przekształceniu: " << symbols.value(trimmedText.at(1));
+    list.append(symbols().value(trimmedText.at(0)));
+    qDebug() << "numer z rachunku po przeniesieniu i przekształceniu: " << symbols().value(trimmedText.at(0));
+    list.append(symbols().value(trimmedText.at(1)));
+    qDebug() << "numer z rachunku po przeniesieniu i przekształceniu: " << symbols().value(trimmedText.at(1));
     list.append(trimmedText.at(2).digitValue());
     qDebug() << "numer z rachunku po przeniesieniu i przekształceniu: " << trimmedText.at(2);
     list.append(trimmedText.at(3).digitValue());
@@ -462,49 +388,14 @@ bool Walidacje::checkSumAccount(QString text)
 
 bool Walidacje::checkSumIDCard(QString text)
 {
-    QMap<QChar,int> symbols;
-    symbols.insert('A',10);
-    symbols.insert('B',11);
-    symbols.insert('C',12);
-    symbols.insert('D',13);
-    symbols.insert('E',14);
-    symbols.insert('F',15);
-    symbols.insert('G',16);
-    symbols.insert('H',17);
-    symbols.insert('I',18);
-    symbols.insert('J',19);
-    symbols.insert('K',20);
-    symbols.insert('L',21);
-    symbols.insert('M',22);
-    symbols.insert('N',23);
-    symbols.insert('O',24);
-    symbols.insert('P',25);
-    symbols.insert('Q',26);
-    symbols.insert('R',27);
-    symbols.insert('S',28);
-    symbols.insert('T',29);
-    symbols.insert('U',30);
-    symbols.insert('V',31);
-    symbols.insert('W',32);
-    symbols.insert('X',33);
-    symbols.insert('Y',34);
-    symbols.insert('Z',35);
 
-    QVector<int> numbersCheck;
-    numbersCheck.append(7);
-    numbersCheck.append(3);
-    numbersCheck.append(1);
-    numbersCheck.append(7);
-    numbersCheck.append(3);
-    numbersCheck.append(1);
-    numbersCheck.append(7);
-    numbersCheck.append(3);
+    QVector<int> numbersCheck = validateNumb(7,3,1,7,3,1,7,3);
 
     QString transferedText = text;
 
-    int first = symbols.value(transferedText.at(0));
-    int second = symbols.value(transferedText.at(1));
-    int third = symbols.value(transferedText.at(2));
+    int first = symbols().value(transferedText.at(0));
+    int second = symbols().value(transferedText.at(1));
+    int third = symbols().value(transferedText.at(2));
 
 
     QVector<int> list;
@@ -545,49 +436,12 @@ bool Walidacje::checkSumIDCard(QString text)
 
 bool Walidacje::checkSumPass(QString text) {
 
-    QMap<QChar,int> symbols;
-    symbols.insert('A',10);
-    symbols.insert('B',11);
-    symbols.insert('C',12);
-    symbols.insert('D',13);
-    symbols.insert('E',14);
-    symbols.insert('F',15);
-    symbols.insert('G',16);
-    symbols.insert('H',17);
-    symbols.insert('I',18);
-    symbols.insert('J',19);
-    symbols.insert('K',20);
-    symbols.insert('L',21);
-    symbols.insert('M',22);
-    symbols.insert('N',23);
-    symbols.insert('O',24);
-    symbols.insert('P',25);
-    symbols.insert('Q',26);
-    symbols.insert('R',27);
-    symbols.insert('S',28);
-    symbols.insert('T',29);
-    symbols.insert('U',30);
-    symbols.insert('V',31);
-    symbols.insert('W',32);
-    symbols.insert('X',33);
-    symbols.insert('Y',34);
-    symbols.insert('Z',35);
-
-    QVector<int> numbersCheck;
-    numbersCheck.append(7);
-    numbersCheck.append(3);
-    numbersCheck.append(9);
-    numbersCheck.append(1);
-    numbersCheck.append(7);
-    numbersCheck.append(3);
-    numbersCheck.append(1);
-    numbersCheck.append(7);
-    numbersCheck.append(3);
+    QVector<int> numbersCheck = validateNumb(7,3,9,1,7,3,1,7,3);
 
     QString transferedText = text;
 
-    int first = symbols.value(transferedText.at(0));
-    int second = symbols.value(transferedText.at(1));
+    int first = symbols().value(transferedText.at(0));
+    int second = symbols().value(transferedText.at(1));
 
 
     QVector<int> list;

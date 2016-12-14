@@ -9,6 +9,7 @@
 
 /** Constructor
  */
+
 Towary::Towary(QWidget *parent, int mode, IDataLayer *dl): QDialog(parent) {
 
     workMode = mode;
@@ -20,7 +21,9 @@ Towary::Towary(QWidget *parent, int mode, IDataLayer *dl): QDialog(parent) {
 
 /** Init
  */
+
 void Towary::init() {
+
 	selectData("", 0);
 
 	jednCombo->addItems(sett().value("jednostki").toString().split("|"));
@@ -33,97 +36,122 @@ void Towary::init() {
 	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
 }
 
+QString Towary::getRetTow() const
+{
+    return ret;
+}
+
 /******************** SLOTS START ***************************/
 
 /** Slot
  *  save data to XML file and returns row for products table
  */
+
 void Towary::okClick() {
+
     if (Walidacje::instance()->isEmptyField(nameEdit->text(),textLabel3->text())) return;
 
 	QString pkwiu = pkwiuEdit->text();
 
-	if (pkwiu == "")  
-		pkwiu = " ";   
+	if (pkwiu == "")  pkwiu = " ";   
     else {
         if (!Walidacje::instance()->validatePkwiu(pkwiuEdit->text())) return;
     }
 
 	QString skrot = skrotEdit->text();
+
 	if (skrot == "")
 		skrot = " ";
+
 	QString kod = kodEdit->text();
+
 	if (kod == "")
 		kod = " ";
 
 	if (workMode == 1) {
+
         if (updateData()) {
-        ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
+
+            ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
 				+ kod + "|" + pkwiu + "|" + typeCombo->currentText() + "|"
 				+ jednCombo->currentText() + "|" + netto[0] + "|"
 				+ netto[1] + "|" + netto[2] + "|" + netto[3] + "|"
 				+ cbVat->currentText();
-		accept();
+            accept();
         }
 
 	} else {
+
 		if (insertData()) {
+
 			ret = idxEdit->text() + "|" + nameEdit->text() + "|" + skrot + "|"
 				+ kod + "|" + pkwiu + "|" + typeCombo->currentText() + "|"
 				+ jednCombo->currentText() + "|" + netto[0] + "|"
 				+ netto[1] + "|" + netto[2] + "|" + netto[3] + "|"
 					+ cbVat->currentText();
+
 			accept();
 		}
 	}
-
 }
 
 /** Slot
  *  spinBox with list of prices changed
  */
+
 void Towary::spinChanged(int a) {
+
 	nettoEdit->setValue(netto[a - 1].toDouble());
 }
 
 /** Slot
  *  Nett value changed
  */
+
 void Towary::nettoChanged(double ) {
-	// qDebug ()<<nettoEdit->text ();
+
 	netto[spinBox2->value() - 1] = nettoEdit->cleanText();
 }
 
 /** Slot
  *  Find PKWIU code on the net
  */
+
 void Towary::pkwiuGet() {
+
     QDesktopServices::openUrl(QUrl(tr("http://www.vat.pl/pkwiu/index.php?rodzajKlasyfikacji=pkwiuvat&kod")));
 }
 
-
 /******************** SLOTS END ***************************/
-
 
 /** Loads data into the form
  */
+
 void Towary::selectData(QString idx, int type) {
+
 	if (idx == "") {
+
 		netto.append("0");
 		netto.append("0");
 		netto.append("0");
 		netto.append("0");
 		nettoEdit->setValue(0);
+
 	} else {
+
 		setWindowTitle(trUtf8("Edytuj towar/usługę"));
 		typeCombo->setEnabled(false);
 	}
 
 	ProductData prodData = dataLayer->productsSelectData(idx, type);
+
 	if (workMode==0) {
+
 		idx = QString::number(prodData.lastProdId);
 		idxEdit->setText(idx);
+
 	} else {
+
 		getData(prodData);
 	}
 
@@ -133,7 +161,9 @@ void Towary::selectData(QString idx, int type) {
 
 /** Saves data from the form
  */
+
 bool Towary::insertData() {
+
 	nettoChanged(0);
 	ProductData prodData;
 	setData(prodData);
@@ -144,7 +174,9 @@ bool Towary::insertData() {
 /** Modify product
  *  Searches for the right one and saves it.
  */
+
 bool Towary::updateData() {
+
 	nettoChanged(0);
 	ProductData prodData;
 	setData(prodData);
@@ -155,7 +187,9 @@ bool Towary::updateData() {
 
 /** Load from the form to Data object
  */
+
 void Towary::getData(ProductData prodData) {
+
 	idxEdit->setText(QString::number(prodData.id));
 	nameEdit->setText(prodData.name);
 	kodEdit->setText(prodData.code);
@@ -177,7 +211,9 @@ void Towary::getData(ProductData prodData) {
 
 /** Display productData
  */
+
 void Towary::setData(ProductData &prodData) {
+
 	prodData.id = idxEdit->text().toInt();
 	prodData.name = nameEdit->text();
 	prodData.desc = skrotEdit->text();
@@ -190,4 +226,3 @@ void Towary::setData(ProductData &prodData) {
 	prodData.prices[3] = sett().stringToDouble(netto[3]);
 	prodData.vat = cbVat->currentText().toInt();
 }
-

@@ -11,14 +11,27 @@
 #include "TowaryLista.h"
 
 class TowaryBruttoLista: public TowaryLista {
+
 Q_OBJECT
+
 public:
+
 	TowaryBruttoLista(QWidget *parent);
+    QString getRetValTowBr() const;
 	~TowaryBruttoLista();
+
+
 public slots:
+
     void calcNetto();
     void doAccept();
 	QString getPriceOfCurrent();
+
+
+private:
+
+    QString ret;
+    QString selectedItem;
 };
 
 

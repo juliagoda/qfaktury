@@ -20,6 +20,7 @@ bool Korekta::firstEdit = true;
 
 // constructor
 Korekta::Korekta(QWidget *parent, IDataLayer *dl, QString in_form): Faktura(parent, dl, in_form) {
+
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
      editMode = false;
      firstRunned = true;
@@ -35,6 +36,7 @@ Korekta::Korekta(QWidget *parent, IDataLayer *dl, QString in_form): Faktura(pare
 }
 
 Korekta::~Korekta() {
+
 	delete invData;
 	invData = NULL;
     ifInited = true;
@@ -43,6 +45,7 @@ Korekta::~Korekta() {
 
 /* Init
  */
+
 void Korekta::korektaInit (bool mode){
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;

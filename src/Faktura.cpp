@@ -874,7 +874,7 @@ void Faktura::addTow() {
     if (twWindow->exec() == QDialog::Accepted) {
 		MainWindow::insertRow(tableTow, tableTow->rowCount());
         // qDebug() << twWindow->ret;
-        QStringList row = twWindow->ret.split("|");
+        QStringList row = twWindow->getRetVal().split("|");
         int rowNum = tableTow->rowCount() - 1;
         tableTow->item(rowNum, 0)->setText(sett().numberToString(
                 tableTow->rowCount())); // id
@@ -2195,6 +2195,8 @@ void Faktura::readData(QString fraFile, int co) {
         setWindowTitle(s_WIN_PROFORMA_EDIT);
     } else if (co == 2) {
         setWindowTitle(s_WIN_DUPLICATE_LOOK);
+    } else if (co == 4) {
+        setWindowTitle(s_BR_INVOICE_EDIT);
     }
 
     getData(dataLayer->invoiceSelectData(fraFile, co));

@@ -5,10 +5,16 @@
 #include "ui_Ustawienia.h"
 #include <QListWidget>
 class Ustawienia: public QDialog, public Ui::Ustawienia {
+
 Q_OBJECT
+
 public:
+
 	Ustawienia(QWidget *parent);
+
+
 public slots:
+
 	void apply();
 	void okButtonClick();
 	void addLogoBtnClick();
@@ -31,17 +37,24 @@ public slots:
 	void setDefaultClick();
 	void maskHelpClick();
 	void workingDirBtnClick();
+
+
 private:
+
 	bool read;
 	void init();
 	void sumSize();
 	void saveSettings();
 	void readSettings();
 	void getEncodings();
+    void helpFuncAddNr(QLineEdit*, QListWidget* , QString const&);
+    void helpFuncDelNr(QListWidget* , QString const&);
+    void helpFuncAp(QListWidget*);
+    void helpFuncDown(QListWidget*);
 	QStringList getTemplates();
 	QStringList getTranslations();
 	QString getAll(QListWidget *lb);
-	QList<QTextCodec *> codecs;
+    QVector<QTextCodec *> codecs;
 
 };
 #endif

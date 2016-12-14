@@ -9,6 +9,7 @@
   * init function read settings
   !*/
 void Uzytkownik::init () {
+
   QSettings settings("elinux", "user");
   nameEdit->setText (settings.value ("name").toString());
   placeEdit->setText (settings.value ("city").toString());
@@ -26,9 +27,7 @@ void Uzytkownik::init () {
   phonEdit->setText (settings.value ("phone").toString());
   emailEdit->setText (settings.value ("email").toString());
   webEdit->setText (settings.value ("website").toString());
- // QRegExp masks("(([0-9]{3})-([0-9]{2})-([0-9]{2})-([0-9]{3}))|(([0-9]{3})-([0-9]{3})-([0-9]{2})-([0-9]{2}))");
- // nipEdit->setInputMask(masks);
- // accountEdit->setInputMask(sett().value("accountMask", "99-9999-9999-9999-9999-9999-9999; ").toString());
+
 }
 
 
@@ -99,11 +98,10 @@ bool Uzytkownik::checkAll()
     return true;
 }
 
-
-
 /*!
   *   save settings
   !*/
+
 void Uzytkownik::okClick ()
 {
   if (checkAll()) {

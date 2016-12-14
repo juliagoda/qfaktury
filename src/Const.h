@@ -22,6 +22,7 @@ static const QString s_TIC = QObject::trUtf8("NIP: ");
 
 static const QString s_WIN_PRINTPREVIEW = QObject::trUtf8(" - Podgląd wydruku");
 static const QString s_WIN_INVOICE_EDIT = QObject::trUtf8("Edytuje Fakturę VAT");
+static const QString s_BR_INVOICE_EDIT = QObject::trUtf8("Edytuje Fakturę Brutto");
 static const QString s_WIN_PROFORMA_EDIT = QObject::trUtf8("Edytuje Fakturę Pro Forma");
 static const QString s_WIN_DUPLICATE_LOOK = QObject::trUtf8("Sprawdza duplikat");
 

@@ -17,16 +17,22 @@
 
 
 class Rachunek: public Faktura {
+
 Q_OBJECT
+
 public:
+
     Rachunek(QWidget *parent, IDataLayer *dl, QString in_form = QString());
+
+
 public slots:
+
 	void rachunekInit();
+
+
 protected:
+
 	QString getInvoiceTypeAndSaveNr();
-
-
 };
-
 
 #endif /* RACHUNEK_H_ */

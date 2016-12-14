@@ -64,6 +64,7 @@ QString getAppDirs() {
 	    // The easiest way
 	    // On windows and during testing files have to be in executable dir
         if (!translator->load(QString("qfaktury_") + lang)) translator->load(QString("qfaktury_") + lang, appPath + "/translations");
+        qDebug() << "Pliki tłumaczenia znajdują się w: " << appPath + "/translations";
 		return translator;
 	}
 

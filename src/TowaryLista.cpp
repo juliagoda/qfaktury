@@ -11,6 +11,7 @@
 
 /** Constructor
  */
+
 TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
     setupUi(this);
     init();
@@ -18,8 +19,11 @@ TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
 
 /** Init
  */
+
 void TowaryLista::init() {
+
 	ret = "";
+
 	// clear all the lists
 	listaTowary2.clear();
 	listaUslugi2.clear();
@@ -29,13 +33,8 @@ void TowaryLista::init() {
 	readTow ();
 	displayData(0);
 
-    if (sett().value("editName").toBool()) {
-		nameEdit->setEnabled(true);
-
-	} else {
-		nameEdit->setEnabled(false);
-
-	}
+    if (sett().value("editName").toBool()) nameEdit->setEnabled(true);
+    else nameEdit->setEnabled(false);
 
 	// connects
 	connect(okBtn, SIGNAL( clicked() ), this, SLOT( doAccept()));
@@ -43,11 +42,28 @@ void TowaryLista::init() {
 	connect(comboBox1, SIGNAL( activated(int) ), this, SLOT( comboBox1Changed(int)));
 	connect(listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(lv1selChanged()));
 	connect(spinBox2, SIGNAL( valueChanged(int) ), this, SLOT( spinChanged(int) ) );
-	// connect( nameEdit, SIGNAL( textChanged(const QString&) ), this, SLOT( setSelItemText() ) );
 	connect(rabatSpin, SIGNAL( valueChanged(int) ), this, SLOT( calcNetto() ) );
-	// connect( countSpinBox, SIGNAL( lostFocus() ), this, SLOT( calcNetto() ) );
-	// connect( countSpinBox, SIGNAL( selectionChanged() ), this, SLOT( calcNetto() ) );
 	connect(countSpinBox, SIGNAL( valueChanged(const QString&) ), this, SLOT( calcNetto() ) );
+}
+
+QString TowaryLista::getTowId() const
+{
+    return id;
+}
+
+QString TowaryLista::getSelItem() const
+{
+    return selectedItem;
+}
+
+QMap<QString, int> TowaryLista::getVatsVal() const
+{
+    return vats;
+}
+
+QString TowaryLista::getRetVal() const
+{
+    return ret;
 }
 
 // ***************************** SLOTS START *****************************************
@@ -55,12 +71,14 @@ void TowaryLista::init() {
 /** Slot
  *  spinBox netto numbers changed
  */
+
 void TowaryLista::spinChanged(int a) {
+
 	// qDebug () << __FUNCTION__;
-	QList<QListWidgetItem *> items = listWidget->selectedItems();
-	if (items.size() == 1) {
-		QListWidgetItem *item = items[0];
-		priceBoxEdit->setValue(nettos[item->text()].split("|")[a - 1].toDouble());
+
+    if (listWidget->selectedItems().size() == 1) {
+
+        priceBoxEdit->setValue(nettos[listWidget->selectedItems().at(0)->text()].split("|")[a - 1].toDouble());
 		calcNetto();
 	}
 }
@@ -69,6 +87,7 @@ void TowaryLista::spinChanged(int a) {
  *  Accept and close
  */
 void TowaryLista::doAccept() {
+
 	if (countSpinBox->text() == "" || countSpinBox->value() < 0.001) {
 		QMessageBox::information(this, "QFaktury", trUtf8("Podaj ilość"),
 				QMessageBox::Ok);
@@ -119,9 +138,9 @@ void TowaryLista::comboBox1Changed(int x) {
  *  Reload data in ListView
  */
 void TowaryLista::lv1selChanged() {
-	QList<QListWidgetItem *> items = listWidget->selectedItems();
-	if (items.size() == 1) {
-		QListWidgetItem *item = items[0];
+
+    if (listWidget->selectedItems().size() == 1) {
+        QListWidgetItem *item = listWidget->selectedItems().at(0);
 		nameEdit->setText(item->text());
 		displayNetto(item->text());
 		id = item->text();
@@ -133,10 +152,12 @@ void TowaryLista::lv1selChanged() {
 /** Slot
  *  Calulate Netto
  */
+
 void TowaryLista::calcNetto() {
-	QList<QListWidgetItem *> items = listWidget->selectedItems();
-	if (items.size() == 1) {
-		QListWidgetItem *item = items[0];
+
+    if (listWidget->selectedItems().size() == 1) {
+
+        QListWidgetItem *item = listWidget->selectedItems().at(0);
 		double price = (countSpinBox->value() * priceBoxEdit->value()); // price * quantity
 		double discount = price * (rabatSpin->value() * 0.01);
 		double netto2 = price - discount;
@@ -148,36 +169,45 @@ void TowaryLista::calcNetto() {
 	}
 }
 
-
 // ***************************** SLOTS END *****************************************
 
 /** Read the XML
  */
+
 void TowaryLista::readTow() {
+
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
 	QDomElement towar;
 	QDomElement usluga;
-	QString code, curr, pkwiu;
 
 	QFile file(sett().getProductsXml());
+
 	if (!file.open(QIODevice::ReadOnly)) {
+
 		qDebug("file doesn't exists");
 		return;
+
 	} else {
+
 		QTextStream stream(&file);
 		if (!doc.setContent(stream.readAll())) {
+
 			qDebug("can not set content ");
 			file.close();
 			return;
+
 		} else {
+
 			root = doc.documentElement();
 			towar = root.firstChild().toElement();
 			usluga = root.lastChild().toElement();
 		}
-		QString text, idx;
+
+        QString text = QString();
 
 		for (QDomNode n = towar.firstChild(); !n.isNull(); n = n.nextSibling()) {
+
 			text = n.toElement().attribute("name");
 			ProductData *product = new ProductData();
 			product->setId(n.toElement().attribute("idx"));
@@ -192,6 +222,9 @@ void TowaryLista::readTow() {
 						n.toElement ().attribute ("netto3") + "|" +
 						n.toElement ().attribute ("netto4");
 			listaTowary2.insert(text, product);
+
+            if (product != 0) product = 0;
+            delete product;
 
 		}
 
@@ -210,49 +243,61 @@ void TowaryLista::readTow() {
 						n.toElement ().attribute ("netto3") + "|" +
 						n.toElement ().attribute ("netto4");
 			listaUslugi2.insert(text, product);
+
+            if (product != 0) product = 0;
+            delete product;
 		}
 	}
 }
 
 /** DisplatData
  */
+
 void TowaryLista::displayData(int x) {
+
 	listWidget->clear();
 
 	switch (x) {
 	case 0:
-		for (QMap<QString, ProductData *>::iterator iter = listaTowary2.begin();
+
+        for (QHash<QString, ProductData *>::iterator iter = listaTowary2.begin();
 				iter != listaTowary2.end();
 				++iter) {
 			listWidget->addItem(iter.key());
 		}
+
 		break;
 	case 1:
-		for (QMap<QString, ProductData *>::iterator iter = listaUslugi2.begin();
+
+        for (QHash<QString, ProductData *>::iterator iter = listaUslugi2.begin();
 						iter != listaUslugi2.end();
 						++iter) {
 			listWidget->addItem(iter.key());
 		}
+
 		break;
 	}
 }
 
 /** display Nettos Data
  */
+
 void TowaryLista::displayNetto(QString index) {
+
 	priceBoxEdit->setValue(nettos[index].split("|")[0].toDouble());
 	spinBox2->setValue(1);
 }
 
-
 /** Remove unnecessary zeros 1,000 = 1
  */
+
 QString TowaryLista::trimZeros(QString in) {
+
 	// code to remove unncessery zeros
 	QStringList quan = in.split(sett().getDecimalPointStr());
 	QString quantity = in;
-	if (quan[1].compare("000") == 0) {
-		quantity = quan[0];
-	}
+
+    if (quan[1].compare("000") == 0) quantity = quan[0];
+
 	return quantity;
 }

@@ -69,7 +69,7 @@ void FakturaBrutto::addTow() {
 	if (twWindow->exec() == QDialog::Accepted) {
 		MainWindow::insertRow(tableTow, tableTow->rowCount());
 		// qDebug() << twWindow->ret;
-		QStringList row = twWindow->ret.split("|");
+        QStringList row = twWindow->getRetValTowBr().split("|");
 		int rowNum = tableTow->rowCount() - 1;
 		tableTow->item(rowNum, 0)->setText(sett().numberToString(
 				tableTow->rowCount())); // id
