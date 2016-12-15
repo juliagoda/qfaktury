@@ -11,8 +11,10 @@
 
 /** Constructor
  */
+
 Kontrahenci::Kontrahenci(QWidget *parent, int mode, IDataLayer *dl) :
 	QDialog(parent) {
+
 	workingMode = mode;
 	dataLayer = dl;
 	setupUi(this);
@@ -21,6 +23,7 @@ Kontrahenci::Kontrahenci(QWidget *parent, int mode, IDataLayer *dl) :
 
 /** init()
  */
+
 void Kontrahenci::init() {
 
 	allNames = dataLayer->kontrahenciGetFirmList();
@@ -30,21 +33,33 @@ void Kontrahenci::init() {
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
+
+QString Kontrahenci::getRetKontr() const
+{
+    return ret;
+}
+
 // --------- SLOTS START --
 /** Slot - ok & save
  */
+
 void Kontrahenci::okClick() {
+
 	if (workingMode == 1) {
+
         if (updateData()) {
-        ret = isEmpty(nameEdit->text()) + "|" + isEmpty(typeCombo->currentText()) + "|" + isEmpty(
+
+            ret = isEmpty(nameEdit->text()) + "|" + isEmpty(typeCombo->currentText()) + "|" + isEmpty(
                 placeEdit->text()) + "|" + isEmpty(addressEdit->text()) + "|"
                 + isEmpty(telefonEdit->text()) + "|" + isEmpty(nipEdit->text()) + "|"
                 + isEmpty(codeEdit->text()) + "|" + isEmpty(accountEdit->text()) + "|" + isEmpty(telefonEdit->text()) + "|"
                 + isEmpty(emailEdit->text()) + "|" + isEmpty(wwwEdit->text());
-		accept();
+            accept();
         }
 	} else {
+
 		if (insertData()) {
+
             ret = isEmpty(nameEdit->text()) + "|" + isEmpty(typeCombo->currentText()) + "|" + isEmpty(
                         placeEdit->text()) + "|" + isEmpty(addressEdit->text()) + "|"
                         + isEmpty(telefonEdit->text()) + "|" + isEmpty(nipEdit->text()) + "|"
@@ -55,11 +70,14 @@ void Kontrahenci::okClick() {
 	}
 
 }
+
 // --------- SLOTS END --
 
 //***** DATA access START ****
 // load data modification mode
+
 void Kontrahenci::selectData(QString name, int type) {
+
 	setWindowTitle(trUtf8("Edytuj kontrahenta"));
 	getData(dataLayer->kontrahenciSelectData(name, type));
 	typeCombo->setCurrentIndex(type);
@@ -68,8 +86,11 @@ void Kontrahenci::selectData(QString name, int type) {
 
 // new customer insert data
 bool Kontrahenci::insertData() {
+
 	bool result = false;
+
 	if (validate()) {
+
 		KontrData kontrData;
 		setData(kontrData);
 		result = dataLayer->kontrahenciInsertData(kontrData,
@@ -81,14 +102,17 @@ bool Kontrahenci::insertData() {
 
 // update existing
 bool Kontrahenci::updateData() {
+
 	bool result = false;
     if (validateUpdated()) {
+
 		KontrData kontrData;
 		setData(kontrData);
 
 		result = dataLayer->kontrahenciUpdateData(kontrData,
 					typeCombo->currentIndex(), nameEdit->text());
 	}
+
 	return result;
 }
 //***** DATA access END ****
@@ -102,6 +126,7 @@ bool Kontrahenci::updateData() {
 
 /** validate()
  */
+
 bool Kontrahenci::validate() {
 
     if (Walidacje::instance()->isEmptyField(nameEdit->text(),textLabel1->text())) return false;
@@ -138,8 +163,6 @@ bool Kontrahenci::validate() {
     if (!wwwEdit->text().isEmpty()) {
         if (!Walidacje::instance()->validateWebsite(wwwEdit->text())) return false;
    }
-
-
 
     if (allNames.indexOf(QRegExp(nameEdit->text(), Qt::CaseSensitive,
             QRegExp::FixedString)) != -1) {
@@ -200,7 +223,9 @@ bool Kontrahenci::validateUpdated()
 //********************** DATA METHODS START *********************
 /** Loads data from labels into Data object
  */
+
 void Kontrahenci::setData(KontrData& kontrData) {
+
 	kontrData.name = nameEdit->text();
 	kontrData.place= placeEdit->text();
 	kontrData.code = codeEdit->text();
@@ -214,7 +239,9 @@ void Kontrahenci::setData(KontrData& kontrData) {
 
 /** Load details
  */
+
 void Kontrahenci::getData(KontrData kontrData) {
+
 	nameEdit->setText(kontrData.name);
 	placeEdit->setText(kontrData.place);
 	codeEdit->setText(kontrData.code);
@@ -229,6 +256,7 @@ void Kontrahenci::getData(KontrData kontrData) {
 
 // helper method which sets "-" in input forms
 QString Kontrahenci::isEmpty(QString in) {
+
 	if (in == "") return "-";
 	return in;
 }

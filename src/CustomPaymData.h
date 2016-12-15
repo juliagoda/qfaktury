@@ -12,20 +12,17 @@
 #include <QDate>
 
 class CustomPaymData {
+
 public:
+
 	CustomPaymData();
 	virtual ~CustomPaymData();
-
-
 	QString payment1;
-	QDate date1; // or string?
+    QDate date1;
 	double amount1;
-
 	QString payment2;
-	QDate date2; // or string?
+    QDate date2;
 	double amount2;
-
-
 
 };
 

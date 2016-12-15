@@ -19,22 +19,33 @@
 
 
 class Duplikat: public Faktura {
+
 Q_OBJECT
+
 public:
-    Duplikat(QWidget *parent, IDataLayer *dl, QString in_form);
-    bool editMode;
+
+    Duplikat(QWidget *parent, IDataLayer *dl, QString in_form, bool ifEdited);
+    ~Duplikat();
     virtual void setData(InvoiceData &invData);
 
+
 public slots:
+
 	void duplikatInit();
 	virtual void canQuit();
     void cancelDupl();
 
-protected:
-	virtual void makeInvoiceHeadar(bool sellDate, bool breakPage, bool original);
-private:
-    QDateEdit* duplicateDate;
 
+protected:
+
+	virtual void makeInvoiceHeadar(bool sellDate, bool breakPage, bool original);
+
+
+private:
+
+    QDateEdit* duplicateDate;
+    QLabel* labelDupDate;
+    bool editMode;
 
 };
 #endif /* DUPLICAT_H_ */

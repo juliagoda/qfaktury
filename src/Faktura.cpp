@@ -799,7 +799,7 @@ void Faktura::kontrClick() {
     qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
     if (kontrWindow->exec() == QDialog::Accepted) {
 		kAdded = true;
-        QStringList row = kontrWindow->ret.split("|");
+        QStringList row = kontrWindow->getRetKontr().split("|");
         kontrName->setText (row[0] + "," + row[3] + "," + row[6] + " " + row[2] + "," +  s_TIC + row[5] + "," + row[7] + "," + row[8] + "," + row[9] + "," + row[10]);
 		kontrName->setCursorPosition(0);
     }
@@ -825,7 +825,7 @@ void Faktura::getCustomer () {
   KontrahenciLista *klWindow = new KontrahenciLista(this);
   if (klWindow->exec () == QDialog::Accepted)
     {
-      kontrName->setText (klWindow->ret);
+      kontrName->setText (klWindow->getRetKontrList());
       kontrName->setCursorPosition (1);
       saveBtn->setEnabled(true);
       canClose = false;
@@ -1193,7 +1193,7 @@ void Faktura::payTextChanged(QString text) {
 /** Slot textChanged
  *  Activates buttons
  */
-void Faktura::textChanged(QString text) {
+void Faktura::textChanged(QString) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
     saveBtn->setEnabled(true);

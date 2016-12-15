@@ -42,15 +42,15 @@ void XmlDataLayer::kontrahenciElemToData(KontrData &o_kontrData, QDomElement i_e
 
 // helper method
 void XmlDataLayer::kontrahenciDataToElem(KontrData &i_kontrData, QDomElement &o_element) {
-	o_element.setAttribute("name", i_kontrData.name);
-	o_element.setAttribute("place", i_kontrData.place);
-	o_element.setAttribute("code", i_kontrData.code);
-	o_element.setAttribute("address", i_kontrData.address);
-	o_element.setAttribute("tic", i_kontrData.tic);
-	o_element.setAttribute("account", i_kontrData.account);
-	o_element.setAttribute("phone", i_kontrData.phone);
-	o_element.setAttribute("email", i_kontrData.email);
-	o_element.setAttribute("www", i_kontrData.www);
+    o_element.setAttribute("name", i_kontrData.name);
+    o_element.setAttribute("place", i_kontrData.place);
+    o_element.setAttribute("code", i_kontrData.code);
+    o_element.setAttribute("address", i_kontrData.address);
+    o_element.setAttribute("tic", i_kontrData.tic);
+    o_element.setAttribute("account", i_kontrData.account);
+    o_element.setAttribute("phone", i_kontrData.phone);
+    o_element.setAttribute("email", i_kontrData.email);
+    o_element.setAttribute("www", i_kontrData.www);
 }
 
 QVector<KontrData> XmlDataLayer::XmlDataLayer::kontrahenciSelectAllData() {
@@ -686,7 +686,7 @@ void XmlDataLayer::invoiceSellerDataToElem(InvoiceData&, QDomElement &o_element)
     o_element.setAttribute("website", userSettings.value("website").toString());
 }
 
-void XmlDataLayer::invoiceSellerElemToData(InvoiceData &o_invData, QDomElement i_element) {
+void XmlDataLayer::invoiceSellerElemToData(InvoiceData&, QDomElement) {
 
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
@@ -711,7 +711,7 @@ void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o
     o_element.setAttribute("website", imprWeb);
 }
 
-void XmlDataLayer::invoiceBuyerElemToData(InvoiceData &o_invData, QDomElement i_element) {
+void XmlDataLayer::invoiceBuyerElemToData(InvoiceData&, QDomElement) {
 
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
@@ -741,9 +741,6 @@ void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData, QDomElem
     qDebug() << "zapisywany pricePrec w invoiceProdDataToElem: " << pricePrec;
     o_element.setAttribute("price", pricePrec);
 
-    double cenajdn = sett().stringToDouble(Faktura::instance()->tableTow->item(currentRow, 7)->text());
-    double kwota = cenajdn * Faktura::instance()->tableTow->item(currentRow, 4)->text().toInt();
-
     o_element.setAttribute("nett", i_prodData.nett); // netto without discount
     //o_element.setAttribute("discountedNett", i_prodData.);
 
@@ -756,7 +753,7 @@ void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData, QDomElem
 
 }
 
-void XmlDataLayer::invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element) {
+void XmlDataLayer::invoiceProdElemToData(InvoiceData&, QDomElement) {
 
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
@@ -1109,7 +1106,7 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 	return true;
 }
 
-bool XmlDataLayer::invoiceUpdateData(InvoiceData& invData, int type, QString name) {
+bool XmlDataLayer::invoiceUpdateData(InvoiceData&, int, QString) {
 
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 

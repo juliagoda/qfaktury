@@ -10,11 +10,11 @@
 #include <QString>
 
 class KontrData {
+
 public:
+
 	KontrData();
 	virtual ~KontrData();
-
-	// Getters and Setters??
 	QString name;
 	QString place;
 	QString code;
@@ -24,8 +24,8 @@ public:
 	QString phone;
 	QString email;
 	QString www;
-
 	QString type;
+
 };
 
 #endif /* KONTRDATA_H_ */

@@ -9,13 +9,13 @@
 #include "MainWindow.h"
 #include "Settings.h"
 
-// do splasha
+// for splash
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
 
 
-	// multilangage
+    // multilanguage
     a.installTranslator(sett().getTranslation());
 
 
@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
 	icon.addPixmap(QPixmap(":/res/icons/qfaktury_48.png"), QIcon::Normal, QIcon::Off);
 	a.setWindowIcon(icon);
 	a.setApplicationName("QFaktury");
-    a.setOrganizationName("https://github.com/rafalrusin/qfaktury");
+    a.setOrganizationName("https://github.com/juliagoda/qfaktury");
 	return a.exec();
 }
 

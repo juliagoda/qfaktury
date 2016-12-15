@@ -16,7 +16,9 @@
 
 
 class InvoiceData {
+
 public:
+
 	QString customer; // kontrahent
     QMap<int, ProductData> products;
 	QDate liabDate;
@@ -51,6 +53,7 @@ public:
 	/**
 	 *  Return invoice type
 	 */
+
 	QString getInvoiceTypeAndSaveNr(int invoiceType) {
 		QString ret = "FVAT";
 
@@ -76,4 +79,5 @@ public:
 		return ret;
 	}
 };
+
 #endif

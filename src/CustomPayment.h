@@ -16,18 +16,22 @@
 #include "ui_CustomPaymentDialog.h"
 
 class CustomPayment: public QDialog, public Ui::CustomPaymentDialog  {
+
 Q_OBJECT
+
 public:
+
 	CustomPayment(QWidget* parent);
 	virtual ~CustomPayment();
     CustomPaymData *custPaymData;
-   // InvoiceData& returnInv(InvoiceData&);
 	void init();
 	bool validateForm();
 	void setInvoiceAmount(double a);
 	double invoiceAmount;
 
+
 public slots:
+
 	void okClicked();
 	void amount1Changed(double a);
 	void amount2Changed(double a);

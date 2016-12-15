@@ -8,18 +8,26 @@
 #include "ui_KontrahenciLista.h"
 
 class KontrahenciLista: public QDialog, public Ui::KontrahenciLista {
+
 Q_OBJECT
+
 public:
+
 	KontrahenciLista(QWidget *parent);
-	QString ret;
+    QString getRetKontrList() const;
+
+
 public slots:
+
 	void readKontr();
 	void doAccept();
 	void comboBox1Changed();
 	void updateDetails(QListWidgetItem *);
 	void mouseSelect();
 
+
 private:
+
 	QStringList companiesList;
 	QStringList officesList;
 	void init();
@@ -27,6 +35,7 @@ private:
 	void displayDetails(QStringList custDetails);
 	void clearDetails();
 	QString detailsToString();
+    QString ret;
 
 };
 #endif

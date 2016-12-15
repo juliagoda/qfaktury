@@ -12,11 +12,19 @@
 #include "Settings.h"
 
 class ConvertAmount {
+
 public:
+
 	ConvertAmount();
 	~ConvertAmount();
 	QString convertPL(QString input, QString waluta);
 	void convertTest();
+    QString& descAmount(QString&,QString,QString = QString(),QString = QString(),QString = QString());
+    QStringList staList() const;
+    QStringList esciaList() const;
+    QStringList nascieList() const;
+    QStringList jedynkiList() const;
+
 };
 
 #endif /* CONVERTAMOUNT_H_ */

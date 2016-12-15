@@ -917,8 +917,7 @@ void MainWindow::editFHist() {
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("duplikat")) {
 
-        Duplikat *dupWindow = new Duplikat(this, dl, s_DUPLICATE);
-        dupWindow->editMode = true;
+        Duplikat *dupWindow = new Duplikat(this, dl, s_DUPLICATE, true);
 
         int co = 2;
 
@@ -997,7 +996,7 @@ void MainWindow::kontrClick() {
 
         ui->tableK->setSortingEnabled(false);
         insertRow(ui->tableK, ui->tableK->rowCount());
-		QStringList row = kontrWindow->ret.split("|");
+        QStringList row = kontrWindow->getRetKontr().split("|");
 
         ui->tableK->item(ui->tableK->rowCount() - 1, 0)->setText(row[0]); // name
         ui->tableK->item(ui->tableK->rowCount() - 1, 1)->setText(row[1]); // type
@@ -1049,7 +1048,7 @@ void MainWindow::kontrEd() {
             sett().getCustomerType(ui->tableK->item(row, 1)->text()));
     if (kontrWindow->exec() == QDialog::Accepted) {
         ui->tableK->setSortingEnabled(false);
-        QStringList rowTxt = kontrWindow->ret.split("|");
+        QStringList rowTxt = kontrWindow->getRetKontr().split("|");
         ui->tableK->item(row, 0)->setText(rowTxt[0]); // name
         ui->tableK->item(row, 1)->setText(rowTxt[1]); // type
         ui->tableK->item(row, 2)->setText(rowTxt[2]); // place
@@ -1245,7 +1244,7 @@ void MainWindow::newDuplikat() {
     invTypes << "FVAT" << "FBrutto";
 
     if (invTypes.contains(ui->tableH->item(row, 3)->text())) {
-        Duplikat *dupWindow = new Duplikat(this, dl, s_DUPLICATE);
+        Duplikat *dupWindow = new Duplikat(this, dl, s_DUPLICATE, false);
 
         // qDebug( pdGlob );
         dupWindow->readData(ui->tableH->item(row, 0)->text(), 2);

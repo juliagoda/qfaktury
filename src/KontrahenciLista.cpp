@@ -16,7 +16,9 @@ KontrahenciLista::KontrahenciLista(QWidget *parent): QDialog(parent) {
 
 /** Init
  */
+
 void KontrahenciLista::init() {
+
 	// qDebug () << __FUNCTION__;
 
 	companiesList.clear();
@@ -31,9 +33,6 @@ void KontrahenciLista::init() {
 	foreach (customer, companiesList)
 		listBox1->addItem(customer.split("|")[0]);
 
-
-
-
 	// connects
     connect(okBtn, SIGNAL(clicked()), this, SLOT(doAccept()));
     connect(cancelBtn, SIGNAL(clicked()), this, SLOT(close()));
@@ -43,9 +42,16 @@ void KontrahenciLista::init() {
     connect(listBox1, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(updateDetails(QListWidgetItem *)));
 }
 
+
+QString KontrahenciLista::getRetKontrList() const
+{
+    return ret;
+}
+
 // *************************** SLOTS START *************************************
 
 void KontrahenciLista::mouseSelect() {
+
 	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 	updateDetails(listBox1->currentItem());
 }
@@ -53,9 +59,10 @@ void KontrahenciLista::mouseSelect() {
 /** Slot
  *  Connected to accept signal
  */
+
 void KontrahenciLista::doAccept() {
-	QList<QListWidgetItem *> selected = listBox1->selectedItems();
-	if (!selected.isEmpty()) {
+
+    if (!listBox1->selectedItems().isEmpty()) {
 		ret = detailsToString();
 		accept();
 	} else {
@@ -67,31 +74,42 @@ void KontrahenciLista::doAccept() {
 /** Slot
  *  comboBox1 changed
  */
+
 void KontrahenciLista::comboBox1Changed() {
+
 	// qDebug (__FUNCTION__);
 	listBox1->clear();
 	clearDetails();
 	QString customer;
+
 	switch (comboBox1->currentIndex()) {
 	case 0:
+
 		foreach (customer, companiesList)
 			listBox1->addItem(customer.split("|")[0]);
 		break;
+
 	case 1:
+
 		foreach (customer, officesList)
 			listBox1->addItem(customer.split("|")[0]);
 		break;
+
 	}
 }
 
 /** Slot
  *  Update details when user selected
  */
+
 void KontrahenciLista::updateDetails(QListWidgetItem *item) {
-	QStringList custDetails;
-	QString customer;
+
+    QStringList custDetails = QStringList();
+    QString customer = QString();
+
 	switch (comboBox1->currentIndex()) {
 	case 0:
+
 		foreach (customer, companiesList) {
 			custDetails = customer.split("|");
 			if (item->text().compare(custDetails[0]) == 0) {
@@ -99,7 +117,9 @@ void KontrahenciLista::updateDetails(QListWidgetItem *item) {
 			}
 		}
 		break;
+
 	case 1:
+
 		foreach (customer, officesList) {
 			custDetails = customer.split("|");
 			if (item->text().compare(custDetails[0]) == 0) {
@@ -110,48 +130,59 @@ void KontrahenciLista::updateDetails(QListWidgetItem *item) {
 	}
 }
 
-
 // *************************** SLOTS END *************************************
-
 
 /** Load selected customer data
  */
 void KontrahenciLista::readKontr() {
+
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement office;
 	QDomElement company;
 
 	QFile file(sett().getCustomersXml());
+
 	if (!file.open(QIODevice::ReadOnly)) {
 		qDebug() << "File" << file.fileName() << "doesn't exists";
 		return;
+
 	} else {
+
 		QTextStream stream(&file);
+
 		if (!doc.setContent(stream.readAll())) {
 			qDebug("can not set content ");
 			file.close();
 			return;
+
 		} else {
+
 			root = doc.documentElement();
 			office = root.firstChild().toElement();
 			company = root.lastChild().toElement();
 		}
 
 		for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
+
 			companiesList.append(xmlDataToString(n));
 		}
 
 		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
+
 			officesList.append(xmlDataToString(n));
 		}
 	}
+
+    file.close();
 }
 
 /** Loads data one string
  */
+
 QString KontrahenciLista::xmlDataToString(QDomNode n) {
-	QString text;
+
+    QString text = QString();
 	text = n.toElement().attribute("name") + "|";
 	text += n.toElement().attribute("address") + "|";
 	text += n.toElement().attribute("code") + " " + n.toElement().attribute("place") + "|";
@@ -165,7 +196,9 @@ QString KontrahenciLista::xmlDataToString(QDomNode n) {
 
 /** Loads data to labels
  */
+
 void KontrahenciLista::displayDetails(QStringList custDetails) {
+
 	labelNameE->setText(custDetails[0]);
     labelAddressE->setText(custDetails[1]);
     labelCityE->setText(custDetails[2]);
@@ -177,10 +210,11 @@ void KontrahenciLista::displayDetails(QStringList custDetails) {
     labelWWWE->setStyleSheet("color: #1E90FF");
 }
 
-
 /** Clear labels
  */
+
 void KontrahenciLista::clearDetails() {
+
 	labelNameE->setText("");
     labelAddressE->setText("");
     labelCityE->setText("");
@@ -193,7 +227,9 @@ void KontrahenciLista::clearDetails() {
 
 /** Labels to string
  */
-QString  KontrahenciLista::detailsToString() {
+
+QString KontrahenciLista::detailsToString() {
+
 	QString ret = labelNameE->text();
 
 	if (!labelAddressE->text().isEmpty())

@@ -7,8 +7,6 @@
 
 #include "CustomPaymData.h"
 
-
-
 CustomPaymData::CustomPaymData() {
 	// TODO Auto-generated constructor stub
 

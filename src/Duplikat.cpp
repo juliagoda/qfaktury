@@ -10,12 +10,22 @@
 #include <QSpinBox>
 
 // constructor
-Duplikat::Duplikat(QWidget *parent, IDataLayer *dl, QString in_form): Faktura(parent, dl, in_form) {
-    editMode = false;
+Duplikat::Duplikat(QWidget *parent, IDataLayer *dl, QString in_form, bool ifEdited): Faktura(parent, dl, in_form), editMode(ifEdited) {
+
+}
+
+Duplikat::~Duplikat()
+{
+    if (labelDupDate != 0) labelDupDate = 0;
+    delete labelDupDate;
+
+    if (duplicateDate != 0) duplicateDate = 0;
+    delete duplicateDate;
 }
 
 void Duplikat::duplikatInit() {
-	QLabel *labelDupDate = new QLabel(this);
+
+    labelDupDate = new QLabel(this);
 	labelDupDate->setText(trUtf8("Data duplikatu:"));
 	labelDupDate->setAlignment(Qt::AlignRight);
 	addDataLabels->addWidget(labelDupDate);
@@ -26,8 +36,11 @@ void Duplikat::duplikatInit() {
     duplicateDate->setDisplayFormat(sett().getDateFormat());
 
     if (!editMode) {
+
         duplicateDate->setDate(QDate::currentDate());
+
     } else {
+
         duplicateDate->setDate(dupDate);
         duplicateDate->setEnabled(false);
     }
@@ -40,7 +53,6 @@ void Duplikat::duplikatInit() {
     connect(closeBtn, SIGNAL(clicked()), this, SLOT(cancelDupl()));
 }
 
-
 void Duplikat::setData(InvoiceData &invData) {
 
     invData.id = fName;
@@ -48,6 +60,7 @@ void Duplikat::setData(InvoiceData &invData) {
     invData.frNr = frNr->text();
     invData.sellingDate = sellingDate->date();
     invData.issueDate = productDate->date();
+
     if (constRab->isChecked())
         invData.discount = rabatValue->value();
     else
@@ -114,6 +127,7 @@ void Duplikat::setData(InvoiceData &invData) {
 
 /** Adds duplicate requirements
  */
+
 void Duplikat::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 
 	QString breakPageStr = "class=\"page_break\"";
@@ -173,6 +187,7 @@ void Duplikat::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 /** Slot
  *  canQuit slot
  */
+
 void Duplikat::canQuit() {
 
     if (canClose) {
@@ -184,15 +199,18 @@ void Duplikat::canQuit() {
 
         if (QMessageBox::warning(this, "QFaktury", trUtf8("Dane zostały zmienione czy chcesz zapisać?"),
                     trUtf8("Tak"), trUtf8("Nie"), 0, 0,	1) == 1) {
-            saveColumnsWidth();
-            reject();
 
-        } else {
+                saveColumnsWidth();
+                reject();
+
+         } else {
 
             saveInvoice();
+
             if (saveFailed) {
                 return;
             }
+
             saveColumnsWidth();
             accept();
         }

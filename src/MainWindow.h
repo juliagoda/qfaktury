@@ -55,9 +55,7 @@ public slots:
 	void keyPressEvent(QKeyEvent * event);
     void openWebTableK(int,int);
 
-
 private:
-
 
     IDataLayer *dl;
     Ui::MainWindow *ui;

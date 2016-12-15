@@ -15,7 +15,9 @@
 #include "InvoiceData.h"
 
 class IDataLayer {
+
 public:
+
 	IDataLayer() {};
 	virtual ~IDataLayer() {};
 	virtual void saveInvoiceData() {};

@@ -19,18 +19,24 @@
 
 
 class FakturaBrutto: public Faktura {
+
 Q_OBJECT
+
 public:
+
     FakturaBrutto(QWidget *parent, IDataLayer *dl, QString in_form = QString());
+
+
 public slots:
+
 	void fakturaBruttoInit();
     void addTow();
+
+
 protected:
+
 	void calculateOneDiscount(int i);
 	QString getInvoiceTypeAndSaveNr();
-
-	// virtual double calcPrice(double quant, double price);
-	// virtual double calcVATPrice(double nett, double gross);
 
 };
 
