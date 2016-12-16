@@ -199,6 +199,11 @@
         <widget class="QComboBox" name="secIdType">
          <item>
           <property name="text">
+           <string>Brak</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>NUSP</string>
           </property>
          </item>

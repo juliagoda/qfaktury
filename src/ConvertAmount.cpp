@@ -170,7 +170,7 @@ QString& ConvertAmount::descAmount(QString & countMoney, QString partMoney, QStr
     return countMoney;
 }
 
-QStringList ConvertAmount::staList() const {
+const QStringList ConvertAmount::staList() const {
 
     QStringList sta = QStringList();
     sta << QObject::trUtf8("sto") << QObject::trUtf8("dwieście")
@@ -182,7 +182,7 @@ QStringList ConvertAmount::staList() const {
     return sta;
 }
 
-QStringList ConvertAmount::esciaList() const {
+const QStringList ConvertAmount::esciaList() const {
 
     QStringList escia = QStringList();
     escia << QObject::trUtf8("dwadzieścia") << QObject::trUtf8("trzydzieści")
@@ -195,7 +195,7 @@ QStringList ConvertAmount::esciaList() const {
     return escia;
 }
 
-QStringList ConvertAmount::nascieList() const {
+const QStringList ConvertAmount::nascieList() const {
 
     QStringList nascie = QStringList();
     nascie << QObject::trUtf8("jedenaście") << QObject::trUtf8("dwanaście")
@@ -208,7 +208,7 @@ QStringList ConvertAmount::nascieList() const {
     return nascie;
 }
 
-QStringList ConvertAmount::jedynkiList() const {
+const QStringList ConvertAmount::jedynkiList() const {
 
     QStringList jedynki = QStringList();
     jedynki << QObject::trUtf8("jeden") << QObject::trUtf8("dwa")

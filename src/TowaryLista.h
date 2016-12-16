@@ -12,10 +12,10 @@ Q_OBJECT
 
 public:
 
-    QString getRetVal() const;
-    QMap<QString, int> getVatsVal() const;
-    QString getSelItem() const;
-    QString getTowId() const;
+    QString const getRetVal() const;
+    QMap<QString, int> const getVatsVal() const;
+    QString const getSelItem() const;
+    QString const getTowId() const;
 	TowaryLista(QWidget *parent);
 
 

@@ -16,6 +16,7 @@ class XmlDataLayer: public IDataLayer {
 
 
 public:
+
 	XmlDataLayer();
 	virtual ~XmlDataLayer();
 	// methods used for accessing customers
@@ -40,6 +41,8 @@ public:
 
 	virtual void saveInvoiceData() {};
 	virtual void readInvoiceData() {};
+
+
 private:
 	void kontrahenciElemToData(KontrData &o_kontrData, QDomElement i_element);
 	void kontrahenciDataToElem(KontrData &i_kontrData, QDomElement &o_element);

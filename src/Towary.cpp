@@ -36,7 +36,7 @@ void Towary::init() {
 	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
 }
 
-QString Towary::getRetTow() const
+QString const Towary::getRetTow() const
 {
     return ret;
 }

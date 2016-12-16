@@ -27,7 +27,6 @@ public:
 	void init();
 	bool validateForm();
 	void setInvoiceAmount(double a);
-	double invoiceAmount;
 
 
 public slots:
@@ -35,6 +34,11 @@ public slots:
 	void okClicked();
 	void amount1Changed(double a);
 	void amount2Changed(double a);
+
+
+private:
+
+    double invoiceAmount;
 
 };
 

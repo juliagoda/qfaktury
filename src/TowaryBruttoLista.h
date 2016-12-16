@@ -17,7 +17,7 @@ Q_OBJECT
 public:
 
 	TowaryBruttoLista(QWidget *parent);
-    QString getRetValTowBr() const;
+    QString const getRetValTowBr() const;
 	~TowaryBruttoLista();
 
 

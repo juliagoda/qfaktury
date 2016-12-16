@@ -17,7 +17,7 @@ public:
 	void selectData(QString name, int type); // 0 - company, 1 - office
 	bool insertData();
 	bool updateData();
-    QString getRetKontr() const;
+    QString const getRetKontr() const;
 
 
 public slots:

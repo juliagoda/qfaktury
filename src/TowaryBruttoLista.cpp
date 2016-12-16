@@ -26,7 +26,7 @@ QString TowaryBruttoLista::getPriceOfCurrent() {
 	return sett().numberToString(price, 'f', 2);
 }
 
-QString TowaryBruttoLista::getRetValTowBr() const
+QString const TowaryBruttoLista::getRetValTowBr() const
 {
     return ret;
 }

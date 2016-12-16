@@ -126,7 +126,7 @@
             <item>
              <widget class="QLabel" name="labelCSS">
               <property name="text">
-               <string>CSS faktury (~/elinux/templates/): </string>
+               <string>Szablon drukowania: </string>
               </property>
               <property name="wordWrap">
                <bool>false</bool>

@@ -11,7 +11,6 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QTimer>
-#include <QElapsedTimer>
 
 #include "Ustawienia.h"
 #include "Uzytkownik.h"
@@ -70,8 +69,6 @@ MainWindow::~MainWindow() {
 
 void MainWindow::init() {
 
-    QElapsedTimer timers;
-        timers.start();
 	// first run
     if (firstRun()) {
 
@@ -227,8 +224,6 @@ void MainWindow::init() {
 	readTw();
 	loadPlugins();
 
-    qDebug() << "Minęło w init() :" << timers.elapsed() << "millisekund";
-
 }
 
 /**
@@ -300,11 +295,12 @@ void MainWindow::openWebTableK(int row,int column)
 {
     if (column == 6)
         {
-        if ((!ui->tableK->item(row,column)->text().isEmpty()) && (ui->tableK->item(row,column)->text() != "-"))
+        if ((!ui->tableK->item(row,column)->text().isEmpty()) && (ui->tableK->item(row,column)->text() != "-")) {
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
             QDesktopServices::openUrl(QUrl(ui->tableK->item(row,column)->text(), QUrl::TolerantMode));
             QApplication::restoreOverrideCursor();
         }
+    }
 }
 
 /** save sett() before quit

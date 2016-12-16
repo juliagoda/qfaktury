@@ -43,7 +43,7 @@ void KontrahenciLista::init() {
 }
 
 
-QString KontrahenciLista::getRetKontrList() const
+QString const KontrahenciLista::getRetKontrList() const
 {
     return ret;
 }

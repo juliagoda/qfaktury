@@ -4,8 +4,8 @@
 #include <QComboBox>
 
 #include "ui_Faktura.h"
-#include "Faktura.h"
 
+#include "Faktura.h"
 #include "ConvertAmount.h"
 #include "Settings.h"
 #include "InvoiceData.h"
@@ -42,7 +42,6 @@ protected:
 	InvoiceData *invData;
 	QComboBox *reasonCombo;
 	QLabel *labelReason1;
-	// virtual QString getGroupedSums();
     virtual void calcAll(const double &);
 	virtual void makeInvoiceSummAll();
 	virtual void makeInvoiceSumm();
@@ -59,12 +58,10 @@ protected:
 	virtual QString getInvoiceTypeAndSaveNr();
 
 
-
 private:
+
     bool firstRunned;
     bool rComboWasChanged2;
-
-
 
 };
 #endif

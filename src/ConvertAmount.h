@@ -20,10 +20,10 @@ public:
 	QString convertPL(QString input, QString waluta);
 	void convertTest();
     QString& descAmount(QString&,QString,QString = QString(),QString = QString(),QString = QString());
-    QStringList staList() const;
-    QStringList esciaList() const;
-    QStringList nascieList() const;
-    QStringList jedynkiList() const;
+    const QStringList staList() const;
+    const QStringList esciaList() const;
+    const QStringList nascieList() const;
+    const QStringList jedynkiList() const;
 
 };
 

@@ -46,22 +46,22 @@ void TowaryLista::init() {
 	connect(countSpinBox, SIGNAL( valueChanged(const QString&) ), this, SLOT( calcNetto() ) );
 }
 
-QString TowaryLista::getTowId() const
+QString const TowaryLista::getTowId() const
 {
     return id;
 }
 
-QString TowaryLista::getSelItem() const
+QString const TowaryLista::getSelItem() const
 {
     return selectedItem;
 }
 
-QMap<QString, int> TowaryLista::getVatsVal() const
+QMap<QString, int> const TowaryLista::getVatsVal() const
 {
     return vats;
 }
 
-QString TowaryLista::getRetVal() const
+QString const TowaryLista::getRetVal() const
 {
     return ret;
 }

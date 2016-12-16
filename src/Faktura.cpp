@@ -874,6 +874,7 @@ void Faktura::addTow() {
     if (twWindow->exec() == QDialog::Accepted) {
 		MainWindow::insertRow(tableTow, tableTow->rowCount());
         // qDebug() << twWindow->ret;
+      //  twWindow->getRetVal().append("ff");
         QStringList row = twWindow->getRetVal().split("|");
         int rowNum = tableTow->rowCount() - 1;
         tableTow->item(rowNum, 0)->setText(sett().numberToString(
@@ -1490,20 +1491,7 @@ void Faktura::getData(InvoiceData invData) {
         restLabelInfo->setText(sett().numberToString((invData.custPaym.amount1 + invData.custPaym.amount2) - invData.custPaym.amount1));
         dataPayments->addWidget(restLabelInfo);
 
-        QLocale locale;
 
-        ratesCombo->setCurrentIndex(0);
-
-        custPaymData = new CustomPaymData;
-        custPaymData->payment1 = sendKindInfo->text();
-        custPaymData->date1 = locale.toDate( ratesCombo->itemText(0), sett().getDateFormat());
-        custPaymData->amount1 = sett().stringToDouble(rateLabelInfo->text());
-        custPaymData->date2 = locale.toDate( ratesCombo->itemText(1), sett().getDateFormat());
-
-        custPaymData->amount2 = sett().stringToDouble(restLabelInfo->text());
-
-        ratesCombo->setCurrentIndex(1);
-        custPaymData->payment2 = sendKindInfo->text();
 
     }
 
@@ -1521,15 +1509,12 @@ void Faktura::getData(InvoiceData invData) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
 
-
-
 }
-
-
 
 /** Slot saveInvoice
  *  Generates Invoice XML
  */
+
 bool Faktura::saveInvoice() {
      qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << fName;
 

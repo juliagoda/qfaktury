@@ -29,7 +29,7 @@ bool Walidacje::validateAccount(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany rachunek bankowy. Wymagany format to \"SSXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX\" lub \"XXXXXXXXXXXXXXXXXXXXXXXXXX\" lub \"XX XXXX XXXX XXXX XXXX XXXX XXXX\" lub \"SSXX XXXX XXXX XXXX XXXX XXXX XXXX\"  gdzie X oznacza cyfrę (zawsze jest 26 X), a S oznacza dużą literę"));
@@ -49,13 +49,39 @@ bool Walidacje::validateEmail(QString text)
     // comments are allowed with parentheses at either end of the local-part; e.g. john.smith(comment)@example.com and (comment)john.smith@example.com are both equivalent to john.smith@example.com.
     // hyphen -, provided that it is not the first or last character.
 
-    // niepewne czy wszystkie znaki sa dobrze backslashed
-    QString form2 = QRegExp::escape("\"(),:;<>@[\\]");
-    QRegExp masks("^([^(-\\.\\s)]{1})([(.+)(\"){1}]?)([^" + form2 + "]*)@{1}([^" + form2 + "]*)([(\"){1}(.+)]?)([^-\\.\\s]{1})$");
+    QString form2 = QString();
+    QString form3 = QRegExp::escape("\"(),:;<>@[\\]");
+    bool notTwoDotted = true;
 
-    if (!masks.exactMatch(text)) {
+    if ((text.at(0) == QString("\""))) {
 
-        QMessageBox::critical(
+        form2 = "^(\")(.+)(\")@{1}([^" + form3 + "\\s]*)([^-\\.\\s]*)$";
+
+        QString part2 = text.mid(text.indexOf("@"), text.indexOf(-1));
+        QString helpConst = part2.at(part2.indexOf(".")+1);
+
+        if (helpConst == ".") notTwoDotted = false;
+
+    } else {
+
+        form2 = "^([^-\\.\\s]{1})([^" + form3 + "\\s]*)@{1}([^" + form3 + "\\s]*)([^-\\.\\s]*)$";
+
+        QString part1 = text.mid(0,text.indexOf("@"));
+        QString part2 = text.mid(text.indexOf("@"), text.indexOf(-1));
+        QString helpConst1 = part1.at(part1.indexOf(".")+1);
+        qDebug() << "character helpConst1: " << helpConst1;
+        QString helpConst2 = part2.at(part2.indexOf(".")+1);
+        qDebug() << "character helpConst2: " << helpConst2;
+
+        if (helpConst1 == ".") notTwoDotted = false;
+        if (helpConst2 == ".") notTwoDotted = false;
+    }
+
+    QRegExp masks(form2);
+
+    if (!masks.exactMatch(text) || !notTwoDotted) {
+
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany adres email. Dozwolone są duże litery, małe litery, cyfry, specjalne znaki !#$%&'*+-/=?^_`{|}~, znak . (pod warunkiem że nie znajduje się na początku lub na końcu, a jak już to w znakach \"\"), znak - (o ile nie znajduje się na początku lub końcu) oraz znaki specjalne jak spacja,\"(),:;<>@[\\] (pod warunkiem że znajdują się w znakach \"\")"));
@@ -72,7 +98,7 @@ bool Walidacje::validateIDCard(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany numer dowodu osobistego. Wymagany format dowodu to AAAXXXXXX, gdzie X oznacza cyfrę, a A oznacza dużą literę"));
@@ -89,7 +115,7 @@ bool Walidacje::validateNIP(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany numer NIP. Wymagany format NIP to XXX-XXX-XX-XX lub XXX-XX-XX-XXX, gdzie X oznacza cyfrę"));
@@ -106,7 +132,7 @@ bool Walidacje::validatePass(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany numer seryjny paszportu. Wymagany format dowodu to AAXXXXXXX, gdzie X oznacza cyfrę, a A oznacza dużą literę"));
@@ -123,7 +149,7 @@ bool Walidacje::validatePESEL(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany PESEL. Wymagany format to XXXXXXXXXXX (11 razy), gdzie X oznacza cyfrę"));
@@ -140,7 +166,7 @@ bool Walidacje::validatePkwiu(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany numer PKWiU. Wymagany format to XX(.XX.XX.X) , gdzie X oznacza cyfrę, a część w nawiasie oznacza opcjonalną postać. Przykładowo więc może to też być XX.X czy XX.XX.XX"));
@@ -157,7 +183,7 @@ bool Walidacje::validateRegon(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany REGON. Wymagany format to XXXXXXXXX (9 razy), gdzie X oznacza cyfrę"));
@@ -175,7 +201,7 @@ bool Walidacje::validateTel(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany numer telefonu. Wymagany format to +XX(X od 5 do 20) lub 0(X od 5 do 20), gdzie X oznacza cyfrę."));
@@ -192,7 +218,7 @@ bool Walidacje::validateWebsite(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany adres internetowy. Format pozwala na umieszczenie opcjonalnie http:// jak i www. Wymagany jest adres strony domowej"));
@@ -209,7 +235,7 @@ bool Walidacje::validateZip(QString text)
 
     if (!masks.exactMatch(text)) {
 
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Źle podany kod pocztowy. Wymagany format to XX-XXX, gdzie X oznacza cyfrę"));
@@ -244,7 +270,7 @@ bool Walidacje::checkSumNIP(QString text)
 
     if (sum == list.last()) return true;
     else {
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Weryfikator cyfry kontrolnej NIP wykrył niepoprawny numer NIP. Sprawdź kolejność wpisanych liczb."));
@@ -282,7 +308,7 @@ bool Walidacje::checkSumREGON(QString text)
 
     if (sum == list.last()) return true;
     else {
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Weryfikator cyfry kontrolnej REGON wykrył niepoprawny numer. Sprawdź kolejność wpisanych liczb."));
@@ -312,7 +338,7 @@ bool Walidacje::checkSumPESEL(QString text)
 
     if (sum == list.last()) return true;
     else {
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Weryfikator cyfry kontrolnej PESEL wykrył niepoprawny numer. Sprawdź kolejność wpisanych liczb."));
@@ -375,7 +401,7 @@ bool Walidacje::checkSumAccount(QString text)
 
     if (reslong == 1) return true;
     else {
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Weryfikator konta bankowego IBAN wykrył niepoprawny numer. Sprawdź kolejność wpisanych liczb."));
@@ -426,7 +452,7 @@ bool Walidacje::checkSumIDCard(QString text)
 
     if (sum == result) return true;
     else {
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Weryfikator polskiego dowodu osobistego wykrył niepoprawny numer. Sprawdź kolejność wpisanych znaków. Możesz także zgłosić błąd numeru dowodu w odpowiednim Urzędzie Miasta lub Gminy."));
@@ -466,7 +492,7 @@ bool Walidacje::checkSumPass(QString text) {
 
     if (sum == 0) return true;
     else {
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Weryfikator numeru seryjnego paszportu wykrył niepoprawny numer. Sprawdź kolejność wpisanych znaków. Możesz także zgłosić błąd numeru paszportu w najbliższym Urzędzie Wojewódzkim."));
@@ -479,7 +505,7 @@ bool Walidacje::isEmptyField(QLineEdit *field, QString title)
 {
     if (field->text().isEmpty())
     {
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Firma nie może zostać zapisana, pownieważ brakuje wymaganych danych w polu - ") + title);
@@ -494,7 +520,7 @@ bool Walidacje::isEmptyField(QString input, QString title)
 {
     if (input.isEmpty())
     {
-        QMessageBox::critical(
+        QMessageBox::warning(
                 0,
                 "QFaktury",
                 trUtf8("Firma nie może zostać zapisana, pownieważ brakuje wymaganych danych w polu - ") + title);

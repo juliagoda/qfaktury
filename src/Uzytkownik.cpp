@@ -59,24 +59,40 @@ bool Uzytkownik::checkAll()
         }
 
 
-    if (!regonEdit->text().isEmpty()) {
+    if (secIdType->currentText() != trUtf8("Brak")) {
     switch (secIdType->currentIndex()) {
     case 0:
 
             break;
+
     case 1:
+
+            if (regonEdit->text().isEmpty()) {
+                QMessageBox::warning(this, trUtf8("Pusty NUSP"), trUtf8("Pole dla numeru NUSP nie może być puste"));
+                return false;
+            }
+            break;
+
+    case 2:
+
         if (!Walidacje::instance()->validateRegon(regonEdit->text())) return false;
         if (!Walidacje::instance()->checkSumREGON(regonEdit->text())) return false;
             break;
-    case 2:
+
+    case 3:
+
         if (!Walidacje::instance()->validatePESEL(regonEdit->text())) return false;
         if (!Walidacje::instance()->checkSumPESEL(regonEdit->text())) return false;
             break;
-    case 3:
+
+    case 4:
+
         if (!Walidacje::instance()->validateIDCard(regonEdit->text())) return false;
         if (!Walidacje::instance()->checkSumIDCard(regonEdit->text())) return false;
             break;
-    case 4:
+
+    case 5:
+
         if (!Walidacje::instance()->validatePass(regonEdit->text())) return false;
         if (!Walidacje::instance()->checkSumPass(regonEdit->text())) return false;
             break;

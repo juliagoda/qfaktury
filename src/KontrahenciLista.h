@@ -14,7 +14,7 @@ Q_OBJECT
 public:
 
 	KontrahenciLista(QWidget *parent);
-    QString getRetKontrList() const;
+    QString const getRetKontrList() const;
 
 
 public slots:

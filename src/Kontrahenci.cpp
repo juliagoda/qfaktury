@@ -34,7 +34,7 @@ void Kontrahenci::init() {
 }
 
 
-QString Kontrahenci::getRetKontr() const
+QString const Kontrahenci::getRetKontr() const
 {
     return ret;
 }

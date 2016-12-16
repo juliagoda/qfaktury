@@ -15,7 +15,7 @@ public:
 
 	Towary(QWidget *parent, int mode, IDataLayer *dl);
 	void selectData(QString idx, int type); // called from MainWindow
-    QString getRetTow() const;
+    QString const getRetTow() const;
 
 
 public slots:
