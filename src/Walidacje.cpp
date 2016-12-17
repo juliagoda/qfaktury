@@ -52,8 +52,9 @@ bool Walidacje::validateEmail(QString text)
     QString form2 = QString();
     QString form3 = QRegExp::escape("\"(),:;<>@[\\]");
     bool notTwoDotted = true;
+    QString lastCh = text.at(text.lastIndexOf("\"")+1);
 
-    if ((text.at(0) == QString("\""))) {
+    if ((text.at(0) == QString("\"")) && (lastCh == "@")) {
 
         form2 = "^(\")(.+)(\")@{1}([^" + form3 + "\\s]*)([^-\\.\\s]*)$";
 
