@@ -16,15 +16,19 @@
 #include "InvoiceData.h"
 #include "ui_Faktura.h"
 
+enum InvoiceType {FVat, FPro, EFVat, EFPro, KBR, BILL, DUP};
+
 class Faktura: public QDialog, public Ui::Faktura {
+
 Q_OBJECT
 
 public:
+
     Faktura(QWidget *parent, IDataLayer *dl, QString Inv = QString());
 	virtual ~Faktura();
     static Faktura * instance();
 	void init();
-	void readData(QString fraFile, int co);
+    void readData(QString fraFile);
     QString fName, ret, inv_form;
     bool pforma, kAdded, ifCSS;
     virtual void setIsEditAllowed(bool isAllowed);
@@ -41,10 +45,11 @@ public:
     QString pressedTxt() const;
     void convertMoneyFunc(QString );
     inline void setTextDurRate(QString,QString,QString);
-    //int& prodHeadPositions(QString,QString,int,int&);
+    void whatTypeFromTitle(QString title, bool ifForm, bool kadded, InvoiceType invTyp, int numbType);
 
 
 public slots:
+
 	void getCustomer();
 	virtual void addTow();
 	virtual void discountChange();
@@ -70,10 +75,8 @@ public slots:
     void rateDateChanged(QString);
 
 
-
 protected:
 
-    bool ifInitedInv;
     QDate dupDate;
     QString prepayFile;
     QComboBox *ratesCombo;
@@ -87,7 +90,6 @@ protected:
 	IDataLayer *dataLayer;
 	QString lastInvoice, invoiceType;
 	double discountTotal, nettTotal, grossTotal;
-	bool isEdit;
 	bool canClose;
 	bool saveFailed;
 	CustomPaymData *custPaymData;
@@ -95,9 +97,8 @@ protected:
 	QString numbersCount(int in, int x);
 	int type;
     bool rComboWasChanged;
-    bool currChanged, goodsEdited;
+    bool goodsEdited;
     double am1, am2;
-    double perc1, perc2;
 
 	virtual void calculateDiscount();
 	virtual void calculateSum();
@@ -121,15 +122,15 @@ protected:
 	virtual QString getInvoiceTypeAndSaveNr();
 	bool validateForm();
 
-  private:
+
+private:
+
     static Faktura * m_instance;
     QNetworkAccessManager *manager;
     QFile file;
     QNetworkReply *reply;
     QString pressedText;
     QDomDocument doc;
-    bool firstRunInv;
-
 
 };
 #endif

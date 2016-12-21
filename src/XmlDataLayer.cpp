@@ -835,7 +835,7 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 	o_invData.frNr = root.attribute("no");
 	o_invData.sellingDate = QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
 	o_invData.productDate = QDate::fromString(root.attribute("issueDate"),	sett().getDateFormat());
-    if (type == 2) o_invData.duplDate = QDate::fromString(root.attribute("duplDate"),	sett().getDateFormat());
+    if (type == 7) o_invData.duplDate = QDate::fromString(root.attribute("duplDate"),	sett().getDateFormat());
 
 	QDomNode tmp;
 	tmp = root.firstChild();
@@ -888,8 +888,11 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
         else break;
 	}
 
+    QLocale c(QLocale::C);
+    double d = c.toDouble("44.48666300");
+    qDebug() << "44.48666300 = " << d;
     qDebug() << "tableTow->item(0,6): " << Faktura::instance()->tableTow->item(0, 6)->text();
-    qDebug() << "tableTow->item(0,6): " << sett().stringToDouble(Faktura::instance()->tableTow->item(0, 6)->text());
+    qDebug() << "tableTow->item(0,6): " << c.toDouble(Faktura::instance()->tableTow->item(0, 6)->text());
     qDebug() << "tableTow->item(0,6): " << (Faktura::instance()->tableTow->item(0, 6)->text()).toInt();
 
 	tmp = tmp.toElement().nextSibling();

@@ -52,8 +52,9 @@ bool Walidacje::validateEmail(QString text)
     QString form2 = QString();
     QString form3 = QRegExp::escape("\"(),:;<>@[\\]");
     bool notTwoDotted = true;
+    QString lastCh = text.at(text.lastIndexOf("\"")+1);
 
-    if ((text.at(0) == QString("\""))) {
+    if ((text.at(0) == QString("\"")) && (lastCh == "@")) {
 
         form2 = "^(\")(.+)(\")@{1}([^" + form3 + "\\s]*)([^-\\.\\s]*)$";
 
@@ -214,14 +215,26 @@ bool Walidacje::validateTel(QString text)
 
 bool Walidacje::validateWebsite(QString text)
 {
-    QRegExp masks("^(https?://)?(www\\.)?(([0-9a-z]+)((-)*))+(\\.){1}((([a-z0-9]+)((/)*)((\\.)*))+)$");
+    // from http://www.faqs.org/rfcs/rfc1738.html
+
+    // The characters ";", "/", "?", ":", "@", "=" and "&" are the characters which may be
+    // reserved for special meaning within a scheme. No other characters may
+    // be reserved within a scheme
+
+    // only alphanumerics, the special characters "$-_.+!*'(),", and
+    // reserved characters used for their reserved purposes may be used
+    // UNENCODED within a URL
+
+
+    QString specialChar = QRegExp::escape(";/?:@=&$-_.+!*'(),");
+    QRegExp masks("^(https?://)?(www\\.)?(([0-9a-z]+)((-)*))+(\\.){1}((([a-z0-9]+)([" + specialChar + "]*)((/)*)((\\.)*))+)$");
 
     if (!masks.exactMatch(text)) {
 
         QMessageBox::warning(
                 0,
                 "QFaktury",
-                trUtf8("Źle podany adres internetowy. Format pozwala na umieszczenie opcjonalnie http:// jak i www. Wymagany jest adres strony domowej"));
+                trUtf8("Źle podany adres internetowy. Format pozwala na umieszczenie opcjonalnie https://, http:// jak i www. Wymagany jest adres strony domowej bez znaków ;/?:@=&$-_.+!*'(), które są z kolei dozwolone w dalszej części ścieżki adresu url"));
 
         return false;
     }

@@ -806,7 +806,7 @@ void MainWindow::editFHist() {
     if (ui->tableH->item(row, 3)->text() == trUtf8("korekta")) {
 
         // QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
-        Korekta *korWindow = new Korekta(this, dl, s_CORRECT_TITLE);
+        Korekta *korWindow = new Korekta(this, dl, s_WIN_CORRECT_EDIT);
         korWindow->korektaInit(true);
         korWindow->readCorrData(ui->tableH->item(row, 0)->text());
 
@@ -823,7 +823,7 @@ void MainWindow::editFHist() {
     if (ui->tableH->item(row, 3)->text() == trUtf8("kbrutto")) {
 
         // QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
-        KorektaBrutto *korWindow = new KorektaBrutto(this, dl, s_CORRECT_TITLE);
+        KorektaBrutto *korWindow = new KorektaBrutto(this, dl, s_WIN_CORRECT_EDIT);
         korWindow->korektaInit(true);
         korWindow->readCorrData(ui->tableH->item(row, 0)->text());
 
@@ -840,8 +840,8 @@ void MainWindow::editFHist() {
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("rachunek")) {
 
-        Rachunek *raWindow = new Rachunek(this, dl, s_BILL);
-        raWindow->readData(ui->tableH->item(row, 0)->text(), 0);
+        Rachunek *raWindow = new Rachunek(this, dl, s_BILL_EDIT);
+        raWindow->readData(ui->tableH->item(row, 0)->text());
         raWindow->fName = ui->tableH->item(row, 0)->text();
         raWindow->rachunekInit();
         raWindow->setWindowTitle(trUtf8("Edytuje Rachunek"));
@@ -858,11 +858,9 @@ void MainWindow::editFHist() {
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("FVAT")) {
 
-        Faktura *fraWindow = new Faktura(this, dl, s_INVOICE);
+        Faktura *fraWindow = new Faktura(this, dl, s_WIN_INVOICE_EDIT);
 
-        int co = 0;
-
-        fraWindow->readData(ui->tableH->item(row, 0)->text(), co);
+        fraWindow->readData(ui->tableH->item(row, 0)->text());
         fraWindow->fName = ui->tableH->item(row, 0)->text();
 
         if (fraWindow->exec() == QDialog::Accepted) {
@@ -877,11 +875,9 @@ void MainWindow::editFHist() {
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("FPro")) {
 
-        Faktura *fraWindow = new Faktura(this, dl, s_PROFORMA);
+        Faktura *fraWindow = new Faktura(this, dl, s_WIN_PROFORMA_EDIT);
 
-            int co = 1;
-
-        fraWindow->readData(ui->tableH->item(row, 0)->text(), co);
+        fraWindow->readData(ui->tableH->item(row, 0)->text());
         fraWindow->fName = ui->tableH->item(row, 0)->text();
         if (fraWindow->exec() == QDialog::Accepted) {
 
@@ -895,11 +891,9 @@ void MainWindow::editFHist() {
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("FBrutto")) {
 
-        FakturaBrutto *fraWindow = new FakturaBrutto(this, dl, s_FBRUTTO);
+        FakturaBrutto *fraWindow = new FakturaBrutto(this, dl, s_BR_INVOICE_EDIT);
 
-        int co = 4;
-
-        fraWindow->readData(ui->tableH->item(row, 0)->text(), co);
+        fraWindow->readData(ui->tableH->item(row, 0)->text());
         fraWindow->fName = ui->tableH->item(row, 0)->text();
         if (fraWindow->exec() == QDialog::Accepted) {
 
@@ -913,11 +907,9 @@ void MainWindow::editFHist() {
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("duplikat")) {
 
-        Duplikat *dupWindow = new Duplikat(this, dl, s_DUPLICATE, true);
+        Duplikat *dupWindow = new Duplikat(this, dl, s_WIN_DUPLICATE_LOOK, true);
 
-        int co = 2;
-
-        dupWindow->readData(ui->tableH->item(row, 0)->text(), co);
+        dupWindow->readData(ui->tableH->item(row, 0)->text());
         dupWindow->duplikatInit();
         dupWindow->setIsEditAllowed(false);
         dupWindow->fName = ui->tableH->item(row, 0)->text();
@@ -1198,7 +1190,7 @@ void MainWindow::newKor() {
 
         korWindow->korektaInit(false);
         // qDebug( pdGlob );
-        korWindow->readData(ui->tableH->item(row, 0)->text(), 3);
+        korWindow->readData(ui->tableH->item(row, 0)->text());
         korWindow->setWindowTitle(trUtf8("Nowa korekta"));
         if (korWindow->exec() == QDialog::Accepted) {
             insertRow(ui->tableH, ui->tableH->rowCount());
@@ -1243,7 +1235,7 @@ void MainWindow::newDuplikat() {
         Duplikat *dupWindow = new Duplikat(this, dl, s_DUPLICATE, false);
 
         // qDebug( pdGlob );
-        dupWindow->readData(ui->tableH->item(row, 0)->text(), 2);
+        dupWindow->readData(ui->tableH->item(row, 0)->text());
         dupWindow->setWindowTitle(trUtf8("Nowy duplikat"));
         dupWindow->duplikatInit();
         if (dupWindow->exec() == QDialog::Accepted) {

@@ -12,9 +12,16 @@
 /** Constructor
  */
 
+TowaryLista* TowaryLista::m_instance = nullptr;
+
 TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
     setupUi(this);
     init();
+}
+
+TowaryLista::~TowaryLista()
+{
+    m_instance = nullptr;
 }
 
 /** Init
@@ -22,6 +29,7 @@ TowaryLista::TowaryLista(QWidget *parent): QDialog(parent) {
 
 void TowaryLista::init() {
 
+    m_instance = this;
 	ret = "";
 
 	// clear all the lists
@@ -44,6 +52,11 @@ void TowaryLista::init() {
 	connect(spinBox2, SIGNAL( valueChanged(int) ), this, SLOT( spinChanged(int) ) );
 	connect(rabatSpin, SIGNAL( valueChanged(int) ), this, SLOT( calcNetto() ) );
 	connect(countSpinBox, SIGNAL( valueChanged(const QString&) ), this, SLOT( calcNetto() ) );
+}
+
+TowaryLista* TowaryLista::instance()
+{
+    return m_instance;
 }
 
 QString const TowaryLista::getTowId() const

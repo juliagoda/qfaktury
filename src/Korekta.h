@@ -20,10 +20,8 @@ public:
     Korekta(QWidget *parent, IDataLayer *dl, QString in_form = QString());
 	virtual ~Korekta();
     bool editMode;
-    static bool ifInited;
-    static bool firstEdit;
-    double getPrevRate, getPrevRest;
-    double lastCurrVal;
+    bool firstRunned;
+    void schemaCalcSum();
 	virtual void korektaInit(bool mode); // called outside
 	virtual void readCorrData(QString fraFile);
 
@@ -35,14 +33,13 @@ public slots:
 	virtual bool saveInvoice();
 	virtual void makeInvoice();
     virtual void canQuit();
-    virtual void payTextChanged(QString someStr);
+   // virtual void payTextChanged(QString someStr);
 
 protected:
 
 	InvoiceData *invData;
 	QComboBox *reasonCombo;
 	QLabel *labelReason1;
-    virtual void calcAll(const double &);
 	virtual void makeInvoiceSummAll();
 	virtual void makeInvoiceSumm();
 	virtual void makeInvoceProductsTitle(short a);
@@ -57,11 +54,9 @@ protected:
 	virtual void calculateOneDiscount(int i);
 	virtual QString getInvoiceTypeAndSaveNr();
 
-
 private:
 
-    bool firstRunned;
-    bool rComboWasChanged2;
+    double origGrossBureau;
 
 };
 #endif

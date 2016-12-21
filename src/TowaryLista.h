@@ -17,6 +17,8 @@ public:
     QString const getSelItem() const;
     QString const getTowId() const;
 	TowaryLista(QWidget *parent);
+    ~TowaryLista();
+    static TowaryLista * instance();
 
 
 public slots:
@@ -47,6 +49,7 @@ private:
     QMap<QString, int> vats;
     QString selectedItem;
     QString id;
+    static TowaryLista * m_instance;
 
 };
 #endif

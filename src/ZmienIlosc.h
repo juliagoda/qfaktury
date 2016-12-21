@@ -6,12 +6,16 @@ class ZmienIlosc: public QDialog, public Ui::ZmienIlosc {
 
 Q_OBJECT
 
-	void init();
-
-
 public:
 
 	ZmienIlosc(QWidget *parent);
+    ~ZmienIlosc();
+    static ZmienIlosc * instance();
+    void init();
+
+private:
+
+    static ZmienIlosc * m_instance;
 
 };
 #endif
