@@ -88,6 +88,7 @@ Faktura::~Faktura() {
     delete restLabelInfo;
     if (sendKindInfo != 0) sendKindInfo = 0;
     delete sendKindInfo;
+
 }
 
 Faktura* Faktura::instance()
