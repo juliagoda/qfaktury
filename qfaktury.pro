@@ -87,14 +87,14 @@ TRANSLATIONS += $$PWD/translations/qfaktury_de.ts \
 
 unix {
 
-target.path = /usr/local/bin
-pixmaps.path = /usr/local/share/qfaktury/icons
+target.path = /usr/bin
+pixmaps.path = /usr/share/qfaktury/icons
 pixmaps.files = icons/*.png
-css.path = /usr/local/share/qfaktury/templates
+css.path = /usr/share/qfaktury/templates
 css.files = templates/*.css
-languages.path = /usr/local/share/qfaktury/translations
+languages.path = /usr/share/qfaktury/translations
 languages.files = translations/*.qm
-desktop.path = /usr/local/share/applications
+desktop.path = /usr/share/applications
 desktop.files = *.desktop
 
 }

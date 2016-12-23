@@ -181,7 +181,7 @@ void MainWindow::init() {
     connect(timer, SIGNAL(timeout()), this, SLOT(tabChanged()));
     timer->start(1000);
 
-    qDebug() << "Ścieżka aplikacji: " << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(2);
+    qDebug() << "Ścieżka aplikacji: " << QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1);
 
 	// connect slots
     connect(ui->actionBug, SIGNAL (triggered()), this, SLOT(reportBug()));

@@ -28,7 +28,7 @@ QString appPath = "~/Library/Application Support/qfaktury";
 #endif
 
 #ifdef Q_OS_LINUX
-QString appPath = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(2);
+QString appPath = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1);
 #endif
 
 #ifdef Q_OS_WIN32
