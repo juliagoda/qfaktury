@@ -18,16 +18,15 @@ sudo make install
 
 powoduje to skopiowanie wszystkich potrzebnych plików do - 
 Na Linux:
-program - /usr/local/bin
-grafika - /usr/local/share/qfaktury/icons
+program - /usr/bin
+grafika - /usr/share/qfaktury/icons
 pliki formatu .png
-szablony do drukowania - /usr/local/share/qfaktury/templates
+szablony do drukowania - /usr/share/qfaktury/templates
 pliki formatu .css
-języki - /usr/local/share/qfaktury/translations
+języki - /usr/share/qfaktury/translations
 pliki formatu .qm
-ikona programu - /usr/local/share/applications
+ikona programu - /usr/share/applications
 pliki formatu .desktop
-
 
 
 Ograniczenia!!
