@@ -1729,6 +1729,7 @@ void Faktura::getData(InvoiceData invData) {
 
     if (!invData.duplDate.isNull() && invData.duplDate.isValid()) dupDate = invData.duplDate;
 
+    qDebug() << "DISCOUNT: " << invData.discount;
 	if (invData.discount == 0) {
 
         rabatValue->setValue(0);
@@ -1739,6 +1740,7 @@ void Faktura::getData(InvoiceData invData) {
 		rabatValue->setValue(invData.discount);
 	}
 
+    qDebug() << "RABAT: " << invData.discount;
     qDebug() << "ustawiony rabatValue po wczytaniu: " << rabatValue->value();
 
 
@@ -2566,7 +2568,7 @@ void Faktura::readData(QString fraFile) {
 	saveBtn->setEnabled(false);
 
 	setIsEditAllowed(sett().value("edit").toBool());
-	calculateDiscount();
+    //calculateDiscount();
 	calculateSum();
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
@@ -2659,33 +2661,45 @@ void Faktura::calculateOneDiscount(int i) {
 	double netto = 0,  price = 0;
 	double discountValue = 0, discount;
 
+    qDebug() << "PRICE PRZED: " << tableTow->item(i, 7)->text();
     price = sett().stringToDouble(tableTow->item(i, 7)->text());
+    qDebug() << "PRICE PO: " << price;
 
 	if (constRab->isChecked()) {
 
+        qDebug() << "PRZED rabatValue->value()" << rabatValue->value();
         discount = rabatValue->value() * 0.01;
-        qDebug() << "rabatValue->value() * 0.01" << rabatValue->value() << " * " << "0.01";
+        qDebug() << "PO rabatValue->value()" << discount;
 
 	} else {
 
+        qDebug() << "PRZED tableTow->item(i, 6)->text()" << tableTow->item(i, 6)->text().toInt();
         discount = (tableTow->item(i, 6)->text()).toInt() * 0.01;
-        qDebug() << "tableTow->item(i, 6)->text() * 0.01" << sett().stringToDouble(tableTow->item(i, 6)->text()) << " * " << "0.01";
+        qDebug() << "PO tableTow->item(i, 6)->text()" << discount;
 	}
 
-    qDebug() << "calculateOneDiscount: discount: " << discount;
     quantity = tableTow->item(i, 4)->text().toInt();
+    qDebug() << "PATRZ QUANTITY: " << quantity;
 	netto = (price * quantity);
+    qDebug() << "PATRZ NETTO: " << netto;
 	discountValue = netto * discount;
+    qDebug() << "PATRZ DISCOUNTVALUE: " << discountValue;
 	netto -= discountValue;
+    qDebug() << "PATRZ NETTO Z DISCOUNT: " << netto;
     vat = tableTow->item(i, 9)->text().toInt();
 	gross = netto * ((vat * 0.01) + 1);
+    qDebug() << "PATRZ BRUTTO: " << gross;
 
-	// qDebug() << price << quantity << netto << discount << discountValue << vat << gross;
+
+    qDebug() << price << quantity << netto << discount << discountValue << vat << gross;
 
     tableTow->item(i, 6)->setText(sett().numberToString(discount * 100, 'f', 0)); // discount
-    qDebug() << "discount w tabeli: " << sett().numberToString(discount * 100, 'f', 0);
+    qDebug() << "discount w tabeli: " << tableTow->item(i, 6)->text();
 	tableTow->item(i, 8)->setText(sett().numberToString(netto)); // nett
+    qDebug() << "netto w tabeli: " << tableTow->item(i, 8)->text();
 	tableTow->item(i, 10)->setText(sett().numberToString(gross)); // gross
+    qDebug() << "brutto w tabeli: " << tableTow->item(i, 10)->text();
+
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
 
@@ -2698,7 +2712,7 @@ void Faktura::calculateSum() {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
-    double netto = 0, price = 0, quantity = 0, gross = 00;
+    double netto = 0, price = 0, gross = 00;
     double discountValue = 0;
 
 	nettTotal = 0;
@@ -2708,16 +2722,16 @@ void Faktura::calculateSum() {
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
 
 		price = sett().stringToDouble(tableTow->item(i, 7)->text());
-        quantity = tableTow->item(i, 4)->text().toInt();
 		netto = sett().stringToDouble(tableTow->item(i, 8)->text());
 		gross = sett().stringToDouble(tableTow->item(i, 10)->text());
-		discountValue = (price * quantity) - netto;
+        discountValue += tableTow->item(i, 6)->text().toInt();
 
-		nettTotal += netto;
-		discountTotal += discountValue;
+        nettTotal += netto;
 		grossTotal += gross;
 
 	}
+
+    discountTotal = (discountValue * grossTotal)/100;
 
 	sum1->setText(sett().numberToString(nettTotal, 'f', 2));
 	sum2->setText(sett().numberToString(discountTotal, 'f', 2));

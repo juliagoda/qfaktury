@@ -744,7 +744,7 @@ void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData, QDomElem
 
     o_element.setAttribute("price", sett().numberToString(i_prodData.price,'f',2));
 
-    o_element.setAttribute("nett", i_prodData.nett); // netto without discount
+    o_element.setAttribute("nett", Faktura::instance()->tableTow->item(currentRow, 8)->text()); // netto without discount
     o_element.setAttribute("discountedNett", Faktura::instance()->tableTow->item(currentRow, 8)->text());
 
     o_element.setAttribute("vatBucket", Faktura::instance()->tableTow->item(currentRow, 9)->text());
@@ -861,8 +861,6 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 	tmp = tmp.toElement().nextSibling(); // product
 	product = tmp.toElement();
 
-
-
     o_invData.discount = product.attribute("discount").toInt();
     qDebug() << "product.attribute(\"discount\").toInt(): " << product.attribute("discount").toInt();
 
@@ -885,7 +883,8 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
         for (int j = 0; j < int(sizeof(towarColumns)/sizeof(*towarColumns)); j++) {
             Faktura::instance()->tableTow->setItem(i, j, new QTableWidgetItem(towar.attribute(
             towarColumns[j])));
-            qDebug() << towarColumns[j] << towar.attribute(towarColumns[j]);
+            qDebug() << "PĘTLA :" << towarColumns[j] << towar.attribute(towarColumns[j]);
+            qDebug() << "KOLUMNY :" << Faktura::instance()->tableTow->item(i,j)->text();
         }
         if (towar.nextSibling().toElement().tagName() == "product") towar = towar.nextSibling().toElement();
         else break;
