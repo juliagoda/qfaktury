@@ -47,13 +47,15 @@ h4 {
   text-align: center;
 }
 
-.products {
+.products td {
  font-family: Verdana, Tahoma, Arial;
  color: #000000; 
  font-style: normal;
+ border-spacing: 0;
  font-size: 5pt; 
  font-weight: 400;
  text-align: center;
+ vertical-align: middle;
 }
 
 .productsSumHeader {

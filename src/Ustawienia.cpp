@@ -97,6 +97,7 @@ void Ustawienia::init() {
     cssList->clear();
     cssList->insertItems(0, getTemplates());
 
+
     getEncodings();
     readSettings();
 

@@ -361,20 +361,12 @@ QString getAppDirs() {
 		setValue("editName", "false");
 		setValue("editSymbol", "false");
 		setValue("numberOfCopies", 1);
-     //   setValue("nipMask", "999-99-99-999; ");
-    //	setValue("accountMask", "99-9999-9999-9999-9999-9999-9999; ");
-	//      setValue ("filtrEnd", QDate::currentDate ().toString (Qt::ISODate));
-		setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
+        setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
 		setValue("firstrun", false);
 		setValue("jednostki", tr("szt.|kg.|g.|m.|km.|godz."));
 		setValue("korNr", "1");
 		setValue("logo", "");
-		/*
-		 setValue("margLeft","15");
-		 setValue("margTop","15");
-		 setValue("margDown","15");
-		 setValue("margRight","15");
-		 */
+
 		setValue("margLeftPrinter", "10");
 		setValue("margTopPrinter", "10");
 		setValue("margDownPrinter", "10");
@@ -515,14 +507,13 @@ QString getAppDirs() {
 	QString getTemplate() {
 
 
-		QString style = value("css", "style.css").toString();
+        QString style = value("css", "black.css").toString();
 		if (style.compare("") == 0) {
-			style = "style.css";
+            style = "black.css";
 		}
 
 
         QString ret = appPath + "/templates/" + style;
-        QString path = appPath + "/templates/";
 
 		QFile f;
 		f.setFileName(ret);
@@ -532,7 +523,7 @@ QString getAppDirs() {
 
 		f.setFileName(ret);
 		if (!f.exists()) {
-            ret = appPath + "/templates/style.css";
+            ret = appPath + "/templates/black.css";
 		}
 
 		// qDebug() << ret;
