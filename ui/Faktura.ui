@@ -445,6 +445,27 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="konvCHF">
+         <property name="text">
+          <string>CHF</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="konvGBP">
+         <property name="text">
+          <string>GBP</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="konvRUB">
+         <property name="text">
+          <string>RUB</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>

@@ -60,6 +60,9 @@ Faktura::Faktura(QWidget *parent, IDataLayer *dl, QString Inv) :
     konvEUR->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
     konvPLN->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
     konvUSD->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
+    konvCHF->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
+    konvGBP->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
+    konvRUB->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
 
 	init();
 }
@@ -210,6 +213,9 @@ void Faktura::init() {
     connect(konvUSD, SIGNAL(clicked()), this, SLOT(changeToUSD()));
     connect(konvEUR, SIGNAL(clicked()), this, SLOT(changeToEUR()));
     connect(konvPLN, SIGNAL(clicked()), this, SLOT(changeToPLN()));
+    connect(konvCHF, SIGNAL(clicked()), this, SLOT(changeToCHF()));
+    connect(konvGBP, SIGNAL(clicked()), this, SLOT(changeToGBP()));
+    connect(konvRUB, SIGNAL(clicked()), this, SLOT(changeToRUB()));
     connect(ratesCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(rateDateChanged(QString)));
 
 
@@ -443,20 +449,79 @@ QMap<QString,double> Faktura::tableOfValues() {
     if (currencies.isEmpty()) {
 
         double eurToPln = getActualCurList().value("EUR");
-        qDebug() << "Euro na polskie:" << eurToPln;
         double usdToPln = getActualCurList().value("USD");
-        qDebug() << "USD na polskie:" << usdToPln;
+        double chfToPln = getActualCurList().value("CHF");
+        double gbpToPln = getActualCurList().value("GBP");
+        double rubToPln = getActualCurList().value("RUB");
+
         double plnToEur = 1/eurToPln;
+        double plnToChf = 1/chfToPln;
+        double plnToGbp = 1/gbpToPln;
+        double plnToRub = 1/rubToPln;
         double plnToUsd = 1/usdToPln;
+
         double eurToUsd = eurToPln/usdToPln;
+        double eurToChf = eurToPln/chfToPln;
+        double eurToGbp = eurToPln/gbpToPln;
+        double eurToRub = eurToPln/rubToPln;
+
         double usdToEur = usdToPln/eurToPln;
+        double usdToChf = usdToPln/chfToPln;
+        double usdToGbp = usdToPln/gbpToPln;
+        double usdToRub = usdToPln/rubToPln;
+
+        double chfToEur = chfToPln/eurToPln;
+        double chfToUsd = chfToPln/usdToPln;
+        double chfToGbp = chfToPln/gbpToPln;
+        double chfToRub = chfToPln/rubToPln;
+
+        double gbpToEur = gbpToPln/eurToPln;
+        double gbpToUsd = gbpToPln/usdToPln;
+        double gbpToChf = gbpToPln/chfToPln;
+        double gbpToRub = gbpToPln/rubToPln;
+
+        double rubToEur = rubToPln/eurToPln;
+        double rubToUsd = rubToPln/usdToPln;
+        double rubToGbp = rubToPln/gbpToPln;
+        double rubToChf = rubToPln/chfToPln;
+
 
         currencies.insert("EUR/PLN",eurToPln);
         currencies.insert("USD/PLN",usdToPln);
+        currencies.insert("CHF/PLN",chfToPln);
+        currencies.insert("GBP/PLN",gbpToPln);
+        currencies.insert("RUB/PLN",rubToPln);
+
         currencies.insert("PLN/EUR",plnToEur);
         currencies.insert("PLN/USD",plnToUsd);
+        currencies.insert("PLN/CHF",plnToChf);
+        currencies.insert("PLN/GBP",plnToGbp);
+        currencies.insert("PLN/RUB",plnToRub);
+
         currencies.insert("EUR/USD",eurToUsd);
+        currencies.insert("EUR/CHF",eurToChf);
+        currencies.insert("EUR/GBP",eurToGbp);
+        currencies.insert("EUR/RUB",eurToRub);
+
         currencies.insert("USD/EUR",usdToEur);
+        currencies.insert("USD/CHF",usdToChf);
+        currencies.insert("USD/GBP",usdToGbp);
+        currencies.insert("USD/RUB",usdToRub);
+
+        currencies.insert("CHF/EUR",chfToEur);
+        currencies.insert("CHF/USD",chfToUsd);
+        currencies.insert("CHF/GBP",chfToGbp);
+        currencies.insert("CHF/RUB",chfToRub);
+
+        currencies.insert("GBP/EUR",gbpToEur);
+        currencies.insert("GBP/USD",gbpToUsd);
+        currencies.insert("GBP/CHF",gbpToChf);
+        currencies.insert("GBP/RUB",gbpToRub);
+
+        currencies.insert("RUB/EUR",rubToEur);
+        currencies.insert("RUB/USD",rubToUsd);
+        currencies.insert("RUB/CHF",rubToChf);
+        currencies.insert("RUB/GBP",rubToGbp);
 
     }
 
@@ -669,6 +734,183 @@ void Faktura::changeToPLN() {
 
     file.setFileName(sett().getInvoicesDir() + "bureau.xml");
     pressedText = konvPLN->text().replace("&","").trimmed();
+
+   if (!file.exists()) {
+
+       QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
+       connectedWebsite(web);
+
+   } else {
+
+       if (ifUpdated()) {
+
+           QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
+           connectedWebsite(web);
+
+       } else {
+
+           QMap<QString, double> list;
+           QMap<QString, double> table;
+
+            list = getActualCurList();
+            table = tableOfValues();
+
+
+            if (checkInvCurr() != pressedTxt()) {
+
+                QMap<QString, double>::const_iterator i = table.constBegin();
+                while (i != table.constEnd()) {
+
+                    QString first = i.key().split("/").at(0);
+                    QString second = i.key().split("/").at(1);
+
+                    if (first == currCombo->currentText() && second == pressedText) {
+                        qDebug() << "first: " << first << " == " << "currComboText: " << currCombo->currentText() << " && " << "second: " << second << " == " << "pressedText: " << pressedTxt();
+                        calcAll(i.value());
+                        break;
+                    }
+
+                    ++i;
+                }
+       } else {
+
+                QMessageBox::information(this,trUtf8("Wartości walut"),trUtf8("Wartości konwertowane nie mogą być sobie równe. Ustaw różne nazwy walut."));
+            }
+
+            currCombo->setCurrentText(pressedTxt());
+        }
+    }
+
+   QApplication::restoreOverrideCursor();
+}
+
+
+void Faktura::changeToCHF() {
+
+    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    file.setFileName(sett().getInvoicesDir() + "bureau.xml");
+    pressedText = konvCHF->text().replace("&","").trimmed();
+
+   if (!file.exists()) {
+
+       QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
+       connectedWebsite(web);
+
+   } else {
+
+       if (ifUpdated()) {
+
+           QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
+           connectedWebsite(web);
+
+       } else {
+
+           QMap<QString, double> list;
+           QMap<QString, double> table;
+
+            list = getActualCurList();
+            table = tableOfValues();
+
+
+            if (checkInvCurr() != pressedTxt()) {
+
+                QMap<QString, double>::const_iterator i = table.constBegin();
+                while (i != table.constEnd()) {
+
+                    QString first = i.key().split("/").at(0);
+                    QString second = i.key().split("/").at(1);
+
+                    if (first == currCombo->currentText() && second == pressedText) {
+                        qDebug() << "first: " << first << " == " << "currComboText: " << currCombo->currentText() << " && " << "second: " << second << " == " << "pressedText: " << pressedTxt();
+                        calcAll(i.value());
+                        break;
+                    }
+
+                    ++i;
+                }
+       } else {
+
+                QMessageBox::information(this,trUtf8("Wartości walut"),trUtf8("Wartości konwertowane nie mogą być sobie równe. Ustaw różne nazwy walut."));
+            }
+
+            currCombo->setCurrentText(pressedTxt());
+        }
+    }
+
+   QApplication::restoreOverrideCursor();
+}
+
+
+void Faktura::changeToGBP() {
+
+    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    file.setFileName(sett().getInvoicesDir() + "bureau.xml");
+    pressedText = konvGBP->text().replace("&","").trimmed();
+
+   if (!file.exists()) {
+
+       QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
+       connectedWebsite(web);
+
+   } else {
+
+       if (ifUpdated()) {
+
+           QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
+           connectedWebsite(web);
+
+       } else {
+
+           QMap<QString, double> list;
+           QMap<QString, double> table;
+
+            list = getActualCurList();
+            table = tableOfValues();
+
+
+            if (checkInvCurr() != pressedTxt()) {
+
+                QMap<QString, double>::const_iterator i = table.constBegin();
+                while (i != table.constEnd()) {
+
+                    QString first = i.key().split("/").at(0);
+                    QString second = i.key().split("/").at(1);
+
+                    if (first == currCombo->currentText() && second == pressedText) {
+                        qDebug() << "first: " << first << " == " << "currComboText: " << currCombo->currentText() << " && " << "second: " << second << " == " << "pressedText: " << pressedTxt();
+                        calcAll(i.value());
+                        break;
+                    }
+
+                    ++i;
+                }
+       } else {
+
+                QMessageBox::information(this,trUtf8("Wartości walut"),trUtf8("Wartości konwertowane nie mogą być sobie równe. Ustaw różne nazwy walut."));
+            }
+
+            currCombo->setCurrentText(pressedTxt());
+        }
+    }
+
+   QApplication::restoreOverrideCursor();
+}
+
+
+void Faktura::changeToRUB() {
+
+    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    file.setFileName(sett().getInvoicesDir() + "bureau.xml");
+    pressedText = konvRUB->text().replace("&","").trimmed();
 
    if (!file.exists()) {
 
@@ -2381,6 +2623,11 @@ void Faktura::setIsEditAllowed(bool isAllowed) {
     konvPLN->setEnabled(isAllowed);
     konvEUR->setEnabled(isAllowed);
     konvUSD->setEnabled(isAllowed);
+    konvCHF->setEnabled(isAllowed);
+    konvGBP->setEnabled(isAllowed);
+    konvRUB->setEnabled(isAllowed);
+
+
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
 

@@ -136,7 +136,7 @@ QString getAppDirs() {
 		if (value("sufix").toString().compare("") == 0)
 			setValue("sufix", "");
 		if (value("waluty").toString().compare("") == 0)
-			setValue("waluty", tr("PLN|EUR|USD"));
+            setValue("waluty", tr("PLN|EUR|USD|CHF|GBP|RUB"));
 		if (value("year").toString().compare("") == 0)
 			setValue("year", "false");
 		if (value("numberOfCopies").toString().compare("") == 0)
@@ -389,7 +389,7 @@ QString getAppDirs() {
 		setValue("shortYear", "false");
         setValue("stawki", tr("23|8|5|0|zw."));
 		setValue("sufix", "");
-		setValue("waluty", tr("PLN|EUR|USD"));
+        setValue("waluty", tr("PLN|EUR|USD|CHF|GBP|RUB"));
 		setValue("year", "false");
 
 		// here we could add special code for Rachunek
