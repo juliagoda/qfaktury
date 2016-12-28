@@ -29,10 +29,13 @@ public:
     static Faktura * instance();
 	void init();
     void readData(QString fraFile);
-    QString fName, ret, inv_form;
-    bool pforma, kAdded, ifCSS;
-    virtual void setIsEditAllowed(bool isAllowed);
+    QString const getRet() const;
+    QString const getfName() const;
+    QString const getInvForm() const;
+    bool const getKAdded() const;
+    void setfName(QString text);
 
+    virtual void setIsEditAllowed(bool isAllowed);
 	void keyPressEvent(QKeyEvent * event);
     void connectedWebsite(const QUrl&);
     QMap<QString,double> getActualCurList();
@@ -131,6 +134,8 @@ private:
     QNetworkReply *reply;
     QString pressedText;
     QDomDocument doc;
+    QString fName, ret, inv_form;
+    bool pforma, kAdded, ifCSS;
 
 };
 #endif

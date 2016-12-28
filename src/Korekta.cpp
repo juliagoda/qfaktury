@@ -1,4 +1,4 @@
-#include "moc_Korekta.cpp"
+
 #include <QtXml/qdom.h>
 #include <QMessageBox>
 #include <QTextCodec>
@@ -18,11 +18,10 @@
 
 
 // constructor
-Korekta::Korekta(QWidget *parent, IDataLayer *dl, QString in_form): Faktura(parent, dl, in_form) {
+Korekta::Korekta(QWidget *parent, IDataLayer *dl, QString in_form, bool edMode): Faktura(parent, dl, in_form), editMode(edMode) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
-    editMode = false;
     firstRunned = true;
     origGrossBureau = 0;
 
@@ -35,6 +34,24 @@ Korekta::~Korekta() {
 	delete invData;
 	invData = NULL;
 
+}
+
+
+bool const Korekta::getMode() const
+{
+    return editMode;
+}
+
+
+bool const Korekta::getFirstRun() const
+{
+    return firstRunned;
+}
+
+
+QString const Korekta::getRet() const
+{
+    return ret;
 }
 
 /* Init
@@ -311,33 +328,33 @@ bool Korekta::saveInvoice(){
 
     if (platCombo->currentText() == trUtf8("zaliczka")) {
         if (!editMode) {
-        if (rComboWasChanged) {
+            if (rComboWasChanged) {
 
-            addinfo.setAttribute("payment1", custPaymData->payment1);
-            addinfo.setAttribute("amount1", sett().numberToString(custPaymData->amount1, 'f', 2));
-            addinfo.setAttribute("liabDate1", custPaymData->date1.toString(
-                sett().getDateFormat()));
+                addinfo.setAttribute("payment1", custPaymData->payment1);
+                addinfo.setAttribute("amount1", sett().numberToString(custPaymData->amount1, 'f', 2));
+                addinfo.setAttribute("liabDate1", custPaymData->date1.toString(
+                    sett().getDateFormat()));
 
-            addinfo.setAttribute("payment2", custPaymData->payment2);
-            addinfo.setAttribute("amount2", sett().numberToString(custPaymData->amount2, 'f', 2));
-            addinfo.setAttribute("liabDate2", custPaymData->date2.toString(
-                sett().getDateFormat()));
+                addinfo.setAttribute("payment2", custPaymData->payment2);
+                addinfo.setAttribute("amount2", sett().numberToString(custPaymData->amount2, 'f', 2));
+                addinfo.setAttribute("liabDate2", custPaymData->date2.toString(
+                    sett().getDateFormat()));
 
-        } else {
+            } else {
 
-            ratesCombo->setCurrentIndex(0);
+                ratesCombo->setCurrentIndex(0);
 
-            addinfo.setAttribute("payment1", sendKindInfo->text());
-            addinfo.setAttribute("amount1", rateLabelInfo->text());
-            addinfo.setAttribute("liabDate1", ratesCombo->itemText(0));
+                addinfo.setAttribute("payment1", sendKindInfo->text());
+                addinfo.setAttribute("amount1", rateLabelInfo->text());
+                addinfo.setAttribute("liabDate1", ratesCombo->itemText(0));
 
-            addinfo.setAttribute("amount2", restLabelInfo->text());
-            addinfo.setAttribute("liabDate2", ratesCombo->itemText(1));
+                addinfo.setAttribute("amount2", restLabelInfo->text());
+                addinfo.setAttribute("liabDate2", ratesCombo->itemText(1));
 
-            ratesCombo->setCurrentIndex(1);
-            addinfo.setAttribute("payment2", sendKindInfo->text());
+                ratesCombo->setCurrentIndex(1);
+                addinfo.setAttribute("payment2", sendKindInfo->text());
 
-    }
+            }
         } else {
 
             ratesCombo->setCurrentIndex(0);
@@ -697,6 +714,7 @@ void Korekta::readCorrData(QString fraFile) {
 	setIsEditAllowed(sett().value("edit").toBool());
 	calculateDiscount();
 	calculateSum();
+    file.close();
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
 }
@@ -818,7 +836,6 @@ void Korekta::schemaCalcSum()
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
     double netto = 0, price = 0, quantity = 0, gross = 00;
     double discountValue = 0;
-   // double gr = 0;
 
     qDebug() << "platCombo->currentText(): " << platCombo->currentText();
     qDebug() << "origGrossTotal na początku funkcji: " << origGrossTotal;
@@ -849,7 +866,7 @@ void Korekta::schemaCalcSum()
     // sum of after correction invoice
     for (int i = 0; i < tableTow->rowCount(); ++i) {
         price = sett().stringToDouble(tableTow->item(i, 7)->text());
-        quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
+        quantity = tableTow->item(i, 4)->text().toInt();
         netto = sett().stringToDouble(tableTow->item(i, 8)->text());
         gross = sett().stringToDouble(tableTow->item(i, 10)->text());
         discountValue = (price * quantity) - netto;
@@ -949,16 +966,16 @@ void Korekta::calculateOneDiscount(int i) {
 	price = sett().stringToDouble(tableTow->item(i, 7)->text());
 
 	if (constRab->isChecked()) {
-		discount = rabatValue->value() * 0.01;
+        discount = rabatValue->value() * 0.01;
 	} else {
         discount = (tableTow->item(i, 6)->text()).toInt() * 0.01;
 	}
 
-	quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
+    quantity = tableTow->item(i, 4)->text().toInt();
 	netto = (price * quantity);
 	discountValue = netto * discount;
 	netto -= discountValue;
-	vat = sett().stringToDouble(tableTow->item(i, 9)->text());
+    vat = tableTow->item(i, 9)->text().toInt();
 	gross = netto * ((vat * 0.01) + 1);
 
 	// qDebug() << price << quantity << netto << discount << discountValue << vat << gross;

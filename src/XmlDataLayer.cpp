@@ -26,6 +26,12 @@ XmlDataLayer::~XmlDataLayer() {
 }
 
 
+QString const XmlDataLayer::getRet() const
+{
+    return ret;
+}
+
+
 // ************ KONTRAHENCI START *****************
 // helper method
 void XmlDataLayer::kontrahenciElemToData(KontrData &o_kontrData, QDomElement i_element) {
@@ -697,11 +703,11 @@ void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o
 
     QStringList kht = i_invData.customer.split(",");
     o_element.setAttribute("name", kht[0]);
-    Faktura::instance()->ret += kht[0] + "|";
+    ret += kht[0] + "|";
     o_element.setAttribute("city", kht[1]);
     o_element.setAttribute("street", kht[2]);
     o_element.setAttribute("tic", kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"),     ""));
-    Faktura::instance()->ret += kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"), "");
+    ret += kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"), "");
     o_element.setAttribute("account", kht[4].replace(" ", "").replace(QObject::trUtf8("Konto:"), ""));
     o_element.setAttribute("phone", kht[5].replace(" ", "").replace(QObject::trUtf8("Tel:"), ""));
     o_element.setAttribute("email", kht[6].replace(" ", "").replace(QObject::trUtf8("Email:"), ""));
@@ -735,14 +741,11 @@ void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData, QDomElem
 		o_element.setAttribute("discount",
                 sett().numberToString(Faktura::instance()->rabatValue->value())); // rabat
 	}
-    QString helpPrec = sett().numberToString(i_prodData.price,'f',2);
-    qDebug() << "zapisywany helpPrec w invoiceProdDataToElem: " << helpPrec;
-    double pricePrec = sett().stringToDouble(helpPrec);
-    qDebug() << "zapisywany pricePrec w invoiceProdDataToElem: " << pricePrec;
-    o_element.setAttribute("price", pricePrec);
+
+    o_element.setAttribute("price", sett().numberToString(i_prodData.price,'f',2));
 
     o_element.setAttribute("nett", i_prodData.nett); // netto without discount
-    //o_element.setAttribute("discountedNett", i_prodData.);
+    o_element.setAttribute("discountedNett", Faktura::instance()->tableTow->item(currentRow, 8)->text());
 
     o_element.setAttribute("vatBucket", Faktura::instance()->tableTow->item(currentRow, 9)->text());
     double vatPrice = sett().stringToDouble(Faktura::instance()->tableTow->item(currentRow, 10)->text()) -
@@ -1026,14 +1029,14 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 
 	}
 
-    Faktura::instance()->ret = oi_invData.id + "|";
+    ret = oi_invData.id + "|";
     qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << file.fileName();
 
 	root = doc.createElement("invoice");
 	root.setAttribute("no", oi_invData.frNr);
-    Faktura::instance()->ret += oi_invData.frNr + "|";
+    ret += oi_invData.frNr + "|";
 	oi_invData.issueDate = QDate::currentDate();
-    Faktura::instance()->ret += oi_invData.issueDate.toString(sett().getDateFormat()) + "|";
+    ret += oi_invData.issueDate.toString(sett().getDateFormat()) + "|";
 	root.setAttribute("issueDate", oi_invData.issueDate.toString(sett().getDateFormat()));
 	root.setAttribute("sellingDate", oi_invData.sellingDate.toString(sett().getDateFormat()));
     
@@ -1041,7 +1044,7 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 	QString invType = oi_invData.getInvoiceTypeAndSaveNr(type);
     if (invType == QObject::trUtf8("duplikat")) root.setAttribute("duplDate",oi_invData.duplDate.toString(sett().getDateFormat()));
 	root.setAttribute("type", invType);
-    Faktura::instance()->ret += invType + "|";
+    ret += invType + "|";
 
 	doc.appendChild(root);
 

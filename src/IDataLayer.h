@@ -22,6 +22,7 @@ public:
 	virtual ~IDataLayer() {};
 	virtual void saveInvoiceData() {};
 	virtual void readInvoiceData() {};
+    virtual const QString getRet() const { return "|"; };
 
 	virtual KontrData kontrahenciSelectData(QString, int) { return KontrData(); };
 	virtual QVector<KontrData > kontrahenciSelectAllData() { QVector<KontrData > a; return a; };

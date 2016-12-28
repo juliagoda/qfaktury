@@ -4,7 +4,6 @@
  *  Created on: Apr 3, 2009
  *      Author: moux
  */
-#include "moc_KorektaBrutto.cpp"
 
 #include "TowaryBruttoLista.h"
 #include "MainWindow.h"
@@ -14,7 +13,7 @@
 /* Constructor
  */
 
-KorektaBrutto::KorektaBrutto(QWidget *parent, IDataLayer *dl, QString in_form): Korekta(parent, dl, in_form) {
+KorektaBrutto::KorektaBrutto(QWidget *parent, IDataLayer *dl, QString in_form, bool edMode): Korekta(parent, dl, in_form, edMode) {
 
 }
 

@@ -5,7 +5,6 @@
  *      Author: moux
  */
 
-#include "moc_Rachunek.cpp"
 #include "Rachunek.h"
 #include "Const.h"
 

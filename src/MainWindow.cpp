@@ -1,4 +1,4 @@
-﻿#include "moc_MainWindow.cpp"
+﻿
 #include <QTextCodec>
 #include <QMessageBox>
 #include <QApplication>
@@ -806,7 +806,7 @@ void MainWindow::editFHist() {
     if (ui->tableH->item(row, 3)->text() == trUtf8("korekta")) {
 
         // QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
-        Korekta *korWindow = new Korekta(this, dl, s_WIN_CORRECT_EDIT);
+        Korekta *korWindow = new Korekta(this, dl, s_WIN_CORRECT_EDIT, true);
         korWindow->korektaInit(true);
         korWindow->readCorrData(ui->tableH->item(row, 0)->text());
 
@@ -815,7 +815,7 @@ void MainWindow::editFHist() {
             rereadHist(true);
         }
 
-        if (korWindow->kAdded) readKontr();
+        if (korWindow->getKAdded()) readKontr();
         delete korWindow;
         korWindow = 0;
     }
@@ -823,7 +823,7 @@ void MainWindow::editFHist() {
     if (ui->tableH->item(row, 3)->text() == trUtf8("kbrutto")) {
 
         // QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma", QMessageBox::Ok );
-        KorektaBrutto *korWindow = new KorektaBrutto(this, dl, s_WIN_CORRECT_EDIT);
+        KorektaBrutto *korWindow = new KorektaBrutto(this, dl, s_WIN_CORRECT_EDIT, true);
         korWindow->korektaInit(true);
         korWindow->readCorrData(ui->tableH->item(row, 0)->text());
 
@@ -832,7 +832,7 @@ void MainWindow::editFHist() {
             rereadHist(true);
         }
 
-        if (korWindow->kAdded) readKontr();
+        if (korWindow->getKAdded()) readKontr();
         delete korWindow;
         korWindow = 0;
     }
@@ -842,7 +842,7 @@ void MainWindow::editFHist() {
 
         Rachunek *raWindow = new Rachunek(this, dl, s_BILL_EDIT);
         raWindow->readData(ui->tableH->item(row, 0)->text());
-        raWindow->fName = ui->tableH->item(row, 0)->text();
+        raWindow->setfName(ui->tableH->item(row, 0)->text());
         raWindow->rachunekInit();
         raWindow->setWindowTitle(trUtf8("Edytuje Rachunek"));
 
@@ -851,7 +851,7 @@ void MainWindow::editFHist() {
             rereadHist(true);
         }
 
-        if (raWindow->kAdded) readKontr();
+        if (raWindow->getKAdded()) readKontr();
         delete raWindow;
         raWindow = 0;
     }
@@ -861,14 +861,14 @@ void MainWindow::editFHist() {
         Faktura *fraWindow = new Faktura(this, dl, s_WIN_INVOICE_EDIT);
 
         fraWindow->readData(ui->tableH->item(row, 0)->text());
-        fraWindow->fName = ui->tableH->item(row, 0)->text();
+        fraWindow->setfName(ui->tableH->item(row, 0)->text());
 
         if (fraWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
-        if (fraWindow->kAdded) readKontr();
+        if (fraWindow->getKAdded()) readKontr();
         delete fraWindow;
         fraWindow = 0;
     }
@@ -878,13 +878,13 @@ void MainWindow::editFHist() {
         Faktura *fraWindow = new Faktura(this, dl, s_WIN_PROFORMA_EDIT);
 
         fraWindow->readData(ui->tableH->item(row, 0)->text());
-        fraWindow->fName = ui->tableH->item(row, 0)->text();
+        fraWindow->setfName(ui->tableH->item(row, 0)->text());
         if (fraWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
-        if (fraWindow->kAdded) readKontr();
+        if (fraWindow->getKAdded()) readKontr();
         delete fraWindow;
         fraWindow = 0;
     }
@@ -894,13 +894,13 @@ void MainWindow::editFHist() {
         FakturaBrutto *fraWindow = new FakturaBrutto(this, dl, s_BR_INVOICE_EDIT);
 
         fraWindow->readData(ui->tableH->item(row, 0)->text());
-        fraWindow->fName = ui->tableH->item(row, 0)->text();
+        fraWindow->setfName(ui->tableH->item(row, 0)->text());
         if (fraWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
-        if (fraWindow->kAdded) readKontr();
+        if (fraWindow->getKAdded()) readKontr();
         delete fraWindow;
         fraWindow = 0;
     }
@@ -912,14 +912,14 @@ void MainWindow::editFHist() {
         dupWindow->readData(ui->tableH->item(row, 0)->text());
         dupWindow->duplikatInit();
         dupWindow->setIsEditAllowed(false);
-        dupWindow->fName = ui->tableH->item(row, 0)->text();
+        dupWindow->setfName(ui->tableH->item(row, 0)->text());
 
         if (dupWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
-        if (dupWindow->kAdded) readKontr();
+        if (dupWindow->getKAdded()) readKontr();
         delete dupWindow;
         dupWindow = 0;
     }
@@ -1024,7 +1024,9 @@ void MainWindow::kontrDel() {
  */
 
 void MainWindow::kontrEd() {
+
     if (ui->tableK->selectedItems().count() <= 0) {
+
         QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Kontrahent nie wybrany."), trUtf8("Ok"), 0, 0, 1);
         return;
     }
@@ -1034,7 +1036,9 @@ void MainWindow::kontrEd() {
     Kontrahenci *kontrWindow = new Kontrahenci(this, 1, dl);
     kontrWindow->selectData(ui->tableK->item(row, 0)->text(),
             sett().getCustomerType(ui->tableK->item(row, 1)->text()));
+
     if (kontrWindow->exec() == QDialog::Accepted) {
+
         ui->tableK->setSortingEnabled(false);
         QStringList rowTxt = kontrWindow->getRetKontr().split("|");
         ui->tableK->item(row, 0)->setText(rowTxt[0]); // name
@@ -1045,6 +1049,7 @@ void MainWindow::kontrEd() {
         ui->tableK->item(row, 5)->setText(rowTxt.last()); // www
         ui->tableK->setSortingEnabled(true);
     }
+
     delete kontrWindow;
     kontrWindow = NULL;
 
@@ -1053,13 +1058,16 @@ void MainWindow::kontrEd() {
 
 /** Slot used for creating new invoices
  */
+
 void MainWindow::newFra() {
+
     Faktura *fraWindow = new Faktura(this, dl, s_INVOICE);
-    fraWindow->pforma = false;
+
     if (fraWindow->exec() == QDialog::Accepted) {
+
         ui->tableH->setSortingEnabled(false);
         insertRow(ui->tableH, ui->tableH->rowCount());
-        QStringList row = fraWindow->ret.split("|");
+        QStringList row = fraWindow->getRet().split("|");
         ui->tableH->item(ui->tableH->rowCount() - 1, 0)->setText(row[0]); // file name
         ui->tableH->item(ui->tableH->rowCount() - 1, 1)->setText(row[1]); // symbol
         ui->tableH->item(ui->tableH->rowCount() - 1, 2)->setText(row[2]); // date
@@ -1067,11 +1075,13 @@ void MainWindow::newFra() {
         ui->tableH->item(ui->tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
         ui->tableH->item(ui->tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
         ui->tableH->setSortingEnabled(true);
+
     } else {
+
         rereadHist(true);
     }
 
-    if (fraWindow->kAdded) readKontr();
+    if (fraWindow->getKAdded()) readKontr();
 
     delete fraWindow;
     fraWindow = NULL;
@@ -1081,14 +1091,17 @@ void MainWindow::newFra() {
 /** Slot used for creating new invoices
  */
 void MainWindow::newFRachunek() {
+
     Rachunek *fraWindow = new Rachunek(this, dl, s_BILL);
-    fraWindow->pforma = false;
+
     fraWindow->setWindowTitle(trUtf8("Rachunek"));
     fraWindow->rachunekInit();
+
     if (fraWindow->exec() == QDialog::Accepted) {
+
         ui->tableH->setSortingEnabled(false);
         insertRow(ui->tableH, ui->tableH->rowCount());
-        QStringList row = fraWindow->ret.split("|");
+        QStringList row = fraWindow->getRet().split("|");
         ui->tableH->item(ui->tableH->rowCount() - 1, 0)->setText(row[0]); // file name
         ui->tableH->item(ui->tableH->rowCount() - 1, 1)->setText(row[1]); // symbol
         ui->tableH->item(ui->tableH->rowCount() - 1, 2)->setText(row[2]); // date
@@ -1096,11 +1109,13 @@ void MainWindow::newFRachunek() {
         ui->tableH->item(ui->tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
         ui->tableH->item(ui->tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
         ui->tableH->setSortingEnabled(true);
+
     } else {
+
         rereadHist(true);
     }
 
-    if (fraWindow->kAdded) readKontr();
+    if (fraWindow->getKAdded()) readKontr();
     delete fraWindow;
     fraWindow = NULL;
 }
@@ -1111,14 +1126,13 @@ void MainWindow::newFRachunek() {
 void MainWindow::newFBrutto() {
 
     FakturaBrutto *fraWindow = new FakturaBrutto(this, dl, s_FBRUTTO);
-    fraWindow->pforma = false;
     fraWindow->setWindowTitle(trUtf8("Faktura VAT Brutto"));
 
     if (fraWindow->exec() == QDialog::Accepted) {
 
         ui->tableH->setSortingEnabled(false);
         insertRow(ui->tableH, ui->tableH->rowCount());
-        QStringList row = fraWindow->ret.split("|");
+        QStringList row = fraWindow->getRet().split("|");
         ui->tableH->item(ui->tableH->rowCount() - 1, 0)->setText(row[0]); // file name
         ui->tableH->item(ui->tableH->rowCount() - 1, 1)->setText(row[1]); // symbol
         ui->tableH->item(ui->tableH->rowCount() - 1, 2)->setText(row[2]); // date
@@ -1128,10 +1142,11 @@ void MainWindow::newFBrutto() {
         ui->tableH->setSortingEnabled(true);
 
     } else {
+
         rereadHist(true);
     }
 
-    if (fraWindow->kAdded) readKontr();
+    if (fraWindow->getKAdded()) readKontr();
     delete fraWindow;
     fraWindow = NULL;
 }
@@ -1140,14 +1155,16 @@ void MainWindow::newFBrutto() {
 /** Slot used to create new ProForma Invoice
  */
 void MainWindow::newPForm() {
+
     Faktura *fraWindow = new Faktura(this, dl, s_PROFORMA);
-    fraWindow->pforma = true;
     fraWindow->setWindowTitle(trUtf8("Faktura Pro Forma"));
     fraWindow->backBtnClick();
+
     if (fraWindow->exec() == QDialog::Accepted) {
+
         ui->tableH->setSortingEnabled(false);
         insertRow(ui->tableH, ui->tableH->rowCount());
-        QStringList row = fraWindow->ret.split("|");
+        QStringList row = fraWindow->getRet().split("|");
         ui->tableH->item(ui->tableH->rowCount() - 1, 0)->setText(row[0]); // file name
         ui->tableH->item(ui->tableH->rowCount() - 1, 1)->setText(row[1]); // symbol
         ui->tableH->item(ui->tableH->rowCount() - 1, 2)->setText(row[2]); // date
@@ -1155,11 +1172,13 @@ void MainWindow::newPForm() {
         ui->tableH->item(ui->tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
         ui->tableH->item(ui->tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
         ui->tableH->setSortingEnabled(true);
+
     } else {
+
         rereadHist(true);
     }
 
-    if (fraWindow->kAdded) readKontr();
+    if (fraWindow->getKAdded()) readKontr();
     delete fraWindow;
     fraWindow = NULL;
 }
@@ -1167,35 +1186,41 @@ void MainWindow::newPForm() {
 /** Slot used to create new Korkta
  */
 void MainWindow::newKor() {
+
     if (ui->tableH->selectedItems().count() <= 0) {
+
         QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Wybierz fakurę, do której chcesz wystawić korektę."), trUtf8("Ok"), 0, 0, 1);
         return;
     }
 
     int row = ui->tableH->selectedItems()[0]->row();
 
-    QStringList invTypes;
+    QStringList invTypes = QStringList();
     invTypes << "FVAT" << "FBrutto";
 
     if (invTypes.contains(ui->tableH->item(row, 3)->text())) {
+
         ui->tableH->setSortingEnabled(false);
 
         Korekta *korWindow;
 
         if (ui->tableH->item(row, 3)->text().contains("FVAT")) {
-            korWindow = new Korekta(this, dl, s_CORRECT_TITLE);
+
+            korWindow = new Korekta(this, dl, s_CORRECT_TITLE, false);
+
         } else  {
-            korWindow = new KorektaBrutto(this, dl, s_CORRECT_BRUTTO);
+
+            korWindow = new KorektaBrutto(this, dl, s_CORRECT_BRUTTO, false);
         }
 
         korWindow->korektaInit(false);
-        // qDebug( pdGlob );
         korWindow->readData(ui->tableH->item(row, 0)->text());
         korWindow->setWindowTitle(trUtf8("Nowa korekta"));
+
         if (korWindow->exec() == QDialog::Accepted) {
+
             insertRow(ui->tableH, ui->tableH->rowCount());
-            // qDebug() << korWindow->ret;
-            QStringList row = korWindow->ret.split("|");
+            QStringList row = korWindow->getRet().split("|");
             int newRow = ui->tableH->rowCount() - 1;
             ui->tableH->item(newRow, 0)->setText(row[0]); // file name
             ui->tableH->item(newRow, 1)->setText(row[1]); // symbol
@@ -1203,14 +1228,19 @@ void MainWindow::newKor() {
             ui->tableH->item(newRow, 3)->setText(row[3]); // type
             ui->tableH->item(newRow, 4)->setText(row[4]); // nabywca
             ui->tableH->item(newRow, 5)->setText(row[5]); // NIP
+
         } else {
+
             rereadHist(true);
         }
-        if (korWindow->kAdded) readKontr();
+
+        if (korWindow->getKAdded()) readKontr();
         delete korWindow;
         korWindow = NULL;
         ui->tableH->setSortingEnabled(true);
+
     } else {
+
         QMessageBox::information(this, "QFaktury",
                 trUtf8("Do faktury typu ") + ui->tableH->item(row, 3)->text()
                 + (" nie wystawiamy korekt."), QMessageBox::Ok);
@@ -1220,28 +1250,33 @@ void MainWindow::newKor() {
 /** Slot
  *  Creates duplicate
  */
+
 void MainWindow::newDuplikat() {
+
     if (ui->tableH->selectedItems().count() <= 0) {
+
         QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Wybierz fakurę, do której chcesz wystawić duplikat."), trUtf8("Ok"), 0, 0, 1);
         return;
     }
+
     int row = ui->tableH->selectedItems()[0]->row();
 
     // types of invoices for which it's ok to issue a duplicate
-    QStringList invTypes;
+    QStringList invTypes = QStringList();
     invTypes << "FVAT" << "FBrutto";
 
     if (invTypes.contains(ui->tableH->item(row, 3)->text())) {
+
         Duplikat *dupWindow = new Duplikat(this, dl, s_DUPLICATE, false);
 
-        // qDebug( pdGlob );
         dupWindow->readData(ui->tableH->item(row, 0)->text());
         dupWindow->setWindowTitle(trUtf8("Nowy duplikat"));
         dupWindow->duplikatInit();
+
         if (dupWindow->exec() == QDialog::Accepted) {
+
             insertRow(ui->tableH, ui->tableH->rowCount());
-            // qDebug() << korWindow->ret;
-            QStringList row = dupWindow->ret.split("|");
+            QStringList row = dupWindow->getRet().split("|");
             int newRow = ui->tableH->rowCount() - 1;
             ui->tableH->item(newRow, 0)->setText(row[0]); // file name
             ui->tableH->item(newRow, 1)->setText(row[1]); // symbol
@@ -1249,15 +1284,19 @@ void MainWindow::newDuplikat() {
             ui->tableH->item(newRow, 3)->setText(row[3]); // type
             ui->tableH->item(newRow, 4)->setText(row[4]); // nabywca
             ui->tableH->item(newRow, 5)->setText(row[5]); // NIP
+
         } else {
+
             rereadHist(true);
         }
 
-        if (dupWindow->kAdded) readKontr();
+        if (dupWindow->getKAdded()) readKontr();
         delete dupWindow;
         dupWindow = NULL;
         ui->tableH->setSortingEnabled(true);
+
     } else {
+
         QMessageBox::information(this, "QFaktury",
                 trUtf8("Do faktury typu ") + ui->tableH->item(row, 3)->text()
                 + (" nie wystawiamy duplikatów."), QMessageBox::Ok);
@@ -1267,9 +1306,13 @@ void MainWindow::newDuplikat() {
 
 /** Slot used to add goods
  */
+
 void MainWindow::towaryDodaj() {
+
     Towary *towWindow = new Towary(this, 0, dl);
+
     if (towWindow->exec() == QDialog::Accepted) {
+
         ui->tableT->setSortingEnabled(false);
         insertRow(ui->tableT, ui->tableT->rowCount());
         QStringList row = towWindow->getRetTow().split("|");
@@ -1287,6 +1330,7 @@ void MainWindow::towaryDodaj() {
         ui->tableT->item(ui->tableT->rowCount() - 1, 11)->setText(row[11]);
         ui->tableT->setSortingEnabled(true);
     }
+
     delete towWindow;
     towWindow = NULL;
 }
@@ -1294,7 +1338,9 @@ void MainWindow::towaryDodaj() {
 /** Slot used to delete goods
  */
 void MainWindow::towaryUsun() {
+
     if (ui->tableT->selectedItems().count() <= 0) {
+
         QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Towar nie wybrany. Nie mozna usuwac."), trUtf8("Ok"), 0, 0, 1);
         return;
     }
@@ -1304,26 +1350,31 @@ void MainWindow::towaryUsun() {
     if (QMessageBox::warning(this, trUtf8("QFaktury"), trUtf8("Czy napewno chcesz usunąć towar ") + ui->tableT->item(row, 0)->text()
             + "/" + ui->tableT->item(row, 1)->text() + "?", trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1)
             == 0) {
+
             dl->productsDeleteData(ui->tableT->item(row, 0)->text());
             ui->tableT->removeRow(row);
         }
-
 }
 
 /** Slot used for editing goods
  */
+
 void MainWindow::towaryEdycja() {
+
     if (ui->tableT->selectedItems().count() <= 0) {
+
         QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Towar nie wybrany. Nie można edytować."), trUtf8("Ok"), 0, 0, 1);
         return;
     }
+
     int row = ui->tableT->selectedItems()[0]->row();
 
     Towary *towWindow = new Towary(this, 1, dl);
-    // qDebug() << tableT->item(row, 5)->text() << sett().getProductType(tableT->item(row, 5)->text());
     towWindow->selectData(ui->tableT->item(row, 0)->text(),
             sett().getProductType(ui->tableT->item(row, 5)->text()));
+
     if (towWindow->exec() == QDialog::Accepted) {
+
         ui->tableT->setSortingEnabled(false);
         QStringList rowTxt = towWindow->getRetTow().split("|");
         ui->tableT->item(row, 0)->setText(rowTxt[0]);
@@ -1340,6 +1391,7 @@ void MainWindow::towaryEdycja() {
         ui->tableT->item(row, 11)->setText(rowTxt[11]);
         ui->tableT->setSortingEnabled(true);
     }
+
     delete towWindow;
     towWindow = NULL;
 }

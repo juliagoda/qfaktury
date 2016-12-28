@@ -1,4 +1,4 @@
-#include "moc_Kontrahenci.cpp"
+
 #include "Kontrahenci.h"
 #include <QMessageBox>
 #include <QtDebug>

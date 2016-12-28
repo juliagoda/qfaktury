@@ -1,4 +1,4 @@
-#include "moc_Uzytkownik.cpp"
+
 #include <QLabel>
 #include <QComboBox>
 #include "Walidacje.h"

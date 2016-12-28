@@ -38,12 +38,14 @@ public:
     virtual bool invoiceInsertData(InvoiceData& invData, int type);
 	virtual bool invoiceUpdateData(InvoiceData& invData, int type, QString name);
 	virtual bool invoiceDeleteData(QString name);
+    virtual QString const getRet() const;
 
 	virtual void saveInvoiceData() {};
 	virtual void readInvoiceData() {};
 
 
 private:
+
 	void kontrahenciElemToData(KontrData &o_kontrData, QDomElement i_element);
 	void kontrahenciDataToElem(KontrData &i_kontrData, QDomElement &o_element);
 
@@ -58,6 +60,8 @@ private:
 	void invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element);
 
 	bool nameFilter(QString nameToCheck, QDate start, QDate end);
+
+    QString ret;
 
 };
 

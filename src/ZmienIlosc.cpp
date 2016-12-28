@@ -1,4 +1,4 @@
-#include "moc_ZmienIlosc.cpp"
+
 #include "ZmienIlosc.h"
 
 ZmienIlosc* ZmienIlosc::m_instance = nullptr;

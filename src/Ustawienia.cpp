@@ -1,4 +1,4 @@
-#include "moc_Ustawienia.cpp"
+
 #include <QTextCodec>
 #include <QFileDialog>
 #include <QtXml/qdom.h>

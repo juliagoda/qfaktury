@@ -1,4 +1,4 @@
-#include "moc_Faktura.cpp"
+
 #include <QDateTime>
 #include <QDir>
 #include <QProcess>
@@ -55,7 +55,7 @@ Faktura::Faktura(QWidget *parent, IDataLayer *dl, QString Inv) :
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
     m_instance = this;
 	dataLayer = dl;
-	pforma = false;
+    pforma = false;
 	kAdded = false;
     konvEUR->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
     konvPLN->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
@@ -95,6 +95,37 @@ Faktura* Faktura::instance()
 {
     return m_instance;
 }
+
+
+QString const Faktura::getRet() const
+{
+    return ret;
+}
+
+
+QString const Faktura::getfName() const
+{
+    return fName;
+}
+
+
+void Faktura::setfName(QString text)
+{
+    fName = text;
+}
+
+
+QString const Faktura::getInvForm() const
+{
+    return inv_form;
+}
+
+
+bool const Faktura::getKAdded() const
+{
+    return kAdded;
+}
+
 
 /** Init method
  */
@@ -1513,7 +1544,7 @@ void Faktura::getData(InvoiceData invData) {
         dataPayments->addWidget(sendKindInfo);
 
         restLabelInfo = new QLabel();
-        restLabelInfo->setText(sett().numberToString((invData.custPaym.amount1 + invData.custPaym.amount2) - invData.custPaym.amount1));
+        restLabelInfo->setText(sett().numberToString(invData.custPaym.amount2));
         dataPayments->addWidget(restLabelInfo);
 
     }
@@ -1550,6 +1581,8 @@ bool Faktura::saveInvoice() {
 
 
     result = dataLayer->invoiceInsertData(invData, type);
+    ret = dataLayer->getRet();
+
 
     if (result) {
         //getInvoiceTypeAndSaveNr();
@@ -2393,11 +2426,11 @@ void Faktura::calculateOneDiscount(int i) {
 	}
 
     qDebug() << "calculateOneDiscount: discount: " << discount;
-	quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
+    quantity = tableTow->item(i, 4)->text().toInt();
 	netto = (price * quantity);
 	discountValue = netto * discount;
 	netto -= discountValue;
-	vat = sett().stringToDouble(tableTow->item(i, 9)->text());
+    vat = tableTow->item(i, 9)->text().toInt();
 	gross = netto * ((vat * 0.01) + 1);
 
 	// qDebug() << price << quantity << netto << discount << discountValue << vat << gross;
@@ -2428,7 +2461,7 @@ void Faktura::calculateSum() {
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
 
 		price = sett().stringToDouble(tableTow->item(i, 7)->text());
-		quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
+        quantity = tableTow->item(i, 4)->text().toInt();
 		netto = sett().stringToDouble(tableTow->item(i, 8)->text());
 		gross = sett().stringToDouble(tableTow->item(i, 10)->text());
 		discountValue = (price * quantity) - netto;
@@ -2442,7 +2475,6 @@ void Faktura::calculateSum() {
 	sum1->setText(sett().numberToString(nettTotal, 'f', 2));
 	sum2->setText(sett().numberToString(discountTotal, 'f', 2));
 	sum3->setText(sett().numberToString(grossTotal, 'f', 2));
-
 
    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
 

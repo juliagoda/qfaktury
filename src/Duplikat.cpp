@@ -4,7 +4,6 @@
  *  Created on: Mar 31, 2009
  *      Author: moux
  */
-#include "moc_Duplikat.cpp"
 #include "Duplikat.h"
 #include <QLabel>
 #include <QSpinBox>
@@ -55,7 +54,7 @@ void Duplikat::duplikatInit() {
 
 void Duplikat::setData(InvoiceData &invData) {
 
-    invData.id = fName;
+    invData.id = getfName();
     invData.customer = kontrName->text();
     invData.frNr = frNr->text();
     invData.sellingDate = sellingDate->date();

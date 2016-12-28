@@ -1,4 +1,4 @@
-#include "moc_TowaryLista.cpp"
+
 #include <QtXml/qdom.h>
 #include <QDir>
 #include <QMessageBox>

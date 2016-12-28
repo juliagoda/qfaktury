@@ -16,7 +16,7 @@ Q_OBJECT
 
 public:
 
-    KorektaBrutto(QWidget *parent, IDataLayer *dl, QString in_form = QString());
+    KorektaBrutto(QWidget *parent, IDataLayer *dl, QString in_form = QString(), bool edMode = false);
 	void addTow();
 
 

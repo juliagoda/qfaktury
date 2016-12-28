@@ -4,8 +4,6 @@
  *  Created on: Apr 3, 2009
  *      Author: TPIELECH
  */
-#include "moc_TowaryBruttoLista.cpp"
-
 #include <QList>
 #include <QListWidgetItem>
 

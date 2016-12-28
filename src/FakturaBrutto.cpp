@@ -5,11 +5,10 @@
  *      Author: TPIELECH
  */
 
-#include "moc_FakturaBrutto.cpp"
-
 #include "FakturaBrutto.h"
 #include "TowaryBruttoLista.h"
 #include "MainWindow.h"
+#include <QLabel>
 
 // constructor
 FakturaBrutto::FakturaBrutto(QWidget *parent, IDataLayer *dl, QString in_form): Faktura(parent, dl, in_form) {
@@ -44,14 +43,20 @@ void FakturaBrutto::calculateOneDiscount(int i) {
 		discount = rabatValue->value() * 0.01;
 	} else {
         discount = (tableTow->item(i, 6)->text()).toInt() * 0.01;
+
 	}
 
-	quantity = sett().stringToDouble(tableTow->item(i, 4)->text());
+    if ((tableTow->item(i, 6)->text()) == "0")  {
+            discount = 0;
+            sum2->setText("0");
+    }
+
+    quantity = tableTow->item(i, 4)->text().toInt();
 	price = price * quantity;
 	discountValue = price * discount;
 
 	gross = price - discountValue;
-	int vatValue = sett().stringToDouble(tableTow->item(i, 9)->text());
+    int vatValue = tableTow->item(i, 9)->text().toInt();
 	vat = (gross * vatValue)/(100 + vatValue);
 
 	netto = gross - vat;

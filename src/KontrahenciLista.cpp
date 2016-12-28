@@ -1,4 +1,4 @@
-#include "moc_KontrahenciLista.cpp"
+
 #include <QMessageBox>
 #include <QTextStream>
 #include <QDesktopServices>
