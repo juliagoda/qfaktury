@@ -1,0 +1,155 @@
+Documentation:
+    PL:
+        Spis_treści:
+            - 1: Wprowadzenie
+            - 2: Wymagania
+            - 3: Instalacja
+            - 4: Opis architektury
+            - 5: 
+                - Instrukcja:
+                    - 5a: Pierwsze uruchomienie
+                    - 5b: 
+                        - Ustawienia:
+                            - 5c1: Ogólne
+                            - 5c2: Faktury
+                            - 5c3: Słowniki
+                            - 5c4: Wydruki
+                    - 5c: Menu
+                    - 5d: 
+                        - Lista_danych:
+                            - Dodawanie_danych_do_listy:
+                                - 5d1.1: Dodawanie kontrahentów
+                                - 5d1.2: Dodawanie towaru
+                                - 5d1.3: Dodawanie usługi
+                                - 5d1.4:
+                                    - Dodawanie_faktur:
+                                        - 5d1.4.1: &funkcja1 Konwersja walut
+                                        - 5d1.4.2: &funkcja2 Zmiana metody płatności
+                                        - 5d1.4.3: &funkcja3 Dodawanie kontrahentów
+                                        - 5d1.4.4: &funkcja4 Dodawanie usług/towarów
+                                        - 5d1.4.5: &funkcja5 Wykorzystanie
+                                - 5d1.5: 
+                                    - Dodawanie_rachunku:
+                                        - 5d1.5.1: *funkcja1
+                                        - 5d1.5.2: *funkcja2
+                                        - 5d1.5.3: *funkcja3
+                                        - 5d1.5.4: *funkcja4
+                                        - 5d1.5.5: *funkcja5
+                                - 5d1.6: 
+                                    - Dodawanie_korekty:
+                                        - 5d1.6.1: *funkcja1
+                                        - 5d1.6.2: *funkcja2
+                                        - 5d1.6.3: *funkcja3
+                                        - 5d1.6.4: *funkcja4
+                                        - 5d1.6.5: *funkcja5
+                                - 5d1.7: 
+                                    - Dodawanie_duplikatu:
+                                        - 5d1.7.1: *funkcja5
+                            - Edycja_danych_na_liście:
+                                - 5d2.1: Edycja faktur
+                                - 5d2.2: Edycja korekty
+                                - 5d2.3: Podgląd duplikatu
+                            - Otwieranie adresu URL z listy w przeglądarce
+                    - 5e: Dodawanie firmy wystawiającej fakturę
+                    - 5f: Dodatki
+                    - 5g: Raportowanie błędów
+            - 6: 
+                - FAQ:
+                    - 6a: Skąd pobrać program?
+                    - 6b: Jak pobrać program?
+                    - 6c: Jak zainstalować program?
+                    - 6d: Nie widzę nowych dodatkowych opcji dodanych do programu
+                    - 6e: Gdzie mogę zgłosić błąd?
+                    - 6f: Gdzie mogę zgłosić propozycję dla aplikacji?
+                    - 6g: Program nie widzi moich faktur, towarów ani kontrahentów
+                    - 6i: >
+                        Moje dane wprowadzane do formularza wydają się być błędne, choć jestem pewny/pewna, że
+                        są poprawne
+                    - 6j: Czemu mam listę innych motywów od osoby, który używa tego samego programu?
+                    - 6k: Nie mogę znaleźć katalogu, w którym znajdują się moje faktury
+                    - 6l: Nie mogę wystawić duplikatu do rachunku
+                    - 6m: Nie mogę wystawić duplikatu do faktury pro forma
+                    - 6n: Nie mogę wystawić korekty dla rachunku
+                    - 6o: Nie mogę wystawić korekty dla faktury pro forma
+                    - 6p: > 
+                        Brakuje mi dodatkowych - form płatności / stawek VAT / jednostek miar i wag / przyczyn korekty 
+                        / walut
+                    - 6r: Program nie konwertuje waluty w oknie faktury
+    ENG:
+        Table_of_contents:
+            - 1: Introduction
+            - 2: Requirements
+            - 3: Installation
+            - 4: Architecture/Design Describe
+            - 5: 
+                - Instruction:
+                    - 5a: First run
+                    - 5b: 
+                        - Settings:
+                            - 5c1: General
+                            - 5c2: Invoices
+                            - 5c3: Dictionaries
+                            - 5c4: Printouts
+                    - 5c: Menu
+                    - 5d: 
+                        - Data_List:
+                            - Add_data_to_list:
+                                - 5d1.1: Add buyers
+                                - 5d1.2: Add goods
+                                - 5d1.3: Add services
+                                - 5d1.4:
+                                    - Add_invoice:
+                                        - 5d1.4.1: &function1 Currency conversion
+                                        - 5d1.4.2: &function2 Payment methods change
+                                        - 5d1.4.3: &function3 Add buyers
+                                        - 5d1.4.4: &function4 Add goods/services
+                                        - 5d1.4.5: &function5 Deployment
+                                - 5d1.5: 
+                                    - Add_bill:
+                                        - 5d1.5.1: *function1
+                                        - 5d1.5.2: *function2
+                                        - 5d1.5.3: *function3
+                                        - 5d1.5.4: *function4
+                                        - 5d1.5.5: *function5
+                                - 5d1.6: 
+                                    - Add_correction:
+                                        - 5d1.6.1: *function1
+                                        - 5d1.6.2: *function2
+                                        - 5d1.6.3: *function3
+                                        - 5d1.6.4: *function4
+                                        - 5d1.6.5: *function5
+                                - 5d1.7: 
+                                    - Add_duplicate:
+                                        - 5d1.7.1: *function5
+                            - Edit_of_data_on_the_list:
+                                - 5d2.1: Invoice edit
+                                - 5d2.2: Correction edit
+                                - 5d2.3: Duplicate view
+                            - Open URL from list in default browser
+                    - 5e: Add company, which issues an invoice
+                    - 5f: Add-ons
+                    - 5g: Bug reports
+            - 6: 
+                - FAQ:
+                    - 6a: Where do I download QFaktury?
+                    - 6b: How do I download QFaktury?
+                    - 6c: How do I install QFaktury?
+                    - 6d: I can't use new options added to settings
+                    - 6e: Where do I report a bug?
+                    - 6f: Where do I report a suggestions for the application?
+                    - 6g: Application doesn't detect my previous invoices, goods or/and services
+                    - 6i: My data added to form are not correct for this app, nevertheless I am sure, that it is
+                    - 6j: Why have I different styles for this app from others, that use the same application?
+                    - 6k: I can't find catalog, where I have my invoices in
+                    - 6l: I can't issue a duplicate for bill
+                    - 6m: I can't issue a duplicate for pro forma invoice
+                    - 6n: I can't issue correction for bill
+                    - 6o: I can't issue correction for pro forma invoice
+                    - 6p: > 
+                        There are no additional - payment methods / VAT rates / units of measurement / reasons for
+                        corrections / currencies
+                    - 6r: Application doesn't convert currencies 
+    
+    
+    
+    
