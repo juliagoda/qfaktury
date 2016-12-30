@@ -9,6 +9,7 @@
 #include <QLocale>
 #include <QDebug>
 #include <QTextCodec>
+#include <QStyleFactory>
 #include <QTranslator>
 #include <QMessageBox>
 #include "config.h"
@@ -78,6 +79,8 @@ QString getAppDirs() {
 			setValue("default_browser", "true");
 		if (value("lang").toString().compare("") == 0)
 			setValue("lang", tr("pl"));
+        if (value("style").toString().compare("") == 0)
+            setValue("style", QStyleFactory::keys().at(0));
 		if (value("localEnc").toString().compare("") == 0)
 			setValue("localEnc", tr("UTF-8"));
 
@@ -351,6 +354,7 @@ QString getAppDirs() {
 		setValue("browser_name", "");
 		setValue("default_browser", "true");
 		setValue("lang", tr("pl"));
+        setValue("style", "");
 		setValue("waluty", tr("PLN"));
 		endGroup();
 
@@ -502,6 +506,17 @@ QString getAppDirs() {
 	QString getWorkingDir() {
         return QString(QDir::homePath() + "/.local/share/data/elinux");
 	}
+
+    QString getStyle() {
+
+        QString style = value("style", "").toString();
+        if (style.compare("") == 0) {
+            style = QStyleFactory::keys().at(0);
+        }
+
+        // qDebug() << ret;
+        return style;
+    }
 
 	// returns templates directory
 	QString getTemplate() {

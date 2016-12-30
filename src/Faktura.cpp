@@ -2780,7 +2780,7 @@ void Faktura::calculateSum() {
 
 	}
 
-    discountTotal = (discountValue * grossTotal)/100;
+    discountTotal = (discountValue * nettTotal)/100;
 
 	sum1->setText(sett().numberToString(nettTotal, 'f', 2));
 	sum2->setText(sett().numberToString(discountTotal, 'f', 2));

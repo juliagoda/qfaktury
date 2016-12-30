@@ -405,6 +405,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="okBtn">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>O&amp;K</string>
          </property>
@@ -431,6 +434,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="cancelBtn">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>&amp;Anuluj</string>
          </property>

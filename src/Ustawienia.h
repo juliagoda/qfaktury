@@ -53,6 +53,7 @@ private:
     void helpFuncDown(QListWidget*);
 	QStringList getTemplates();
 	QStringList getTranslations();
+    QStringList getStyles();
 	QString getAll(QListWidget *lb);
     QVector<QTextCodec *> codecs;
 

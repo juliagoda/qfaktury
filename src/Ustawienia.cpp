@@ -41,6 +41,7 @@ void Ustawienia::init() {
 	connect(pushButton, SIGNAL(clicked()), this, SLOT(setDefaultClick()));
 	connect(defTextBtn, SIGNAL(clicked()), this, SLOT(defTextBtnClick()));
     connect( cssList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
+    connect( stylesList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
     connect( langList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
     connect( codecList, SIGNAL( currentIndexChanged (int)), this, SLOT( zastBtnEnable() ) );
     connect( logoEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( zastBtnEnable() ) );
@@ -96,6 +97,9 @@ void Ustawienia::init() {
 
     cssList->clear();
     cssList->insertItems(0, getTemplates());
+
+    stylesList->clear();
+    stylesList->insertItems(0, getStyles());
 
 
     getEncodings();
@@ -482,6 +486,7 @@ void Ustawienia::saveSettings() {
 
 	sett().setValue("lang", langList->currentText());
 	sett().setValue("css", cssList->currentText());
+    sett().setValue("style", stylesList->currentText());
 	sett().setValue("localEnc", codecList->currentText());
 	sett().setValue("working_dir", workingDirEdit->text());
 
@@ -578,6 +583,9 @@ void Ustawienia::readSettings() {
 
 	curr = getTemplates().indexOf(sett().value("css").toString());
 	cssList->setCurrentIndex(curr);
+
+    curr = getStyles().indexOf(sett().value("style").toString());
+    cssList->setCurrentIndex(curr);
 
 	sett().beginGroup("faktury_pozycje");
 	cb1->setChecked(sett().value("Lp").toBool());
@@ -676,6 +684,12 @@ QStringList Ustawienia::getTemplates() {
 	}
 
 	return templates;
+}
+
+
+QStringList Ustawienia::getStyles()
+{
+    return QStyleFactory::keys();
 }
 
 

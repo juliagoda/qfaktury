@@ -5,6 +5,7 @@
 #include <QSplashScreen>
 #include <QTranslator>
 #include <QWaitCondition>
+#include <QStyleFactory>
 
 #include "MainWindow.h"
 #include "Settings.h"
@@ -26,6 +27,7 @@ int main(int argc, char **argv) {
 	QRect screen = QApplication::desktop()->screenGeometry();
 
 	QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
+    qDebug() << QStyleFactory::keys();
 
 	MainWindow w(0);
 	w.move(screen.center() - QPoint(w.width() / 2, w.height() / 2));
@@ -55,6 +57,9 @@ int main(int argc, char **argv) {
 	a.setWindowIcon(icon);
 	a.setApplicationName("QFaktury");
     a.setOrganizationName("https://github.com/juliagoda/qfaktury");
+    a.setStyle(sett().getStyle());
+
+
 	return a.exec();
 }
 

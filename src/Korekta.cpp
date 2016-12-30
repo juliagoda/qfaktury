@@ -869,11 +869,12 @@ void Korekta::schemaCalcSum()
         quantity = tableTow->item(i, 4)->text().toInt();
         netto = sett().stringToDouble(tableTow->item(i, 8)->text());
         gross = sett().stringToDouble(tableTow->item(i, 10)->text());
-        discountValue = (price * quantity) - netto;
+        discountValue += (price * quantity) - netto;
         nettTotal += netto;
-        discountTotal += discountValue;
         grossTotal += gross;
     }
+
+    discountTotal = (discountValue * nettTotal)/100;
 
     // initially origGrossTotal is -1
     // if it's -1 will set to to 0 and go through whole calculation

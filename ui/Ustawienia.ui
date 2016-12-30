@@ -47,7 +47,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="TabPage1">
       <attribute name="title">
@@ -135,6 +135,35 @@
             </item>
             <item>
              <widget class="QComboBox" name="cssList"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>5</number>
+            </property>
+            <property name="rightMargin">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
+             <number>5</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="labelStyle">
+              <property name="text">
+               <string>Motywy:</string>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::NoTextInteraction</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="stylesList"/>
             </item>
            </layout>
           </item>
@@ -378,6 +407,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="defTextBtn">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
              <property name="text">
               <string>Do&amp;myślny</string>
              </property>
@@ -403,15 +435,15 @@
        <item row="0" column="0">
         <widget class="QToolBox" name="toolBox">
          <property name="currentIndex">
-          <number>4</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page_6">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>270</width>
-            <height>371</height>
+            <width>460</width>
+            <height>329</height>
            </rect>
           </property>
           <attribute name="label">
@@ -480,6 +512,9 @@
                    <layout class="QVBoxLayout" name="_34">
                     <item>
                      <widget class="QPushButton" name="paymUpBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>Gó&amp;ra</string>
                       </property>
@@ -490,6 +525,9 @@
                     </item>
                     <item>
                      <widget class="QPushButton" name="paymDownBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&amp;Dół</string>
                       </property>
@@ -520,6 +558,9 @@
                    <layout class="QVBoxLayout" name="_35">
                     <item>
                      <widget class="QPushButton" name="paymDelBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&amp;Usuń</string>
                       </property>
@@ -530,6 +571,9 @@
                     </item>
                     <item>
                      <widget class="QPushButton" name="paymAddBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>Dod&amp;aj</string>
                       </property>
@@ -649,6 +693,9 @@ p, li { white-space: pre-wrap; }
                    <layout class="QVBoxLayout">
                     <item>
                      <widget class="QPushButton" name="vatUpBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&amp;Góra</string>
                       </property>
@@ -659,6 +706,9 @@ p, li { white-space: pre-wrap; }
                     </item>
                     <item>
                      <widget class="QPushButton" name="vatDownBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>Dół</string>
                       </property>
@@ -689,6 +739,9 @@ p, li { white-space: pre-wrap; }
                    <layout class="QVBoxLayout">
                     <item>
                      <widget class="QPushButton" name="vatDelBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&amp;Usuń</string>
                       </property>
@@ -699,6 +752,9 @@ p, li { white-space: pre-wrap; }
                     </item>
                     <item>
                      <widget class="QPushButton" name="vatAddBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&amp;Dodaj</string>
                       </property>
@@ -813,6 +869,9 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <widget class="QPushButton" name="currDelBtn">
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
                     <property name="text">
                      <string>&amp;Usuń</string>
                     </property>
@@ -823,6 +882,9 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <widget class="QPushButton" name="currAddBtn">
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
                     <property name="text">
                      <string>&amp;Dodaj</string>
                     </property>
@@ -941,6 +1003,9 @@ korekt:</string>
                    <layout class="QVBoxLayout" name="_28">
                     <item>
                      <widget class="QPushButton" name="korDelBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&amp;Usuń</string>
                       </property>
@@ -951,6 +1016,9 @@ korekt:</string>
                     </item>
                     <item>
                      <widget class="QPushButton" name="korAddBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&amp;Dodaj</string>
                       </property>
@@ -975,8 +1043,8 @@ korekt:</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>480</width>
-            <height>313</height>
+            <width>279</width>
+            <height>140</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1064,6 +1132,9 @@ korekt:</string>
                    <layout class="QVBoxLayout" name="_19">
                     <item>
                      <widget class="QPushButton" name="currencyDelBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&amp;Usuń</string>
                       </property>
@@ -1074,6 +1145,9 @@ korekt:</string>
                     </item>
                     <item>
                      <widget class="QPushButton" name="currencyAddBtn">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="text">
                        <string>&amp;Dodaj</string>
                       </property>
@@ -2076,6 +2150,9 @@ korekt:</string>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>&amp;Domyślne</string>
        </property>
@@ -2096,6 +2173,9 @@ korekt:</string>
      </item>
      <item>
       <widget class="QPushButton" name="okButton">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>O&amp;K</string>
        </property>
@@ -2106,6 +2186,9 @@ korekt:</string>
      </item>
      <item>
       <widget class="QPushButton" name="zastButton">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>Za&amp;stosuj</string>
        </property>
@@ -2116,6 +2199,9 @@ korekt:</string>
      </item>
      <item>
       <widget class="QPushButton" name="closeButton">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>A&amp;nuluj</string>
        </property>

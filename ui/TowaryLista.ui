@@ -138,6 +138,9 @@
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="priceBoxEdit">
+           <property name="cursor">
+            <cursorShape>IBeamCursor</cursorShape>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -157,6 +160,9 @@
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
             <widget class="QDoubleSpinBox" name="countSpinBox">
+             <property name="cursor">
+              <cursorShape>IBeamCursor</cursorShape>
+             </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
@@ -273,6 +279,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="okBtn">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>O&amp;K</string>
        </property>
@@ -299,6 +308,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="cancelBtn">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>&amp;Anuluj</string>
        </property>

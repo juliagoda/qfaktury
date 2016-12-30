@@ -12,45 +12,11 @@ QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 QT_MINOR_VERSION = 5.0.0
 
 
-# Input
-HEADERS += $$PWD/src/XmlDataLayer.h \
-    $$PWD/src/KontrData.h \
-    $$PWD/src/IDataLayer.h \
-    $$PWD/src/Const.h \
-    $$PWD/src/CustomPaymData.h \
-    $$PWD/src/CustomPayment.h \
-    $$PWD/src/KorektaBrutto.h \
-    $$PWD/src/TowaryBruttoLista.h \
-    $$PWD/src/Rachunek.h \
-    $$PWD/src/FakturaBrutto.h \
-    $$PWD/src/Duplikat.h \
-    $$PWD/src/ConvertAmount.h \
-    $$PWD/src/config.h \
-    $$PWD/src/Faktura.h \
-    $$PWD/src/InvoiceData.h \
-    $$PWD/src/Kontrahenci.h \
-    $$PWD/src/KontrahenciLista.h \
-    $$PWD/src/Korekta.h \
-    $$PWD/src/MainWindow.h \
-    $$PWD/src/ProductData.h \
-    $$PWD/src/Settings.h \
-    $$PWD/src/Towary.h \
-    $$PWD/src/TowaryLista.h \
-    $$PWD/src/Ustawienia.h \
-    $$PWD/src/Uzytkownik.h \
-    $$PWD/src/ZmienIlosc.h \
-    $$PWD/src/Walidacje.h
 
-FORMS += $$PWD/ui/CustomPaymentDialog.ui \
-    $$PWD/ui/Faktura.ui \
-    $$PWD/ui/Kontrahenci.ui \
-    $$PWD/ui/KontrahenciLista.ui \
-    $$PWD/ui/MainWindow.ui \
-    $$PWD/ui/Towary.ui \
-    $$PWD/ui/TowaryLista.ui \
-    $$PWD/ui/Ustawienia.ui \
-    $$PWD/ui/Uzytkownik.ui \
-    $$PWD/ui/ZmienIlosc.ui
+# Input
+HEADERS += $$files($$PWD/src/*.h)
+
+FORMS += $$files($$PWD/ui/*.ui)
 
 SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/KontrData.cpp \
@@ -80,10 +46,7 @@ MOC_DIR = .moc
 UI_DIR = .ui
 OBJECTS_DIR = .obj
 RCC_DIR = .rcc
-TRANSLATIONS += $$PWD/translations/qfaktury_de.ts \
-    $$PWD/translations/qfaktury_en.ts \
-    $$PWD/translations/qfaktury_pl.ts
-
+TRANSLATIONS += $$files($$PWD/translations/*.ts)
 
 unix {
 
@@ -137,3 +100,4 @@ INSTALLS += target \
     css \
     languages \
     desktop
+
