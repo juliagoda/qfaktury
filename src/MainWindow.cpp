@@ -234,7 +234,7 @@ void MainWindow::loadPlugins() {
 
 	QDir allFiles;
     QString path = QString();
-	path = sett().getWorkingDir() + "/plugins/";
+    path = sett().getAppDirs() + "plugins/";
 	allFiles.setPath(path);
 	allFiles.setFilter(QDir::Files);
 	QStringList filters;

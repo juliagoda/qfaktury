@@ -35,7 +35,6 @@ public slots:
 	void paymAddBtnClick();
 	void defTextBtnClick();
 	void setDefaultClick();
-	void maskHelpClick();
 	void workingDirBtnClick();
 
 

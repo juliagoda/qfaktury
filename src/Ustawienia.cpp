@@ -110,14 +110,6 @@ void Ustawienia::init() {
 
 }
 
-/** Slot - maskHelpClick
- */
-
-void Ustawienia::maskHelpClick() {
-
-    QDesktopServices::openUrl(QUrl("http://doc.qt.io/qt-5/qlineedit.html#inputMask-prop"));
-}
-
 /** Slot - Apply
  */
 

@@ -1,10 +1,42 @@
 Documentation:
     PL:
         Spis_treści:
-            - 1: Wprowadzenie
-            - 2: Wymagania
-            - 3: Instalacja
-            - 4: Opis architektury
+            - 1: 
+                - Wprowadzenie:
+                    - Wersja_programu
+                    - Opis
+                    - Wiek
+                    - Różnice_w_wersjach:
+                        - 0.7.0
+            - 2: 
+                - Wymagania:
+                    - System_operacyjny
+                    - Biblioteki:
+                        - Nazwa
+                        - Wersja
+                        - Moduły
+                    - Inne
+            - 3: 
+                - Instalacja:
+                    - Wprowadzenie
+                    - Polecenie_1
+                    - Polecenie_2
+                    - Polecenie_3
+                    - Polecenie_4
+            - 4:
+                - Opis techniczny:
+                    - Odwołania_w_kodzie
+                    - Pliki_źródłowe:
+                        - main.cpp:
+                            - funkcje:
+                                - main
+                        - MainWindow.cpp:
+                            - funkcje:
+                                - MainWindow
+                                - ~MainWindow
+                                - init
+                                - loadPlugins
+                                - firstRun
             - 5: 
                 - Instrukcja:
                     - 5a: Pierwsze uruchomienie
@@ -151,5 +183,103 @@ Documentation:
                     - 6r: Application doesn't convert currencies 
     
     
-    
+#    
+#    
+##########################################################################
+
+##########################           DOCUMENTATION PL          ############################
+
+##########################################################################
+#    
+#
+
+1: 
+    Wprowadzenie:
+        Wersja_programu: 0.7.0
+        Opis:
+            QFaktury jest aplikacją do generowania faktur oraz ich drukowania. Oferuje tworzenie faktur pro forma, faktur
+            brutto, rachunków, korekt i duplikatów. Dodatkowo można dodawać listę kontrahentów oraz listę towarów lub
+            usług, które także można edytować. Program zawiera konwersję walut według aktualnego kursu. Istnieje też możliwość
+            uwzględniania danych kupującego jak i sprzedawcy na drukowanej fakturze, zmiana stylu drukowania faktury, zmiana
+            motywu programu, jego języka, sposobu kodowania, dodawania własnej listy metod płatności, walut, stawek VAT, powodów korekty czy jednostek miar i wag. Program obsługuje słownie na fakturze wartości od dziesiątek po miliardy wraz z wartościami po przecinku. 
+        Wiek:
+            Aktualna wersja programu zaistniała w sieci 12-12-2016, gdy prace nad nią rozpoczęto w połowie listopada 2016 roku. Poprzednia wersja 0.6.2 ostatnio została wydana w czerwcu 2009 roku. Wydanie pierwszej wersji może być
+            starsze niż 2006 rok.
+        Różnice_w_wersjach:
+            0.7.0:
+                - Przeportowanie na Qt5
+                - Dodanie walidacji oraz obliczanie sum kontrolnych dla rubryk formularzy
+                - Usunięcie wyboru maski w ustawieniach i zastąpienie jej działaniem regularnymi wyrażeniami
+                - Dodanie możliwości przekształcania waluty według aktualnego kursu walut. Zmiana wartości co pół godziny
+                - Uzupełnienie opcji płatności "zaliczki" o podgląd kwoty rat oraz sposobu płatności pod podsumowaniem w oknie faktury
+                - Dodanie w ustawieniach możliwość wyboru danych kontrahenta, jakie mają znaleźć się na fakturze
+                - Przyciski "Dodaj" i "Usuń" kolejno dla faktur, kontrahentów i towarów są nieczynne dopóki nie pojawi się przynajmniej jeden wpis. Zmiany są na bieżąco wykrywane
+                - Filtr dat dla listy faktur działa według dat w drugiej rubryce zamiast nazwy pliku, zawierającej datę stworzenia pliku
+                - Poprawa rozmiaru czcionki dla elementów tabelki na fakturze
+                - Komunikat w przypadku wybraniu daty wcześniejszej w polu daty końcowej niż wskazuje data początkowa w filtrze.  Komunikat występuje także w przypadku próby wybrania daty wcześniejszej dla wystawienia faktury niż data sprzedaży towaru oraz przy próbie wybrania daty wcześniejszej dla drugiej raty niż data pierwszej zapłaty. Dodatkowo w przypadku zaliczki obie daty nie mogą być sobie równe
+                - Dodanie kolumn dla adresów e-mail oraz stron www w tabeli kontrahentów
+                - Kliknięcie na odsyłacz w tablicy kontrahentów oraz na liście kontrahentów przy dodawaniu danych do faktury powoduje uruchomienie domyślnej przeglądarki systemowej oraz przejście na adres odsyłacza
+                - Podmiana nieaktywnych lub nieaktualnych adresów url
+                - Zmiana domyślnych stawek VAT 22 i 7 na 23, 8 i 5
+                - Dodanie do domyślnej listy powodów korekty 7 kolejnych możliwych powodów
+                - Dodanie 3 rubryk do formularza dla danych użytkownika, możliwość podania numeru telefonu, adresu e-mail i strony internetowej
+                - Duplikat faktury zapisuje się w katalogu systemowym oraz ukazuje się na liście faktur po jego zapisie, wraz z adnotacją o tym, że jest to duplikat
+                - Edytowanie duplikatu równa się temu, że nie można niczego zmieniać, oprócz przeglądania rat faktury zaliczkowej oraz możliwości wydrukowania aktualnego duplikatu
+                - W plikach xml zapisuje się więcej danych, szczególnie dla faktur
+                - W pliku bureau.xml znajdują się aktualne wartości kursu walut. Plik tworzy się po pierwszym użyciu konwersji w oknie faktury
+                - Wprowadzenie zabezpieczenia na wypadek zmiany lokalizacji w systemie oraz wynikających z tego brak formatowania liczb double odczytywanych z plików xml
+                - Dodanie wartości milionowych i miliardowych do zapisu słownego na fakturze
+                - Zmiana ścieżki folderu z ~/elinux na ~/.local/share/data/elinux
+                - Dodanie motywów
+                - Dodanie dwóch styli dla drukowanych faktur
+            
+2:
+    Wymagania:
+        System_operacyjny: Dowolna dystrybucja Linux
+        Biblioteki: 
+            Nazwa: Qt
+            Wersja: Qt >= 5.0.0
+            Moduły: Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network
+        Inne: Podłączenie do internetu, aktualny czas systemowy
+
+3:
+    Instalacja:
+        Wprowadzenie: Przejdź do ścieżki, z którego chcesz zainstalować program i wykonaj polecenie pierwsze w konsoli. Następnie przejdź do pobranego folderu, w którym znajduje się plik qfaktury.pro i wykonaj pozostałe polecenia
+        Polecenie_1: git clone https://github.com/juliagoda/qfaktury.git
+        Polecenie_2: qmake
+        Polecenie_3: make
+        Polecenie_4: sudo make install
+        
+4:
+    Opis_techniczny:
+        Odwołania_w_kodzie: ["https://github.com/juliagoda/qfaktury","http://www.vat.pl/pkwiu/index.php?            rodzajKlasyfikacji=pkwiuvat&kod", "http://www.faqs.org/rfcs/rfc1738.html", "http://waluty.com.pl/rss/?mode=kursy",
+        "https://github.com/juliagoda/qfaktury/issues"] 
+        Pliki_źródłowe:
+            main.cpp:
+                funkcje:
+                    main: 
+                        tworzy instancję QApplication, ustawia język programu według zapisanych danych, pobiera plik
+                        z rozszerzeniem .rcc, zawierający zasoby dla aplikacji, pobiera informacje na temat położenia
+                        okna aplikacji oraz ustawia okno aplikacji, ustawia okno startowe czynne podczas ładowania aplikacji, uruchamia okres trwania okna startowego, ustawia sygnał zamknięcia programu po zamknięciu ostatniego okna, ustawia ikonę programu, nazwę aplikacji, organizacji oraz motyw programu według dostępnych danych.
+            MainWindow.cpp:
+                funkcje:
+                    MainWindow: 
+                        Łączy plik graficzny .ui o tej samej nazwie z aktualną klasą oraz uruchamia funkcję init
+                    ~MainWindow: 
+                        Zapisuje przed zamknięciem głównego okna informacje na temat filtru faktur według dat oraz szerokość kolumn z tablicy. Następnie usuwa wszystkie wskaźniki.
+                    init: 
+                        Wykrywa czy program został uruchomiony po raz pierwszy. Jeśli tak, tworzy domyślne ustawienia dla pro
+                        gramu oraz wyświetla wprowadzające komunikaty dla nowego użytkownika. W przeciwnym razie pobiera
+                        informacje na temat katalogu roboczego, który jest tworzony w przypadku jego braku oraz według zapisanych ustawień ustawia daty na filtrze faktur. Odblokowuje opcje w menu w przypadku wykrycia
+                        choćby jednej faktury lub kontrahenta lub towaru na liście. Ustawia szerokość kolumn dla tabel w zakładce faktur, kontrahentów oraz towarów. Dodaje ikonę oraz tytuł dla okna głównego. Wykrywa zmiany z pomocą QTimer, czy istnieją jakiekolwiek dane w tabeli i według nich blokuje lub odblokowuje opcje w menu. Korzysta 
+                        z listy sygnałów dla widgetów pochodzących z pliku MainWindow.ui. Następnie pobiera z plików xml listę faktur, kontrahentów oraz usług/towarów i dodaje do tabelki. Pod koniec sprawdza, czy istnieje lista wtyczek napisanych w PyQt i dodaje do listy w menu.
+                    loadPlugins:
+                        Według ścieżki do programu zainstalowanego w systemie, program sprawdza, czy w folderze "plugins" znajdują się pliki o rozszerzeniach .py, .Py, .PY lub .pY i dodaje je do listy. W przypadku gdy może je odczytać, odczytuje linijkę, usuwając z niej znak "#" tworząc QAction, która zostanie dodana do menu wtyczek. Na koniec funkcji zostaje uwzględniony dla QActions separator oraz dodany QAction o nazwie Informacje do menu
+                    firstRun:
+                        Jeśli w ustawieniach istnieje zapis o tym, że pierwsze uruchomienie aplikacji nie nastąpiło, sprawdza ustawienia. W przypadku braku zapisu ustawień przekształca je na domyślne, następnie ustawia filtr faktur od pierwszego dnia pierwszego miesiąca do ostatniego dnia ostatniego miesiąca bieżącego roku. Jeśli jednak
+                        program już został uruchomiony po raz kolejny, następuje jedynie sprawdzenie ustawień tak jak w przeciwnym wypadku.
+                    
+                    
+                        
+        
     
