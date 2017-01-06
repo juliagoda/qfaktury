@@ -890,13 +890,6 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
         else break;
 	}
 
-    QLocale c(QLocale::C);
-    double d = c.toDouble("44.48666300");
-    qDebug() << "44.48666300 = " << d;
-    qDebug() << "tableTow->item(0,6): " << Faktura::instance()->tableTow->item(0, 6)->text();
-    qDebug() << "tableTow->item(0,6): " << c.toDouble(Faktura::instance()->tableTow->item(0, 6)->text());
-    qDebug() << "tableTow->item(0,6): " << (Faktura::instance()->tableTow->item(0, 6)->text()).toInt();
-
 	tmp = tmp.toElement().nextSibling();
 	QDomElement additional = tmp.toElement();
 	o_invData.additText = additional.attribute("text");
@@ -908,8 +901,16 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 
 		o_invData.custPaym.payment1 = additional.attribute("payment1");
         o_invData.custPaym.amount1  = sett().stringToDouble(additional.attribute("amount1"));
+
+        double decimalPointsAmount1 = additional.attribute("amount1").right(2).toInt() * 0.01;
+        qDebug() << "decimalPointsAmount1 << " << decimalPointsAmount1;
+        double decimalPointsAmount2 = additional.attribute("amount2").right(2).toInt() * 0.01;
+        qDebug() << "decimalPointsAmount2 << " << decimalPointsAmount2;
+
+        o_invData.custPaym.amount1 += decimalPointsAmount1;
         o_invData.custPaym.amount2  = sett().stringToDouble(additional.attribute("amount2"));
-		o_invData.custPaym.date1    = QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
+        o_invData.custPaym.amount2 += decimalPointsAmount2;
+        o_invData.custPaym.date1    = QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
         qDebug() << "liabDate1 surowy: " << additional.attribute("liabDate1");
         qDebug() << "liabDate1 z PLIKU: " << QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
         qDebug() << "liabDate1 przekształcony na string: " << o_invData.custPaym.date1.toString(sett().getDateFormat());

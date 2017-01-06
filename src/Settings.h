@@ -680,7 +680,6 @@ QString getAppDirs() {
             }
         }
 
-
         return countNumb;
 
 		}

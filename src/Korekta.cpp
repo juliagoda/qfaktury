@@ -673,11 +673,19 @@ void Korekta::readCorrData(QString fraFile) {
 
 		custPaymData = new CustomPaymData();
 		custPaymData->payment1 = additional.attribute("payment1");
+
+        double decimalPointsAmount1 = additional.attribute("amount1").right(2).toInt() * 0.01;
+        qDebug() << "decimalPointsAmount1 << " << decimalPointsAmount1;
+        double decimalPointsAmount2 = additional.attribute("amount2").right(2).toInt() * 0.01;
+        qDebug() << "decimalPointsAmount2 << " << decimalPointsAmount2;
+
         custPaymData->amount1  = sett().stringToDouble(additional.attribute("amount1"));
+        custPaymData->amount1 += decimalPointsAmount1;
 		custPaymData->date1    = QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
 		custPaymData->payment2 = additional.attribute("payment2");
         custPaymData->amount2  = sett().stringToDouble(additional.attribute("amount2"));
-		custPaymData->date2    = QDate::fromString(additional.attribute("liabDate2"), sett().getDateFormat());
+        custPaymData->amount2 += decimalPointsAmount2;
+        custPaymData->date2    = QDate::fromString(additional.attribute("liabDate2"), sett().getDateFormat());
 
         if (editMode) {
 
@@ -868,7 +876,13 @@ void Korekta::schemaCalcSum()
         price = sett().stringToDouble(tableTow->item(i, 7)->text());
         quantity = tableTow->item(i, 4)->text().toInt();
         netto = sett().stringToDouble(tableTow->item(i, 8)->text());
+        double decimalPointsNetto = tableTow->item(i, 8)->text().right(2).toInt() * 0.01;
+        qDebug() << "decimalPointsNetto << " << decimalPointsNetto;
+        double decimalPointsGross = tableTow->item(i, 10)->text().right(2).toInt() * 0.01;
+        qDebug() << "decimalPointsGross << " << decimalPointsGross;
+        netto += decimalPointsNetto;
         gross = sett().stringToDouble(tableTow->item(i, 10)->text());
+        gross += decimalPointsGross;
         discountValue += (price * quantity) - netto;
         nettTotal += netto;
         grossTotal += gross;

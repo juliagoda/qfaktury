@@ -1412,7 +1412,9 @@ void Faktura::payTextChanged(QString text) {
     } else {
 
         CustomPayment *cp = new CustomPayment(this);
-        cp->setInvoiceAmount(sett().stringToDouble(sum3->text()));
+        double decimalPointsAmount = sum3->text().right(2).toInt() * 0.01;
+
+        cp->setInvoiceAmount(sett().stringToDouble(sum3->text()) + decimalPointsAmount);
         if (cp->exec() ==  QDialog::Accepted) {
 
             custPaymData = 0;
@@ -1561,8 +1563,7 @@ void Faktura::rateDateChanged(QString date)
 
             rateLabelInfo->setText(addinfo.attribute("amount1"));
             sendKindInfo->setText(addinfo.attribute("payment1"));
-            double calculate = (sett().stringToDouble(addinfo.attribute("amount1")) + sett().stringToDouble(addinfo.attribute("amount2"))) - sett().stringToDouble(addinfo.attribute("amount1"));
-            restLabelInfo->setText(sett().numberToString(calculate,'f',2));
+            restLabelInfo->setText(addinfo.attribute("amount2"));
 
         } else {
 
@@ -2771,8 +2772,16 @@ void Faktura::calculateSum() {
 	for (int i = 0; i < tableTow->rowCount(); ++i) {
 
 		price = sett().stringToDouble(tableTow->item(i, 7)->text());
-		netto = sett().stringToDouble(tableTow->item(i, 8)->text());
+
+        double decimalPointsNetto = tableTow->item(i, 8)->text().right(2).toInt() * 0.01;
+        qDebug() << "decimalPointsNetto << " << decimalPointsNetto;
+        double decimalPointsGross = tableTow->item(i, 10)->text().right(2).toInt() * 0.01;
+        qDebug() << "decimalPointsGross << " << decimalPointsGross;
+
+        netto = sett().stringToDouble(tableTow->item(i, 8)->text());
+        netto += decimalPointsNetto;
 		gross = sett().stringToDouble(tableTow->item(i, 10)->text());
+        gross += decimalPointsGross;
         discountValue += tableTow->item(i, 6)->text().toInt();
 
         nettTotal += netto;
