@@ -907,7 +907,7 @@ void Korekta::schemaCalcSum()
         }
 
         qDebug() << "produktów jest przed pętlą: " << invData->products.count();
-        // origGrossTotal wczytuje się stary w przypadku editMode = true, co jest zle gdy zapisujemy w innej walucie niż polskiej
+
         for (QMap<int, ProductData>::const_iterator iter =
                 invData->products.begin(); iter != invData->products.end(); ++iter) {
             // qDebug() << iter.value()->toString();
