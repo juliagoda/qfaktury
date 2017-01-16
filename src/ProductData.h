@@ -144,7 +144,9 @@ public:
 	}
 
 	void setGross(QString gr)  {
+        double decimalPointsGross = gr.right(2).toInt() * 0.01;
 		gross = sett().stringToDouble(gr);
+        gross += decimalPointsGross;
 	}
 
 	void setCurr(QString cr)  {

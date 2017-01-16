@@ -34,6 +34,7 @@ public:
     QString const getInvForm() const;
     bool const getKAdded() const;
     void setfName(QString text);
+    bool convWarn();
 
     virtual void setIsEditAllowed(bool isAllowed);
 	void keyPressEvent(QKeyEvent * event);

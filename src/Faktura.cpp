@@ -607,9 +607,41 @@ QString Faktura::checkInvCurr() {
 }
 
 
+bool Faktura::convWarn()
+{
+    bool whatToDo = false;
+
+    if (tableTow->rowCount() == 0) {
+
+        whatToDo = true;
+        QMessageBox msgBox;
+        msgBox.setText(trUtf8("Aby zmienić walutę, powinieneś dodać co najmniej jeden towar lub usługę"));
+        msgBox.setInformativeText(trUtf8("Chcesz dodać towar lub usługę czy wrócić do głównego okna?"));
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        int ret = msgBox.exec();
+
+        switch (ret) {
+            case QMessageBox::Ok:
+                addTow();
+            break;
+
+            case QMessageBox::Cancel:
+                reject();
+            break;
+        }
+    }
+
+    return whatToDo;
+}
+
+
 // ---- SLOTS START  --//////////////////////////////////////////////////////////////////////////////////
 
 void Faktura::changeToEUR() {
+
+    if (!convWarn()) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
@@ -665,9 +697,12 @@ void Faktura::changeToEUR() {
     }
 
    QApplication::restoreOverrideCursor();
+    }
 }
 
 void Faktura::changeToUSD() {
+
+    if (!convWarn()) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
@@ -724,9 +759,13 @@ void Faktura::changeToUSD() {
     }
 
    QApplication::restoreOverrideCursor();
+
+    }
 }
 
 void Faktura::changeToPLN() {
+
+    if (!convWarn()) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
@@ -782,10 +821,14 @@ void Faktura::changeToPLN() {
     }
 
    QApplication::restoreOverrideCursor();
+
+    }
 }
 
 
 void Faktura::changeToCHF() {
+
+    if (!convWarn()) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
@@ -841,10 +884,14 @@ void Faktura::changeToCHF() {
     }
 
    QApplication::restoreOverrideCursor();
+
+    }
 }
 
 
 void Faktura::changeToGBP() {
+
+    if (!convWarn()) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
@@ -900,10 +947,14 @@ void Faktura::changeToGBP() {
     }
 
    QApplication::restoreOverrideCursor();
+
+    }
 }
 
 
 void Faktura::changeToRUB() {
+
+    if (!convWarn()) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
@@ -959,6 +1010,8 @@ void Faktura::changeToRUB() {
     }
 
    QApplication::restoreOverrideCursor();
+
+    }
 }
 
 QString Faktura::pressedTxt() const
@@ -973,7 +1026,12 @@ void Faktura::calcAll(const double& currVal)
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
     double res1 = sett().stringToDouble(sum1->text()) * currVal;
-    double res2 = sett().stringToDouble(sum2->text()) * currVal;
+    double res2 = 0;
+
+    if (sum2->text().toInt() != 0) {
+        res2 = sett().stringToDouble(sum2->text()) * currVal;
+    }
+
     double res3 = sett().stringToDouble(sum3->text()) * currVal;
 
     sum1->setText(sett().numberToString(res1,'f',2));
@@ -1228,8 +1286,6 @@ void Faktura::editTowar() {
     if (changeQuant->exec() == QDialog::Accepted) {
         int currentRow = tableTow->currentRow();
         tableTow->item(currentRow, 4)->setText(changeQuant->spinAmount->cleanText());
-
-
         saveBtn->setEnabled(true);
         canClose = false;
         calculateOneDiscount(currentRow);
@@ -1251,7 +1307,7 @@ void Faktura::editTowar() {
 
         switch (ret) {
           case QMessageBox::Ok:
-
+                addTow();
               break;
 
           case QMessageBox::Cancel:
@@ -1264,7 +1320,17 @@ void Faktura::editTowar() {
         QMessageBox msgBox;
         msgBox.setText(trUtf8("Musisz zaznaczyć towar, który chcesz edytować, klikając na określony rząd w tabeli"));
         msgBox.setIcon(QMessageBox::Information);
-        msgBox.exec();
+        int re = msgBox.exec();
+
+        switch (re) {
+          case QMessageBox::Ok:
+               tableTow->setCurrentCell(0,0);
+              break;
+
+          case QMessageBox::Cancel:
+              reject();
+              break;
+        }
 
     }
 
@@ -1324,6 +1390,7 @@ void Faktura::backBtnClick() {
 /** Slot
  *  Validate close and save if requested
  */
+
 void Faktura::canQuit() {
      qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__ << ": canClose " << canClose;
 
@@ -1591,8 +1658,7 @@ void Faktura::rateDateChanged(QString date)
 
     } else {
 
-        // zrób coś bardziej pożytecznego prócz qmessagebox
-        QMessageBox::information(this,"Brak danych","Rata o takiej dacie nie istnieje w bazie");
+        ratesCombo->setCurrentIndex(0);
     }
     } else {
 
@@ -1630,8 +1696,7 @@ void Faktura::rateDateChanged(QString date)
 
         } else {
 
-            // zrób coś bardziej pożytecznego prócz qmessagebox
-            QMessageBox::information(this,"Brak danych","Rata o takiej dacie nie istnieje w bazie");
+            ratesCombo->setCurrentIndex(0);
         }
      }
 

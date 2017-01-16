@@ -93,6 +93,7 @@ void Korekta::korektaInit (bool mode){
 }
 
 //*********************************************** SLOTS START ****************************************/
+
 /** Slot
  *  Used populate invoice symbol
  */
@@ -381,13 +382,13 @@ bool Korekta::saveInvoice(){
 	QString xml = doc.toString();
 	file.close();
 
-	if (!file.open(QIODevice::WriteOnly)) {
+    if (!file.open(QIODevice::WriteOnly)) {
 
-		QMessageBox::critical(this, "QFaktury", trUtf8("Nie można zapisać. Sprawdź czy folder:\n") +
-				sett().getInvoicesDir() + trUtf8("\nistnieje i czy masz do niego prawa zapisu."),
-		QMessageBox::Ok);
-		saveFailed = true;
-	}
+        QMessageBox::critical(this, "QFaktury", trUtf8("Nie można zapisać. Sprawdź czy folder:\n") +
+                sett().getInvoicesDir() + trUtf8("\nistnieje i czy masz do niego prawa zapisu."),
+        QMessageBox::Ok);
+        saveFailed = true;
+    }
 
 	QTextStream ts(&file);
     qDebug() << xml;
@@ -941,8 +942,10 @@ void Korekta::schemaCalcSum()
 
     if (diffTotal < 0) {
         textLabelSum3->setText(trUtf8("Do zwrotu:"));
-    } else {
+    } else if (diffTotal > 0) {
         textLabelSum3->setText(trUtf8("Do zapłaty:"));
+    } else {
+        textLabelSum3->setText("");
     }
 
 
