@@ -84,6 +84,7 @@ void MainWindow::init() {
         ui->tableT->setColumnWidth(9, 55); // netto4
         ui->tableT->setColumnWidth(10, 55);
 
+        setupDir();
 		saveAllSettAsDefault();
 
         QMessageBox::information(this, "QFaktury", trUtf8("Program zawiera konwersję walut w oknie edycji faktury lub podczas jej tworzenia. By jej używać, powinieneś mieć dostęp do internetu oraz poprawnie ustawiony czas systemowy."));

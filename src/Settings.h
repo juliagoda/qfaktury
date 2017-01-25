@@ -29,8 +29,9 @@ QString appPath = "~/Library/Application Support/qfaktury";
 #endif
 
 #ifdef Q_OS_LINUX
-QString appPath = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1);
+QString appPath = "/usr/share/qfaktury";
 #endif
+// Probably QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1) returns different values on different distributions, for me that was /usr/share/<APPNAME>
 
 #ifdef Q_OS_WIN32
 QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
