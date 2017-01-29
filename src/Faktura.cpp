@@ -220,14 +220,14 @@ void Faktura::init() {
 
 
 	// Calulcate next number of the invoice
-	QString tmp;
-	if (pforma) {
-		tmp = sett().value("fpro").toString();
-		invoiceType = s_PROFORMA;
-	} else {
-		tmp = sett().value("fvat").toString();
-		invoiceType = s_INVOICE;
-	}
+    QString tmp;
+    if (pforma) {
+        tmp = sett().value("fpro").toString();
+        invoiceType = s_PROFORMA;
+    } else {
+        tmp = sett().value("fvat").toString();
+        invoiceType = s_INVOICE;
+    }
 
 	// load payments method and currencies
 	platCombo->insertItems(0, sett().value("payments").toString().split("|"));
@@ -236,7 +236,7 @@ void Faktura::init() {
 	if (sett().value ("addText").toString().compare("") != 0 )
 		additEdit->setText(sett().value("addText").toString());
 
-	backBtnClick();
+    backBtnClick();
 
 	// set window icon
 	QIcon icon;
@@ -1350,22 +1350,11 @@ void Faktura::editTowar() {
 void Faktura::backBtnClick() {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-    QString tmp;
 
     QString prefix, suffix;
+    prefix = sett().value("prefix").toString();
 
-    if (pforma) {
-
-        tmp = sett().value("fpro").toString();
-    } else {
-        tmp = sett().value("fvat").toString();
-    }
-	prefix = sett().value("prefix").toString();
-
-	QStringList one1 = tmp.split("/");
-	one1[0] = one1[0].remove(prefix);
-
-	int nr = one1[0].toInt() + 1;
+    int nr = MainWindow::instance()->getMaxSymbol() + 1;
 	lastInvoice = prefix + numbersCount(nr,
 			sett().value("chars_in_symbol").toInt());
 

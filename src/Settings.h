@@ -109,6 +109,8 @@ QString getAppDirs() {
 			setValue("jednostki", tr("szt.|kg.|g.|m|km.|godz."));
 		if (value("korNr").toString().compare("") == 0)
 			setValue("korNr", "1");
+        if (value("frNr").toString().compare("") == 0)
+            setValue("frNr", "1");
 		if (value("logo").toString().compare("") == 0)
 			setValue("logo", "");
 		if (value("margLeftPrinter").toString().compare("") == 0)
@@ -370,6 +372,7 @@ QString getAppDirs() {
 		setValue("firstrun", false);
 		setValue("jednostki", tr("szt.|kg.|g.|m.|km.|godz."));
 		setValue("korNr", "1");
+        setValue("frNr","1");
 		setValue("logo", "");
 
 		setValue("margLeftPrinter", "10");

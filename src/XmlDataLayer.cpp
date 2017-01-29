@@ -930,6 +930,7 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) {
     qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
+    allSymbols.clear();
 	QVector<InvoiceData> o_invDataVec;
 
 	QDir allFiles;
@@ -951,24 +952,25 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
     qDebug() << files;
     int i, max = files.count();
     for (i = 0; i < max; ++i) {
+
+        InvoiceData invDt;
+        qDebug() << files[i];
+        QFile file(sett().getInvoicesDir() + files[i]);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            qDebug() << "File" << file.fileName() << "doesn't exists";
+            continue;
+        } else {
+            QTextStream stream(&file);
+            if (!doc.setContent(stream.readAll())) {
+                qDebug ("can not set content ");
+                file.close();
+                // return o_invDataVec;
+                continue;
+            }
+        }
+
 		if (nameFilter(files[i], start, end)) {
-
-			InvoiceData invDt;
-            qDebug() << files[i];
-			QFile file(sett().getInvoicesDir() + files[i]);
-
-			if (!file.open(QIODevice::ReadOnly)) {
-				qDebug() << "File" << file.fileName() << "doesn't exists";
-				continue;
-			} else {
-				QTextStream stream(&file);
-				if (!doc.setContent(stream.readAll())) {
-                    qDebug ("can not set content ");
-					file.close();
-					// return o_invDataVec;
-					continue;
-				}
-			}
 
 			invDt.id = files[i];
 			root = doc.documentElement();
@@ -987,11 +989,31 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 			invDt.custName = nab.toElement().attribute("name", "NULL");
 
 			o_invDataVec.push_back(invDt);
-            file.close();
+
 		}
+
+        root = doc.documentElement();
+        QString symNo = root.attribute("no");
+        symNo = symNo.remove(sett().value("prefix").toString(), Qt::CaseSensitive);
+        symNo = symNo.remove(sett().value("sufix").toString(), Qt::CaseSensitive);
+
+        if (symNo.contains("/")) {
+        int toBackChar = symNo.indexOf("/");
+        symNo = symNo.left(toBackChar);
+        }
+
+        allSymbols.append(symNo.toInt());
+
+
+        file.close();
 	}
 
 	return o_invDataVec;
+}
+
+QList<int> const XmlDataLayer::getAllSymbols()
+{
+    return allSymbols;
 }
 
 bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {

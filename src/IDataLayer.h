@@ -23,6 +23,7 @@ public:
 	virtual void saveInvoiceData() {};
 	virtual void readInvoiceData() {};
     virtual const QString getRet() const { return "|"; };
+    virtual const QList<int> getAllSymbols() {QList<int> a; a.append(0); return a;};
 
 	virtual KontrData kontrahenciSelectData(QString, int) { return KontrData(); };
 	virtual QVector<KontrData > kontrahenciSelectAllData() { QVector<KontrData > a; return a; };

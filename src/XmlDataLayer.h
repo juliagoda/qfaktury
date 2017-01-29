@@ -39,6 +39,7 @@ public:
 	virtual bool invoiceUpdateData(InvoiceData& invData, int type, QString name);
 	virtual bool invoiceDeleteData(QString name);
     virtual QString const getRet() const;
+    virtual QList<int> const getAllSymbols();
 
 	virtual void saveInvoiceData() {};
 	virtual void readInvoiceData() {};
@@ -62,6 +63,7 @@ private:
 	bool nameFilter(QString nameToCheck, QDate start, QDate end);
 
     QString ret;
+    QList<int> allSymbols;
 
 };
 

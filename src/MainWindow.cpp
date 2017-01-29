@@ -28,12 +28,20 @@
 
 #include "XmlDataLayer.h"
 
+MainWindow* MainWindow::m_instance = nullptr;
+
 /** Constructor
  */
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    m_instance = this;
     init();
+}
+
+MainWindow* MainWindow::instance()
+{
+    return m_instance;
 }
 
 /** Destructor
@@ -51,6 +59,8 @@ MainWindow::~MainWindow() {
 
     if (ui != 0) ui = 0;
     delete ui;
+
+    m_instance = nullptr;
 
 
     if (plugActions.count() > 0) {
@@ -386,6 +396,13 @@ void MainWindow::insertRow(QTableWidget *t, int row) {
 	}
 }
 
+
+int const MainWindow::getMaxSymbol()
+{
+    int max = *std::max_element(allSymbols.begin(), allSymbols.end());
+    return max;
+}
+
 /** Reads the invoices from the directory passed in the input.
  *  @param QString - directory from where the invoices should be read
  */
@@ -394,6 +411,7 @@ void MainWindow::readHist() {
 
 	QVector<InvoiceData> invoicesVec;
     invoicesVec = dl->invoiceSelectAllData(ui->filtrStart->date(), ui->filtrEnd->date());
+    allSymbols = dl->getAllSymbols();
     ui->tableH->setSortingEnabled(false);
 
 	for (int i = 0; i < invoicesVec.size(); ++i) {
@@ -1124,11 +1142,10 @@ void MainWindow::newInvoice(Faktura* invoice, QString windowTitle)
         ui->tableH->item(ui->tableH->rowCount() - 1, 4)->setText(row[4]); // nabywca
         ui->tableH->item(ui->tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
         ui->tableH->setSortingEnabled(true);
-
-    } else {
-
         rereadHist(true);
+
     }
+
 
     if (invoice->getKAdded()) readKontr();
     delete invoice;

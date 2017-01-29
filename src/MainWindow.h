@@ -20,6 +20,8 @@ public:
 	~MainWindow();
 	static void insertRow(QTableWidget *t, int row);
     void newInvoice(Faktura* invoice, QString windowTitle);
+    int const getMaxSymbol();
+    static MainWindow * instance();
 
 
 public slots:
@@ -66,6 +68,8 @@ private:
     QString workingDir;
 	QMap<int, QString> customActions;
     QTimer *timer;
+    QList<int> allSymbols;
+    static MainWindow * m_instance;
 	void saveColumnWidth();
 	bool applyFiltr(QString);
 	void init();
