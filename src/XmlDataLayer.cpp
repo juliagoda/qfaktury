@@ -1013,6 +1013,7 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 
 QList<int> const XmlDataLayer::getAllSymbols()
 {
+    if (allSymbols.count() == 0) allSymbols.append(0);
     return allSymbols;
 }
 
