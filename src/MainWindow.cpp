@@ -296,6 +296,8 @@ bool MainWindow::firstRun() {
 
 	} else {
 
+        ui->filtrStart->setDate(QDate(QDate::currentDate().year(),1,1));
+        ui->filtrEnd->setDate(QDate(QDate::currentDate().year(),12,31));
 		sett().checkSettings();
 		return ok;
 	}
