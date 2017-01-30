@@ -993,16 +993,28 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 		}
 
         root = doc.documentElement();
-        QString symNo = root.attribute("no");
-        symNo = symNo.remove(sett().value("prefix").toString(), Qt::CaseSensitive);
-        symNo = symNo.remove(sett().value("sufix").toString(), Qt::CaseSensitive);
+        QString tmp = root.attribute("sellingDate");
+        QStringList dateFacts = tmp.split("/");
 
-        if (symNo.contains("/")) {
-        int toBackChar = symNo.indexOf("/");
-        symNo = symNo.left(toBackChar);
+        QString year = dateFacts.at(2);
+        QString month = dateFacts.at(1);
+        QString day = dateFacts.at(0);
+
+        QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
+
+        if (tmpDate.year() == QDate::currentDate().year()) {
+
+            QString symNo = root.attribute("no");
+            symNo = symNo.remove(sett().value("prefix").toString(), Qt::CaseSensitive);
+            symNo = symNo.remove(sett().value("sufix").toString(), Qt::CaseSensitive);
+
+            if (symNo.contains("/")) {
+            int toBackChar = symNo.indexOf("/");
+            symNo = symNo.left(toBackChar);
+            }
+
+            allSymbols.append(symNo.toInt());
         }
-
-        allSymbols.append(symNo.toInt());
 
 
         file.close();
