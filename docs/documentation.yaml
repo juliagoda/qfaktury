@@ -278,6 +278,61 @@ Documentation:
                     firstRun:
                         Jeśli w ustawieniach istnieje zapis o tym, że pierwsze uruchomienie aplikacji nie nastąpiło, sprawdza ustawienia. W przypadku braku zapisu ustawień przekształca je na domyślne, następnie ustawia filtr faktur od pierwszego dnia pierwszego miesiąca do ostatniego dnia ostatniego miesiąca bieżącego roku. Jeśli jednak
                         program już został uruchomiony po raz kolejny, następuje jedynie sprawdzenie ustawień tak jak w przeciwnym wypadku.
+                    openWebTableK:
+                        Otwiera adres url w ostatniej kolumnie na liście kontrahentów po kliknięciu myszką
+                    saveColumnWidth:
+                        Zapisuje szerokość kolumn wszystkich tabelek w głównym oknie do QSettings
+                    saveAllSettAsDefault:
+                        Nadpisuje wartości ustawione w ustawieniach na domyślne (przetrzymywane za pomocą QSettings)
+                    saveAllSett:
+                        Zapisuje do QSettings datę początkową oraz datę końcową, wywołuje także funkcję do zapisywania szerokości kolumn w głównym oknie
+                    tableClear:
+                        Usuwa w wybranej tabeli QTableWidget wszystkie wiersze
+                    insertRow:
+                        Do wybranej tabli QTableWidget dodaje wybrany wiersz
+                    getMaxSymbol:
+                        Zwraca wartość największą z listy liczb całkowitych, które oznaczają numery (symbole) dla faktur z aktualnego roku
+                    readHist:
+                        Według ustawienia daty początkowej i końcowej, w tabelce dla faktur wyświetlane są wszystkie faktury, znajdujące się w wybranym przedziale czasu. Istniejące dane na temat faktur są pobierane z funkcji wirtualnej invoiceSelectAllData z pliku XmlDataLayer.cpp
+                    readKontr:
+                        W tabelce dla kontrahentów wyświetlane są wszystkie zapisane dane kontrahentów. Istniejące dane na temat kontrahentów są pobierane z funkcji wirtualnej kontrahenciSelectAllData z pliku XmlDataLayer.cpp
+                    readTw:
+                        W tabelce dla towarów wyświetlane są wszystkie zapisane dane towarów oraz usług. Istniejące dane na temat towarów i usług są pobierane z funkcji wirtualnej productsSelectAllData z pliku XmlDataLayer.cpp
+                    setupDir:
+                        Sprawdza czy scieżka "~/.local/share/data/elinux" oraz "~/.local/share/data/elinux/invoices" istnieją, w przeciwnym razie tworzy je w danej ścieżce
+                    keyPressEvent:
+                        Uwzględnia skróty klawiatury dla stworzenia nowej faktury, edycji faktury, edycji kontrahenta, edycji towaru oraz przechodzenie strzałkami między zakładkami QTableWidget
+                    pluginInfoSlot:
+                        Informacja wyświetlana po wybraniu w górnym menu Dodatki -> Informacje
+                    pluginSlot:
+                        Uruchamia plugin napisany w Python, według wybranej opcji w zakładce "Dodatki" w górnym menu oraz uruchomiony za pomocą QProcess. Jeśli plugin nie zostanie uruchomiony przez 30000 milisekund, praca zostaje przerwana.
+                    showTableMenuT:
+                        Tworzy menu kontekstowe po kliknięciu prawym przyciskiem myszy na wiersz tabeli towarów i usług, który zawiera opcje dodania towaru, usunięcia towaru i edycji towaru lub usługi
+                    showTableMenuK:
+                        Tworzy menu kontekstowe po kliknięciu prawym przyciskiem myszy na wiersz tabeli kontrahentów, który zawiera opcje dodania kontrahenta, usunięcia kontrahenta i edycji kontrahenta
+                    showTableMenuH:
+                        Tworzy menu kontekstowe po kliknięciu prawym przyciskiem myszy na wiersz tabeli faktury, który zawiera opcje dodania faktury VAT, Faktury Brutto, Rachunku, Faktury Pro Forma, Faktury korygującej, Duplikatu faktury, edycji zaznaczonej faktury oraz usunięcie zaznaczonej faktury
+                    mainUpdateStatus:
+                        Wyświetla w lewym dolnym rogu programu informacje, które pobiera z aktualnie zaznaczonego wiersza tabeli faktur, kontrahentów lub towarów
+                    tabChanged:
+                        Opcje w menu jak dodanie faktury/kontrahenta/towaru, a także ich edycji i usunięcia są blokowane i odblokowywane w zależności od występowania choćby jednej faktury/kontrahenta/towaru w tabeli. Musi istnieć co najmniej jeden wpis w tabeli dla danej zakładki, aby opcje zostały odblokowane
+                    rereadHist:
+                        Usuwa wszystkie wiersze w tabeli faktur, następnie ponownie pobiera zapisane dane z plików zewnętrznych z funkcji readHist
+                    aboutQt:
+                        Wyświetla informacje na temat wersji biblioteki Qt, z której korzysta program. W tytule znajduje się wersja i nazwa używanego programu
+                    oProg:
+                        Wyświetla informacje o programie, jego autorach oraz uwagi
+                    editFHist:
+                        Uruchamia nowe okno z możliwością edycji wybranej faktury. Okno edycji jest dostosowane do wybranego rodzaju faktury
+                    delFHist:
+                        Usuwa wybraną fakturę z tabeli. Przed usunięciem pojawia się ostrzeżenie. Na koniec zostaje wywoływana funkcja invoiceDeleteData z pliku XmlDataLayer.cpp, która usuwa plik .xml odpowiadający usuniętemu wierszowi
+                    daneFirmyClick:
+                        Uruchamia okno z formularzem do wypełnienia dla wystawiającego faktury (użytkownika programu)
+                    settClick:
+                        Uruchamia okno z ustawieniami programu
+                    
+                    
+                        
                     
                     
                         
