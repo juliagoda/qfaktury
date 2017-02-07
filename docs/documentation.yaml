@@ -330,6 +330,53 @@ Documentation:
                         Uruchamia okno z formularzem do wypełnienia dla wystawiającego faktury (użytkownika programu)
                     settClick:
                         Uruchamia okno z ustawieniami programu
+                    kontrClick:
+                        Uruchamia nowe okno dodania nowego kontrahenta. Po zaakceptowaniu danych pojawia się wpis z wprowadzonymi danymi w tabeli dla listy kontrahentów
+                    kontrDel:
+                        Usuwa kontrahenta zaznaczonego według wiersza w tabeli w oknie głównym
+                    kontrEd:
+                        Uruchamia okno edycji dla zaznaczonego kontrahenta z tabeli w oknie głównym. Po zaakceptowaniu zmian dotychczasowe dane w wybranym wierszu (lista kontrahentów w tabeli) zostają podstawione
+                    newFra:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury
+                    newFRachunek:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia rachunku
+                    newInvoice:
+                        Funkcja tworząca nową fakturę. Rodzaj tworzonej faktury zależy od tytułu okna, który jest podawany we współpracujących funkcjach z funkcją newInvoice - newFra, newFRachunek, newFBrutto, newPForm, newKor, newDuplikat
+                    newFBrutto:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury brutto
+                    newPForm:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury pro forma
+                    newKor:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury korygującej
+                    newDuplikat:
+                        Tworzy nowe, uzupełnione okno dla utworzenia duplikatu faktury
+                    towaryDodaj:
+                        Uruchamia nowe okno dodania nowego towaru lub usługi. Po zaakceptowaniu danych pojawia się wpis z wprowadzonymi danymi w tabeli dla listy towarów
+                    towaryUsun:
+                        Usuwa towar lub usługę zaznaczony według wiersza w tabeli w oknie głównym
+                    towaryEdycja:
+                        Uruchamia okno edycji dla zaznaczonego towaru z tabeli w oknie głównym. Po zaakceptowaniu zmian dotychczasowe dane w wybranym wierszu (lista towarów w tabeli) zostają podstawione
+                    close:
+                        Wyświetla komunikat o potwierdzeniu zakończenia działania aplikacji oraz zapisania aktualnego stanu za pomocą QSettings. W przypadku anulowania, zamknięcie programu oraz zapis stanu nie następuje 
+                    pomoc:
+                        W domyślnej przeglądarce systemowej otwiera adres URL dla aktualnego programu, gdzie można uzyskać pomoc dotyczącą działania programu.
+                    reportBug:
+                        W domyślnej przeglądarce systemowej otwiera adres URL, gdzie można zgłosić bug aktualnego programu.
+            XmlDataLayer:
+                funkcje:
+                    XmlDataLayer: 
+                        brak
+                    ~XmlDataLayer:
+                        brak
+                    getRet:
+                        Zwraca wartość zmiennej typu QString, zawierającej wszystkie informacje potrzebne do wyświetlenia danych w wierszach tabel w oknie głównym. Zmienna zostaje użyta w Faktura.cpp, natomiast z Faktura.cpp zostaje użyta w MainWindow.cpp, gdzie wartość zostaje podzielona na części według znaku "|" i ułożona według kolejności dla każdej kolumny w wierszu. Jeden wiersz = jedna faktura/jeden kontrahent/jeden towar
+                    kontrahenciElemToData:
+                        
+                    
+                        
+                    
+                    
+                    
                     
                     
                         
