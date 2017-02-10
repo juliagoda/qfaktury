@@ -8,11 +8,6 @@
 #include <QDateEdit>
 #include "CustomPayment.h"
 
-/*
-	Kwota do zapłaty  : 554.90 zł
-	Zapłacono gotówką : 254,90 zł dnia {Data bieżąca}
-	Kwota zaległośći  : 300 zł 7 dni Przelew {Data Zapłaty}
-*/
 
 CustomPayment::CustomPayment(QWidget *parent): QDialog(parent) {
 

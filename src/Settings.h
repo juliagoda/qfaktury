@@ -1,5 +1,6 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
+
 #include <QStandardPaths>
 #include <QSettings>
 #include <QDate>
@@ -66,13 +67,14 @@ QString getAppDirs() {
 	    // The easiest way
 	    // On windows and during testing files have to be in executable dir
         if (!translator->load(QString("qfaktury_") + lang)) translator->load(QString("qfaktury_") + lang, appPath + "/translations");
-        qDebug() << "Pliki tłumaczenia znajdują się w: " << appPath + "/translations";
+        qDebug() << "Translations files are in: " << appPath + "/translations";
 		return translator;
 	}
 
 	/**
 	 * validate the settings and set them to default values if required.
 	 */
+
 	void checkSettings() {
 		if (value("browser_name").toString().compare("") == 0)
 			setValue("browser_name", "");
@@ -87,14 +89,13 @@ QString getAppDirs() {
 
 
 		if (value("addText").toString().compare("") == 0)
-			setValue("addText",
-					trUtf8("towar odebrałem zgodnie z fakturą"));
+            setValue("addText", trUtf8("towar odebrałem zgodnie z fakturą"));
 		if (value("chars_in_symbol").toString().compare("") == 0)
 			setValue("chars_in_symbol", tr("0"));
 		if (value("day").toString().compare("") == 0)
 			setValue("day", "false");
 		if (value("edit").toString().compare("") == 0)
-			setValue("edit", "false");
+            setValue("edit", "true");
 		if (value("editName").toString().compare("") == 0)
 			setValue("editName", "false");
 		if (value("filtrEnd").toString().compare("") == 0)
@@ -105,12 +106,12 @@ QString getAppDirs() {
 					Qt::ISODate));
 		if (value("firstrun").toString().compare("") == 0)
 			setValue("firstrun", false);
-		if (value("jednostki").toString().compare("") == 0)
-			setValue("jednostki", tr("szt.|kg.|g.|m|km.|godz."));
+        if (value("units").toString().compare("") == 0)
+            setValue("units", tr("szt.|kg.|g.|m|km.|godz."));
 		if (value("korNr").toString().compare("") == 0)
 			setValue("korNr", "1");
-        if (value("frNr").toString().compare("") == 0)
-            setValue("frNr", "1");
+        if (value("invNr").toString().compare("") == 0)
+            setValue("invNr", "1");
 		if (value("logo").toString().compare("") == 0)
 			setValue("logo", "");
 		if (value("margLeftPrinter").toString().compare("") == 0)
@@ -129,59 +130,59 @@ QString getAppDirs() {
 			setValue("payments", tr("gotówka|przelew|zaliczka"));
 		if (value("pdfQuality").toString().compare("") == 0)
 			setValue("pdfQuality", "1");
-		if (value("pkorekty").toString().compare("") == 0)
-            setValue("pkorekty", tr("zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana daty terminu|zmiana daty sprzedaży"));
+        if (value("corrections").toString().compare("") == 0)
+            setValue("corrections", tr("zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana daty terminu|zmiana daty sprzedaży"));
 		if (value("prefix").toString().compare("") == 0)
 			setValue("prefix", "");
 		if (value("renamed").toString().compare("") == 0)
 			setValue("renamed", "tak");
 		if (value("shortYear").toString().compare("") == 0)
 			setValue("shortYear", "false");
-		if (value("stawki").toString().compare("") == 0)
-            setValue("stawki", tr("23|8|5|0|zw."));
+        if (value("rates").toString().compare("") == 0)
+            setValue("rates", tr("23|8|5|0|zw."));
 		if (value("sufix").toString().compare("") == 0)
 			setValue("sufix", "");
-		if (value("waluty").toString().compare("") == 0)
-            setValue("waluty", tr("PLN|EUR|USD|CHF|GBP|RUB"));
+        if (value("currencies").toString().compare("") == 0)
+            setValue("currencies", tr("PLN|EUR|USD|CHF|GBP|RUB"));
 		if (value("year").toString().compare("") == 0)
 			setValue("year", "false");
 		if (value("numberOfCopies").toString().compare("") == 0)
 			setValue("numberOfCopies", 1);
 
 
-		// here we could add special code for Rachunek
-		beginGroup("faktury_pozycje");
+        // here we could add special code for Bill
+        beginGroup("invoices_positions");
 		if (value("Lp").toString().compare("") == 0)
 			setValue("Lp", true);
-		if (value("Nazwa").toString().compare("") == 0)
-			setValue("Nazwa", true);
-		if (value("Kod").toString().compare("") == 0)
-			setValue("Kod", true);
+        if (value("Name").toString().compare("") == 0)
+            setValue("Name", true);
+        if (value("Code").toString().compare("") == 0)
+            setValue("Code", true);
 		if (value("pkwiu").toString().compare("") == 0)
 			setValue("pkwiu", true);
-		if (value("ilosc").toString().compare("") == 0)
-			setValue("ilosc", true);
-		if (value("jm").toString().compare("") == 0)
-			setValue("jm", true);
-		if (value("cenajedn").toString().compare("") == 0)
-			setValue("cenajedn", true);
-		if (value("wartnetto").toString().compare("") == 0)
-			setValue("wartnetto", true);
-		if (value("rabatperc").toString().compare("") == 0)
-			setValue("rabatperc", true);
-		if (value("rabatval").toString().compare("") == 0)
-			setValue("rabatval", true);
-		if (value("nettoafter").toString().compare("") == 0)
-			setValue("nettoafter", true);
+        if (value("amount").toString().compare("") == 0)
+            setValue("amount", true);
+        if (value("unit").toString().compare("") == 0)
+            setValue("unit", true);
+        if (value("unitprice").toString().compare("") == 0)
+            setValue("unitprice", true);
+        if (value("netvalue").toString().compare("") == 0)
+            setValue("netvalue", true);
+        if (value("discountperc").toString().compare("") == 0)
+            setValue("discountperc", true);
+        if (value("discountval").toString().compare("") == 0)
+            setValue("discountval", true);
+        if (value("netafter").toString().compare("") == 0)
+            setValue("netafter", true);
 		if (value("vatval").toString().compare("") == 0)
 			setValue("vatval", true);
 		if (value("vatprice").toString().compare("") == 0)
 			setValue("vatprice", true);
-		if (value("bruttoval").toString().compare("") == 0)
-			setValue("bruttoval", true);
+        if (value("grossval").toString().compare("") == 0)
+            setValue("grossval", true);
 		endGroup();
 
-		beginGroup("formatki");
+        beginGroup("forms");
 		if (value("chAmount_top").toString().compare("") == 0)
 			setValue("chAmount_top", "50");
 		if (value("chAmount_left").toString().compare("") == 0)
@@ -281,14 +282,14 @@ QString getAppDirs() {
 		endGroup();
 
 		beginGroup("printpos");
-		if (value("usernazwa").toString().compare("") == 0)
-			setValue("usernazwa", "true");
-		if (value("usermiejscowosc").toString().compare("") == 0)
-			setValue("usermiejscowosc", "true");
-		if (value("useradres").toString().compare("") == 0)
-			setValue("useradres", "true");
-		if (value("userkonto").toString().compare("") == 0)
-			setValue("userkonto", "true");
+        if (value("username").toString().compare("") == 0)
+            setValue("username", "true");
+        if (value("usercity").toString().compare("") == 0)
+            setValue("usercity", "true");
+        if (value("useradress").toString().compare("") == 0)
+            setValue("useradress", "true");
+        if (value("useraccount").toString().compare("") == 0)
+            setValue("useraccount", "true");
 		if (value("usernip").toString().compare("") == 0)
 			setValue("usernip", "true");
 		if (value("userphone").toString().compare("") == 0)
@@ -314,6 +315,25 @@ QString getAppDirs() {
 		if (value("clientwww").toString().compare("") == 0)
 			setValue("clientwww", "true");
 		endGroup();
+
+        beginGroup("printkontr");
+        if (value("buyername").toString().compare("") == 0)
+            setValue("buyername", "true");
+        if (value("buyercity").toString().compare("") == 0)
+            setValue("buyercity", "true");
+        if (value("buyeraddress").toString().compare("") == 0)
+            setValue("buyeraddress", "true");
+        if (value("buyeraccount").toString().compare("") == 0)
+            setValue("buyeraccount", "true");
+        if (value("buyernip").toString().compare("") == 0)
+            setValue("buyernip", "true");
+        if (value("buyerphone").toString().compare("") == 0)
+            setValue("buyerphone", "true");
+        if (value("buyermail").toString().compare("") == 0)
+            setValue("buyermail", "true");
+        if (value("buyerwww").toString().compare("") == 0)
+            setValue("buyerwww", "true");
+        endGroup();
 
 		beginGroup("wydruki");
 		if (value("col1").toString().compare("") == 0)
@@ -352,27 +372,28 @@ QString getAppDirs() {
 
 	/** Reset all settings to default values
 	 */
+
 	void resetSettings() {
 		beginGroup("General");
 		setValue("browser_name", "");
 		setValue("default_browser", "true");
 		setValue("lang", tr("pl"));
         setValue("style", "");
-		setValue("waluty", tr("PLN"));
+        setValue("currencies", tr("PLN"));
 		endGroup();
 
 		setValue("addText", trUtf8("towar odebrałem zgodnie z fakturą"));
 		setValue("chars_in_symbol", tr("0"));
 		setValue("day", "false");
-		setValue("edit", "false");
+        setValue("edit", "true");
 		setValue("editName", "false");
-		setValue("editSymbol", "false");
+        setValue("editSymbol", "true");
 		setValue("numberOfCopies", 1);
         setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
 		setValue("firstrun", false);
-		setValue("jednostki", tr("szt.|kg.|g.|m.|km.|godz."));
+        setValue("units", tr("szt.|kg.|g.|m.|km.|godz."));
 		setValue("korNr", "1");
-        setValue("frNr","1");
+        setValue("invNr","1");
 		setValue("logo", "");
 
 		setValue("margLeftPrinter", "10");
@@ -383,34 +404,34 @@ QString getAppDirs() {
 		setValue("paym1", trUtf8("gotówka") );
 		setValue("payments", trUtf8("gotówka|przelew|zaliczka") );
 		setValue("pdfQuality", "1");
-        setValue("pkorekty", trUtf8("zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana daty terminu|zmiana daty sprzedaży") );
+        setValue("corrections", trUtf8("zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana daty terminu|zmiana daty sprzedaży") );
 		setValue("prefix", "");
 		setValue("renamed", "tak");
 		setValue("shortYear", "false");
-        setValue("stawki", tr("23|8|5|0|zw."));
+        setValue("rates", tr("23|8|5|0|zw."));
 		setValue("sufix", "");
-        setValue("waluty", tr("PLN|EUR|USD|CHF|GBP|RUB"));
+        setValue("currencies", tr("PLN|EUR|USD|CHF|GBP|RUB"));
 		setValue("year", "false");
 
 		// here we could add special code for Rachunek
-		beginGroup("faktury_pozycje");
+        beginGroup("invoices_positions");
 		setValue("Lp", true);
-		setValue("Nazwa", true);
-		setValue("Kod", true);
+        setValue("Name", true);
+        setValue("Code", true);
 		setValue("pkwiu", true);
-		setValue("ilosc", true);
-		setValue("jm", true);
-		setValue("cenajedn", true);
-		setValue("wartnetto", true);
-		setValue("rabatperc", true);
-		setValue("rabatval", true);
-		setValue("nettoafter", true);
+        setValue("amount", true);
+        setValue("unit", true);
+        setValue("unitprice", true);
+        setValue("netvalue", true);
+        setValue("discountperc", true);
+        setValue("discountval", true);
+        setValue("netafter", true);
 		setValue("vatval", true);
 		setValue("vatprice", true);
-		setValue("bruttoval", true);
+        setValue("grossval", true);
 		endGroup();
 
-		beginGroup("formatki");
+        beginGroup("forms");
 		setValue("chAmount_top", "50");
 		setValue("chAmount_left", "50");
 		setValue("chAmount_width", "288");
@@ -462,10 +483,10 @@ QString getAppDirs() {
 		endGroup();
 
 		beginGroup("printpos");
-		setValue("usernazwa", "true");
-		setValue("usermiejscowosc", "true");
-		setValue("useradres", "true");
-		setValue("userkonto", "true");
+        setValue("username", "true");
+        setValue("usercity", "true");
+        setValue("useradress", "true");
+        setValue("useraccount", "true");
 		setValue("usernip", "true");
 		setValue("userphone", "true");
 		setValue("usermail", "true");
@@ -479,6 +500,17 @@ QString getAppDirs() {
 		setValue("clientmail", "true");
 		setValue("clientwww", "true");
 		endGroup();
+
+        beginGroup("printkontr");
+        setValue("buyername", "true");
+        setValue("buyercity", "true");
+        setValue("buyeraddress", "true");
+        setValue("buyeraccount", "true");
+        setValue("buyernip", "true");
+        setValue("buyerphone", "true");
+        setValue("buyermail", "true");
+        setValue("buyerwww", "true");
+        endGroup();
 
 		beginGroup("wydruki");
 		setValue("col1", "10");

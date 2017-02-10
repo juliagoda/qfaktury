@@ -17,13 +17,13 @@ public:
 
 	ConvertAmount();
 	~ConvertAmount();
-	QString convertPL(QString input, QString waluta);
+    QString convertPL(QString input, QString currency);
 	void convertTest();
     QString& descAmount(QString&,QString,QString = QString(),QString = QString(),QString = QString());
-    const QStringList staList() const;
-    const QStringList esciaList() const;
-    const QStringList nascieList() const;
-    const QStringList jedynkiList() const;
+    const QStringList hundsList() const;
+    const QStringList endsHundList() const;
+    const QStringList endsTensList() const;
+    const QStringList simpleNumbList() const;
 
 };
 

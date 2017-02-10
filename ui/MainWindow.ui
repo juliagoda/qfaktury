@@ -412,7 +412,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>27</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct">
@@ -422,15 +422,15 @@
     <property name="title">
      <string>&amp;Program</string>
     </property>
-    <addaction name="plikDane_firmyAction"/>
-    <addaction name="plikUstawieniaAction"/>
+    <addaction name="fileData_companyAction"/>
+    <addaction name="fileSettingsAction"/>
     <addaction name="separator"/>
-    <addaction name="plikExportEDIAction"/>
-    <addaction name="plikExport_pdfAction"/>
-    <addaction name="plikExport_XMLAction"/>
-    <addaction name="plikImport_EDIAction"/>
-    <addaction name="plikImport_XMLAction"/>
-    <addaction name="plikKoniecAction"/>
+    <addaction name="fileExportEDIAction"/>
+    <addaction name="fileExport_pdfAction"/>
+    <addaction name="fileExport_XMLAction"/>
+    <addaction name="fileImport_EDIAction"/>
+    <addaction name="fileImport_XMLAction"/>
+    <addaction name="fileEndAction"/>
    </widget>
    <widget class="QMenu" name="fakturyAct">
     <property name="cursor">
@@ -439,50 +439,50 @@
     <property name="title">
      <string>&amp;Faktury</string>
     </property>
-    <addaction name="fakturyDodajAction"/>
-    <addaction name="fakturyBruttoAction"/>
-    <addaction name="fakturyRachunekAction"/>
+    <addaction name="addInvoiceAction"/>
+    <addaction name="invoiceGrossAction"/>
+    <addaction name="invoiceBillAction"/>
     <addaction name="separator"/>
-    <addaction name="fakturyPFormaAction"/>
-    <addaction name="fakturyKorektaAction"/>
-    <addaction name="fakturyDuplikatAction"/>
+    <addaction name="invoiceProFormaAction"/>
+    <addaction name="invoiceCorrAction"/>
+    <addaction name="invoiceDuplAction"/>
     <addaction name="separator"/>
-    <addaction name="fakturyUsunAction"/>
-    <addaction name="fakturyEdAction"/>
+    <addaction name="invoiceDelAction"/>
+    <addaction name="invoiceEdAction"/>
    </widget>
-   <widget class="QMenu" name="kontrahenciAct">
+   <widget class="QMenu" name="buyersAct">
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="title">
      <string>&amp;Kontrahenci</string>
     </property>
-    <addaction name="kontrahenciDodajAction"/>
-    <addaction name="kontrahenciUsunAction"/>
-    <addaction name="kontrahenciEdycjaAction"/>
+    <addaction name="addBuyersAction"/>
+    <addaction name="delBuyersAction"/>
+    <addaction name="editBuyersAction"/>
    </widget>
-   <widget class="QMenu" name="towaryAct">
+   <widget class="QMenu" name="goodsAct">
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="title">
      <string>&amp;Towary</string>
     </property>
-    <addaction name="towaryDodajAction"/>
-    <addaction name="towaryUsunAction"/>
-    <addaction name="towaryEdycjaAction"/>
+    <addaction name="addGoodsAction"/>
+    <addaction name="delGoodsAction"/>
+    <addaction name="editGoodsAction"/>
    </widget>
-   <widget class="QMenu" name="pomocAct">
+   <widget class="QMenu" name="helpAct">
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="title">
      <string>P&amp;omoc</string>
     </property>
-    <addaction name="pomocPomocAction"/>
+    <addaction name="helpAction"/>
     <addaction name="actionBug"/>
     <addaction name="separator"/>
-    <addaction name="pomocO_programieAction"/>
+    <addaction name="helpAbout_appAction"/>
     <addaction name="action_Qt"/>
    </widget>
    <widget class="QMenu" name="menuPlugins">
@@ -495,10 +495,10 @@
    </widget>
    <addaction name="plikAct"/>
    <addaction name="fakturyAct"/>
-   <addaction name="kontrahenciAct"/>
-   <addaction name="towaryAct"/>
+   <addaction name="buyersAct"/>
+   <addaction name="goodsAct"/>
    <addaction name="menuPlugins"/>
-   <addaction name="pomocAct"/>
+   <addaction name="helpAct"/>
    <addaction name="separator"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -523,17 +523,17 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="plikDane_firmyAction"/>
+   <addaction name="fileData_companyAction"/>
    <addaction name="separator"/>
-   <addaction name="fakturyDodajAction"/>
+   <addaction name="addInvoiceAction"/>
    <addaction name="separator"/>
-   <addaction name="fakturyPFormaAction"/>
+   <addaction name="invoiceProFormaAction"/>
    <addaction name="separator"/>
-   <addaction name="kontrahenciDodajAction"/>
+   <addaction name="addBuyersAction"/>
    <addaction name="separator"/>
-   <addaction name="towaryDodajAction"/>
+   <addaction name="addGoodsAction"/>
    <addaction name="separator"/>
-   <addaction name="plikUstawieniaAction"/>
+   <addaction name="fileSettingsAction"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="plikDrukujAction">
@@ -547,7 +547,7 @@
     <string>plikDrukujAction</string>
    </property>
   </action>
-  <action name="fakturyUsunAction">
+  <action name="invoiceDelAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/usun_fakture.png</normaloff>:/res/icons/usun_fakture.png</iconset>
@@ -565,7 +565,7 @@
     <string>fakturyUsunAction</string>
    </property>
   </action>
-  <action name="fakturyDodajAction">
+  <action name="addInvoiceAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/nowa_faktura.png</normaloff>:/res/icons/nowa_faktura.png</iconset>
@@ -583,7 +583,7 @@
     <string>fakturyDodajAction</string>
    </property>
   </action>
-  <action name="kontrahenciDodajAction">
+  <action name="addBuyersAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/dodaj_kontrahentow.png</normaloff>:/res/icons/dodaj_kontrahentow.png</iconset>
@@ -601,7 +601,7 @@
     <string>kontrahenciDodajAction</string>
    </property>
   </action>
-  <action name="kontrahenciUsunAction">
+  <action name="delBuyersAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/usun_kontrahentow.png</normaloff>:/res/icons/usun_kontrahentow.png</iconset>
@@ -619,7 +619,7 @@
     <string>kontrahenciUsunAction</string>
    </property>
   </action>
-  <action name="kontrahenciEdycjaAction">
+  <action name="editBuyersAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/edytuj_kontrahentow.png</normaloff>:/res/icons/edytuj_kontrahentow.png</iconset>
@@ -652,7 +652,7 @@
     <string>pomocO_QtAction</string>
    </property>
   </action>
-  <action name="plikKoniecAction">
+  <action name="fileEndAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/koniec.png</normaloff>:/res/icons/koniec.png</iconset>
@@ -670,7 +670,7 @@
     <string>plikKoniecAction</string>
    </property>
   </action>
-  <action name="fakturyEdAction">
+  <action name="invoiceEdAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/edytuj_fakture.png</normaloff>:/res/icons/edytuj_fakture.png</iconset>
@@ -688,7 +688,7 @@
     <string>fakturyEdAction</string>
    </property>
   </action>
-  <action name="plikDane_firmyAction">
+  <action name="fileData_companyAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/dane_firmy.png</normaloff>:/res/icons/dane_firmy.png</iconset>
@@ -723,7 +723,7 @@
     <string>przelewyDrukuj_Action</string>
    </property>
   </action>
-  <action name="pomocO_programieAction">
+  <action name="helpAbout_appAction">
    <property name="text">
     <string>&amp;O programie</string>
    </property>
@@ -734,7 +734,7 @@
     <string>pomocO_programieAction</string>
    </property>
   </action>
-  <action name="plikUstawieniaAction">
+  <action name="fileSettingsAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/ustawienia.png</normaloff>:/res/icons/ustawienia.png</iconset>
@@ -782,7 +782,7 @@
     <string>przelewyUSAction</string>
    </property>
   </action>
-  <action name="pomocPomocAction">
+  <action name="helpAction">
    <property name="text">
     <string>&amp;Strona programu</string>
    </property>
@@ -807,7 +807,7 @@
     <string>separatornew_itemAction</string>
    </property>
   </action>
-  <action name="towaryEdycjaAction">
+  <action name="editGoodsAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/edytuj_towar.png</normaloff>:/res/icons/edytuj_towar.png</iconset>
@@ -825,7 +825,7 @@
     <string>towaryEdycjaAction</string>
    </property>
   </action>
-  <action name="towaryUsunAction">
+  <action name="delGoodsAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/usun_towar.png</normaloff>:/res/icons/usun_towar.png</iconset>
@@ -843,7 +843,7 @@
     <string>towaryUsunAction</string>
    </property>
   </action>
-  <action name="towaryDodajAction">
+  <action name="addGoodsAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/dodaj_towar.png</normaloff>:/res/icons/dodaj_towar.png</iconset>
@@ -861,7 +861,7 @@
     <string>towaryDodajAction</string>
    </property>
   </action>
-  <action name="plikExportEDIAction">
+  <action name="fileExportEDIAction">
    <property name="text">
     <string>&amp;Export do EDI</string>
    </property>
@@ -875,7 +875,7 @@
     <string>plikExportEDIAction</string>
    </property>
   </action>
-  <action name="plikExport_pdfAction">
+  <action name="fileExport_pdfAction">
    <property name="text">
     <string>Export do &amp;PDF</string>
    </property>
@@ -889,7 +889,7 @@
     <string>plikExport_pdfAction</string>
    </property>
   </action>
-  <action name="plikExport_XMLAction">
+  <action name="fileExport_XMLAction">
    <property name="text">
     <string>Exp&amp;ort do XML</string>
    </property>
@@ -903,7 +903,7 @@
     <string>plikExport_XMLAction</string>
    </property>
   </action>
-  <action name="plikImport_EDIAction">
+  <action name="fileImport_EDIAction">
    <property name="text">
     <string>&amp;Import EDI</string>
    </property>
@@ -917,7 +917,7 @@
     <string>plikImport_EDIAction</string>
    </property>
   </action>
-  <action name="plikImport_XMLAction">
+  <action name="fileImport_XMLAction">
    <property name="text">
     <string>Import &amp;XML</string>
    </property>
@@ -931,7 +931,7 @@
     <string>plikImport_XMLAction</string>
    </property>
   </action>
-  <action name="fakturyKorektaAction">
+  <action name="invoiceCorrAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/nowa_korekta.png</normaloff>:/res/icons/nowa_korekta.png</iconset>
@@ -949,7 +949,7 @@
     <string>fakturyKorektaAction</string>
    </property>
   </action>
-  <action name="fakturyPFormaAction">
+  <action name="invoiceProFormaAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/nowa_proforma.png</normaloff>:/res/icons/nowa_proforma.png</iconset>
@@ -994,7 +994,7 @@
     <string>&amp;Zgłoś błąd</string>
    </property>
   </action>
-  <action name="fakturyDuplikatAction">
+  <action name="invoiceDuplAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/nowa_duplikat.png</normaloff>:/res/icons/nowa_duplikat.png</iconset>
@@ -1006,7 +1006,7 @@
     <string>D</string>
    </property>
   </action>
-  <action name="fakturyBruttoAction">
+  <action name="invoiceGrossAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/nowa_brutto.png</normaloff>:/res/icons/nowa_brutto.png</iconset>
@@ -1018,7 +1018,7 @@
     <string>B</string>
    </property>
   </action>
-  <action name="fakturyRachunekAction">
+  <action name="invoiceBillAction">
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/nowa_rachunek.png</normaloff>:/res/icons/nowa_rachunek.png</iconset>

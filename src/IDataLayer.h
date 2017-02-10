@@ -10,7 +10,7 @@
 
 #include "Settings.h"
 
-#include "KontrData.h"
+#include "BuyerData.h"
 #include "ProductData.h"
 #include "InvoiceData.h"
 
@@ -23,14 +23,15 @@ public:
 	virtual void saveInvoiceData() {};
 	virtual void readInvoiceData() {};
     virtual const QString getRet() const { return "|"; };
+    virtual void checkAllSymbInFiles() {};
     virtual const QList<int> getAllSymbols() {QList<int> a; a.append(0); return a;};
 
-	virtual KontrData kontrahenciSelectData(QString, int) { return KontrData(); };
-	virtual QVector<KontrData > kontrahenciSelectAllData() { QVector<KontrData > a; return a; };
-	virtual bool kontrahenciInsertData(KontrData&, int) { return true; };
-	virtual bool kontrahenciUpdateData(KontrData&, int, QString) { return true; };
-	virtual bool kontrahenciDeleteData(QString ) { return true; };
-	virtual QStringList kontrahenciGetFirmList() { return QStringList(); };
+    virtual BuyerData buyersSelectData(QString, int) { return BuyerData(); };
+    virtual QVector<BuyerData> buyersSelectAllData() { QVector<BuyerData > a; return a; };
+    virtual bool buyersInsertData(BuyerData&, int) { return true; };
+    virtual bool buyersUpdateData(BuyerData&, int, QString) { return true; };
+    virtual bool buyersDeleteData(QString ) { return true; };
+    virtual QStringList buyersGetFirmList() { return QStringList(); };
 
 	virtual ProductData productsSelectData(QString, int) { return ProductData(); };
 	virtual QVector<ProductData> productsSelectAllData() { QVector<ProductData> a; return a; };

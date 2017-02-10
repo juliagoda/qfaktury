@@ -20,12 +20,12 @@ public:
 	XmlDataLayer();
 	virtual ~XmlDataLayer();
 	// methods used for accessing customers
-	virtual KontrData kontrahenciSelectData(QString name, int type);
-	virtual QVector<KontrData > kontrahenciSelectAllData();
-	virtual bool kontrahenciInsertData(KontrData& kontrData, int type);
-	virtual bool kontrahenciUpdateData(KontrData& kontrData, int type, QString name);
-	virtual bool kontrahenciDeleteData(QString name);
-	virtual QStringList kontrahenciGetFirmList();
+    virtual BuyerData buyersSelectData(QString name, int type);
+    virtual QVector<BuyerData> buyersSelectAllData();
+    virtual bool buyersInsertData(BuyerData& buyerData, int type);
+    virtual bool buyersUpdateData(BuyerData& buyerData, int type, QString name);
+    virtual bool buyersDeleteData(QString name);
+    virtual QStringList buyersGetFirmList();
 
 	virtual ProductData productsSelectData(QString name, int type);
 	virtual QVector<ProductData> productsSelectAllData();
@@ -39,6 +39,7 @@ public:
 	virtual bool invoiceUpdateData(InvoiceData& invData, int type, QString name);
 	virtual bool invoiceDeleteData(QString name);
     virtual QString const getRet() const;
+    virtual void checkAllSymbInFiles();
     virtual QList<int> const getAllSymbols();
 
 	virtual void saveInvoiceData() {};
@@ -47,8 +48,8 @@ public:
 
 private:
 
-	void kontrahenciElemToData(KontrData &o_kontrData, QDomElement i_element);
-	void kontrahenciDataToElem(KontrData &i_kontrData, QDomElement &o_element);
+    void buyersElemToData(BuyerData &o_buyerData, QDomElement i_element);
+    void buyersDataToElem(BuyerData &i_buyerData, QDomElement &o_element);
 
 	void productsElemToData(ProductData& o_prodData, QDomElement i_element);
 	void productsDataToElem(ProductData& i_prodData, QDomElement &o_element);

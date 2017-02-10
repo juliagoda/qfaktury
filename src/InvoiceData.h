@@ -5,8 +5,8 @@
  *      Author: moux
  */
 
-#ifndef InvoiceData_H
-#define InvoiceData_H
+#ifndef INVOICEDATA_H
+#define INVOICEDATA_H
 
 #include <QString>
 #include <QDate>
@@ -25,7 +25,7 @@ public:
 	QDate sellingDate;
 	QDate productDate;
     QDate duplDate;
-	QString frNr;
+	QString invNr;
 	QString paymentType;
 	QString currencyType;
 	QString additText;

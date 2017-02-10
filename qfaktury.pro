@@ -19,27 +19,27 @@ HEADERS += $$files($$PWD/src/*.h)
 FORMS += $$files($$PWD/ui/*.ui)
 
 SOURCES += $$PWD/src/XmlDataLayer.cpp \
-    $$PWD/src/KontrData.cpp \
+    $$PWD/src/BuyerData.cpp \
     $$PWD/src/CustomPaymData.cpp \
     $$PWD/src/CustomPayment.cpp \
-    $$PWD/src/KorektaBrutto.cpp \
-    $$PWD/src/TowaryBruttoLista.cpp \
-    $$PWD/src/Rachunek.cpp \
-    $$PWD/src/FakturaBrutto.cpp \
-    $$PWD/src/Duplikat.cpp \
+    $$PWD/src/CorrectGross.cpp \
+    $$PWD/src/GoodsGrossList.cpp \
+    $$PWD/src/Bill.cpp \
+    $$PWD/src/InvoiceGross.cpp \
+    $$PWD/src/Duplicate.cpp \
     $$PWD/src/ConvertAmount.cpp \
-    $$PWD/src/Faktura.cpp \
-    $$PWD/src/Kontrahenci.cpp \
-    $$PWD/src/KontrahenciLista.cpp \
-    $$PWD/src/Korekta.cpp \
+    $$PWD/src/Invoice.cpp \
+    $$PWD/src/Buyers.cpp \
+    $$PWD/src/BuyersList.cpp \
+    $$PWD/src/Correction.cpp \
     $$PWD/src/main.cpp \
     $$PWD/src/MainWindow.cpp \
-    $$PWD/src/Towary.cpp \
-    $$PWD/src/TowaryLista.cpp \
-    $$PWD/src/Ustawienia.cpp \
-    $$PWD/src/Uzytkownik.cpp \
-    $$PWD/src/ZmienIlosc.cpp \
-    $$PWD/src/Walidacje.cpp
+    $$PWD/src/Goods.cpp \
+    $$PWD/src/GoodsList.cpp \
+    $$PWD/src/Setting.cpp \
+    $$PWD/src/User.cpp \
+    $$PWD/src/ChangeAmount.cpp \
+    $$PWD/src/Validations.cpp
 
 RESOURCES += qfaktury.qrc
 MOC_DIR = .moc

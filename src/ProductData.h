@@ -12,6 +12,7 @@
  */
 class ProductData {
 public:
+
 	ProductData() {
 		id = 0;
 		name = "";
@@ -26,6 +27,7 @@ public:
 		gross = 0;
 		curr = "";
 	}
+
 	ProductData(QString c1, QString c2, QString c3) {
 		code = c1;
 		if (code == "")
@@ -37,6 +39,7 @@ public:
 		if (pkwiu == "")
 			pkwiu = "-";
 	}
+
 	ProductData(int inId, QString inName, QString inCode, QString inPkwiu, double inQuantity, QString inQuanType,
 			double inDiscount, double inPrice, double inNett, int inVat, double inGross, QString inCurr) {
 		id = inId;
@@ -154,6 +157,7 @@ public:
 	}
 
 	// ********************************* All TO STRING ********************
+
 	QString  toString() {
 		QString str;
 		QTextStream ret(&str);
@@ -171,6 +175,7 @@ public:
 			<< "curr: " << curr;
 		return	"ProductData: [" + str + "]";
 	}
+
 	int id;
 	QString name;
 	QString code;
