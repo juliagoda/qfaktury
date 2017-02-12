@@ -37,6 +37,47 @@ Documentation:
                                 - init
                                 - loadPlugins
                                 - firstRun
+                                - openWebTableK
+                                - saveColumnWidth
+                                - saveAllSettAsDefault
+                                - saveAllSett
+                                - tableClear
+                                - insertRow
+                                - getMaxSymbol
+                                - readHist
+                                - readBuyer
+                                - readGoods
+                                - setupDir
+                                - keyPressEvent
+                                - pluginInfoSlot
+                                - pluginSlot
+                                - showTableMenuT
+                                - showTableMenuK
+                                - showTableMenuH
+                                - mainUpdateStatus
+                                - tabChanged
+                                - rereadHist
+                                - aboutQt
+                                - aboutProg
+                                - editFHist
+                                - delFHist
+                                - userDataClick
+                                - settClick
+                                - buyerClick
+                                - buyerDel
+                                - buyerEd
+                                - newInv
+                                - newInvBill
+                                - newInvGross
+                                - newPForm
+                                - newCor
+                                - newDuplicate
+                                - goodsAdd
+                                - goodsDel
+                                - goodsEdit
+                                - close
+                                - help
+                                - reportBug
             - 5: 
                 - Instrukcja:
                     - 5a: Pierwsze uruchomienie
@@ -252,8 +293,7 @@ Documentation:
         
 4:
     Opis_techniczny:
-        Odwołania_w_kodzie: ["https://github.com/juliagoda/qfaktury","http://www.vat.pl/pkwiu/index.php?            rodzajKlasyfikacji=pkwiuvat&kod", "http://www.faqs.org/rfcs/rfc1738.html", "http://waluty.com.pl/rss/?mode=kursy",
-        "https://github.com/juliagoda/qfaktury/issues"] 
+        Odwołania_w_kodzie: ["https://github.com/juliagoda/qfaktury","http://www.vat.pl/pkwiu/index.php?rodzajKlasyfikacji=pkwiuvat&kod", "http://www.faqs.org/rfcs/rfc1738.html", "http://waluty.com.pl/rss/?mode=kursy", "https://github.com/juliagoda/qfaktury/issues"] 
         Pliki_źródłowe:
             main.cpp:
                 funkcje:
@@ -294,12 +334,12 @@ Documentation:
                         Zwraca wartość największą z listy liczb całkowitych, które oznaczają numery (symbole) dla faktur z aktualnego roku
                     readHist:
                         Według ustawienia daty początkowej i końcowej, w tabelce dla faktur wyświetlane są wszystkie faktury, znajdujące się w wybranym przedziale czasu. Istniejące dane na temat faktur są pobierane z funkcji wirtualnej invoiceSelectAllData z pliku XmlDataLayer.cpp
-                    readKontr:
+                    readBuyer:
                         W tabelce dla kontrahentów wyświetlane są wszystkie zapisane dane kontrahentów. Istniejące dane na temat kontrahentów są pobierane z funkcji wirtualnej kontrahenciSelectAllData z pliku XmlDataLayer.cpp
-                    readTw:
+                    readGoods:
                         W tabelce dla towarów wyświetlane są wszystkie zapisane dane towarów oraz usług. Istniejące dane na temat towarów i usług są pobierane z funkcji wirtualnej productsSelectAllData z pliku XmlDataLayer.cpp
                     setupDir:
-                        Sprawdza czy scieżka "~/.local/share/data/elinux" oraz "~/.local/share/data/elinux/invoices" istnieją, w przeciwnym razie tworzy je w danej ścieżce
+                        Sprawdza czy scieżka "~/.local/share/data/elinux" oraz "~/.local/share/data/elinux/invoices" istnieją, w przeciwnym razie tworzy je w danej ścieżce, poprzednio sprawdzając istnienie ścieżki "~/.local/share/data"
                     keyPressEvent:
                         Uwzględnia skróty klawiatury dla stworzenia nowej faktury, edycji faktury, edycji kontrahenta, edycji towaru oraz przechodzenie strzałkami między zakładkami QTableWidget
                     pluginInfoSlot:
@@ -320,45 +360,43 @@ Documentation:
                         Usuwa wszystkie wiersze w tabeli faktur, następnie ponownie pobiera zapisane dane z plików zewnętrznych z funkcji readHist
                     aboutQt:
                         Wyświetla informacje na temat wersji biblioteki Qt, z której korzysta program. W tytule znajduje się wersja i nazwa używanego programu
-                    oProg:
+                    aboutProg:
                         Wyświetla informacje o programie, jego autorach oraz uwagi
                     editFHist:
                         Uruchamia nowe okno z możliwością edycji wybranej faktury. Okno edycji jest dostosowane do wybranego rodzaju faktury
                     delFHist:
                         Usuwa wybraną fakturę z tabeli. Przed usunięciem pojawia się ostrzeżenie. Na koniec zostaje wywoływana funkcja invoiceDeleteData z pliku XmlDataLayer.cpp, która usuwa plik .xml odpowiadający usuniętemu wierszowi
-                    daneFirmyClick:
+                    userDataClick:
                         Uruchamia okno z formularzem do wypełnienia dla wystawiającego faktury (użytkownika programu)
                     settClick:
                         Uruchamia okno z ustawieniami programu
-                    kontrClick:
+                    buyerClick:
                         Uruchamia nowe okno dodania nowego kontrahenta. Po zaakceptowaniu danych pojawia się wpis z wprowadzonymi danymi w tabeli dla listy kontrahentów
-                    kontrDel:
+                    buyerDel:
                         Usuwa kontrahenta zaznaczonego według wiersza w tabeli w oknie głównym
-                    kontrEd:
+                    buyerEd:
                         Uruchamia okno edycji dla zaznaczonego kontrahenta z tabeli w oknie głównym. Po zaakceptowaniu zmian dotychczasowe dane w wybranym wierszu (lista kontrahentów w tabeli) zostają podstawione
-                    newFra:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury
-                    newFRachunek:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia rachunku
-                    newInvoice:
-                        Funkcja tworząca nową fakturę. Rodzaj tworzonej faktury zależy od tytułu okna, który jest podawany we współpracujących funkcjach z funkcją newInvoice - newFra, newFRachunek, newFBrutto, newPForm, newKor, newDuplikat
-                    newFBrutto:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury brutto
+                    newInv:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
+                    newInvBill:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia rachunku. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice (ponieważ klasa Bill dziedziczy z klasy Invoice) i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
+                    newInvGross:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury brutto. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice (ponieważ klasa InvoiceGross dziedziczy z klasy Invoice) i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
                     newPForm:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury pro forma
-                    newKor:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury korygującej
-                    newDuplikat:
-                        Tworzy nowe, uzupełnione okno dla utworzenia duplikatu faktury
-                    towaryDodaj:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury pro forma. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
+                    newCor:
+                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury korygującej. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Correction w przypadku wybrania faktury korygującej VAT jak i Brutto i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
+                    newDuplicate:
+                        Tworzy nowe, uzupełnione okno dla utworzenia duplikatu faktury. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice (ponieważ klasa Duplicate dziedziczy z klasy Invoice) i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
+                    goodsAdd:
                         Uruchamia nowe okno dodania nowego towaru lub usługi. Po zaakceptowaniu danych pojawia się wpis z wprowadzonymi danymi w tabeli dla listy towarów
-                    towaryUsun:
+                    goodsDel:
                         Usuwa towar lub usługę zaznaczony według wiersza w tabeli w oknie głównym
-                    towaryEdycja:
+                    goodsEdit:
                         Uruchamia okno edycji dla zaznaczonego towaru z tabeli w oknie głównym. Po zaakceptowaniu zmian dotychczasowe dane w wybranym wierszu (lista towarów w tabeli) zostają podstawione
                     close:
                         Wyświetla komunikat o potwierdzeniu zakończenia działania aplikacji oraz zapisania aktualnego stanu za pomocą QSettings. W przypadku anulowania, zamknięcie programu oraz zapis stanu nie następuje 
-                    pomoc:
+                    help:
                         W domyślnej przeglądarce systemowej otwiera adres URL dla aktualnego programu, gdzie można uzyskać pomoc dotyczącą działania programu.
                     reportBug:
                         W domyślnej przeglądarce systemowej otwiera adres URL, gdzie można zgłosić bug aktualnego programu.
@@ -369,19 +407,40 @@ Documentation:
                     ~XmlDataLayer:
                         brak
                     getRet:
-                        Zwraca wartość zmiennej typu QString, zawierającej wszystkie informacje potrzebne do wyświetlenia danych w wierszach tabel w oknie głównym. Zmienna zostaje użyta w Faktura.cpp, natomiast z Faktura.cpp zostaje użyta w MainWindow.cpp, gdzie wartość zostaje podzielona na części według znaku "|" i ułożona według kolejności dla każdej kolumny w wierszu. Jeden wiersz = jedna faktura/jeden kontrahent/jeden towar
-                    kontrahenciElemToData:
-                        
-                    
-                        
-                    
-                    
-                    
-                    
-                    
-                        
-                    
-                    
-                        
-        
-    
+                        Zwraca wartość zmiennej typu QString, zawierającej wszystkie informacje potrzebne do wyświetlenia danych w wierszach tabel w oknie głównym. Zmienna zostaje użyta w Faktura.cpp, natomiast z Faktura.cpp zostaje użyta w MainWindow.cpp, gdzie wartość zostaje podzielona na części według znaku "|" i ułożona według kolejności dla każdej kolumny w wierszu. Jeden wiersz = jedna faktura/jeden kontrahent/jeden towar.
+                    buyersElemToData:
+                        Funkcja przyjmuje instancję klasy BuyerData oraz QDomElement, zawierający atrybuty - name, place, code, address, tic, account, phone, email, www. Listę danych atrybutów można znaleźć w pliku customers.xml w ścieżce ~/.local/share/data/elinux. Wartości atrybutów są pobierane jeden po drugim i przypisywane do zmiennych typu QString (klasy BuyerData), które są traktowane jako nośniki danych dla kontrahentów.
+                    buyersDataToElem:
+                        Funkcja przyjmuje instancję klasy BuyerData oraz QDomElement, który ma zawierać atrybuty - name, place, code, address, tic, account, phone, email, www. Lista danych atrybutów zostanie wprowadzona do pliku customers.xml w ścieżce ~/.local/share/data/elinux dla nowego kontrahenta. Z instancji BuyerData traktowanej jako nośnik danych o kontrahentach dane są użyte jako wartości atrybutów dla elementu DOM, podanego jako argument funkcji.
+                    buyersSelectAllData:
+                        Pobiera listę wszystkich kontrahentów z pliku customers.xml, znajdującym się w ścieżce ~/.local/share/data/elinux do zmiennej buyerVec będącej listą instancji BuyerData (listą wszystkich kontrahentów). Pętle pobierają wartości pierwszego dziecka i jego braci (dziecka root) oraz wartości ostatniego dziecka i jego braci (dziecka root). Pierwsze dzieci symbolizują firmy, ostatnie dzieci symbolizują urzędy.
+                    buyersSelectData:
+                        Funkcja przyjmuje nazwę kontrahenta oraz numer jego typu (0 - firma, 1 - urząd). Jeśli wartość atrybutu name w pliku customers.xml w scieżce ~/.local/share/data/elinux zgadza się z wprowadzoną nazwą do funkcji jako argument, to wywołuje funkcję buyersElemToData (patrz opis funkcji powyżej).
+                    buyersInsertData:
+                        Funkcja przyjmuje instancję klasy BuyerData, która już jest nośnikiem pewnych danych nowego kontrahenta oraz typ kontrahenta (0 - firma, 1 - urząd). W zalezności od typu wstawia dane kontrahenta na początek lub na koniec w korzeniu drzewa XML.
+                    buyersGetFirmList:
+                        Pobiera z pliku customers.xml w ścieżce ~/.local/share/data/elinux wszystkie nazwy kontrahentów.
+                    buyersUpdateData:
+                        Funkcja pobiera instancję BuyerData, który już zawiera dane nowego kontrahenta, typ kontrahenta (0 - firma, 1 - urząd) oraz nazwę starego kontrahenta, który będzie modyfikowany. Jeśli znaleziono w drzewie XML kontrahenta o nazwie zgodnej z trzecim argumentem funkcji, wartości zastępowane są przez nowe, przetrzymywane w instancji BuyerData.
+                    buyersDeleteData:
+                        Funkcja pobiera jedynie nazwę kontrahenta (firmy lub urzędu), który będzie usuwany z drzewa XML w pliku customers.xml w ścieżce ~/.local/share/data/elinux.
+                    productsElemToData:
+                        Funkcja przyjmuje instancję klasy ProductData oraz QDomElement, zawierający atrybuty - idx, name, desc, code, pkwiu, quanType, netto1, netto2, netto3, netto4, vat. Listę danych atrybutów można znaleźć w pliku products.xml w ścieżce ~/.local/share/data/elinux. Wartości atrybutów są pobierane jeden po drugim i przypisywane do zmiennych typu double lub QString (klasy ProductData), które są traktowane jako nośniki danych dla towarów i usług.
+                    productsDataToElem:
+                        Funkcja przyjmuje instancję klasy ProductData oraz QDomElement, który ma zawierać atrybuty - idx, name, desc, code, pkwiu, quanType, netto1, netto2, netto3, netto4, vat. Lista danych atrybutów zostanie wprowadzona do pliku products.xml w ścieżce ~/.local/share/data/elinux dla nowego towaru lub usługi. Z instancji ProductData traktowanej jako nośnik danych o towarach lub usługach dane są użyte jako wartości atrybutów dla elementu DOM, podanego jako argument funkcji.
+                    productsSelectAllData:
+                        Pobiera listę wszystkich towarów i usług z pliku products.xml, znajdującym się w ścieżce ~/.local/share/data/elinux do zmiennej prodVec będącej listą instancji ProductData (listą wszystkich towarów i usług). Pętle pobierają wartości pierwszego dziecka i jego braci (dziecka root) oraz wartości ostatniego dziecka i jego braci (dziecka root). Pierwsze dzieci symbolizują towary, ostatnie dzieci symbolizują usługi.
+                    productsSelectData:
+                         Funkcja przyjmuje nazwę towaru lub usługi oraz numer jego typu (0 - towar, w pozostałych przypadkach usługa). Jeśli wartość atrybutu name w pliku products.xml w scieżce ~/.local/share/data/elinux zgadza się z wprowadzoną nazwą do funkcji jako argument, to wywołuje funkcję productsElemToData (patrz opis funkcji powyżej).
+                    productsInsertData:
+                        Funkcja przyjmuje instancję klasy ProductData, która już jest nośnikiem pewnych danych nowego towaru lub usługi oraz typ produktu (0 - towar, w pozostałych przypadkach usługa ). W zalezności od typu wstawia dane na początek (towar) lub na koniec (usługa) w korzeniu drzewa XML.
+                    productsUpdateData:
+                         Funkcja pobiera instancję ProductData, który już zawiera dane nowego towaru lub usługi, typ towaru lub usługi (0 - towar, w pozostałych przypadkach usługa) oraz nazwę starego towaru lub usługi, który będzie modyfikowany. Jeśli znaleziono w drzewie XML towar/usługę o nazwie zgodnej z trzecim argumentem funkcji, wartości zastępowane są przez nowe, przetrzymywane w instancji ProductData.
+                    productsDeleteData:
+                        Funkcja pobiera jedynie nazwę towaru lub usługi, który będzie usuwany z drzewa XML w pliku products.xml w ścieżce ~/.local/share/data/elinux.
+                    invoiceSellerDataToElem:
+                        Funkcja przyjmuje instancję klasy InvoiceData oraz QDomElement, który ma nadawane atrybuty - name, zip, city, street, tic, account, phone, email, website. Wartość atrybutów jest przypisywana z nazwy ustawienia z klasy QSettings, które przechowuje wartości pod takimi samymi nazwami jak nazwy tworzonych atrybutów dla QDomElement.
+                    invoiceSellerElemToData:
+                        Brak
+                    invoiceBuyerDataToElem:
+                        Brak

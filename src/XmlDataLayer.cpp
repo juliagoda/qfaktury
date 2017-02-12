@@ -61,7 +61,7 @@ void XmlDataLayer::buyersDataToElem(BuyerData &i_buyerData, QDomElement &o_eleme
 
 QVector<BuyerData> XmlDataLayer::buyersSelectAllData() {
 
-    QVector<BuyerData> kontrVec;
+    QVector<BuyerData> buyerVec;
 
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
@@ -69,16 +69,22 @@ QVector<BuyerData> XmlDataLayer::buyersSelectAllData() {
 	QDomElement company;
 
 	QFile file(sett().getCustomersXml());
+
 	if (!file.open(QIODevice::ReadOnly)) {
 		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return kontrVec;
+        return buyerVec;
+
 	} else {
+
 		QTextStream stream(&file);
+
 		if (!doc.setContent(stream.readAll())) {
 			qDebug("can not set content ");
 			file.close();
-			return kontrVec;
+            return buyerVec;
+
 		} else {
+
 			root = doc.documentElement();
 			office = root.firstChild().toElement();
 			company = root.lastChild().toElement();
@@ -88,24 +94,25 @@ QVector<BuyerData> XmlDataLayer::buyersSelectAllData() {
             BuyerData buyerData;
             buyersElemToData(buyerData, n.toElement());
             buyerData.type = QObject::trUtf8("Firma");
-            kontrVec.push_front(buyerData);
+            buyerVec.push_front(buyerData);
 		}
 
 		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
             BuyerData buyerData;
             buyersElemToData(buyerData, n.toElement());
             buyerData.type = QObject::trUtf8("Urząd");
-            kontrVec.push_front(buyerData);
+            buyerVec.push_front(buyerData);
 		}
 	}
 
     file.close();
 
-	return kontrVec;
+    return buyerVec;
 }
 
 
 BuyerData XmlDataLayer::buyersSelectData(QString name, int type) {
+
     BuyerData o_buyerData;
 
 	QDomDocument doc(sett().getCustomersDocName());
@@ -114,16 +121,24 @@ BuyerData XmlDataLayer::buyersSelectData(QString name, int type) {
 	QDomElement company;
 
 	QFile file(sett().getCustomersXml());
+
 	if (!file.open(QIODevice::ReadOnly)) {
+
 		qDebug() << "File" << file.fileName() << "doesn't exists";
         return o_buyerData;
+
 	} else {
+
 		QTextStream stream(&file);
+
 		if (!doc.setContent(stream.readAll())) {
+
 			qDebug("can not set content ");
 			file.close();
             return o_buyerData;
+
 		} else {
+
 			root = doc.documentElement();
 			office = root.firstChild().toElement();
 			company = root.lastChild().toElement();
@@ -143,6 +158,7 @@ BuyerData XmlDataLayer::buyersSelectData(QString name, int type) {
 			}
 		}
 	}
+
     file.close();
     return o_buyerData;
 }
@@ -156,7 +172,9 @@ bool XmlDataLayer::buyersInsertData(BuyerData& buyerData, int type) {
 	QDomElement company;
 
 	QFile file(sett().getCustomersXml());
+
 	if (!file.open(QIODevice::ReadOnly)) {
+
 		qDebug("can not open ");
 		root = doc.createElement(sett().getCustomersDocName());
 		doc.appendChild(root);
@@ -164,13 +182,19 @@ bool XmlDataLayer::buyersInsertData(BuyerData& buyerData, int type) {
 		root.appendChild(office);
 		company = doc.createElement(sett().getCompanyName());
 		root.appendChild(company);
+
 	} else {
+
 		QTextStream stream(&file);
+
 		if (!doc.setContent(stream.readAll())) {
+
 			qDebug("can not set content ");
 			file.close();
 			// return;
+
 		} else {
+
 			root = doc.documentElement();
 			office = root.firstChild().toElement();
 			company = root.lastChild().toElement();
@@ -179,14 +203,16 @@ bool XmlDataLayer::buyersInsertData(BuyerData& buyerData, int type) {
 
 	root.lastChild();
 
-	// firma = 0; urzad = 1;
+    // company = 0; department = 1;
 	if (type == 0) {
+
 		QDomElement elem = doc.createElement(sett().getCompanyName());
         buyersDataToElem(buyerData, elem);
 		company.appendChild(elem);
 	}
 
 	if (type == 1) {
+
 		QDomElement elem = doc.createElement(sett().getOfficeName());
         buyersDataToElem(buyerData, elem);
 		office.appendChild(elem);
@@ -214,21 +240,29 @@ QStringList XmlDataLayer::buyersGetFirmList() {
 	QDomElement company;
 
 	QFile file(sett().getCustomersXml());
+
 	if (!file.open(QIODevice::ReadOnly)) {
+
 		qDebug() << "File" << file.fileName() << "doesn't exists";
 		return allNames;
+
 	} else {
+
 		QTextStream stream(&file);
+
 		if (!doc.setContent(stream.readAll())) {
 			qDebug("can not set content ");
 			file.close();
 			return allNames;
+
 		} else {
+
 			root = doc.documentElement();
 			office = root.firstChild().toElement();
 			company = root.lastChild().toElement();
 		}
-		QString text;
+
+        QString text = QString();
 
 		for (QDomNode n = company.firstChild(); !n.isNull(); n
 				= n.nextSibling()) {
@@ -429,7 +463,7 @@ QVector<ProductData> XmlDataLayer::productsSelectAllData() {
 
 	if (!file.open(QIODevice::ReadOnly)) {
 
-		qDebug() << "File" << file.fileName() << "doesn't exists";
+        qDebug() << "File " << file.fileName() << " doesn't exists";
 		return prodVec;
 
 	} else {
@@ -537,7 +571,7 @@ bool XmlDataLayer::productsInsertData(ProductData& prodData, int type) {
 
 	if (!file.open(QIODevice::ReadOnly)) {
 
-        qDebug() << "New products file have created";
+        qDebug() << "New products file have been created";
 
 		root = doc.createElement(sett().getProdutcsDocName());
 		int lastId = root.attribute("last", "0").toInt();
