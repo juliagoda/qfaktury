@@ -38,9 +38,9 @@ QString appPath = "/usr/share/qfaktury";
 QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 #endif
 
-QString getAppDirs() {
-    return appPath + "/";
-}
+    QString getAppDirs() {
+        return appPath + "/";
+    }
 
 	// get date from settings as QDate
 	QDate getValueAsDate(QString val) {
@@ -62,10 +62,12 @@ QString getAppDirs() {
 
 	// returns a translator
 	QTranslator* getTranslation() {
+
 	    translator = new QTranslator();
 	    QString lang = value("lang", "pl").toString();
 	    // The easiest way
 	    // On windows and during testing files have to be in executable dir
+
         if (!translator->load(QString("qfaktury_") + lang)) translator->load(QString("qfaktury_") + lang, appPath + "/translations");
         qDebug() << "Translations files are in: " << appPath + "/translations";
 		return translator;
@@ -76,6 +78,7 @@ QString getAppDirs() {
 	 */
 
 	void checkSettings() {
+
 		if (value("browser_name").toString().compare("") == 0)
 			setValue("browser_name", "");
 		if (value("default_browser").toString().compare("") == 0)
@@ -84,6 +87,8 @@ QString getAppDirs() {
 			setValue("lang", tr("pl"));
         if (value("style").toString().compare("") == 0)
             setValue("style", QStyleFactory::keys().at(0));
+        if (value("css").toString().compare("") == 0)
+            setValue("css", "black.css");
 		if (value("localEnc").toString().compare("") == 0)
 			setValue("localEnc", tr("UTF-8"));
 
@@ -374,11 +379,13 @@ QString getAppDirs() {
 	 */
 
 	void resetSettings() {
+
 		beginGroup("General");
 		setValue("browser_name", "");
 		setValue("default_browser", "true");
 		setValue("lang", tr("pl"));
-        setValue("style", "");
+        setValue("style", QStyleFactory::keys().at(0));
+        setValue("css", "black.css");
         setValue("currencies", tr("PLN"));
 		endGroup();
 
@@ -545,28 +552,30 @@ QString getAppDirs() {
 
     QString getStyle() {
 
-        QString style = value("style", "").toString();
-        if (style.compare("") == 0) {
-            style = QStyleFactory::keys().at(0);
-        }
+        QString style = value("style").toString();
+       // if (style.compare("") == 0) {
+       //     style = QStyleFactory::keys().at(0);
+       // }
 
-        // qDebug() << ret;
+        qDebug() << "Get STYLE: " << style;
         return style;
     }
+
 
 	// returns templates directory
 	QString getTemplate() {
 
 
-        QString style = value("css", "black.css").toString();
-		if (style.compare("") == 0) {
-            style = "black.css";
-		}
+        QString style = value("css").toString();
+        //if (style.compare("") == 0) {
+        //    style = "black.css";
+        //}
 
 
         QString ret = appPath + "/templates/" + style;
 
 		QFile f;
+
 		f.setFileName(ret);
 		if (!f.exists()) {
             ret = appPath + "/templates/" + style;
@@ -577,13 +586,14 @@ QString getAppDirs() {
             ret = appPath + "/templates/black.css";
 		}
 
-		// qDebug() << ret;
+        qDebug() << "Get TEMPLATE: " << style;
 		return ret;
 	}
 
 
 	// return invoices dir
 	QString getDataDir() {
+
 		// Changed name of the folder to avoid overwriting the files.
 		// This may require conversion script.
         return QString("/invoices");
@@ -593,8 +603,6 @@ QString getAppDirs() {
 	QString getInvoicesDir() {
         return QString(getWorkingDir() + getDataDir() + "/");
 	}
-
-
 
 	// return customers xml
 	QString getCustomersXml() {

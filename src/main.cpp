@@ -25,8 +25,7 @@ int main(int argc, char **argv) {
 	QRect screen = QApplication::desktop()->screenGeometry();
 
     // sets start window during application load
-	QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
-    qDebug() << QStyleFactory::keys();
+    QSplashScreen splash(QPixmap(":/res/icons/splash.png"));\
 
     // creates instance of main window and move it in according to the screen geometry
 	MainWindow w(0);
@@ -65,7 +64,6 @@ int main(int argc, char **argv) {
 	a.setApplicationName("QFaktury");
     a.setOrganizationName("https://github.com/juliagoda/qfaktury");
     a.setStyle(sett().getStyle());
-
 
 	return a.exec();
 }

@@ -557,10 +557,13 @@ void Setting::readSettings() {
 
 	currlBox->clear();
     currlBox->addItems(sett().value("units").toString().split("|"));
+
 	vatlBox->clear();
     vatlBox->addItems(sett().value("rates").toString().split("|"));
+
 	currencylBox->clear();
     currencylBox->addItems(sett().value("currencies").toString().split("|"));
+
 	paymlBox->clear();
 	paymlBox->addItems(sett().value("payments").toString().split("|"));
 
@@ -577,7 +580,7 @@ void Setting::readSettings() {
 	cssList->setCurrentIndex(curr);
 
     curr = getStyles().indexOf(sett().value("style").toString());
-    cssList->setCurrentIndex(curr);
+    stylesList->setCurrentIndex(curr);
 
     sett().beginGroup("invoices_positions");
 	cb1->setChecked(sett().value("Lp").toBool());
