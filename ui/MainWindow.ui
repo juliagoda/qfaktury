@@ -460,6 +460,7 @@
     <addaction name="addBuyersAction"/>
     <addaction name="delBuyersAction"/>
     <addaction name="editBuyersAction"/>
+    <addaction name="actionPrintBuyer"/>
    </widget>
    <widget class="QMenu" name="goodsAct">
     <property name="cursor">
@@ -1033,6 +1034,11 @@
   <action name="action_Qt">
    <property name="text">
     <string>O &amp;Qt</string>
+   </property>
+  </action>
+  <action name="actionPrintBuyer">
+   <property name="text">
+    <string>Drukuj</string>
    </property>
   </action>
  </widget>

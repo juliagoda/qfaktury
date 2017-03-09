@@ -11,6 +11,7 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QTimer>
+#include <QPrintPreviewDialog>
 
 #include "Setting.h"
 #include "User.h"
@@ -211,6 +212,7 @@ void MainWindow::init() {
     connect(ui->invoiceCorrAction, SIGNAL(triggered()), this, SLOT(newCor()));
     connect(ui->invoiceProFormaAction, SIGNAL(triggered()), this, SLOT(newPForm()));
     connect(ui->addGoodsAction, SIGNAL(triggered()), this, SLOT(goodsAdd()));
+    connect(ui->actionPrintBuyer, SIGNAL(triggered()), this, SLOT(printBuyerList()));
     connect(ui->editGoodsAction, SIGNAL(triggered()), this, SLOT(goodsEdit()));
     connect(ui->delGoodsAction, SIGNAL(triggered()), this, SLOT(goodsDel()));
     connect(ui->pomocO_QtAction, SIGNAL(triggered()), this, SLOT(aboutQt()));
@@ -1082,6 +1084,113 @@ void MainWindow::buyerEd() {
     delete buyersWindow;
     buyersWindow = NULL;
 
+}
+
+
+void MainWindow::printBuyerList() {
+
+
+    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
+   QPrinter printer(QPrinter::HighResolution);
+   QPrintPreviewDialog preview(&printer, this);
+   preview.setWindowFlags(Qt::Window);
+   preview.setWindowTitle(trUtf8("Lista kontrahentów"));
+
+   connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(printList(QPrinter *)));
+   if (preview.exec() == 1) {
+   }
+
+}
+
+
+/** Slot print
+ *  Helper slot used to display print preview
+ */
+
+
+void MainWindow::printList(QPrinter *printer) {
+
+    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
+   if (ui->tableK->rowCount() != 0) {
+
+
+   QTextDocument doc(trUtf8("Lista kontrahentów"));
+   QString s = QString();
+   QStringList list = QStringList();
+   list << "<!doctype html>" << "<head>" << "<meta charset=\"utf-8\" />" << "</head>" << "<body>";
+
+
+   QVector<BuyerData> buyerVec = dl->buyersSelectAllData();
+
+   for (int i = 0; i < buyerVec.size(); ++i) {
+
+       QString text = buyerVec.at(i).name;
+       list << "<strong>" + trUtf8("Nazwa:  ") + "</strong>" + changeIfEmpty(text);
+       list << "<br/>";
+       text = buyerVec.at(i).type;
+       list << "<strong>" + trUtf8("Rodzaj:  ") + "</strong>" + changeIfEmpty(text);
+       list << "<br/>";
+       text = buyerVec.at(i).place;
+       list << "<strong>" + trUtf8("Miejscowość:  ") + "</strong>" + changeIfEmpty(text);
+       list << "<br/>";
+       text = buyerVec.at(i).address;
+       list << "<strong>" + trUtf8("Adres:  ") + "</strong>" + changeIfEmpty(text);
+       list << "<br/>";
+       text = buyerVec.at(i).phone;
+       list << "<strong>" + trUtf8("Tel:  ") + "</strong>" + changeIfEmpty(text);
+       list << "<br/>";
+       text = buyerVec.at(i).account;
+       list << "<strong>" + trUtf8("Nr konta:  ") + "</strong>" + changeIfEmpty(text);
+       list << "<br/>";
+       text = buyerVec.at(i).email;
+       list << "<strong>" + trUtf8("Email:  ") + "</strong>" + changeIfEmpty(text);
+       list << "<br/>";
+       text = buyerVec.at(i).www;
+       list << "<strong>" + trUtf8("Strona:  ") + "</strong>" + changeIfEmpty(text);
+       list << "<p> --------------------------------------------- </p>";
+       list << "<br />";
+
+   }
+
+   QFile file(sett().getWorkingDir() + "/buyerContacts.html");
+
+   if (file.exists()) file.remove();
+
+   if (file.open(QIODevice::WriteOnly)) {
+
+       QTextStream stream(&file);
+       for (QStringList::Iterator it = list.begin(); it
+               != list.end(); ++it)
+           stream << *it << "\n";
+
+       file.close();
+   }
+
+
+   doc.setHtml(list.join(" "));
+   doc.print(printer);
+
+    } else {
+
+       if (QMessageBox::warning(this, trUtf8("Brak kontrahentów"), trUtf8("Aby móc wydrukować listę kontaktów, musisz mieć wprowadzonego co najmniej jednego kontrahenta do tabeli. Czy chcesz dodać teraz dane twojego kontrahenta?"), trUtf8("Tak"), trUtf8("Nie"), 0, 0,
+               1) == 0) {
+           buyerClick();
+       }
+
+   }
+
+}
+
+
+QString MainWindow::changeIfEmpty(QString text)
+{
+    QString result = QString();
+
+    if (text.isEmpty()) { result = "-"; } else { result = text; }
+
+    return  result;
 }
 
 /** Slot used for creating new invoices

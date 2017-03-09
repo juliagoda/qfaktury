@@ -59,6 +59,9 @@ public slots:
 	void pluginInfoSlot();
 	void keyPressEvent(QKeyEvent * event);
     void openWebTableK(int,int);
+    void printBuyerList();
+    void printList(QPrinter *);
+    QString changeIfEmpty(QString);
 
 private:
 
