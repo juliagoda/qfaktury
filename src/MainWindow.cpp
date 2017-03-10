@@ -235,6 +235,7 @@ void MainWindow::init() {
     readBuyer();
 	readHist();
     readGoods();
+    categorizeYears();
 	loadPlugins();
 
 }
@@ -303,6 +304,15 @@ bool MainWindow::firstRun() {
 		sett().checkSettings();
 		return ok;
 	}
+}
+
+/**
+ * categorizing files according to the years and putting them to separated folders
+ */
+
+void MainWindow::categorizeYears() {
+
+    if (dl->ifThereOldInvoice()) dl->separateOldInvoices();
 }
 
 

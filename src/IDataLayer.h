@@ -45,6 +45,9 @@ public:
 	virtual bool invoiceUpdateData(InvoiceData&, int, QString) { return true; };
 	virtual bool invoiceDeleteData(QString) { return true; };
 
+    virtual bool ifThereOldInvoice() { return true; };
+    virtual void separateOldInvoices() {};
+
 };
 
 #endif /* IDATALAYER_H_ */

@@ -1333,6 +1333,120 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 	return true;
 }
 
+
+bool XmlDataLayer::ifThereOldInvoice() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+    QDir allFiles;
+    bool oldInvoice = false;
+
+    QDomDocument doc(sett().getInoiveDocName());
+    QDomElement root;
+
+    allFiles.setPath(sett().getInvoicesDir());
+    allFiles.setFilter(QDir::Files);
+    QStringList filters;
+    filters << "h*.xml" << "k*.xml";
+
+    allFiles.setNameFilters(filters);
+    QStringList files = allFiles.entryList();
+    qDebug("pliki: ");
+    qDebug() << files;
+    int i, max = files.count();
+    for (i = 0; i < max; ++i) {
+
+        QFile file(sett().getInvoicesDir() + files[i]);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+
+            qDebug() << "File" << file.fileName() << "doesn't exists";
+            continue;
+
+        } else {
+
+            QTextStream stream(&file);
+
+            if (!doc.setContent(stream.readAll())) {
+
+                qDebug ("can not set content ");
+                file.close();
+                // return o_invDataVec;
+                continue;
+            }
+        }
+
+        root = doc.documentElement();
+        QString tmp = root.attribute("sellingDate");
+        QStringList dateFacts = tmp.split("/");
+
+        QString year = dateFacts.at(2);
+        QString month = dateFacts.at(1);
+        QString day = dateFacts.at(0);
+
+        QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
+
+        if (tmpDate.year() != QDate::currentDate().year()) {
+
+            oldInvoice = true;
+            yearsList.append(year);
+            categorizedFiles.insert(year, files[i]);
+            qDebug() << "categorizedFiles.insert( " + year + "," + " " + files[i] + ")";
+            qDebug() << "categorizedFiles count: " << categorizedFiles.count();
+            qDebug() << "categorizedFiles size: " << categorizedFiles.size();
+        }
+
+    }
+
+    qDebug() << "categorizedFiles count first: " << categorizedFiles.count();
+
+    return oldInvoice;
+}
+
+
+void XmlDataLayer::separateOldInvoices() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+    yearsList.removeDuplicates();
+
+    qDebug() << "categorizedFiles count second: " << categorizedFiles.count();
+
+
+    QStringList::const_iterator constIterator;
+
+        for (constIterator = yearsList.constBegin(); constIterator != yearsList.constEnd(); ++constIterator) {
+
+            qDebug() << "OLDER YEARS: " << (*constIterator).toLocal8Bit().constData();
+
+            QDir dir(sett().getWorkingDir() + sett().getDataDir() + "/" + (*constIterator).toLocal8Bit().constData());
+
+            if (!dir.exists()) {
+
+                dir.mkdir(sett().getWorkingDir() + sett().getDataDir() + "/" + (*constIterator).toLocal8Bit().constData());
+
+            }
+
+
+
+            QHash<QString, QString>::const_iterator i = categorizedFiles.constBegin();
+            while (i != categorizedFiles.constEnd()) {
+                if (i.key() == (*constIterator).toLocal8Bit().constData()) {
+
+                qDebug() << sett().getInvoicesDir() + i.value();
+                qDebug() << sett().getInvoicesDir() + i.key() + "/" + i.value();
+                QFile::copy(sett().getInvoicesDir() + i.value(), sett().getInvoicesDir() + i.key() + "/" + i.value());
+                QFile::remove(sett().getInvoicesDir() + i.value());
+
+
+                }
+
+                i++;
+            }
+        }
+}
+
+
 bool XmlDataLayer::invoiceUpdateData(InvoiceData&, int, QString) {
 
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;

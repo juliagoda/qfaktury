@@ -84,6 +84,7 @@ private:
 	void readHist();
     void readBuyer();
     void readGoods();
+    void categorizeYears();
 
 
 protected:

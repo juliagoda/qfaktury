@@ -41,6 +41,8 @@ public:
     virtual QString const getRet() const;
     virtual void checkAllSymbInFiles();
     virtual QList<int> const getAllSymbols();
+    virtual bool ifThereOldInvoice();
+    virtual void separateOldInvoices();
 
 	virtual void saveInvoiceData() {};
 	virtual void readInvoiceData() {};
@@ -65,6 +67,8 @@ private:
 
     QString ret;
     QList<int> allSymbols;
+    QStringList yearsList;
+    QMultiHash<QString, QString> categorizedFiles;
 
 };
 
