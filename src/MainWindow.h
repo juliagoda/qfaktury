@@ -9,6 +9,7 @@
 
 #include "IDataLayer.h"
 #include "Invoice.h"
+#include "owncalendar.h"
 
 
 class MainWindow: public QMainWindow {
@@ -47,6 +48,8 @@ public slots:
     void newInvBill();
 	bool close();
     void help();
+    void openHideOrganizer();
+    void noteDownTask(const QDate&);
 	void reportBug();
     void goodsAdd();
     void goodsDel();
@@ -62,6 +65,10 @@ public slots:
     void printBuyerList();
     void printList(QPrinter *);
     QString changeIfEmpty(QString);
+    void cancelTaskWidget();
+    void addTaskToList();
+    void addNextTask();
+    void delTasksFromDay();
 
 private:
 
@@ -73,6 +80,11 @@ private:
 	QMap<int, QString> customActions;
     QTimer *timer;
     QList<int> allSymbols;
+    QWidget* windowTask;
+    QPushButton * cancelTaskBtn;
+    QPushButton * addTaskBtn;
+    QDate markedDate;
+    ownCalendarWidget* calendar;
     static MainWindow * m_instance;
 	void saveColumnWidth();
 	bool applyFiltr(QString);
@@ -85,6 +97,7 @@ private:
     void readBuyer();
     void readGoods();
     void categorizeYears();
+    void checkTodayTask(QString whatToDo = QString("append"));
 
 
 protected:

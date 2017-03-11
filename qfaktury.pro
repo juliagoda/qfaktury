@@ -14,7 +14,8 @@ QT_MINOR_VERSION = 5.0.0
 
 
 # Input
-HEADERS += $$files($$PWD/src/*.h)
+HEADERS += $$files($$PWD/src/*.h) \
+    src/owncalendar.h
 
 FORMS += $$files($$PWD/ui/*.ui)
 
