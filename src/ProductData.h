@@ -42,6 +42,7 @@ public:
 
 	ProductData(int inId, QString inName, QString inCode, QString inPkwiu, double inQuantity, QString inQuanType,
 			double inDiscount, double inPrice, double inNett, int inVat, double inGross, QString inCurr) {
+
 		id = inId;
 		name = inName;
 		code = inCode;
@@ -177,22 +178,22 @@ public:
 	}
 
 	int id;
+    int vat;
+    int lastProdId;
 	QString name;
 	QString code;
-	QString pkwiu;
-	double quantity;
+    QString pkwiu;
 	QString quanType;
+    QString curr;
+    QString desc;
+    QString type;
+    double quantity;
 	double discount;
 	double price;
 	double nett;
-	int vat;
 	double gross;
-	QString curr;
-
-	QString desc;
 	QMap<int, double> prices;
-	int lastProdId;
-	QString type;
+
 };
 
 

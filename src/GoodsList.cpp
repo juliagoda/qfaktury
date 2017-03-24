@@ -59,22 +59,22 @@ GoodsList* GoodsList::instance()
     return m_instance;
 }
 
-QString const GoodsList::getGoodsId() const
+const QString GoodsList::getGoodsId()
 {
     return id;
 }
 
-QString const GoodsList::getSelItem() const
+const QString GoodsList::getSelItem()
 {
     return selectedItem;
 }
 
-QMap<QString, int> const GoodsList::getVatsVal() const
+const QMap<QString, int> GoodsList::getVatsVal()
 {
     return vats;
 }
 
-QString const GoodsList::getRetVal() const
+const QString GoodsList::getRetVal()
 {
     return ret;
 }
@@ -107,33 +107,40 @@ void GoodsList::doAccept() {
 		return;
 	}
 
-	selectedItem = nameEdit->text();
+    selectedItem = nameEdit->text();
 
-	if (selectedItem != "") {
-		if (comboBox1->currentIndex() == 0) {
-            ret = selectedItem + "|" + goodsList2[id]->getCode() + "|"
-                    + goodsList2[id]->getPkwiu() + "|"
-					+ trimZeros(countSpinBox->cleanText()) + "|"
-                    + goodsList2[id]->getQuantityType() + "|"
-					+ discountSpin->cleanText() + "|"
-					+ sett().numberToString(priceBoxEdit->value()) + "|"
-                    + netLabel->text() + "|" + sett().numberToString(goodsList2[id]->getVat()) + "|"
-                    + grossLabel->text();
+    QVector<QHash<QString, ProductData *>> listProducts;
+    listProducts.append(goodsList2);
+    listProducts.append(servicesList2);
 
-		}
-		if (comboBox1->currentIndex() == 1) {
-            ret = selectedItem + "|" + servicesList2[id]->getCode() + "|"
-                    + servicesList2[id]->getPkwiu() + "|"
-					+ trimZeros(countSpinBox->cleanText()) + "|"
-                    + servicesList2[id]->getQuantityType() + "|"
-					+ discountSpin->cleanText() + "|"
-					+ sett().numberToString(priceBoxEdit->value()) + "|"
-                    + netLabel->text() + "|" + sett().numberToString(servicesList2[id]->getVat()) + "|"
-                    + grossLabel->text();
+    qDebug() << "listProducts[0]" << listProducts[0];
+    qDebug() << "listProducts[1]" << listProducts[1];
 
-		}
+
+    if (selectedItem != "") {
+
+        for (int i = 0; i < 2; i++) {
+
+            if (comboBox1->currentIndex() == i) {
+
+                QStringList listRest = QStringList() << selectedItem << listProducts[i][id]->getCode() << listProducts[i][id]->getPkwiu() <<
+                                                        trimZeros(countSpinBox->cleanText()) << listProducts[i][id]->getQuantityType() <<
+                                                        discountSpin->cleanText() << sett().numberToString(priceBoxEdit->value()) <<
+                                                        netLabel->text() << sett().numberToString(listProducts[i][id]->getVat()) <<
+                                                        grossLabel->text();
+
+                for (int j = 0; j < listRest.count(); j++) {
+
+                    ret += listRest[j] + "|";
+
+                }
+            }
+        }
+
 		accept();
-	} else {
+
+    } else {
+
 		QMessageBox::information(this, "QFaktury", trUtf8("Wskaż towar"),
 				QMessageBox::Ok);
 	}
@@ -142,7 +149,9 @@ void GoodsList::doAccept() {
 /** Slot
  *  ComboBox changed reload the list.
  */
+
 void GoodsList::comboBox1Changed(int x) {
+
 	// qDebug (__FUNCTION__);
 	displayData(x);
 }
@@ -150,9 +159,11 @@ void GoodsList::comboBox1Changed(int x) {
 /** Slot
  *  Reload data in ListView
  */
+
 void GoodsList::lv1selChanged() {
 
     if (listWidget->selectedItems().size() == 1) {
+
         QListWidgetItem *item = listWidget->selectedItems().at(0);
 		nameEdit->setText(item->text());
         displayNet(item->text());
@@ -176,6 +187,7 @@ void GoodsList::calcNet() {
         double net2 = price - discount;
 		int vat = vats[item->text()];
         double gross2 = net2 * ((vat * 0.01) + 1);
+
         // qDebug() << price << discount << net2 << gross2 << vat;
         grossLabel->setText(sett().numberToString(gross2, 'f', 2));
         netLabel->setText(sett().numberToString(net2, 'f', 2));

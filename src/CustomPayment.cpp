@@ -76,18 +76,21 @@ bool CustomPayment::validateForm() {
 
 void CustomPayment::amount1Changed(double ) {
 
-	// qDebug() << __FUNCTION__;
+    qDebug() << __FUNCTION__;
 	disconnect( amount2, SIGNAL(valueChanged(double)), this, SLOT(amount2Changed(double)));
 	amount2->setValue( invoiceAmount -  amount1->value());
 	connect( amount2, SIGNAL(valueChanged(double)), this, SLOT(amount2Changed(double)));
 }
 
+
 void CustomPayment::amount2Changed(double ) {
-	// qDebug() << __FUNCTION__;
+
+    qDebug() << __FUNCTION__;
 	disconnect( amount1, SIGNAL(valueChanged(double)), this, SLOT(amount1Changed(double)));
 	amount1->setValue( invoiceAmount -  amount2->value());
 	connect( amount1, SIGNAL(valueChanged(double)), this, SLOT(amount1Changed(double)));
 }
+
 
 void CustomPayment::okClicked() {
 

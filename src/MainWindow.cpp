@@ -95,28 +95,28 @@ void MainWindow::init() {
         ui->tableT->setColumnWidth(9, 55); // netto4
         ui->tableT->setColumnWidth(10, 55);
 
-        setupDir();
 		saveAllSettAsDefault();
 
         QMessageBox::information(this, "QFaktury", trUtf8("Program zawiera konwersję walut w oknie edycji faktury lub podczas jej tworzenia. By jej używać, powinieneś mieć dostęp do internetu oraz poprawnie ustawiony czas systemowy."));
         QMessageBox::information(this, "QFaktury", trUtf8("W przypadku zmiany lokalizacji systemu sposób formatowania liczb może się zmienić. Efekt ten może być widoczny po restarcie programu."));
 
 
-        if (QMessageBox::warning(this, "QFaktury", trUtf8("Czy chcesz skonfigurować firmę? Opcja ta przy starcie programu będzie widoczna tylko przy pierwszym uruchomieniu."), trUtf8("Tak"), trUtf8("Nie"), 0, 0,
+        if (QMessageBox::information(this, "QFaktury", trUtf8("Czy chcesz skonfigurować firmę? Opcja ta przy starcie programu będzie widoczna tylko przy pierwszym uruchomieniu."), trUtf8("Tak"), trUtf8("Nie"), 0, 0,
 				1) == 0) {
             userDataClick();
 		}
 
-	} else {
-
-
-		setupDir();
+	} else {		
 
         ui->filtrStart->setDisplayFormat(sett().getDateFormat());
         ui->filtrStart->setDate(sett().getValueAsDate("filtrStart"));
         ui->filtrEnd->setDisplayFormat(sett().getDateFormat());
         ui->filtrEnd->setDate(sett().getValueAsDate("filtrEnd"));
 	}
+
+    setupDir();
+
+    if (!ifEmergTemplateExists()) createEmergTemplate();
 
     if (ui->tableH->rowCount() != 0) {
 
@@ -249,6 +249,45 @@ void MainWindow::init() {
 
 }
 
+
+bool MainWindow::ifEmergTemplateExists() {
+
+    QFileInfo fileInfo(sett().getEmergTemplate());
+
+    if (fileInfo.exists() && fileInfo.isFile())
+        return true;
+     else
+        return false;
+
+}
+
+
+void MainWindow::createEmergTemplate() {
+
+    QDir mainPath(QDir::homePath() + "/.local/share/data/elinux/template");
+
+    if (!mainPath.exists()) {
+
+        mainPath.mkpath(QDir::homePath() + "/.local/share/data/elinux/template");
+    }
+
+    QFile file(sett().getEmergTemplate());
+
+    if (file.open(QIODevice::WriteOnly)) {
+
+    QTextStream stream(&file);
+
+    QStringList::const_iterator constIterator;
+        for (constIterator = blackEmergTemplate.constBegin(); constIterator != blackEmergTemplate.constEnd();
+               ++constIterator)
+            stream << (*constIterator).toLocal8Bit().constData() << endl;
+
+
+    file.close();
+
+    }
+}
+
 /**
  *  Loads PyQt plugins
  */
@@ -260,30 +299,40 @@ void MainWindow::loadPlugins() {
     path = sett().getAppDirs() + "plugins/";
 	allFiles.setPath(path);
 	allFiles.setFilter(QDir::Files);
-	QStringList filters;
-	filters << "*.py" << "*.Py" << "*.PY" << "*.pY";
+    QStringList filters = QStringList() << "*.py" << "*.Py" << "*.PY" << "*.pY";
 	allFiles.setNameFilters(filters);
 	QStringList files = allFiles.entryList();
-	int i, max = files.count();
 
-	for (i = 0; i < max; ++i) {
 
-        QFile script(path + allFiles[i]);
+    if (!files.isEmpty()) {
 
-        if (!script.open(QIODevice::ReadOnly)) {
-			// return;
-		} else {
+        int i = 0;
+
+        QStringList::const_iterator constIterator;
+
+        for (constIterator = files.constBegin(); constIterator != files.constEnd();
+               ++constIterator) {
+
+            QFile script(path + QString((*constIterator).toLocal8Bit().constData()));
+
+            if (!script.open(QIODevice::ReadOnly)) {
+
+                QFile(script.fileName()).setPermissions(QFileDevice::ReadOwner);
+
+            }
 
             QTextStream t(&script);
             t.readLine();
-			QAction *action = new QAction(t.readLine ().remove ("# "), this);
+            QAction *action = new QAction(t.readLine ().remove ("# "), this);
             plugActions.append(action);
-			action->setData(QVariant(i));
-			connect(action, SIGNAL(triggered()), this, SLOT (pluginSlot()));
+            action->setData(QVariant(i));
+            connect(action, SIGNAL(triggered()), this, SLOT (pluginSlot()));
             ui->menuPlugins->addAction(action);
-			customActions[i] = path + allFiles[i];
-		}
-	}
+            customActions[i] = path + QString((*constIterator).toLocal8Bit().constData());
+
+            ++i;
+        }
+    }
 
     ui->menuPlugins->addSeparator();
     ui->menuPlugins->addAction(trUtf8("Informacje"), this, SLOT (pluginInfoSlot()));
@@ -297,22 +346,12 @@ bool MainWindow::firstRun() {
 
 	bool ok = sett().value("firstrun", true).toBool();
 
-	// qDebug() << "firstRun" << ok;
-	if (ok) {
+    ui->filtrStart->setDate(QDate(QDate::currentDate().year(),1,1));
+    ui->filtrEnd->setDate(QDate(QDate::currentDate().year(),12,31));
 
-		sett().checkSettings();
-        // sets dates for filter
-        ui->filtrStart->setDate(QDate(QDate::currentDate().year(),1,1));
-        ui->filtrEnd->setDate(QDate(QDate::currentDate().year(),12,31));
-		return ok;
+    sett().checkSettings();
 
-	} else {
-
-        ui->filtrStart->setDate(QDate(QDate::currentDate().year(),1,1));
-        ui->filtrEnd->setDate(QDate(QDate::currentDate().year(),12,31));
-		sett().checkSettings();
-		return ok;
-	}
+    return ok;
 }
 
 /**
@@ -352,7 +391,14 @@ void MainWindow::checkTodayTask(QString whatToDo) {
         if (filename.exists()) {
 
             if(!filename.open(QIODevice::ReadOnly  | QIODevice::Text)) {
-                QMessageBox::information(0, "error", filename.errorString());
+
+                QFileInfo check_file(filename.fileName());
+
+                    if (check_file.exists() && check_file.isFile()) {
+
+                        QFile(filename.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+                    }
             }
 
 
@@ -364,13 +410,7 @@ void MainWindow::checkTodayTask(QString whatToDo) {
                     ui->todayExercise->append ("<br>");
                 }
 
-                ui->todayExercise->append (line);
-
-                QTextCursor cursor = ui->todayExercise->textCursor();
-                QTextBlockFormat textBlockFormat = cursor.blockFormat();
-                textBlockFormat.setAlignment(Qt::AlignHCenter);
-                cursor.mergeBlockFormat(textBlockFormat);
-                ui->todayExercise->setTextCursor(cursor);
+                calendarNoteJustify(line);
 
             }
 
@@ -387,25 +427,13 @@ void MainWindow::checkTodayTask(QString whatToDo) {
 
         } else {
 
-            ui->todayExercise->append(trUtf8("Dziś nie masz nic do zrobienia"));
-
-            QTextCursor cursor = ui->todayExercise->textCursor();
-            QTextBlockFormat textBlockFormat = cursor.blockFormat();
-            textBlockFormat.setAlignment(Qt::AlignHCenter);
-            cursor.mergeBlockFormat(textBlockFormat);
-            ui->todayExercise->setTextCursor(cursor);
+           calendarNoteJustify(trUtf8("Dziś nie masz nic do zrobienia"));
 
         }
 
     } else {
 
-        ui->todayExercise->append(trUtf8("Dziś nie masz nic do zrobienia"));
-
-        QTextCursor cursor = ui->todayExercise->textCursor();
-        QTextBlockFormat textBlockFormat = cursor.blockFormat();
-        textBlockFormat.setAlignment(Qt::AlignHCenter);
-        cursor.mergeBlockFormat(textBlockFormat);
-        ui->todayExercise->setTextCursor(cursor);
+        calendarNoteJustify(trUtf8("Dziś nie masz nic do zrobienia"));
     }
 }
 
@@ -1125,8 +1153,8 @@ void MainWindow::buyerClick() {
         ui->tableK->item(ui->tableK->rowCount() - 1, 2)->setText(row[2]); // place
         ui->tableK->item(ui->tableK->rowCount() - 1, 3)->setText(row[3]); // address
         ui->tableK->item(ui->tableK->rowCount() - 1, 4)->setText(row[4]); // telefon
-        ui->tableK->item(ui->tableK->rowCount() - 1, 5)->setText(row[9]); // email
-        ui->tableK->item(ui->tableK->rowCount() - 1, 6)->setText(row.last()); // www*/
+        ui->tableK->item(ui->tableK->rowCount() - 1, 5)->setText(row[8]); // email
+        ui->tableK->item(ui->tableK->rowCount() - 1, 6)->setText(row[9]); // www*/
         ui->tableK->setSortingEnabled(true);
 
 
@@ -1181,7 +1209,8 @@ void MainWindow::buyerEd() {
         ui->tableK->item(row, 2)->setText(rowTxt[2]); // place
         ui->tableK->item(row, 3)->setText(rowTxt[3]); // address
         ui->tableK->item(row, 4)->setText(rowTxt[4]); // telefon
-        ui->tableK->item(row, 5)->setText(rowTxt.last()); // www
+        ui->tableK->item(row, 5)->setText(rowTxt[8]); // email
+        ui->tableK->item(row, 6)->setText(rowTxt[9]); // www
         ui->tableK->setSortingEnabled(true);
     }
 
@@ -1203,6 +1232,9 @@ void MainWindow::printBuyerList() {
 
    connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(printList(QPrinter *)));
    if (preview.exec() == 1) {
+
+       QMessageBox::warning(this,trUtf8("Drukowanie"),trUtf8("Prawdopobnie nie masz skonfigurowanej drukarki. Wykrywana nazwa domyślnej drukarki to: ") + printer.printerName() +
+                            trUtf8(". Status domyślnej drukarki (poprawny o ile drukarka ma możliwość raportowania statusu do systemu): ") + printer.printerState());
    }
 
 }
@@ -1221,12 +1253,12 @@ void MainWindow::printList(QPrinter *printer) {
 
 
    QTextDocument doc(trUtf8("Lista kontrahentów"));
-   QString s = QString();
    QStringList list = QStringList();
    list << "<!doctype html>" << "<head>" << "<meta charset=\"utf-8\" />" << "</head>" << "<body>";
 
 
    QVector<BuyerData> buyerVec = dl->buyersSelectAllData();
+
 
    for (int i = 0; i < buyerVec.size(); ++i) {
 
@@ -1260,21 +1292,34 @@ void MainWindow::printList(QPrinter *printer) {
 
    QFile file(sett().getWorkingDir() + "/buyerContacts.html");
 
-   if (file.exists()) file.remove();
+   bool removed = false;
 
-   if (file.open(QIODevice::WriteOnly)) {
+   if (file.exists()) removed = file.remove();
 
-       QTextStream stream(&file);
-       for (QStringList::Iterator it = list.begin(); it
-               != list.end(); ++it)
-           stream << *it << "\n";
+   if (!removed) {
 
-       file.close();
+       QFile(file.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+       file.remove();
+   }
+
+   if (!file.open(QIODevice::WriteOnly)) {
+
+       QFile(file.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
    }
 
 
-   doc.setHtml(list.join(" "));
-   doc.print(printer);
+        QTextStream stream(&file);
+
+            for (QStringList::Iterator it = list.begin(); it
+                != list.end(); ++it)
+                stream << *it << "\n";
+
+        file.close();
+
+
+        doc.setHtml(list.join(" "));
+        doc.print(printer);
 
     } else {
 
@@ -1282,9 +1327,7 @@ void MainWindow::printList(QPrinter *printer) {
                1) == 0) {
            buyerClick();
        }
-
    }
-
 }
 
 
@@ -1684,10 +1727,15 @@ void MainWindow::noteDownTask(const QDate& taskDate) {
 
     QTextEdit* taskDescription = new QTextEdit;
 
-    if (filename.exists()) {
+    QFileInfo check_file(filename.fileName());
+
+
+
+    if (check_file.exists() && check_file.isFile()) {
 
         if(!filename.open(QIODevice::ReadOnly  | QIODevice::Text)) {
-            QMessageBox::information(0, "error", filename.errorString());
+
+            QFile(filename.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
         }
 
         QTextStream in(&filename);
@@ -1729,8 +1777,9 @@ void MainWindow::cancelTaskWidget() {
 
     windowTask->hide();
 
-    foreach (QWidget * w, windowTask->findChildren<QWidget*>())
+    foreach (QWidget * w, windowTask->findChildren<QWidget*>()) {
       if (! w->windowFlags() & Qt::Window) delete w;
+    }
 
     if (windowTask != 0) windowTask = 0;
     delete windowTask;
@@ -1749,16 +1798,28 @@ void MainWindow::delTasksFromDay() {
         QMessageBox::information(this, trUtf8("Usuwanie zadań"), trUtf8("Zadania z wybranego dnia zostały pomyślnie usunięte"),
                 QMessageBox::Ok);
 
-        cancelTaskWidget();
-
-        checkTodayTask("remove");
-
 
     } else {
 
-        QMessageBox::critical(this, trUtf8("Usuwanie zadań"), trUtf8("Zadania z wybranego dnia nie mogły zostać pomyślnie usunięte. Zrestartuj program, by wyeliminować ewentualny brak aktualnych danych o plikach."),
+        file.setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther);
+        removed = file.remove();
+
+        if (removed) {
+
+            QMessageBox::information(this, trUtf8("Usuwanie zadań"), trUtf8("Zadania z wybranego dnia zostały pomyślnie usunięte"),
+                    QMessageBox::Ok);
+
+        } else {
+
+            QMessageBox::critical(this, trUtf8("Usuwanie zadań"), trUtf8("Zadania z wybranego dnia nie mogły zostać pomyślnie usunięte. Zrestartuj program, by wyeliminować ewentualny brak aktualnych danych o plikach."),
                 QMessageBox::Ok);
+
+        }
     }
+
+    cancelTaskWidget();
+
+    checkTodayTask("remove");
 }
 
 
@@ -1798,10 +1859,23 @@ void MainWindow::addTaskToList() {
 
         } else {
 
+            QFile(file.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
             QMessageBox::critical(this, trUtf8("Dodawanie zadania"), trUtf8("Zadanie nie mogło zostac dodane. Sprawdź, czy istnieje ścieżka: ") + planDir + trUtf8(" . Jeśli istnieje to sprawdź, czy masz uprawnienia do zapisu i odczytu w podanej ścieżce."),
                     QMessageBox::Ok);
 
         }
+    } else {
+
+        QFileInfo check_file(file.fileName());
+
+            if (check_file.exists() && check_file.isFile()) {
+
+                QFile(file.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+                addTaskToList();
+            }
+
     }
 }
 
@@ -1832,10 +1906,32 @@ void MainWindow::addNextTask() {
 
         } else {
 
-            QMessageBox::critical(this, trUtf8("Dopisywanie kolejnego zadania"), trUtf8("Dodatkowe zadanie nie mogło zostac dodane. Sprawdź, czy istnieje ścieżka: ") + planDir + trUtf8(" . Jeśli istnieje to sprawdź, czy masz uprawnienia do zapisu i odczytu w podanej ścieżce."),
-                    QMessageBox::Ok);
+            QFileInfo check_file(file.fileName());
 
+                if (check_file.exists() && check_file.isFile()) {
 
+                    QFile(file.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+                    QTextStream stream( &file );
+                    stream << "\n" << endl;
+                    stream << button->toPlainText() << endl;
+
+                    if (stream.status() == QTextStream::Ok) {
+
+                        QMessageBox::information(this, trUtf8("Dopisywanie kolejnego zadania"), trUtf8("Dodatkowe zadanie zostało pomyślnie dodane."),
+                                QMessageBox::Ok);
+
+                        cancelTaskWidget();
+
+                        checkTodayTask();
+
+                    } else {
+
+                        QMessageBox::critical(this, trUtf8("Dopisywanie kolejnego zadania"), trUtf8("Dodatkowe zadanie nie mogło zostac dodane. Sprawdź, czy istnieje ścieżka: ") + planDir + trUtf8(" . Jeśli istnieje to sprawdź, czy masz uprawnienia do zapisu i odczytu w podanej ścieżce."),
+                                QMessageBox::Ok);
+                    }
+
+                }
         }
     }
 }

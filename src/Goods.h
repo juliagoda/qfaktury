@@ -15,8 +15,8 @@ Q_OBJECT
 public:
 
     Goods(QWidget *parent, int mode, IDataLayer *dl);
-	void selectData(QString idx, int type); // called from MainWindow
-    QString const getRetGoods() const;
+    void selectData(QString idx, int type); // called from MainWindow
+    const QString getRetGoods();
 
 
 public slots:
@@ -33,10 +33,13 @@ private:
     QString ret;
     QStringList net;
     int workMode; // Working mode - 0 = new; 1 = edit
+
 	void init();
-	void getData(ProductData prodData);
+    void getData(ProductData prodData);
 	void setData(ProductData &prodData);
 	bool updateData();
 	bool insertData();
+    QString isEmpty(QString in);
+
 };
 #endif

@@ -38,6 +38,8 @@ public:
     virtual bool invoiceInsertData(InvoiceData& invData, int type);
 	virtual bool invoiceUpdateData(InvoiceData& invData, int type, QString name);
 	virtual bool invoiceDeleteData(QString name);
+
+
     virtual QString const getRet() const;
     virtual void checkAllSymbInFiles();
     virtual QList<int> const getAllSymbols();

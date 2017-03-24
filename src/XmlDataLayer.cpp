@@ -35,6 +35,7 @@ QString const XmlDataLayer::getRet() const
 // ************ KONTRAHENCI START *****************
 // helper method
 void XmlDataLayer::buyersElemToData(BuyerData &o_buyerData, QDomElement i_element) {
+
     o_buyerData.name 	= i_element.attribute("name");
     o_buyerData.place 	= i_element.attribute("place");
     o_buyerData.code 	= i_element.attribute("code");
@@ -48,6 +49,7 @@ void XmlDataLayer::buyersElemToData(BuyerData &o_buyerData, QDomElement i_elemen
 
 // helper method
 void XmlDataLayer::buyersDataToElem(BuyerData &i_buyerData, QDomElement &o_element) {
+
     o_element.setAttribute("name", i_buyerData.name);
     o_element.setAttribute("place", i_buyerData.place);
     o_element.setAttribute("code", i_buyerData.code);
@@ -71,15 +73,51 @@ QVector<BuyerData> XmlDataLayer::buyersSelectAllData() {
 	QFile file(sett().getCustomersXml());
 
 	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-        return buyerVec;
+
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            buyersSelectAllData();
+
+        } else {
+
+            root = doc.createElement(sett().getCustomersDocName());
+            doc.appendChild(root);
+            office = doc.createElement(sett().getOfficeName());
+            root.appendChild(office);
+            company = doc.createElement(sett().getCompanyName());
+            root.appendChild(company);
+
+            QString xml = doc.toString();
+
+            file.close();
+            file.open(QIODevice::WriteOnly);
+            QTextStream ts(&file);
+            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+            ts << xml;
+
+            file.open(QIODevice::ReadOnly);
+
+            QTextStream stream(&file);
+            doc.setContent(stream.readAll());
+
+            root = doc.documentElement();
+            office = root.firstChild().toElement();
+            company = root.lastChild().toElement();
+
+            file.close();
+            return buyerVec;
+        }
 
 	} else {
 
 		QTextStream stream(&file);
 
 		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
+            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
             return buyerVec;
 
@@ -124,8 +162,43 @@ BuyerData XmlDataLayer::buyersSelectData(QString name, int type) {
 
 	if (!file.open(QIODevice::ReadOnly)) {
 
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-        return o_buyerData;
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            buyersSelectData(name, type);
+
+        } else {
+
+            root = doc.createElement(sett().getCustomersDocName());
+            doc.appendChild(root);
+            office = doc.createElement(sett().getOfficeName());
+            root.appendChild(office);
+            company = doc.createElement(sett().getCompanyName());
+            root.appendChild(company);
+
+            QString xml = doc.toString();
+
+            file.close();
+            file.open(QIODevice::WriteOnly);
+            QTextStream ts(&file);
+            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+            ts << xml;
+
+            file.open(QIODevice::ReadOnly);
+
+            QTextStream stream(&file);
+            doc.setContent(stream.readAll());
+
+            root = doc.documentElement();
+            office = root.firstChild().toElement();
+            company = root.lastChild().toElement();
+
+            file.close();
+            return o_buyerData;
+        }
 
 	} else {
 
@@ -133,7 +206,7 @@ BuyerData XmlDataLayer::buyersSelectData(QString name, int type) {
 
 		if (!doc.setContent(stream.readAll())) {
 
-			qDebug("can not set content ");
+            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
             return o_buyerData;
 
@@ -150,6 +223,7 @@ BuyerData XmlDataLayer::buyersSelectData(QString name, int type) {
                     buyersElemToData(o_buyerData, n.toElement());
 				}
 			}
+
 		} else {
 			for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
 				if (n.toElement().attribute("name").compare(name) == 0) {
@@ -175,13 +249,40 @@ bool XmlDataLayer::buyersInsertData(BuyerData& buyerData, int type) {
 
 	if (!file.open(QIODevice::ReadOnly)) {
 
-		qDebug("can not open ");
-		root = doc.createElement(sett().getCustomersDocName());
-		doc.appendChild(root);
-		office = doc.createElement(sett().getOfficeName());
-		root.appendChild(office);
-		company = doc.createElement(sett().getCompanyName());
-		root.appendChild(company);
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            buyersInsertData(buyerData, type);
+
+        } else {
+
+            root = doc.createElement(sett().getCustomersDocName());
+            doc.appendChild(root);
+            office = doc.createElement(sett().getOfficeName());
+            root.appendChild(office);
+            company = doc.createElement(sett().getCompanyName());
+            root.appendChild(company);
+
+            QString xml = doc.toString();
+
+            file.close();
+            file.open(QIODevice::WriteOnly);
+            QTextStream ts(&file);
+            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+            ts << xml;
+
+            file.open(QIODevice::ReadOnly);
+            QTextStream stream(&file);
+            doc.setContent(stream.readAll());
+
+            root = doc.documentElement();
+            office = root.firstChild().toElement();
+            company = root.lastChild().toElement();
+
+        }
 
 	} else {
 
@@ -189,7 +290,7 @@ bool XmlDataLayer::buyersInsertData(BuyerData& buyerData, int type) {
 
 		if (!doc.setContent(stream.readAll())) {
 
-			qDebug("can not set content ");
+            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
 			// return;
 
@@ -243,15 +344,49 @@ QStringList XmlDataLayer::buyersGetFirmList() {
 
 	if (!file.open(QIODevice::ReadOnly)) {
 
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return allNames;
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            buyersGetFirmList();
+
+           } else {
+
+            root = doc.createElement(sett().getCustomersDocName());
+            doc.appendChild(root);
+            office = doc.createElement(sett().getOfficeName());
+            root.appendChild(office);
+            company = doc.createElement(sett().getCompanyName());
+            root.appendChild(company);
+
+            QString xml = doc.toString();
+
+            file.close();
+            file.open(QIODevice::WriteOnly);
+            QTextStream ts(&file);
+            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+            ts << xml;
+
+            file.open(QIODevice::ReadOnly);
+            QTextStream stream(&file);
+            doc.setContent(stream.readAll());
+
+            root = doc.documentElement();
+            office = root.firstChild().toElement();
+            company = root.lastChild().toElement();
+
+            file.close();
+            return allNames;
+        }
 
 	} else {
 
 		QTextStream stream(&file);
 
 		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
+            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
 			return allNames;
 
@@ -292,7 +427,15 @@ bool XmlDataLayer::buyersUpdateData(BuyerData& buyerData, int type, QString name
 
     if (!file.open(QIODevice::ReadOnly)) {
 
-        qDebug() << "File" << file.fileName() << "doesn't exists";
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            buyersUpdateData(buyerData, type, name);
+
+           } else {
 
         root = doc.createElement(sett().getCustomersDocName());
         doc.appendChild(root);
@@ -301,18 +444,36 @@ bool XmlDataLayer::buyersUpdateData(BuyerData& buyerData, int type, QString name
         company = doc.createElement(sett().getCompanyName());
         root.appendChild(company);
 
+        QString xml = doc.toString();
+
+        file.close();
+        file.open(QIODevice::WriteOnly);
+        QTextStream ts(&file);
+        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+        ts << xml;
+
+        file.open(QIODevice::ReadOnly);
+        QTextStream stream(&file);
+        doc.setContent(stream.readAll());
+
+        root = doc.documentElement();
+        office = root.firstChild().toElement();
+        company = root.lastChild().toElement();
+
+        }
+
+
     } else {
 
         QTextStream stream(&file);
         if (!doc.setContent(stream.readAll())) {
 
-            qDebug("can not set content ");
+            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
             file.close();
             return false;
 
         } else {
 
-            qDebug("It has read");
             root = doc.documentElement();
             office = root.firstChild().toElement();
             company = root.lastChild().toElement();
@@ -321,7 +482,7 @@ bool XmlDataLayer::buyersUpdateData(BuyerData& buyerData, int type, QString name
 
 	root.lastChild();
 
-
+    // zapewnic takze aktualizacje nazwy firmy
     // company = 0; department = 1;
 	if (type == 0) {
          // = doc.createElement ("company");
@@ -351,7 +512,7 @@ bool XmlDataLayer::buyersUpdateData(BuyerData& buyerData, int type, QString name
 	}
 
     QString xml = doc.toString();
-
+    qDebug() << xml;
 
     file.close();
     file.open(QIODevice::WriteOnly);
@@ -363,41 +524,76 @@ bool XmlDataLayer::buyersUpdateData(BuyerData& buyerData, int type, QString name
 	return true;
 }
 
+
 bool XmlDataLayer::buyersDeleteData(QString name) {
 
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
-	QDomElement urzad;
-	QDomElement firma;
+    QDomElement office;
+    QDomElement company;
 
 	QFile file(sett().getCustomersXml());
 
 	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug() << "File" << file.fileName() << "doesn't exists";
+
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            buyersDeleteData(name);
+
+        } else {
+
+        root = doc.createElement(sett().getCustomersDocName());
+        doc.appendChild(root);
+        office = doc.createElement(sett().getOfficeName());
+        root.appendChild(office);
+        company = doc.createElement(sett().getCompanyName());
+        root.appendChild(company);
+
+        QString xml = doc.toString();
+
+        file.close();
+        file.open(QIODevice::WriteOnly);
+        QTextStream ts(&file);
+        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+        ts << xml;
+
+        file.close();
+
 		return false;
+
+        }
+
 	} else {
+
 		QTextStream stream(&file);
+
 		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
+            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
 			return false;
+
 		} else {
+
 			root = doc.documentElement();
-			urzad = root.firstChild().toElement();
-			firma = root.lastChild().toElement();
+            office = root.firstChild().toElement();
+            company = root.lastChild().toElement();
 		}
 
 
-		for (QDomNode n = firma.firstChild(); !n.isNull(); n = n.nextSibling()) {
+        for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
 			if (n.toElement().attribute("name"). compare(name) == 0) {
-				firma.removeChild(n);
+                office.removeChild(n);
 				break;
 			}
 		}
 
-		for (QDomNode n = urzad.firstChild(); !n.isNull(); n = n.nextSibling()) {
+        for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
 			if (n.toElement().attribute("name"). compare(name) == 0) {
-				urzad.removeChild(n);
+                company.removeChild(n);
 				break;
 			}
 		}
@@ -410,6 +606,7 @@ bool XmlDataLayer::buyersDeleteData(QString name) {
 
 		file.close();
 	}
+
 	return true;
 }
 // ************ KONTRAHENCI END *****************
@@ -463,8 +660,37 @@ QVector<ProductData> XmlDataLayer::productsSelectAllData() {
 
 	if (!file.open(QIODevice::ReadOnly)) {
 
-        qDebug() << "File " << file.fileName() << " doesn't exists";
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            productsSelectAllData();
+
+        } else {
+
+            root = doc.createElement(sett().getProdutcsDocName());
+            int lastId = root.attribute("last", "0").toInt();
+            root.setAttribute("last", sett().numberToString(lastId));
+            doc.appendChild(root);
+            products = doc.createElement(sett().getNameWithData(sett().getProductName()));
+            root.appendChild(products);
+            services = doc.createElement(sett().getNameWithData(sett().getServiceName()));
+            root.appendChild(services);
+
+        QString xml = doc.toString();
+
+        file.close();
+        file.open(QIODevice::WriteOnly);
+        QTextStream ts(&file);
+        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+        ts << xml;
+
+        file.close();
 		return prodVec;
+
+        }
 
 	} else {
 
@@ -509,15 +735,44 @@ ProductData XmlDataLayer::productsSelectData(QString name, int type) {
 
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
-    QDomElement good;
+    QDomElement product;
     QDomElement service;
 
 	QFile file(sett().getProductsXml());
 
 	if (!file.open(QIODevice::ReadOnly)) {
 
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return o_prodData;
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            productsSelectData(name, type);
+
+        } else {
+
+            root = doc.createElement(sett().getProdutcsDocName());
+            int lastId = root.attribute("last", "0").toInt();
+            root.setAttribute("last", sett().numberToString(lastId));
+            doc.appendChild(root);
+            product = doc.createElement(sett().getNameWithData(sett().getProductName()));
+            root.appendChild(product);
+            service = doc.createElement(sett().getNameWithData(sett().getServiceName()));
+            root.appendChild(service);
+
+        QString xml = doc.toString();
+
+        file.close();
+        file.open(QIODevice::WriteOnly);
+        QTextStream ts(&file);
+        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+        ts << xml;
+
+        file.close();
+        return o_prodData;
+
+        }
 
 	} else {
 
@@ -533,18 +788,19 @@ ProductData XmlDataLayer::productsSelectData(QString name, int type) {
 
 			root = doc.documentElement();
 			o_prodData.lastProdId = root.attribute("last", "1").toInt();
-            good = root.firstChild().toElement();
+            product = root.firstChild().toElement();
             service = root.lastChild().toElement();
 		}
 
 		if (type == 0) {
 
-            for (QDomNode n = good.firstChild(); !n.isNull(); n
+            for (QDomNode n = product.firstChild(); !n.isNull(); n
 					= n.nextSibling()) {           
 				if (n.toElement().attribute("idx").compare(name) == 0) {
 					productsElemToData(o_prodData, n.toElement());
 				}
 			}
+
 		} else {
 
             for (QDomNode n = service.firstChild(); !n.isNull(); n
@@ -633,19 +889,44 @@ bool XmlDataLayer::productsUpdateData(ProductData& prodData, int type, QString n
 
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
-    QDomElement goods;
-    QDomElement services;
+    QDomElement product;
+    QDomElement service;
 
 	QFile file(sett().getProductsXml());
 
 	if (!file.open(QIODevice::ReadOnly)) {
 
-		root = doc.createElement(sett().getProdutcsDocName());
-		doc.appendChild(root);
-        goods = doc.createElement(sett().getProductName());
-        root.appendChild(goods);
-        services = doc.createElement(sett().getServiceName());
-        root.appendChild(services);
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            productsUpdateData(prodData, type, name);
+
+        } else {
+
+            root = doc.createElement(sett().getProdutcsDocName());
+            int lastId = root.attribute("last", "0").toInt();
+            root.setAttribute("last", sett().numberToString(lastId));
+            doc.appendChild(root);
+            product = doc.createElement(sett().getNameWithData(sett().getProductName()));
+            root.appendChild(product);
+            service = doc.createElement(sett().getNameWithData(sett().getServiceName()));
+            root.appendChild(service);
+
+        QString xml = doc.toString();
+
+        file.close();
+        file.open(QIODevice::WriteOnly);
+        QTextStream ts(&file);
+        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+        ts << xml;
+
+        file.close();
+        productsUpdateData(prodData, type, name);
+
+        }
 
 	} else {
 
@@ -660,8 +941,8 @@ bool XmlDataLayer::productsUpdateData(ProductData& prodData, int type, QString n
 		} else {
 
 			root = doc.documentElement();
-            goods = root.firstChild().toElement();
-            services = root.lastChild().toElement();
+            product = root.firstChild().toElement();
+            service = root.lastChild().toElement();
 		}
 	}
 
@@ -671,28 +952,28 @@ bool XmlDataLayer::productsUpdateData(ProductData& prodData, int type, QString n
 
 		QDomElement elem;
 
-        for (QDomNode n = goods.firstChild(); !n.isNull(); n = n.nextSibling()) {
+        for (QDomNode n = product.firstChild(); !n.isNull(); n = n.nextSibling()) {
 			if (n.toElement().attribute("idx").compare(name) == 0) {
 				elem = n.toElement();
 				break;
 			}
 		}
 		productsDataToElem(prodData, elem);
-        goods.appendChild(elem);
+        product.appendChild(elem);
 	}
 
 	if (type == 1) {
 
 		QDomElement elem;
 
-        for (QDomNode n = services.firstChild(); !n.isNull(); n = n.nextSibling()) {
+        for (QDomNode n = service.firstChild(); !n.isNull(); n = n.nextSibling()) {
 			if (n.toElement().attribute("idx").compare(name) == 0) {
 				elem = n.toElement();
 				break;
 			}
 		}
 		productsDataToElem(prodData, elem);
-        services.appendChild(elem);
+        service.appendChild(elem);
 	}
 
 	QString xml = doc.toString();
@@ -711,15 +992,44 @@ bool XmlDataLayer::productsDeleteData(QString name) {
 
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
-	QDomElement products;
-	QDomElement services;
+    QDomElement product;
+    QDomElement service;
 
 	QFile file(sett().getProductsXml());
 
 	if (!file.open(QIODevice::ReadOnly)) {
 
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return false;
+        QFileInfo fileInfo(file.fileName());
+
+        if (fileInfo.exists() && fileInfo.isFile()) {
+
+            file.setPermissions(QFileDevice::ReadOwner);
+
+            productsDeleteData(name);
+
+        } else {
+
+            root = doc.createElement(sett().getProdutcsDocName());
+            int lastId = root.attribute("last", "0").toInt();
+            root.setAttribute("last", sett().numberToString(lastId));
+            doc.appendChild(root);
+            product = doc.createElement(sett().getNameWithData(sett().getProductName()));
+            root.appendChild(product);
+            service = doc.createElement(sett().getNameWithData(sett().getServiceName()));
+            root.appendChild(service);
+
+        QString xml = doc.toString();
+
+        file.close();
+        file.open(QIODevice::WriteOnly);
+        QTextStream ts(&file);
+        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+        ts << xml;
+
+        file.close();
+        return false;
+
+        }
 
 	} else {
 
@@ -734,23 +1044,23 @@ bool XmlDataLayer::productsDeleteData(QString name) {
 		} else {
 
 			root = doc.documentElement();
-			products = root.firstChild().toElement();
-			services = root.lastChild().toElement();
+            product = root.firstChild().toElement();
+            service = root.lastChild().toElement();
 		}
 
 
-		for (QDomNode n = services.firstChild(); !n.isNull(); n
+        for (QDomNode n = service.firstChild(); !n.isNull(); n
 				= n.nextSibling()) {
 			if (n.toElement().attribute("idx"). compare(name) == 0) {
-				services.removeChild(n);
+                service.removeChild(n);
 				break;
 			}
 		}
 
-		for (QDomNode n = products.firstChild(); !n.isNull(); n
+        for (QDomNode n = product.firstChild(); !n.isNull(); n
 				= n.nextSibling()) {
 			if (n.toElement().attribute("idx"). compare(name) == 0) {
-				products.removeChild(n);
+                product.removeChild(n);
 				break;
 			}
 		}
@@ -780,8 +1090,7 @@ void XmlDataLayer::invoiceSellerDataToElem(InvoiceData&, QDomElement &o_element)
     o_element.setAttribute("zip", userSettings.value("zip").toString());
     o_element.setAttribute("city", userSettings.value("city").toString());
     o_element.setAttribute("street", userSettings.value("street").toString());
-    // NIP = Taxing Identification Code
-    o_element.setAttribute("tic", userSettings.value("tic").toString());
+    o_element.setAttribute("tic", userSettings.value("tic").toString()); // NIP = Taxing Identification Code
     o_element.setAttribute("account", userSettings.value("account").toString(). replace(" ", "-"));
     o_element.setAttribute("phone", userSettings.value("phone").toString());
     o_element.setAttribute("email", userSettings.value("email").toString());
@@ -884,8 +1193,6 @@ bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end) {
             qDebug ("can not set content ");
             file.close();
             return false;
-            // return o_invDataVec;
-
         }
     }
 

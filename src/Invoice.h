@@ -27,49 +27,48 @@ public:
 
     Invoice(QWidget *parent, IDataLayer *dl, QString Inv = QString());
     virtual ~Invoice();
+
     static Invoice * instance();
 	void init();
     void readData(QString fraFile);
-    QString const getRet() const;
-    QString const getfName() const;
-    QString const getInvForm() const;
-    bool const getKAdded() const;
     void setfName(QString text);
-    bool convWarn();
-
-    virtual void setIsEditAllowed(bool isAllowed);
-	void keyPressEvent(QKeyEvent * event);
+    void keyPressEvent(QKeyEvent * event);
     void connectedWebsite(const QUrl&);
+    void templateCurr(const QString&);
+    void convertMoneyFunc(QString);
+    void whatTypeFromTitle(const QString title, bool ifForm, bool kadded, InvoiceType invTyp, int numbType);
+    const QString getRet();
+    const QString getfName();
+    const QString getInvForm();
+    const QString pressedTxt();
+    const bool getKAdded();
+    bool convWarn();
+    bool ifUpdated();
+    virtual void setIsEditAllowed(bool isAllowed);
+    virtual void calcAll(const double&);
+    virtual void calculateOneDiscount(int a);
+    inline void setTextDurRate(QString,QString,QString);
     QMap<QString,double> getActualCurList();
     QMap<QString,double> tableOfValues();
-    virtual void calcAll(const double&);
-    void templateCurr(const QString&);
-    bool ifUpdated();
     QString checkInvCurr();
-	virtual void calculateOneDiscount(int a);
-    QString pressedTxt() const;
-    void convertMoneyFunc(QString );
-    inline void setTextDurRate(QString,QString,QString);
-    void whatTypeFromTitle(QString title, bool ifForm, bool kadded, InvoiceType invTyp, int numbType);
 
 
 public slots:
 
-	void getCustomer();
     virtual void addGoods();
 	virtual void discountChange();
+    virtual void backBtnClick();
+    virtual void canQuit();
+    virtual bool saveInvoice();
+    virtual void makeInvoice();
+    virtual void payTextChanged(QString someStr);
+    virtual void discountConstChange(); // Overwritten in GrossInvoice
+    void getCustomer();
     void delGoods();
     void editGoods();
-	void tableActivated ( QTableWidgetItem * item );
+    void tableActivated (QTableWidgetItem * item);
 	void textChanged(QString someStr);
-    virtual void payTextChanged(QString someStr);
 	void dateChanged (QDate someDate);
-	virtual void discountConstChange(); // Overwritten in FakturaBrutto
-	// to be overwritten in child class
-	virtual void backBtnClick();
-	virtual void canQuit();
-	virtual bool saveInvoice();
-	virtual void makeInvoice();
 	void printSlot(QPrinter*);
     void buyerClick();
     void tellFinished();
@@ -87,6 +86,7 @@ protected:
 
     QDate dupDate;
     QString prepayFile;
+    QString lastInvoice, invoiceType;
     QComboBox *ratesCombo;
     QLabel *labelRate;
     QLabel *rateLabel;
@@ -96,22 +96,22 @@ protected:
     QLabel *restLabelInfo;
     QLabel *sendKindInfo;
 	IDataLayer *dataLayer;
-	QString lastInvoice, invoiceType;
 	double discountTotal, nettTotal, grossTotal;
+    double am1, am2;
 	bool canClose;
 	bool saveFailed;
-	CustomPaymData *custPaymData;
-    QStringList invStrList;
-	QString numbersCount(int in, int x);
-	int type;
     bool rComboWasChanged;
     bool goodsEdited;
-    double am1, am2;
+	CustomPaymData *custPaymData;
+    QStringList invStrList;
+	int type;
 
-	virtual void calculateDiscount();
-	virtual void calculateSum();
 	QString getGroupedSums();
+    QString numbersCount(int in, int x);
 	void saveColumnsWidth();
+    void makeInvoiceFooter();
+    virtual void calculateDiscount();
+    virtual void calculateSum();
 	virtual void makeInvoiceHeadar(bool sellDate, bool brakePage, bool original);
 	virtual void makeInvoiceBody();
 	virtual void print();
@@ -121,25 +121,23 @@ protected:
 	virtual void makeInvoiceProductsHeadar();
 	virtual void makeInvoiceFooterHtml();
 	virtual void makeInvoiceHeadarHTML();
-
 	virtual void setData(InvoiceData &invData);
 	virtual void getData(InvoiceData invData);
-
-	void makeInvoiceFooter();
-
 	virtual QString getInvoiceTypeAndSaveNr();
-	bool validateForm();
-
+    bool validateForm();
 
 private:
+
+    void algorithmCurrencies(QString, QStringList, QMap<QString,double>&);
+    void convertCurrShort(QString);
 
     static Invoice * m_instance;
     QNetworkAccessManager *manager;
     QFile file;
     QNetworkReply *reply;
     QString pressedText;
-    QDomDocument doc;
     QString fName, ret, inv_form;
+    QDomDocument doc;
     bool pforma, kAdded, ifCSS;
 
 };

@@ -26,14 +26,15 @@ public:
 
     Duplicate(QWidget *parent, IDataLayer *dl, QString in_form, bool ifEdited);
     ~Duplicate();
+
     virtual void setData(InvoiceData &invData);
 
 
 public slots:
 
-    void duplicateInit();
 	virtual void canQuit();
     void cancelDupl();
+    void duplicateInit();
 
 
 protected:

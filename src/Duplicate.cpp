@@ -53,6 +53,7 @@ void Duplicate::duplicateInit() {
     connect(closeBtn, SIGNAL(clicked()), this, SLOT(cancelDupl()));
 }
 
+
 void Duplicate::setData(InvoiceData &invData) {
 
     invData.id = getfName();
@@ -131,6 +132,7 @@ void Duplicate::setData(InvoiceData &invData) {
 void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 
 	QString breakPageStr = "class=\"page_break\"";
+
 	if (breakPage == false) breakPageStr = "";
 
     invStrList += "<table comment=\"headar table\" width=\"100%\" border=\"0\"" + breakPageStr + ">";
@@ -140,15 +142,12 @@ void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) 
 
     QString logo = sett().value("logo").toString();
 
-    if (logo != "") {
-        invStrList += "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
-    } else {
-        invStrList += trUtf8("Pieczęć wystawcy");
-    }
+    if (logo != "") invStrList += "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
+    else invStrList += trUtf8("Pieczęć wystawcy");
+
 
     invStrList += "</span>";
     invStrList += "</td>";
-
     invStrList += "<td align=\"right\">";
     invStrList += "<span style=\"font-size:12pt; font-weight:600\">";
     invStrList += invoiceType + "<br/>";
@@ -170,11 +169,9 @@ void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) 
     invStrList += "<tr>";
     invStrList += "<td colspan=\"2\" align=\"right\" valign=\"top\"><br>";
 
-    if (original) {
-        invStrList += trUtf8("ORYGINAŁ");
-    } else {
-        invStrList += trUtf8("KOPIA");
-    }
+    if (original) invStrList += trUtf8("ORYGINAŁ");
+    else invStrList += trUtf8("KOPIA");
+
 
     invStrList += "<br></td><td width=\"3%\">&nbsp;</td>";
     invStrList += "</tr>";

@@ -666,17 +666,13 @@ QStringList Setting::getTemplates() {
         qDebug() << "Templates path: " << path;
     }
 
-	if (templates.isEmpty()) {
-
 		QDir allFiles;
 		allFiles.setPath(path);
 		allFiles.setFilter(QDir::Files);
-		QStringList filters;
-		filters << "*css";
+        QStringList filters = QStringList() << "*css";
 		allFiles.setNameFilters(filters);
 		QStringList tmp = allFiles.entryList();
 		templates = tmp;
-	}
 
 	return templates;
 }
@@ -703,20 +699,16 @@ QStringList Setting::getTranslations() {
         qDebug() << "Path translations: " << path;
     }
 
-	if (translations.isEmpty()) {
-
 		qDebug() << path;
 		QDir allFiles;
 		allFiles.setPath(path);
 		allFiles.setFilter(QDir::Files);
-		QStringList filters;
-        filters << "*.qm";
+        QStringList filters = QStringList() << "*.qm";
 		allFiles.setNameFilters(filters);
 		QStringList tmp = allFiles.entryList();
 		tmp = tmp.replaceInStrings("qfaktury_", "");
 		tmp = tmp.replaceInStrings(".qm", "");
 		translations = tmp;
-	}
 
 	return translations;
 }

@@ -39,12 +39,9 @@ void InvoiceGross::calculateOneDiscount(int i) {
 
     price = sett().stringToDouble(tableGoods->item(i, 7)->text());
 
-	if (constRab->isChecked()) {
-        discount = discountVal->value() * 0.01;
-	} else {
-        discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
+    if (constRab->isChecked()) discount = discountVal->value() * 0.01;
+    else discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
 
-	}
 
     if ((tableGoods->item(i, 6)->text()) == "0")  {
             discount = 0;
@@ -61,10 +58,10 @@ void InvoiceGross::calculateOneDiscount(int i) {
 
     net = gross - vat;
 
-	// qDebug() << price << quantity << netto << discount << discountValue << vat << gross;
+    // qDebug() << price << quantity << net << discount << discountValue << vat << gross;
 
     tableGoods->item(i, 6)->setText(sett().numberToString(discount * 100, 'f', 0)); // discount
-    tableGoods->item(i, 8)->setText(sett().numberToString(net)); // nett
+    tableGoods->item(i, 8)->setText(sett().numberToString(net)); // net
     tableGoods->item(i, 10)->setText(sett().numberToString(gross)); // gross
 
 }
@@ -80,7 +77,7 @@ void InvoiceGross::addGoods() {
     if (goodsWindow->exec() == QDialog::Accepted) {
 
         MainWindow::insertRow(tableGoods, tableGoods->rowCount());
-		// qDebug() << twWindow->ret;
+
         QStringList row = goodsWindow->getRetValGoodsBr().split("|");
         int rowNum = tableGoods->rowCount() - 1;
         tableGoods->item(rowNum, 0)->setText(sett().numberToString(
@@ -92,16 +89,15 @@ void InvoiceGross::addGoods() {
         tableGoods->item(rowNum, 5)->setText(row[4]); // qType
         tableGoods->item(rowNum, 6)->setText(row[5]); // discount
         tableGoods->item(rowNum, 7)->setText(row[6]); // price
-        tableGoods->item(rowNum, 8)->setText(row[7]); // nett
+        tableGoods->item(rowNum, 8)->setText(row[7]); // net
         tableGoods->item(rowNum, 9)->setText(row[8]); // vat
         tableGoods->item(rowNum, 10)->setText(row[9]); // gross
 		saveBtn->setEnabled(true);
 		canClose = false;
 
-		if (constRab->isChecked())
-			calculateDiscount();
+        if (constRab->isChecked()) calculateDiscount();
 
-		calculateSum();
+        calculateSum();
 	}
 
     delete goodsWindow;

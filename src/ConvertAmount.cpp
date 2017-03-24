@@ -16,8 +16,9 @@ ConvertAmount::~ConvertAmount() {
 	// TODO Auto-generated destructor stub
 }
 
-QString& ConvertAmount::descAmount(QString & countMoney, QString partMoney, QString ifOne, QString ifMore, QString ifBetween)
+QString& ConvertAmount::descAmount(QString &countMoney, QString partMoney, QString ifOne, QString ifMore, QString ifBetween)
 {
+
     while (partMoney.length() < 3)
         partMoney = QObject::trUtf8("0") + partMoney;
 
@@ -55,6 +56,7 @@ QString& ConvertAmount::descAmount(QString & countMoney, QString partMoney, QStr
     }
 
     if (partMoney.mid(1, 1).toInt() == 1) {
+
         switch (partMoney.right(1).toInt()) {
         case 1:
             countMoney += QObject::trUtf8(" ") + endsTensList()[0];
@@ -87,6 +89,7 @@ QString& ConvertAmount::descAmount(QString & countMoney, QString partMoney, QStr
             countMoney += QObject::trUtf8(" ") + endsTensList()[9];
             break;
         }
+
     } else {
         switch (partMoney.mid(1, 1).toInt()) {
         case 2:
@@ -117,6 +120,7 @@ QString& ConvertAmount::descAmount(QString & countMoney, QString partMoney, QStr
             countMoney += QObject::trUtf8("");
             break;
         }
+
         switch (partMoney.right(1).toInt()) {
         case 1:
             countMoney += QObject::trUtf8(" ") + simpleNumbList()[0];
@@ -152,25 +156,25 @@ QString& ConvertAmount::descAmount(QString & countMoney, QString partMoney, QStr
     }
 
     if (!ifOne.isEmpty() && !ifOne.isNull()) {
-    if (partMoney.toInt() > 9) {
+        if (partMoney.toInt() > 9) {
 
                 countMoney += ifMore;
                 qDebug() << "partMoney.toInt() > 9: " << partMoney.toInt();
 
-    } else if ((partMoney.toInt() < 10) && (partMoney.toInt() > 0)) {
+        } else if ((partMoney.toInt() < 10) && (partMoney.toInt() > 0)) {
 
             if ((partMoney.toInt() > 1) && (partMoney.toInt() < 5)) countMoney += ifBetween;
             else if (partMoney.toInt() > 4) countMoney += ifMore;
             else countMoney += ifOne;
             qDebug() << "partMoney.toInt() >= 1: " << partMoney.toInt();
 
-    }
+        }
     }
 
     return countMoney;
 }
 
-const QStringList ConvertAmount::hundsList() const {
+const QStringList ConvertAmount::hundsList() {
 
     QStringList hundredsPL = QStringList();
     hundredsPL << QObject::trUtf8("sto") << QObject::trUtf8("dwieście")
@@ -182,7 +186,7 @@ const QStringList ConvertAmount::hundsList() const {
     return hundredsPL;
 }
 
-const QStringList ConvertAmount::endsHundList() const {
+const QStringList ConvertAmount::endsHundList() {
 
     QStringList hundEndsPL = QStringList();
     hundEndsPL << QObject::trUtf8("dwadzieścia") << QObject::trUtf8("trzydzieści")
@@ -195,7 +199,7 @@ const QStringList ConvertAmount::endsHundList() const {
     return hundEndsPL;
 }
 
-const QStringList ConvertAmount::endsTensList() const {
+const QStringList ConvertAmount::endsTensList() {
 
     QStringList tenEndsPL = QStringList();
     tenEndsPL << QObject::trUtf8("jedenaście") << QObject::trUtf8("dwanaście")
@@ -208,7 +212,7 @@ const QStringList ConvertAmount::endsTensList() const {
     return tenEndsPL;
 }
 
-const QStringList ConvertAmount::simpleNumbList() const {
+const QStringList ConvertAmount::simpleNumbList() {
 
     QStringList nineNumbs = QStringList();
     nineNumbs << QObject::trUtf8("jeden") << QObject::trUtf8("dwa")

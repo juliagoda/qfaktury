@@ -28,13 +28,14 @@ void Buyers::init() {
 
     allNames = dataLayer->buyersGetFirmList();
 
+
 	// connects
 	connect(okButton, SIGNAL(clicked()), this, SLOT(okClick()));
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 
-QString const Buyers::getRetBuyer() const
+const QString Buyers::getRetBuyer()
 {
     return ret;
 }
@@ -45,32 +46,35 @@ QString const Buyers::getRetBuyer() const
 
 void Buyers::okClick() {
 
+
+    QStringList list = QStringList() << nameEdit->text() << typeCombo->currentText() << placeEdit->text() << addressEdit->text() << telefonEdit->text() <<
+            nipEdit->text() << codeEdit->text() << accountEdit->text() << emailEdit->text() << wwwEdit->text();
+
+
 	if (workingMode == 1) {
 
         if (updateData()) {
 
+            foreach(QString listEl, list) {
 
+                ret += isEmpty(listEl) + "|";
+            }
 
-            ret = isEmpty(nameEdit->text()) + "|" + isEmpty(typeCombo->currentText()) + "|" + isEmpty(
-                placeEdit->text()) + "|" + isEmpty(addressEdit->text()) + "|"
-                + isEmpty(telefonEdit->text()) + "|" + isEmpty(nipEdit->text()) + "|"
-                + isEmpty(codeEdit->text()) + "|" + isEmpty(accountEdit->text()) + "|" + isEmpty(telefonEdit->text()) + "|"
-                + isEmpty(emailEdit->text()) + "|" + isEmpty(wwwEdit->text());
             accept();
         }
+
 	} else {
 
 		if (insertData()) {
 
-            ret = isEmpty(nameEdit->text()) + "|" + isEmpty(typeCombo->currentText()) + "|" + isEmpty(
-                        placeEdit->text()) + "|" + isEmpty(addressEdit->text()) + "|"
-                        + isEmpty(telefonEdit->text()) + "|" + isEmpty(nipEdit->text()) + "|"
-                        + isEmpty(codeEdit->text()) + "|" + isEmpty(accountEdit->text()) + "|" + isEmpty(telefonEdit->text()) + "|"
-                        + isEmpty(emailEdit->text()) + "|" + isEmpty(wwwEdit->text());
+            foreach(QString listEl, list) {
+
+                ret += isEmpty(listEl) + "|";
+            }
+
 			accept();
 		}
 	}
-
 }
 
 // --------- SLOTS END --
@@ -121,6 +125,7 @@ bool Buyers::updateData() {
 
 
 //********************** VALIDATION START ************************
+
 /** Validate form
  *  Don't save when no
  *  "name", "city", "street", "tic"

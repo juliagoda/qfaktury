@@ -36,7 +36,7 @@ void Goods::init() {
 	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
 }
 
-QString const Goods::getRetGoods() const
+const QString Goods::getRetGoods()
 {
     return ret;
 }
@@ -51,32 +51,26 @@ void Goods::okClick() {
 
     if (Validations::instance()->isEmptyField(nameEdit->text(),textLabel3->text())) return;
 
-	QString pkwiu = pkwiuEdit->text();
+    if (!pkwiuEdit->text().isEmpty()) {
 
-	if (pkwiu == "")  pkwiu = " ";   
-    else {
         if (!Validations::instance()->validatePkwiu(pkwiuEdit->text())) return;
     }
 
-    QString shortcut = shortcutEdit->text();
+    QStringList listRet = QStringList() << isEmpty(idxEdit->text()) << isEmpty(nameEdit->text()) << isEmpty(shortcutEdit->text()) << isEmpty(codeEdit->text()) << isEmpty(pkwiuEdit->text()) <<
+                                           isEmpty(typeCombo->currentText()) << isEmpty(jednCombo->currentText()) << isEmpty(net[0]) <<
+                                           isEmpty(net[1]) << isEmpty(net[2]) << isEmpty(net[3]) << isEmpty(cbVat->currentText());
 
-    if (shortcut == "")
-        shortcut = " ";
 
-    QString code = codeEdit->text();
-
-    if (code == "")
-        code = " ";
 
 	if (workMode == 1) {
 
         if (updateData()) {
 
-            ret = idxEdit->text() + "|" + nameEdit->text() + "|" + shortcut + "|"
-                + code + "|" + pkwiu + "|" + typeCombo->currentText() + "|"
-                + jednCombo->currentText() + "|" + net[0] + "|"
-                + net[1] + "|" + net[2] + "|" + net[3] + "|"
-				+ cbVat->currentText();
+            foreach(QString listEl, listRet) {
+
+                ret += listEl + "|";
+            }
+
             accept();
         }
 
@@ -84,15 +78,22 @@ void Goods::okClick() {
 
 		if (insertData()) {
 
-            ret = idxEdit->text() + "|" + nameEdit->text() + "|" + shortcut + "|"
-                + code + "|" + pkwiu + "|" + typeCombo->currentText() + "|"
-                + jednCombo->currentText() + "|" + net[0] + "|"
-                + net[1] + "|" + net[2] + "|" + net[3] + "|"
-					+ cbVat->currentText();
+            foreach(QString listEl, listRet) {
+
+                ret += listEl + "|";
+            }
 
 			accept();
 		}
 	}
+}
+
+
+// helper method which sets "-" in input forms
+QString Goods::isEmpty(QString in) {
+
+    if (in == "") return " ";
+    return in;
 }
 
 /** Slot
@@ -131,10 +132,7 @@ void Goods::selectData(QString idx, int type) {
 
 	if (idx == "") {
 
-        net.append("0");
-        net.append("0");
-        net.append("0");
-        net.append("0");
+        for (int i = 1; i < 5; i++) net.append("0");
         netEdit->setValue(0);
 
 	} else {
@@ -145,7 +143,7 @@ void Goods::selectData(QString idx, int type) {
 
 	ProductData prodData = dataLayer->productsSelectData(idx, type);
 
-	if (workMode==0) {
+    if (workMode == 0) {
 
 		idx = QString::number(prodData.lastProdId);
 		idxEdit->setText(idx);
@@ -201,12 +199,9 @@ void Goods::getData(ProductData prodData) {
 	jednCombo->setCurrentIndex(current);
     current = sett().value("rates").toString().split("|").indexOf(QString::number(prodData.vat));
 	cbVat->setCurrentIndex(current);
-
     netEdit->setValue(prodData.prices[0]);
-    net[0] = sett().numberToString( prodData.prices[0]);
-    net[1] = sett().numberToString( prodData.prices[1]);
-    net[2] = sett().numberToString( prodData.prices[2]);
-    net[3] = sett().numberToString( prodData.prices[3]);
+
+    for (int i = 0; i < 4; i++) net[i] = sett().numberToString( prodData.prices[i]);
 }
 
 /** Display productData
@@ -220,9 +215,6 @@ void Goods::setData(ProductData &prodData) {
     prodData.code = codeEdit->text();
 	prodData.pkwiu = pkwiuEdit->text();
 	prodData.quanType = jednCombo->currentText();
-    prodData.prices[0] = sett().stringToDouble(net[0]);
-    prodData.prices[1] = sett().stringToDouble(net[1]);
-    prodData.prices[2] = sett().stringToDouble(net[2]);
-    prodData.prices[3] = sett().stringToDouble(net[3]);
+    for (int i = 0; i < 4; i++) prodData.prices[i] = sett().stringToDouble(net[i]);
 	prodData.vat = cbVat->currentText().toInt();
 }

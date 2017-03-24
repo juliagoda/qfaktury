@@ -14,7 +14,7 @@ Q_OBJECT
 public:
 
     BuyersList(QWidget *parent);
-    QString const getRetBuyerList() const;
+    const QString getRetBuyerList();
 
 
 public slots:
@@ -30,12 +30,13 @@ private:
 
 	QStringList companiesList;
 	QStringList officesList;
-	void init();
-	QString xmlDataToString(QDomNode n);
-	void displayDetails(QStringList custDetails);
-	void clearDetails();
-	QString detailsToString();
     QString ret;
+
+	void init();
+    void displayDetails(QStringList custDetails);
+    void clearDetails();
+    QString xmlDataToString(QDomNode n);
+	QString detailsToString();
 
 };
 #endif

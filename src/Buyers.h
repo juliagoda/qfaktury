@@ -17,7 +17,7 @@ public:
     void selectData(QString name, int type); // 0 - company, 1 - department
 	bool insertData();
 	bool updateData();
-    QString const getRetBuyer() const;
+    const QString getRetBuyer();
 
 
 public slots:
@@ -30,9 +30,10 @@ private:
     QStringList allNames;
     QString ret;
 	IDataLayer *dataLayer;
-	int workingMode; // 0 = new
-	void init();
+    int workingMode; // 0 = new
+
 	QString isEmpty(QString in);
+    void init();
     void getData(BuyerData buyerData);
     void setData(BuyerData &buyerData);
 	bool validate();

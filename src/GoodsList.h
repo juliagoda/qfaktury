@@ -13,21 +13,22 @@ Q_OBJECT
 
 public:
 
-    QString const getRetVal() const;
-    QMap<QString, int> const getVatsVal() const;
-    QString const getSelItem() const;
-    QString const getGoodsId() const;
     GoodsList(QWidget *parent);
     ~GoodsList();
+
+    const QString getRetVal();
+    const QMap<QString, int> getVatsVal();
+    const QString getSelItem();
+    const QString getGoodsId();
     static GoodsList * instance();
 
 
 public slots:
 
-    void readGoods();
 	virtual void doAccept();
-	void comboBox1Changed(int x);
     virtual void calcNet();
+    void readGoods();
+	void comboBox1Changed(int x);
 	void displayData(int x);
 	void lv1selChanged();
     void displayNet(QString index);
@@ -46,10 +47,10 @@ protected:
 private:
 
     QString ret;
-    QMap<QString, QString> nets;
-    QMap<QString, int> vats;
     QString selectedItem;
     QString id;
+    QMap<QString, QString> nets;
+    QMap<QString, int> vats;
     static GoodsList * m_instance;
 
 };

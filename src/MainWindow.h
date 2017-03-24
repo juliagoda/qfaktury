@@ -22,7 +22,7 @@ public:
 	~MainWindow();
 	static void insertRow(QTableWidget *t, int row);
     void newInvoice(Invoice* invoice, QString windowTitle);
-    int const getMaxSymbol();
+    const int getMaxSymbol();
     static MainWindow * instance();
 
 
@@ -64,11 +64,17 @@ public slots:
     void openWebTableK(int,int);
     void printBuyerList();
     void printList(QPrinter *);
-    QString changeIfEmpty(QString);
     void cancelTaskWidget();
     void addTaskToList();
     void addNextTask();
     void delTasksFromDay();
+    QString changeIfEmpty(QString);
+
+
+protected:
+
+    virtual void loadPlugins();
+
 
 private:
 
@@ -86,10 +92,9 @@ private:
     QDate markedDate;
     ownCalendarWidget* calendar;
     static MainWindow * m_instance;
+
 	void saveColumnWidth();
-	bool applyFiltr(QString);
 	void init();
-	bool firstRun();
 	void saveAllSett();
 	void saveAllSettAsDefault();
 	void setupDir();
@@ -98,10 +103,22 @@ private:
     void readGoods();
     void categorizeYears();
     void checkTodayTask(QString whatToDo = QString("append"));
+    void createEmergTemplate();
+    bool ifEmergTemplateExists();
+    bool applyFiltr(QString);
+    bool firstRun();
 
+    inline void calendarNoteJustify(QString text) {
 
-protected:
+        ui->todayExercise->append(text);
 
-	virtual void loadPlugins();
+        QTextCursor cursor = ui->todayExercise->textCursor();
+        QTextBlockFormat textBlockFormat = cursor.blockFormat();
+        textBlockFormat.setAlignment(Qt::AlignHCenter);
+        cursor.mergeBlockFormat(textBlockFormat);
+        ui->todayExercise->setTextCursor(cursor);
+
+    }
+
 };
 #endif

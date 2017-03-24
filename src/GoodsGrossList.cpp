@@ -24,7 +24,7 @@ QString GoodsGrossList::getPriceOfCurrent() {
 	return sett().numberToString(price, 'f', 2);
 }
 
-QString const GoodsGrossList::getRetValGoodsBr() const
+QString const GoodsGrossList::getRetValGoodsBr()
 {
     return ret;
 }
@@ -43,29 +43,29 @@ void GoodsGrossList::doAccept() {
 
 	selectedItem = nameEdit->text();
 
+    QVector<ProductDataList> listProducts;
+    listProducts.append(goodsList2);
+    listProducts.append(servicesList2);
+
+
 	if (selectedItem != "") {
-		if (comboBox1->currentIndex() == 0) {
-            ret = selectedItem + "|" + goodsList2[getGoodsId()]->getCode() + "|"
-                    + goodsList2[getGoodsId()]->getPkwiu() + "|"
-					+ trimZeros(countSpinBox->cleanText()) + "|"
-                    + goodsList2[getGoodsId()]->getQuantityType() + "|"
-                    + discountSpin->cleanText() + "|"
-					+ getPriceOfCurrent() + "|"
-                    + netLabel->text() + "|" + sett().numberToString(getVatsVal()[selectedItem]) + "|"
-                    + grossLabel->text();
 
-		}
+        for (int i = 0; i < 2; i++) {
 
-		if (comboBox1->currentIndex() == 1) {
-            ret = selectedItem + "|" + servicesList2[getGoodsId()]->getCode() + "|"
-                    + servicesList2[getGoodsId()]->getPkwiu() + "|"
-					+ trimZeros(countSpinBox->cleanText()) + "|"
-                    + servicesList2[getGoodsId()]->getQuantityType() + "|"
-                    + discountSpin->cleanText() + "|"
-					+ getPriceOfCurrent() + "|"
-                    + netLabel->text() + "|" + sett().numberToString(getVatsVal()[selectedItem]) + "|"
-                    + grossLabel->text();
-		}
+            if (comboBox1->currentIndex() == i) {
+
+                QStringList listRest = QStringList() << selectedItem << listProducts[i][getGoodsId()]->getCode() << listProducts[i][getGoodsId()]->getPkwiu() <<
+                                                        trimZeros(countSpinBox->cleanText()) << listProducts[i][getGoodsId()]->getQuantityType() <<
+                                                        discountSpin->cleanText() << getPriceOfCurrent()
+                                                     << netLabel->text() << sett().numberToString(getVatsVal()[selectedItem]) <<
+                                                        grossLabel->text();
+
+                for (int j = 0; j < listRest.count(); j++) {
+
+                    ret += listRest[j] + "|";
+                }
+            }
+        }
 
 		accept();
 
@@ -75,6 +75,7 @@ void GoodsGrossList::doAccept() {
 				QMessageBox::Ok);
 	}
 }
+
 
 void GoodsGrossList::calcNet() {
 
@@ -87,6 +88,7 @@ void GoodsGrossList::calcNet() {
         int sp = getVatsVal()[listWidget->selectedItems().at(0)->text()];
         double vat = (wb * sp) / (100 + sp);
         double net2 = wb - vat;
+
         // qDebug() << price << discount << net2 << gross2 << vat;
         grossLabel->setText(sett().numberToString(wb, 'f', 2));
         netLabel->setText(sett().numberToString(net2, 'f', 2));

@@ -17,11 +17,12 @@ public:
 
 	CustomPaymData();
 	virtual ~CustomPaymData();
+
 	QString payment1;
+    QString payment2;
     QDate date1;
-	double amount1;
-	QString payment2;
     QDate date2;
+	double amount1;
 	double amount2;
 
 };

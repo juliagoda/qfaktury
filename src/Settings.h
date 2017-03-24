@@ -591,6 +591,12 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 	}
 
 
+    QString getEmergTemplate() {
+
+        return (QDir::homePath() + "/.local/share/data/elinux/template/black.css");
+    }
+
+
 	// return invoices dir
 	QString getDataDir() {
 
@@ -729,6 +735,7 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		}
 
 private:
+
 	QString dateFormat;
 	QString fileNameDateFormat;
 	QLocale *locale;

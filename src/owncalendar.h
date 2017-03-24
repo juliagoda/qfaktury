@@ -18,7 +18,7 @@ public:
     {
     }
 
-    void ourCall(QDate date)
+    void ourCall(QDate)
     {
         // here we set some conditions
         update();

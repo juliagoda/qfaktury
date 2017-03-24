@@ -23,10 +23,12 @@ public:
 
 	CustomPayment(QWidget* parent);
 	virtual ~CustomPayment();
-    CustomPaymData *custPaymData;
-	void init();
+
 	bool validateForm();
 	void setInvoiceAmount(double a);
+    void init();
+
+    CustomPaymData *custPaymData;
 
 
 public slots:
@@ -39,6 +41,7 @@ public slots:
 private:
 
     double invoiceAmount;
+
 
 };
 

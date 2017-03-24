@@ -56,7 +56,7 @@ Invoice::Invoice(QWidget *parent, IDataLayer *dl, QString Inv) :
     m_instance = this;
 	dataLayer = dl;
     pforma = false;
-	kAdded = false;
+    kAdded = false;
     konvEUR->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
     konvPLN->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
     konvUSD->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na zaznaczone według aktualnego kursu walut, o ile się różni wyboru waluty z listy obok."));
@@ -100,13 +100,13 @@ Invoice* Invoice::instance()
 }
 
 
-QString const Invoice::getRet() const
+QString const Invoice::getRet()
 {
     return ret;
 }
 
 
-QString const Invoice::getfName() const
+QString const Invoice::getfName()
 {
     return fName;
 }
@@ -118,13 +118,13 @@ void Invoice::setfName(QString text)
 }
 
 
-QString const Invoice::getInvForm() const
+QString const Invoice::getInvForm()
 {
     return inv_form;
 }
 
 
-bool const Invoice::getKAdded() const
+bool const Invoice::getKAdded()
 {
     return kAdded;
 }
@@ -306,19 +306,22 @@ void Invoice::connectedWebsite(const QUrl& webExchRate) {
        if (fileName.isEmpty())
            fileName = sett().getInvoicesDir() + "bureau.xml";
 
+
        if (file.exists()) {
-           qDebug("Plik istnieje");
+
            if (QFile::remove(fileName)) qDebug("Plik usunięto");
+           else {
+
+               QFile(fileName).setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther);
+               if (QFile::remove(fileName)) qDebug("Plik usunięto");
+           }
        }
 
        file.setFileName(fileName);
 
 
        if (!file.open(QIODevice::WriteOnly)) {
-           QMessageBox::information(this, tr("HTTP"),
-                         tr("Unable to save the file %1: %2.")
-                         .arg(fileName).arg(file.errorString()));
-           return;
+           file.setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ReadUser | QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::WriteUser);
        }
 
 
@@ -339,8 +342,8 @@ void Invoice::httpReadyRead()
     if (file.exists()) {
         file.write(reply->readAll());
     }
-
 }
+
 
 void Invoice::tellFinished()
 {
@@ -353,9 +356,18 @@ void Invoice::tellFinished()
           qDebug("You can't set content to correction xml");
 
         }
-        sett().setValue("lastUpdateCur", doc.elementsByTagName(QString("lastBuildDate")).at(0).toElement().text());
 
+    } else {
+
+        if (file.exists()) {
+
+        file.setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ReadUser | QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::WriteUser);
+
+        }
     }
+
+    sett().setValue("lastUpdateCur", doc.elementsByTagName(QString("lastBuildDate")).at(0).toElement().text());
+
 
 
         qDebug("Finished");
@@ -400,9 +412,17 @@ QMap<QString,double> Invoice::getActualCurList() {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
+
     QMap<QString,double> currencies;
 
-   if (file.open(QIODevice::ReadOnly)) {
+    if (!file.open(QIODevice::ReadOnly)) {
+
+        if (file.exists()) {
+
+        file.setPermissions(QFileDevice::ReadOther | QFileDevice::ReadUser | QFileDevice::ReadOwner);
+
+        }
+    } else {
 
        if (!doc.setContent(&file)) {
 
@@ -439,12 +459,56 @@ QMap<QString,double> Invoice::getActualCurList() {
 
 }
 
+/*
+
+Thanks to the algorithm it's no need to add every combination of currencies to QMap manually but only from
+foreign to main currency in tableOfValues() function. List's order is not required, the most important thing
+is first argument, that is the our main language
+
+*/
+
+void Invoice::algorithmCurrencies(QString mainEl, QStringList list, QMap<QString, double> & mappedList) {
+
+    QStringList::const_iterator constIterator;
+    QStringList::const_iterator constIteratorDepth;
+
+        for (constIterator = list.constBegin(); constIterator != list.constEnd();
+               ++constIterator) {
+
+            for (constIteratorDepth = list.constBegin(); constIteratorDepth != list.constEnd();
+                   ++constIteratorDepth) {
+
+                if ((*constIterator).toLocal8Bit().constData() == (*constIteratorDepth).toLocal8Bit().constData()) continue;
+
+                 QString desc = QString((*constIterator).toLocal8Bit().constData()) + "/" + QString((*constIteratorDepth).toLocal8Bit().constData());
+
+                if (mappedList.contains(desc)) continue;
+
+
+                if ((*constIterator).toLocal8Bit().constData() == mainEl) {
+
+                    double result = 1/mappedList.value(QString((*constIteratorDepth).toLocal8Bit().constData()) + "/" + QString((*constIterator).toLocal8Bit().constData()));
+
+                    mappedList.insert(desc, result);
+
+                } else {
+
+                    double result = mappedList.value(QString((*constIterator).toLocal8Bit().constData()) + "/" + mainEl) / mappedList.value(QString((*constIteratorDepth).toLocal8Bit().constData()) + "/" + mainEl);
+
+                    mappedList.insert(desc, result);
+
+                }
+            }
+        }
+}
+
 
 QMap<QString,double> Invoice::tableOfValues() {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
     QMap<QString,double> currencies;
+
 
     if (currencies.isEmpty()) {
 
@@ -454,75 +518,16 @@ QMap<QString,double> Invoice::tableOfValues() {
         double gbpToPln = getActualCurList().value("GBP");
         double rubToPln = getActualCurList().value("RUB");
 
-        double plnToEur = 1/eurToPln;
-        double plnToChf = 1/chfToPln;
-        double plnToGbp = 1/gbpToPln;
-        double plnToRub = 1/rubToPln;
-        double plnToUsd = 1/usdToPln;
-
-        double eurToUsd = eurToPln/usdToPln;
-        double eurToChf = eurToPln/chfToPln;
-        double eurToGbp = eurToPln/gbpToPln;
-        double eurToRub = eurToPln/rubToPln;
-
-        double usdToEur = usdToPln/eurToPln;
-        double usdToChf = usdToPln/chfToPln;
-        double usdToGbp = usdToPln/gbpToPln;
-        double usdToRub = usdToPln/rubToPln;
-
-        double chfToEur = chfToPln/eurToPln;
-        double chfToUsd = chfToPln/usdToPln;
-        double chfToGbp = chfToPln/gbpToPln;
-        double chfToRub = chfToPln/rubToPln;
-
-        double gbpToEur = gbpToPln/eurToPln;
-        double gbpToUsd = gbpToPln/usdToPln;
-        double gbpToChf = gbpToPln/chfToPln;
-        double gbpToRub = gbpToPln/rubToPln;
-
-        double rubToEur = rubToPln/eurToPln;
-        double rubToUsd = rubToPln/usdToPln;
-        double rubToGbp = rubToPln/gbpToPln;
-        double rubToChf = rubToPln/chfToPln;
-
-
         currencies.insert("EUR/PLN",eurToPln);
         currencies.insert("USD/PLN",usdToPln);
         currencies.insert("CHF/PLN",chfToPln);
         currencies.insert("GBP/PLN",gbpToPln);
         currencies.insert("RUB/PLN",rubToPln);
 
-        currencies.insert("PLN/EUR",plnToEur);
-        currencies.insert("PLN/USD",plnToUsd);
-        currencies.insert("PLN/CHF",plnToChf);
-        currencies.insert("PLN/GBP",plnToGbp);
-        currencies.insert("PLN/RUB",plnToRub);
+        QMap<QString,double>& r = currencies;
+        QStringList langList = QStringList() << "PLN" << "EUR" << "USD" << "CHF" << "GBP" << "RUB";
 
-        currencies.insert("EUR/USD",eurToUsd);
-        currencies.insert("EUR/CHF",eurToChf);
-        currencies.insert("EUR/GBP",eurToGbp);
-        currencies.insert("EUR/RUB",eurToRub);
-
-        currencies.insert("USD/EUR",usdToEur);
-        currencies.insert("USD/CHF",usdToChf);
-        currencies.insert("USD/GBP",usdToGbp);
-        currencies.insert("USD/RUB",usdToRub);
-
-        currencies.insert("CHF/EUR",chfToEur);
-        currencies.insert("CHF/USD",chfToUsd);
-        currencies.insert("CHF/GBP",chfToGbp);
-        currencies.insert("CHF/RUB",chfToRub);
-
-        currencies.insert("GBP/EUR",gbpToEur);
-        currencies.insert("GBP/USD",gbpToUsd);
-        currencies.insert("GBP/CHF",gbpToChf);
-        currencies.insert("GBP/RUB",gbpToRub);
-
-        currencies.insert("RUB/EUR",rubToEur);
-        currencies.insert("RUB/USD",rubToUsd);
-        currencies.insert("RUB/CHF",rubToChf);
-        currencies.insert("RUB/GBP",rubToGbp);
-
+        algorithmCurrencies("PLN", langList, r);
     }
 
     return currencies;
@@ -533,19 +538,23 @@ bool Invoice::ifUpdated()
 {
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
+
    if (!file.open(QIODevice::ReadOnly)) {
 
-        qDebug("file doesn't exist");
-        return false;
+       if (file.exists()) {
+
+       file.setPermissions(QFileDevice::ReadOther | QFileDevice::ReadUser | QFileDevice::ReadOwner);
+
+       }
 
     } else {
 
-           if (!doc.setContent(&file)) {
+        if (!doc.setContent(&file)) {
 
              qDebug("You can't set content to correction xml");
              return true;
 
-           }
+        }
 
            QMap<QString,int> helpMonths;
            helpMonths.insert("Jan",1);
@@ -592,6 +601,7 @@ bool Invoice::ifUpdated()
         else
             return false;
 
+
     }
 
    file.close();
@@ -635,9 +645,7 @@ bool Invoice::convWarn()
 }
 
 
-// ---- SLOTS START  --//////////////////////////////////////////////////////////////////////////////////
-
-void Invoice::changeToEUR() {
+void Invoice::convertCurrShort(QString btnText) {
 
     if (!convWarn()) {
 
@@ -646,7 +654,7 @@ void Invoice::changeToEUR() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     file.setFileName(sett().getInvoicesDir() + "bureau.xml");
-    pressedText = konvEUR->text().trimmed();
+    pressedText = btnText;
 
 
    if (!file.exists()) {
@@ -700,322 +708,44 @@ void Invoice::changeToEUR() {
 }
 
 
+// ---- SLOTS START  --//////////////////////////////////////////////////////////////////////////////////
+
+void Invoice::changeToEUR() {
+
+    convertCurrShort(konvEUR->text().trimmed());
+}
+
+
 void Invoice::changeToUSD() {
 
-    if (!convWarn()) {
-
-    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-   file.setFileName(sett().getInvoicesDir() + "bureau.xml");
-    pressedText = konvUSD->text().trimmed();
-    qDebug() << "Converted to " << pressedText;
-    qDebug() << "Converted to " << pressedTxt();
-
-   if (!file.exists()) {
-
-       QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-       connectedWebsite(web);
-
-   } else {
-
-       if (ifUpdated()) {
-
-           QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-           connectedWebsite(web);
-
-       } else {
-
-           QMap<QString, double> list;
-           QMap<QString, double> table;
-
-            list = getActualCurList();
-            table = tableOfValues();
-
-
-            if (checkInvCurr() != pressedTxt()) {
-
-                QMap<QString, double>::const_iterator i = table.constBegin();
-                while (i != table.constEnd()) {
-
-                    QString first = i.key().split("/").at(0);
-                    QString second = i.key().split("/").at(1);
-
-                    if (first == currCombo->currentText() && second == pressedTxt()) {
-                        calcAll(i.value());
-                        break;
-                    }
-
-                    ++i;
-                }
-       } else {
-
-                QMessageBox::information(this,trUtf8("Wartości walut"),trUtf8("Wartości konwertowane nie mogą być sobie równe. Ustaw różne nazwy walut."));
-            }
-
-            currCombo->setCurrentText(pressedTxt());
-        }
-    }
-
-   QApplication::restoreOverrideCursor();
-
-    }
+    convertCurrShort(konvUSD->text().trimmed());
 }
 
 void Invoice::changeToPLN() {
 
-    if (!convWarn()) {
-
-    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    file.setFileName(sett().getInvoicesDir() + "bureau.xml");
-    pressedText = konvPLN->text().replace("&","").trimmed();
-
-   if (!file.exists()) {
-
-       QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-       connectedWebsite(web);
-
-   } else {
-
-       if (ifUpdated()) {
-
-           QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-           connectedWebsite(web);
-
-       } else {
-
-           QMap<QString, double> list;
-           QMap<QString, double> table;
-
-            list = getActualCurList();
-            table = tableOfValues();
-
-
-            if (checkInvCurr() != pressedTxt()) {
-
-                QMap<QString, double>::const_iterator i = table.constBegin();
-                while (i != table.constEnd()) {
-
-                    QString first = i.key().split("/").at(0);
-                    QString second = i.key().split("/").at(1);
-
-                    if (first == currCombo->currentText() && second == pressedText) {
-                        qDebug() << "first: " << first << " == " << "currComboText: " << currCombo->currentText() << " && " << "second: " << second << " == " << "pressedText: " << pressedTxt();
-                        calcAll(i.value());
-                        break;
-                    }
-
-                    ++i;
-                }
-       } else {
-
-                QMessageBox::information(this,trUtf8("Wartości walut"),trUtf8("Wartości konwertowane nie mogą być sobie równe. Ustaw różne nazwy walut."));
-            }
-
-            currCombo->setCurrentText(pressedTxt());
-        }
-    }
-
-   QApplication::restoreOverrideCursor();
-
-    }
+    convertCurrShort(konvPLN->text().replace("&","").trimmed());
 }
 
 
 void Invoice::changeToCHF() {
 
-    if (!convWarn()) {
-
-    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    file.setFileName(sett().getInvoicesDir() + "bureau.xml");
-    pressedText = konvCHF->text().replace("&","").trimmed();
-
-   if (!file.exists()) {
-
-       QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-       connectedWebsite(web);
-
-   } else {
-
-       if (ifUpdated()) {
-
-           QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-           connectedWebsite(web);
-
-       } else {
-
-           QMap<QString, double> list;
-           QMap<QString, double> table;
-
-            list = getActualCurList();
-            table = tableOfValues();
-
-
-            if (checkInvCurr() != pressedTxt()) {
-
-                QMap<QString, double>::const_iterator i = table.constBegin();
-                while (i != table.constEnd()) {
-
-                    QString first = i.key().split("/").at(0);
-                    QString second = i.key().split("/").at(1);
-
-                    if (first == currCombo->currentText() && second == pressedText) {
-                        qDebug() << "first: " << first << " == " << "currComboText: " << currCombo->currentText() << " && " << "second: " << second << " == " << "pressedText: " << pressedTxt();
-                        calcAll(i.value());
-                        break;
-                    }
-
-                    ++i;
-                }
-       } else {
-
-                QMessageBox::information(this,trUtf8("Wartości walut"),trUtf8("Wartości konwertowane nie mogą być sobie równe. Ustaw różne nazwy walut."));
-            }
-
-            currCombo->setCurrentText(pressedTxt());
-        }
-    }
-
-   QApplication::restoreOverrideCursor();
-
-    }
+    convertCurrShort(konvCHF->text().replace("&","").trimmed());
 }
 
 
 void Invoice::changeToGBP() {
 
-    if (!convWarn()) {
-
-    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    file.setFileName(sett().getInvoicesDir() + "bureau.xml");
-    pressedText = konvGBP->text().replace("&","").trimmed();
-
-   if (!file.exists()) {
-
-       QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-       connectedWebsite(web);
-
-   } else {
-
-       if (ifUpdated()) {
-
-           QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-           connectedWebsite(web);
-
-       } else {
-
-           QMap<QString, double> list;
-           QMap<QString, double> table;
-
-            list = getActualCurList();
-            table = tableOfValues();
-
-
-            if (checkInvCurr() != pressedTxt()) {
-
-                QMap<QString, double>::const_iterator i = table.constBegin();
-                while (i != table.constEnd()) {
-
-                    QString first = i.key().split("/").at(0);
-                    QString second = i.key().split("/").at(1);
-
-                    if (first == currCombo->currentText() && second == pressedText) {
-                        qDebug() << "first: " << first << " == " << "currComboText: " << currCombo->currentText() << " && " << "second: " << second << " == " << "pressedText: " << pressedTxt();
-                        calcAll(i.value());
-                        break;
-                    }
-
-                    ++i;
-                }
-       } else {
-
-                QMessageBox::information(this,trUtf8("Wartości walut"),trUtf8("Wartości konwertowane nie mogą być sobie równe. Ustaw różne nazwy walut."));
-            }
-
-            currCombo->setCurrentText(pressedTxt());
-        }
-    }
-
-   QApplication::restoreOverrideCursor();
-
-    }
+    convertCurrShort(konvGBP->text().replace("&","").trimmed());
 }
 
 
 void Invoice::changeToRUB() {
 
-    if (!convWarn()) {
-
-    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    file.setFileName(sett().getInvoicesDir() + "bureau.xml");
-    pressedText = konvRUB->text().replace("&","").trimmed();
-
-   if (!file.exists()) {
-
-       QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-       connectedWebsite(web);
-
-   } else {
-
-       if (ifUpdated()) {
-
-           QUrl web = QUrl::fromEncoded("http://waluty.com.pl/rss/?mode=kursy");
-           connectedWebsite(web);
-
-       } else {
-
-           QMap<QString, double> list;
-           QMap<QString, double> table;
-
-            list = getActualCurList();
-            table = tableOfValues();
-
-
-            if (checkInvCurr() != pressedTxt()) {
-
-                QMap<QString, double>::const_iterator i = table.constBegin();
-                while (i != table.constEnd()) {
-
-                    QString first = i.key().split("/").at(0);
-                    QString second = i.key().split("/").at(1);
-
-                    if (first == currCombo->currentText() && second == pressedText) {
-                        qDebug() << "first: " << first << " == " << "currComboText: " << currCombo->currentText() << " && " << "second: " << second << " == " << "pressedText: " << pressedTxt();
-                        calcAll(i.value());
-                        break;
-                    }
-
-                    ++i;
-                }
-       } else {
-
-                QMessageBox::information(this,trUtf8("Wartości walut"),trUtf8("Wartości konwertowane nie mogą być sobie równe. Ustaw różne nazwy walut."));
-            }
-
-            currCombo->setCurrentText(pressedTxt());
-        }
-    }
-
-   QApplication::restoreOverrideCursor();
-
-    }
+    convertCurrShort(konvRUB->text().replace("&","").trimmed());
 }
 
 
-QString Invoice::pressedTxt() const
+const QString Invoice::pressedTxt()
 {
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
@@ -1113,7 +843,6 @@ void Invoice::buyerClick() {
 
     Buyers *buyersWindow;
     buyersWindow = new Buyers(this, 0, dataLayer);
-    qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
 
     if (buyersWindow->exec() == QDialog::Accepted) {
 
@@ -1190,8 +919,6 @@ void Invoice::discountChange() {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
-
-
 	calculateDiscount();
 
     if (paysCombo->currentText() == trUtf8("zaliczka")) {
@@ -1217,6 +944,7 @@ void Invoice::addGoods() {
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
     GoodsList *goodslistWindow = new GoodsList(this);
+
     if (goodslistWindow->exec() == QDialog::Accepted) {
 
         MainWindow::insertRow(tableGoods, tableGoods->rowCount());
@@ -1237,8 +965,8 @@ void Invoice::addGoods() {
 
 		saveBtn->setEnabled(true);
         canClose = false;
-        if (constRab->isChecked())
-            calculateDiscount();
+
+        if (constRab->isChecked()) calculateDiscount();
 
         calculateSum();
     }
@@ -1263,7 +991,9 @@ void Invoice::addGoods() {
 void Invoice::delGoods() {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
     tableGoods->removeRow(tableGoods->currentRow());
+
     for (int i = 0; i < tableGoods->rowCount(); ++i) {
         tableGoods->item(i, 0)->setText(sett().numberToString(i + 1));
     }
@@ -1289,7 +1019,9 @@ void Invoice::editGoods() {
 
     goodsEdited = true;
     int cur = tableGoods->currentRow();
+
     if (cur >= 0) {
+
     ChangeAmount *changeQuant = new ChangeAmount(this);
 
     changeQuant->nameTow->setText(
@@ -1297,10 +1029,12 @@ void Invoice::editGoods() {
 
     changeQuant->codeTow->setText(
             tableGoods-> item(tableGoods->currentRow(), 2)->text());
+
     changeQuant->spinAmount->setValue(tableGoods-> item(tableGoods->currentRow(),
             4)->text().toInt());
 
     if (changeQuant->exec() == QDialog::Accepted) {
+
         int currentRow = tableGoods->currentRow();
         tableGoods->item(currentRow, 4)->setText(changeQuant->spinAmount->cleanText());
         saveBtn->setEnabled(true);
@@ -1434,10 +1168,14 @@ void Invoice::canQuit() {
 void Invoice::tableActivated(QTableWidgetItem * item) {
 
      qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
     if (item != NULL || !item->text().isEmpty()) {
         rmGoodsBtn->setEnabled(true);
         editGoodsBtn->setEnabled(true);
-	}
+    } else {
+        rmGoodsBtn->setEnabled(false);
+        editGoodsBtn->setEnabled(false);
+    }
 }
 
 /** Slot payTextChanged
@@ -1495,6 +1233,7 @@ void Invoice::payTextChanged(QString text) {
         double decimalPointsAmount = sum3->text().right(2).toInt() * 0.01;
 
         cp->setInvoiceAmount(sett().stringToDouble(sum3->text()) + decimalPointsAmount);
+
         if (cp->exec() ==  QDialog::Accepted) {
 
             custPaymData = 0;
@@ -1507,6 +1246,7 @@ void Invoice::payTextChanged(QString text) {
             if (ratesCombo == 0) ratesCombo = new QComboBox();
 
             if (labelRate == 0) labelRate = new QLabel();
+
             labelRate->setText(trUtf8("Termin raty:"));
             labelRate->setAlignment(Qt::AlignRight);
             addDataLabels->addWidget(labelRate);
@@ -1609,25 +1349,25 @@ void Invoice::rateDateChanged(QString date)
 
     if (!rComboWasChanged) {
 
-    qDebug() << "Zaznaczona data raty: " << date;
+    qDebug() << "Chosen date of rate: " << date;
     QDomDocument doc(sett().getInoiveDocName());
     QDomElement root;
-    qDebug() << "prepayFile w rateDateChanged: " << prepayFile;
     QFile file(sett().getInvoicesDir() + prepayFile);
 
-    if (!file.open(QIODevice::ReadOnly)) {
+    QTextStream stream(&file);
 
-        qDebug() << "file doesn't exist: " << file.fileName();
+    if (!file.open(QIODevice::ReadOnly) || !doc.setContent(stream.readAll())) {
 
-    } else {
+        QFileInfo check_file(file.fileName());
 
-        QTextStream stream(&file);
-        if (!doc.setContent(stream.readAll())) {
-            qDebug("You can't read content from invoice");
-            file.close();
+
+        if (check_file.exists() && check_file.isFile()) {
+
+        file.setPermissions(QFileDevice::ReadOther | QFileDevice::ReadUser | QFileDevice::ReadOwner);
 
         }
     }
+
 
     root = doc.documentElement();
     QDomElement addinfo;
@@ -1736,7 +1476,7 @@ void Invoice::setData(InvoiceData &invData) {
     else
         invData.discount = 0;
 
-    // lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
+    // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
     for (int i = 0; i < tableGoods->rowCount(); ++i) {
         ProductData product; //  = new ProductData();
 
@@ -1748,7 +1488,6 @@ void Invoice::setData(InvoiceData &invData) {
         product.setQuanType(tableGoods->item(i, 5)->text());
         product.setDiscount(tableGoods->item(i, 6)->text());
         double help = sett().stringToDouble(tableGoods->item(i, 7)->text());
-        qDebug() << "zapisz price w saveInvoice: " << help;
         product.setPrice(sett().numberToString(help,'f',2));
         product.setNett(tableGoods->item(i, 8)->text());
         product.setVat(tableGoods->item(i, 9)->text());
@@ -1802,6 +1541,7 @@ void Invoice::setData(InvoiceData &invData) {
 void Invoice::getData(InvoiceData invData) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
     buyerName->setText(invData.customer);
     invNr->setText(invData.invNr);
     sellingDate->setDate(invData.sellingDate );
@@ -1908,8 +1648,9 @@ bool Invoice::saveInvoice() {
     ret = dataLayer->getRet();
 
 
-    if (result) {
-        //getInvoiceTypeAndSaveNr();
+    if (!result) {
+        QMessageBox::warning(this,trUtf8("Zapis faktury"), trUtf8("Zapis faktury zakończył się niepowodzeniem. Sprawdź czy masz uprawnienia do zapisu lub odczytu w ścieżce ")
+                                                                  + sett().getInvoicesDir() + trUtf8(" oraz czy ścieżka istnieje."));
     }
 
     saveBtn->setEnabled(false);
@@ -1918,6 +1659,7 @@ bool Invoice::saveInvoice() {
 
     saveFailed = false;
     canClose = true;
+
 	return result;
 }
 
@@ -1984,23 +1726,45 @@ void Invoice::printSlot(QPrinter *printer) {
      qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
     QTextDocument doc(invoiceType);
-    QString s;
+    QString s = QString();
 
     for (QStringList::iterator it = invStrList.begin(); it != invStrList.end(); ++it) {
-        s+=*it+"\n";
+        s += *it + "\n";
     }
+
+
     // qDebug of the whole invoice :)
 
 	QFile file(sett().getWorkingDir() + "/invoice.html");
 
-	if (file.open(QIODevice::WriteOnly)) {
+    if (!file.open(QIODevice::WriteOnly)) {
 
-		QTextStream stream(&file);
-		for (QStringList::Iterator it = invStrList.begin(); it
-				!= invStrList.end(); ++it)
-			stream << *it << "\n";
-		file.close();
-	}
+        QFileInfo check_file(file.fileName());
+
+            if (check_file.exists() && check_file.isFile()) {
+
+                QFile(file.fileName()).setPermissions(QFileDevice::WriteOwner);
+
+            } else {
+
+                QDir mainPath(sett().getWorkingDir());
+
+                if (!mainPath.exists())
+                    mainPath.mkpath(sett().getWorkingDir());
+
+                file.setFileName(sett().getWorkingDir() + "/invoice.html");
+
+                file.open(QIODevice::WriteOnly);
+            }
+    }
+
+    QTextStream stream(&file);
+
+    for (QStringList::Iterator it = invStrList.begin(); it
+            != invStrList.end(); ++it)
+        stream << *it << "\n";
+
+    file.close();
 
     doc.setHtml(s);
     doc.print(printer);
@@ -2012,7 +1776,7 @@ void Invoice::printSlot(QPrinter *printer) {
 
 void Invoice::print() {
 
-     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+    qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
 	QPrinter printer(QPrinter::HighResolution);
 	QPrintPreviewDialog preview(&printer, this);
@@ -2021,6 +1785,9 @@ void Invoice::print() {
 
 	connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(printSlot(QPrinter *)));
     if (preview.exec() == 1) {
+
+        QMessageBox::warning(this,trUtf8("Drukowanie"),trUtf8("Prawdopobnie nie masz skonfigurowanej drukarki. Wykrywana nazwa domyślnej drukarki to: ") + printer.printerName() +
+                             trUtf8(". Status domyślnej drukarki (poprawny o ile drukarka ma możliwość raportowania statusu do systemu): ") + printer.printerState());
     }
 }
 
@@ -2089,6 +1856,7 @@ bool Invoice::validateForm() {
 
 void Invoice::makeInvoiceHeadarHTML() {
 
+
 	invStrList += "<html><head>";
 	invStrList += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"; //@TODO
     invStrList += "<meta name=\"creator\" value=\"https://github.com/juliagoda/qfaktury\" />";
@@ -2101,20 +1869,44 @@ void Invoice::makeInvoiceHeadarHTML() {
     if (file.open(QIODevice::ReadOnly)) {
 
 		QTextStream stream(&file);
-        QString line;
+        QString line = QString();
+
         while (!stream.atEnd()) {
 			line = stream.readLine();
 			invStrList += line;
         }
+
 		file.close();
         ifCSS = true;
 
     } else {
 
-        QMessageBox::warning(this, "Brak szablonu", trUtf8("Brakuje pliku css, który wymagany jest do ustawienia wyglądu drukowania"));
+        QFile file(sett().getEmergTemplate());
+
+        qDebug() << "getting from additional black.css";
+
+        if (file.open(QIODevice::ReadOnly)) {
+
+            QTextStream stream(&file);
+            QString line = QString();
+
+            while (!stream.atEnd()) {
+                line = stream.readLine();
+                invStrList += line;
+            }
+
+            file.close();
+            ifCSS = true;
+
+        } else {
+
+
+        QMessageBox::warning(this, "Brak szablonu", trUtf8("Brakuje najprawdopodobniej w twojej ścieżce uprawnień do odczytu lub ani ścieżka ") +
+                                                           sett().getEmergTemplate() + trUtf8(", ani ") + sett().getTemplate() + trUtf8(" nie istnieją."));
         ifCSS = false;
         qDebug() << "Could not open CSS file: " << file.fileName();
 
+        }
     }
 
 	invStrList += "</style>";
@@ -2141,9 +1933,11 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 
     invStrList += "</span>";
     invStrList += "</td>";
+
     if (sett().value("css").toString() == "tables.css") {
 
         invStrList += "<td id=\"invoiceInfo\" width=\"35%\" align=\"right\">";
+
         if (sett().value("css").toString() == "tables.css") {
             invStrList += "<table id=\"rightInvTable\" width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"5\" >";
 
@@ -2170,7 +1964,9 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
         invStrList += "</tr>";
 
         invStrList += "</table></td><td width=\"3%\">&nbsp;</td>";
+
     } else {
+
     invStrList += "<td id=\"invoiceInfo\" align=\"right\">";
     invStrList += "<span id=\"invFirstLine\" style=\"font-size:12pt; font-weight:600\">";
     invStrList += invoiceType + "<br/>";
@@ -2185,6 +1981,7 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 
     invStrList += "</span></td><td width=\"3%\">&nbsp;</td>";
     }
+
 	invStrList += "</tr>";
 	invStrList += "<tr>";
     invStrList += "<td class=\"origcopy\" colspan=\"2\" align=\"right\" valign=\"top\"><br>";
@@ -2437,7 +2234,7 @@ void Invoice::makeInvoiceProducts() {
     for (int i = 0; i < tableGoods->rowCount(); ++i) {
 
         invStrList += "<tr class=\"products\" >";
-        // lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
+        // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
 
         sett().beginGroup("invoices_positions");
 
@@ -2595,6 +2392,7 @@ void Invoice::makeInvoiceSummAll() {
      invStrList += "</td>";
      invStrList += "<td width=\"3%\">&nbsp;</td>";
      invStrList += "<td width=\"48%\" valign=\"top\">";
+
      if (sett().value("css").toString() == "tables.css") {
          invStrList += "<table id=\"totalRatesTable\" width=\"90%\" border=\"2\" cellspacing=\"0\" cellpadding=\"5\">";
 
@@ -2676,7 +2474,7 @@ QString Invoice::getGroupedSums() {
     QMap<int, double> grossRates;
     int ssize = rates.size();
 
-	// lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
+    // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
     for (int i = 0; i < tableGoods->rowCount(); ++i) {
         for (int y = 0; y < ssize; ++y) {
 
@@ -2684,7 +2482,6 @@ QString Invoice::getGroupedSums() {
 
                 netRates[y] += sett().stringToDouble(tableGoods->item(i, 8)->text());
                 grossRates[y] += sett().stringToDouble(tableGoods->item(i, 10)->text());
-                // qDebug() << grossRates[y] << netRates[y] << grossRates[y] - netRates[y];
                 vatRates[y] = grossRates[y] - netRates[y];
 
             } else {
@@ -2743,9 +2540,7 @@ void Invoice::setIsEditAllowed(bool isAllowed) {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
-    if (!sett().value("editSymbol").toBool()) {
-    invNr->setEnabled(isAllowed);
-    }
+    if (!sett().value("editSymbol").toBool()) invNr->setEnabled(isAllowed);
 
 	backBtn->setEnabled(isAllowed);
 	sellingDate->setEnabled(isAllowed);
@@ -2775,14 +2570,10 @@ void Invoice::setIsEditAllowed(bool isAllowed) {
 
 		constRab->setChecked(true);
         discountVal->setEnabled(true);
-
 	}
 
-    if (isAllowed && (paysCombo->currentText() != trUtf8("przelew"))) {
-        liabDate->setEnabled(false);
-    } else {
-        liabDate->setEnabled(true);
-    }
+    if (isAllowed && (paysCombo->currentText() != trUtf8("przelew"))) liabDate->setEnabled(false);
+    else liabDate->setEnabled(true);
 
     konvPLN->setEnabled(isAllowed);
     konvEUR->setEnabled(isAllowed);
@@ -2790,8 +2581,6 @@ void Invoice::setIsEditAllowed(bool isAllowed) {
     konvCHF->setEnabled(isAllowed);
     konvGBP->setEnabled(isAllowed);
     konvRUB->setEnabled(isAllowed);
-
-
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
 

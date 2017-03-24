@@ -38,19 +38,19 @@ Correction::~Correction() {
 }
 
 
-bool const Correction::getMode() const
+const bool Correction::getMode()
 {
     return editMode;
 }
 
 
-bool const Correction::getFirstRun() const
+bool const Correction::getFirstRun()
 {
     return firstRunned;
 }
 
 
-QString const Correction::getRet() const
+QString const Correction::getRet()
 {
     return ret;
 }
@@ -141,7 +141,8 @@ void Correction::backBtnClick(){
  *  Generates Correction XML
  */
 
-bool Correction::saveInvoice(){
+bool Correction::saveInvoice() {
+
 
      qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << fName;
 
@@ -152,45 +153,46 @@ bool Correction::saveInvoice(){
 
      qDebug() << fName;
 
-	QFile file;
+     QFile file;
 
-	if (fName == "NULL") {
+    if (fName == "NULL") {
+
 		fName = QDate::currentDate().toString(sett().getFnameDateFormat());
 
         int pNumber = 0;
 		QString fname = "k" + fName + "_"	+ sett().numberToString(pNumber) + ".xml";
 		file.setFileName(sett().getInvoicesDir() + fname);
-        qDebug() << "cor ret 1: " << fname;
+
 		ret = fname + "|";
 		pNumber += 1;
 
 		while (file.exists()) {
+
 			fname = "k" + fName + "_"	+ sett().numberToString(pNumber) + ".xml";
 			file.setFileName(sett().getInvoicesDir() + fname);
-            qDebug() << "cor ret 1: " << fname;
 			ret = fname + "|";
 			pNumber += 1;
         }
 
-        qDebug() << "Create new file " + file.fileName();
+        qDebug() << "Created new file " + file.fileName();
 		fName = fname;
 
 	} else {
 
 		file.setFileName(sett().getInvoicesDir() + fName);
-        qDebug() << "Use existing file " + file.fileName();
+        qDebug() << "Used existing file " + file.fileName();
 		ret = fName + "|";
 	}
 
 	root = doc.createElement("correction");
     root.setAttribute("no", invNr->text());
     root.setAttribute("originalInvoiceNo", invData->invNr);
-    qDebug() << "cor ret 2: " << invNr->text();
+
     ret += invNr->text() + "|";
 	root.setAttribute("issueDate", QDate::currentDate().toString(
 			sett().getDateFormat()));
-    qDebug() << "cor ret 3: " << QDate::currentDate().toString(sett().getDateFormat());
 	ret += QDate::currentDate().toString(sett().getDateFormat()) + "|";
+
 	root.setAttribute("sellingDate", sellingDate->date().toString(
 			sett().getDateFormat()));
 
@@ -200,7 +202,6 @@ bool Correction::saveInvoice(){
 
 	QString invType = getInvoiceTypeAndSaveNr();
 	root.setAttribute("type", invType);
-    qDebug() << "cor ret 4: " << invType;
 	ret += invType + "|";
 	doc.appendChild(root);
 
@@ -390,14 +391,19 @@ bool Correction::saveInvoice(){
 
     if (!file.open(QIODevice::WriteOnly)) {
 
-        QMessageBox::critical(this, "QFaktury", trUtf8("Nie można zapisać. Sprawdź czy folder:\n") +
-                sett().getInvoicesDir() + trUtf8("\nistnieje i czy masz do niego prawa zapisu."),
-        QMessageBox::Ok);
-        saveFailed = true;
+        QFileInfo check_file(file.fileName());
+
+            if (check_file.exists() && check_file.isFile()) {
+
+                 QFile(file.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+            }
     }
 
 	QTextStream ts(&file);
+
     qDebug() << xml;
+
 	ts << xml;
 	file.close();
 
@@ -480,15 +486,17 @@ void Correction::canQuit() {
 
         if (QMessageBox::warning(this, "QFaktury", trUtf8("Dane zostały zmienione czy chcesz zapisać?"),
                     trUtf8("Tak"), trUtf8("Nie"), 0, 0,	1) == 1) {
+
             saveColumnsWidth();
             reject();
 
         } else {
 
             saveInvoice();
-            if (saveFailed) {
-                return;
-            }
+
+            if (saveFailed) return;
+
+
             saveColumnsWidth();
             accept();
         }
@@ -510,31 +518,36 @@ void Correction::readCorrData(QString invFile) {
     invNr->setEnabled(false);
 
     setWindowTitle(trUtf8("Edytuje korektę"));
+
     qDebug("invFile file");
     qDebug() << invFile;
+
     QDomDocument doc(sett().getInvoicesDir());
 	QDomElement root;
     QDomElement buyer;
 	QDomElement product;
+
     fName = invFile;
     prepayFile = invFile;
 
     QFile file(sett().getInvoicesDir() + invFile);
-	if (!file.open(QIODevice::ReadOnly)) {
+    QTextStream stream(&file);
 
-		qDebug("file doesn't exist");
-		return;
+    if (!file.open(QIODevice::ReadOnly) || !doc.setContent(stream.readAll())) {
 
-	} else {
+        QFileInfo check_file(file.fileName());
 
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll())) {
+            if (check_file.exists() && check_file.isFile()) {
 
-            qDebug("You can't set content to correction xml");
-			file.close();
-			return;
-		}
-	}
+                QFile(file.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+            } else {
+
+                QMessageBox::warning(this,trUtf8("Brak dostępu"),trUtf8("Plik przechowujący dane o fakturze korygującej w ścieżce ") + file.fileName() + trUtf8(" nie istnieje.") +
+                                                                        trUtf8(" Jesteś pewien, że plik o tej nazwie nie jest przechowywany w innym folderze?"));
+                return;
+            }
+    }
 
 	root = doc.documentElement();
     invNr->setText(root.attribute("no"));
@@ -849,7 +862,11 @@ void Correction::calculateDiscount(){
 void Correction::schemaCalcSum()
 {
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
-    double net = 0, price = 0, quantity = 0, gross = 0;
+
+    double net = 0;
+    double price = 0;
+    double quantity = 0;
+    double gross = 0;
     double discountValue = 0;
 
     qDebug() << "paysCombo->currentText(): " << paysCombo->currentText();
@@ -859,9 +876,13 @@ void Correction::schemaCalcSum()
     nettTotal = 0;
     discountTotal = 0;
     grossTotal = 0;
+
     if (firstRunned) {
+
         if (paysCombo->currentText() == trUtf8("zaliczka")) {
+
             if (!editMode) {
+
                 rateLabelInfo->setText(sett().numberToString(0));
                 restLabelInfo->setText(sett().numberToString(0));
                 am1 = 0;
@@ -878,19 +899,27 @@ void Correction::schemaCalcSum()
     origNettTotal = 0;
     diffTotal = 0;
 
+
     // sum of after correction invoice
     for (int i = 0; i < tableGoods->rowCount(); ++i) {
+
         price = sett().stringToDouble(tableGoods->item(i, 7)->text());
         quantity = tableGoods->item(i, 4)->text().toInt();
         net = sett().stringToDouble(tableGoods->item(i, 8)->text());
+
         double decimalPointsNetto = tableGoods->item(i, 8)->text().right(2).toInt() * 0.01;
+
         qDebug() << "decimalPointsNetto << " << decimalPointsNetto;
+
         double decimalPointsGross = tableGoods->item(i, 10)->text().right(2).toInt() * 0.01;
+
         qDebug() << "decimalPointsGross << " << decimalPointsGross;
+
         net += decimalPointsNetto;
         gross = sett().stringToDouble(tableGoods->item(i, 10)->text());
         gross += decimalPointsGross;
         discountValue += (price * quantity) - net;
+
         nettTotal += net;
         grossTotal += gross;
     }
@@ -899,9 +928,10 @@ void Correction::schemaCalcSum()
 
     // initially origGrossTotal is -1
     // if it's -1 will set to to 0 and go through whole calculation
+
     if (origGrossTotal < 0) {
         origGrossTotal = 0;
-        qDebug() << "origGrossTotal mniejsze od zera: " << origGrossTotal;
+        qDebug() << "origGrossTotal less than zero: " << origGrossTotal;
 
         goodsEdited = true;
 
@@ -913,11 +943,13 @@ void Correction::schemaCalcSum()
             }
         }
 
-        qDebug() << "produktów jest przed pętlą: " << invData->products.count();
+        qDebug() << "products before loop: " << invData->products.count();
 
         for (QMap<int, ProductData>::const_iterator iter =
                 invData->products.begin(); iter != invData->products.end(); ++iter) {
+
             // qDebug() << iter.value()->toString();
+
             if (origGrossBureau == 0) {
                 origGrossTotal += iter.value().getGross();
             }
@@ -931,28 +963,27 @@ void Correction::schemaCalcSum()
             origGrossTotal = origGrossBureau;
         }
 
-        qDebug() << "origGrossTotal w pętli QMap: " << origGrossTotal;
+        qDebug() << "origGrossTotal in loop of QMap: " << origGrossTotal;
     }
 
     diffTotal = grossTotal - origGrossTotal;
 
 
     qDebug() << "diffTotal = grossTotal - origGrossTotal" << diffTotal << " = " << grossTotal << " - " << origGrossTotal;
+
     sum1->setText(sett().numberToString(grossTotal, 'f', 2));
     qDebug() << "grossTotal: " << grossTotal;
+
     sum2->setText(sett().numberToString(origGrossTotal, 'f', 2));
     qDebug() << "origGrossTotal: " << origGrossTotal;
+
     sum3->setText(sett().numberToString(diffTotal, 'f', 2));
     qDebug() << "diffTotal: " << diffTotal;
 
 
-    if (diffTotal < 0) {
-        textLabelSum3->setText(trUtf8("Do zwrotu:"));
-    } else if (diffTotal > 0) {
-        textLabelSum3->setText(trUtf8("Do zapłaty:"));
-    } else {
-        textLabelSum3->setText("");
-    }
+    if (diffTotal < 0) textLabelSum3->setText(trUtf8("Do zwrotu:"));
+    else if (diffTotal > 0) textLabelSum3->setText(trUtf8("Do zapłaty:"));
+    else textLabelSum3->setText("");
 
 
     if (firstRunned) firstRunned = false;
@@ -983,17 +1014,20 @@ void Correction::calculateOneDiscount(int i) {
 
     qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
 
-	double quantity = 0, vat = 0, gross = 0;
-    double net = 0,  price = 0;
-	double discountValue = 0, discount;
+    double quantity = 0;
+    double vat = 0;
+    double gross = 0;
+    double net = 0;
+    double price = 0;
+    double discountValue = 0;
+    double discount = 0;
+
 
     price = sett().stringToDouble(tableGoods->item(i, 7)->text());
 
-	if (constRab->isChecked()) {
-        discount = discountVal->value() * 0.01;
-	} else {
-        discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
-	}
+    if (constRab->isChecked()) discount = discountVal->value() * 0.01;
+    else discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
+
 
     quantity = tableGoods->item(i, 4)->text().toInt();
     net = (price * quantity);
@@ -1005,7 +1039,7 @@ void Correction::calculateOneDiscount(int i) {
     // qDebug() << price << quantity << net << discount << discountValue << vat << gross;
 
     tableGoods->item(i, 6)->setText(sett().numberToString(discount * 100, 'f', 0)); // discount
-    tableGoods->item(i, 8)->setText(sett().numberToString(net)); // nett
+    tableGoods->item(i, 8)->setText(sett().numberToString(net)); // net
     tableGoods->item(i, 10)->setText(sett().numberToString(gross)); // gross
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
@@ -1016,7 +1050,9 @@ void Correction::calculateOneDiscount(int i) {
 QString Correction::getInvoiceTypeAndSaveNr() {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
     sett().setValue("korNr", invNr->text());
+
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
 
 	return "korekta";
@@ -1039,92 +1075,79 @@ void Correction::makeInvoceProductsTitle(short a) {
 
 }
 
-void Correction::makeBeforeCorrProducts(){
+void Correction::makeBeforeCorrProducts() {
 
 	invStrList += "<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">";
 
 	makeInvoiceProductsHeadar();
 
+
 	for (QMap<int, ProductData>::const_iterator iter = invData->products.begin();
 			iter != invData->products.end();
 			++iter) {
 
-		// qDebug() << iter.value()->toString();
-		invStrList += "<tr valign=\"middle\" align=\"center\" class=\"products\">";
-		// lp, nazwa, kod, pkwiu, ilosc, jm, rabat, cena jm., netto, vat, brutto
-		if (sett().value("faktury_pozycje/Lp").toBool())
-			invStrList += "<td align=\"center\">" + sett().numberToString(iter.key() + 1) + "</td>";
-
-        if (sett().value("faktury_pozycje/Nazwa") .toBool())
-            invStrList += "<td align=\"left\">" + iter.value().getName() + "</td>";
-
-        if (sett().value("faktury_pozycje/Kod") .toBool())
-            invStrList += "<td align=\"center\">" + iter.value().getCode() + "</td>";
-
-        if (sett().value("faktury_pozycje/pkwiu") .toBool())
-            invStrList += "<td align=\"center\">" + iter.value().getPkwiu() + "</td>";
-
-        if (sett().value("faktury_pozycje/ilosc") .toBool())
-            invStrList += "<td align=\"center\">" + sett().numberToString(iter.value().getQuantity()) + "</td>";
-
-        if (sett().value("faktury_pozycje/jm") .toBool())
-            invStrList += "<td align=\"center\">" + iter.value().getQuantityType() + "</td>";
-
-        if (sett().value("faktury_pozycje/cenajedn") .toBool())
-            invStrList += "<td align=\"center\">" + sett().numberToString(iter.value().getPrice()) + "</td>";
-
         double discountVal = iter.value().getNett() * (iter.value().getDiscount() * 0.01);
         double nettMinusDisc = iter.value().getNett() - discountVal;
+        double vatPrice = iter.value().getGross() - iter.value().getNett(); // gross - net
 
-        if (sett().value("faktury_pozycje/wartnetto") .toBool())
-            invStrList += "<td align=\"center\">" + sett().numberToString(iter.value().getNett())
-					+ "</td>"; // netto
+        qDebug() << "discountVal correction: " << discountVal;
+        qDebug() << "nettMinusDisc: " << nettMinusDisc;
+        qDebug() << "vatPrice: " << vatPrice;
 
-        if (sett().value("faktury_pozycje/rabatperc") .toBool())
-            invStrList += "<td align=\"center\">" + sett().numberToString(iter.value().getDiscount())
-					+ "% </td>"; // rabat
 
-        if (sett().value("faktury_pozycje/discountval") .toBool())
-			invStrList += "<td align=\"center\">" + sett().numberToString(discountVal, 'f',  2)	+ " </td>";
+        QHash<QString,QString> settValues;
+        settValues.insert("invoices_positions/Lp", sett().numberToString(iter.key() + 1));
+        settValues.insert("invoices_positions/Name", iter.value().getName());
+        settValues.insert("invoices_positions/Code", iter.value().getCode());
+        settValues.insert("invoices_positions/pkwiu", iter.value().getPkwiu());
+        settValues.insert("invoices_positions/amount", sett().numberToString(iter.value().getQuantity()));
+        settValues.insert("invoices_positions/unit", iter.value().getQuantityType());
+        settValues.insert("invoices_positions/unitprice", sett().numberToString(iter.value().getPrice()));
+        settValues.insert("invoices_positions/netvalue", sett().numberToString(iter.value().getNett()));
+        settValues.insert("invoices_positions/discountperc", sett().numberToString(iter.value().getDiscount()));
+        settValues.insert("invoices_positions/discountval", sett().numberToString(discountVal, 'f',  2));
+        settValues.insert("invoices_positions/netafter", sett().numberToString(nettMinusDisc, 'f', 2));
+        settValues.insert("invoices_positions/vatval", sett().numberToString(iter.value().getVat()) + "%");
+        settValues.insert("invoices_positions/vatprice", sett().numberToString(vatPrice, 'f', 2));
+        settValues.insert("invoices_positions/grossval", sett().numberToString(iter.value().getGross()));
 
-        if (sett().value("faktury_pozycje/nettoafter") .toBool())
-			invStrList += "<td align=\"center\">" + sett().numberToString(nettMinusDisc, 'f', 2) + "</td>";
+		// qDebug() << iter.value()->toString();
+		invStrList += "<tr valign=\"middle\" align=\"center\" class=\"products\">";
 
-        if (sett().value("faktury_pozycje/vatval") .toBool())
-            invStrList += "<td align=\"center\">" + sett().numberToString(iter.value().getVat())
-					+ "%</td>";
-        double vatPrice = iter.value().getGross() - iter.value().getNett(); // brutt-nett :)
+        for (QHash<QString, QString>::const_iterator iterDepth = settValues.begin();
+                iterDepth != settValues.end();
+                ++iterDepth) {
 
-        if (sett().value("faktury_pozycje/vatprice") .toBool())
-			invStrList += "<td align=\"center\">" + sett().numberToString(vatPrice, 'f', 2)
-					+ "</td>";
+            if (sett().value(iterDepth.key()).toBool())
+                invStrList += "<td align=\"center\">" + iterDepth.value() + "</td>";
 
-        if (sett().value("faktury_pozycje/bruttoval") .toBool())
-            invStrList += "<td align=\"center\">" + sett().numberToString(iter.value().getGross()) + "</td>";
+        }
 
         invStrList += "</tr>";
-
 	}
 
 	invStrList += "</table>";
 }
 
+
 void Correction::makeBeforeCorrSumm(){
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
     invStrList += "<br/><table width=\"100%\" border=\"0\" cellpadding=\"5\">";
+
 	double vatPrice = origGrossTotal - origNettTotal;
+
 	invStrList += "<tr class=\"productsSumHeader\" valign=\"middle\">";
     invStrList += "<td width=\"67%\" align=\"right\">&nbsp;</td>";
-    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Netto") + "</td>"; // netto
+    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Netto") + "</td>"; // net
     invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Kwota VAT") + "</td>";// vat
-    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Brutto") + "</td>"; // brutto
+    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Brutto") + "</td>"; // gross
 	invStrList += "</tr>";
 	invStrList += "<tr class=\"productsSum\" valign=\"middle\">";
     invStrList += "<td align=\"right\">" + trUtf8("Razem:") + "</td>";
-    invStrList += "<td align=\"center\">" + sett().numberToString(origNettTotal, 'f', 2) + "</td>"; // netto
+    invStrList += "<td align=\"center\">" + sett().numberToString(origNettTotal, 'f', 2) + "</td>"; // net
     invStrList += "<td align=\"center\">" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
-    invStrList += "<td align=\"center\">" + sett().numberToString(origGrossTotal, 'f', 2) + "</td>"; // brutto
+    invStrList += "<td align=\"center\">" + sett().numberToString(origGrossTotal, 'f', 2) + "</td>"; // gross
 	invStrList += "</tr>";
 	invStrList += "</table>";
 	invStrList += "<hr class=\"hrdiv1\">";
@@ -1135,18 +1158,21 @@ void Correction::makeBeforeCorrSumm(){
 void Correction::makeInvoiceSumm() {
 
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
+
     invStrList += "<br/><table width=\"100%\" border=\"0\" cellpadding=\"5\">";
+
 	double vatPrice = grossTotal - nettTotal;
+
 	invStrList += "<tr class=\"productsSumHeader\" valign=\"middle\">";
     invStrList += "<td width=\"67%\" align=\"right\">&nbsp;</td>";
-    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Netto") + "</td>"; // netto
+    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Netto") + "</td>"; // net
     invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Kwota VAT") + "</td>";// vat
-    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Brutto") + "</td>"; // brutto
+    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Brutto") + "</td>"; // gross
 	invStrList += "</tr><tr class=\"productsSum\" valign=\"middle\">";
     invStrList += "<td align=\"right\">" + trUtf8("Razem:") + "</td>";
-    invStrList += "<td align=\"center\">" + sett().numberToString(nettTotal, 'f', 2) + "</td>"; // netto
+    invStrList += "<td align=\"center\">" + sett().numberToString(nettTotal, 'f', 2) + "</td>"; // net
     invStrList += "<td align=\"center\">" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
-    invStrList += "<td align=\"center\">" + sett().numberToString(grossTotal, 'f', 2) + "</td>"; // brutto
+    invStrList += "<td align=\"center\">" + sett().numberToString(grossTotal, 'f', 2) + "</td>"; // gross
 	invStrList += "</tr>";
 	invStrList += "</table>";
 
@@ -1171,13 +1197,15 @@ void Correction::makeInvoiceSummAll(){
     } else if (diffTotal < 0) {
 
         invStrList += trUtf8("Do zwrotu: ");
-        invStrList += sum3->text() + " " + currCombo->currentText()+ "<br/>";
+        invStrList += sum3->text().remove(0,1) + " " + currCombo->currentText()+ "<br/>";
     }
 
 		ConvertAmount* conv = new ConvertAmount();
+
 		invStrList += trUtf8("słownie:")
-				+ conv->convertPL(sum3->text(), currCombo->currentText())
+                + conv->convertPL(sum3->text().remove(0,1), currCombo->currentText())
                 + "<br/>";
+
 		delete conv;
 
         if (paysCombo->currentText() == trUtf8("gotówka")) {
@@ -1191,11 +1219,13 @@ void Correction::makeInvoiceSummAll(){
 
             ratesCombo->setCurrentIndex(0);
             QString whatMethod_one = QString();
+
             if (sendKindInfo->text() == trUtf8("gotówka")) whatMethod_one = trUtf8("gotówką");
             else whatMethod_one = trUtf8("przelewem");
 
             ratesCombo->setCurrentIndex(1);
             QString whatMethod_two = QString();
+
             if (sendKindInfo->text() == trUtf8("gotówka")) whatMethod_two = trUtf8("gotówką");
             else whatMethod_two = trUtf8("przelewem");
 
@@ -1204,9 +1234,11 @@ void Correction::makeInvoiceSummAll(){
             invStrList += QString(trUtf8("Zapłacono ") + whatMethod_one + ": "
                     +  rateLabelInfo->text() + " " + currCombo->currentText() + " "
                     + ratesCombo->itemText(0) + "<br>");
+
             invStrList += QString(trUtf8("Zaległości ") + whatMethod_two + ": "
                     +  restLabelInfo->text() + " " + currCombo->currentText() + " "
                     + ratesCombo->itemText(1));
+
             invStrList += "</span>";
 
         }  else if (paysCombo->currentText() == trUtf8("przelew")) {
@@ -1235,14 +1267,14 @@ void Correction::makeInvoiceSummAll(){
         invStrList += "<table width=\"90%\" border=\"0\">";
         invStrList += "<tr><td colspan=\"4\"><span style=\"font-size:8pt; font-weight:600;\">";
         invStrList += trUtf8("Ogółem stawkami:");
-        invStrList += "</span></td>"; // Ogółem stawkami:
+        invStrList += "</span></td>"; // In total:
         invStrList += "</tr>";
         invStrList += getGroupedSums();
         invStrList += "<tr>";
-        invStrList += "<td>&nbsp;</td>"; // netto
-        invStrList += "<td>&nbsp;</td>"; // stawka
-        invStrList += "<td>&nbsp;</td>"; // podatek
-        invStrList += "<td>&nbsp;</td>"; // brutto
+        invStrList += "<td>&nbsp;</td>"; // net
+        invStrList += "<td>&nbsp;</td>"; // rate
+        invStrList += "<td>&nbsp;</td>"; // tax
+        invStrList += "<td>&nbsp;</td>"; // gross
         invStrList += "</tr>";
         invStrList += "</table>";
         invStrList += "</td></tr></table>";

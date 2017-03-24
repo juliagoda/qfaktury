@@ -63,11 +63,13 @@ void CorrectGross::calculateOneDiscount(int i) {
 void CorrectGross::addGoods() {
 
     GoodsGrossList *goodsWindow = new GoodsGrossList(this);
+
     if (goodsWindow->exec() == QDialog::Accepted) {
 
         MainWindow::insertRow(tableGoods, tableGoods->rowCount());
         QStringList row = goodsWindow->getRetVal().split("|");
         int rowNum = tableGoods->rowCount() - 1;
+
         tableGoods->item(rowNum, 0)->setText(sett().numberToString(
                 tableGoods->rowCount())); // id
 

@@ -17,7 +17,7 @@ Q_OBJECT
 public:
 
     GoodsGrossList(QWidget *parent);
-    QString const getRetValGoodsBr() const;
+    const QString getRetValGoodsBr();
     ~GoodsGrossList();
 
 

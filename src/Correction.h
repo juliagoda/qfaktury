@@ -20,19 +20,19 @@ public:
 
     Correction(QWidget *parent, IDataLayer *dl, QString in_form = QString(), bool edMode = false);
     virtual ~Correction();
-    bool const getMode() const;
-    bool const getFirstRun() const;
-    QString const getRet() const;
+    const bool getMode();
+    const bool getFirstRun();
+    QString const getRet();
     void schemaCalcSum();
     virtual void correctionInit(bool mode);
-	virtual void readCorrData(QString fraFile);
+    virtual void readCorrData(QString fraFile);
 
 
 public slots:
 
-	// to be overwritten in child class
-	virtual void backBtnClick();
+    // have to be overwritten in child class
 	virtual bool saveInvoice();
+    virtual void backBtnClick();
 	virtual void makeInvoice();
     virtual void canQuit();
 
@@ -44,21 +44,21 @@ protected:
 	virtual void makeInvoceProductsTitle(short a);
 	virtual void makeBeforeCorrProducts();
 	virtual void makeBeforeCorrSumm();
-	InvoiceData *createOriginalInv();
 	virtual void setIsEditAllowed(bool isAllowed);
 	virtual void calculateDiscount();
 	virtual void calculateSum();
 	virtual void calculateOneDiscount(int i);
 	virtual QString getInvoiceTypeAndSaveNr();
+    InvoiceData *createOriginalInv();
 
 
 private:
 
-    double origGrossBureau;
     bool editMode;
     bool firstRunned;
     double origDiscTotal, origNettTotal, origGrossTotal;
     double diffTotal;
+    double origGrossBureau;
     InvoiceData *invData;
     QComboBox *reasonCombo;
     QLabel *labelReason1;

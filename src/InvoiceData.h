@@ -19,7 +19,7 @@ class InvoiceData {
 
 public:
 
-	QString customer; // kontrahent
+    QString customer; // buyer
     QMap<int, ProductData> products;
 	QDate liabDate;
 	QDate sellingDate;

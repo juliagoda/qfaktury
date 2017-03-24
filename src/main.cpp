@@ -63,6 +63,7 @@ int main(int argc, char **argv) {
 	a.setWindowIcon(icon);
 	a.setApplicationName("QFaktury");
     a.setOrganizationName("https://github.com/juliagoda/qfaktury");
+    a.setApplicationVersion(sett().getVersion(qAppName()));
     a.setStyle(sett().getStyle());
 
 	return a.exec();

@@ -144,6 +144,3 @@ void User::okClick ()
 
   }
 }
-
-
-

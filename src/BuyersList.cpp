@@ -30,6 +30,7 @@ void BuyersList::init() {
 	// load data
 	QString customer;
 	listBox1->clear();
+
 	foreach (customer, companiesList)
 		listBox1->addItem(customer.split("|")[0]);
 
@@ -43,7 +44,7 @@ void BuyersList::init() {
 }
 
 
-QString const BuyersList::getRetBuyerList() const
+const QString BuyersList::getRetBuyerList()
 {
     return ret;
 }
@@ -63,9 +64,12 @@ void BuyersList::mouseSelect() {
 void BuyersList::doAccept() {
 
     if (!listBox1->selectedItems().isEmpty()) {
+
 		ret = detailsToString();
 		accept();
+
 	} else {
+
 		QMessageBox::information(this, "QFaktury", trUtf8("Wskaż kontrahenta."),
 				QMessageBox::Ok);
 	}
@@ -83,17 +87,17 @@ void BuyersList::comboBox1Changed() {
 	QString customer;
 
 	switch (comboBox1->currentIndex()) {
-	case 0:
-
-		foreach (customer, companiesList)
-			listBox1->addItem(customer.split("|")[0]);
-		break;
-
-	case 1:
+    case 1:
 
 		foreach (customer, officesList)
 			listBox1->addItem(customer.split("|")[0]);
 		break;
+
+    default:
+
+        foreach (customer, companiesList)
+            listBox1->addItem(customer.split("|")[0]);
+        break;
 
 	}
 }
@@ -108,16 +112,6 @@ void BuyersList::updateDetails(QListWidgetItem *item) {
     QString customer = QString();
 
 	switch (comboBox1->currentIndex()) {
-	case 0:
-
-		foreach (customer, companiesList) {
-			custDetails = customer.split("|");
-			if (item->text().compare(custDetails[0]) == 0) {
-				displayDetails(custDetails);
-			}
-		}
-		break;
-
 	case 1:
 
 		foreach (customer, officesList) {
@@ -127,6 +121,16 @@ void BuyersList::updateDetails(QListWidgetItem *item) {
 			}
 		}
 		break;
+
+    default:
+
+        foreach (customer, companiesList) {
+            custDetails = customer.split("|");
+            if (item->text().compare(custDetails[0]) == 0) {
+                displayDetails(custDetails);
+            }
+        }
+        break;
 	}
 }
 
@@ -144,17 +148,45 @@ void BuyersList::readBuyer() {
 	QFile file(sett().getCustomersXml());
 
 	if (!file.open(QIODevice::ReadOnly)) {
-		qDebug() << "File" << file.fileName() << "doesn't exists";
-		return;
+
+        QFileInfo check_file(file.fileName());
+
+            if (check_file.exists() && check_file.isFile()) {
+
+                QFile(file.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+            } else {
+
+                QDir mainPath(file.fileName());
+
+                mainPath.mkpath(file.fileName());
+
+                readBuyer();
+            }
 
 	} else {
 
 		QTextStream stream(&file);
 
 		if (!doc.setContent(stream.readAll())) {
-			qDebug("can not set content ");
-			file.close();
-			return;
+
+            root = doc.createElement(sett().getCustomersDocName());
+            doc.appendChild(root);
+            office = doc.createElement(sett().getOfficeName());
+            root.appendChild(office);
+            company = doc.createElement(sett().getCompanyName());
+            root.appendChild(company);
+
+            QString xml = doc.toString();
+
+            file.close();
+            file.open(QIODevice::WriteOnly);
+            QTextStream ts(&file);
+            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+            ts << xml;
+            file.close();
+
+            readBuyer();
 
 		} else {
 
