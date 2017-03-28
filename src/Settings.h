@@ -1,18 +1,16 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QStandardPaths>
 #include <QSettings>
-#include <QDate>
-#include <QDir>
-#include <QString>
-#include <QVariant>
-#include <QLocale>
-#include <QDebug>
-#include <QTextCodec>
-#include <QStyleFactory>
 #include <QTranslator>
+#include <QDate>
+#include <QDebug>
+#include <QStyleFactory>
+#include <QTextCodec>
+#include <QFile>
+#include <QDir>
 #include <QMessageBox>
+
 #include "config.h"
 
 

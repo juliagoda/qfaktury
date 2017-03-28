@@ -1,10 +1,8 @@
 #ifndef SETTING_H
 #define SETTING_H
 
-#include <QDialog>
-#include <QSettings>
 #include "ui_Setting.h"
-#include <QListWidget>
+
 
 class Setting: public QDialog, public Ui::Setting {
 

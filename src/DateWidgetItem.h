@@ -1,9 +1,9 @@
 #ifndef DateWidgetItem_H
 #define DateWidgetItem_H
+
 #include <QTableWidgetItem>
-#include <QtDebug>
 #include <QDate>
-#include "Settings.h"
+
 
 class DateWidgetItem: public QTableWidgetItem
 {

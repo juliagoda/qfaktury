@@ -1,12 +1,7 @@
 
 #include <QtXml/qdom.h>
-#include <QDir>
-#include <QMessageBox>
-#include <QTextCodec>
-#include <QTextStream>
-#include <QDebug>
-#include <QListWidgetItem>
 
+#include "Settings.h"
 #include "GoodsList.h"
 
 /** Constructor

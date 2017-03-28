@@ -10,9 +10,10 @@
 
 #include "Correction.h"
 
+
 class CorrectGross: public Correction {
 
-Q_OBJECT
+    Q_OBJECT
 
 public:
 

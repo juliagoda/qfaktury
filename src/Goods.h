@@ -1,12 +1,11 @@
 #ifndef GOODS_H
 #define GOODS_H
 
-#include <QDialog>
-#include <QtXml/qdom.h>
+
 #include "IDataLayer.h"
 #include "ProductData.h"
-
 #include "ui_Goods.h"
+
 
 class Goods: public QDialog, public Ui::Goods {
 

@@ -9,7 +9,7 @@
 #define CONVERTAMOUNT_H_
 
 #include <QString>
-#include "Settings.h"
+
 
 class ConvertAmount {
 

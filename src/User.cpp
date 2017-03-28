@@ -1,9 +1,8 @@
 
-#include <QLabel>
-#include <QComboBox>
 #include "Validations.h"
 #include "Settings.h"
 #include "User.h"
+
 
 User::User(QWidget *parent): QDialog(parent) {
     setupUi(this);
@@ -13,6 +12,7 @@ User::User(QWidget *parent): QDialog(parent) {
 /*!
   * inits function, reads settings
   !*/
+
 void User::init () {
 
   QSettings settings("elinux", "user");

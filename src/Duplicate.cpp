@@ -6,8 +6,7 @@
  */
 
 #include "Duplicate.h"
-#include <QLabel>
-#include <QSpinBox>
+
 
 // constructor
 Duplicate::Duplicate(QWidget *parent, IDataLayer *dl, QString in_form, bool ifEdited): Invoice(parent, dl, in_form), editMode(ifEdited) {
@@ -22,6 +21,7 @@ Duplicate::~Duplicate()
     if (duplicateDate != 0) duplicateDate = 0;
     delete duplicateDate;
 }
+
 
 void Duplicate::duplicateInit() {
 

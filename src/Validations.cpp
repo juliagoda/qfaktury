@@ -3,7 +3,9 @@
 #include <QChar>
 #include <QList>
 #include <QDebug>
+
 #include "Validations.h"
+
 
 Validations* Validations::m_instance = nullptr;
 
@@ -18,10 +20,12 @@ Validations::~Validations() {
     m_instance = nullptr;
 }
 
+
 Validations* Validations::instance()
 {
     return m_instance;
 }
+
 
 bool Validations::validateAccount(QString text)
 {

@@ -5,14 +5,8 @@
  *      Author: moux
  */
 
-#include <QTableWidget>
-#include <QTableWidgetItem>
-#include <QComboBox>
-#include <QElapsedTimer>
 #include "XmlDataLayer.h"
-#include "IDataLayer.h"
 #include "Invoice.h"
-#include "CustomPayment.h"
 #include "Settings.h"
 
 

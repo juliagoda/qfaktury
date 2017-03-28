@@ -8,7 +8,7 @@
 #include "InvoiceGross.h"
 #include "GoodsGrossList.h"
 #include "MainWindow.h"
-#include <QLabel>
+
 
 // constructor
 InvoiceGross::InvoiceGross(QWidget *parent, IDataLayer *dl, QString in_form): Invoice(parent, dl, in_form) {

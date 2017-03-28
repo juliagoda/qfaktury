@@ -1,14 +1,10 @@
 #ifndef CORRECTION_H
 #define CORRECTION_H
 
-#include <QDialog>
 #include <QComboBox>
 
 #include "ui_Invoice.h"
-
 #include "Invoice.h"
-#include "ConvertAmount.h"
-#include "Settings.h"
 #include "InvoiceData.h"
 
 

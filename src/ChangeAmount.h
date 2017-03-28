@@ -1,8 +1,8 @@
 #ifndef CHANGEAMOUNT_H
 #define CHANGEAMOUNT_H
 
-#include <QDialog>
 #include "ui_ChangeAmount.h"
+
 
 class ChangeAmount: public QDialog, public Ui::ChangeAmount {
 

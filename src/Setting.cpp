@@ -1,10 +1,5 @@
 
-#include <QTextCodec>
 #include <QFileDialog>
-#include <QtXml/qdom.h>
-#include <QMessageBox>
-#include <QDesktopServices>
-#include <QUrl>
 
 #include "Settings.h"
 #include "Setting.h"

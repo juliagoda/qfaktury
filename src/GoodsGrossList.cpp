@@ -4,8 +4,7 @@
  *  Created on: Apr 3, 2009
  *      Author: TPIELECH
  */
-#include <QList>
-#include <QListWidgetItem>
+
 
 #include "GoodsGrossList.h"
 #include "Settings.h"

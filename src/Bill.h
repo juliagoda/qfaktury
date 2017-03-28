@@ -8,17 +8,13 @@
 #ifndef BILL_H_
 #define BILL_H_
 
-#include <QDialog>
-#include "ui_Invoice.h"
 #include "Invoice.h"
-
-#include "ConvertAmount.h"
-#include "Settings.h"
 
 
 class Bill: public Invoice {
 
-Q_OBJECT
+    Q_OBJECT
+
 
 public:
 

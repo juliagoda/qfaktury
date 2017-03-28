@@ -1,23 +1,12 @@
 ﻿
-#include <QTextCodec>
-#include <QMessageBox>
-#include <QApplication>
-#include <QEvent>
-#include <QMenu>
-#include <QUrl>
-#include <QtXml/qdom.h>
-#include <QTextStream>
-#include <QtDebug>
+#include <QTimer>
 #include <QDesktopServices>
 #include <QProcess>
-#include <QTimer>
 #include <QPrintPreviewDialog>
 
 #include "Setting.h"
 #include "User.h"
 #include "Goods.h"
-#include "Invoice.h"
-#include "Correction.h"
 #include "Duplicate.h"
 #include "InvoiceGross.h"
 #include "CorrectGross.h"
@@ -26,8 +15,8 @@
 #include "DateWidgetItem.h"
 #include "Const.h"
 #include "MainWindow.h"
-
 #include "XmlDataLayer.h"
+
 
 MainWindow* MainWindow::m_instance = nullptr;
 

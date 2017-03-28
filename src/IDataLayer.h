@@ -8,11 +8,10 @@
 #ifndef IDATALAYER_H_
 #define IDATALAYER_H_
 
-#include "Settings.h"
-
 #include "BuyerData.h"
 #include "ProductData.h"
 #include "InvoiceData.h"
+
 
 class IDataLayer {
 

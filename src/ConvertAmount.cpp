@@ -6,15 +6,19 @@
  */
 
 #include "ConvertAmount.h"
+#include "Settings.h"
+
 
 ConvertAmount::ConvertAmount() {
 	// TODO Auto-generated constructor stub
 
 }
 
+
 ConvertAmount::~ConvertAmount() {
 	// TODO Auto-generated destructor stub
 }
+
 
 QString& ConvertAmount::descAmount(QString &countMoney, QString partMoney, QString ifOne, QString ifMore, QString ifBetween)
 {
@@ -174,6 +178,7 @@ QString& ConvertAmount::descAmount(QString &countMoney, QString partMoney, QStri
     return countMoney;
 }
 
+
 const QStringList ConvertAmount::hundsList() {
 
     QStringList hundredsPL = QStringList();
@@ -185,6 +190,7 @@ const QStringList ConvertAmount::hundsList() {
 
     return hundredsPL;
 }
+
 
 const QStringList ConvertAmount::endsHundList() {
 
@@ -198,6 +204,7 @@ const QStringList ConvertAmount::endsHundList() {
 
     return hundEndsPL;
 }
+
 
 const QStringList ConvertAmount::endsTensList() {
 
@@ -223,6 +230,7 @@ const QStringList ConvertAmount::simpleNumbList() {
 
     return nineNumbs;
 }
+
 
 QString ConvertAmount::convertPL(QString input, QString currency) {
 

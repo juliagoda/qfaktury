@@ -1,7 +1,6 @@
 #ifndef USER_H
 #define USER_H
 
-#include <QDialog>
 #include "ui_User.h"
 
 

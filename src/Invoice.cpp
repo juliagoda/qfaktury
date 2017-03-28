@@ -1,43 +1,12 @@
 
-#include <QDateTime>
-#include <QDir>
-#include <QProcess>
-#include <QApplication>
-#include <QMessageBox>
-#include <QTextCodec>
-#include <QTextStream>
-#include <QSpinBox>
-#include <QDebug>
-#include <QDateEdit>
-#include <QPrinter>
 #include <QPrintPreviewDialog>
-#include <QPrintDialog>
-#include <QTextDocument>
-#include <QWebEnginePage>
-#include <QWebEngineView>
-#include <QStringListIterator>
-#include <QMutableStringListIterator>
-#include <QUrl>
-#include <QLineEdit>
-#include <QToolTip>
-#include <QPushButton>
-#include <QTextEdit>
-#include <QComboBox>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 
-#include "Invoice.h"
 #include "BuyersList.h"
 #include "GoodsList.h"
 #include "ChangeAmount.h"
-#include "CustomPayment.h"
 #include "MainWindow.h"
 #include "Buyers.h"
-#include "IDataLayer.h"
-#include "Settings.h"
-
+#include "CustomPayment.h"
 #include "Const.h"
 
 

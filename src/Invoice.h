@@ -1,21 +1,17 @@
 #ifndef INVOICE_H
 #define INVOICE_H
 
-#include <QDialog>
+#include <QPrinter>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QDomElement>
 #include <QDomDocument>
-#include <QPrinter>
-#include <QMap>
-#include <QWebEnginePage>
-#include <QComboBox>
 
 #include "ConvertAmount.h"
-
 #include "CustomPaymData.h"
-
 #include "IDataLayer.h"
-#include "InvoiceData.h"
 #include "ui_Invoice.h"
+
 
 enum InvoiceType {FVat, FPro, EFVat, EFPro, KBR, BILL, DUP};
 

@@ -1,16 +1,14 @@
 #ifndef PRODUCTDATA_H_
 #define PRODUCTDATA_H_
 
-
-#include <QString>
-#include <QTextStream>
-
 #include "Settings.h"
 
 /* Class used in the Products list
  *
  */
+
 class ProductData {
+
 public:
 
 	ProductData() {

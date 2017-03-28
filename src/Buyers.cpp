@@ -1,12 +1,5 @@
 
 #include "Buyers.h"
-#include <QMessageBox>
-#include <QtDebug>
-#include <QLineEdit>
-#include <QRegExp>
-#include <QByteArray>
-#include <QChar>
-#include "Settings.h"
 #include  "Validations.h"
 
 /** Constructor

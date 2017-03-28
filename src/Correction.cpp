@@ -1,21 +1,8 @@
 
-#include <QtXml/qdom.h>
-#include <QMessageBox>
-#include <QTextCodec>
-#include <QTextStream>
-#include <QLabel>
-#include <QtDebug>
-#include <QComboBox>
-#include <QPushButton>
-#include <QLineEdit>
 #include "Correction.h"
-#include "Invoice.h"
-#include "CustomPayment.h"
-#include "Settings.h"
-#include "GoodsList.h"
-#include "ChangeAmount.h"
 #include "Const.h"
 #include "MainWindow.h"
+#include "Settings.h"
 
 
 // constructor

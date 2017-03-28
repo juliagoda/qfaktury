@@ -3,6 +3,7 @@
 
 ChangeAmount* ChangeAmount::m_instance = nullptr;
 
+
 ChangeAmount::ChangeAmount(QWidget *parent): QDialog(parent) {
     setupUi(this);
     init();

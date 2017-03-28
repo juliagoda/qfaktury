@@ -1,10 +1,5 @@
 
-#include <QMessageBox>
-#include <QTextStream>
-#include <QDesktopServices>
-#include <QUrl>
-#include <QListWidgetItem>
-
+#include "Settings.h"
 #include "BuyersList.h"
 
 /** Constructor

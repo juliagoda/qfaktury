@@ -1,11 +1,10 @@
 
 #include "Settings.h"
-#include <QMessageBox>
-#include <QDesktopServices>
-#include <QUrl>
-#include <QtDebug>
 #include "Validations.h"
 #include "Goods.h"
+
+#include <QDesktopServices>
+#include <QUrl>
 
 /** Constructor
  */
@@ -215,6 +214,7 @@ void Goods::setData(ProductData &prodData) {
     prodData.code = codeEdit->text();
 	prodData.pkwiu = pkwiuEdit->text();
 	prodData.quanType = jednCombo->currentText();
+
     for (int i = 0; i < 4; i++) prodData.prices[i] = sett().stringToDouble(net[i]);
 	prodData.vat = cbVat->currentText().toInt();
 }

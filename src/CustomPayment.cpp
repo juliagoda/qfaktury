@@ -5,8 +5,9 @@
  *      Author: moux
  */
 
-#include <QDateEdit>
+
 #include "CustomPayment.h"
+#include "Settings.h"
 
 
 CustomPayment::CustomPayment(QWidget *parent): QDialog(parent) {

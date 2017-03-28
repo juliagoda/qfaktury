@@ -8,14 +8,7 @@
 #ifndef INVOICEGROSS_H_
 #define INVOICEGROSS_H_
 
-#include <QDialog>
-#include <QDateEdit>
-
-#include "ui_Invoice.h"
 #include "Invoice.h"
-
-#include "ConvertAmount.h"
-#include "Settings.h"
 
 
 class InvoiceGross: public Invoice {

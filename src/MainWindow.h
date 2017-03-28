@@ -2,12 +2,9 @@
 #define MainWindow_H
 
 #include <QMainWindow>
-#include <QTableWidget>
 #include <QKeyEvent>
-#include "Settings.h"
-#include "ui_MainWindow.h"
 
-#include "IDataLayer.h"
+#include "ui_MainWindow.h"
 #include "Invoice.h"
 #include "owncalendar.h"
 

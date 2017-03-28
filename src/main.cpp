@@ -7,7 +7,6 @@
 #include <QStyle>
 
 #include "MainWindow.h"
-#include "Settings.h"
 
 
 int main(int argc, char **argv) {

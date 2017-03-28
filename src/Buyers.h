@@ -1,11 +1,10 @@
 #ifndef BUYERS_H
 #define BUYERS_H
-#include <QDialog>
-#include <QtXml/qdom.h>
+
 
 #include "ui_Buyers.h"
-
 #include "IDataLayer.h"
+
 
 class Buyers: public QDialog, public Ui::Buyers {
 

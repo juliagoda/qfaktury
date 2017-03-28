@@ -7,6 +7,7 @@
 
 #ifndef BUYERDATA_H
 #define BUYERDATA_H_
+
 #include <QString>
 
 class BuyerData {

@@ -1,11 +1,10 @@
 #ifndef BUYERSLIST_H
 #define BUYERSLIST_H
-#include <QDialog>
-#include <QtXml/qdom.h>
-#include <QKeyEvent>
 
-#include "Settings.h"
+#include <QtXml/qdom.h>
+
 #include "ui_BuyersList.h"
+
 
 class BuyersList: public QDialog, public Ui::BuyersList {
 

@@ -8,9 +8,6 @@
 #ifndef INVOICEDATA_H
 #define INVOICEDATA_H
 
-#include <QString>
-#include <QDate>
-#include <QMap>
 #include "ProductData.h"
 #include "CustomPaymData.h"
 
