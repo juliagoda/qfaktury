@@ -46,7 +46,7 @@
     <message>
         <location filename="../ui/Buyers.ui" line="131"/>
         <source>Firma</source>
-        <translation>Unternehmen</translation>
+        <translation>Firma</translation>
     </message>
     <message>
         <location filename="../ui/Buyers.ui" line="136"/>
@@ -114,7 +114,7 @@
     <message>
         <location filename="../ui/BuyersList.ui" line="41"/>
         <source>Firma</source>
-        <translation>Unternehmen</translation>
+        <translation>Firma</translation>
     </message>
     <message>
         <location filename="../ui/BuyersList.ui" line="46"/>
@@ -723,7 +723,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/Goods.ui" line="195"/>
         <source>Jedn.:</source>
-        <translation>Einheit:</translation>
+        <translation>Einh.:</translation>
     </message>
     <message>
         <location filename="../ui/Goods.ui" line="245"/>
@@ -925,7 +925,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/Invoice.ui" line="228"/>
         <source>do&amp;daj</source>
-        <translation>&amp;füge hinzu</translation>
+        <translation>&amp;Hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/Invoice.ui" line="237"/>
@@ -1305,7 +1305,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/Invoice.cpp" line="1758"/>
         <source>Drukowanie</source>
-        <translation type="unfinished"></translation>
+        <translation>Drucken</translation>
     </message>
     <message>
         <location filename="../src/Invoice.cpp" line="1758"/>
@@ -1576,27 +1576,27 @@ istnieje i czy masz do niego prawa zapisu.</source>
         <location filename="../src/MainWindow.cpp" line="1637"/>
         <location filename="../src/MainWindow.cpp" line="1653"/>
         <source>QFaktury</source>
-        <translation type="unfinished"></translation>
+        <translation>QFaktury</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="45"/>
         <source>Tab 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab 1</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="69"/>
         <source>Tab 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab 2</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="92"/>
         <source>Historia</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechnungen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="100"/>
         <source>Wyświetlaj dokumenty od:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Dokumente von:</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="125"/>
@@ -1606,44 +1606,44 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="151"/>
         <source>do:</source>
-        <translation type="unfinished"></translation>
+        <translation>bis:</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="182"/>
         <source>MM/dd/yyyy</source>
-        <translation type="unfinished"></translation>
+        <translation>MM/dd/yyyy</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="202"/>
         <source>Zastosuj</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestätigen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="258"/>
         <source>Nazwa pliku</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateiname</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="263"/>
         <source>Symbol</source>
-        <translation type="unfinished"></translation>
+        <translation>Symbol</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="268"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="273"/>
         <location filename="../ui/MainWindow.ui" line="328"/>
         <location filename="../ui/MainWindow.ui" line="418"/>
         <source>Typ</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="278"/>
         <source>Nabywca</source>
-        <translation type="unfinished"></translation>
+        <translation>Käufer</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="283"/>
@@ -1653,7 +1653,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="292"/>
         <source>Kontrahenci</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrahenten</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="323"/>
@@ -1664,42 +1664,42 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="333"/>
         <source>Miasto</source>
-        <translation type="unfinished"></translation>
+        <translation>Stadt</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="338"/>
         <source>Adres</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="343"/>
         <source>Telefon</source>
-        <translation type="unfinished"></translation>
+        <translation>Telefon</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="348"/>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation>Email</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="353"/>
         <source>Strona www</source>
-        <translation type="unfinished"></translation>
+        <translation>Webseite</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="362"/>
         <source>Towary/Usługi</source>
-        <translation type="unfinished"></translation>
+        <translation>Waren/Dienstleistungen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="393"/>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation>Index</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="403"/>
         <source>Skrót</source>
-        <translation type="unfinished"></translation>
+        <translation>Kürzung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="408"/>
@@ -1714,91 +1714,91 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="423"/>
         <source>Jedn.</source>
-        <translation type="unfinished"></translation>
+        <translation>Einh.</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="428"/>
         <source>Netto1</source>
-        <translation type="unfinished"></translation>
+        <translation>Netto1</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="433"/>
         <source>Netto2</source>
-        <translation type="unfinished"></translation>
+        <translation>Netto2</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="438"/>
         <source>Netto3</source>
-        <translation type="unfinished"></translation>
+        <translation>Netto3</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="443"/>
         <source>Netto4</source>
-        <translation type="unfinished"></translation>
+        <translation>Netto4</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="448"/>
         <source>Stawka VAT</source>
-        <translation type="unfinished"></translation>
+        <translation>VAT</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="460"/>
         <source>&lt;&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt;</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="480"/>
         <source>&amp;Program</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Programm</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="497"/>
         <source>&amp;Faktury</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rechnungen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="515"/>
         <source>&amp;Kontrahenci</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kontrahenten</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="527"/>
         <source>&amp;Towary</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Waren</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="538"/>
         <source>P&amp;omoc</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="551"/>
         <source>Dodatk&amp;i</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Add-ons</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="567"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>toolBar</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="599"/>
         <location filename="../ui/MainWindow.ui" line="602"/>
         <location filename="../ui/MainWindow.ui" line="1098"/>
         <source>Drukuj</source>
-        <translation type="unfinished"></translation>
+        <translation>Drucken</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="605"/>
         <source>plikDrukujAction</source>
-        <translation type="unfinished"></translation>
+        <translation>plikDrukujAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="614"/>
         <location filename="../ui/MainWindow.ui" line="668"/>
         <location filename="../ui/MainWindow.ui" line="892"/>
         <source>&amp;Usuń</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Löschen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="617"/>
@@ -1810,43 +1810,43 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="620"/>
         <source>U</source>
-        <translation type="unfinished"></translation>
+        <translation>U</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="623"/>
         <source>fakturyUsunAction</source>
-        <translation type="unfinished"></translation>
+        <translation>fakturyUsunAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="632"/>
         <source>&amp;Faktura VAT</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mehrwertsteuerrechnung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="635"/>
         <source>Nowa faktura</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Rechnung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="638"/>
         <source>F</source>
-        <translation type="unfinished"></translation>
+        <translation>F</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="641"/>
         <source>fakturyDodajAction</source>
-        <translation type="unfinished"></translation>
+        <translation>fakturyDodajAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="650"/>
         <location filename="../ui/MainWindow.ui" line="910"/>
         <source>&amp;Dodaj</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="653"/>
         <source>Konrahent</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrahent</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="656"/>
@@ -1856,23 +1856,23 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="659"/>
         <source>kontrahenciDodajAction</source>
-        <translation type="unfinished"></translation>
+        <translation>kontrahenciDodajAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="674"/>
         <source>Ctrl+D</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+D</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="677"/>
         <source>kontrahenciUsunAction</source>
-        <translation type="unfinished"></translation>
+        <translation>kontrahenciUsunAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="686"/>
         <location filename="../ui/MainWindow.ui" line="874"/>
         <source>&amp;Edycja</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bearbeitung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="689"/>
@@ -1888,68 +1888,68 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="695"/>
         <source>kontrahenciEdycjaAction</source>
-        <translation type="unfinished"></translation>
+        <translation>kontrahenciEdycjaAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="704"/>
         <source>O Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>über Qt</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="707"/>
         <location filename="../ui/MainWindow.ui" line="1093"/>
         <source>O &amp;Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;über Qt</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="710"/>
         <source>pomocO_QtAction</source>
-        <translation type="unfinished"></translation>
+        <translation>pomocO_QtAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="719"/>
         <source>&amp;Koniec</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Schließen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="722"/>
         <source>Koniec</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="725"/>
         <source>Q</source>
-        <translation type="unfinished"></translation>
+        <translation>Q</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="728"/>
         <source>plikKoniecAction</source>
-        <translation type="unfinished"></translation>
+        <translation>plikKoniecAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="737"/>
         <source>&amp;Edytuj</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bearbeitung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="740"/>
         <source>Edytuj</source>
-        <translation type="unfinished"></translation>
+        <translation>Bearbeitung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="743"/>
         <source>E</source>
-        <translation type="unfinished"></translation>
+        <translation>E</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="746"/>
         <source>fakturyEdAction</source>
-        <translation type="unfinished"></translation>
+        <translation>fakturyEdAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="755"/>
         <source>&amp;Dane firmy</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Firmendaten</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="758"/>
@@ -1959,127 +1959,127 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="761"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="767"/>
         <source>plikDane_firmyAction</source>
-        <translation type="unfinished"></translation>
+        <translation>plikDane_firmyAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="772"/>
         <location filename="../ui/MainWindow.ui" line="775"/>
         <source>Drukuj </source>
-        <translation type="unfinished"></translation>
+        <translation>Drucken</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="778"/>
         <source>F2</source>
-        <translation type="unfinished"></translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="781"/>
         <source>przelewyDrukuj_Action</source>
-        <translation type="unfinished"></translation>
+        <translation>przelewyDrukuj_Action</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="786"/>
         <source>&amp;O programie</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;über Programm</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="789"/>
         <location filename="../src/MainWindow.cpp" line="927"/>
         <source>O programie</source>
-        <translation type="unfinished"></translation>
+        <translation>über Programm</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="792"/>
         <source>pomocO_programieAction</source>
-        <translation type="unfinished"></translation>
+        <translation>pomocO_programieAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="801"/>
         <source>&amp;Ustawienia</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Einstellungen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="804"/>
         <source>Ustawienia</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="807"/>
         <source>Ctrl+Shift+U</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="810"/>
         <source>plikUstawieniaAction</source>
-        <translation type="unfinished"></translation>
+        <translation>plikUstawieniaAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="819"/>
         <location filename="../ui/MainWindow.ui" line="822"/>
         <source>Nowy (ZUS)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowy (ZUS)</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="825"/>
         <source>przelewyZUS</source>
-        <translation type="unfinished"></translation>
+        <translation>przelewyZUS</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="834"/>
         <location filename="../ui/MainWindow.ui" line="837"/>
         <source>Nowy (US)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowy (US)</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="840"/>
         <source>przelewyUSAction</source>
-        <translation type="unfinished"></translation>
+        <translation>przelewyUSAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="845"/>
         <source>&amp;Strona programu</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Homepage</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="848"/>
         <source>Strona programu</source>
-        <translation type="unfinished"></translation>
+        <translation>Homepage</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="851"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="854"/>
         <source>pomocPomocAction</source>
-        <translation type="unfinished"></translation>
+        <translation>pomocPomocAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="859"/>
         <location filename="../ui/MainWindow.ui" line="862"/>
         <source>new item</source>
-        <translation type="unfinished"></translation>
+        <translation>new item</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="865"/>
         <source>separatornew_itemAction</source>
-        <translation type="unfinished"></translation>
+        <translation>separatornew_itemAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="880"/>
         <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+M</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="883"/>
         <source>towaryEdycjaAction</source>
-        <translation type="unfinished"></translation>
+        <translation>towaryEdycjaAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="898"/>
@@ -2089,12 +2089,12 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="901"/>
         <source>towaryUsunAction</source>
-        <translation type="unfinished"></translation>
+        <translation>towaryUsunAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="913"/>
         <source>Towar/Usługa</source>
-        <translation type="unfinished"></translation>
+        <translation>Ware/Dienstleistung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="916"/>
@@ -2104,188 +2104,189 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/MainWindow.ui" line="919"/>
         <source>towaryDodajAction</source>
-        <translation type="unfinished"></translation>
+        <translation>towaryDodajAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="924"/>
         <source>&amp;Export do EDI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Export do EDI</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="927"/>
         <source>Export do EDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Export do EDI</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="933"/>
         <source>plikExportEDIAction</source>
-        <translation type="unfinished"></translation>
+        <translation>plikExportEDIAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="938"/>
         <source>Export do &amp;PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>Export do &amp;PDF</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="941"/>
         <source>Export do PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>Export do PDF</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="947"/>
         <source>plikExport_pdfAction</source>
-        <translation type="unfinished"></translation>
+        <translation>plikExport_pdfAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="952"/>
         <source>Exp&amp;ort do XML</source>
-        <translation type="unfinished"></translation>
+        <translation>Exp&amp;ort do XML</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="955"/>
         <source>Export do XML</source>
-        <translation type="unfinished"></translation>
+        <translation>Export do XML</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="961"/>
         <source>plikExport_XMLAction</source>
-        <translation type="unfinished"></translation>
+        <translation>plikExport_XMLAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="966"/>
         <source>&amp;Import EDI</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Import EDI</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="969"/>
         <source>Import EDI</source>
-        <translation type="unfinished"></translation>
+        <translation>Import EDI</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="975"/>
         <source>plikImport_EDIAction</source>
-        <translation type="unfinished"></translation>
+        <translation>plikImport_EDIAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="980"/>
         <source>Import &amp;XML</source>
-        <translation type="unfinished"></translation>
+        <translation>Import &amp;XML</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="983"/>
         <source>Import XML</source>
-        <translation type="unfinished"></translation>
+        <translation>Import XML</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="989"/>
         <source>plikImport_XMLAction</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>plikImport_XMLAction</translatorcomment>
+        <translation>plikImport_XMLAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="998"/>
         <source>Faktura &amp;korygująca</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Korrekturrechnung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1001"/>
         <location filename="../src/MainWindow.cpp" line="1501"/>
         <source>Nowa korekta</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Korrekturrechnung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1004"/>
         <source>K</source>
-        <translation type="unfinished"></translation>
+        <translation>K</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1007"/>
         <source>fakturyKorektaAction</source>
-        <translation type="unfinished"></translation>
+        <translation>fakturyKorektaAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1016"/>
         <source>Faktura &amp;Pro Forma</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Proforma-Rechnung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1019"/>
         <source>Pro forma</source>
-        <translation type="unfinished"></translation>
+        <translation>Proforma</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1022"/>
         <source>P</source>
-        <translation type="unfinished"></translation>
+        <translation>P</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1025"/>
         <source>fakturyPFormaAction</source>
-        <translation type="unfinished"></translation>
+        <translation>fakturyPFormaAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1030"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Action</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1033"/>
         <source>Ctrl+PgDown</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+PgDown</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1036"/>
         <source>nextPageAction</source>
-        <translation type="unfinished"></translation>
+        <translation>nextPageAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1041"/>
         <source>Action_2</source>
-        <translation type="unfinished"></translation>
+        <translation>Action_2</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1044"/>
         <source>Ctrl+PgUp</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+PgUp</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1047"/>
         <source>prevPageAction</source>
-        <translation type="unfinished"></translation>
+        <translation>prevPageAction</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1052"/>
         <source>&amp;Zgłoś błąd</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;einen Fehler melden</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1061"/>
         <source>&amp;Duplikat faktury</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rechnungsduplikat</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1064"/>
         <source>D</source>
-        <translation type="unfinished"></translation>
+        <translation>D</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1073"/>
         <source>Faktura &amp;Brutto</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mehrwertsteuerrechnung vom Brutto</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1076"/>
         <source>B</source>
-        <translation type="unfinished"></translation>
+        <translation>B</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1085"/>
         <source>&amp;Rachunek</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rechnung</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="1088"/>
         <source>R</source>
-        <translation type="unfinished"></translation>
+        <translation>R</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="89"/>
@@ -2323,7 +2324,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/MainWindow.cpp" line="327"/>
         <source>Informacje</source>
-        <translation type="unfinished"></translation>
+        <translation>Informationen</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="419"/>
@@ -2355,7 +2356,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
         <location filename="../src/MainWindow.cpp" line="1631"/>
         <location filename="../src/MainWindow.cpp" line="1653"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="762"/>
@@ -2365,12 +2366,12 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/MainWindow.cpp" line="844"/>
         <source>Wybrana pozycja: </source>
-        <translation type="unfinished"></translation>
+        <translation>ausgewählte Position:</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="902"/>
         <source>Filtr dat</source>
-        <translation type="unfinished"></translation>
+        <translation>Datumsfilter</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="902"/>
@@ -2450,42 +2451,42 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/MainWindow.cpp" line="956"/>
         <source>korekta</source>
-        <translation type="unfinished"></translation>
+        <translation>Korrektur</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="973"/>
         <source>kbrutto</source>
-        <translation type="unfinished"></translation>
+        <translation>KBrutto</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="991"/>
         <source>rachunek</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechnung</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="997"/>
         <source>Edytuje Rachunek</source>
-        <translation type="unfinished"></translation>
+        <translation>Editiert die Rechnung</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1009"/>
         <source>FVAT</source>
-        <translation type="unfinished"></translation>
+        <translation>FVAT</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1026"/>
         <source>FPro</source>
-        <translation type="unfinished"></translation>
+        <translation>FPro</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1042"/>
         <source>FBrutto</source>
-        <translation type="unfinished"></translation>
+        <translation>FBrutto</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1058"/>
         <source>duplikat</source>
-        <translation type="unfinished"></translation>
+        <translation>Duplikat</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1086"/>
@@ -2526,7 +2527,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/MainWindow.cpp" line="1225"/>
         <source>Drukowanie</source>
-        <translation type="unfinished"></translation>
+        <translation>Drucken</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1225"/>
@@ -2541,47 +2542,47 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/MainWindow.cpp" line="1255"/>
         <source>Nazwa:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Name:  </translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1258"/>
         <source>Rodzaj:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Art:  </translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1261"/>
         <source>Miejscowość:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Ort:  </translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1264"/>
         <source>Adres:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse:  </translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1267"/>
         <source>Tel:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Tel:  </translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1270"/>
         <source>Nr konta:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Kontonummer:  </translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1273"/>
         <source>Email:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Email:  </translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1276"/>
         <source>Strona:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Webseite:  </translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1315"/>
         <source>Brak kontrahentów</source>
-        <translation type="unfinished"></translation>
+        <translation>keine Kontrahenten</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1315"/>
@@ -2591,7 +2592,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/MainWindow.cpp" line="1372"/>
         <source>Rachunek</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechnung</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1406"/>
@@ -2601,7 +2602,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/MainWindow.cpp" line="1440"/>
         <source>Faktura Pro Forma</source>
-        <translation type="unfinished"></translation>
+        <translation>Proforma-Rechnung</translation>
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="1475"/>
@@ -2738,7 +2739,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/Const.h" line="11"/>
         <source>Faktura Pro Forma</source>
-        <translation type="unfinished"></translation>
+        <translation>Proforma-Rechnung</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="12"/>
@@ -2748,32 +2749,32 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/Const.h" line="13"/>
         <source>Rachunek</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechnung</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="14"/>
         <source>Faktura VAT korygująca</source>
-        <translation type="unfinished"></translation>
+        <translation>Korrekturrechnung</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="16"/>
         <source>Faktura VAT Brutto</source>
-        <translation type="unfinished"></translation>
+        <translation>Mehrwertsteuerberechnung vom Brutto</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="17"/>
         <source>Nowy Duplikat</source>
-        <translation type="unfinished"></translation>
+        <translation>neues Duplikat</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="18"/>
         <source>Nowa Korekta</source>
-        <translation type="unfinished"></translation>
+        <translation>neue Korrekturrechnung</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="19"/>
         <source>Nowa Korekta Brutto</source>
-        <translation type="unfinished"></translation>
+        <translation>neue Korrekturrechnung vom Brutto</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="21"/>
@@ -2784,37 +2785,37 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../src/Const.h" line="23"/>
         <source> - Podgląd wydruku</source>
-        <translation type="unfinished"></translation>
+        <translation> - Druckansicht</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="24"/>
         <source>Edytuje Fakturę VAT</source>
-        <translation type="unfinished"></translation>
+        <translation>Editiert die Mehrwertsteuerrechnung</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="25"/>
         <source>Edytuje Fakturę Brutto</source>
-        <translation type="unfinished"></translation>
+        <translation>Editiert die Mehrwertsteuerrechnung vom Brutto</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="26"/>
         <source>Edytuje Fakturę Pro Forma</source>
-        <translation type="unfinished"></translation>
+        <translation>Editiert die Proforma-Rechnung</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="27"/>
         <source>Edytuje Rachunek</source>
-        <translation type="unfinished"></translation>
+        <translation>Editiert die Rechnung</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="28"/>
         <source>Sprawdza Duplikat</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüft das Duplikat</translation>
     </message>
     <message>
         <location filename="../src/Const.h" line="29"/>
         <source>Edytuje Korektę</source>
-        <translation type="unfinished"></translation>
+        <translation>Editiert die Korrekturrechnung</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="27"/>
@@ -2860,237 +2861,237 @@ istnieje i czy masz do niego prawa zapisu.</source>
         <location filename="../src/ConvertAmount.cpp" line="154"/>
         <location filename="../src/ConvertAmount.cpp" line="334"/>
         <source> </source>
-        <translation type="unfinished"></translation>
+        <translation> </translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="185"/>
         <source>sto</source>
-        <translation type="unfinished"></translation>
+        <translation>einhundert</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="185"/>
         <source>dwieście</source>
-        <translation type="unfinished"></translation>
+        <translation>zweihundert</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="186"/>
         <source>trzysta</source>
-        <translation type="unfinished"></translation>
+        <translation>dreihundert</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="186"/>
         <source>czterysta</source>
-        <translation type="unfinished"></translation>
+        <translation>vierhundert</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="187"/>
         <source>pięćset</source>
-        <translation type="unfinished"></translation>
+        <translation>fünfhundert</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="187"/>
         <source>sześćset</source>
-        <translation type="unfinished"></translation>
+        <translation>sechshundert</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="188"/>
         <source>siedemset</source>
-        <translation type="unfinished"></translation>
+        <translation>siebenhundert</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="188"/>
         <source>osiemset</source>
-        <translation type="unfinished"></translation>
+        <translation>achthundert</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="189"/>
         <source>dziewięćset</source>
-        <translation type="unfinished"></translation>
+        <translation>neunhundert</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="198"/>
         <source>dwadzieścia</source>
-        <translation type="unfinished"></translation>
+        <translation>zwanzig</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="198"/>
         <source>trzydzieści</source>
-        <translation type="unfinished"></translation>
+        <translation>dreißig</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="199"/>
         <source>czterdzieści</source>
-        <translation type="unfinished"></translation>
+        <translation>vierzig</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="200"/>
         <source>pięćdziesiąt</source>
-        <translation type="unfinished"></translation>
+        <translation>fünfzig</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="201"/>
         <source>sześdziesiąt</source>
-        <translation type="unfinished"></translation>
+        <translation>sechszig</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="201"/>
         <source>siedemdziesiąt</source>
-        <translation type="unfinished"></translation>
+        <translation>siebzig</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="202"/>
         <source>osiemdziesiąt</source>
-        <translation type="unfinished"></translation>
+        <translation>achtzig</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="203"/>
         <source>dziewięćdziesiąt</source>
-        <translation type="unfinished"></translation>
+        <translation>neunzig</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="212"/>
         <source>jedenaście</source>
-        <translation type="unfinished"></translation>
+        <translation>elf</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="212"/>
         <source>dwanaście</source>
-        <translation type="unfinished"></translation>
+        <translation>zwölf</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="213"/>
         <source>trzynaście</source>
-        <translation type="unfinished"></translation>
+        <translation>dreizehn</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="213"/>
         <source>czternaście</source>
-        <translation type="unfinished"></translation>
+        <translation>vierzehn</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="214"/>
         <source>piętnaście</source>
-        <translation type="unfinished"></translation>
+        <translation>fünfzehn</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="214"/>
         <source>szesnaście</source>
-        <translation type="unfinished"></translation>
+        <translation>sechszehn</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="215"/>
         <source>siedemnaście</source>
-        <translation type="unfinished"></translation>
+        <translation>siebzehn</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="216"/>
         <source>osiemnaście</source>
-        <translation type="unfinished"></translation>
+        <translation>achtzehn</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="216"/>
         <source>dziewiętnaście</source>
-        <translation type="unfinished"></translation>
+        <translation>neunzehn</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="217"/>
         <source>dziesięć</source>
-        <translation type="unfinished"></translation>
+        <translation>zehn</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="225"/>
         <source>jeden</source>
-        <translation type="unfinished"></translation>
+        <translation>eins</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="225"/>
         <source>dwa</source>
-        <translation type="unfinished"></translation>
+        <translation>zwei</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="226"/>
         <source>trzy</source>
-        <translation type="unfinished"></translation>
+        <translation>drei</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="226"/>
         <source>cztery</source>
-        <translation type="unfinished"></translation>
+        <translation>vier</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="227"/>
         <source>pięć</source>
-        <translation type="unfinished"></translation>
+        <translation>fünf</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="227"/>
         <source>sześć</source>
-        <translation type="unfinished"></translation>
+        <translation>sechs</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="228"/>
         <source>siedem</source>
-        <translation type="unfinished"></translation>
+        <translation>sieben</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="228"/>
         <source>osiem</source>
-        <translation type="unfinished"></translation>
+        <translation>acht</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="229"/>
         <source>dziewięć</source>
-        <translation type="unfinished"></translation>
+        <translation>neun</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="326"/>
         <source> miliard</source>
-        <translation type="unfinished"></translation>
+        <translation>Milliarde</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="326"/>
         <source> miliardów</source>
-        <translation type="unfinished"></translation>
+        <translation>Milliarden</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="326"/>
         <source> miliardy</source>
-        <translation type="unfinished"></translation>
+        <translation>Milliarden</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="327"/>
         <source> milion</source>
-        <translation type="unfinished"></translation>
+        <translation>Million</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="327"/>
         <source> milionów</source>
-        <translation type="unfinished"></translation>
+        <translation>Millionen</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="327"/>
         <source> miliony</source>
-        <translation type="unfinished"></translation>
+        <translation>Millionen</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="328"/>
         <source> tysiąc</source>
-        <translation type="unfinished"></translation>
+        <translation>Tausend</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="328"/>
         <source> tysięcy</source>
-        <translation type="unfinished"></translation>
+        <translation>Tausend</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="328"/>
         <source> tysiące</source>
-        <translation type="unfinished"></translation>
+        <translation>Tausend</translation>
     </message>
     <message>
         <location filename="../src/ConvertAmount.cpp" line="334"/>
         <source>/100 </source>
-        <translation type="unfinished"></translation>
+        <translation>/100</translation>
     </message>
     <message>
         <location filename="../src/Correction.cpp" line="217"/>
@@ -3105,70 +3106,70 @@ istnieje i czy masz do niego prawa zapisu.</source>
         <location filename="../src/Invoice.cpp" line="2044"/>
         <location filename="../src/XmlDataLayer.cpp" line="1111"/>
         <source>Konto:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontonummer:</translation>
     </message>
     <message>
         <location filename="../src/Correction.cpp" line="220"/>
         <location filename="../src/Invoice.cpp" line="2048"/>
         <location filename="../src/XmlDataLayer.cpp" line="1112"/>
         <source>Tel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tel:</translation>
     </message>
     <message>
         <location filename="../src/Correction.cpp" line="221"/>
         <location filename="../src/Invoice.cpp" line="2052"/>
         <location filename="../src/XmlDataLayer.cpp" line="1113"/>
         <source>Email:</source>
-        <translation type="unfinished"></translation>
+        <translation>Email:</translation>
     </message>
     <message>
         <location filename="../src/Correction.cpp" line="223"/>
         <location filename="../src/Invoice.cpp" line="2056"/>
         <location filename="../src/XmlDataLayer.cpp" line="1114"/>
         <source>Strona:</source>
-        <translation type="unfinished"></translation>
+        <translation>Webseite:</translation>
     </message>
     <message>
         <location filename="../src/InvoiceData.h" line="58"/>
         <location filename="../src/InvoiceData.h" line="72"/>
         <source>FVAT</source>
-        <translation type="unfinished"></translation>
+        <translation>FVAT</translation>
     </message>
     <message>
         <location filename="../src/InvoiceData.h" line="60"/>
         <source>FPro</source>
-        <translation type="unfinished"></translation>
+        <translation>FPro</translation>
     </message>
     <message>
         <location filename="../src/InvoiceData.h" line="62"/>
         <source>korekta</source>
-        <translation type="unfinished"></translation>
+        <translation>Korrektur</translation>
     </message>
     <message>
         <location filename="../src/InvoiceData.h" line="64"/>
         <source>FBrutto</source>
-        <translation type="unfinished"></translation>
+        <translation>FBrutto</translation>
     </message>
     <message>
         <location filename="../src/InvoiceData.h" line="66"/>
         <source>kbrutto</source>
-        <translation type="unfinished"></translation>
+        <translation>KBrutto</translation>
     </message>
     <message>
         <location filename="../src/InvoiceData.h" line="68"/>
         <source>rachunek</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechnung</translation>
     </message>
     <message>
         <location filename="../src/InvoiceData.h" line="70"/>
         <location filename="../src/XmlDataLayer.cpp" line="1567"/>
         <source>duplikat</source>
-        <translation type="unfinished"></translation>
+        <translation>Duplikat</translation>
     </message>
     <message>
         <location filename="../src/XmlDataLayer.cpp" line="128"/>
         <source>Firma</source>
-        <translation>Unternehmen</translation>
+        <translation>Firma</translation>
     </message>
     <message>
         <location filename="../src/XmlDataLayer.cpp" line="135"/>
@@ -3217,103 +3218,103 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/Setting.ui" line="32"/>
         <source>Ustawienia</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="54"/>
         <source>Ogólne</source>
-        <translation type="unfinished"></translation>
+        <translation>Allgemeine</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="71"/>
         <source>Język:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachen:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="88"/>
         <source>Kodowanie znaków:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeichenkodierung:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="105"/>
         <source>Logo:</source>
-        <translation type="unfinished"></translation>
+        <translation>Logo:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="118"/>
         <location filename="../ui/Setting.ui" line="192"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="129"/>
         <source>Szablon drukowania: </source>
-        <translation type="unfinished"></translation>
+        <translation>Druckmuster:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="158"/>
         <source>Motywy:</source>
-        <translation type="unfinished"></translation>
+        <translation>Motive:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="175"/>
         <source>Katalog roboczy:</source>
-        <translation type="unfinished"></translation>
+        <translation>Arbeitsordner:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="185"/>
         <source>$HOME/.local/share/data</source>
-        <translation type="unfinished"></translation>
+        <translation>$HOME/.local/share/data</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="221"/>
         <source>Faktury</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechnungen</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="227"/>
         <source>Numeracja: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nummerierung:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="235"/>
         <source>Prefix:</source>
-        <translation type="unfinished"></translation>
+        <translation>Präfix:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="252"/>
         <source>Sufix:</source>
-        <translation type="unfinished"></translation>
+        <translation>Suffix:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="269"/>
         <source>Ilość cyfr przy autonumerowaniu:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ziffer Anzahl der Autonummerierung:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="286"/>
         <source>Dzień</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="293"/>
         <source>Miesiąc</source>
-        <translation type="unfinished"></translation>
+        <translation>Monat</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="300"/>
         <source>Rok</source>
-        <translation type="unfinished"></translation>
+        <translation>Jahr</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="307"/>
         <source>rok długi np. 2006</source>
-        <translation type="unfinished"></translation>
+        <translation>langes Jahr, z. B. 2006</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="321"/>
         <source>Edycja: </source>
-        <translation type="unfinished"></translation>
+        <translation>Bearbeitung:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="329"/>
@@ -3333,37 +3334,37 @@ istnieje i czy masz do niego prawa zapisu.</source>
     <message>
         <location filename="../ui/Setting.ui" line="357"/>
         <source>Liczba kopii</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieanzahl</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="385"/>
         <source>Tekst dodatkowy:</source>
-        <translation type="unfinished"></translation>
+        <translation>zusätzlicher Text:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="414"/>
         <source>Do&amp;myślny</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;voreingestellt</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="417"/>
         <source>Alt+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+M</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="432"/>
         <source>Słowniki</source>
-        <translation type="unfinished"></translation>
+        <translation>Wörterbücher</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="450"/>
         <source>Formy płatności</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahlungsmitteln</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="471"/>
         <source>Forma płatności:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahlungsmittel:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="491"/>
@@ -3372,22 +3373,22 @@ istnieje i czy masz do niego prawa zapisu.</source>
         <location filename="../ui/Setting.ui" line="963"/>
         <location filename="../ui/Setting.ui" line="1092"/>
         <source>Nowa:</source>
-        <translation type="unfinished"></translation>
+        <translation>Neu:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="519"/>
         <source>Gó&amp;ra</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Oben</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="522"/>
         <source>Alt+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+R</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="532"/>
         <source>&amp;Dół</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Unten</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="535"/>
@@ -3396,7 +3397,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
         <location filename="../ui/Setting.ui" line="1026"/>
         <location filename="../ui/Setting.ui" line="1155"/>
         <source>Alt+D</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+D</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="565"/>
@@ -3405,7 +3406,7 @@ istnieje i czy masz do niego prawa zapisu.</source>
         <location filename="../ui/Setting.ui" line="1010"/>
         <location filename="../ui/Setting.ui" line="1139"/>
         <source>&amp;Usuń</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Löschen</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="568"/>
@@ -3414,17 +3415,17 @@ istnieje i czy masz do niego prawa zapisu.</source>
         <location filename="../ui/Setting.ui" line="1013"/>
         <location filename="../ui/Setting.ui" line="1142"/>
         <source>Alt+U</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+U</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="578"/>
         <source>Dod&amp;aj</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="581"/>
         <source>Alt+A</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+A</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="604"/>
@@ -3439,27 +3440,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ui/Setting.ui" line="631"/>
         <source>Stawki</source>
-        <translation type="unfinished"></translation>
+        <translation>Mehrwertsteuersätze</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="652"/>
         <source>Spis stawek:</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste der Mehrwertsteuersätze:</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="700"/>
         <source>&amp;Góra</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Oben</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="703"/>
         <source>Alt+G</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+G</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="713"/>
         <source>Dół</source>
-        <translation type="unfinished"></translation>
+        <translation>Unten</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="759"/>
@@ -3467,12 +3468,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../ui/Setting.ui" line="1023"/>
         <location filename="../ui/Setting.ui" line="1152"/>
         <source>&amp;Dodaj</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="787"/>
         <source>Jednostki</source>
-        <translation type="unfinished"></translation>
+        <translation>Einheiten</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="814"/>
@@ -3503,7 +3504,7 @@ korekt:</source>
     <message>
         <location filename="../ui/Setting.ui" line="1176"/>
         <source>Wydruki</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausdrucke</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="1182"/>
@@ -3521,19 +3522,19 @@ korekt:</source>
         <location filename="../ui/Setting.ui" line="1219"/>
         <location filename="../ui/Setting.ui" line="1431"/>
         <source>Miejscowość</source>
-        <translation type="unfinished"></translation>
+        <translation>Ort</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="1246"/>
         <location filename="../ui/Setting.ui" line="1438"/>
         <source>Adres</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="1273"/>
         <location filename="../ui/Setting.ui" line="1445"/>
         <source>Konto</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontonummer</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="1300"/>
@@ -3545,19 +3546,19 @@ korekt:</source>
         <location filename="../ui/Setting.ui" line="1327"/>
         <location filename="../ui/Setting.ui" line="1459"/>
         <source>Telefon</source>
-        <translation type="unfinished"></translation>
+        <translation>Telefon</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="1354"/>
         <location filename="../ui/Setting.ui" line="1452"/>
         <source>Adres e-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Email</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="1381"/>
         <location filename="../ui/Setting.ui" line="1424"/>
         <source>Adres www</source>
-        <translation type="unfinished"></translation>
+        <translation>Webseite</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="1473"/>
@@ -3602,12 +3603,12 @@ korekt:</source>
     <message>
         <location filename="../ui/Setting.ui" line="1825"/>
         <source>Wartość netto</source>
-        <translation type="unfinished"></translation>
+        <translation>Nettowert</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="1869"/>
         <source>Rabat [%]</source>
-        <translation type="unfinished"></translation>
+        <translation>Rabat [%]</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="1913"/>
@@ -3622,7 +3623,7 @@ korekt:</source>
     <message>
         <location filename="../ui/Setting.ui" line="2001"/>
         <source>VAT [%]</source>
-        <translation type="unfinished"></translation>
+        <translation>VAT [%]</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="2045"/>
@@ -3632,12 +3633,12 @@ korekt:</source>
     <message>
         <location filename="../ui/Setting.ui" line="2089"/>
         <source>Wartość brutto</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruttowert</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="2157"/>
         <source>&amp;Domyślne</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;voreingestellt</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="2180"/>
@@ -3652,17 +3653,17 @@ korekt:</source>
     <message>
         <location filename="../ui/Setting.ui" line="2193"/>
         <source>Za&amp;stosuj</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bestätigen</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="2196"/>
         <source>Alt+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+S</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="2206"/>
         <source>A&amp;nuluj</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zurück</translation>
     </message>
     <message>
         <location filename="../ui/Setting.ui" line="2209"/>
@@ -3682,7 +3683,7 @@ korekt:</source>
     <message>
         <location filename="../src/Setting.cpp" line="141"/>
         <source>towar odebrałem zgodnie z fakturą</source>
-        <translation type="unfinished"></translation>
+        <translation>Ich habe die Ware gemäß der Rechnung abgenommen</translation>
     </message>
     <message>
         <location filename="../src/Setting.cpp" line="149"/>
@@ -3692,7 +3693,7 @@ korekt:</source>
     <message>
         <location filename="../src/Setting.cpp" line="163"/>
         <source>Open Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Open Directory</translation>
     </message>
     <message>
         <location filename="../src/Setting.cpp" line="177"/>
@@ -3702,7 +3703,7 @@ korekt:</source>
     <message>
         <location filename="../src/Setting.cpp" line="178"/>
         <source>Obrazki (*.jpg *.png)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilder (*.jpg *.png)</translation>
     </message>
     <message>
         <location filename="../src/Setting.cpp" line="194"/>
@@ -3712,7 +3713,7 @@ korekt:</source>
         <location filename="../src/Setting.cpp" line="345"/>
         <location filename="../src/Setting.cpp" line="359"/>
         <source>Uwaga!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Achtung!!</translation>
     </message>
     <message>
         <location filename="../src/Setting.cpp" line="226"/>
@@ -3759,18 +3760,18 @@ korekt:</source>
         <location filename="../src/Settings.h" line="85"/>
         <location filename="../src/Settings.h" line="384"/>
         <source>pl</source>
-        <translation type="unfinished"></translation>
+        <translation>pl</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="91"/>
         <source>UTF-8</source>
-        <translation type="unfinished"></translation>
+        <translation>UTF-8</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="95"/>
         <location filename="../src/Settings.h" line="390"/>
         <source>towar odebrałem zgodnie z fakturą</source>
-        <translation type="unfinished"></translation>
+        <translation>Ich habe die Ware gemäß der Rechnung abgenommen</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="97"/>
@@ -3781,7 +3782,7 @@ korekt:</source>
     <message>
         <location filename="../src/Settings.h" line="113"/>
         <source>szt.|kg.|g.|m|km.|godz.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stck.|kg.|g.|m|km.|Std.</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="131"/>
@@ -3793,25 +3794,25 @@ korekt:</source>
         <location filename="../src/Settings.h" line="133"/>
         <location filename="../src/Settings.h" line="410"/>
         <source>gotówka|przelew|zaliczka</source>
-        <translation type="unfinished"></translation>
+        <translation>Bargeld|Überweisung|Vorschuss</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="137"/>
         <location filename="../src/Settings.h" line="412"/>
         <source>zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana daty terminu|zmiana daty sprzedaży</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahlsänderung|Währungsänderung|Rabattänderung|Änderung des Zahlungsmittels|Änderung des Kontrahentes|Änderung der Ware/Dienstleistung|Änderungsdatum des Termins|Änderungsdatum des Verkaufs</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="145"/>
         <location filename="../src/Settings.h" line="416"/>
         <source>23|8|5|0|zw.</source>
-        <translation type="unfinished"></translation>
+        <translation>23|8|5|0|stf.</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="149"/>
         <location filename="../src/Settings.h" line="418"/>
         <source>PLN|EUR|USD|CHF|GBP|RUB</source>
-        <translation type="unfinished"></translation>
+        <translation>PLN|EUR|USD|CHF|GBP|RUB</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="387"/>
@@ -3821,7 +3822,7 @@ korekt:</source>
     <message>
         <location filename="../src/Settings.h" line="399"/>
         <source>szt.|kg.|g.|m.|km.|godz.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stck.|kg.|g.|m|km.|Std.</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="543"/>
@@ -3832,12 +3833,12 @@ korekt:</source>
         <location filename="../src/Settings.h" line="645"/>
         <location filename="../src/Settings.h" line="670"/>
         <source>Firma</source>
-        <translation>Unternehmen</translation>
+        <translation>Firma</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="645"/>
         <source>firma</source>
-        <translation type="unfinished"></translation>
+        <translation>firma</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="654"/>
@@ -3847,7 +3848,7 @@ korekt:</source>
     <message>
         <location filename="../src/Settings.h" line="654"/>
         <source>towar</source>
-        <translation type="unfinished"></translation>
+        <translation>ware</translation>
     </message>
     <message>
         <location filename="../src/Settings.h" line="674"/>
@@ -3857,7 +3858,7 @@ korekt:</source>
     <message>
         <location filename="../src/Settings.h" line="687"/>
         <source>DATA</source>
-        <translation type="unfinished"></translation>
+        <translation>DATA</translation>
     </message>
 </context>
 <context>
@@ -4064,18 +4065,18 @@ korekt:</source>
     <message>
         <location filename="../src/Validations.cpp" line="475"/>
         <source>Weryfikator polskiego dowodu osobistego wykrył niepoprawny numer. Sprawdź kolejność wpisanych znaków. Możesz także zgłosić błąd numeru dowodu w odpowiednim Urzędzie Miasta lub Gminy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Prüfstelle für Personalausweis (PL) eine ungültige Nummer entdeckt hat. Prüfen Sie bitte Reihenfolge der Zahlen. Sie können auch das Problem einen Magistrat melden.</translation>
     </message>
     <message>
         <location filename="../src/Validations.cpp" line="515"/>
         <source>Weryfikator numeru seryjnego paszportu wykrył niepoprawny numer. Sprawdź kolejność wpisanych znaków. Możesz także zgłosić błąd numeru paszportu w najbliższym Urzędzie Wojewódzkim.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Prüfstelle für Pass (PL) eine ungültige Nummer entdeckt hat. Prüfen Sie bitte Reihenfolge der Zahlen. Sie können auch das Problem einer Woiwodschaft melden.</translation>
     </message>
     <message>
         <location filename="../src/Validations.cpp" line="528"/>
         <location filename="../src/Validations.cpp" line="543"/>
         <source>Firma nie może zostać zapisana, pownieważ brakuje wymaganych danych w polu - </source>
-        <translation type="unfinished"></translation>
+        <translation>Die Firma kann nicht abgespeichert werden, weil im Field keine Informationen gefunden worden hatten - </translation>
     </message>
 </context>
 </TS>
