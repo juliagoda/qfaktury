@@ -110,7 +110,7 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		if (value("firstrun").toString().compare("") == 0)
 			setValue("firstrun", false);
         if (value("units").toString().compare("") == 0)
-            setValue("units", tr("szt.|kg.|g.|m|km.|godz."));
+            setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|kWh|l|mb|msc|mila|mtg|MWh|m2|m3|opak|puszka|rolka|skrzynka|tona|tona atro|usługa|wiązka|yard"));
 		if (value("korNr").toString().compare("") == 0)
 			setValue("korNr", "1");
         if (value("invNr").toString().compare("") == 0)
@@ -142,7 +142,7 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		if (value("shortYear").toString().compare("") == 0)
 			setValue("shortYear", "false");
         if (value("rates").toString().compare("") == 0)
-            setValue("rates", tr("23|8|5|0|zw."));
+            setValue("rates", tr("23|23|19|18|15|8|7|6.5|5|4|0|ZW|OO|NP|Bez VAT"));
 		if (value("sufix").toString().compare("") == 0)
 			setValue("sufix", "");
         if (value("currencies").toString().compare("") == 0)
@@ -396,7 +396,7 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		setValue("numberOfCopies", 1);
         setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
 		setValue("firstrun", false);
-        setValue("units", tr("szt.|kg.|g.|m.|km.|godz."));
+        setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|kWh|l|mb|msc|mila|mtg|MWh|m2|m3|opak|puszka|rolka|skrzynka|tona|tona atro|usługa|wiązka|yard"));
 		setValue("korNr", "1");
         setValue("invNr","1");
 		setValue("logo", "");
@@ -413,7 +413,7 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		setValue("prefix", "");
 		setValue("renamed", "tak");
 		setValue("shortYear", "false");
-        setValue("rates", tr("23|8|5|0|zw."));
+        setValue("rates", tr("23|23|19|18|15|8|7|6.5|5|4|0|ZW|OO|NP|Bez VAT"));
 		setValue("sufix", "");
         setValue("currencies", tr("PLN|EUR|USD|CHF|GBP|RUB"));
 		setValue("year", "false");

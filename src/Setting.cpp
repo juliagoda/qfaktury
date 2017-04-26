@@ -505,7 +505,7 @@ void Setting::saveSettings() {
     sett().setValue("rates", getAll(vatlBox).remove("%"));
     sett().setValue("currencies", getAll(currencylBox));
     sett().setValue("corrections", getAll(correctsBox));
-	sett().setValue("payments", getAll(paymlBox)); // uwaga!! get first
+    sett().setValue("payments", getAll(paymlBox)); // attention!! get first
 	sett().setValue("paym1", paymlBox->item(0)->text());
 	sett().setValue("addText", additText->toPlainText());
 
