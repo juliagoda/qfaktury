@@ -1,11 +1,11 @@
 # QFaktury 0.7.0
 
 1. [Opis](#opis)  
-2. [Wymagania] (#wymagania)
+2. [Wymagania](#wymagania)
 3. [Instalacja](#instalacja)  
 4. [Rozwój](#rozwój)  
 5. [Uwagi](#uwagi)  
-6. [Zgłaszanie błędów](#zgłaszanie błędów)  
+6. [Zgłaszanie błędów](#zgłaszanie-błędów)  
 
 <br/>
 <br/>
