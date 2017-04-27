@@ -11,6 +11,13 @@ Setting::Setting(QWidget *parent) :
 	init();
 }
 
+
+Setting::~Setting()
+{
+
+}
+
+
 void Setting::init() {
 
 	// connect all slots

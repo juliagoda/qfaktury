@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
+    <width>514</width>
     <height>545</height>
    </rect>
   </property>
@@ -47,7 +47,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="TabPage1">
       <attribute name="title">
@@ -442,8 +442,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>274</width>
-            <height>383</height>
+            <width>273</width>
+            <height>377</height>
            </rect>
           </property>
           <attribute name="label">
@@ -623,8 +623,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>290</width>
-            <height>172</height>
+            <width>291</width>
+            <height>200</height>
            </rect>
           </property>
           <attribute name="label">
@@ -779,8 +779,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>305</width>
-            <height>150</height>
+            <width>309</width>
+            <height>147</height>
            </rect>
           </property>
           <attribute name="label">
@@ -907,8 +907,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>275</width>
-            <height>150</height>
+            <width>274</width>
+            <height>147</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1043,8 +1043,8 @@ korekt:</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>478</width>
-            <height>288</height>
+            <width>472</width>
+            <height>266</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1182,310 +1182,448 @@ korekt:</string>
           <string>Dane użytkownika na fakturze:</string>
          </property>
          <layout class="QGridLayout" name="gridLayout1">
-          <item row="0" column="0">
-           <layout class="QVBoxLayout" name="_53">
-            <item>
-             <layout class="QHBoxLayout" name="_54">
-              <item>
-               <widget class="QCheckBox" name="userinfoname">
-                <property name="text">
-                 <string>Nazwa</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer27_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="_55">
-              <item>
-               <widget class="QCheckBox" name="userinfocity">
-                <property name="text">
-                 <string>Miejscowość</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer27_4">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="_56">
-              <item>
-               <widget class="QCheckBox" name="userinfoadress">
-                <property name="text">
-                 <string>Adres</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer27_3">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>62</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="_57">
-              <item>
-               <widget class="QCheckBox" name="userinfoaccount">
-                <property name="text">
-                 <string>Konto</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer27_12">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="_58">
-              <item>
-               <widget class="QCheckBox" name="userinfonip">
-                <property name="text">
-                 <string>NIP</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer27_13">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="_59">
-              <item>
-               <widget class="QCheckBox" name="userinfotel">
-                <property name="text">
-                 <string>Telefon</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer27_14">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="_60">
-              <item>
-               <widget class="QCheckBox" name="userinfomail">
-                <property name="text">
-                 <string>Adres e-mail</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer27_15">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="_61">
-              <item>
-               <widget class="QCheckBox" name="userinfowww">
-                <property name="text">
-                 <string>Adres www</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="spacer27_16">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <spacer name="spacer44_7">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Fixed</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>50</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item row="9" column="0">
-           <widget class="QCheckBox" name="buyerinfowww">
+          <item row="7" column="0">
+           <widget class="QCheckBox" name="userinfowww">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Adres www</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="buyerinfocity">
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="userinfoadress">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Adres</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="userinfocity">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Miejscowość</string>
             </property>
            </widget>
           </item>
           <item row="4" column="0">
-           <widget class="QCheckBox" name="buyerinfoaddress">
-            <property name="text">
-             <string>Adres</string>
+           <widget class="QCheckBox" name="userinfonip">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
             </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QCheckBox" name="buyerinfoaccount">
-            <property name="text">
-             <string>Konto</string>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
             </property>
-           </widget>
-          </item>
-          <item row="8" column="0">
-           <widget class="QCheckBox" name="buyerinfomail">
-            <property name="text">
-             <string>Adres e-mail</string>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
             </property>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QCheckBox" name="buyerinfotel">
-            <property name="text">
-             <string>Telefon</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QCheckBox" name="buyerinfotic">
             <property name="text">
              <string>NIP</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label">
+          <item row="6" column="0">
+           <widget class="QCheckBox" name="userinfomail">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="text">
-             <string>Dane kontrahenta na fakturze:</string>
+             <string>Adres e-mail</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="17" column="0">
+           <widget class="QCheckBox" name="buyerinfowww">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Adres www</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="0">
+           <widget class="QCheckBox" name="buyerinfocity">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Miejscowość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="0">
+           <widget class="QCheckBox" name="buyerinfoaddress">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Adres</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="0">
+           <widget class="QCheckBox" name="buyerinfoaccount">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Konto</string>
+            </property>
+           </widget>
+          </item>
+          <item row="16" column="0">
+           <widget class="QCheckBox" name="buyerinfomail">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Adres e-mail</string>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="0">
+           <widget class="QCheckBox" name="buyerinfotel">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Telefon</string>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="0">
+           <widget class="QCheckBox" name="buyerinfotic">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>NIP</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <widget class="QLabel" name="label">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Dane kontrahenta na fakturze:</string>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="0">
            <widget class="QCheckBox" name="buyerinfoname">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Nazwa</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="userinfotel">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Telefon</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="userinfoaccount">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Konto</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="userinfoname">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Nazwa</string>
             </property>
            </widget>
+          </item>
+          <item row="8" column="0">
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>15</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="groupBox_2">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="title">
           <string>Pola na fakturze:</string>
          </property>
@@ -1510,7 +1648,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1554,7 +1692,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1598,7 +1736,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1642,7 +1780,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1686,7 +1824,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1730,7 +1868,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1774,7 +1912,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1818,7 +1956,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1862,7 +2000,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1906,7 +2044,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1950,7 +2088,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1994,7 +2132,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -2038,7 +2176,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -2082,7 +2220,7 @@ korekt:</string>
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>8</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -2131,7 +2269,13 @@ korekt:</string>
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_11">
+    <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="2,2,2,2,2,2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>50</number>
+     </property>
      <item>
       <spacer>
        <property name="orientation">

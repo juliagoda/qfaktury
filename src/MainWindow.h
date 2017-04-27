@@ -7,6 +7,7 @@
 #include "ui_MainWindow.h"
 #include "Invoice.h"
 #include "owncalendar.h"
+#include "Setting.h"
 
 
 class MainWindow: public QMainWindow {
@@ -89,6 +90,7 @@ private:
     QDate markedDate;
     ownCalendarWidget* calendar;
     static MainWindow * m_instance;
+
 
 	void saveColumnWidth();
 	void init();

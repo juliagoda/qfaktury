@@ -781,8 +781,10 @@ void MainWindow::showTableMenuT(QPoint p) {
     menuTableT->addAction(ui->delGoodsAction);
     menuTableT->addAction(ui->editGoodsAction);
     menuTableT->exec(ui->tableT->mapToGlobal(p));
+
+    menuTableT = 0;
 	delete menuTableT;
-	menuTableT = NULL;
+
 }
 
 
@@ -797,8 +799,10 @@ void MainWindow::showTableMenuK(QPoint p) {
     menuTable->addAction(ui->delBuyersAction);
     menuTable->addAction(ui->editBuyersAction);
     menuTable->exec(ui->tableK->mapToGlobal(p));
+
+    menuTable = 0;
 	delete menuTable;
-	menuTable = NULL;
+
 }
 
 
@@ -966,8 +970,10 @@ void MainWindow::editFHist() {
         }
 
         if (corWindow->getKAdded()) readBuyer();
-        delete corWindow;
+
         corWindow = 0;
+        delete corWindow;
+
     }
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("kbrutto")) {
@@ -983,8 +989,10 @@ void MainWindow::editFHist() {
         }
 
         if (corWindow->getKAdded()) readBuyer();
-        delete corWindow;
+
         corWindow = 0;
+        delete corWindow;
+
     }
 
 
@@ -1002,8 +1010,10 @@ void MainWindow::editFHist() {
         }
 
         if (billWindow->getKAdded()) readBuyer();
-        delete billWindow;
+
         billWindow = 0;
+        delete billWindow;
+
     }
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("FVAT")) {
@@ -1019,8 +1029,10 @@ void MainWindow::editFHist() {
         }
 
         if (invWindow->getKAdded()) readBuyer();
-        delete invWindow;
+
         invWindow = 0;
+        delete invWindow;
+
     }
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("FPro")) {
@@ -1035,8 +1047,10 @@ void MainWindow::editFHist() {
         }
 
         if (invWindow->getKAdded()) readBuyer();
-        delete invWindow;
+
         invWindow = 0;
+        delete invWindow;
+
     }
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("FBrutto")) {
@@ -1051,8 +1065,10 @@ void MainWindow::editFHist() {
         }
 
         if (invWindow->getKAdded()) readBuyer();
-        delete invWindow;
+
         invWindow = 0;
+        delete invWindow;
+
     }
 
     if (ui->tableH->item(row, 3)->text() == trUtf8("duplikat")) {
@@ -1070,8 +1086,10 @@ void MainWindow::editFHist() {
         }
 
         if (dupWindow->getKAdded()) readBuyer();
-        delete dupWindow;
+
         dupWindow = 0;
+        delete dupWindow;
+
     }
 
     ui->tableH->setSortingEnabled(true);
@@ -1104,9 +1122,10 @@ void MainWindow::userDataClick() {
 
 	// qDebug("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
     User* userDataWindow = new User(this);
-    userDataWindow->exec();
-    delete userDataWindow;
+    userDataWindow->show();
+
     userDataWindow = 0;
+    delete userDataWindow;
 
 }
 
@@ -1116,10 +1135,12 @@ void MainWindow::userDataClick() {
 void MainWindow::settClick() {
 
 	// qDebug ("%s %s:%d", __FUNCTION__, __FILE__, __LINE__);
-    Setting *settWindow = new Setting(this);
-	settWindow->exec();
-	delete settWindow;
+    Setting* settWindow = new Setting(this);
+    settWindow->show();
+
     settWindow = 0;
+    delete settWindow;
+
 }
 
 /** Slot used to add new customer
@@ -1146,11 +1167,11 @@ void MainWindow::buyerClick() {
         ui->tableK->item(ui->tableK->rowCount() - 1, 6)->setText(row[9]); // www*/
         ui->tableK->setSortingEnabled(true);
 
-
 	}
 
-    delete buyersWindow;
     buyersWindow = 0;
+    delete buyersWindow;
+
 }
 
 /** Slot used to delete current customer
@@ -1203,8 +1224,8 @@ void MainWindow::buyerEd() {
         ui->tableK->setSortingEnabled(true);
     }
 
+    buyersWindow = 0;
     delete buyersWindow;
-    buyersWindow = NULL;
 
 }
 
@@ -1358,8 +1379,9 @@ void MainWindow::newInv() {
     dl->checkAllSymbInFiles();
     allSymbols = dl->getAllSymbols();
 
+    invWindow = 0;
     delete invWindow;
-    invWindow = NULL;
+
 }
 
 
@@ -1393,8 +1415,9 @@ void MainWindow::newInvBill() {
     if (billWindow->getKAdded()) readBuyer();
     dl->checkAllSymbInFiles();
     allSymbols = dl->getAllSymbols();
+    billWindow = 0;
     delete billWindow;
-    billWindow = NULL;
+
 }
 
 
@@ -1426,8 +1449,9 @@ void MainWindow::newInvGross() {
     if (invWindow->getKAdded()) readBuyer();
     dl->checkAllSymbInFiles();
     allSymbols = dl->getAllSymbols();
+    invWindow = 0;
     delete invWindow;
-    invWindow = NULL;
+
 }
 
 
@@ -1461,8 +1485,9 @@ void MainWindow::newPForm() {
     if (invWindow->getKAdded()) readBuyer();
     dl->checkAllSymbInFiles();
     allSymbols = dl->getAllSymbols();
+    invWindow = 0;
     delete invWindow;
-    invWindow = NULL;
+
 }
 
 /** Slot used to create new Correction
@@ -1520,8 +1545,8 @@ void MainWindow::newCor() {
         if (corWindow->getKAdded()) readBuyer();
         dl->checkAllSymbInFiles();
         allSymbols = dl->getAllSymbols();
+        corWindow = 0;
         delete corWindow;
-        corWindow = NULL;
         ui->tableH->setSortingEnabled(true);
 
     } else {
@@ -1578,8 +1603,8 @@ void MainWindow::newDuplicate() {
         if (dupWindow->getKAdded()) readBuyer();
         dl->checkAllSymbInFiles();
         allSymbols = dl->getAllSymbols();
+        dupWindow = 0;
         delete dupWindow;
-        dupWindow = NULL;
         ui->tableH->setSortingEnabled(true);
 
     } else {
@@ -1618,8 +1643,9 @@ void MainWindow::goodsAdd() {
         ui->tableT->setSortingEnabled(true);
     }
 
+    goodsWindow = 0;
     delete goodsWindow;
-    goodsWindow = NULL;
+
 }
 
 /** Slot used to delete goods
@@ -1679,8 +1705,9 @@ void MainWindow::goodsEdit() {
         ui->tableT->setSortingEnabled(true);
     }
 
+    goodsWindow = 0;
     delete goodsWindow;
-    goodsWindow = NULL;
+
 }
 
 

@@ -11,6 +11,7 @@ Q_OBJECT
 public:
 
     Setting(QWidget *parent);
+    ~Setting();
 
 
 public slots:
