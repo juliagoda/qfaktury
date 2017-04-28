@@ -8,7 +8,9 @@
 class ownCalendarWidget : public QCalendarWidget
 {
     Q_OBJECT
+
 public:
+
     ownCalendarWidget(QWidget* parent=0)
         : QCalendarWidget(parent)
     {
@@ -25,6 +27,7 @@ public:
     }
 
 protected:
+
     void paintCell(QPainter *painter, const QRect &rect, const QDate &date) const
     {
         QDir allFiles;

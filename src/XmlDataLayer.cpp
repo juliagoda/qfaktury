@@ -476,7 +476,6 @@ bool XmlDataLayer::buyersUpdateData(BuyerData& buyerData, int type, QString name
 
 	root.lastChild();
 
-    // zapewnic takze aktualizacje nazwy firmy
     // company = 0; department = 1;
 	if (type == 0) {
          // = doc.createElement ("company");

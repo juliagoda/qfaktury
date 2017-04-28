@@ -27,57 +27,56 @@ Documentation:
                 - Opis techniczny:
                     - Odwołania_w_kodzie
                     - Pliki_źródłowe:
-                        - main.cpp:
-                            - funkcje:
-                                - main
-                        - MainWindow.cpp:
-                            - funkcje:
-                                - MainWindow
-                                - ~MainWindow
-                                - init
-                                - loadPlugins
-                                - firstRun
-                                - openWebTableK
-                                - saveColumnWidth
-                                - saveAllSettAsDefault
-                                - saveAllSett
-                                - tableClear
-                                - insertRow
-                                - getMaxSymbol
-                                - readHist
-                                - readBuyer
-                                - readGoods
-                                - setupDir
-                                - keyPressEvent
-                                - pluginInfoSlot
-                                - pluginSlot
-                                - showTableMenuT
-                                - showTableMenuK
-                                - showTableMenuH
-                                - mainUpdateStatus
-                                - tabChanged
-                                - rereadHist
-                                - aboutQt
-                                - aboutProg
-                                - editFHist
-                                - delFHist
-                                - userDataClick
-                                - settClick
-                                - buyerClick
-                                - buyerDel
-                                - buyerEd
-                                - newInv
-                                - newInvBill
-                                - newInvGross
-                                - newPForm
-                                - newCor
-                                - newDuplicate
-                                - goodsAdd
-                                - goodsDel
-                                - goodsEdit
-                                - close
-                                - help
-                                - reportBug
+                        - main.cpp
+                        - MainWindow.cpp
+                        - MainWindow.h
+                        - XmlDataLayer.cpp
+                        - XmlDataLayer.h
+                        - Validations.cpp
+                        - Validations.h
+                        - User.cpp
+                        - User.h
+                        - Setting.cpp
+                        - Setting.h
+                        - InvoiceGross.cpp
+                        - InvoiceGross.h
+                        - Bill.cpp
+                        - Bill.h
+                        - Correction.cpp
+                        - Correction.h
+                        - CorrectGross.cpp
+                        - CorrectGross.h
+                        - Invoice.cpp
+                        - Invoice.h
+                        - BuyerData.cpp
+                        - BuyerData.h
+                        - Buyers.cpp
+                        - Buyers.h
+                        - BuyersList.cpp
+                        - BuyersList.h
+                        - ChangeAmount.cpp
+                        - ChangeAmount.h
+                        - CustomPayment.cpp
+                        - CustomPayment.h
+                        - CustomPaymData.cpp
+                        - CustomPaymData.h
+                        - Duplicate.cpp
+                        - Duplicate.h
+                        - Goods.cpp
+                        - Goods.h
+                        - GoodsList.cpp
+                        - GoodsList.h
+                        - GoodsGrossList.cpp
+                        - GoodsGrossList.h
+                        - Settings.h
+                        - ProductData.h
+                        - owncalendar.h
+                        - InvoiceData.h
+                        - IDataLayer.h
+                        - ConvertAmount.cpp
+                        - ConvertAmount.h
+                        - Const.h
+                        - config.h
             - 5: 
                 - Instrukcja:
                     - 5a: Pierwsze uruchomienie
@@ -273,6 +272,7 @@ Documentation:
                 - Zmiana ścieżki folderu z ~/elinux na ~/.local/share/data/elinux
                 - Dodanie motywów
                 - Dodanie dwóch styli dla drukowanych faktur
+                - Dodanie organizera z kalendarzem
             
 2:
     Wymagania:
@@ -295,152 +295,74 @@ Documentation:
     Opis_techniczny:
         Odwołania_w_kodzie: ["https://github.com/juliagoda/qfaktury","http://www.vat.pl/pkwiu/index.php?rodzajKlasyfikacji=pkwiuvat&kod", "http://www.faqs.org/rfcs/rfc1738.html", "http://waluty.com.pl/rss/?mode=kursy", "https://github.com/juliagoda/qfaktury/issues"] 
         Pliki_źródłowe:
-            main.cpp:
-                funkcje:
-                    main: 
-                        tworzy instancję QApplication, ustawia język programu według zapisanych danych, pobiera plik
-                        z rozszerzeniem .rcc, zawierający zasoby dla aplikacji, pobiera informacje na temat położenia
-                        okna aplikacji oraz ustawia okno aplikacji, ustawia okno startowe czynne podczas ładowania aplikacji, uruchamia okres trwania okna startowego, ustawia sygnał zamknięcia programu po zamknięciu ostatniego okna, ustawia ikonę programu, nazwę aplikacji, organizacji oraz motyw programu według dostępnych danych.
-            MainWindow.cpp:
-                funkcje:
-                    MainWindow: 
-                        Łączy plik graficzny .ui o tej samej nazwie z aktualną klasą oraz uruchamia funkcję init
-                    ~MainWindow: 
-                        Zapisuje przed zamknięciem głównego okna informacje na temat filtru faktur według dat oraz szerokość kolumn z tablicy. Następnie usuwa wszystkie wskaźniki.
-                    init: 
-                        Wykrywa czy program został uruchomiony po raz pierwszy. Jeśli tak, tworzy domyślne ustawienia dla pro
-                        gramu oraz wyświetla wprowadzające komunikaty dla nowego użytkownika. W przeciwnym razie pobiera
-                        informacje na temat katalogu roboczego, który jest tworzony w przypadku jego braku oraz według zapisanych ustawień ustawia daty na filtrze faktur. Odblokowuje opcje w menu w przypadku wykrycia
-                        choćby jednej faktury lub kontrahenta lub towaru na liście. Ustawia szerokość kolumn dla tabel w zakładce faktur, kontrahentów oraz towarów. Dodaje ikonę oraz tytuł dla okna głównego. Wykrywa zmiany z pomocą QTimer, czy istnieją jakiekolwiek dane w tabeli i według nich blokuje lub odblokowuje opcje w menu. Korzysta 
-                        z listy sygnałów dla widgetów pochodzących z pliku MainWindow.ui. Następnie pobiera z plików xml listę faktur, kontrahentów oraz usług/towarów i dodaje do tabelki. Pod koniec sprawdza, czy istnieje lista wtyczek napisanych w PyQt i dodaje do listy w menu.
-                    loadPlugins:
-                        Według ścieżki do programu zainstalowanego w systemie, program sprawdza, czy w folderze "plugins" znajdują się pliki o rozszerzeniach .py, .Py, .PY lub .pY i dodaje je do listy. W przypadku gdy może je odczytać, odczytuje linijkę, usuwając z niej znak "#" tworząc QAction, która zostanie dodana do menu wtyczek. Na koniec funkcji zostaje uwzględniony dla QActions separator oraz dodany QAction o nazwie Informacje do menu
-                    firstRun:
-                        Jeśli w ustawieniach istnieje zapis o tym, że pierwsze uruchomienie aplikacji nie nastąpiło, sprawdza ustawienia. W przypadku braku zapisu ustawień przekształca je na domyślne, następnie ustawia filtr faktur od pierwszego dnia pierwszego miesiąca do ostatniego dnia ostatniego miesiąca bieżącego roku. Jeśli jednak
-                        program już został uruchomiony po raz kolejny, następuje jedynie sprawdzenie ustawień tak jak w przeciwnym wypadku.
-                    openWebTableK:
-                        Otwiera adres url w ostatniej kolumnie na liście kontrahentów po kliknięciu myszką
-                    saveColumnWidth:
-                        Zapisuje szerokość kolumn wszystkich tabelek w głównym oknie do QSettings
-                    saveAllSettAsDefault:
-                        Nadpisuje wartości ustawione w ustawieniach na domyślne (przetrzymywane za pomocą QSettings)
-                    saveAllSett:
-                        Zapisuje do QSettings datę początkową oraz datę końcową, wywołuje także funkcję do zapisywania szerokości kolumn w głównym oknie
-                    tableClear:
-                        Usuwa w wybranej tabeli QTableWidget wszystkie wiersze
-                    insertRow:
-                        Do wybranej tabli QTableWidget dodaje wybrany wiersz
-                    getMaxSymbol:
-                        Zwraca wartość największą z listy liczb całkowitych, które oznaczają numery (symbole) dla faktur z aktualnego roku
-                    readHist:
-                        Według ustawienia daty początkowej i końcowej, w tabelce dla faktur wyświetlane są wszystkie faktury, znajdujące się w wybranym przedziale czasu. Istniejące dane na temat faktur są pobierane z funkcji wirtualnej invoiceSelectAllData z pliku XmlDataLayer.cpp
-                    readBuyer:
-                        W tabelce dla kontrahentów wyświetlane są wszystkie zapisane dane kontrahentów. Istniejące dane na temat kontrahentów są pobierane z funkcji wirtualnej kontrahenciSelectAllData z pliku XmlDataLayer.cpp
-                    readGoods:
-                        W tabelce dla towarów wyświetlane są wszystkie zapisane dane towarów oraz usług. Istniejące dane na temat towarów i usług są pobierane z funkcji wirtualnej productsSelectAllData z pliku XmlDataLayer.cpp
-                    setupDir:
-                        Sprawdza czy scieżka "~/.local/share/data/elinux" oraz "~/.local/share/data/elinux/invoices" istnieją, w przeciwnym razie tworzy je w danej ścieżce, poprzednio sprawdzając istnienie ścieżki "~/.local/share/data"
-                    keyPressEvent:
-                        Uwzględnia skróty klawiatury dla stworzenia nowej faktury, edycji faktury, edycji kontrahenta, edycji towaru oraz przechodzenie strzałkami między zakładkami QTableWidget
-                    pluginInfoSlot:
-                        Informacja wyświetlana po wybraniu w górnym menu Dodatki -> Informacje
-                    pluginSlot:
-                        Uruchamia plugin napisany w Python, według wybranej opcji w zakładce "Dodatki" w górnym menu oraz uruchomiony za pomocą QProcess. Jeśli plugin nie zostanie uruchomiony przez 30000 milisekund, praca zostaje przerwana.
-                    showTableMenuT:
-                        Tworzy menu kontekstowe po kliknięciu prawym przyciskiem myszy na wiersz tabeli towarów i usług, który zawiera opcje dodania towaru, usunięcia towaru i edycji towaru lub usługi
-                    showTableMenuK:
-                        Tworzy menu kontekstowe po kliknięciu prawym przyciskiem myszy na wiersz tabeli kontrahentów, który zawiera opcje dodania kontrahenta, usunięcia kontrahenta i edycji kontrahenta
-                    showTableMenuH:
-                        Tworzy menu kontekstowe po kliknięciu prawym przyciskiem myszy na wiersz tabeli faktury, który zawiera opcje dodania faktury VAT, Faktury Brutto, Rachunku, Faktury Pro Forma, Faktury korygującej, Duplikatu faktury, edycji zaznaczonej faktury oraz usunięcie zaznaczonej faktury
-                    mainUpdateStatus:
-                        Wyświetla w lewym dolnym rogu programu informacje, które pobiera z aktualnie zaznaczonego wiersza tabeli faktur, kontrahentów lub towarów
-                    tabChanged:
-                        Opcje w menu jak dodanie faktury/kontrahenta/towaru, a także ich edycji i usunięcia są blokowane i odblokowywane w zależności od występowania choćby jednej faktury/kontrahenta/towaru w tabeli. Musi istnieć co najmniej jeden wpis w tabeli dla danej zakładki, aby opcje zostały odblokowane
-                    rereadHist:
-                        Usuwa wszystkie wiersze w tabeli faktur, następnie ponownie pobiera zapisane dane z plików zewnętrznych z funkcji readHist
-                    aboutQt:
-                        Wyświetla informacje na temat wersji biblioteki Qt, z której korzysta program. W tytule znajduje się wersja i nazwa używanego programu
-                    aboutProg:
-                        Wyświetla informacje o programie, jego autorach oraz uwagi
-                    editFHist:
-                        Uruchamia nowe okno z możliwością edycji wybranej faktury. Okno edycji jest dostosowane do wybranego rodzaju faktury
-                    delFHist:
-                        Usuwa wybraną fakturę z tabeli. Przed usunięciem pojawia się ostrzeżenie. Na koniec zostaje wywoływana funkcja invoiceDeleteData z pliku XmlDataLayer.cpp, która usuwa plik .xml odpowiadający usuniętemu wierszowi
-                    userDataClick:
-                        Uruchamia okno z formularzem do wypełnienia dla wystawiającego faktury (użytkownika programu)
-                    settClick:
-                        Uruchamia okno z ustawieniami programu
-                    buyerClick:
-                        Uruchamia nowe okno dodania nowego kontrahenta. Po zaakceptowaniu danych pojawia się wpis z wprowadzonymi danymi w tabeli dla listy kontrahentów
-                    buyerDel:
-                        Usuwa kontrahenta zaznaczonego według wiersza w tabeli w oknie głównym
-                    buyerEd:
-                        Uruchamia okno edycji dla zaznaczonego kontrahenta z tabeli w oknie głównym. Po zaakceptowaniu zmian dotychczasowe dane w wybranym wierszu (lista kontrahentów w tabeli) zostają podstawione
-                    newInv:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
-                    newInvBill:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia rachunku. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice (ponieważ klasa Bill dziedziczy z klasy Invoice) i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
-                    newInvGross:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury brutto. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice (ponieważ klasa InvoiceGross dziedziczy z klasy Invoice) i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
-                    newPForm:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury pro forma. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
-                    newCor:
-                        Tworzy nowe, nieuzupełnione okno dla utworzenia faktury korygującej. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Correction w przypadku wybrania faktury korygującej VAT jak i Brutto i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
-                    newDuplicate:
-                        Tworzy nowe, uzupełnione okno dla utworzenia duplikatu faktury. Po zapisaniu i zamknięciu okna stworzonej faktury, funkcja pobiera wartość zmiennej ret z klasy Invoice (ponieważ klasa Duplicate dziedziczy z klasy Invoice) i przekształca ją w listę QStringList rozdzielając wartości znakiem "|". Elementy z QStringList trafiają bezpośrednio do rubryk w tablicy w oknie głównym (do listy faktur)
-                    goodsAdd:
-                        Uruchamia nowe okno dodania nowego towaru lub usługi. Po zaakceptowaniu danych pojawia się wpis z wprowadzonymi danymi w tabeli dla listy towarów
-                    goodsDel:
-                        Usuwa towar lub usługę zaznaczony według wiersza w tabeli w oknie głównym
-                    goodsEdit:
-                        Uruchamia okno edycji dla zaznaczonego towaru z tabeli w oknie głównym. Po zaakceptowaniu zmian dotychczasowe dane w wybranym wierszu (lista towarów w tabeli) zostają podstawione
-                    close:
-                        Wyświetla komunikat o potwierdzeniu zakończenia działania aplikacji oraz zapisania aktualnego stanu za pomocą QSettings. W przypadku anulowania, zamknięcie programu oraz zapis stanu nie następuje 
-                    help:
-                        W domyślnej przeglądarce systemowej otwiera adres URL dla aktualnego programu, gdzie można uzyskać pomoc dotyczącą działania programu.
-                    reportBug:
-                        W domyślnej przeglądarce systemowej otwiera adres URL, gdzie można zgłosić bug aktualnego programu.
-            XmlDataLayer:
-                funkcje:
-                    XmlDataLayer: 
-                        brak
-                    ~XmlDataLayer:
-                        brak
-                    getRet:
-                        Zwraca wartość zmiennej typu QString, zawierającej wszystkie informacje potrzebne do wyświetlenia danych w wierszach tabel w oknie głównym. Zmienna zostaje użyta w Faktura.cpp, natomiast z Faktura.cpp zostaje użyta w MainWindow.cpp, gdzie wartość zostaje podzielona na części według znaku "|" i ułożona według kolejności dla każdej kolumny w wierszu. Jeden wiersz = jedna faktura/jeden kontrahent/jeden towar.
-                    buyersElemToData:
-                        Funkcja przyjmuje instancję klasy BuyerData oraz QDomElement, zawierający atrybuty - name, place, code, address, tic, account, phone, email, www. Listę danych atrybutów można znaleźć w pliku customers.xml w ścieżce ~/.local/share/data/elinux. Wartości atrybutów są pobierane jeden po drugim i przypisywane do zmiennych typu QString (klasy BuyerData), które są traktowane jako nośniki danych dla kontrahentów.
-                    buyersDataToElem:
-                        Funkcja przyjmuje instancję klasy BuyerData oraz QDomElement, który ma zawierać atrybuty - name, place, code, address, tic, account, phone, email, www. Lista danych atrybutów zostanie wprowadzona do pliku customers.xml w ścieżce ~/.local/share/data/elinux dla nowego kontrahenta. Z instancji BuyerData traktowanej jako nośnik danych o kontrahentach dane są użyte jako wartości atrybutów dla elementu DOM, podanego jako argument funkcji.
-                    buyersSelectAllData:
-                        Pobiera listę wszystkich kontrahentów z pliku customers.xml, znajdującym się w ścieżce ~/.local/share/data/elinux do zmiennej buyerVec będącej listą instancji BuyerData (listą wszystkich kontrahentów). Pętle pobierają wartości pierwszego dziecka i jego braci (dziecka root) oraz wartości ostatniego dziecka i jego braci (dziecka root). Pierwsze dzieci symbolizują firmy, ostatnie dzieci symbolizują urzędy.
-                    buyersSelectData:
-                        Funkcja przyjmuje nazwę kontrahenta oraz numer jego typu (0 - firma, 1 - urząd). Jeśli wartość atrybutu name w pliku customers.xml w scieżce ~/.local/share/data/elinux zgadza się z wprowadzoną nazwą do funkcji jako argument, to wywołuje funkcję buyersElemToData (patrz opis funkcji powyżej).
-                    buyersInsertData:
-                        Funkcja przyjmuje instancję klasy BuyerData, która już jest nośnikiem pewnych danych nowego kontrahenta oraz typ kontrahenta (0 - firma, 1 - urząd). W zalezności od typu wstawia dane kontrahenta na początek lub na koniec w korzeniu drzewa XML.
-                    buyersGetFirmList:
-                        Pobiera z pliku customers.xml w ścieżce ~/.local/share/data/elinux wszystkie nazwy kontrahentów.
-                    buyersUpdateData:
-                        Funkcja pobiera instancję BuyerData, który już zawiera dane nowego kontrahenta, typ kontrahenta (0 - firma, 1 - urząd) oraz nazwę starego kontrahenta, który będzie modyfikowany. Jeśli znaleziono w drzewie XML kontrahenta o nazwie zgodnej z trzecim argumentem funkcji, wartości zastępowane są przez nowe, przetrzymywane w instancji BuyerData.
-                    buyersDeleteData:
-                        Funkcja pobiera jedynie nazwę kontrahenta (firmy lub urzędu), który będzie usuwany z drzewa XML w pliku customers.xml w ścieżce ~/.local/share/data/elinux.
-                    productsElemToData:
-                        Funkcja przyjmuje instancję klasy ProductData oraz QDomElement, zawierający atrybuty - idx, name, desc, code, pkwiu, quanType, netto1, netto2, netto3, netto4, vat. Listę danych atrybutów można znaleźć w pliku products.xml w ścieżce ~/.local/share/data/elinux. Wartości atrybutów są pobierane jeden po drugim i przypisywane do zmiennych typu double lub QString (klasy ProductData), które są traktowane jako nośniki danych dla towarów i usług.
-                    productsDataToElem:
-                        Funkcja przyjmuje instancję klasy ProductData oraz QDomElement, który ma zawierać atrybuty - idx, name, desc, code, pkwiu, quanType, netto1, netto2, netto3, netto4, vat. Lista danych atrybutów zostanie wprowadzona do pliku products.xml w ścieżce ~/.local/share/data/elinux dla nowego towaru lub usługi. Z instancji ProductData traktowanej jako nośnik danych o towarach lub usługach dane są użyte jako wartości atrybutów dla elementu DOM, podanego jako argument funkcji.
-                    productsSelectAllData:
-                        Pobiera listę wszystkich towarów i usług z pliku products.xml, znajdującym się w ścieżce ~/.local/share/data/elinux do zmiennej prodVec będącej listą instancji ProductData (listą wszystkich towarów i usług). Pętle pobierają wartości pierwszego dziecka i jego braci (dziecka root) oraz wartości ostatniego dziecka i jego braci (dziecka root). Pierwsze dzieci symbolizują towary, ostatnie dzieci symbolizują usługi.
-                    productsSelectData:
-                         Funkcja przyjmuje nazwę towaru lub usługi oraz numer jego typu (0 - towar, w pozostałych przypadkach usługa). Jeśli wartość atrybutu name w pliku products.xml w scieżce ~/.local/share/data/elinux zgadza się z wprowadzoną nazwą do funkcji jako argument, to wywołuje funkcję productsElemToData (patrz opis funkcji powyżej).
-                    productsInsertData:
-                        Funkcja przyjmuje instancję klasy ProductData, która już jest nośnikiem pewnych danych nowego towaru lub usługi oraz typ produktu (0 - towar, w pozostałych przypadkach usługa ). W zalezności od typu wstawia dane na początek (towar) lub na koniec (usługa) w korzeniu drzewa XML.
-                    productsUpdateData:
-                         Funkcja pobiera instancję ProductData, który już zawiera dane nowego towaru lub usługi, typ towaru lub usługi (0 - towar, w pozostałych przypadkach usługa) oraz nazwę starego towaru lub usługi, który będzie modyfikowany. Jeśli znaleziono w drzewie XML towar/usługę o nazwie zgodnej z trzecim argumentem funkcji, wartości zastępowane są przez nowe, przetrzymywane w instancji ProductData.
-                    productsDeleteData:
-                        Funkcja pobiera jedynie nazwę towaru lub usługi, który będzie usuwany z drzewa XML w pliku products.xml w ścieżce ~/.local/share/data/elinux.
-                    invoiceSellerDataToElem:
-                        Funkcja przyjmuje instancję klasy InvoiceData oraz QDomElement, który ma nadawane atrybuty - name, zip, city, street, tic, account, phone, email, website. Wartość atrybutów jest przypisywana z nazwy ustawienia z klasy QSettings, które przechowuje wartości pod takimi samymi nazwami jak nazwy tworzonych atrybutów dla QDomElement.
-                    invoiceSellerElemToData:
-                        Brak
-                    invoiceBuyerDataToElem:
-                        Brak
+            main.cpp: >
+                tworzy instancję QApplication, ustawia język programu według zapisanych danych, pobiera plik
+                z rozszerzeniem .rcc, zawierający zasoby dla aplikacji, pobiera informacje na temat położenia
+                okna aplikacji oraz ustawia okno aplikacji, ustawia okno startowe czynne podczas ładowania aplikacji, uruchamia okres trwania okna startowego, ustawia sygnał zamknięcia programu po zamknięciu ostatniego okna, ustawia ikonę programu, nazwę aplikacji, organizacji oraz motyw programu według dostępnych danych.
+            MainWindow.cpp: >
+                Tworzy główne okno programu, w którym znajduje się menu, toolbar oraz podgląd zapisanych faktur, oraz organizera z kalendarzem.
+            XmlDataLayer.cpp: >
+                Klasa służąca do tworzenia plików formatu XML, wprowadzania do nich danych oraz do ich odczytu. Generuje pliki dla listy kontrahentów (dzielonych według kategorii urząd - firma), listy produktów (dzielonych według kategorii towar - usługa), listy faktur oraz dane sprzedawcy.
+            Validations.cpp: >
+                Klasa bez GUI, służąca do walidacji danych sprzedawcy, kontrahentów oraz produktów. Zawiera funkcje, które także obliczają sumy kontrolne
+                wprowadzanych danych w celu zapewnienia braku możliwości wprowadzenia fikcyjnych danych.
+            User.cpp: >
+                Tworzy okno do wprowadzania i zapisu danych sprzedawcy. Z pomocą klasy QSettings zapisuje i wczytuje dane z pliku konfiguracyjnego aplikacji.
+            Setting.cpp: >
+                Tworzy okno z ustawieniami. Wybór zakładki w ustawieniach pozwala używanie klasy QTabWidget, która stanowi główny element wygenerowanego okna.
+                Opcja wyboru języka wykrywa pliki z rozszerzeniem .qm, natomiast opcja wyboru szablonu drukowania wykrywa pliki z rozszerzeniem .css. Opcja wyboru motywu pobiera listę dostępnych motywów w systemie operacyjnym.
+            InvoiceGross.cpp: >
+                Generuje okno dla tworzonej, lub wczytywanej faktury brutto. Klasa dziedziczy z ogólnej klasy faktur - Invoice.
+            Bill.cpp: >
+                Generuje okno dla tworzonego lub wczytywanego rachunku. Klasa dziedziczy z ogólnej klasy faktur - Invoice.
+            Correction.cpp: >
+                Generuje okno dla tworzonej lub wczytywanej faktury korygującej VAT. Klasa dziedziczy z ogólnej klasy faktur - Invoice.
+            CorrectGross.cpp: >
+                Generuje okno dla tworzonej lub wczytywanej faktury korygującej dla faktury brutto. Klasa dziedziczy z ogólnej klasy faktur - Invoice.
+            Invoice.cpp: >
+                Tworzy okno dla standardowej faktury VAT, wraz z większością szczegółów dla tego okna. Jednocześnie jest klasą bazową dla innych klas, dopasowujących dane do pierwotnego okna, które (dane) różnią się w zależności od rodzaju tworzonej faktury. Okno korzysta z danych, znajdujących się w plikach XML kontrahentów, produktów oraz sprzedawcy. Z tego poziomu możliwe jest wydrukowanie danej faktury.
+            BuyerData.cpp: >
+                Służy do tworzenia oddzielnych instancji dla każdego kontrahenta, do których przypisywane są kolejno wartości - nazwa, miejsce, kod pocztowy, adres, numer NIP, numer konta bankowego, numer telefonu, adres email, strona internetowa oraz kategoria kontrahenta (0 lub 1, czyli firma lub urząd).
+            Buyers.cpp: >
+                Generuje formularz do wprowadzania danych dla nowego kontrahenta lub odczytu danych istniejącego kontrahenta.
+            BuyersList.cpp: >
+                Tworzy okno wyboru zapisanych kontrahentów z pliku XML. Klasyfikuje kontrahentów według osobnych kategorii - urzędów lub firm.
+            ChangeAmount.cpp: >
+                Tworzy okno dla zmiany ilości produktu, zaznaczonego w oknie wybranej faktury.
+            CustomPayment.cpp: >
+                W przypadku wyboru metody płatności w postaci zaliczki, klasa generuje okno, które pozwala na podział kwoty rat.
+            CustomPaymData.cpp: >
+                Przechowuje wartości podzielonych rat w zmiennych, do których można się odwoływać za pomocą tworzonej instancji klasy.
+            Duplicate.cpp: >
+                Generuje okno dla duplikatu dla zaznaczonej faktury. Większość opcji jest zablokowana. Możliwy jest tylko podgląd, zapis oraz wydruk.
+            Goods.cpp: >
+                Generuje formularz do wprowadzania danych dla nowego produktu lub odczytu danych istniejącego produktu.
+            GoodsList.cpp: >
+                Tworzy okno wyboru zapisanych produktów z pliku XML. Klasyfikuje produkty według osobnych kategorii - towaru lub usługi.
+            GoodsGrossList.cpp: >
+                Tworzy okno wyboru zapisanych produktów z pliku XML. Klasyfikuje produkty według osobnych kategorii - towaru lub usługi. Okno dla danych z GoodsGrossList różnią się od z GoodsList odmiennie przeliczonymi wartościami w rubrykach.
+            Settings.h: >
+                Zachowuje domyślne wartości dla różnego rodzaju ustawień dla aplikacji oraz opakowuje nazwy ścieżek, które wielokrotnie pojawiają się w kodzie programu. Jest główną klasą, która operuje na ustawieniach, tworząc, zapisując i odczytując z pliku konfiguracyjnego .config z pomocą odziedziczonej klasy QSettings.
+            ProductData.h: >
+                Dane towaru lub usługi przypisywane są do zmiennych instancji klasy. Instancja pozwala także na zmianę wartości oraz ich odczytywanie.
+            owncalendar.h: >
+                Klasa dziedzicząca z klasy QCalendarWidget, nadpisująca metodę wirtualną paintCell w celu możliwości zaznaczania pojedynczych dni na kalendarzu w sposób stworzony w klasie, przy spełnionym warunku.
+            InvoiceData.h: >
+                Dane dowolnej faktury przypisywane są do zmiennych instancji klasy. Instancja pozwala także na zmianę wartości oraz ich odczytywanie.
+            IDataLayer.h: >
+                Klasa z metodami wirtualnymi, służąca jako opcja dostępu do elementów klasy XmlDataLayer.
+            ConvertAmount.cpp: >
+                Pozwala na przedstawienie kwoty w formie słownej.
+            Const.h: >
+                Przechowuje zmienne stałe, które używane są jako nagłówki okien faktur.
+            config.h: >
+                Przechowuje makro dla numeru wersji programu oraz treść dla domyślnego szablonu drukowania o nazwie black.css, który jest generowany w innej klasie, w przypadku problemów wynikających z wykryciem szablonu w ustalonej ścieżce.
+            
+5:
+    Instrukcja:
+        5a: Przy pierwszym uruchomieniu programu pojawiają się trzy komunikaty. Pierwszy komunikat informuje o możliwości konwersji walut wraz z wymaganiami. Drugi komunikat przestrzega przed ewentualną zmianą sposobu formatowania wartości liczbowych z wartościami po przecinku w przypadku zmiany lokalizacji. Trzeci komunikat sugeruje jako pierwszą czynność, stworzenie konta dla sprzedawcy, wystawiającego faktury.
+        5b: 
+            Ustawienia:
+                5c1: Pierwsza zakładka w ustawieniach dotyczy zmian ogólnych. Kolejno od góry w dół ustawieniu podlegają ustawienie języka (polski, angielski, niemiecki), kodowania znaków, graficznego logo firmy, szablonu drukowania dla faktur, motywu programu oraz katalogu roboczego (wskazującego inną ścieżkę do faktur)
+                5c2: Druga zakładka zawiera ustawienia sposobu numeracji faktur, blokady lub możliwości edycji faktur i korekt, zmiany symbolu faktury (w oknie faktury) oraz zmiany nazwy dodawanego produktu. Dodatkowo pozwala na zmianę ilości kopii, które zostaną uwzględnione podczas drukowania faktur oraz dodanie dodatkowego tekstu, który będzie dodany do faktury.
+                5c3: Trzecia zakładka pozwala na dodawanie własnych i usuwanie istniejących stawek VAT, walut, form płatności, jednostek i przyczyn korekty
