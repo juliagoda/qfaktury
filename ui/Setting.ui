@@ -47,7 +47,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabPage1">
       <attribute name="title">
@@ -435,7 +435,7 @@
        <item row="0" column="0">
         <widget class="QToolBox" name="toolBox">
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_6">
           <property name="geometry">
@@ -623,8 +623,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>291</width>
-            <height>200</height>
+            <width>472</width>
+            <height>266</height>
            </rect>
           </property>
           <attribute name="label">
@@ -779,8 +779,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>309</width>
-            <height>147</height>
+            <width>472</width>
+            <height>266</height>
            </rect>
           </property>
           <attribute name="label">
@@ -907,8 +907,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>274</width>
-            <height>147</height>
+            <width>472</width>
+            <height>266</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1043,8 +1043,8 @@ korekt:</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>281</width>
-            <height>147</height>
+            <width>472</width>
+            <height>266</height>
            </rect>
           </property>
           <attribute name="label">
