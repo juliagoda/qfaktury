@@ -15,7 +15,7 @@ QT_MINOR_VERSION = 5.0.0
 
 # Input
 HEADERS += $$files($$PWD/src/*.h) \
-    src/owncalendar.h
+    src/owncalendar.h \
 
 FORMS += $$files($$PWD/ui/*.ui)
 
@@ -40,7 +40,8 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/Setting.cpp \
     $$PWD/src/User.cpp \
     $$PWD/src/ChangeAmount.cpp \
-    $$PWD/src/Validations.cpp
+    $$PWD/src/Validations.cpp \
+    $$PWD/src/InvoiceRR.cpp
 
 RESOURCES += qfaktury.qrc
 MOC_DIR = .moc

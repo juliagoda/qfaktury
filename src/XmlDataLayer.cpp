@@ -1248,6 +1248,11 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 	o_invData.sellingDate = QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
 	o_invData.productDate = QDate::fromString(root.attribute("issueDate"),	sett().getDateFormat());
     if (type == 7) o_invData.duplDate = QDate::fromString(root.attribute("duplDate"),	sett().getDateFormat());
+    if (type == 8) {
+        if (root.attribute("ifpaysVAT") == "1") o_invData.ifpVAT = true;
+            else o_invData.ifpVAT = false;
+    }
+
 
 	QDomNode tmp;
 	tmp = root.firstChild();
@@ -1390,6 +1395,7 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 			invDt.sellingDate = QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
 			invDt.productDate = QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
 			invDt.type = root.attribute("type");
+
 
 			QDomNode nab;
 			nab = root.firstChild();
@@ -1560,6 +1566,10 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
     ret += oi_invData.issueDate.toString(sett().getDateFormat()) + "|";
 	root.setAttribute("issueDate", oi_invData.issueDate.toString(sett().getDateFormat()));
 	root.setAttribute("sellingDate", oi_invData.sellingDate.toString(sett().getDateFormat()));
+    if (type == 8) {
+        if (oi_invData.ifpVAT) root.setAttribute("ifpaysVAT","1");
+            else root.setAttribute("ifpaysVAT","0");
+    }
     
 
 	QString invType = oi_invData.getInvoiceTypeAndSaveNr(type);

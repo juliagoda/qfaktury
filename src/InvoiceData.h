@@ -36,6 +36,7 @@ public:
 
 	QString type;
 	QString id; // in case of xml, here goes filename
+    bool ifpVAT;
 
 	QString custStreet;
 	QString custTic;
@@ -68,6 +69,8 @@ public:
 		case 6: ret = QObject::trUtf8("rachunek");
 				break;
         case 7: ret = QObject::trUtf8("duplikat");
+                break;
+        case 8: ret = QObject::trUtf8("RR");
                 break;
 		default: ret = QObject::trUtf8("FVAT");
 				break;

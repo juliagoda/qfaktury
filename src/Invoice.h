@@ -13,7 +13,7 @@
 #include "ui_Invoice.h"
 
 
-enum InvoiceType {FVat, FPro, EFVat, EFPro, KBR, BILL, DUP};
+enum InvoiceType {FVat, FPro, EFVat, EFPro, KBR, BILL, DUP, RR};
 
 class Invoice: public QDialog, public Ui::Invoice {
 
@@ -101,6 +101,8 @@ protected:
 	CustomPaymData *custPaymData;
     QStringList invStrList;
 	int type;
+    QString fName;
+    bool ifCSS;
 
 	QString getGroupedSums();
     QString numbersCount(int in, int x);
@@ -132,9 +134,9 @@ private:
     QFile file;
     QNetworkReply *reply;
     QString pressedText;
-    QString fName, ret, inv_form;
+    QString ret, inv_form;
     QDomDocument doc;
-    bool pforma, kAdded, ifCSS;
+    bool pforma, kAdded;
 
 };
 #endif

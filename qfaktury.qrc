@@ -30,5 +30,6 @@
         <file>icons/usun_kontrahentow.png</file>
         <file>icons/usun_przelew.png</file>
         <file>icons/usun_towar.png</file>
+        <file>icons/nowa_RR.png</file>
     </qresource>
 </RCC>

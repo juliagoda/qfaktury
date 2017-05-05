@@ -504,6 +504,7 @@
     </property>
     <addaction name="addInvoiceAction"/>
     <addaction name="invoiceGrossAction"/>
+    <addaction name="invoiceRRAction"/>
     <addaction name="invoiceBillAction"/>
     <addaction name="separator"/>
     <addaction name="invoiceProFormaAction"/>
@@ -1102,6 +1103,18 @@
   <action name="actionPrintBuyer">
    <property name="text">
     <string>D&amp;rukuj</string>
+   </property>
+  </action>
+  <action name="invoiceRRAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/nowa_RR.png</normaloff>:/res/icons/nowa_RR.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Faktura RR</string>
+   </property>
+   <property name="shortcut">
+    <string>X</string>
    </property>
   </action>
  </widget>

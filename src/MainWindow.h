@@ -39,6 +39,7 @@ public slots:
     void buyerDel();
     void buyerEd();
     void newInv();
+    void newInvRR();
 	void newPForm();
     void newCor();
     void newDuplicate();

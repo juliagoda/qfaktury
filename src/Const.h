@@ -12,6 +12,7 @@ static const QString s_PROFORMA = QObject::trUtf8("Faktura Pro Forma");
 static const QString s_INVOICE = QObject::trUtf8("Faktura VAT");
 static const QString s_BILL = QObject::trUtf8("Rachunek");
 static const QString s_CORRECTION =  QObject::trUtf8("Faktura VAT korygująca");
+static const QString s_RR =  QObject::trUtf8("Faktura RR");
 
 static const QString s_FBRUTTO = QObject::trUtf8("Faktura VAT Brutto");
 static const QString s_DUPLICATE = QObject::trUtf8("Nowy Duplikat");

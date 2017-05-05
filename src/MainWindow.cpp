@@ -16,6 +16,7 @@
 #include "Const.h"
 #include "MainWindow.h"
 #include "XmlDataLayer.h"
+#include "InvoiceRR.h"
 
 
 MainWindow* MainWindow::m_instance = nullptr;
@@ -202,6 +203,7 @@ void MainWindow::init() {
     connect(ui->invoiceGrossAction, SIGNAL(triggered()), this, SLOT(newInvGross()));
     connect(ui->invoiceBillAction, SIGNAL(triggered()), this, SLOT(newInvBill()));
     connect(ui->invoiceCorrAction, SIGNAL(triggered()), this, SLOT(newCor()));
+    connect(ui->invoiceRRAction, SIGNAL(triggered()), this, SLOT(newInvRR()));
     connect(ui->invoiceProFormaAction, SIGNAL(triggered()), this, SLOT(newPForm()));
     connect(ui->addGoodsAction, SIGNAL(triggered()), this, SLOT(goodsAdd()));
     connect(ui->actionPrintBuyer, SIGNAL(triggered()), this, SLOT(printBuyerList()));
@@ -815,6 +817,7 @@ void MainWindow::showTableMenuH(QPoint p) {
     QMenu *menuTable = new QMenu(ui->tableH);
     menuTable->addAction(ui->addInvoiceAction);
     menuTable->addAction(ui->invoiceGrossAction);
+    menuTable->addAction(ui->invoiceRRAction);
     menuTable->addAction(ui->invoiceBillAction);
 	menuTable->addSeparator();
     menuTable->addAction(ui->invoiceProFormaAction);
@@ -1019,6 +1022,26 @@ void MainWindow::editFHist() {
     if (ui->tableH->item(row, 3)->text() == trUtf8("FVAT")) {
 
         Invoice *invWindow = new Invoice(this, dl, s_WIN_INVOICE_EDIT);
+
+        invWindow->readData(ui->tableH->item(row, 0)->text());
+        invWindow->setfName(ui->tableH->item(row, 0)->text());
+
+        if (invWindow->exec() == QDialog::Accepted) {
+
+            rereadHist(true);
+        }
+
+        if (invWindow->getKAdded()) readBuyer();
+
+        invWindow = 0;
+        delete invWindow;
+
+    }
+
+    if (ui->tableH->item(row, 3)->text() == trUtf8("RR")) {
+
+        InvoiceRR *invWindow = new InvoiceRR(this, dl, s_RR);
+        invWindow->invoiceRRInit();
 
         invWindow->readData(ui->tableH->item(row, 0)->text());
         invWindow->setfName(ui->tableH->item(row, 0)->text());
@@ -1385,6 +1408,37 @@ void MainWindow::newInv() {
 }
 
 
+void MainWindow::newInvRR() {
+
+    InvoiceRR *invWindow = new InvoiceRR(this, dl, s_RR);
+    invWindow->invoiceRRInit();
+
+    if (invWindow->exec() == QDialog::Accepted) {
+
+        ui->tableH->setSortingEnabled(false);
+        insertRow(ui->tableH, ui->tableH->rowCount());
+        QStringList row = invWindow->getRet().split("|");
+        ui->tableH->item(ui->tableH->rowCount() - 1, 0)->setText(row[0]); // file name
+        ui->tableH->item(ui->tableH->rowCount() - 1, 1)->setText(row[1]); // symbol
+        ui->tableH->item(ui->tableH->rowCount() - 1, 2)->setText(row[2]); // date
+        ui->tableH->item(ui->tableH->rowCount() - 1, 3)->setText(row[3]); // type
+        ui->tableH->item(ui->tableH->rowCount() - 1, 4)->setText(row[4]); // buyer
+        ui->tableH->item(ui->tableH->rowCount() - 1, 5)->setText(row[5]); // NIP
+        ui->tableH->setSortingEnabled(true);
+
+    } else {
+
+        rereadHist(true);
+    }
+
+    if (invWindow->getKAdded()) readBuyer();
+    dl->checkAllSymbInFiles();
+    allSymbols = dl->getAllSymbols();
+
+    invWindow = 0;
+    delete invWindow;
+
+}
 /** Slot used for creating new invoices
  */
 void MainWindow::newInvBill() {

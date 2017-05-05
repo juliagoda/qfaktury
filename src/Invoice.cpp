@@ -132,6 +132,7 @@ void Invoice::init() {
     whatTypeFromTitle(s_BILL_EDIT, false, true, BILL, 6);
     whatTypeFromTitle(s_DUPLICATE, false, true, DUP, 7);
     whatTypeFromTitle(s_WIN_DUPLICATE_LOOK, false, true, DUP, 7);
+    whatTypeFromTitle(s_RR, false, false, RR, 8);
 
     if (sett().value("editSymbol").toBool()) invNr->setEnabled(false);
     else invNr->setEnabled(true);
@@ -255,6 +256,9 @@ QString Invoice::getInvoiceTypeAndSaveNr() {
         } else if (inv_form == s_DUPLICATE) {
                 ret = trUtf8("duplikat");
                 sett().setValue("dup", invNr->text());
+        } else if (inv_form == s_RR) {
+            ret = trUtf8("rr");
+            sett().setValue("rr", invNr->text());
         }
 
         return ret;
