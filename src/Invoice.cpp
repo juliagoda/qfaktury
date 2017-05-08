@@ -1901,7 +1901,7 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
     if (logo != "") {
             invStrList += "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
     } else {
-            invStrList += trUtf8("Pieczęć wystawcy");
+            invStrList += "";
     }
 
     invStrList += "</span>";
@@ -2388,6 +2388,18 @@ void Invoice::makeInvoiceSummAll() {
      invStrList += "</tr>";
      invStrList += "</table>";
      invStrList += "</td></tr>";
+
+     QString stempel = sett().value("stempel").toString();
+
+     invStrList += "<tr><td id=\"stempel\" width=\"30%\" align=\"right\">";
+
+     if (stempel != "") {
+             invStrList += "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\"+ >";
+     } else {
+             invStrList += trUtf8("Pieczęć wystawcy");
+     }
+
+     invStrList += "</td></td>";
 }
 
 

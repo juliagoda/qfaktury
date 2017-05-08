@@ -39,6 +39,7 @@ void Setting::init() {
 	connect(vatUpBtn, SIGNAL(clicked()), this, SLOT(vatUpBtnClick()));
 	connect(vatDownBtn, SIGNAL(clicked()), this, SLOT(vatDownBtnClick()));
 	connect(addLogoBtn, SIGNAL(clicked()), this, SLOT(addLogoBtnClick()));
+    connect(addStempelBtn, SIGNAL(clicked()), this, SLOT(addStempBtnClick()));
 	connect(workingDirBtn, SIGNAL(clicked()), this, SLOT(workingDirBtnClick()));
 	connect(pushButton, SIGNAL(clicked()), this, SLOT(setDefaultClick()));
 	connect(defTextBtn, SIGNAL(clicked()), this, SLOT(defTextBtnClick()));
@@ -47,6 +48,7 @@ void Setting::init() {
     connect( langList, SIGNAL( currentIndexChanged (int)), this, SLOT( saveBtnEnable() ) );
     connect( codecList, SIGNAL( currentIndexChanged (int)), this, SLOT( saveBtnEnable() ) );
     connect( logoEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( saveBtnEnable() ) );
+    connect( stempEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( saveBtnEnable() ) );
     connect( workingDirEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( saveBtnEnable() ) );
     connect( prefixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( saveBtnEnable() ) );
     connect( sufixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( saveBtnEnable() ) );
@@ -185,6 +187,16 @@ void Setting::addLogoBtnClick() {
 			trUtf8("Obrazki (*.jpg *.png)"));
 
 	logoEdit->setText(ofn);
+    saveButton->setEnabled(true);
+}
+
+
+void Setting::addStempBtnClick() {
+
+    QString ofn = QFileDialog::getOpenFileName(this, trUtf8("Wybierz plik do wstawienia jako pieczątka"), "",
+            trUtf8("Obrazki (*.jpg *.png)"));
+
+    stempEdit->setText(ofn);
     saveButton->setEnabled(true);
 }
 
@@ -508,6 +520,7 @@ void Setting::saveSettings() {
 
 	sett().setValue("firstrun", false);
 	sett().setValue("logo", logoEdit->text());
+    sett().setValue("stempel",stempEdit->text());
     sett().setValue("units", getAll(currlBox));
     sett().setValue("rates", getAll(vatlBox).remove("%"));
     sett().setValue("currencies", getAll(currencylBox));
@@ -555,6 +568,7 @@ void Setting::readSettings() {
 	int curr = 0;
 
 	logoEdit->setText(sett().value("logo").toString());
+    stempEdit->setText(sett().value("stempel").toString());
 	workingDirEdit->setText(sett().value("working_dir").toString());
 
 	currlBox->clear();

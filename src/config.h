@@ -41,5 +41,7 @@ static const QStringList blackEmergTemplate = QStringList() << ".page_break {pag
                         "\n" <<
                         ".summarySmall { font-weight: normal; font-size:6pt; font-weight:400; }" <<
                         "\n" <<
-                        ".hrdiv1 { color: #f0f; background-color: #f00; height: 1px; }";
+                        ".hrdiv1 { color: #f0f; background-color: #f00; height: 1px; }" <<
+                        "\n" <<
+                        "#stempel {margin-right: 50px;}";
 
