@@ -73,17 +73,18 @@ void MainWindow::init() {
 	// first run
     if (firstRun()) {
 
+
         // towary/uslugi - wymiary
         ui->tableT->setColumnWidth(0, 50);
         ui->tableT->setColumnWidth(1, 140);
-        ui->tableT->setColumnWidth(3, 40);
-        ui->tableT->setColumnWidth(4, 60);
-        ui->tableT->setColumnWidth(5, 50);
-        ui->tableT->setColumnWidth(6, 55); // netto1
-        ui->tableT->setColumnWidth(7, 55); // netto2
-        ui->tableT->setColumnWidth(8, 55); // netto3
-        ui->tableT->setColumnWidth(9, 55); // netto4
-        ui->tableT->setColumnWidth(10, 55);
+        ui->tableT->setColumnWidth(3, 50);
+        ui->tableT->setColumnWidth(4, 70);
+        ui->tableT->setColumnWidth(5, 70);
+        ui->tableT->setColumnWidth(6, 65); // netto1
+        ui->tableT->setColumnWidth(7, 65); // netto2
+        ui->tableT->setColumnWidth(8, 65); // netto3
+        ui->tableT->setColumnWidth(9, 65); // netto4
+        ui->tableT->setColumnWidth(10, 65);
 
 		saveAllSettAsDefault();
 
@@ -149,28 +150,28 @@ void MainWindow::init() {
     // towary/uslugi - wymiary
     ui->tableT->setColumnWidth(0, sett().value("towCol0", QVariant(50)) .toInt());
     ui->tableT->setColumnWidth(1, sett().value("towCol1", QVariant(140)) .toInt());
-    ui->tableT->setColumnWidth(3, sett().value("towCol2", QVariant(40)) .toInt());
-    ui->tableT->setColumnWidth(4, sett().value("towCol3", QVariant(60)) .toInt());
-    ui->tableT->setColumnWidth(5, sett().value("towCol4", QVariant(50)) .toInt());
-    ui->tableT->setColumnWidth(6, sett().value("towCol5", QVariant(55)) .toInt()); // net1
-    ui->tableT->setColumnWidth(7, sett().value("towCol6", QVariant(55)) .toInt()); // net2
-    ui->tableT->setColumnWidth(8, sett().value("towCol7", QVariant(55)) .toInt()); // net3
-    ui->tableT->setColumnWidth(9, sett().value("towCol8", QVariant(55)) .toInt());; // net4
-    ui->tableT->setColumnWidth(10, sett().value("towCol9", QVariant(55)) .toInt());
+    ui->tableT->setColumnWidth(3, sett().value("towCol2", QVariant(50)) .toInt());
+    ui->tableT->setColumnWidth(4, sett().value("towCol3", QVariant(70)) .toInt());
+    ui->tableT->setColumnWidth(5, sett().value("towCol4", QVariant(70)) .toInt());
+    ui->tableT->setColumnWidth(6, sett().value("towCol5", QVariant(65)) .toInt()); // net1
+    ui->tableT->setColumnWidth(7, sett().value("towCol6", QVariant(65)) .toInt()); // net2
+    ui->tableT->setColumnWidth(8, sett().value("towCol7", QVariant(65)) .toInt()); // net3
+    ui->tableT->setColumnWidth(9, sett().value("towCol8", QVariant(65)) .toInt());; // net4
+    ui->tableT->setColumnWidth(10, sett().value("towCol9", QVariant(65)) .toInt());
 
     ui->tableH->setColumnWidth(0, sett().value("histCol0", QVariant(0)) .toInt());
-    ui->tableH->setColumnWidth(1, sett().value("histCol1", QVariant(40)) .toInt());
-    ui->tableH->setColumnWidth(3, sett().value("histCol2", QVariant(40)) .toInt());
+    ui->tableH->setColumnWidth(1, sett().value("histCol1", QVariant(120)) .toInt());
+    ui->tableH->setColumnWidth(3, sett().value("histCol2", QVariant(120)) .toInt());
     ui->tableH->setColumnWidth(4, sett().value("histCol3", QVariant(140)) .toInt());
-    ui->tableH->setColumnWidth(5, sett().value("histCol4", QVariant(50)) .toInt());
+    ui->tableH->setColumnWidth(5, sett().value("histCol4", QVariant(120)) .toInt());
 
-    ui->tableK->setColumnWidth(0, sett().value("custCol0", QVariant(50)) .toInt());
+    ui->tableK->setColumnWidth(0, sett().value("custCol0", QVariant(140)) .toInt());
     ui->tableK->setColumnWidth(1, sett().value("custCol1", QVariant(140)) .toInt());
-    ui->tableK->setColumnWidth(2, sett().value("custCol2", QVariant(40)) .toInt());
-    ui->tableK->setColumnWidth(3, sett().value("custCol3", QVariant(60)) .toInt());
-    ui->tableK->setColumnWidth(4, sett().value("custCol4", QVariant(50)) .toInt());
-    ui->tableK->setColumnWidth(5, sett().value("custCol5", QVariant(140)) .toInt());
-    ui->tableK->setColumnWidth(6, sett().value("custCol6", QVariant(140)) .toInt());
+    ui->tableK->setColumnWidth(2, sett().value("custCol2", QVariant(100)) .toInt());
+    ui->tableK->setColumnWidth(3, sett().value("custCol3", QVariant(120)) .toInt());
+    ui->tableK->setColumnWidth(4, sett().value("custCol4", QVariant(140)) .toInt());
+    ui->tableK->setColumnWidth(5, sett().value("custCol5", QVariant(170)) .toInt());
+    ui->tableK->setColumnWidth(6, sett().value("custCol6", QVariant(170)) .toInt());
 
 	// add Icon
 	QIcon icon;
