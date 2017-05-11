@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>659</width>
-    <height>449</height>
+    <width>657</width>
+    <height>447</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -30,13 +30,13 @@
      <widget class="QTabWidget" name="organizer">
       <property name="minimumSize">
        <size>
-        <width>250</width>
+        <width>350</width>
         <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>400</width>
+        <width>450</width>
         <height>1700</height>
        </size>
       </property>
@@ -44,7 +44,7 @@
        <cursorShape>ArrowCursor</cursorShape>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -474,8 +474,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>659</width>
-     <height>29</height>
+     <width>657</width>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct">
@@ -1111,7 +1111,7 @@
      <normaloff>:/res/icons/nowa_RR.png</normaloff>:/res/icons/nowa_RR.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Faktura RR</string>
+    <string>F&amp;aktura RR</string>
    </property>
    <property name="shortcut">
     <string>X</string>
