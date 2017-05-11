@@ -130,7 +130,7 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		if (value("paym1").toString().compare("") == 0)
 			setValue("paym1", tr("gotówka"));
 		if (value("payments").toString().compare("") == 0)
-			setValue("payments", tr("gotówka|przelew|zaliczka"));
+            setValue("payments", tr("gotówka|akredytywa|barter|karta kredytowa|karta płatnicza|mieszany|przy odbiorze|ukryj na wydruku|za pobraniem|zapłacono|zgodnie z umową|przelew|zaliczka"));
 		if (value("pdfQuality").toString().compare("") == 0)
 			setValue("pdfQuality", "1");
         if (value("corrections").toString().compare("") == 0)
@@ -407,7 +407,7 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		setValue("margRightPrinter", "10");
 		setValue("month", "false");
 		setValue("paym1", trUtf8("gotówka") );
-		setValue("payments", trUtf8("gotówka|przelew|zaliczka") );
+        setValue("payments", trUtf8("gotówka|akredytywa|barter|karta kredytowa|karta płatnicza|mieszany|przy odbiorze|ukryj na wydruku|za pobraniem|zapłacono|zgodnie z umową|przelew|zaliczka") );
 		setValue("pdfQuality", "1");
         setValue("corrections", trUtf8("zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana daty terminu|zmiana daty sprzedaży") );
 		setValue("prefix", "");

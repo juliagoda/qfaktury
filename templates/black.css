@@ -32,6 +32,22 @@ h4 {
  font-weight: bold;
 }
 
+#rightInvTable tr td {
+ text-align: center;
+ vertical-align: middle;
+ padding: 1px;
+}
+
+#invFirstLine {
+ text-align: center;
+ vertical-align: middle;
+}
+
+#totalRatesTable tr td {
+ text-align: center;
+ vertical-align: middle;
+}
+
 .persons {
  font-family: Verdana, Tahoma, Arial;
  font-size: 8pt; 
@@ -102,20 +118,21 @@ h4 {
 
 .toPay {
  font-family: Verdana, Tahoma, Arial;
- font-size: 12px;
+ font-size: 10pt;
  color: #000000; 
  font-style: normal;
- font-weight: bold;
 }
 
 .summary {
- font-size:8pt; 
- font-weight:600;
+ font-family: Verdana, Tahoma, Arial;
+ font-size:10pt; 
+ font-style: normal;
 }
 
 .additionalText {
+ font-family: Verdana, Tahoma, Arial;
  font-size:10pt; 
- font-weight:600;
+ font-style: normal;
 }
 
 .stamp {
@@ -155,4 +172,5 @@ h4 {
 
 #stempel {
 margin-right: 50px;
+margin-top: 10px;
 }
