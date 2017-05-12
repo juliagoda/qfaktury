@@ -23,6 +23,13 @@ public:
     const int getMaxSymbol();
     static MainWindow * instance();
 
+private slots:
+
+    void createFirstWinBackup();
+    void choosePathBackup();
+    void createBackup();
+    void loadBackup();
+
 
 public slots:
 
@@ -79,6 +86,9 @@ private:
 
     IDataLayer *dl;
     Ui::MainWindow *ui;
+    QWidget* windBack;
+    QLineEdit* fileComboBox;
+    QLineEdit* directoryComboBox;
 
     QVector<QAction*> plugActions;
     QString workingDir;

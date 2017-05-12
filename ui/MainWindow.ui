@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
-    <height>447</height>
+    <width>655</width>
+    <height>445</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -474,7 +474,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>657</width>
+     <width>655</width>
      <height>24</height>
     </rect>
    </property>
@@ -493,6 +493,8 @@
     <addaction name="fileExport_XMLAction"/>
     <addaction name="fileImport_EDIAction"/>
     <addaction name="fileImport_XMLAction"/>
+    <addaction name="actionCreateBackup"/>
+    <addaction name="actionLoadBackup"/>
     <addaction name="fileEndAction"/>
    </widget>
    <widget class="QMenu" name="fakturyAct">
@@ -1115,6 +1117,16 @@
    </property>
    <property name="shortcut">
     <string>X</string>
+   </property>
+  </action>
+  <action name="actionCreateBackup">
+   <property name="text">
+    <string>Stwórz kopię zapasową</string>
+   </property>
+  </action>
+  <action name="actionLoadBackup">
+   <property name="text">
+    <string>Wczytaj kopię zapasową</string>
    </property>
   </action>
  </widget>

@@ -3,7 +3,10 @@
 # #####################################################################
 TEMPLATE = app
 TARGET = qfaktury
-INCLUDEPATH += .
+
+LIBDIR = /usr/lib
+QUAZIPCODEDIR = $$PWD/src/quazip-0.7.3/quazip
+
 QT += gui core widgets printsupport xml webenginewidgets network
 DEFINES  += QT_NO_SSL
 CONFIG += debug
@@ -11,11 +14,27 @@ QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
 QT_MINOR_VERSION = 5.0.0
 
+exists( /usr/lib/libquazip5.so ) {
+unix:LIBS += -L$${LIBDIR} -lquazip5
+win32:LIBS += -L$${LIBDIR} -lquazip5dll
+}
 
+exists( /usr/lib/libquazip.so ) {
+unix:LIBS += -L$${LIBDIR} -lquazip
+win32:LIBS += -L$${LIBDIR} -lquazipdll
+}
+
+unix:LIBS += -L$${LIBDIR} -lz
+win32:LIBS += -L$${LIBDIR} -lzdll
+
+INCLUDEPATH += . \
+            $${QUAZIPCODEDIR} \
+            $${LIBDIR}
 
 # Input
 HEADERS += $$files($$PWD/src/*.h) \
-    src/owncalendar.h \
+            $${QUAZIPCODEDIR}/*.h
+
 
 FORMS += $$files($$PWD/ui/*.ui)
 
@@ -41,7 +60,10 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/User.cpp \
     $$PWD/src/ChangeAmount.cpp \
     $$PWD/src/Validations.cpp \
-    $$PWD/src/InvoiceRR.cpp
+    $$PWD/src/InvoiceRR.cpp \
+    $${QUAZIPCODEDIR}/*.cpp \
+    $${QUAZIPCODEDIR}/*.c
+
 
 RESOURCES += qfaktury.qrc
 MOC_DIR = .moc
@@ -49,6 +71,7 @@ UI_DIR = .ui
 OBJECTS_DIR = .obj
 RCC_DIR = .rcc
 TRANSLATIONS += $$files($$PWD/translations/*.ts)
+
 
 unix {
 
@@ -63,6 +86,8 @@ documentation.path = /usr/share/doc/qfaktury
 documentation.files = docs/*
 desktop.path = /usr/share/applications
 desktop.files = *.desktop
+sources.path = /usr/share/qfaktury/src
+sources.files = src/*
 
 }
 
@@ -78,6 +103,8 @@ languages.path = $$(HOME)/AppData/Roaming/qfaktury/translations
 languages.files = translations/*.qm
 desktop.path = "$$(HOME)/Desktop"
 desktop.files = *.desktop
+sources.path = $$(HOME)/AppData/Roaming/qfaktury/src
+sources.files = src/*
 
 }
 
@@ -93,10 +120,10 @@ languages.path = "~/Library/Application Support/qfaktury/translations"
 languages.files = translations/*.qm
 desktop.path = "$$(HOME)/Desktop"
 desktop.files = *.desktop
-
+sources.path = "~/Library/Application Support/qfaktury/src"
+sources.files = src/*
 
 }
-
 
 
 INSTALLS += target \
@@ -104,5 +131,5 @@ INSTALLS += target \
     css \
     languages \
     documentation \
-    desktop
-
+    desktop \
+    sources

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>514</width>
-    <height>545</height>
+    <width>512</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>500</width>
-    <height>545</height>
+    <width>400</width>
+    <height>600</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -42,8 +42,8 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>500</width>
-       <height>500</height>
+       <width>400</width>
+       <height>600</height>
       </size>
      </property>
      <property name="currentIndex">
@@ -57,7 +57,7 @@
        <item row="0" column="0">
         <widget class="QFrame" name="frame">
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::StyledPanel</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Sunken</enum>
@@ -239,7 +239,7 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>430</height>
+              <height>130</height>
              </size>
             </property>
            </spacer>
@@ -475,8 +475,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>273</width>
-            <height>377</height>
+            <width>282</width>
+            <height>355</height>
            </rect>
           </property>
           <attribute name="label">
@@ -656,8 +656,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>291</width>
-            <height>200</height>
+            <width>300</width>
+            <height>172</height>
            </rect>
           </property>
           <attribute name="label">
@@ -812,8 +812,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>472</width>
-            <height>266</height>
+            <width>484</width>
+            <height>387</height>
            </rect>
           </property>
           <attribute name="label">
@@ -940,8 +940,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>274</width>
-            <height>147</height>
+            <width>283</width>
+            <height>152</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1076,8 +1076,8 @@ korekt:</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>281</width>
-            <height>147</height>
+            <width>290</width>
+            <height>152</height>
            </rect>
           </property>
           <attribute name="label">
