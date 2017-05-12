@@ -23,13 +23,6 @@ public:
     const int getMaxSymbol();
     static MainWindow * instance();
 
-private slots:
-
-    void createFirstWinBackup();
-    void choosePathBackup();
-    void createBackup();
-    void loadBackup();
-
 
 public slots:
 

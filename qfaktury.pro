@@ -4,9 +4,6 @@
 TEMPLATE = app
 TARGET = qfaktury
 
-LIBDIR = /usr/lib
-QUAZIPCODEDIR = $$PWD/src/quazip-0.7.3/quazip
-
 QT += gui core widgets printsupport xml webenginewidgets network
 DEFINES  += QT_NO_SSL
 CONFIG += debug
@@ -14,26 +11,10 @@ QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
 QT_MINOR_VERSION = 5.0.0
 
-exists( /usr/lib/libquazip5.so ) {
-unix:LIBS += -L$${LIBDIR} -lquazip5
-win32:LIBS += -L$${LIBDIR} -lquazip5dll
-}
-
-exists( /usr/lib/libquazip.so ) {
-unix:LIBS += -L$${LIBDIR} -lquazip
-win32:LIBS += -L$${LIBDIR} -lquazipdll
-}
-
-unix:LIBS += -L$${LIBDIR} -lz
-win32:LIBS += -L$${LIBDIR} -lzdll
-
-INCLUDEPATH += . \
-            $${QUAZIPCODEDIR} \
-            $${LIBDIR}
+INCLUDEPATH += .
 
 # Input
-HEADERS += $$files($$PWD/src/*.h) \
-            $${QUAZIPCODEDIR}/*.h
+HEADERS += $$files($$PWD/src/*.h)
 
 
 FORMS += $$files($$PWD/ui/*.ui)
@@ -60,9 +41,7 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/User.cpp \
     $$PWD/src/ChangeAmount.cpp \
     $$PWD/src/Validations.cpp \
-    $$PWD/src/InvoiceRR.cpp \
-    $${QUAZIPCODEDIR}/*.cpp \
-    $${QUAZIPCODEDIR}/*.c
+    $$PWD/src/InvoiceRR.cpp
 
 
 RESOURCES += qfaktury.qrc

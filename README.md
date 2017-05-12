@@ -24,7 +24,6 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - prowadzenie organizera z kalendarzem
 - przedstawienie słownie kwoty na fakturze w formacie od dziesiątek po miliardy wraz z wartościami po przecinku
 - dodanie własnych elementów do listy wyborów stawek VAT, metod płatności, powodów korekty, sposobu numeracji faktur, dopisku, jednostek
-- stworzenie i wczytywanie kopii zapasowej plików konfiguracyjnych oraz głównego katalogu
 
 
 <br/>
@@ -36,8 +35,6 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - dowolna dystrybucja Linux
 - biblioteka Qt w wersji wyższej lub równej 5.0.0
 - paczki qt5-base qt5-webengine (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
-- zlib w wersji wyższej lub równej 1.2.11
-- quazip w wersji wyższej lub równej 0.7.3
 - połączenie z internetem (opcjonalne)
 - aktualny czas systemowy (opcjonalne)
 

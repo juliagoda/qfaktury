@@ -6,8 +6,6 @@ System Linux
 biblioteka Qt >= 5.0.0 
 Dostęp do internetu
 Aktualny czas systemowy
-quazip >= 0.7.3
-zlib >= 1.2.11
 
 Kompilacja:
 Do skompilowania wystarczy wydać dwa polecenia: 
