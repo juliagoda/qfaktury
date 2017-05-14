@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
-    <height>424</height>
+    <width>408</width>
+    <height>422</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -115,6 +115,20 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Nazwa banku:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Nr SWIFT/BIC:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="textLabel2_2">
          <property name="text">
           <string>NIP*:</string>
@@ -145,9 +159,23 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Numer KRS: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="telLabel">
          <property name="text">
           <string>Telefon:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Fax:</string>
          </property>
         </widget>
        </item>
@@ -190,6 +218,12 @@
           <number>34</number>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="bankNameEdit"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="bicSwiftEdit"/>
        </item>
        <item>
         <widget class="QLineEdit" name="nipEdit">
@@ -239,7 +273,13 @@
         <widget class="QLineEdit" name="regonEdit"/>
        </item>
        <item>
+        <widget class="QLineEdit" name="krsEdit"/>
+       </item>
+       <item>
         <widget class="QLineEdit" name="phonEdit"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="faxEdit"/>
        </item>
        <item>
         <widget class="QLineEdit" name="emailEdit"/>

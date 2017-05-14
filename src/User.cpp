@@ -32,6 +32,10 @@ void User::init () {
   phonEdit->setText (settings.value ("phone").toString());
   emailEdit->setText (settings.value ("email").toString());
   webEdit->setText (settings.value ("website").toString());
+  bankNameEdit->setText (settings.value ("bank").toString());
+  bicSwiftEdit->setText (settings.value ("swift").toString());
+  krsEdit->setText (settings.value ("krs").toString());
+  faxEdit->setText (settings.value ("fax").toString());
 
 }
 

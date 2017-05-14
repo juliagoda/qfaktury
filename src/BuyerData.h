@@ -25,6 +25,10 @@ public:
 	QString phone;
 	QString email;
 	QString www;
+    QString fax;
+    QString krs;
+    QString bank;
+    QString swift;
 	QString type;
 
 };

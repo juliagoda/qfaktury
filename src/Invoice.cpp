@@ -2008,11 +2008,23 @@ void Invoice::makeInvoiceBody() {
         if (sett().value("usernip").toBool() && (!userSettings.value("tic").toString().trimmed().isEmpty()))
             invStrList += trUtf8("NIP: ") + userSettings.value("tic").toString() + "<br/>";
 
+        if (sett().value("userbank").toBool() && (!userSettings.value("bank").toString().trimmed().isEmpty()))
+            invStrList += trUtf8("Nazwa banku: ") + userSettings.value("bank").toString() + "<br/>";
+
         if (sett().value("useraccount").toBool() && (!userSettings.value("account").toString().trimmed().isEmpty()))
             invStrList += trUtf8("Nr konta: ") + userSettings.value("account").toString().replace("-", " ") + "<br/>";
 
+        if (sett().value("userswift").toBool() && (!userSettings.value("swift").toString().trimmed().isEmpty()))
+            invStrList += trUtf8("SWIFT/BIC: ") + userSettings.value("swift").toString() + "<br/>";
+
+        if (sett().value("userkrs").toBool() && (!userSettings.value("krs").toString().trimmed().isEmpty()))
+            invStrList += trUtf8("KRS: ") + userSettings.value("krs").toString() + "<br/>";
+
         if (sett().value("userphone").toBool() && (!userSettings.value("phone").toString().trimmed().isEmpty()))
             invStrList += trUtf8("Telefon: ") + userSettings.value("phone").toString() + "<br/>";
+
+        if (sett().value("userfax").toBool() && (!userSettings.value("fax").toString().trimmed().isEmpty()))
+            invStrList += trUtf8("Fax: ") + userSettings.value("fax").toString() + "<br/>";
 
         if (sett().value("usermail").toBool() && (!userSettings.value("email").toString().trimmed().isEmpty()))
             invStrList += trUtf8("Email: ") + userSettings.value("email").toString() + "<br/>";
