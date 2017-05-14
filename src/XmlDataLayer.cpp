@@ -39,6 +39,10 @@ void XmlDataLayer::buyersElemToData(BuyerData &o_buyerData, QDomElement i_elemen
     o_buyerData.phone	= i_element.attribute("phone");
     o_buyerData.email	= i_element.attribute("email");
     o_buyerData.www		= i_element.attribute("www");
+    o_buyerData.bank    = i_element.attribute("bank");
+    o_buyerData.fax     = i_element.attribute("fax");
+    o_buyerData.krs     = i_element.attribute("krs");
+    o_buyerData.swift   = i_element.attribute("swift");
 }
 
 // helper method
@@ -53,6 +57,10 @@ void XmlDataLayer::buyersDataToElem(BuyerData &i_buyerData, QDomElement &o_eleme
     o_element.setAttribute("phone", i_buyerData.phone);
     o_element.setAttribute("email", i_buyerData.email);
     o_element.setAttribute("www", i_buyerData.www);
+    o_element.setAttribute("bank", i_buyerData.bank);
+    o_element.setAttribute("fax", i_buyerData.fax);
+    o_element.setAttribute("krs", i_buyerData.krs);
+    o_element.setAttribute("swift", i_buyerData.swift);
 }
 
 QVector<BuyerData> XmlDataLayer::buyersSelectAllData() {

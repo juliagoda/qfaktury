@@ -214,8 +214,12 @@ QString BuyersList::xmlDataToString(QDomNode n) {
 	text += n.toElement().attribute("address") + "|";
 	text += n.toElement().attribute("code") + " " + n.toElement().attribute("place") + "|";
 	text += n.toElement().attribute("tic") + "|";
+    text += n.toElement().attribute("bank") + "|";
 	text += n.toElement().attribute("account") + "|";
+    text += n.toElement().attribute("swift") + "|";
+    text += n.toElement().attribute("krs") + "|";
 	text += n.toElement().attribute("phone") + "|";
+    text += n.toElement().attribute("fax") + "|";
 	text += n.toElement().attribute("email") + "|";
 	text += n.toElement().attribute("www");
 	return text;

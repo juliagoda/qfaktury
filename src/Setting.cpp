@@ -70,6 +70,10 @@ void Setting::init() {
     connect( userinfotel, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( userinfomail, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( userinfowww, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
+    connect( userinfobank, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
+    connect( userinfofax, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
+    connect( userinfokrs, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
+    connect( userinfoswift, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( buyerinfoname, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( buyerinfocity, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( buyerinfoaddress, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
@@ -505,6 +509,10 @@ void Setting::saveSettings() {
 	sett().setValue("userphone", userinfotel->isChecked());
 	sett().setValue("usermail", userinfomail->isChecked());
 	sett().setValue("userwww", userinfowww->isChecked());
+    sett().setValue("userbank", userinfobank->isChecked());
+    sett().setValue("userswift", userinfoswift->isChecked());
+    sett().setValue("userkrs", userinfokrs->isChecked());
+    sett().setValue("userfax", userinfofax->isChecked());
 	sett().endGroup();
 
     sett().beginGroup("printkontr");
@@ -640,7 +648,11 @@ void Setting::readSettings() {
 	userinfonip->setChecked(sett().value("usernip").toBool());
 	userinfotel->setChecked(sett().value("userphone").toBool());
 	userinfomail->setChecked(sett().value("usermail").toBool());
-	userinfowww->setChecked(sett().value("userwww").toBool());
+    userinfowww->setChecked(sett().value("userwww").toBool());
+    userinfobank->setChecked(sett().value("userbank").toBool());
+    userinfokrs->setChecked(sett().value("userkrs").toBool());
+    userinfofax->setChecked(sett().value("userfax").toBool());
+    userinfoswift->setChecked(sett().value("userswift").toBool());
 	sett().endGroup();
 
     sett().beginGroup("printkontr");

@@ -204,6 +204,10 @@ bool Correction::saveInvoice() {
     seller.setAttribute("phone", userSettings.value("phone").toString());
     seller.setAttribute("email", userSettings.value("email").toString());
     seller.setAttribute("website", userSettings.value("website").toString());
+    seller.setAttribute("bank", userSettings.value("bank").toString());
+    seller.setAttribute("krs", userSettings.value("krs").toString());
+    seller.setAttribute("fax", userSettings.value("fax").toString());
+    seller.setAttribute("swift", userSettings.value("swift").toString());
 
     root.appendChild(seller);
 

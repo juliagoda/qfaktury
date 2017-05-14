@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>512</width>
-    <height>600</height>
+    <width>517</width>
+    <height>608</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -43,11 +43,11 @@
      <property name="minimumSize">
       <size>
        <width>400</width>
-       <height>600</height>
+       <height>500</height>
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="TabPage1">
       <attribute name="title">
@@ -812,8 +812,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>484</width>
-            <height>387</height>
+            <width>489</width>
+            <height>346</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1215,7 +1215,55 @@ korekt:</string>
           <string>Dane użytkownika na fakturze:</string>
          </property>
          <layout class="QGridLayout" name="gridLayout1">
-          <item row="7" column="0">
+          <item row="11" column="0">
+           <widget class="QCheckBox" name="userinfoswift">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>SWIFT/BIC</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="0">
+           <widget class="QCheckBox" name="userinfobank">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Nazwa banku</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
            <widget class="QCheckBox" name="userinfowww">
             <property name="minimumSize">
              <size>
@@ -1311,7 +1359,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
+          <item row="7" column="0">
            <widget class="QCheckBox" name="userinfomail">
             <property name="minimumSize">
              <size>
@@ -1335,7 +1383,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="17" column="0">
+          <item row="21" column="0">
            <widget class="QCheckBox" name="buyerinfowww">
             <property name="minimumSize">
              <size>
@@ -1359,7 +1407,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="11" column="0">
+          <item row="15" column="0">
            <widget class="QCheckBox" name="buyerinfocity">
             <property name="minimumSize">
              <size>
@@ -1383,7 +1431,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="12" column="0">
+          <item row="16" column="0">
            <widget class="QCheckBox" name="buyerinfoaddress">
             <property name="minimumSize">
              <size>
@@ -1407,7 +1455,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="13" column="0">
+          <item row="17" column="0">
            <widget class="QCheckBox" name="buyerinfoaccount">
             <property name="minimumSize">
              <size>
@@ -1431,7 +1479,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="16" column="0">
+          <item row="20" column="0">
            <widget class="QCheckBox" name="buyerinfomail">
             <property name="minimumSize">
              <size>
@@ -1455,7 +1503,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="15" column="0">
+          <item row="19" column="0">
            <widget class="QCheckBox" name="buyerinfotel">
             <property name="minimumSize">
              <size>
@@ -1479,7 +1527,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="14" column="0">
+          <item row="18" column="0">
            <widget class="QCheckBox" name="buyerinfotic">
             <property name="minimumSize">
              <size>
@@ -1503,7 +1551,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="9" column="0">
+          <item row="13" column="0">
            <widget class="QLabel" name="label">
             <property name="minimumSize">
              <size>
@@ -1531,7 +1579,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="10" column="0">
+          <item row="14" column="0">
            <widget class="QCheckBox" name="buyerinfoname">
             <property name="minimumSize">
              <size>
@@ -1630,7 +1678,7 @@ korekt:</string>
             </property>
            </widget>
           </item>
-          <item row="8" column="0">
+          <item row="12" column="0">
            <spacer name="verticalSpacer_3">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -1645,6 +1693,54 @@ korekt:</string>
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="6" column="0">
+           <widget class="QCheckBox" name="userinfofax">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Fax</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <widget class="QCheckBox" name="userinfokrs">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>17</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>KRS</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -2305,6 +2401,9 @@ korekt:</string>
     <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="2,2,2,2,2,2">
      <property name="spacing">
       <number>0</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <property name="topMargin">
       <number>0</number>
