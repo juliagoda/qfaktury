@@ -67,6 +67,8 @@ private:
 	void invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element);
 
 	bool nameFilter(QString nameToCheck, QDate start, QDate end);
+    bool ifPersonNodeExists(QDomElement root);
+    void addSectionPerson(bool checkedRoot);
 
     QString ret;
     QList<int> allSymbols;

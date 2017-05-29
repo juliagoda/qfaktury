@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>388</width>
-    <height>303</height>
+    <width>397</width>
+    <height>335</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,6 +44,11 @@
          <item>
           <property name="text">
            <string>Urząd</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Osoba fizyczna</string>
           </property>
          </item>
         </widget>

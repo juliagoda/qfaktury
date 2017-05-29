@@ -641,13 +641,15 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 
 	// @TODO enforce that translation won't affect this funcionality
 	// converts customer type into int value
-	int getCustomerType(QString custType) {
-		if (custType.compare(trUtf8("Firma")) == 0 || custType.compare(trUtf8("firma")) == 0) {
-			return 0;
-		} else {
-			return 1;
-		}
-	}
+    int getCustomerType(QString custType) {
+        if (custType.compare(trUtf8("Firma")) == 0 || custType.compare(trUtf8("firma")) == 0) {
+            return 0;
+        } else if (custType.compare(trUtf8("Urząd")) == 0 || custType.compare(trUtf8("urząd")) == 0) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
 
 	// converts product type into int value
 	int getProductType(QString prodName) {
@@ -661,6 +663,10 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 	QString getCompanyName() {
         return QString("company");
 	}
+
+    QString getNaturalPerson() {
+        return QString("person");
+    }
 
 	QString getOfficeName() {
         return QString("office");

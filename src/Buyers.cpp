@@ -81,6 +81,14 @@ void Buyers::selectData(QString name, int type) {
     getData(dataLayer->buyersSelectData(name, type));
 	typeCombo->setCurrentIndex(type);
 	typeCombo->setEnabled(false);
+
+    if (typeCombo->currentIndex() == 2) {
+        textLabel2_2->setText(trUtf8("NIP:"));
+    } else {
+        textLabel2_2->setText(trUtf8("NIP*:"));
+    }
+
+    this->update();
 }
 
 // new customer insert data
@@ -112,6 +120,14 @@ bool Buyers::updateData() {
 					typeCombo->currentIndex(), nameEdit->text());
 	}
 
+    if (typeCombo->currentIndex() == 2) {
+        textLabel2_2->setText(trUtf8("NIP:"));
+    } else {
+        textLabel2_2->setText(trUtf8("NIP*:"));
+    }
+
+    this->update();
+
 	return result;
 }
 //***** DATA access END ****
@@ -140,11 +156,32 @@ bool Buyers::validate() {
 
     if (Validations::instance()->isEmptyField(addressEdit->text(),textLabel2->text())) return false;
 
-    if (!Validations::instance()->isEmptyField(nipEdit->text(),textLabel2_2->text())) {
-        if (!Validations::instance()->validateNIP(nipEdit->text())) return false;
-        if (!Validations::instance()->checkSumNIP(nipEdit->text())) return false;
+    if (typeCombo->currentIndex() == 2) {
+
+        textLabel2_2->setText(trUtf8("NIP:"));
+        this->update();
+
+        if (!nipEdit->text().isEmpty()) {
+
+            if (!Validations::instance()->validateNIP(nipEdit->text())) return false;
+            if (!Validations::instance()->checkSumNIP(nipEdit->text())) return false;
+       }
+
     } else {
-        return false;
+
+        textLabel2_2->setText(trUtf8("NIP*:"));
+        this->update();
+
+        if (!Validations::instance()->isEmptyField(nipEdit->text(),textLabel2_2->text())) {
+
+            if (!Validations::instance()->validateNIP(nipEdit->text())) return false;
+            if (!Validations::instance()->checkSumNIP(nipEdit->text())) return false;
+
+        } else {
+
+            return false;
+        }
+
     }
 
     if (!accountEdit->text().isEmpty()) {
