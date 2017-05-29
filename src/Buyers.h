@@ -13,7 +13,7 @@ Q_OBJECT
 public:
 
     Buyers(QWidget *parent, int mode, IDataLayer *dl);
-    void selectData(QString name, int type); // 0 - company, 1 - department
+    void selectData(QString name, int type); // 0 - company, 1 - department, 2 - natural person
 	bool insertData();
 	bool updateData();
     const QString getRetBuyer();

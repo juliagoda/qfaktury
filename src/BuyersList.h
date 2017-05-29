@@ -29,6 +29,7 @@ private:
 
 	QStringList companiesList;
 	QStringList officesList;
+    QStringList personsList;
     QString ret;
 
 	void init();

@@ -18,6 +18,7 @@ void BuyersList::init() {
 
 	companiesList.clear();
 	officesList.clear();
+    personsList.clear();
 
 	// read data
     readBuyer();
@@ -82,6 +83,12 @@ void BuyersList::comboBox1Changed() {
 	QString customer;
 
 	switch (comboBox1->currentIndex()) {
+    case 0:
+
+        foreach (customer, companiesList)
+            listBox1->addItem(customer.split("|")[0]);
+        break;
+
     case 1:
 
 		foreach (customer, officesList)
@@ -90,7 +97,7 @@ void BuyersList::comboBox1Changed() {
 
     default:
 
-        foreach (customer, companiesList)
+        foreach (customer, personsList)
             listBox1->addItem(customer.split("|")[0]);
         break;
 
@@ -107,6 +114,16 @@ void BuyersList::updateDetails(QListWidgetItem *item) {
     QString customer = QString();
 
 	switch (comboBox1->currentIndex()) {
+    case 0:
+
+        foreach (customer, companiesList) {
+            custDetails = customer.split("|");
+            if (item->text().compare(custDetails[0]) == 0) {
+                displayDetails(custDetails);
+            }
+        }
+        break;
+
 	case 1:
 
 		foreach (customer, officesList) {
@@ -119,7 +136,7 @@ void BuyersList::updateDetails(QListWidgetItem *item) {
 
     default:
 
-        foreach (customer, companiesList) {
+        foreach (customer, personsList) {
             custDetails = customer.split("|");
             if (item->text().compare(custDetails[0]) == 0) {
                 displayDetails(custDetails);
@@ -139,6 +156,7 @@ void BuyersList::readBuyer() {
 	QDomElement root;
 	QDomElement office;
 	QDomElement company;
+    QDomElement natur_person;
 
 	QFile file(sett().getCustomersXml());
 
@@ -171,6 +189,8 @@ void BuyersList::readBuyer() {
             root.appendChild(office);
             company = doc.createElement(sett().getCompanyName());
             root.appendChild(company);
+            natur_person = doc.createElement(sett().getNaturalPerson());
+            root.appendChild(natur_person);
 
             QString xml = doc.toString();
 
@@ -187,7 +207,8 @@ void BuyersList::readBuyer() {
 
 			root = doc.documentElement();
 			office = root.firstChild().toElement();
-			company = root.lastChild().toElement();
+            company = root.childNodes().at(1).toElement();
+            natur_person = root.childNodes().at(2).toElement();
 		}
 
 		for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
@@ -199,6 +220,11 @@ void BuyersList::readBuyer() {
 
 			officesList.append(xmlDataToString(n));
 		}
+
+        for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling()) {
+
+            personsList.append(xmlDataToString(n));
+        }
 	}
 
     file.close();
