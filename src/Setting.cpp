@@ -109,6 +109,9 @@ void Setting::init() {
     stylesList->clear();
     stylesList->insertItems(0, getStyles());
 
+    stylesList->removeItem(stylesList->findText("bb10dark"));
+    stylesList->removeItem(stylesList->findText("bb10bright"));
+
 
     getEncodings();
     readSettings();
