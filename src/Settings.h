@@ -551,11 +551,9 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
     QString getStyle() {
 
         QString style = value("style").toString();
-       // if (style.compare("") == 0) {
-       //     style = QStyleFactory::keys().at(0);
-       // }
 
         qDebug() << "Get STYLE: " << style;
+        if (style == "bb10dark" || style == "bb10bright") style = QStyleFactory::keys().last();
         return style;
     }
 
@@ -565,10 +563,6 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 
 
         QString style = value("css").toString();
-        //if (style.compare("") == 0) {
-        //    style = "black.css";
-        //}
-
 
         QString ret = appPath + "/templates/" + style;
 
