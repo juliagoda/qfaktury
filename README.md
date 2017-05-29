@@ -1,5 +1,6 @@
 # QFaktury 0.7.0
 
+
 1. [Opis](#opis)  
 2. [Wymagania](#wymagania)
 3. [Instalacja](#instalacja)  

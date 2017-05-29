@@ -649,6 +649,7 @@ void Setting::readSettings() {
 	userinfotel->setChecked(sett().value("userphone").toBool());
 	userinfomail->setChecked(sett().value("usermail").toBool());
     userinfowww->setChecked(sett().value("userwww").toBool());
+	userinfowww->setChecked(sett().value("userwww").toBool());
     userinfobank->setChecked(sett().value("userbank").toBool());
     userinfokrs->setChecked(sett().value("userkrs").toBool());
     userinfofax->setChecked(sett().value("userfax").toBool());
