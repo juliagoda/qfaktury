@@ -210,19 +210,19 @@ void BuyersList::readBuyer() {
 QString BuyersList::xmlDataToString(QDomNode n) {
 
     QString text = QString();
-	text = n.toElement().attribute("name") + "|";
-	text += n.toElement().attribute("address") + "|";
-	text += n.toElement().attribute("code") + " " + n.toElement().attribute("place") + "|";
-	text += n.toElement().attribute("tic") + "|";
-    text += n.toElement().attribute("bank") + "|";
-	text += n.toElement().attribute("account") + "|";
-    text += n.toElement().attribute("swift") + "|";
-    text += n.toElement().attribute("krs") + "|";
-	text += n.toElement().attribute("phone") + "|";
-    text += n.toElement().attribute("fax") + "|";
-	text += n.toElement().attribute("email") + "|";
-	text += n.toElement().attribute("www");
-	return text;
+    text = n.toElement().attribute("name") + "|"; // 0
+    text += n.toElement().attribute("address") + "|"; // 1
+    text += n.toElement().attribute("code") + " " + n.toElement().attribute("place") + "|"; // 2
+    text += n.toElement().attribute("tic") + "|"; // 3
+    text += n.toElement().attribute("bank") + "|"; // 4
+    text += n.toElement().attribute("account") + "|"; // 5
+    text += n.toElement().attribute("swift") + "|"; // 6
+    text += n.toElement().attribute("krs") + "|"; // 7
+    text += n.toElement().attribute("phone") + "|"; // 8
+    text += n.toElement().attribute("fax") + "|"; // 9
+    text += n.toElement().attribute("email") + "|"; // 10
+    text += n.toElement().attribute("www"); // 11
+    return text;
 }
 
 /** Loads data to labels
@@ -230,14 +230,14 @@ QString BuyersList::xmlDataToString(QDomNode n) {
 
 void BuyersList::displayDetails(QStringList custDetails) {
 
-	labelNameE->setText(custDetails[0]);
+    labelNameE->setText(custDetails[0]);
     labelAddressE->setText(custDetails[1]);
     labelCityE->setText(custDetails[2]);
     labelTicE->setText(custDetails[3]);
-    labelAccountE->setText(custDetails[4]);
-    labelPhoneE->setText(custDetails[5]);
-    labelEmailE->setText(custDetails[6]);
-    labelWWWE->setText("<a href=" + custDetails[7] + ">" + custDetails[7] + "</a>");
+    labelAccountE->setText(custDetails[5]);
+    labelPhoneE->setText(custDetails[8]);
+    labelEmailE->setText(custDetails[10]);
+    labelWWWE->setText("<a href=" + custDetails[11] + ">" + custDetails[11] + "</a>");
     labelWWWE->setStyleSheet("color: #1E90FF");
 }
 

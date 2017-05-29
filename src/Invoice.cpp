@@ -1920,7 +1920,7 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
         invStrList += trUtf8("Nr: ") + invNr->text() + "</td>";
         invStrList += "</tr>";
         invStrList += "<tr>";
-        invStrList += "<td class=\"dates\">" + trUtf8("Data wystawienia: ")
+        invStrList += "<td>" + trUtf8("Data wystawienia: ")
                         + productDate->date().toString(sett().getDateFormat()) + "</td>";
 
         invStrList += "</tr>";
@@ -1944,8 +1944,8 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
     invStrList += trUtf8("Nr: ") + invNr->text() + "<br></td>";
     invStrList += "</tr>";
     invStrList += "<tr>";
-    invStrList += "<td class=\"dates\">" + trUtf8("Data wystawienia: ")
-                    + productDate->date().toString(sett().getDateFormat()) + "<br>";
+    invStrList += "<td>" + trUtf8("Data wystawienia: ")
+                    + productDate->date().toString(sett().getDateFormat());
 
     invStrList += "</tr>";
     invStrList += "<tr><td>";
@@ -1982,9 +1982,9 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 
 void Invoice::makeInvoiceBody() {
 
-    invStrList += "<tr><td>";
+    invStrList += "<tr width=\"100%\"><td width=\"100%\">";
     invStrList += "<table width=\"100%\" border=\"0\">";
-    invStrList += "<tr class=\"persons\">";
+    invStrList += "<tr class=\"persons\" width=\"100%\">";
     invStrList += "<td width=\"20\">&nbsp;</td>";
     invStrList += "<td class=\"buyerSeller\" width=\"48%\"> ";
     invStrList += "<p id=\"seller\">" + trUtf8("Sprzedawca:") + "</p><br/>";
@@ -2035,7 +2035,7 @@ void Invoice::makeInvoiceBody() {
     sett().endGroup();
 
         invStrList += "</td>";
-        invStrList += "<td width=\"20\">&nbsp;</td>";
+        invStrList += "<td width=\"1%\">&nbsp;</td>";
         invStrList += "<td class=\"buyerSeller\" width=\"48%\">";
         invStrList += "<p id=\"seller\">" + trUtf8("Nabywca:") + "</p><br/>"; //+ buyerName->text().replace(",", "<br>") + "<br>";
 
@@ -2091,7 +2091,7 @@ void Invoice::makeInvoiceBody() {
 void Invoice::makeInvoiceProductsHeadar() {
 
     int currentPercent = 0;
-    invStrList += "<tr align=\"center\" valign=\"middle\" class=\"productsHeader\" >";
+    invStrList += "<tr align=\"center\" valign=\"middle\" class=\"productsHeader\" width=\"100%\" >"; // TUTAJ
 
     sett().beginGroup("invoices_positions");
 
@@ -2099,112 +2099,86 @@ void Invoice::makeInvoiceProductsHeadar() {
             currentPercent = 3;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Lp.") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 3;
         }
 
         if (sett().value("Name").toBool()) {
-            currentPercent += 13;
+            currentPercent = 13;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Nazwa") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 13;
         }
 
         if (sett().value("Code").toBool()) {
-            currentPercent += 7;
+            currentPercent = 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Kod") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 7;
         }
 
         if (sett().value("pkwiu").toBool()) {
-            currentPercent += 7;
+            currentPercent = 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("PKWiU") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 7;
         }
 
         if (sett().value("amount").toBool()) {
-            currentPercent += 9;
+            currentPercent = 9;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Ilość") + "</td>";
             currentPercent = 0;
         } else {
-            currentPercent += 9;
+            currentPercent = 9;
         }
 
         if (sett().value("unit").toBool()) {
-            currentPercent += 3;
+            currentPercent = 3;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(3) + "%\">" + trUtf8("jm.") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 3;
         }
 
         if (sett().value("unitprice").toBool()) {
-            currentPercent += 7;
+            currentPercent = 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Cena jdn.") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 7;
         }
 
         if (sett().value("netvalue").toBool()) {
-            currentPercent += 8;
+            currentPercent = 8;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Wartość Netto") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 8;
         }
 
         if (sett().value("discountperc").toBool()) {
-            currentPercent += 3;
+            currentPercent = 3;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(3) + "%\">" + trUtf8("Rabat %") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 3;
         }
 
         if (sett().value("discountval").toBool()) {
-            currentPercent += 11;
+            currentPercent = 11;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Rabat Wartość") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 11;
         }
 
         if (sett().value("netafter").toBool()) {
-            currentPercent += 7;
+            currentPercent = 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Netto po rabacie") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 7;
         }
 
         if (sett().value("vatval").toBool()) {
-            currentPercent += 7;
+            currentPercent = 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Stawka VAT") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 7;
         }
 
         if (sett().value("vatprice").toBool()) {
-            currentPercent += 7;
+            currentPercent = 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Kwota Vat") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 7;
         }
 
         if (sett().value("grossval").toBool()) {
-            currentPercent += 8;
+            currentPercent = 8;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Wartość Brutto") + "</td>";
             currentPercent = 0;
-        } else {
-            currentPercent += 8;
         }
 
     sett().endGroup();
@@ -2214,15 +2188,15 @@ void Invoice::makeInvoiceProductsHeadar() {
 
 void Invoice::makeInvoiceProducts() {
 
-    invStrList += "<tr><td>";
+    invStrList += "<tr width=\"100%\"><td width=\"100%\">";
 
-    invStrList += "<table border=\"2\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">";
+    invStrList += "<table border=\"2\" align=\"right\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">";
 
     makeInvoiceProductsHeadar();
 
     for (int i = 0; i < tableGoods->rowCount(); ++i) {
 
-        invStrList += "<tr class=\"products\" >";
+        invStrList += "<tr class=\"products\">"; // TUTAJ
         // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
 
         sett().beginGroup("invoices_positions");
@@ -2282,26 +2256,29 @@ void Invoice::makeInvoiceProducts() {
     }
 
     invStrList += "</table>";
+    invStrList += "</td>";
+    invStrList += "</tr>";
 }
 
 void Invoice::makeInvoiceSumm() {
 
     double vatPrice = sett().stringToDouble(sum3->text()) - sett().stringToDouble(sum1->text());
+    invStrList += "<tr width=\"100%\"><td width=\"100%\">";
     if (sett().value("css").toString() == "tables.css") {
-        invStrList += "<br><table width=\"100%\" border=\"2\" cellspacing=\"0\" cellpadding=\"5\">";
+        invStrList += "<br><table align=\"right\" width=\"100%\" border=\"2\" cellspacing=\"0\" cellpadding=\"5\">";
 
     } else {
-        invStrList += "<br><table width=\"100%\" border=\"0\" cellpadding=\"5\">";
+        invStrList += "<br><table align=\"right\" width=\"100%\" border=\"0\" cellpadding=\"5\">";
 
     }
-    invStrList += "<tr class=\"productsSumHeader\" valign=\"middle\">";
-    invStrList += "<td id=\"notNec\" width=\"67%\" align=\"center\">&nbsp;</td>";
-    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Netto") + "</td>"; // netto
+    invStrList += "<tr class=\"productsSumHeader\" valign=\"middle\ width=\"100%\">";
+    invStrList += "<td id=\"notNec\" width=\"10%\" align=\"center\">&nbsp;</td>"; // TUTAJ
+    invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Netto") + "</td>"; // net
     invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Kwota VAT") + "</td>";// vat
     invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Brutto") + "</td>"; // brutto
-    invStrList += "</tr><tr class=\"productsSum\">";
-    invStrList += "<td align=\"right\">" + trUtf8("Razem:") + "</td>";
-    invStrList += "<td align=\"center\">" + sum1->text() + "</td>"; // netto
+    invStrList += "</tr><tr width=\"100%\" class=\"productsSum\">";
+    invStrList += "<td align=\"center\">" + trUtf8("Razem:") + "</td>";
+    invStrList += "<td align=\"center\">" + sum1->text() + "</td>"; // net
     invStrList += "<td align=\"center\">" + sett().numberToString(vatPrice, 'f', 2) + "</td>";// vat
     invStrList += "<td align=\"center\">" + sum3->text() + "</td>"; // brutto
     invStrList += "</tr>";
@@ -2324,7 +2301,7 @@ void Invoice::makeInvoiceSummAll() {
                     + currCombo->currentText() + "</span><br>";
     ConvertAmount* conv = new ConvertAmount();
     invStrList += trUtf8("słownie:")
-                + conv->convertPL(sum3->text(), currCombo->currentText()) + "<br>";
+                + "<b>" + conv->convertPL(sum3->text(), currCombo->currentText()) + "</b><br>";
     delete conv;
 
 
@@ -2332,7 +2309,7 @@ void Invoice::makeInvoiceSummAll() {
     if (paysCombo->currentText() == trUtf8("gotówka")) {
 
         invStrList += "<span class=\"toPay\">";
-        invStrList += trUtf8("forma płatności: ") + paysCombo->currentText() + "<br><b>";
+        invStrList += trUtf8("forma płatności: ") + paysCombo->currentText() + "<br>";
         invStrList += trUtf8("Zapłacono gotówką") + "<br>";
         invStrList += "</span>";
 
@@ -2363,7 +2340,7 @@ void Invoice::makeInvoiceSummAll() {
      } else if (paysCombo->currentText() == trUtf8("przelew")) {
 
         invStrList += "<span class=\"toPay\">";
-        invStrList += trUtf8("forma płatności: ") + paysCombo->currentText() + "<br><b>";
+        invStrList += trUtf8("forma płatności: ") + paysCombo->currentText() + "<br>";
         invStrList += trUtf8("Zapłacono przelewem") + "<br>";
         invStrList += "</span>";
         invStrList += "<span class=\"payDate\">";
@@ -2374,7 +2351,7 @@ void Invoice::makeInvoiceSummAll() {
      } else {
 
         invStrList += "<span class=\"toPay\">";
-        invStrList += trUtf8("forma płatności: ") + paysCombo->currentText() + "<br><b>";
+        invStrList += trUtf8("forma płatności: ") + paysCombo->currentText() + "<br>";
         invStrList += "</span>";
         invStrList += "<span class=\"payDate\">";
         invStrList += trUtf8("termin płatności: ")
@@ -2383,31 +2360,14 @@ void Invoice::makeInvoiceSummAll() {
      }
 
 
-     invStrList += "</b><br><br>";
+     invStrList += "<br><br>";
      invStrList += "<span class=\"additionalText\">"	+ additEdit->text() + "</span>";
      invStrList += "</td>";
      invStrList += "<td width=\"3%\">&nbsp;</td>";
-     invStrList += "<td width=\"48%\" valign=\"top\">";
-
-     if (sett().value("css").toString() == "tables.css") {
-         invStrList += "<table id=\"totalRatesTable\" width=\"90%\" border=\"2\" cellspacing=\"0\" cellpadding=\"5\">";
-
-     } else {
-         invStrList += "<table id=\"totalRatesTable\" width=\"90%\" border=\"0\">";
-
-     }
-     invStrList += "<tr class=\"stawkiHeader\"><td colspan=\"4\">";
-     invStrList += trUtf8("Ogółem stawkami:");
-     invStrList += "</td></tr>";
-     invStrList += getGroupedSums();
-     invStrList += "</table>";
-     invStrList += "</td>";
-     invStrList += "</tr>";
-     invStrList += "</table>";
+     invStrList += "<td id=\"stempel\" width=\"30%\" align=\"right\">";
 
      QString stempel = sett().value("stempel").toString();
 
-     invStrList += "<tr><td id=\"stempel\" width=\"30%\" align=\"right\">";
 
      if (stempel != "") {
              invStrList += "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\"+ >";
@@ -2415,7 +2375,11 @@ void Invoice::makeInvoiceSummAll() {
              invStrList += trUtf8("Pieczęć wystawcy");
      }
 
-     invStrList += "</td></tr>";
+
+     invStrList += "</td>";
+     invStrList += "</tr>";
+     invStrList += "</table>";
+
 }
 
 
