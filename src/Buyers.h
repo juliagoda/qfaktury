@@ -22,6 +22,7 @@ public:
 public slots:
 
 	void okClick();
+    void requiredTic(int);
 
 
 private:

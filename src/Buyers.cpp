@@ -25,6 +25,7 @@ void Buyers::init() {
 	// connects
 	connect(okButton, SIGNAL(clicked()), this, SLOT(okClick()));
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(typeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(requiredTic(int)));
 }
 
 
@@ -68,6 +69,17 @@ void Buyers::okClick() {
 			accept();
 		}
 	}
+}
+
+
+void Buyers::requiredTic(int type)
+{
+    if (type == 2)
+        textLabel2_2->setText(trUtf8("NIP:"));
+    else
+        textLabel2_2->setText(trUtf8("NIP*:"));
+
+    this->update();
 }
 
 // --------- SLOTS END --
