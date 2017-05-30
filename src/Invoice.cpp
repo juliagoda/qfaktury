@@ -2090,95 +2090,81 @@ void Invoice::makeInvoiceBody() {
 
 void Invoice::makeInvoiceProductsHeadar() {
 
-    int currentPercent = 0;
     invStrList += "<tr align=\"center\" valign=\"middle\" class=\"productsHeader\" width=\"100%\" >"; // TUTAJ
+
+    int    currentPercent;
+    int&    sumPercents = currentPercent;
 
     sett().beginGroup("invoices_positions");
 
         if (sett().value("Lp").toBool()) {
-            currentPercent = 3;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Lp.") + "</td>";
-            currentPercent = 0;
+            currentPercent += 3;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(3) + "%\">" + trUtf8("Lp.") + "</td>";
         }
 
         if (sett().value("Name").toBool()) {
-            currentPercent = 13;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Nazwa") + "</td>";
-            currentPercent = 0;
+            int res = 100 - sumPercents;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(res) + "%\">" + trUtf8("Nazwa") + "</td>";
         }
 
         if (sett().value("Code").toBool()) {
-            currentPercent = 7;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Kod") + "</td>";
-            currentPercent = 0;
+            currentPercent += 7;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Kod") + "</td>";
         }
 
         if (sett().value("pkwiu").toBool()) {
-            currentPercent = 7;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("PKWiU") + "</td>";
-            currentPercent = 0;
+            currentPercent += 7;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("PKWiU") + "</td>";
         }
 
         if (sett().value("amount").toBool()) {
-            currentPercent = 9;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Ilość") + "</td>";
-            currentPercent = 0;
-        } else {
-            currentPercent = 9;
+            currentPercent += 9;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(9) + "%\">" + trUtf8("Ilość") + "</td>";
         }
 
         if (sett().value("unit").toBool()) {
-            currentPercent = 3;
+            currentPercent += 3;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(3) + "%\">" + trUtf8("jm.") + "</td>";
-            currentPercent = 0;
         }
 
         if (sett().value("unitprice").toBool()) {
-            currentPercent = 7;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Cena jdn.") + "</td>";
-            currentPercent = 0;
+            currentPercent += 7;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Cena jdn.") + "</td>";
         }
 
         if (sett().value("netvalue").toBool()) {
-            currentPercent = 8;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Wartość Netto") + "</td>";
-            currentPercent = 0;
+            currentPercent += 8;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(8) + "%\">" + trUtf8("Wartość Netto") + "</td>";
         }
 
         if (sett().value("discountperc").toBool()) {
-            currentPercent = 3;
+            currentPercent += 3;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(3) + "%\">" + trUtf8("Rabat %") + "</td>";
-            currentPercent = 0;
         }
 
         if (sett().value("discountval").toBool()) {
-            currentPercent = 11;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Rabat Wartość") + "</td>";
-            currentPercent = 0;
+            currentPercent += 11;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(11) + "%\">" + trUtf8("Rabat Wartość") + "</td>";
         }
 
         if (sett().value("netafter").toBool()) {
-            currentPercent = 7;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Netto po rabacie") + "</td>";
-            currentPercent = 0;
+            currentPercent += 7;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Netto po rabacie") + "</td>";
         }
 
         if (sett().value("vatval").toBool()) {
-            currentPercent = 7;
+            currentPercent += 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Stawka VAT") + "</td>";
-            currentPercent = 0;
         }
 
         if (sett().value("vatprice").toBool()) {
-            currentPercent = 7;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Kwota Vat") + "</td>";
-            currentPercent = 0;
+            currentPercent += 7;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Kwota Vat") + "</td>";
         }
 
         if (sett().value("grossval").toBool()) {
-            currentPercent = 8;
-            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(currentPercent) + "%\">" + trUtf8("Wartość Brutto") + "</td>";
-            currentPercent = 0;
+            currentPercent += 8;
+            invStrList += "<td align=\"center\" width=\""+ sett().numberToString(8) + "%\">" + trUtf8("Wartość Brutto") + "</td>";
         }
 
     sett().endGroup();
