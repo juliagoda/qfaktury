@@ -942,6 +942,7 @@ void MainWindow::aboutProg() {
              trUtf8("<h2>Program do wystawiania faktur</h2><br/><p>") + sett().getVersion(qAppName()) + trUtf8("<br/>Wymagane Qt >= 5.0.0") + trUtf8("<br/>Kompilowane z Qt ") + QT_VERSION_STR + trUtf8("<br/>Twoja aktualna wersja - Qt ") + qVersion() +
              trUtf8("</p><p>Koordynator projektu: Grzegorz Rękawek</p>  <p>Programiści: Tomasz Pielech, Rafał Rusin http://people.apache.org/~rr/, Sławomir Patyk, Jagoda Górska</p>") +
              trUtf8("<p>Ikony: Dariusz Arciszewski </p><p>Portowanie na Qt5: Jagoda \"juliagoda\" Górska</p><br/>") +
+             trUtf8("<p>Testy w środowisku Arch Linux: Piotr \"sir_lucjan\" Górski && Paweł \"pavbaranov\" Baranowski</p>") +		       
              trUtf8("<h2><center>UWAGA!!!</center></h2>") +
              trUtf8("<p align=\"justify\">Ten program komputerowy dostarczany jest przez autora w formie \"takiej, jaki jest\". ") +
              trUtf8("Autor nie udziela żadnej gwarancji oraz rękojmi, że program będzie działał ") +
