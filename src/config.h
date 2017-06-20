@@ -1,47 +1,150 @@
 #define QFAKTURY_VERSION 0.7.0
 #include <QStringList>
 
-static const QStringList blackEmergTemplate = QStringList() << ".page_break {page-break-before: always;}" <<
-                        "\n" <<
-                        "h1 { font-family: Verdana, Tahoma, Arial; font-size: 18px; color: #000000; font-style: normal; font-weight: bold; }" <<
-                        "\n" <<
-                        "h2 { font-family: Verdana, Tahoma, Arial; font-size: 16px; color: #000000; font-style: normal; font-weight: bold; }" <<
-                        "\n" <<
-                        "h3 { font-family: Verdana, Tahoma, Arial; font-size: 14px; color: #000000; font-style: normal; font-weight: bold; }" <<
-                        "\n" <<
-                        "h4 { font-family: Verdana, Tahoma, Arial; font-size: 12px; color: #000000; font-style: normal; font-weight: bold; }" <<
-                        "\n" <<
-                        ".persons { font-family: Verdana, Tahoma, Arial; font-size: 8pt; font-weight: 600; text-align: left; }" <<
-                        "\n" <<
-                        ".productsHeader { font-family: Verdana, Tahoma, Arial; font-size: 6pt; font-weight: 800; color: #000000; text-align: center; }" <<
-                        "\n" <<
-                        ".products td { font-family: Verdana, Tahoma, Arial; color: #000000; font-style: normal; border-spacing: 0; font-size: 5pt; font-weight: 400; text-align: center; vertical-align: middle; }" <<
-                        "\n" <<
-                        ".productsSumHeader { font-family: Verdana, Tahoma, Arial; color: #000000; font-style: normal; font-size:6pt; font-weight:400; text-align: center; table-layout: auto; }" <<
-                        "\n" <<
-                        ".productsSum { font-family: Verdana, Tahoma, Arial; color: #000000; font-style: normal; font-size:8pt; font-weight:400; text-align: right; border: 0px; }" <<
-                        "\n" <<
-                        ".stawkiHeader { font-family: Verdana, Tahoma, Arial; font-size:8pt; font-weight:600; }" <<
-                        "\n" <<
-                        ".stawki { font-family: Verdana, Tahoma, Arial; font-size:6pt; font-weight:400; color: #000000; font-style: normal; }" <<
-                        "\n" <<
-                        ".payDate { font-family: Verdana, Tahoma, Arial; font-size: 12px; color: #000000; font-style: normal; font-weight: bold; }" <<
-                        "\n" <<
-                        ".toPay { font-family: Verdana, Tahoma, Arial; font-size: 12px; color: #000000; font-style: normal; font-weight: bold; }" <<
-                        "\n" <<
-                        ".summary { font-size:8pt; font-weight:600; }" <<
-                        "\n" <<
-                        ".additionalText { font-size:10pt; font-weight:600; }" <<
-                        "\n" <<
-                        ".stamp { font-family: Verdana, Tahoma, Arial; font-size:6pt; font-weight:400; text-align: left; }" <<
-                        "\n" <<
-                        ".dates { font-family: Verdana, Tahoma, Arial; font-size:8pt; font-weight: 600; text-align: center; }" <<
-                        "\n" <<
-                        ".signature { font-family: Verdana, Tahoma, Arial; font-size:6pt; font-weight:400; color: #000000; font-style: normal; text-align: center; }" <<
-                        "\n" <<
-                        ".summarySmall { font-weight: normal; font-size:6pt; font-weight:400; }" <<
-                        "\n" <<
-                        ".hrdiv1 { color: #f0f; background-color: #f00; height: 1px; }" <<
-                        "\n" <<
-                        "#stempel {margin-right: 50px;}";
-
+const QStringList blackEmergTemplate = QStringList() << ".page_break {page-break-before: always;}" <<
+                                            "\n" <<
+                                            "h1 {" <<
+                                            "\n" <<
+                                            "font-family: Verdana, Tahoma, Arial; \n" <<
+                                            "font-size: 18px; \n" <<
+                                            "color: #000000; \n" <<
+                                            "font-style: normal; \n" <<
+                                            "font-weight: bold; \n"
+                                            "} \n" <<
+                                            "h2 { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size: 16px; \n" <<
+                                             "color: #000000;  \n" <<
+                                             "font-style: normal; \n" <<
+                                             "font-weight: bold; \n" <<
+                                            "} \n" <<
+                                            "h3 { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size: 14px; \n" <<
+                                             "color: #000000; \n" <<
+                                             "font-style: normal; \n" <<
+                                             "font-weight: bold; \n" <<
+                                            "} \n" <<
+                                            "#buyer { \n" <<
+                                            "font-weight: 600; \n" <<
+                                            "} \n" <<
+                                            "#seller { \n" <<
+                                            "font-weight: 600; \n" <<
+                                            "} \n" <<
+                                            "h4 { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size: 12px; \n" <<
+                                             "color: #000000; \n" <<
+                                             "font-style: normal; \n" <<
+                                             "font-weight: bold; \n" <<
+                                            "} \n" <<
+                                            "#rightInvTable tr td { \n" <<
+                                             "text-align: center; \n" <<
+                                             "vertical-align: middle; \n" <<
+                                             "padding: 1px; \n" <<
+                                            "} \n" <<
+                                            "#invFirstLine { \n" <<
+                                             "text-align: center; \n" <<
+                                             "vertical-align: middle; \n" <<
+                                            "} \n" <<
+                                            "#totalRatesTable tr td { \n" <<
+                                             "text-align: center; \n" <<
+                                             "vertical-align: middle; \n" <<
+                                            "} \n" <<
+                                            ".persons { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size: 8pt; \n" <<
+                                             "text-align: left; \n" <<
+                                            "} \n" <<
+                                            ".productsHeader { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size: 8pt; \n" <<
+                                             "font-weight: 600; \n" <<
+                                             "color: #000000; \n" <<
+                                              "text-align: center; \n" <<
+                                            "} \n" <<
+                                            ".products td { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "color: #000000; \n" <<
+                                             "font-style: normal; \n" <<
+                                             "border-spacing: 0; \n" <<
+                                             "font-size: 8pt;  \n" <<
+                                             "font-weight: 400; \n" <<
+                                             "text-align: center; \n" <<
+                                             "vertical-align: middle; \n" <<
+                                            "} \n" <<
+                                            ".productsSumHeader { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "color: #000000; \n" <<
+                                             "font-style: normal; \n" <<
+                                             "font-size:8pt; \n" <<
+                                             "font-weight:400; \n" <<
+                                             "text-align: center; \n" <<
+                                             "table-layout: auto; \n" <<
+                                            "} \n" <<
+                                            ".productsSum { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "color: #000000; \n" <<
+                                             "font-style: normal; \n" <<
+                                             "font-size:8pt; \n" <<
+                                             "font-weight:600; \n" <<
+                                             "text-align: right; \n" <<
+                                             "border: 0px \n" <<
+                                            "} \n" <<
+                                            ".payDate { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size: 12px; \n" <<
+                                             "color: #000000; \n" <<
+                                             "font-style: normal; \n" <<
+                                             "font-weight: bold; \n" <<
+                                            "} \n" <<
+                                            ".toPay { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size: 8pt; \n" <<
+                                             "color: #000000; \n" <<
+                                             "font-style: normal; \n" <<
+                                            "} \n" <<
+                                            ".summary { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size:8pt; \n" <<
+                                             "font-style: normal; \n" <<
+                                            "} \n" <<
+                                            ".additionalText { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size:8pt; \n" <<
+                                             "font-style: normal; \n" <<
+                                            "} \n" <<
+                                            ".stamp { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size:6pt; \n" <<
+                                             "font-weight:400; \n" <<
+                                             "text-align: left; \n" <<
+                                            "} \n" <<
+                                            ".dates { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size:8pt; \n" <<
+                                             "font-weight: 600; \n" <<
+                                             "text-align: center; \n" <<
+                                            "} \n" <<
+                                            ".signature { \n" <<
+                                             "font-family: Verdana, Tahoma, Arial; \n" <<
+                                             "font-size:6pt; \n" <<
+                                             "font-weight:400; \n" <<
+                                             "color: #000000; \n" <<
+                                             "font-style: normal; \n" <<
+                                             "text-align: center; \n" <<
+                                            "} \n" <<
+                                            ".summarySmall { \n" <<
+                                             "font-weight: normal; \n" <<
+                                             "font-size:6pt; \n" <<
+                                             "font-weight:400; \n" <<
+                                            "} \n" <<
+                                            ".hrdiv1 { \n" <<
+                                             "color: #f0f; \n" <<
+                                             "background-color: #f00; \n" <<
+                                             "height: 1px; \n" <<
+                                            "} \n" <<
+                                            "#stempel { \n" <<
+                                            "margin-right: 50px; \n" <<
+                                            "margin-top: 10px; \n" <<
+                                            "} \n";

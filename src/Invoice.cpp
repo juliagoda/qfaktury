@@ -10,6 +10,7 @@
 #include "Const.h"
 
 
+
 short invType;
 Invoice* Invoice::m_instance = nullptr;
 
@@ -1896,10 +1897,11 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
     invStrList += "<tr>";
     invStrList += "<td width=\"60%\" align=\"center\" valign=\"bottom\">";
     invStrList += "<span class=\"stamp\">";
+
     QString logo = sett().value("logo").toString();
 
     if (logo != "") {
-            invStrList += "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
+            invStrList += "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\">";
     } else {
             invStrList += "";
     }
@@ -2098,7 +2100,7 @@ void Invoice::makeInvoiceProductsHeadar() {
     sett().beginGroup("invoices_positions");
 
         if (sett().value("Lp").toBool()) {
-            currentPercent += 3;
+            currentPercent += 4;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(3) + "%\">" + trUtf8("Lp.") + "</td>";
         }
 
@@ -2113,7 +2115,7 @@ void Invoice::makeInvoiceProductsHeadar() {
         }
 
         if (sett().value("pkwiu").toBool()) {
-            currentPercent += 7;
+            currentPercent += 8;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("PKWiU") + "</td>";
         }
 
@@ -2123,7 +2125,7 @@ void Invoice::makeInvoiceProductsHeadar() {
         }
 
         if (sett().value("unit").toBool()) {
-            currentPercent += 3;
+            currentPercent += 4;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(3) + "%\">" + trUtf8("jm.") + "</td>";
         }
 
@@ -2133,7 +2135,7 @@ void Invoice::makeInvoiceProductsHeadar() {
         }
 
         if (sett().value("netvalue").toBool()) {
-            currentPercent += 8;
+            currentPercent += 9;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(8) + "%\">" + trUtf8("Wartość Netto") + "</td>";
         }
 
@@ -2148,22 +2150,22 @@ void Invoice::makeInvoiceProductsHeadar() {
         }
 
         if (sett().value("netafter").toBool()) {
-            currentPercent += 7;
+            currentPercent += 8;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Netto po rabacie") + "</td>";
         }
 
         if (sett().value("vatval").toBool()) {
-            currentPercent += 7;
+            currentPercent += 8;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Stawka VAT") + "</td>";
         }
 
         if (sett().value("vatprice").toBool()) {
-            currentPercent += 7;
+            currentPercent += 8;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Kwota Vat") + "</td>";
         }
 
         if (sett().value("grossval").toBool()) {
-            currentPercent += 8;
+            currentPercent += 9;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(8) + "%\">" + trUtf8("Wartość Brutto") + "</td>";
         }
 
@@ -2356,7 +2358,7 @@ void Invoice::makeInvoiceSummAll() {
 
 
      if (stempel != "") {
-             invStrList += "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\"+ >";
+             invStrList += "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\">";
      } else {
              invStrList += trUtf8("Pieczęć wystawcy");
      }
