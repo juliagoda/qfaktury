@@ -1291,8 +1291,12 @@ void MainWindow::printList(QPrinter *printer) {
 
    QTextDocument doc(trUtf8("Lista kontrahentów"));
    QStringList list = QStringList();
-   list << "<!doctype html>" << "<head>" << "<meta charset=\"utf-8\" />" << "</head>" << "<body>";
-
+    list << "<!doctype html>" << "<head>" << "<meta charset=\"utf-8\" />" << "</head>";
+    list << "<style type=\"text/css\">";
+    list << "strong { font-weight: 500; }";
+    list << ".page_break {page-break-inside: avoid;}";
+    list << "</style>";
+    list << "<body>";
 
    QVector<BuyerData> buyerVec = dl->buyersSelectAllData();
 
@@ -1323,9 +1327,12 @@ void MainWindow::printList(QPrinter *printer) {
        text = buyerVec.at(i).www;
        list << "<strong>" + trUtf8("Strona:  ") + "</strong>" + changeIfEmpty(text);
        list << "<p> --------------------------------------------- </p>";
-       list << "<br />";
+       list << "<p class=\"page_break\"></p>";
 
    }
+
+   list << "</body>";
+   list << "</html>";
 
    QFile file(sett().getWorkingDir() + "/buyerContacts.html");
 
