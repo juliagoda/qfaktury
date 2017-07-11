@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>408</width>
-    <height>422</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,13 @@
   <layout class="QGridLayout">
    <item row="1" column="0">
     <layout class="QHBoxLayout">
+     <item>
+      <widget class="QPushButton" name="nextSeller">
+       <property name="text">
+        <string>Kolejny sprzedawca/odział</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer>
        <property name="orientation">
@@ -61,235 +68,269 @@
     </layout>
    </item>
    <item row="0" column="0">
-    <layout class="QHBoxLayout">
-     <item>
-      <layout class="QVBoxLayout">
+    <widget class="QTabWidget" name="sellersList">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="mainSeller">
+      <attribute name="title">
+       <string>Dane główne</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLabel" name="textLabel1">
-         <property name="text">
-          <string>Nazwa*:</string>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="widgetResizable">
+          <bool>true</bool>
          </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLabel3">
-         <property name="text">
-          <string>Miejscowość*:</string>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLabel4">
-         <property name="text">
-          <string>Kod*:</string>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLabel2">
-         <property name="text">
-          <string>Adres*:</string>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLabel5">
-         <property name="text">
-          <string>Nr konta*:</string>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Nazwa banku:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Nr SWIFT/BIC:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLabel2_2">
-         <property name="text">
-          <string>NIP*:</string>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLabel2_2_2_2">
-         <property name="text">
-          <string>Typ 2 Id:</string>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLabel2_2_2">
-         <property name="text">
-          <string>Drugi Id:</string>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Numer KRS: </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="telLabel">
-         <property name="text">
-          <string>Telefon:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Fax:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="emailLabel">
-         <property name="text">
-          <string>Email:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="wwwLabel">
-         <property name="text">
-          <string>Strona www:</string>
-         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>352</width>
+            <height>556</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <layout class="QHBoxLayout" name="usersMainLay">
+             <item>
+              <layout class="QVBoxLayout">
+               <item>
+                <widget class="QLabel" name="textLabel1">
+                 <property name="text">
+                  <string>Nazwa*:</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="textLabel3">
+                 <property name="text">
+                  <string>Miejscowość*:</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="textLabel4">
+                 <property name="text">
+                  <string>Kod*:</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="textLabel2">
+                 <property name="text">
+                  <string>Adres*:</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="textLabel5">
+                 <property name="text">
+                  <string>Nr konta*:</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>Nazwa banku:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_2">
+                 <property name="text">
+                  <string>Nr SWIFT/BIC:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="textLabel2_2">
+                 <property name="text">
+                  <string>NIP*:</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="textLabel2_2_2_2">
+                 <property name="text">
+                  <string>Typ 2 Id:</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="textLabel2_2_2">
+                 <property name="text">
+                  <string>Drugi Id:</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>Numer KRS: </string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="telLabel">
+                 <property name="text">
+                  <string>Telefon:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>Fax:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="emailLabel">
+                 <property name="text">
+                  <string>Email:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="wwwLabel">
+                 <property name="text">
+                  <string>Strona www:</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QVBoxLayout">
+               <item>
+                <widget class="QLineEdit" name="nameEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="placeEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="codeEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="addressEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="accountEdit">
+                 <property name="inputMask">
+                  <string/>
+                 </property>
+                 <property name="maxLength">
+                  <number>34</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="bankNameEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="bicSwiftEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="nipEdit">
+                 <property name="inputMask">
+                  <string/>
+                 </property>
+                 <property name="maxLength">
+                  <number>13</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="secIdType">
+                 <item>
+                  <property name="text">
+                   <string>Brak</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>NUSP</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>REGON</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>PESEL</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Dowód osobisty</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Paszport</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="regonEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="krsEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="phonEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="faxEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="emailEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="webEdit"/>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
+          <zorder></zorder>
+         </widget>
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout">
-       <item>
-        <widget class="QLineEdit" name="nameEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="placeEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="codeEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="addressEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="accountEdit">
-         <property name="inputMask">
-          <string/>
-         </property>
-         <property name="maxLength">
-          <number>34</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="bankNameEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="bicSwiftEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="nipEdit">
-         <property name="inputMask">
-          <string/>
-         </property>
-         <property name="maxLength">
-          <number>13</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="secIdType">
-         <item>
-          <property name="text">
-           <string>Brak</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>NUSP</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>REGON</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>PESEL</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Dowód osobisty</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Paszport</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="regonEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="krsEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="phonEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="faxEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="emailEdit"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="webEdit"/>
-       </item>
-      </layout>
-     </item>
-    </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
