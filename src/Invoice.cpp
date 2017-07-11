@@ -1994,6 +1994,7 @@ void Invoice::makeInvoiceBody() {
     QSettings userSettings("elinux", "user");
 
     sett().beginGroup("printpos");
+    userSettings.beginGroup("choosenSeller");
 
         if (sett().value("username").toBool() && (!userSettings.value("name").toString().trimmed().isEmpty()))
             invStrList += userSettings.value("name").toString() + "<br/>";
@@ -2034,6 +2035,7 @@ void Invoice::makeInvoiceBody() {
         if (sett().value("userwww").toBool() && (!userSettings.value("website").toString().trimmed().isEmpty()))
             invStrList += trUtf8("Strona www: ") + userSettings.value("website").toString() + "<br/>";
 
+    userSettings.endGroup();
     sett().endGroup();
 
         invStrList += "</td>";

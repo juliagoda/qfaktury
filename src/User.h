@@ -19,5 +19,13 @@ public slots:
 	void okClick();
     bool checkAll();
 
+private slots:
+    void on_nextSeller_clicked();
+    void delcurrSel();
+
+private:
+    QList<QWidget*> sellersWidgets;
+
+
 };
 #endif
