@@ -21,6 +21,7 @@
 #include "MainWindow.h"
 #include "XmlDataLayer.h"
 #include "InvoiceRR.h"
+#include "Send.h"
 
 
 MainWindow* MainWindow::m_instance = nullptr;
@@ -229,6 +230,7 @@ void MainWindow::init() {
     connect(ui->tableK, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showTableMenuK(QPoint)));
     connect(ui->tableT, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(goodsEdit()));
     connect(ui->tableT, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showTableMenuT(QPoint)));
+    connect(ui->sendEmailAction, SIGNAL (triggered()), this, SLOT(sendEmailToBuyer()));
 
 
     connect(ui->tableH, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(mainUpdateStatus(QTableWidgetItem *)));
@@ -2216,6 +2218,16 @@ void MainWindow::loadBackup() {
 
     }
 
+}
+
+
+/** Slot for sending email to buyers
+ */
+
+void MainWindow::sendEmailToBuyer() {
+
+    Send* sendEmailWidget = new Send(dl->buyersSelectAllData(),dl->invoiceSelectAllData(ui->filtrStart->date(), ui->filtrEnd->date()), this);
+    sendEmailWidget->show();
 }
 
 // ----------------------------------------  SLOTS ---------------------------------//

@@ -14,6 +14,8 @@ QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
 QT_MINOR_VERSION = 5.0.0
 
+include($$PWD/src/SmtpClient-for-Qt/SMTPEmail.pro)
+
 exists( /usr/lib/libquazip5.so ) {
 unix:LIBS += -L$${LIBDIR} -lquazip5
 win32:LIBS += -L$${LIBDIR} -lquazip5dll
@@ -62,7 +64,8 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/Validations.cpp \
     $$PWD/src/InvoiceRR.cpp \
     $${QUAZIPCODEDIR}/*.cpp \
-    $${QUAZIPCODEDIR}/*.c
+    $${QUAZIPCODEDIR}/*.c \
+    $$PWD/src/Send.cpp
 
 
 RESOURCES += qfaktury.qrc

@@ -475,7 +475,7 @@
      <x>0</x>
      <y>0</y>
      <width>655</width>
-     <height>24</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct">
@@ -515,6 +515,7 @@
     <addaction name="separator"/>
     <addaction name="invoiceDelAction"/>
     <addaction name="invoiceEdAction"/>
+    <addaction name="sendEmailAction"/>
    </widget>
    <widget class="QMenu" name="buyersAct">
     <property name="cursor">
@@ -1127,6 +1128,11 @@
   <action name="actionLoadBackup">
    <property name="text">
     <string>Wczytaj kopię zapasową</string>
+   </property>
+  </action>
+  <action name="sendEmailAction">
+   <property name="text">
+    <string>Wyślij</string>
    </property>
   </action>
  </widget>

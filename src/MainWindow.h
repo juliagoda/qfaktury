@@ -29,6 +29,7 @@ private slots:
     void choosePathBackup();
     void createBackup();
     void loadBackup();
+    void sendEmailToBuyer();
 
 
 public slots:
