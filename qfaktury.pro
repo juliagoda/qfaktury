@@ -6,6 +6,7 @@ TARGET = qfaktury
 
 LIBDIR = /usr/lib
 QUAZIPCODEDIR = $$PWD/src/quazip-0.7.3/quazip
+SMTPCODEDIR = $$PWD/src/SmtpClient-for-Qt/src
 
 QT += gui core widgets printsupport xml webenginewidgets network
 DEFINES  += QT_NO_SSL
@@ -13,8 +14,6 @@ CONFIG += debug
 QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
 QT_MINOR_VERSION = 5.0.0
-
-include($$PWD/src/SmtpClient-for-Qt/SMTPEmail.pro)
 
 exists( /usr/lib/libquazip5.so ) {
 unix:LIBS += -L$${LIBDIR} -lquazip5
@@ -26,15 +25,22 @@ unix:LIBS += -L$${LIBDIR} -lquazip
 win32:LIBS += -L$${LIBDIR} -lquazipdll
 }
 
+exists( /usr/lib/libSMTPEmail.so ) {
+unix:LIBS += -L$${LIBDIR} -lSMTPEmail
+win32:LIBS += -L$${LIBDIR} -lSMTPEmaildll
+}
+
 unix:LIBS += -L$${LIBDIR} -lz
 win32:LIBS += -L$${LIBDIR} -lzdll
 
 INCLUDEPATH += . \
             $${QUAZIPCODEDIR} \
+            $${SMTPCODEDIR} \
             $${LIBDIR}
 
 # Input
 HEADERS += $$files($$PWD/src/*.h) \
+            $${SMTPCODEDIR}/*.h \
             $${QUAZIPCODEDIR}/*.h
 
 
@@ -65,6 +71,7 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/InvoiceRR.cpp \
     $${QUAZIPCODEDIR}/*.cpp \
     $${QUAZIPCODEDIR}/*.c \
+    $${SMTPCODEDIR}/*.cpp \
     $$PWD/src/Send.cpp
 
 
@@ -73,7 +80,6 @@ MOC_DIR = .moc
 UI_DIR = .ui
 OBJECTS_DIR = .obj
 RCC_DIR = .rcc
-TRANSLATIONS += $$files($$PWD/translations/*.ts)
 
 
 unix {
@@ -83,14 +89,14 @@ pixmaps.path = /usr/share/qfaktury/icons
 pixmaps.files = icons/*.png
 css.path = /usr/share/qfaktury/templates
 css.files = templates/*.css
-languages.path = /usr/share/qfaktury/translations
-languages.files = translations/*.qm
 documentation.path = /usr/share/doc/qfaktury
 documentation.files = docs/*
 desktop.path = /usr/share/applications
 desktop.files = *.desktop
 sources.path = /usr/share/qfaktury/src
 sources.files = src/*
+uis.path = /usr/share/qfaktury/ui
+uis.files = ui/*.ui
 
 }
 
@@ -102,12 +108,12 @@ pixmaps.path = $$(HOME)/AppData/Roaming/qfaktury/icons
 pixmaps.files = icons/*.png
 css.path = $$(HOME)/AppData/Roaming/qfaktury/templates
 css.files = templates/*.css
-languages.path = $$(HOME)/AppData/Roaming/qfaktury/translations
-languages.files = translations/*.qm
 desktop.path = "$$(HOME)/Desktop"
 desktop.files = *.desktop
 sources.path = $$(HOME)/AppData/Roaming/qfaktury/src
 sources.files = src/*
+uis.path = $$(HOME)/AppData/Roaming/qfaktury/ui
+uis.files = ui/*.ui
 
 }
 
@@ -119,12 +125,12 @@ pixmaps.path = "~/Library/Application Support/qfaktury/icons"
 pixmaps.files = icons/*.png
 css.path = "~/Library/Application Support/qfaktury/templates"
 css.files = templates/*.css
-languages.path = "~/Library/Application Support/qfaktury/translations"
-languages.files = translations/*.qm
 desktop.path = "$$(HOME)/Desktop"
 desktop.files = *.desktop
 sources.path = "~/Library/Application Support/qfaktury/src"
 sources.files = src/*
+uis.path = "~/Library/Application Support/qfaktury/src"
+uis.files = ui/*.ui
 
 }
 
@@ -132,7 +138,7 @@ sources.files = src/*
 INSTALLS += target \
     pixmaps \
     css \
-    languages \
     documentation \
+    uis \
     desktop \
     sources

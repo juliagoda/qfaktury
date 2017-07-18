@@ -45,7 +45,6 @@ void Setting::init() {
 	connect(defTextBtn, SIGNAL(clicked()), this, SLOT(defTextBtnClick()));
     connect( cssList, SIGNAL( currentIndexChanged (int)), this, SLOT( saveBtnEnable() ) );
     connect( stylesList, SIGNAL( currentIndexChanged (int)), this, SLOT( saveBtnEnable() ) );
-    connect( langList, SIGNAL( currentIndexChanged (int)), this, SLOT( saveBtnEnable() ) );
     connect( codecList, SIGNAL( currentIndexChanged (int)), this, SLOT( saveBtnEnable() ) );
     connect( logoEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( saveBtnEnable() ) );
     connect( stempEdit, SIGNAL(  textChanged (const QString &)), this, SLOT( saveBtnEnable() ) );
@@ -99,9 +98,6 @@ void Setting::init() {
     connect( cb13, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( cb14, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
 
-
-    langList->clear();
-    langList->insertItems(0, getTranslations());
 
     cssList->clear();
     cssList->insertItems(0, getTemplates());
@@ -497,7 +493,6 @@ QString Setting::getAll(QListWidget *lb)
 
 void Setting::saveSettings() {
 
-	sett().setValue("lang", langList->currentText());
 	sett().setValue("css", cssList->currentText());
     sett().setValue("style", stylesList->currentText());
 	sett().setValue("localEnc", codecList->currentText());
@@ -599,9 +594,6 @@ void Setting::readSettings() {
 
     correctsBox->clear();
     correctsBox->addItems(sett().value("corrections").toString().split("|"));
-
-	curr = getTranslations().indexOf(sett().value("lang").toString());
-	langList->setCurrentIndex(curr);
 
 	curr = getTemplates().indexOf(sett().value("css").toString());
 	cssList->setCurrentIndex(curr);
@@ -713,34 +705,3 @@ QStringList Setting::getStyles()
 {
     return QStyleFactory::keys();
 }
-
-
-// returns list of translations
-QStringList Setting::getTranslations() {
-
-    QStringList translations = QStringList();
-    QString path  = QDir::currentPath() + "/translations/";
-
-	qDebug() << path;
-	QFile f(path);
-
-    if (!f.exists()) {
-
-        path = sett().getAppDirs() + "translations/";
-        qDebug() << "Path translations: " << path;
-    }
-
-		qDebug() << path;
-		QDir allFiles;
-		allFiles.setPath(path);
-		allFiles.setFilter(QDir::Files);
-        QStringList filters = QStringList() << "*.qm";
-		allFiles.setNameFilters(filters);
-		QStringList tmp = allFiles.entryList();
-		tmp = tmp.replaceInStrings("qfaktury_", "");
-		tmp = tmp.replaceInStrings(".qm", "");
-		translations = tmp;
-
-	return translations;
-}
-
