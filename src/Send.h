@@ -16,8 +16,8 @@
 #include <QTableWidget>
 #include <QTextEdit>
 
+#include "smtpclient.h"
 #include "Buyers.h"
-#include "MainWindow.h"
 
 
 class Send : public QWizard
@@ -26,6 +26,7 @@ class Send : public QWizard
 
 public:
     Send(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
+    SmtpClient::ConnectionType getProtocol() const;
 
     void accept() override;
 

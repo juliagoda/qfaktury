@@ -1,5 +1,6 @@
 #include <QTextEdit>
 #include <QObject>
+#include <QDomDocument>
 
 #include "SmtpClient-for-Qt/src/smtpclient.h"
 #include "SmtpClient-for-Qt/src/mimetext.h"
@@ -9,13 +10,7 @@
 #include "ConvertAmount.h"
 #include "Invoice.h"
 #include "Const.h"
-#include "Correction.h"
-#include "Invoice.h"
-#include "Bill.h"
-#include "InvoiceGross.h"
-#include "Duplicate.h"
-#include "InvoiceRR.h"
-#include "CorrectGross.h"
+
 
 
 Send::Send(QVector<BuyerData> buyersList, QVector<InvoiceData> invList, QWidget *parent)
@@ -26,17 +21,27 @@ Send::Send(QVector<BuyerData> buyersList, QVector<InvoiceData> invList, QWidget 
     addPage(new IntroPage);
     addPage(new ClassInvoicePage(bList,iList));
     addPage(new EmailPage);
-    addPage(new ConclusionPage(qobject_cast<MainWindow*>(parent)));
+    addPage(new ConclusionPage);
 
     setWindowTitle(trUtf8("Generowanie wiadomości"));
 }
 
+
+SmtpClient::ConnectionType Send::getProtocol() const {
+
+    if (field("port").toInt() == 25) return SmtpClient::TcpConnection;
+    else if (field("port").toInt() == 465) return SmtpClient::SslConnection;
+    else if (field("port").toInt() == 587) return SmtpClient::TlsConnection;
+
+    return SmtpClient::SslConnection;
+}
+
+
 void Send::accept()
 {
-
     // -------------------
 
-    SmtpClient smtp(field("host").toString(), field("port").toInt(), SmtpClient::SslConnection);
+    SmtpClient smtp(field("host").toString(), field("port").toInt(), getProtocol());
 
         // We need to set the username (your email address) and the password
         // for smtp authentification.
@@ -389,10 +394,12 @@ QString ClassInvoicePage::transformType(QString text)
     if (text == "rachunek") return s_BILL;
     if (text == "duplikat") return s_DUPLICATE;
     if (text == "RR") return s_RR;
+
+    return s_INVOICE;
 }
 
 
-void EmailPage::getTemplateOne(bool checked)
+void EmailPage::getTemplateOne(bool)
 {
     QSettings settings("elinux", "user");
     QMessageBox::warning(this, "Załączniki", "Chwilowo załączenie faktury nie jest jeszcze wdrożone. Proszę poczekać na implementację lub wysłać zwyklą wiadomość");
@@ -410,7 +417,7 @@ void EmailPage::getTemplateOne(bool checked)
 }
 
 
-void EmailPage::getTemplateTwo(bool checked)
+void EmailPage::getTemplateTwo(bool)
 {
     titleLine->setText("Przypomnienie o terminie zapłaty");
     //attachFile->setChecked(false);
@@ -429,7 +436,7 @@ void EmailPage::getTemplateTwo(bool checked)
 }
 
 
-void EmailPage::getTemplateThree(bool checked)
+void EmailPage::getTemplateThree(bool)
 {
     titleLine->setText("Ostateczne wezwanie do zapłaty");
     //attachFile->setChecked(false);
