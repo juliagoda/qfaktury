@@ -965,6 +965,7 @@ void MainWindow::editFHist() {
         return;
     }
 
+
     ui->tableH->setSortingEnabled(false);
 
     int row = 0;

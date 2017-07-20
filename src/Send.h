@@ -17,6 +17,7 @@
 #include <QTextEdit>
 
 #include "Buyers.h"
+#include "MainWindow.h"
 
 
 class Send : public QWizard
@@ -83,6 +84,7 @@ private:
     QLineEdit *emailLine;
     QLineEdit *copyLine;
     QLineEdit *titleLine;
+   // QCheckBox* attachFile;
     QTextEdit *message;
     QGroupBox *groupBox;
 };
@@ -93,12 +95,37 @@ class ConclusionPage : public QWizardPage
 
 public:
     ConclusionPage(QWidget *parent = 0);
+    void setHostPort(QString,QString);
 
 protected:
     void initializePage() override;
 
+private slots:
+    void setSSL(bool);
+    void setTCP(bool);
+    void setTLS(bool);
+    void setGmail(bool);
+    void seto2(bool);
+    void setYahoo(bool);
+    void setInteria(bool);
+    void setOnet(bool);
+    void setWP(bool);
+    void setHotMail(bool);
+    void setGazeta(bool);
+    void setAol(bool);
+    void setFoxMail(bool);
+    void setOutlook(bool);
+
 private:
     QLabel *label;
+    QGroupBox* groupBox;
+    bool checkedMailButton;
+    bool checkedPortButton;
+    QString protocol;
+    QString checkedMail;
+    QLineEdit* edit1;
+    QLineEdit* edit2;
+
 };
 
 #endif // SEND_H
