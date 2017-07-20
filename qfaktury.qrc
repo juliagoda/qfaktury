@@ -31,5 +31,9 @@
         <file>icons/usun_przelew.png</file>
         <file>icons/usun_towar.png</file>
         <file>icons/nowa_RR.png</file>
+        <file>icons/wyslij_fakture.png</file>
+        <file>icons/importuj_qfaktury.png</file>
+        <file>icons/eksportuj_qfaktury.png</file>
+        <file>icons/drukuj_kontrahentow.png</file>
     </qresource>
 </RCC>

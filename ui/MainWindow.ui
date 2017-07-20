@@ -1104,6 +1104,10 @@
    </property>
   </action>
   <action name="actionPrintBuyer">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/drukuj_kontrahentow.png</normaloff>:/res/icons/drukuj_kontrahentow.png</iconset>
+   </property>
    <property name="text">
     <string>D&amp;rukuj</string>
    </property>
@@ -1121,16 +1125,28 @@
    </property>
   </action>
   <action name="actionCreateBackup">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/importuj_qfaktury.png</normaloff>:/res/icons/importuj_qfaktury.png</iconset>
+   </property>
    <property name="text">
     <string>Stwórz kopię zapasową</string>
    </property>
   </action>
   <action name="actionLoadBackup">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/eksportuj_qfaktury.png</normaloff>:/res/icons/eksportuj_qfaktury.png</iconset>
+   </property>
    <property name="text">
     <string>Wczytaj kopię zapasową</string>
    </property>
   </action>
   <action name="sendEmailAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/wyslij_fakture.png</normaloff>:/res/icons/wyslij_fakture.png</iconset>
+   </property>
    <property name="text">
     <string>Wyślij</string>
    </property>
