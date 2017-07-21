@@ -35,5 +35,9 @@
         <file>icons/importuj_qfaktury.png</file>
         <file>icons/eksportuj_qfaktury.png</file>
         <file>icons/drukuj_kontrahentow.png</file>
+        <file>icons/strona_github.png</file>
+        <file>icons/zglos_blad.png</file>
+        <file>icons/o_qt.png</file>
+        <file>icons/informacja_dodatki.png</file>
     </qresource>
 </RCC>
