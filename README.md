@@ -16,7 +16,6 @@
 Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycję i drukowanie faktur VAT, Brutto, RR, Pro Forma, Rachunku, Korekty i Duplikatu. Dodatkowo pozwala na dodanie kontrahenta oraz towaru bądź usługi do tworzonej faktury. Program oferuje:
 
 - zmianę waluty według aktualnego kursu ze strony NBP
-- wybór języka polskiego, niemieckiego lub angielskiego
 - walidację wprowadzanych danych oraz sprawdzanie sum kontrolnych
 - wybór trzech szablonów drukowania
 - wydrukowanie listy kontrahentów wraz z danymi
@@ -26,6 +25,8 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - przedstawienie słownie kwoty na fakturze w formacie od dziesiątek po miliardy wraz z wartościami po przecinku
 - dodanie własnych elementów do listy wyborów stawek VAT, metod płatności, powodów korekty, sposobu numeracji faktur, dopisku, jednostek
 - stworzenie i wczytywanie kopii zapasowej plików konfiguracyjnych oraz głównego katalogu
+- dodanie kolejnych sprzedawców/oddziałów
+- wysłanie e-mail do kontrahentów z możliwością korzystania z gotowych szablonów
 
 
 <br/>
@@ -79,7 +80,7 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 
 3. Aktualizacja aktualnego kursu walut następuje co pół godziny, pod warunkiem połączenia z internetem oraz poprawnego ustawienia czasu systemowego
 
-4. Tłumaczenie na język angielski i niemiecki jest stale wprowadzany
+4. Wysyłanie wiadomości z załącznikami jest tymczasowo niezaimplementowane. Możliwe jest jednak wysyłanie e-mail bez załączników.
 
 
 <br/>
