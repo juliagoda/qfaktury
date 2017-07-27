@@ -589,6 +589,12 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
     }
 
 
+    QString getPdfDir() {
+
+        return QString(getWorkingDir() + "/pdf-invoices");
+    }
+
+
 	// return invoices dir
 	QString getDataDir() {
 

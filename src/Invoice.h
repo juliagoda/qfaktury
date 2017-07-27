@@ -47,6 +47,7 @@ public:
     QMap<QString,double> getActualCurList();
     QMap<QString,double> tableOfValues();
     QString checkInvCurr();
+    QString invoiceType;
 
 
 public slots:
@@ -82,7 +83,7 @@ protected:
 
     QDate dupDate;
     QString prepayFile;
-    QString lastInvoice, invoiceType;
+    QString lastInvoice;
     QComboBox *ratesCombo;
     QLabel *labelRate;
     QLabel *rateLabel;

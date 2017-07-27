@@ -6,6 +6,7 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QDesktopWidget>
+#include <QPdfWriter>
 #include "JlCompress.h"
 #include "quazipdir.h"
 #include "Setting.h"
@@ -25,6 +26,7 @@
 
 
 MainWindow* MainWindow::m_instance = nullptr;
+bool MainWindow::shouldHidden = false;
 
 /** Constructor
  */
@@ -247,6 +249,59 @@ void MainWindow::init() {
     checkTodayTask();
 	loadPlugins();
 
+    if (!ifpdfDirExists()) {
+
+        createPdfDir();
+
+    } else {
+
+        QDir _dir(sett().getPdfDir());
+        _dir.setFilter(QDir::Files);
+        QStringList filters;
+        filters << "*.pdf";
+
+        _dir.setNameFilters(filters);
+        QStringList files = _dir.entryList();
+
+        if (files.isEmpty()) generatePdfFromList();
+    }
+
+}
+
+
+bool MainWindow::ifpdfDirExists()
+{
+    QDir mainPath(sett().getPdfDir());
+
+    if (!mainPath.exists()) {
+
+        return false;
+    }
+    else {
+
+        return true;
+    }
+}
+
+
+void MainWindow::createPdfDir()
+{
+    QDir mainPath;
+    mainPath.mkpath(sett().getPdfDir());
+    generatePdfFromList();
+}
+
+
+void MainWindow::generatePdfFromList()
+{
+    shouldHidden = true;
+    for (int i = 0; i < ui->tableH->rowCount(); i++)
+    {
+        ui->tableH->setCurrentCell(i,0);
+        editFHist();
+    }
+
+    shouldHidden = false;
 }
 
 
@@ -997,12 +1052,23 @@ void MainWindow::editFHist() {
         corWindow->correctionInit(true);
         corWindow->readCorrData(ui->tableH->item(row, 0)->text());
 
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = corWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             corWindow->setSizePolicy(sp_retain);
+             corWindow->hide();
+             corWindow->makeInvoice();
+        }
+        else {
+
         if (corWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (corWindow->getKAdded()) readBuyer();
+        }
 
         corWindow = 0;
         delete corWindow;
@@ -1018,12 +1084,23 @@ void MainWindow::editFHist() {
         billWindow->billInit();
         billWindow->setWindowTitle(trUtf8("Edytuje Rachunek"));
 
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = billWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             billWindow->setSizePolicy(sp_retain);
+             billWindow->hide();
+             billWindow->makeInvoice();
+        }
+        else {
+
         if (billWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (billWindow->getKAdded()) readBuyer();
+        }
 
         billWindow = 0;
         delete billWindow;
@@ -1037,12 +1114,24 @@ void MainWindow::editFHist() {
         invWindow->readData(ui->tableH->item(row, 0)->text());
         invWindow->setfName(ui->tableH->item(row, 0)->text());
 
-        if (invWindow->exec() == QDialog::Accepted) {
 
-            rereadHist(true);
-        }
+   if (shouldHidden) {
 
-        if (invWindow->getKAdded()) readBuyer();
+       QSizePolicy sp_retain = invWindow->sizePolicy();
+        sp_retain.setRetainSizeWhenHidden(true);
+        invWindow->setSizePolicy(sp_retain);
+        invWindow->hide();
+        invWindow->makeInvoice();
+   }
+   else {
+
+       if (invWindow->exec() == QDialog::Accepted) {
+
+                   rereadHist(true);
+               }
+
+               if (invWindow->getKAdded()) readBuyer();
+   }
 
         invWindow = 0;
         delete invWindow;
@@ -1057,12 +1146,23 @@ void MainWindow::editFHist() {
         invWindow->readData(ui->tableH->item(row, 0)->text());
         invWindow->setfName(ui->tableH->item(row, 0)->text());
 
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = invWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             invWindow->setSizePolicy(sp_retain);
+             invWindow->hide();
+             invWindow->makeInvoice();
+        }
+        else {
+
         if (invWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (invWindow->getKAdded()) readBuyer();
+        }
 
         invWindow = 0;
         delete invWindow;
@@ -1075,12 +1175,23 @@ void MainWindow::editFHist() {
 
         invWindow->readData(ui->tableH->item(row, 0)->text());
         invWindow->setfName(ui->tableH->item(row, 0)->text());
+
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = invWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             invWindow->setSizePolicy(sp_retain);
+             invWindow->hide();
+             invWindow->makeInvoice();
+        }
+        else {
         if (invWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (invWindow->getKAdded()) readBuyer();
+        }
 
         invWindow = 0;
         delete invWindow;
@@ -1093,12 +1204,23 @@ void MainWindow::editFHist() {
 
         invWindow->readData(ui->tableH->item(row, 0)->text());
         invWindow->setfName(ui->tableH->item(row, 0)->text());
+
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = invWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             invWindow->setSizePolicy(sp_retain);
+             invWindow->hide();
+             invWindow->makeInvoice();
+        }
+        else {
         if (invWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (invWindow->getKAdded()) readBuyer();
+        }
 
         invWindow = 0;
         delete invWindow;
@@ -1114,12 +1236,24 @@ void MainWindow::editFHist() {
         dupWindow->setIsEditAllowed(false);
         dupWindow->setfName(ui->tableH->item(row, 0)->text());
 
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = dupWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             dupWindow->setSizePolicy(sp_retain);
+             dupWindow->hide();
+             dupWindow->makeInvoice();
+        }
+        else {
+
         if (dupWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (dupWindow->getKAdded()) readBuyer();
+
+        }
 
         dupWindow = 0;
         delete dupWindow;

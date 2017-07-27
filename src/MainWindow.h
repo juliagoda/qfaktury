@@ -22,6 +22,7 @@ public:
     void newInvoice(Invoice* invoice, QString windowTitle);
     const int getMaxSymbol();
     static MainWindow * instance();
+    static bool shouldHidden;
 
 private slots:
 
@@ -76,6 +77,9 @@ public slots:
     void addNextTask();
     void delTasksFromDay();
     QString changeIfEmpty(QString);
+    bool ifpdfDirExists();
+    void createPdfDir();
+    void generatePdfFromList();
 
 
 protected:

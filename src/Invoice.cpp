@@ -1741,6 +1741,19 @@ void Invoice::printSlot(QPrinter *printer) {
 
     doc.setHtml(s);
     doc.print(printer);
+
+
+    QTextDocument docPdf(invoiceType);
+    docPdf.setHtml(s);
+
+    QPrinter printerPdf(QPrinter::HighResolution);
+    printerPdf.setOutputFormat(QPrinter::PdfFormat);
+
+    QStringList buyer = buyerName->text().split(",");
+    printerPdf.setOutputFileName(sett().getPdfDir() + "/" + invoiceType + "-" + buyer.at(0) + "-" + sellingDate->date().toString("dd.MM.yy") + "-" + invNr->text() + ".pdf");
+
+    docPdf.print(&printerPdf);
+    printerPdf.newPage();
 }
 
 /** Slot
@@ -1752,15 +1765,21 @@ void Invoice::print() {
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
 	QPrinter printer(QPrinter::HighResolution);
+    if (!MainWindow::instance()->shouldHidden) {
 	QPrintPreviewDialog preview(&printer, this);
-	preview.setWindowFlags(Qt::Window);
+    preview.setWindowFlags(Qt::Window);
 	preview.setWindowTitle(invoiceType + s_WIN_PRINTPREVIEW);
+
 
 	connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(printSlot(QPrinter *)));
     if (preview.exec() == 1) {
 
-        QMessageBox::warning(this,trUtf8("Drukowanie"),trUtf8("Prawdopobnie nie masz skonfigurowanej drukarki. Wykrywana nazwa domyślnej drukarki to: ") + printer.printerName() +
+        QMessageBox::warning(this,trUtf8("Drukowanie"),trUtf8("Prawdopobnie nie masz skonfigurowanej lub podłączonej drukarki. Wykrywana nazwa domyślnej drukarki to: ") + printer.printerName() +
                              trUtf8(". Status domyślnej drukarki (poprawny o ile drukarka ma możliwość raportowania statusu do systemu): ") + printer.printerState());
+    }
+    } else {
+
+        printSlot(&printer);
     }
 }
 
