@@ -1619,6 +1619,9 @@ bool Invoice::saveInvoice() {
 
     result = dataLayer->invoiceInsertData(invData, type);
     ret = dataLayer->getRet();
+    MainWindow::instance()->shouldHidden = true;
+    makeInvoice();
+    MainWindow::instance()->shouldHidden = false;
 
 
     if (!result) {
