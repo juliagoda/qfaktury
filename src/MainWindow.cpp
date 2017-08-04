@@ -6,6 +6,8 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QDesktopWidget>
+#include <QMenu>
+#include <QAction>
 #include "Setting.h"
 #include "User.h"
 #include "Goods.h"
@@ -329,7 +331,7 @@ void MainWindow::loadPlugins() {
     }
 
     ui->menuPlugins->addSeparator();
-    ui->menuPlugins->addAction(trUtf8("Informacje"), this, SLOT (pluginInfoSlot()));
+    ui->menuPlugins->addAction(trUtf8("Informacje"), this, SLOT (pluginInfoSlot()))->setIcon(QIcon(":/res/icons/informacja_dodatki.png"));
 }
 
 /**

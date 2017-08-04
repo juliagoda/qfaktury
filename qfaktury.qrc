@@ -31,5 +31,11 @@
         <file>icons/usun_przelew.png</file>
         <file>icons/usun_towar.png</file>
         <file>icons/nowa_RR.png</file>
+        <file>icons/zglos_blad.png</file>
+        <file>icons/wyslij_fakture.png</file>
+        <file>icons/informacja_dodatki.png</file>
+        <file>icons/strona_github.png</file>
+        <file>icons/o_qt.png</file>
+        <file>icons/drukuj_kontrahentow.png</file>
     </qresource>
 </RCC>

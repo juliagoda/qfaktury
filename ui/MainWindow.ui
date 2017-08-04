@@ -475,7 +475,7 @@
      <x>0</x>
      <y>0</y>
      <width>653</width>
-     <height>24</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct">
@@ -789,6 +789,10 @@
    </property>
   </action>
   <action name="helpAbout_appAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/qfaktury_22.png</normaloff>:/res/icons/qfaktury_22.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;O programie</string>
    </property>
@@ -848,6 +852,10 @@
    </property>
   </action>
   <action name="helpAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/strona_github.png</normaloff>:/res/icons/strona_github.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Strona programu</string>
    </property>
@@ -1055,6 +1063,10 @@
    </property>
   </action>
   <action name="actionBug">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/zglos_blad.png</normaloff>:/res/icons/zglos_blad.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Zgłoś błąd</string>
    </property>
@@ -1096,11 +1108,19 @@
    </property>
   </action>
   <action name="action_Qt">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/o_qt.png</normaloff>:/res/icons/o_qt.png</iconset>
+   </property>
    <property name="text">
     <string>O &amp;Qt</string>
    </property>
   </action>
   <action name="actionPrintBuyer">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/drukuj_kontrahentow.png</normaloff>:/res/icons/drukuj_kontrahentow.png</iconset>
+   </property>
    <property name="text">
     <string>D&amp;rukuj</string>
    </property>
