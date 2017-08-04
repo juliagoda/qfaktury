@@ -80,7 +80,7 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 
 3. Aktualizacja aktualnego kursu walut następuje co pół godziny, pod warunkiem połączenia z internetem oraz poprawnego ustawienia czasu systemowego
 
-4. Wysyłanie wiadomości z załącznikami jest tymczasowo niezaimplementowane. Możliwe jest jednak wysyłanie e-mail bez załączników.
+4. Wysyłanie wiadomości z załącznikami jest już możliwe, jednakże program kończy działanie po wysłaniu wiadomości pod wskazany adres i wymaga ponownego uruchomienia.
 
 
 <br/>
