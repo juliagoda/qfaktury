@@ -6,7 +6,7 @@ TARGET = qfaktury
 
 LIBDIR = /usr/lib
 QUAZIPCODEDIR = $$PWD/src/quazip-0.7.3/quazip
-SMTPCODEDIR = $$PWD/src/SmtpClient-for-Qt/src
+SMTPCODEDIR = $$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements
 
 QT += gui core widgets printsupport xml webenginewidgets network
 CONFIG += debug
@@ -25,9 +25,9 @@ unix:LIBS += -L$${LIBDIR} -lquazip
 win32:LIBS += -L$${LIBDIR} -lquazipdll
 }
 
-exists( /usr/lib/libSMTPEmail.so ) {
-unix:LIBS += -L$${LIBDIR} -lSMTPEmail
-win32:LIBS += -L$${LIBDIR} -lSMTPEmaildll
+exists( /usr/lib/libsmtp.so ) {
+unix:LIBS += -L$${LIBDIR} -lsmtp
+win32:LIBS += -L$${LIBDIR} -lsmtpdll
 }
 
 unix:LIBS += -L$${LIBDIR} -lz
@@ -41,10 +41,11 @@ INCLUDEPATH += . \
 # Input
 HEADERS += $$files($$PWD/src/*.h) \
             $${SMTPCODEDIR}/*.h \
-            $${QUAZIPCODEDIR}/*.h
+            $${QUAZIPCODEDIR}/*.h \
 
 
-FORMS += $$files($$PWD/ui/*.ui)
+FORMS += $$files($$PWD/ui/*.ui) \
+        $$files($$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements/*.ui)
 
 SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/BuyerData.cpp \

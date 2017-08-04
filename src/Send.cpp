@@ -2,8 +2,7 @@
 #include <QObject>
 #include <QDomDocument>
 
-#include "SmtpClient-for-Qt/src/smtpclient.h"
-#include "SmtpClient-for-Qt/src/mimetext.h"
+
 #include "Send.h"
 #include "Buyers.h"
 #include "IDataLayer.h"
@@ -27,21 +26,21 @@ Send::Send(QVector<BuyerData> buyersList, QVector<InvoiceData> invList, QWidget 
 }
 
 
-SmtpClient::ConnectionType Send::getProtocol() const {
+/*SmtpClient::ConnectionType Send::getProtocol() const {
 
     if (field("port").toInt() == 25) return SmtpClient::TcpConnection;
     else if (field("port").toInt() == 465) return SmtpClient::SslConnection;
     else if (field("port").toInt() == 587) return SmtpClient::TlsConnection;
 
     return SmtpClient::SslConnection;
-}
+}*/
 
 
 void Send::accept()
 {
-    // -------------------
 
-    SmtpClient smtp(field("host").toString(), field("port").toInt(), getProtocol());
+
+   /* SmtpClient smtp(field("host").toString(), field("port").toInt(), getProtocol());
 
         // We need to set the username (your email address) and the password
         // for smtp authentification.
@@ -66,20 +65,59 @@ void Send::accept()
 
         MimeText text;
 
+        text.setCharset("utf-8");
+        text.setEncoding(MimePart::QuotedPrintable);
+
         text.setText(field("Message").toString());
 
         // Now add it to the mail
 
         message.addPart(&text);
 
+
+        if (field("attachedFile").toBool()) {
+
+            // Now we create the attachment object
+            QDir allFiles;
+            allFiles.setPath(sett().getPdfDir());
+            allFiles.setFilter(QDir::Files);
+            QStringList filters;
+            filters << field("invtypeData").toString() + "*-" + field("symbolData").toString() + ".pdf";
+
+            allFiles.setNameFilters(filters);
+            QStringList files = allFiles.entryList();
+            QMessageBox::information(this, "", files.first());
+                QFile* plik = new QFile(sett().getPdfDir() + "/" + files.at(0));
+                if (plik->exists()) QMessageBox::information(new QWidget, "", "Plik istnieje");
+                else QMessageBox::information(new QWidget, "", "Plik nie istnieje");
+                MimeAttachment attachment (plik);
+                attachment.setCharset("utf-8");
+                // the file type can be setted. (by default is application/octet-stream)
+                attachment.setContentType("application/pdf");
+            //    const QString contentId("Faktura");
+            //    const QString contentName("Treść faktury");
+            //    attachment.setContentId(contentId);
+            //    attachment.setContentName(contentName);
+
+            //    attachment.setEncoding(MimePart::Encoding::QuotedPrintable);
+
+                // Now add it to message
+                message.addPart(&attachment);
+        }
+
+        QMessageBox::information(new QWidget, "", message.getParts().at(0)->getCharset());
+
         // Now we can send the mail
+
+        //smtp.getResponseText();
+        //smtp.getResponseCode();
 
         if (smtp.connectToHost()) QMessageBox::information(this, "Łączenie z hostem", "Połączenie z hostem zakończyło się sukcesem");
         else QMessageBox::information(this, "Łączenie z hostem", "Połączenie z hostem nie powiodło się");
         smtp.login();
         if (smtp.sendMail(message)) QMessageBox::information(this, "Wysyłanie wiadomości", "Wiadomość została poprawnie wysłana");
         else QMessageBox::warning(this, "Wysyłanie wiadomości", "Wiadomość nie mogła zostać wysłana. Wystąpił błąd.");
-        smtp.quit();
+        smtp.quit();*/
 
 
     // -------------------
@@ -278,112 +316,6 @@ bool ClassInvoicePage::validatePage() {
 }
 
 
-EmailPage::EmailPage(QWidget *parent)
-    : QWizardPage(parent)
-{
-    setTitle(tr("Przygotowywanie treści"));
-    setSubTitle(tr("Wybierz jeden z szablonów do wygenerowania"
-                   " treści lub wprowadź własną."));
-
-
-    QVBoxLayout* QVMainLayout = new QVBoxLayout();
-    QHBoxLayout* QLabelsLinesLayout = new QHBoxLayout();
-    QVBoxLayout* QVLabelsLayout = new QVBoxLayout();
-    QVBoxLayout* QVLinesLayout = new QVBoxLayout();
-
-    QLabel* emailLabel = new QLabel;
-    emailLabel->setText(trUtf8("Do: "));
-
-    emailLine = new QLineEdit;
-    emailLabel->setBuddy(emailLine);
-
-
-
-    QLabel* copyLabel = new QLabel;
-    copyLabel->setText(trUtf8("Kopia do: "));
-
-    copyLine = new QLineEdit;
-    copyLabel->setBuddy(copyLine);
-
-
-
-    QLabel* titleLabel = new QLabel;
-    titleLabel->setText(trUtf8("Tytuł: "));
-
-    titleLine = new QLineEdit;
-    titleLabel->setBuddy(titleLine);
-
-
-    //attachFile = new QCheckBox("Załącz fakturę");
-
-
-    QVLabelsLayout->addWidget(emailLabel);
-    QVLabelsLayout->addWidget(copyLabel);
-    QVLabelsLayout->addWidget(titleLabel);
-    //QVLabelsLayout->addWidget(attachFile);
-
-    QVLinesLayout->addWidget(emailLine);
-    QVLinesLayout->addWidget(copyLine);
-    QVLinesLayout->addWidget(titleLine);
-
-    QLabelsLinesLayout->addLayout(QVLabelsLayout);
-    QLabelsLinesLayout->addLayout(QVLinesLayout);
-
-    message = new QTextEdit;
-
-    groupBox = new QGroupBox(trUtf8("&Lista szablonów"));
-    QVBoxLayout *groupBoxLayout = new QVBoxLayout;
-
-
-        QRadioButton *radioButton1 = new QRadioButton(trUtf8("&Szablon 1"));
-        radioButton1->setCheckable(true);
-        QRadioButton *radioButton2 = new QRadioButton(trUtf8("S&zablon 2"));
-        radioButton2->setCheckable(true);
-        QRadioButton *radioButton3 = new QRadioButton(trUtf8("&Szablon 3"));
-        radioButton3->setCheckable(true);
-
-        connect(radioButton1, &QAbstractButton::toggled,
-                    this, &EmailPage::getTemplateOne);
-        connect(radioButton2, &QAbstractButton::toggled,
-                    this, &EmailPage::getTemplateTwo);
-        connect(radioButton3, &QAbstractButton::toggled,
-                    this, &EmailPage::getTemplateThree);
-
-        groupBoxLayout->addWidget(radioButton1);
-        groupBoxLayout->addWidget(radioButton2);
-        groupBoxLayout->addWidget(radioButton3);
-
-
-    groupBox->setLayout(groupBoxLayout);
-
-    QVMainLayout->addLayout(QLabelsLinesLayout);
-    QVMainLayout->addWidget(message);
-    QVMainLayout->addWidget(groupBox);
-
-    setLayout(QVMainLayout);
-
-    registerField("Email",emailLine);
-    registerField("CopyEmail", copyLine);
-    registerField("Title", titleLine);
-    registerField("Message", message, "plainText");
-    //registerField("attachedFile", attachFile);
-}
-
-
-void EmailPage::initializePage()
-{
-
-    emailLine->setText(field("emailData").toString());
-    QSettings settings("elinux", "user");
-
-    settings.beginGroup("choosenSeller");
-
-    copyLine->setText(settings.value("email").toString());
-    settings.endGroup();
-
-}
-
-
 QString ClassInvoicePage::transformType(QString text)
 {
     if (text == "FVAT") return s_INVOICE;
@@ -399,70 +331,13 @@ QString ClassInvoicePage::transformType(QString text)
 }
 
 
-void EmailPage::getTemplateOne(bool)
-{
-    QSettings settings("elinux", "user");
-    QMessageBox::warning(this, "Załączniki", "Chwilowo załączenie faktury nie jest jeszcze wdrożone. Proszę poczekać na implementację lub wysłać zwyklą wiadomość");
-
-    settings.beginGroup("choosenSeller");
-    titleLine->setText("Faktura od " + settings.value("name").toString() + " nr " + field("symbolData").toString());
-    //attachFile->setChecked(true);
-
-    message->setText("Szanowni Państwo, \n \tFirma " + settings.value("name").toString() + " przesyła Państwu dokument w formie elektronicznej: \n"
-                      + field("invtypeData").toString() + " Nr. " + field("symbolData").toString() + " na kwotę: " + field("sumData").toString() + " " + field("currData").toString() + "\n\n"
-                     "Dokument został wysłany jako załącznik do tej wiadomości. \n\n"
-                     "Pozdrawiamy, \n" +
-                     settings.value("name").toString());
-    settings.endGroup();
-}
-
-
-void EmailPage::getTemplateTwo(bool)
-{
-    titleLine->setText("Przypomnienie o terminie zapłaty");
-    //attachFile->setChecked(false);
-
-    QSettings settings("elinux", "user");
-
-    settings.beginGroup("choosenSeller");
-    message->setText("Szanowni Państwo, \n \tUprzejmie informujemy, iż do dnia dzisiejszego nie otrzymaliśmy zapłaty należności wynikających z następujących faktur: \n"
-                     + field("invtypeData").toString() + " Nr. " + field("symbolData").toString() + " na kwotę " + field("sumData").toString() + " " + field("currData").toString() + " \n\n"
-                     "W związku z tym prosimy o uregulowanie w terminie 14 od dnia otrzymania niniejszego pisma wyżej wymienionych kwot wraz z odsetkami za opóźnienie w płatności każdej z faktur.\n\n"
-                     "Wpłaty prosimy dokonać na podany niżej rachunek bankowy:\n\n"
-                     + settings.value("account").toString() + "\n\n"
-                     "Pozdrawiamy, \n" +
-                     settings.value("name").toString());
-    settings.endGroup();
-}
-
-
-void EmailPage::getTemplateThree(bool)
-{
-    titleLine->setText("Ostateczne wezwanie do zapłaty");
-    //attachFile->setChecked(false);
-
-    QSettings settings("elinux", "user");
-    ConvertAmount* conv = new ConvertAmount;
-
-    settings.beginGroup("choosenSeller");
-    message->setText("Szanowni Państwo, \n \tNiniejszym wzywamy Państwa do zapłaty w terminie 14 dni od dnia doręczenia wezwania "
-                     "kwoty " + field("sumData").toString() + " (słownie: " + conv->convertPL(field("sumData").toString(), field("currData").toString()) + " ) wraz z odsetkami za opóźnienie w płatnościach. \n"
-                     "Powyższa należność wynika z następujących faktur: \n\n"
-                     + field("invtypeData").toString() + " Nr. " + field("symbolData").toString() + "\n\n"
-                     "Podaną wyżej kwotę prosimy wpłacić na podany niżej rachunek bankowy:\n\n"
-                     + settings.value("bank").toString() + "\n"
-                     + settings.value("account").toString() + "\n\n"
-                     "Prosimy traktować niniejsze pismo jako ostateczne wezwanie przedprocesowe.\n\n"
-                     "Pozdrawiamy, \n" +
-                     settings.value("name").toString());
-    settings.endGroup();
-}
-
-
-ConclusionPage::ConclusionPage(QWidget *parent)
+EmailPage::EmailPage(QWidget *parent)
     : QWizardPage(parent)
 {
-    setTitle(trUtf8("Zatwierdzenie"));
+    setTitle(tr("Generowanie host"));
+    setSubTitle(tr("Wybierz swój host po lewej stronie poniżej, do którego należy twoja skrzynka pocztowa, a z której chcesz wysłać wiadomość do kontrahenta."
+                   " Po prawej wybierz jeden z portów. W przypadku zaznaczenia nieobsługiwanego portu dla twojego konta pocztowego zostaniesz o tym poinformowany. Możesz także wprowadzić własne dane bez zaznaczania."));
+
 
     QHBoxLayout* mainL = new QHBoxLayout;
     QVBoxLayout* labLay = new QVBoxLayout;
@@ -474,16 +349,9 @@ ConclusionPage::ConclusionPage(QWidget *parent)
     QLabel* lab2 = new QLabel;
     lab2->setText(trUtf8("Port: "));
 
-    QLabel* lab3 = new QLabel;
-    lab3->setText(trUtf8("Login: "));
-
-    QLabel* lab4 = new QLabel;
-    lab4->setText(trUtf8("Hasło: "));
 
     labLay->addWidget(lab1);
     labLay->addWidget(lab2);
-    labLay->addWidget(lab3);
-    labLay->addWidget(lab4);
 
     edit1 = new QLineEdit;
     lab1->setBuddy(edit1);
@@ -491,16 +359,9 @@ ConclusionPage::ConclusionPage(QWidget *parent)
     edit2 = new QLineEdit;
     lab2->setBuddy(edit2);
 
-    QLineEdit* edit3 = new QLineEdit;
-    lab3->setBuddy(edit3);
-
-    QLineEdit* edit4 = new QLineEdit;
-    lab4->setBuddy(edit4);
 
     datLay->addWidget(edit1);
     datLay->addWidget(edit2);
-    datLay->addWidget(edit3);
-    datLay->addWidget(edit4);
 
     mainL->addLayout(labLay);
     mainL->addLayout(datLay);
@@ -537,27 +398,27 @@ ConclusionPage::ConclusionPage(QWidget *parent)
         radioButton11->setCheckable(true);
 
         connect(radioButton1, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setGmail);
+                    this, &EmailPage::setGmail);
         connect(radioButton2, &QAbstractButton::toggled,
-                    this, &ConclusionPage::seto2);
+                    this, &EmailPage::seto2);
         connect(radioButton3, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setInteria);
+                    this, &EmailPage::setInteria);
         connect(radioButton4, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setOnet);
+                    this, &EmailPage::setOnet);
         connect(radioButton5, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setWP);
+                    this, &EmailPage::setWP);
         connect(radioButton6, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setYahoo);
+                    this, &EmailPage::setYahoo);
         connect(radioButton7, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setHotMail);
+                    this, &EmailPage::setHotMail);
         connect(radioButton8, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setGazeta);
+                    this, &EmailPage::setGazeta);
         connect(radioButton9, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setAol);
+                    this, &EmailPage::setAol);
         connect(radioButton10, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setFoxMail);
+                    this, &EmailPage::setFoxMail);
         connect(radioButton11, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setOutlook);
+                    this, &EmailPage::setOutlook);
 
         groupBoxLayout->addWidget(radioButton1);
         groupBoxLayout->addWidget(radioButton2);
@@ -589,11 +450,11 @@ ConclusionPage::ConclusionPage(QWidget *parent)
         radioButton3_3->setCheckable(true);
 
         connect(radioButton1_1, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setSSL);
+                    this, &EmailPage::setSSL);
         connect(radioButton2_2, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setTCP);
+                    this, &EmailPage::setTCP);
         connect(radioButton3_3, &QAbstractButton::toggled,
-                    this, &ConclusionPage::setTLS);
+                    this, &EmailPage::setTLS);
 
         groupBoxLayout2->addWidget(radioButton1_1);
         groupBoxLayout2->addWidget(radioButton2_2);
@@ -609,8 +470,6 @@ ConclusionPage::ConclusionPage(QWidget *parent)
 
     registerField("host", edit1);
     registerField("port", edit2);
-    registerField("user", edit3);
-    registerField("password", edit4);
 
 
     label = new QLabel;
@@ -621,30 +480,21 @@ ConclusionPage::ConclusionPage(QWidget *parent)
     layout->addLayout(mainLSmtp);
     layout->addWidget(label);
     setLayout(layout);
+
 }
 
 
-void ConclusionPage::initializePage()
+void EmailPage::initializePage()
 {
-  //  bool ifattach = field("attachedFile").toBool();
+
     checkedMailButton = false;
     protocol = QString();
     checkedMail = QString();
     checkedPortButton = false;
 
-
-  //  if (ifattach) {
-//
-//    }
-
-    QString finishText = wizard()->buttonText(QWizard::FinishButton);
-    finishText.remove('&');
-    label->setText(trUtf8("Wybierz \"%1\", żeby wysłać wiadomość.")
-                   .arg(finishText));
 }
 
-
-void ConclusionPage::setHostPort(QString checked, QString protocol) {
+void EmailPage::setHostPort(QString checked, QString protocol) {
 
     if (checked == "Gmail")
     {
@@ -737,7 +587,7 @@ void ConclusionPage::setHostPort(QString checked, QString protocol) {
 }
 
 
-void ConclusionPage::setSSL(bool) {
+void EmailPage::setSSL(bool) {
 
     if (!checkedMailButton) QMessageBox::warning(this, "Zaznaczenie skrzynki pocztowej", "Zaznacz jeszcze jedną ze skrzynek pocztowych po lewej stronie.");
     checkedPortButton = true;
@@ -746,7 +596,7 @@ void ConclusionPage::setSSL(bool) {
 }
 
 
-void ConclusionPage::setTCP(bool) {
+void EmailPage::setTCP(bool) {
 
     if (!checkedMailButton) QMessageBox::warning(this, "Zaznaczenie skrzynki pocztowej", "Zaznacz jeszcze jedną ze skrzynek pocztowych po lewej stronie.");
     checkedPortButton = true;
@@ -755,7 +605,7 @@ void ConclusionPage::setTCP(bool) {
 }
 
 
-void ConclusionPage::setTLS(bool) {
+void EmailPage::setTLS(bool) {
 
     if (!checkedMailButton) QMessageBox::warning(this, "Zaznaczenie skrzynki pocztowej", "Zaznacz jeszcze jedną ze skrzynek pocztowych po lewej stronie.");
     checkedPortButton = true;
@@ -764,7 +614,7 @@ void ConclusionPage::setTLS(bool) {
 }
 
 
-void ConclusionPage::setGmail(bool) {
+void EmailPage::setGmail(bool) {
 
     checkedMailButton = true;
     checkedMail = "Gmail";
@@ -772,7 +622,7 @@ void ConclusionPage::setGmail(bool) {
 }
 
 
-void ConclusionPage::setOnet(bool) {
+void EmailPage::setOnet(bool) {
 
     checkedMailButton = true;
     checkedMail = "Onet";
@@ -780,7 +630,7 @@ void ConclusionPage::setOnet(bool) {
 }
 
 
-void ConclusionPage::seto2(bool) {
+void EmailPage::seto2(bool) {
 
     checkedMailButton = true;
     checkedMail = "o2";
@@ -788,7 +638,7 @@ void ConclusionPage::seto2(bool) {
 }
 
 
-void ConclusionPage::setInteria(bool) {
+void EmailPage::setInteria(bool) {
 
     checkedMailButton = true;
     checkedMail = "Interia";
@@ -796,7 +646,7 @@ void ConclusionPage::setInteria(bool) {
 }
 
 
-void ConclusionPage::setWP(bool) {
+void EmailPage::setWP(bool) {
 
     checkedMailButton = true;
     checkedMail = "WP";
@@ -804,7 +654,7 @@ void ConclusionPage::setWP(bool) {
 }
 
 
-void ConclusionPage::setYahoo(bool) {
+void EmailPage::setYahoo(bool) {
 
     checkedMailButton = true;
     checkedMail = "Yahoo";
@@ -812,7 +662,7 @@ void ConclusionPage::setYahoo(bool) {
 }
 
 
-void ConclusionPage::setHotMail(bool) {
+void EmailPage::setHotMail(bool) {
 
     checkedMailButton = true;
     checkedMail = "HotMail (stare serwery)";
@@ -820,7 +670,7 @@ void ConclusionPage::setHotMail(bool) {
 }
 
 
-void ConclusionPage::setGazeta(bool) {
+void EmailPage::setGazeta(bool) {
 
     checkedMailButton = true;
     checkedMail = "Gazeta";
@@ -828,7 +678,7 @@ void ConclusionPage::setGazeta(bool) {
 }
 
 
-void ConclusionPage::setAol(bool) {
+void EmailPage::setAol(bool) {
 
     checkedMailButton = true;
     checkedMail = "Aol";
@@ -836,7 +686,7 @@ void ConclusionPage::setAol(bool) {
 }
 
 
-void ConclusionPage::setFoxMail(bool) {
+void EmailPage::setFoxMail(bool) {
 
     checkedMailButton = true;
     checkedMail = "Foxmail / QQMail";
@@ -844,9 +694,153 @@ void ConclusionPage::setFoxMail(bool) {
 }
 
 
-void ConclusionPage::setOutlook(bool) {
+void EmailPage::setOutlook(bool) {
 
     checkedMailButton = true;
     checkedMail = "Outlook";
     if (checkedPortButton) setHostPort(checkedMail, protocol);
 }
+
+
+ConclusionPage::ConclusionPage(QWidget *parent)
+    : QWizardPage(parent)
+{
+
+    setTitle(tr("Wprowadzanie danych"));
+    setSubTitle(tr("Wybierz jeden z szablonów do wygenerowania"
+                   " treści lub wprowadź własną. Wybierz \"Zakończ\", żeby zamknąć okno. Pamiętaj, aby przed zamknięciem wysłać wiadomość. Tymczasowo program po wysłaniu wiadomości kończy działanie, jednak po wysłaniu wiadomości."));
+
+    emailWindow = new EmailWindow;
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget(emailWindow);
+    setLayout(layout);
+
+    connect(emailWindow->getTemplate_1(), SIGNAL(toggled(bool)),
+                this, SLOT(getTemplateOne(bool)));
+    connect(emailWindow->getTemplate_2(), SIGNAL(toggled(bool)),
+                this, SLOT(getTemplateTwo(bool)));
+    connect(emailWindow->getTemplate_3(), SIGNAL(toggled(bool)),
+                this, SLOT(getTemplateThree(bool)));
+
+}
+
+
+void ConclusionPage::initializePage()
+{
+
+    emailWindow->setServerName(field("host").toString());
+    emailWindow->setPortNumber(field("port").toString());
+    emailWindow->setRecipMail(field("emailData").toString());
+
+    QSettings settings("elinux", "user");
+    settings.beginGroup("choosenSeller");
+    emailWindow->setUserName(settings.value("email").toString());
+    settings.endGroup();
+
+    QString finishText = wizard()->buttonText(QWizard::FinishButton);
+    finishText.remove('&');
+
+}
+
+
+void ConclusionPage::getTemplateOne(bool)
+{
+    QDir allFiles;
+    allFiles.setPath(sett().getPdfDir());
+    allFiles.setFilter(QDir::Files);
+    QStringList filters;
+    filters << field("invtypeData").toString() + "*-" + field("symbolData").toString() + ".pdf";
+
+    allFiles.setNameFilters(filters);
+    QStringList files = allFiles.entryList();
+   // QMessageBox::information(this, "", files.first());
+        QFile* plik = new QFile(sett().getPdfDir() + "/" + files.at(0));
+
+    QSettings settings("elinux", "user");
+
+    settings.beginGroup("choosenSeller");
+    emailWindow->setSubject("Faktura od " + settings.value("name").toString() + " nr " + field("symbolData").toString());
+
+    emailWindow->setMessage("Szanowni Państwo, \n \tFirma " + settings.value("name").toString() + " przesyła Państwu dokument w formie elektronicznej: \n"
+                            + field("invtypeData").toString() + " Nr. " + field("symbolData").toString() + " na kwotę: " + field("sumData").toString() + " " + field("currData").toString() + "\n\n"
+                           "Dokument został wysłany jako załącznik do tej wiadomości. \n\n"
+                           "Pozdrawiamy, \n" +
+                           settings.value("name").toString());
+
+    emailWindow->addNextFile(plik->fileName());
+    emailWindow->addFile(plik->fileName());
+
+    settings.endGroup();
+}
+
+
+void ConclusionPage::getTemplateTwo(bool)
+{
+    QDir allFiles;
+    allFiles.setPath(sett().getPdfDir());
+    allFiles.setFilter(QDir::Files);
+    QStringList filters;
+    filters << field("invtypeData").toString() + "*-" + field("symbolData").toString() + ".pdf";
+
+    allFiles.setNameFilters(filters);
+    QStringList files = allFiles.entryList();
+   // QMessageBox::information(this, "", files.first());
+        QFile* plik = new QFile(sett().getPdfDir() + "/" + files.at(0));
+
+    QSettings settings("elinux", "user");
+
+    settings.beginGroup("choosenSeller");
+    emailWindow->setSubject("Przypomnienie o terminie zapłaty");
+
+    emailWindow->setMessage("Szanowni Państwo, \n \tUprzejmie informujemy, iż do dnia dzisiejszego nie otrzymaliśmy zapłaty należności wynikających z następujących faktur: \n"
+                            + field("invtypeData").toString() + " Nr. " + field("symbolData").toString() + " na kwotę " + field("sumData").toString() + " " + field("currData").toString() + " \n\n"
+                            "W związku z tym prosimy o uregulowanie w terminie 14 od dnia otrzymania niniejszego pisma wyżej wymienionych kwot wraz z odsetkami za opóźnienie w płatności każdej z faktur.\n\n"
+                            "Wpłaty prosimy dokonać na podany niżej rachunek bankowy:\n\n"
+                            + settings.value("account").toString() + "\n\n"
+                            "Pozdrawiamy, \n" +
+                            settings.value("name").toString());
+
+    emailWindow->removeLastFile(plik->fileName());
+    emailWindow->removeFile(plik->fileName());
+
+    settings.endGroup();
+}
+
+
+void ConclusionPage::getTemplateThree(bool)
+{
+
+    QDir allFiles;
+    allFiles.setPath(sett().getPdfDir());
+    allFiles.setFilter(QDir::Files);
+    QStringList filters;
+    filters << field("invtypeData").toString() + "*-" + field("symbolData").toString() + ".pdf";
+
+    allFiles.setNameFilters(filters);
+    QStringList files = allFiles.entryList();
+   // QMessageBox::information(this, "", files.first());
+        QFile* plik = new QFile(sett().getPdfDir() + "/" + files.at(0));
+
+    QSettings settings("elinux", "user");
+    ConvertAmount* conv = new ConvertAmount;
+
+    settings.beginGroup("choosenSeller");
+    emailWindow->setSubject("Ostateczne wezwanie do zapłaty");
+
+    emailWindow->setMessage("Szanowni Państwo, \n \tNiniejszym wzywamy Państwa do zapłaty w terminie 14 dni od dnia doręczenia wezwania "
+                            "kwoty " + field("sumData").toString() + " (słownie: " + conv->convertPL(field("sumData").toString(), field("currData").toString()) + " ) wraz z odsetkami za opóźnienie w płatnościach. \n"
+                            "Powyższa należność wynika z następujących faktur: \n\n"
+                            + field("invtypeData").toString() + " Nr. " + field("symbolData").toString() + "\n\n"
+                            "Podaną wyżej kwotę prosimy wpłacić na podany niżej rachunek bankowy:\n\n"
+                            + settings.value("bank").toString() + "\n"
+                            + settings.value("account").toString() + "\n\n"
+                            "Prosimy traktować niniejsze pismo jako ostateczne wezwanie przedprocesowe.\n\n"
+                            "Pozdrawiamy, \n" +
+                            settings.value("name").toString());
+
+    emailWindow->removeLastFile(plik->fileName());
+    emailWindow->removeFile(plik->fileName());
+
+    settings.endGroup();
+}
+

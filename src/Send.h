@@ -16,7 +16,7 @@
 #include <QTableWidget>
 #include <QTextEdit>
 
-#include "smtpclient.h"
+#include "mainwindow.h"
 #include "Buyers.h"
 
 
@@ -26,7 +26,7 @@ class Send : public QWizard
 
 public:
     Send(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
-    SmtpClient::ConnectionType getProtocol() const;
+   // SmtpClient::ConnectionType getProtocol() const;
 
     void accept() override;
 
@@ -71,35 +71,11 @@ class EmailPage : public QWizardPage
 
 public:
     EmailPage(QWidget *parent = 0);
-
-protected:
-    void initializePage() override;
-
-
-private slots:
-    void getTemplateOne(bool);
-    void getTemplateTwo(bool);
-    void getTemplateThree(bool);
-
-private:
-    QLineEdit *emailLine;
-    QLineEdit *copyLine;
-    QLineEdit *titleLine;
-   // QCheckBox* attachFile;
-    QTextEdit *message;
-    QGroupBox *groupBox;
-};
-
-class ConclusionPage : public QWizardPage
-{
-    Q_OBJECT
-
-public:
-    ConclusionPage(QWidget *parent = 0);
     void setHostPort(QString,QString);
 
 protected:
     void initializePage() override;
+
 
 private slots:
     void setSSL(bool);
@@ -126,6 +102,27 @@ private:
     QString checkedMail;
     QLineEdit* edit1;
     QLineEdit* edit2;
+
+};
+
+class ConclusionPage : public QWizardPage
+{
+    Q_OBJECT
+
+public:
+    ConclusionPage(QWidget *parent = 0);
+
+
+protected:
+    void initializePage() override;
+
+private slots:    
+    void getTemplateOne(bool);
+    void getTemplateTwo(bool);
+    void getTemplateThree(bool);
+
+private: 
+    EmailWindow* emailWindow;
 
 };
 
