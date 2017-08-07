@@ -26,7 +26,6 @@ class Send : public QWizard
 
 public:
     Send(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
-   // SmtpClient::ConnectionType getProtocol() const;
 
     void accept() override;
 

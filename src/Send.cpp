@@ -25,107 +25,13 @@ Send::Send(QVector<BuyerData> buyersList, QVector<InvoiceData> invList, QWidget 
     setWindowTitle(trUtf8("Generowanie wiadomości"));
 }
 
-
-/*SmtpClient::ConnectionType Send::getProtocol() const {
-
-    if (field("port").toInt() == 25) return SmtpClient::TcpConnection;
-    else if (field("port").toInt() == 465) return SmtpClient::SslConnection;
-    else if (field("port").toInt() == 587) return SmtpClient::TlsConnection;
-
-    return SmtpClient::SslConnection;
-}*/
-
-
+// accepts end of QWizard
 void Send::accept()
 {
-
-
-   /* SmtpClient smtp(field("host").toString(), field("port").toInt(), getProtocol());
-
-        // We need to set the username (your email address) and the password
-        // for smtp authentification.
-
-        smtp.setUser(field("user").toString());
-        smtp.setPassword(field("password").toString());
-
-        // Now we create a MimeMessage object. This will be the email.
-        QSettings settings("elinux", "user");
-
-        settings.beginGroup("choosenSeller");
-
-        MimeMessage message;
-
-        message.setSender(new EmailAddress(settings.value("email").toString(), settings.value("name").toString()));
-        message.addRecipient(new EmailAddress(field("Email").toString(), field("nameData").toString()));
-        message.setSubject(field("Title").toString());
-        settings.endGroup();
-
-        // Now add some text to the email.
-        // First we create a MimeText object.
-
-        MimeText text;
-
-        text.setCharset("utf-8");
-        text.setEncoding(MimePart::QuotedPrintable);
-
-        text.setText(field("Message").toString());
-
-        // Now add it to the mail
-
-        message.addPart(&text);
-
-
-        if (field("attachedFile").toBool()) {
-
-            // Now we create the attachment object
-            QDir allFiles;
-            allFiles.setPath(sett().getPdfDir());
-            allFiles.setFilter(QDir::Files);
-            QStringList filters;
-            filters << field("invtypeData").toString() + "*-" + field("symbolData").toString() + ".pdf";
-
-            allFiles.setNameFilters(filters);
-            QStringList files = allFiles.entryList();
-            QMessageBox::information(this, "", files.first());
-                QFile* plik = new QFile(sett().getPdfDir() + "/" + files.at(0));
-                if (plik->exists()) QMessageBox::information(new QWidget, "", "Plik istnieje");
-                else QMessageBox::information(new QWidget, "", "Plik nie istnieje");
-                MimeAttachment attachment (plik);
-                attachment.setCharset("utf-8");
-                // the file type can be setted. (by default is application/octet-stream)
-                attachment.setContentType("application/pdf");
-            //    const QString contentId("Faktura");
-            //    const QString contentName("Treść faktury");
-            //    attachment.setContentId(contentId);
-            //    attachment.setContentName(contentName);
-
-            //    attachment.setEncoding(MimePart::Encoding::QuotedPrintable);
-
-                // Now add it to message
-                message.addPart(&attachment);
-        }
-
-        QMessageBox::information(new QWidget, "", message.getParts().at(0)->getCharset());
-
-        // Now we can send the mail
-
-        //smtp.getResponseText();
-        //smtp.getResponseCode();
-
-        if (smtp.connectToHost()) QMessageBox::information(this, "Łączenie z hostem", "Połączenie z hostem zakończyło się sukcesem");
-        else QMessageBox::information(this, "Łączenie z hostem", "Połączenie z hostem nie powiodło się");
-        smtp.login();
-        if (smtp.sendMail(message)) QMessageBox::information(this, "Wysyłanie wiadomości", "Wiadomość została poprawnie wysłana");
-        else QMessageBox::warning(this, "Wysyłanie wiadomości", "Wiadomość nie mogła zostać wysłana. Wystąpił błąd.");
-        smtp.quit();*/
-
-
-    // -------------------
-
     QDialog::accept();
 }
 
-
+// First page of QWizard with Intro
 IntroPage::IntroPage(QWidget *parent)
     : QWizardPage(parent)
 {
@@ -142,7 +48,7 @@ IntroPage::IntroPage(QWidget *parent)
     setLayout(layout);
 }
 
-
+// Second page with invoice choice
 ClassInvoicePage::ClassInvoicePage(QVector<BuyerData> buyList, QVector<InvoiceData> invList, QWidget *parent)
     : QWizardPage(parent)
 {
@@ -183,10 +89,11 @@ ClassInvoicePage::ClassInvoicePage(QVector<BuyerData> buyList, QVector<InvoiceDa
 
 }
 
-
+// "This virtual function is called by QWizard::validateCurrentPage() when the user clicks Next or Finish to perform some last-minute validation.
+//If it returns true, the next page is shown (or the wizard finishes); otherwise, the current page stays up." From http://doc.qt.io/qt-5/qwizardpage.html#validatePage
 bool ClassInvoicePage::validatePage() {
 
-
+    // extra for registerField. See table on http://doc.qt.io/qt-5/qwizardpage.html#registerField
     QLineEdit* QLineEmail = new QLineEdit;
     QLineEdit* QLineName = new QLineEdit;
     QLineEdit* QLineSymbol = new QLineEdit;
@@ -315,7 +222,7 @@ bool ClassInvoicePage::validatePage() {
     }
 }
 
-
+// transform short types to normal text for email message
 QString ClassInvoicePage::transformType(QString text)
 {
     if (text == "FVAT") return s_INVOICE;
@@ -330,7 +237,7 @@ QString ClassInvoicePage::transformType(QString text)
     return s_INVOICE;
 }
 
-
+// Third page for helping choice of host and protocol for email account
 EmailPage::EmailPage(QWidget *parent)
     : QWizardPage(parent)
 {
@@ -483,7 +390,7 @@ EmailPage::EmailPage(QWidget *parent)
 
 }
 
-
+// what's going on before page is shown
 void EmailPage::initializePage()
 {
 
@@ -494,6 +401,7 @@ void EmailPage::initializePage()
 
 }
 
+// what's going on when QRadioButtons (with host names and protocols) are checked
 void EmailPage::setHostPort(QString checked, QString protocol) {
 
     if (checked == "Gmail")
@@ -701,7 +609,7 @@ void EmailPage::setOutlook(bool) {
     if (checkedPortButton) setHostPort(checkedMail, protocol);
 }
 
-
+// Last page with email form, where some informations are ready in QLineEdits
 ConclusionPage::ConclusionPage(QWidget *parent)
     : QWizardPage(parent)
 {
@@ -724,7 +632,7 @@ ConclusionPage::ConclusionPage(QWidget *parent)
 
 }
 
-
+// what's going on before last page is shown. Preparing...
 void ConclusionPage::initializePage()
 {
 
@@ -753,7 +661,6 @@ void ConclusionPage::getTemplateOne(bool)
 
     allFiles.setNameFilters(filters);
     QStringList files = allFiles.entryList();
-   // QMessageBox::information(this, "", files.first());
         QFile* plik = new QFile(sett().getPdfDir() + "/" + files.at(0));
 
     QSettings settings("elinux", "user");
@@ -784,7 +691,6 @@ void ConclusionPage::getTemplateTwo(bool)
 
     allFiles.setNameFilters(filters);
     QStringList files = allFiles.entryList();
-   // QMessageBox::information(this, "", files.first());
         QFile* plik = new QFile(sett().getPdfDir() + "/" + files.at(0));
 
     QSettings settings("elinux", "user");
@@ -818,7 +724,6 @@ void ConclusionPage::getTemplateThree(bool)
 
     allFiles.setNameFilters(filters);
     QStringList files = allFiles.entryList();
-   // QMessageBox::information(this, "", files.first());
         QFile* plik = new QFile(sett().getPdfDir() + "/" + files.at(0));
 
     QSettings settings("elinux", "user");
