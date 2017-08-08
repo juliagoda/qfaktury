@@ -26,7 +26,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - dodanie własnych elementów do listy wyborów stawek VAT, metod płatności, powodów korekty, sposobu numeracji faktur, dopisku, jednostek
 - stworzenie i wczytywanie kopii zapasowej plików konfiguracyjnych oraz głównego katalogu
 - dodanie kolejnych sprzedawców/oddziałów
-- wysłanie e-mail do kontrahentów z możliwością korzystania z gotowych szablonów
+- wysłanie e-mail do kontrahentów wraz z załącznikami z możliwością korzystania z gotowych szablonów
 
 
 <br/>
@@ -79,8 +79,6 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 2. Osoby posiadające faktury z wcześniejszych commit'ów w razie jakichkolwiek niepoprawnych wyników mogą spróbować ponownie zapisać istniejąca fakturę, edytując ją, ponieważ możliwe, że dotychczasowe commit'y uwzględniają zauważone błędy i uzupełnią także pliki XML dodatkowymi danymi, które pozwolą korzystać z pełnej funkcjonalności programu. Zalecane jest także trzymać kopię zapasową plików w innym miejscu.
 
 3. Aktualizacja aktualnego kursu walut następuje co pół godziny, pod warunkiem połączenia z internetem oraz poprawnego ustawienia czasu systemowego
-
-4. Wysyłanie wiadomości z załącznikami jest już możliwe, jednakże program kończy działanie po wysłaniu wiadomości pod wskazany adres i wymaga ponownego uruchomienia.
 
 
 <br/>
