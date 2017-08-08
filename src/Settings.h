@@ -583,6 +583,12 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 	}
 
 
+    QString getPdfDir() {
+
+        return QString(getWorkingDir() + "/pdf-invoices");
+    }
+
+
     QString getEmergTemplate() {
 
         return (QDir::homePath() + "/.local/share/data/elinux/template/black.css");

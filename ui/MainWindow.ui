@@ -513,6 +513,7 @@
     <addaction name="separator"/>
     <addaction name="invoiceDelAction"/>
     <addaction name="invoiceEdAction"/>
+    <addaction name="sendEmailAction"/>
    </widget>
    <widget class="QMenu" name="buyersAct">
     <property name="cursor">
@@ -1145,6 +1146,15 @@
   <action name="actionLoadBackup">
    <property name="text">
     <string>&amp;Wczytaj kopię zapasową</string>
+   </property>
+  </action>
+  <action name="sendEmailAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/wyslij_fakture.png</normaloff>:/res/icons/wyslij_fakture.png</iconset>
+   </property>
+   <property name="text">
+    <string>Wyślij</string>
    </property>
   </action>
  </widget>

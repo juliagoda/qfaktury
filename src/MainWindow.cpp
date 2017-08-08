@@ -21,9 +21,11 @@
 #include "MainWindow.h"
 #include "XmlDataLayer.h"
 #include "InvoiceRR.h"
+#include "Send.h"
 
 
 MainWindow* MainWindow::m_instance = nullptr;
+bool MainWindow::shouldHidden = false;
 
 /** Constructor
  */
@@ -227,6 +229,7 @@ void MainWindow::init() {
     connect(ui->tableK, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showTableMenuK(QPoint)));
     connect(ui->tableT, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(goodsEdit()));
     connect(ui->tableT, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showTableMenuT(QPoint)));
+    connect(ui->sendEmailAction, SIGNAL (triggered()), this, SLOT(sendEmailToBuyer()));
 
 
     connect(ui->tableH, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(mainUpdateStatus(QTableWidgetItem *)));
@@ -243,6 +246,59 @@ void MainWindow::init() {
     checkTodayTask();
 	loadPlugins();
 
+    if (!ifpdfDirExists()) {
+
+        createPdfDir();
+
+    } else {
+
+        QDir _dir(sett().getPdfDir());
+        _dir.setFilter(QDir::Files);
+        QStringList filters;
+        filters << "*.pdf";
+
+        _dir.setNameFilters(filters);
+        QStringList files = _dir.entryList();
+
+        if (files.isEmpty()) generatePdfFromList();
+    }
+
+}
+
+
+bool MainWindow::ifpdfDirExists()
+{
+    QDir mainPath(sett().getPdfDir());
+
+    if (!mainPath.exists()) {
+
+        return false;
+    }
+    else {
+
+        return true;
+    }
+}
+
+
+void MainWindow::createPdfDir()
+{
+    QDir mainPath;
+    mainPath.mkpath(sett().getPdfDir());
+    generatePdfFromList();
+}
+
+
+void MainWindow::generatePdfFromList()
+{
+    shouldHidden = true;
+    for (int i = 0; i < ui->tableH->rowCount(); i++)
+    {
+        ui->tableH->setCurrentCell(i,0);
+        editFHist();
+    }
+
+    shouldHidden = false;
 }
 
 
@@ -2069,4 +2125,14 @@ void MainWindow::reportBug() {
     QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury/issues"));
 }
 
+/** Slot for sending email to buyers
+ */
+
+void MainWindow::sendEmailToBuyer() {
+
+    Send* sendEmailWidget = new Send(dl->buyersSelectAllData(),dl->invoiceSelectAllData(ui->filtrStart->date(), ui->filtrEnd->date()), this);
+    sendEmailWidget->show();
+}
+
 // ----------------------------------------  SLOTS ---------------------------------//
+

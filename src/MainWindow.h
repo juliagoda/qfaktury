@@ -22,6 +22,7 @@ public:
     void newInvoice(Invoice* invoice, QString windowTitle);
     const int getMaxSymbol();
     static MainWindow * instance();
+    static bool shouldHidden;
 
 
 public slots:
@@ -68,6 +69,7 @@ public slots:
     void addNextTask();
     void delTasksFromDay();
     QString changeIfEmpty(QString);
+    void sendEmailToBuyer();
 
 
 protected:
@@ -110,6 +112,9 @@ private:
     bool ifEmergTemplateExists();
     bool applyFiltr(QString);
     bool firstRun();
+    bool ifpdfDirExists();
+    void createPdfDir();
+    void generatePdfFromList();
 
     inline void calendarNoteJustify(QString text) {
 
