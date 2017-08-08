@@ -10,11 +10,11 @@
 
 
 int main(int argc, char **argv) {
-	QApplication a(argc, argv);
+    QApplication* a = new QApplication(argc, argv);
 
 
     // sets language from file chosen in "translations" directory
-    a.installTranslator(sett().getTranslation());
+    a->installTranslator(sett().getTranslation());
 
 
 	QResource::registerResource("qfaktury.rcc"); // using the rcc file so it's more portable
@@ -27,26 +27,29 @@ int main(int argc, char **argv) {
     QSplashScreen splash(QPixmap(":/res/icons/splash.png"));\
 
     // creates instance of main window and move it in according to the screen geometry
-	MainWindow w(0);
-	w.move(screen.center() - QPoint(w.width() / 2, w.height() / 2));
+    MainWindow* w = new MainWindow();
+    w->move(screen.center() - QPoint(w->width() / 2, w->height() / 2));
+
+    QTimer *showSplash = new QTimer();
+    QTimer *closeSplash = new QTimer();
 
     // if argument for app in commandd line is --nosplash, uses no start window
-	if (a.arguments().contains("--nosplash")) {
-		w.show();
+    if (a->arguments().contains("--nosplash")) {
+        w->show();
 	} else {
 
     // else uses start window
-		splash.show();
+        splash.show();
 
-		a.processEvents();
+        a->processEvents();
 
         // when start window should to start
-		QTimer *showSplash = new QTimer();
-		a.connect(showSplash, SIGNAL(timeout()), &w, SLOT(show()));
+        //QTimer *showSplash = new QTimer();
+        a->connect(showSplash, SIGNAL(timeout()), w, SLOT(show()));
 
         // when start window should to be closed
-		QTimer *closeSplash = new QTimer();
-		a.connect(closeSplash, SIGNAL(timeout()), &splash, SLOT(close()));
+        //QTimer *closeSplash = new QTimer();
+        a->connect(closeSplash, SIGNAL(timeout()), &splash, SLOT(close()));
 
         // start of signals
 		showSplash->start(5000);
@@ -54,18 +57,28 @@ int main(int argc, char **argv) {
 	}
 
     // if last window is close, closes down application
-	a.connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
+    a->connect(a, SIGNAL(lastWindowClosed()), a, SLOT(quit()));
 
     // sets icon, application name, organization name and style for app
 	QIcon icon;
 	icon.addPixmap(QPixmap(":/res/icons/qfaktury_48.png"), QIcon::Normal, QIcon::Off);
-	a.setWindowIcon(icon);
-	a.setApplicationName("QFaktury");
-    a.setOrganizationName("https://github.com/juliagoda/qfaktury");
-    a.setApplicationVersion(sett().getVersion(qAppName()));
-    a.setStyle(sett().getStyle());
+    a->setWindowIcon(icon);
+    a->setApplicationName("QFaktury");
+    a->setOrganizationName("https://github.com/juliagoda/qfaktury");
+    a->setApplicationVersion(sett().getVersion(qAppName()));
+    a->setStyle(sett().getStyle());
 
-	return a.exec();
+  //  QMessageBox::information(new QWidget, "ret", QString::number(argc));
+  //  QMessageBox::information(new QWidget, "argv", *argv);
+
+  int ret = a->exec();
+
+    delete w;
+    delete a;
+    delete showSplash;
+    delete closeSplash;
+
+    return ret;
 }
 
 #ifdef WIN32
