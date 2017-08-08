@@ -44,11 +44,9 @@ int main(int argc, char **argv) {
         a->processEvents();
 
         // when start window should to start
-        //QTimer *showSplash = new QTimer();
         a->connect(showSplash, SIGNAL(timeout()), w, SLOT(show()));
 
         // when start window should to be closed
-        //QTimer *closeSplash = new QTimer();
         a->connect(closeSplash, SIGNAL(timeout()), &splash, SLOT(close()));
 
         // start of signals
@@ -67,9 +65,6 @@ int main(int argc, char **argv) {
     a->setOrganizationName("https://github.com/juliagoda/qfaktury");
     a->setApplicationVersion(sett().getVersion(qAppName()));
     a->setStyle(sett().getStyle());
-
-  //  QMessageBox::information(new QWidget, "ret", QString::number(argc));
-  //  QMessageBox::information(new QWidget, "argv", *argv);
 
   int ret = a->exec();
 
