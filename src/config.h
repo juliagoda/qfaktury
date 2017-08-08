@@ -148,3 +148,4 @@ const QStringList blackEmergTemplate = QStringList() << ".page_break {page-break
                                             "margin-right: 50px; \n" <<
                                             "margin-top: 10px; \n" <<
                                             "} \n";
+

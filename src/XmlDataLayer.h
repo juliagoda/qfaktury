@@ -65,10 +65,10 @@ private:
 	void invoiceBuyerElemToData(InvoiceData &o_invData, QDomElement i_element);
     void invoiceProdDataToElem(const ProductData &i_prodData, QDomElement &o_element, int currentRow);
 	void invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element);
-    bool ifPersonNodeExists(QDomElement root);
-    void addSectionPerson(bool checkedRoot);
 
 	bool nameFilter(QString nameToCheck, QDate start, QDate end);
+    bool ifPersonNodeExists(QDomElement root);
+    void addSectionPerson(bool checkedRoot);
 
     QString ret;
     QList<int> allSymbols;

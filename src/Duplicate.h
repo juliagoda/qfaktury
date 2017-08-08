@@ -8,6 +8,7 @@
 #ifndef DUPLICATE_H_
 #define DUPLICATE_H_
 
+#include <KDateComboBox>
 #include "Invoice.h"
 
 
@@ -37,7 +38,7 @@ protected:
 
 private:
 
-    QDateEdit* duplicateDate;
+    KDateComboBox* duplicateDate;
     QLabel* labelDupDate;
     bool editMode;
 

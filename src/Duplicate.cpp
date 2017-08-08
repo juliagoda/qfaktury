@@ -30,10 +30,11 @@ void Duplicate::duplicateInit() {
 	labelDupDate->setAlignment(Qt::AlignRight);
 	addDataLabels->addWidget(labelDupDate);
 
-    duplicateDate = new QDateEdit(this);
+    duplicateDate = new KDateComboBox(this);
     duplicateDate->setObjectName(QString::fromUtf8("duplicateDate"));
-    duplicateDate->setCalendarPopup(true);
-    duplicateDate->setDisplayFormat(sett().getDateFormat());
+  //  duplicateDate->setCalendarPopup(true);
+    duplicateDate->setDisplayFormat(QLocale::ShortFormat);
+   // duplicateDate->setDisplayFormat(sett().getDateFormat());
 
     if (!editMode) {
 

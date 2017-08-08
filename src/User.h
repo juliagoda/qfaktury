@@ -26,6 +26,5 @@ private slots:
 private:
     QList<QWidget*> sellersWidgets;
 
-
 };
 #endif

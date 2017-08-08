@@ -196,8 +196,6 @@ bool Buyers::validate() {
 
     }
 
-
-
     if (!accountEdit->text().isEmpty()) {
         if (!Validations::instance()->validateAccount(accountEdit->text())) return false;
         if (!Validations::instance()->checkSumAccount(accountEdit->text())) return false;

@@ -5,12 +5,55 @@
 #include <QSplashScreen>
 #include <QTranslator>
 #include <QStyle>
+#include <KAboutData>
+#include <QCommandLineParser>
+#include <KLocalizedString>
+
 
 #include "MainWindow.h"
 
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
+
+    KLocalizedString::setApplicationDomain("mainwindow_ui");
+
+
+    KAboutData aboutData(
+                             // The program name used internally. (componentName)
+                             QStringLiteral("mainwindow_ui"),
+                             // A displayable program name string. (displayName)
+                             QString("QFaktury"),
+                             // The program version string. (version)
+                             sett().getVersion(qAppName()),
+                             // Short description of what the app does. (shortDescription)
+                             QString("Aplikacja do zarządzania fakturami"),
+                             // The license this code is released under
+                             KAboutLicense::GPL,
+                             // Copyright Statement (copyrightStatement = QString())
+                             QString("(c) 2017"),
+                             // Optional text shown in the About box.
+                             // Can contain any information desired. (otherText)
+                             QString("QFaktury to darmowy system fakturujący, pracujący w systemach Linux. Umożliwia on drukowanie faktur, faktur pro forma, rachunków, korekt i duplikatów. Umożliwia zarządzanie bazą faktur, towarów i kontrahentów."),
+                             // The program homepage string. (homePageAddress = QString())
+                             QString("https://github.com/juliagoda/qfaktury"),
+                             // The bug report email address
+                             // (bugsEmailAddress = QLatin1String("submit@bugs.kde.org")
+                             QString("https://github.com/juliagoda/qfaktury/issues"));
+        aboutData.addAuthor(QString("Jagoda \"juliagoda\" Górska"), QString("Programista"), QStringLiteral("juliagoda.de@gmail.com"),
+                            QStringLiteral("https://github.com/juliagoda"), QStringLiteral(""));
+        aboutData.addAuthor(QString("Piotr \"sir_lucjan\" Górski"), QString("Tester w środowisku Arch Linux"), QStringLiteral("lucjan.lucjanov@gmail.com"),
+                            QStringLiteral("https://github.com/sirlucjan"), QStringLiteral(""));
+        aboutData.addAuthor(QString("Paweł \"pavbaranov\" Baranowski"), QString("Tester w środowisku Arch Linux"), QStringLiteral(""),
+                            QStringLiteral("http://linux-pavbaranov.blogspot.in"), QStringLiteral(""));
+        KAboutData::setApplicationData(aboutData);
+
+        QCommandLineParser parser;
+        parser.addHelpOption();
+        parser.addVersionOption();
+        aboutData.setupCommandLine(&parser);
+        parser.process(a);
+        aboutData.processCommandLine(&parser);
 
 
     // sets language from file chosen in "translations" directory
@@ -27,12 +70,12 @@ int main(int argc, char **argv) {
     QSplashScreen splash(QPixmap(":/res/icons/splash.png"));\
 
     // creates instance of main window and move it in according to the screen geometry
-	MainWindow w(0);
-	w.move(screen.center() - QPoint(w.width() / 2, w.height() / 2));
+    MainWindow* w = new MainWindow;
+    w->move(screen.center() - QPoint(w->width() / 2, w->height() / 2));
 
     // if argument for app in commandd line is --nosplash, uses no start window
 	if (a.arguments().contains("--nosplash")) {
-		w.show();
+        w->show();
 	} else {
 
     // else uses start window
@@ -42,7 +85,7 @@ int main(int argc, char **argv) {
 
         // when start window should to start
 		QTimer *showSplash = new QTimer();
-		a.connect(showSplash, SIGNAL(timeout()), &w, SLOT(show()));
+        a.connect(showSplash, SIGNAL(timeout()), w, SLOT(show()));
 
         // when start window should to be closed
 		QTimer *closeSplash = new QTimer();
@@ -65,7 +108,12 @@ int main(int argc, char **argv) {
     a.setApplicationVersion(sett().getVersion(qAppName()));
     a.setStyle(sett().getStyle());
 
-	return a.exec();
+    int ret = a.exec();
+
+    if (w != 0) w = 0;
+    delete w;
+
+    return ret;
 }
 
 #ifdef WIN32

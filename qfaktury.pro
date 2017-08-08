@@ -4,15 +4,26 @@
 TEMPLATE = app
 TARGET = qfaktury
 
-QT += gui core widgets printsupport xml webenginewidgets network
-
 LIBDIR = /usr/lib
+QUAZIPCODEDIR = $$PWD/src/quazip-0.7.3/quazip
 SMTPCODEDIR = $$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements
 
+QT += gui core widgets printsupport xml webenginewidgets network KCoreAddons KXmlGui KI18n KWidgetsAddons
 CONFIG += debug
 QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
 QT_MINOR_VERSION = 5.0.0
+
+
+exists( /usr/lib/libquazip5.so ) {
+unix:LIBS += -L$${LIBDIR} -lquazip5
+win32:LIBS += -L$${LIBDIR} -lquazip5dll
+}
+
+exists( /usr/lib/libquazip.so ) {
+unix:LIBS += -L$${LIBDIR} -lquazip
+win32:LIBS += -L$${LIBDIR} -lquazipdll
+}
 
 exists( /usr/lib/libsmtp.so ) {
 unix:LIBS += -L$${LIBDIR} -lsmtp
@@ -23,17 +34,18 @@ unix:LIBS += -L$${LIBDIR} -lz
 win32:LIBS += -L$${LIBDIR} -lzdll
 
 INCLUDEPATH += . \
+            $${QUAZIPCODEDIR} \
             $${SMTPCODEDIR} \
             $${LIBDIR}
 
 # Input
 HEADERS += $$files($$PWD/src/*.h) \
-            $${SMTPCODEDIR}/*.h
+            $${SMTPCODEDIR}/*.h \
+            $${QUAZIPCODEDIR}/*.h \
 
 
 FORMS += $$files($$PWD/ui/*.ui) \
         $$files($$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements/*.ui)
-
 
 SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/BuyerData.cpp \
@@ -58,6 +70,8 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/ChangeAmount.cpp \
     $$PWD/src/Validations.cpp \
     $$PWD/src/InvoiceRR.cpp \
+    $${QUAZIPCODEDIR}/*.cpp \
+    $${QUAZIPCODEDIR}/*.c \
     $${SMTPCODEDIR}/*.cpp \
     $$PWD/src/Send.cpp
 
@@ -67,7 +81,6 @@ MOC_DIR = .moc
 UI_DIR = .ui
 OBJECTS_DIR = .obj
 RCC_DIR = .rcc
-TRANSLATIONS += $$files($$PWD/translations/*.ts)
 
 
 unix {

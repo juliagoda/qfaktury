@@ -16,7 +16,6 @@
 Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycję i drukowanie faktur VAT, Brutto, RR, Pro Forma, Rachunku, Korekty i Duplikatu. Dodatkowo pozwala na dodanie kontrahenta oraz towaru bądź usługi do tworzonej faktury. Program oferuje:
 
 - zmianę waluty według aktualnego kursu ze strony NBP
-- wybór języka polskiego, niemieckiego lub angielskiego
 - walidację wprowadzanych danych oraz sprawdzanie sum kontrolnych
 - wybór trzech szablonów drukowania
 - wydrukowanie listy kontrahentów wraz z danymi
@@ -25,7 +24,9 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - prowadzenie organizera z kalendarzem
 - przedstawienie słownie kwoty na fakturze w formacie od dziesiątek po miliardy wraz z wartościami po przecinku
 - dodanie własnych elementów do listy wyborów stawek VAT, metod płatności, powodów korekty, sposobu numeracji faktur, dopisku, jednostek
-- wysyłanie wiadomości e-mail wraz z załącznikami do kontrahentów
+- stworzenie i wczytywanie kopii zapasowej plików konfiguracyjnych oraz głównego katalogu
+- dodanie kolejnych sprzedawców/oddziałów
+- wysłanie e-mail do kontrahentów z możliwością korzystania z gotowych szablonów
 
 
 <br/>
@@ -37,6 +38,9 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - dowolna dystrybucja Linux
 - biblioteka Qt w wersji wyższej lub równej 5.0.0
 - paczki qt5-base qt5-webengine (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
+- paczki kwidgetsaddons, kxmlgui, ki18n, kcoreaddons (dla modułów KF5 - KCoreAddons, KXmlGui, KI18n, KWidgetsAddons)
+- zlib w wersji wyższej lub równej 1.2.11
+- quazip w wersji wyższej lub równej 0.7.3
 - połączenie z internetem (opcjonalne)
 - aktualny czas systemowy (opcjonalne)
 
@@ -76,6 +80,8 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 2. Osoby posiadające faktury z wcześniejszych commit'ów w razie jakichkolwiek niepoprawnych wyników mogą spróbować ponownie zapisać istniejąca fakturę, edytując ją, ponieważ możliwe, że dotychczasowe commit'y uwzględniają zauważone błędy i uzupełnią także pliki XML dodatkowymi danymi, które pozwolą korzystać z pełnej funkcjonalności programu. Zalecane jest także trzymać kopię zapasową plików w innym miejscu.
 
 3. Aktualizacja aktualnego kursu walut następuje co pół godziny, pod warunkiem połączenia z internetem oraz poprawnego ustawienia czasu systemowego
+
+4. Portowanie na KF5 w trakcie
 
 
 <br/>

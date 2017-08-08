@@ -10,7 +10,6 @@
 #include "Const.h"
 
 
-
 short invType;
 Invoice* Invoice::m_instance = nullptr;
 
@@ -1620,6 +1619,9 @@ bool Invoice::saveInvoice() {
 
     result = dataLayer->invoiceInsertData(invData, type);
     ret = dataLayer->getRet();
+    MainWindow::instance()->shouldHidden = true;
+    makeInvoice();
+    MainWindow::instance()->shouldHidden = false;
 
 
     if (!result) {
@@ -1742,6 +1744,19 @@ void Invoice::printSlot(QPrinter *printer) {
 
     doc.setHtml(s);
     doc.print(printer);
+
+
+    QTextDocument docPdf(invoiceType);
+    docPdf.setHtml(s);
+
+    QPrinter printerPdf(QPrinter::HighResolution);
+    printerPdf.setOutputFormat(QPrinter::PdfFormat);
+
+    QStringList buyer = buyerName->text().split(",");
+    printerPdf.setOutputFileName(sett().getPdfDir() + "/" + invoiceType + "-" + buyer.at(0) + "-" + sellingDate->date().toString("dd.MM.yy") + "-" + invNr->text() + ".pdf");
+
+    docPdf.print(&printerPdf);
+    printerPdf.newPage();
 }
 
 /** Slot
@@ -1753,15 +1768,21 @@ void Invoice::print() {
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  ;
 
 	QPrinter printer(QPrinter::HighResolution);
+    if (!MainWindow::instance()->shouldHidden) {
 	QPrintPreviewDialog preview(&printer, this);
-	preview.setWindowFlags(Qt::Window);
+    preview.setWindowFlags(Qt::Window);
 	preview.setWindowTitle(invoiceType + s_WIN_PRINTPREVIEW);
+
 
 	connect(&preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(printSlot(QPrinter *)));
     if (preview.exec() == 1) {
 
-        QMessageBox::warning(this,trUtf8("Drukowanie"),trUtf8("Prawdopobnie nie masz skonfigurowanej drukarki. Wykrywana nazwa domyślnej drukarki to: ") + printer.printerName() +
+        QMessageBox::warning(this,trUtf8("Drukowanie"),trUtf8("Prawdopobnie nie masz skonfigurowanej lub podłączonej drukarki. Wykrywana nazwa domyślnej drukarki to: ") + printer.printerName() +
                              trUtf8(". Status domyślnej drukarki (poprawny o ile drukarka ma możliwość raportowania statusu do systemu): ") + printer.printerState());
+    }
+    } else {
+
+        printSlot(&printer);
     }
 }
 
@@ -1897,11 +1918,10 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
     invStrList += "<tr>";
     invStrList += "<td width=\"60%\" align=\"center\" valign=\"bottom\">";
     invStrList += "<span class=\"stamp\">";
-
     QString logo = sett().value("logo").toString();
 
     if (logo != "") {
-            invStrList += "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\">";
+            invStrList += "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
     } else {
             invStrList += "";
     }
@@ -2094,6 +2114,7 @@ void Invoice::makeInvoiceBody() {
 
 void Invoice::makeInvoiceProductsHeadar() {
 
+
     invStrList += "<tr align=\"center\" valign=\"middle\" class=\"productsHeader\" width=\"100%\" >"; // TUTAJ
 
     int    currentPercent;
@@ -2102,7 +2123,7 @@ void Invoice::makeInvoiceProductsHeadar() {
     sett().beginGroup("invoices_positions");
 
         if (sett().value("Lp").toBool()) {
-            currentPercent += 4;
+            currentPercent += 3;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(3) + "%\">" + trUtf8("Lp.") + "</td>";
         }
 
@@ -2117,7 +2138,7 @@ void Invoice::makeInvoiceProductsHeadar() {
         }
 
         if (sett().value("pkwiu").toBool()) {
-            currentPercent += 8;
+            currentPercent += 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("PKWiU") + "</td>";
         }
 
@@ -2127,7 +2148,7 @@ void Invoice::makeInvoiceProductsHeadar() {
         }
 
         if (sett().value("unit").toBool()) {
-            currentPercent += 4;
+            currentPercent += 3;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(3) + "%\">" + trUtf8("jm.") + "</td>";
         }
 
@@ -2137,7 +2158,7 @@ void Invoice::makeInvoiceProductsHeadar() {
         }
 
         if (sett().value("netvalue").toBool()) {
-            currentPercent += 9;
+            currentPercent += 8;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(8) + "%\">" + trUtf8("Wartość Netto") + "</td>";
         }
 
@@ -2152,22 +2173,22 @@ void Invoice::makeInvoiceProductsHeadar() {
         }
 
         if (sett().value("netafter").toBool()) {
-            currentPercent += 8;
+            currentPercent += 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Netto po rabacie") + "</td>";
         }
 
         if (sett().value("vatval").toBool()) {
-            currentPercent += 8;
+            currentPercent += 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Stawka VAT") + "</td>";
         }
 
         if (sett().value("vatprice").toBool()) {
-            currentPercent += 8;
+            currentPercent += 7;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(7) + "%\">" + trUtf8("Kwota Vat") + "</td>";
         }
 
         if (sett().value("grossval").toBool()) {
-            currentPercent += 9;
+            currentPercent += 8;
             invStrList += "<td align=\"center\" width=\""+ sett().numberToString(8) + "%\">" + trUtf8("Wartość Brutto") + "</td>";
         }
 
@@ -2360,7 +2381,7 @@ void Invoice::makeInvoiceSummAll() {
 
 
      if (stempel != "") {
-             invStrList += "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\">";
+             invStrList += "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\"+ >";
      } else {
              invStrList += trUtf8("Pieczęć wystawcy");
      }

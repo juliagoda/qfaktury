@@ -119,18 +119,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QDateEdit" name="sellingDate">
+        <widget class="KDateComboBox" name="sellingDate">
          <property name="cursor">
           <cursorShape>UpArrowCursor</cursorShape>
          </property>
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
-         </property>
-         <property name="displayFormat">
-          <string>dd/MM/yyyy</string>
-         </property>
-         <property name="calendarPopup">
-          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -173,18 +167,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QDateEdit" name="productDate">
+      <widget class="KDateComboBox" name="productDate">
        <property name="cursor">
         <cursorShape>UpArrowCursor</cursorShape>
        </property>
        <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
-       </property>
-       <property name="displayFormat">
-        <string>dd/MM/yyyy</string>
-       </property>
-       <property name="calendarPopup">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -595,15 +583,9 @@
           </widget>
          </item>
          <item>
-          <widget class="QDateEdit" name="liabDate">
+          <widget class="KDateComboBox" name="liabDate">
            <property name="cursor">
             <cursorShape>UpArrowCursor</cursorShape>
-           </property>
-           <property name="displayFormat">
-            <string>dd/MM/yyyy</string>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
            </property>
           </widget>
          </item>

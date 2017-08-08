@@ -25,8 +25,8 @@ void User::init () {
   accountEdit->setText (settings.value ("account").toString());
 
   if (!settings.value ("secIdType").isNull ()) {
-	 int current = secIdType->findText(settings.value ("secIdType").toString());
-	 secIdType->setCurrentIndex (current);
+     int current = secIdType->findText(settings.value ("secIdType").toString());
+     secIdType->setCurrentIndex (current);
   }
 
   nipEdit->setText (settings.value ("tic").toString());

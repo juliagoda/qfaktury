@@ -86,7 +86,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-18</y>
+            <y>0</y>
             <width>352</width>
             <height>556</height>
            </rect>
@@ -324,7 +324,6 @@
             </layout>
            </item>
           </layout>
-          <zorder></zorder>
           <zorder></zorder>
          </widget>
         </widget>

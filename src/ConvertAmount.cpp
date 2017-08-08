@@ -194,6 +194,7 @@ const QStringList ConvertAmount::hundsList() {
 
 const QStringList ConvertAmount::endsHundList() {
 
+
     QStringList hundEndsPL = QStringList();
     hundEndsPL << QObject::trUtf8("dwadzieścia") << QObject::trUtf8("trzydzieści")
             << QObject::trUtf8("czterdzieści")

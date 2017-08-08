@@ -62,15 +62,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateEdit" name="liabDate1">
+           <widget class="KDateComboBox" name="liabDate1">
             <property name="cursor">
              <cursorShape>UpArrowCursor</cursorShape>
-            </property>
-            <property name="displayFormat">
-             <string>dd/MM/yyyy</string>
-            </property>
-            <property name="calendarPopup">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -156,15 +150,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QDateEdit" name="liabDate2">
+           <widget class="KDateComboBox" name="liabDate2">
             <property name="cursor">
              <cursorShape>UpArrowCursor</cursorShape>
-            </property>
-            <property name="displayFormat">
-             <string>dd/MM/yyyy</string>
-            </property>
-            <property name="calendarPopup">
-             <bool>true</bool>
             </property>
            </widget>
           </item>

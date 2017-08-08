@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui name="mainwindow_ui"
+     version="1"
+     xmlns="http://www.kde.org/standards/kxmlgui/1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
+                         http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd" >
+
+  <MenuBar name="MenuBarEditor">
+    <Menu name="plikAct" >
+      <text>P&amp;rogram</text>
+      <Action name="Dane Firmy" />
+      <Action name="Ustawienia" />
+      <Action name="actionCreateBackup" />
+      <Action name="actionLoadBackup" />
+      <Action name="fileEndAction" />
+    </Menu>
+    <Menu name="fakturyAct">
+      <text>F&amp;aktury</text>
+      <Action name="Faktura VAT" />
+      <Action name="invoiceGrossAction" />
+      <Action name="invoiceRRAction" />
+      <Action name="invoiceBillAction" />
+      <Action name="Faktura Pro Forma" />
+      <Action name="invoiceCorrAction" />
+      <Action name="invoiceDuplAction" />
+      <Action name="invoiceDelAction" />
+      <Action name="invoiceEdAction" />
+      <Action name="sendEmailAction" />
+    </Menu >
+    <Menu name="buyersAct">
+        <text>K&amp;ontrahenci</text>
+        <Action name="Dodaj kontrahenta" />
+        <Action name="delBuyersAction" />
+        <Action name="editBuyersAction" />
+        <Action name="actionPrintBuyer" />
+    </Menu>
+    <Menu name="goodsAct">
+        <text>T&amp;owary</text>
+        <Action name="Dodaj towar" />
+        <Action name="delGoodsAction" />
+        <Action name="editGoodsAction" />
+    </Menu>
+    <Menu name="menuPlugins">
+        <text>D&amp;odatki</text>
+        <Action name="Informacje" />
+    </Menu>
+  </MenuBar>
+  
+ 
+  
+  <ToolBar name="mainToolBar" >
+    <text>Main Toolbar</text>
+    <Action name="Dane Firmy" />
+    <Action name="Faktura VAT" />
+    <Action name="Faktura Pro Forma" />
+    <Action name="Dodaj kontrahenta" />
+    <Action name="Dodaj towar" />
+    <Action name="Ustawienia" />
+  </ToolBar>
+ 
+</gui>

@@ -6,8 +6,12 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QDesktopWidget>
-#include <QMenu>
-#include <QAction>
+#include <QPdfWriter>
+#include <KActionCollection>
+#include <QMenuBar>
+
+#include "JlCompress.h"
+#include "quazipdir.h"
 #include "Setting.h"
 #include "User.h"
 #include "Goods.h"
@@ -30,10 +34,11 @@ bool MainWindow::shouldHidden = false;
 /** Constructor
  */
 
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QWidget *parent): KXmlGuiWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     m_instance = this;
     init();
+
 }
 
 MainWindow* MainWindow::instance()
@@ -54,11 +59,6 @@ MainWindow::~MainWindow() {
     if (dl != 0) dl = 0;
     delete dl;
 
-    if (ui != 0) ui = 0;
-    delete ui;
-
-    m_instance = nullptr;
-
 
     if (plugActions.count() > 0) {
 
@@ -68,6 +68,15 @@ MainWindow::~MainWindow() {
             delete plugAct_single;
        }
     }
+
+    if (windowTask != 0) windowTask = 0;
+    delete windowTask;
+
+    if (ui != 0) ui = 0;
+    delete ui;
+
+    m_instance = nullptr;
+
 }
 
 /**
@@ -105,10 +114,10 @@ void MainWindow::init() {
 
 	} else {		
 
-        ui->filtrStart->setDisplayFormat(sett().getDateFormat());
-        ui->filtrStart->setDate(sett().getValueAsDate("filtrStart"));
-        ui->filtrEnd->setDisplayFormat(sett().getDateFormat());
-        ui->filtrEnd->setDate(sett().getValueAsDate("filtrEnd"));
+        ui->filtrStart->setDisplayFormat(QLocale::ShortFormat);
+        ui->filtrStart->setDate((QDate(QDate::currentDate().year(),1,1)));
+        ui->filtrEnd->setDisplayFormat(QLocale::ShortFormat);
+        ui->filtrEnd->setDate(QDate(QDate::currentDate().year(),12,31));
 	}
 
     setupDir();
@@ -195,6 +204,40 @@ void MainWindow::init() {
     calendar = new ownCalendarWidget;
     ui->calendarLayout->addWidget(calendar);
 
+    actionCollection()->addAction("actionCreateBackup", ui->actionCreateBackup);
+    actionCollection()->addAction("actionLoadBackup", ui->actionLoadBackup);
+    actionCollection()->addAction("fileEndAction", ui->fileEndAction);
+
+    actionCollection()->addAction("Faktura VAT", ui->addInvoiceAction);
+    actionCollection()->addAction("invoiceGrossAction", ui->invoiceGrossAction);
+    actionCollection()->addAction("invoiceRRAction", ui->invoiceRRAction);
+    actionCollection()->addAction("invoiceBillAction", ui->invoiceBillAction);
+    actionCollection()->addAction("Faktura Pro Forma", ui->invoiceProFormaAction);
+    actionCollection()->addAction("invoiceCorrAction", ui->invoiceCorrAction);
+    actionCollection()->addAction("invoiceDuplAction", ui->invoiceDuplAction);
+    actionCollection()->addAction("invoiceDelAction", ui->invoiceDelAction);
+    actionCollection()->addAction("invoiceEdAction", ui->invoiceEdAction);
+    actionCollection()->addAction("sendEmailAction", ui->sendEmailAction);
+
+
+    actionCollection()->addAction("Dodaj kontrahenta", ui->addBuyersAction);
+    actionCollection()->addAction("delBuyersAction", ui->delBuyersAction);
+    actionCollection()->addAction("editBuyersAction", ui->editBuyersAction);
+    actionCollection()->addAction("actionPrintBuyer", ui->actionPrintBuyer);
+
+    actionCollection()->addAction("Dodaj towar", ui->addGoodsAction);
+    actionCollection()->addAction("delGoodsAction", ui->delGoodsAction);
+    actionCollection()->addAction("editGoodsAction", ui->editGoodsAction);
+
+
+    actionCollection()->addAction("Dane Firmy", ui->fileData_companyAction);
+    actionCollection()->addAction("Faktura VAT", ui->addInvoiceAction);
+    actionCollection()->addAction("Faktura Pro Forma", ui->invoiceProFormaAction);
+    actionCollection()->addAction("Dodaj kontrahenta", ui->addBuyersAction);
+    actionCollection()->addAction("Dodaj towar", ui->addGoodsAction);
+    actionCollection()->addAction("Ustawienia", ui->fileSettingsAction);
+
+
 	// connect slots
     connect(ui->actionBug, SIGNAL (triggered()), this, SLOT(reportBug()));
     connect(ui->applyFiltrBtn, SIGNAL (clicked(bool)), this, SLOT(rereadHist(bool)));
@@ -221,6 +264,8 @@ void MainWindow::init() {
     connect(ui->fileSettingsAction, SIGNAL(triggered()), this, SLOT(settClick()));
     connect(ui->helpAction, SIGNAL(triggered()), this, SLOT(help()));
     connect(ui->action_Qt, SIGNAL(triggered()), this, SLOT(aboutQt()));
+    connect(ui->actionCreateBackup, SIGNAL(triggered()), this, SLOT(createFirstWinBackup()));
+    connect(ui->actionLoadBackup, SIGNAL(triggered()), this, SLOT(loadBackup()));
     connect(ui->hideOrganizer, SIGNAL(clicked(bool)), this, SLOT(openHideOrganizer()));
     connect(calendar, SIGNAL(activated(const QDate&)), this, SLOT(noteDownTask(const QDate&)));
     connect(ui->tableH, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(editFHist()));
@@ -244,7 +289,7 @@ void MainWindow::init() {
     readGoods();
     categorizeYears();
     checkTodayTask();
-	loadPlugins();
+    loadPlugins();
 
     if (!ifpdfDirExists()) {
 
@@ -262,6 +307,10 @@ void MainWindow::init() {
 
         if (files.isEmpty()) generatePdfFromList();
     }
+
+    setCentralWidget(ui->widget_2);
+    setupGUI(Default,":/inne/ui/mainwindow_ui.rc");
+
 
 }
 
@@ -379,15 +428,16 @@ void MainWindow::loadPlugins() {
             plugActions.append(action);
             action->setData(QVariant(i));
             connect(action, SIGNAL(triggered()), this, SLOT (pluginSlot()));
-            ui->menuPlugins->addAction(action);
+         //   actionCollection()->addAction("Informacje", action);
+         //   ui->menuPlugins->addAction(action);
             customActions[i] = path + QString((*constIterator).toLocal8Bit().constData());
 
             ++i;
         }
     }
 
-    ui->menuPlugins->addSeparator();
-    ui->menuPlugins->addAction(trUtf8("Informacje"), this, SLOT (pluginInfoSlot()))->setIcon(QIcon(":/res/icons/informacja_dodatki.png"));
+   // ui->menuPlugins->addSeparator();
+    actionCollection()->addAction("Informacje", this, SLOT (pluginInfoSlot()));
 }
 
 /**
@@ -553,8 +603,8 @@ void MainWindow::saveAllSettAsDefault() {
 void MainWindow::saveAllSett() {
 
     // saves filtr
-    sett().setValue("filtrStart", ui->filtrStart->text());
-    sett().setValue("filtrEnd", ui->filtrEnd->text());
+    sett().setValue("filtrStart", ui->filtrStart->currentText());
+    sett().setValue("filtrEnd", ui->filtrEnd->currentText());
 
 	saveColumnWidth();
 
@@ -996,7 +1046,7 @@ void MainWindow::aboutProg() {
              trUtf8("<h2>Program do wystawiania faktur</h2><br/><p>") + sett().getVersion(qAppName()) + trUtf8("<br/>Wymagane Qt >= 5.0.0") + trUtf8("<br/>Kompilowane z Qt ") + QT_VERSION_STR + trUtf8("<br/>Twoja aktualna wersja - Qt ") + qVersion() +
              trUtf8("</p><p>Koordynator projektu: Grzegorz Rękawek</p>  <p>Programiści: Tomasz Pielech, Rafał Rusin http://people.apache.org/~rr/, Sławomir Patyk, Jagoda Górska</p>") +
              trUtf8("<p>Ikony: Dariusz Arciszewski </p><p>Portowanie na Qt5: Jagoda \"juliagoda\" Górska</p><br/>") +
-	     trUtf8("<p>Testy w środowisku Arch Linux: Piotr \"sir_lucjan\" Górski && Paweł \"pavbaranov\" Baranowski</p>") +	       
+             trUtf8("<p>Testy w środowisku Arch Linux: Piotr \"sir_lucjan\" Górski && Paweł \"pavbaranov\" Baranowski</p>") +		       
              trUtf8("<h2><center>UWAGA!!!</center></h2>") +
              trUtf8("<p align=\"justify\">Ten program komputerowy dostarczany jest przez autora w formie \"takiej, jaki jest\". ") +
              trUtf8("Autor nie udziela żadnej gwarancji oraz rękojmi, że program będzie działał ") +
@@ -1016,6 +1066,7 @@ void MainWindow::editFHist() {
         QMessageBox::information(this, trUtf8("QFaktury"), trUtf8("Faktura nie wybrana. Nie mozna edytować."), trUtf8("Ok"), 0, 0, 1);
         return;
     }
+
 
     ui->tableH->setSortingEnabled(false);
 
@@ -1048,12 +1099,23 @@ void MainWindow::editFHist() {
         corWindow->correctionInit(true);
         corWindow->readCorrData(ui->tableH->item(row, 0)->text());
 
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = corWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             corWindow->setSizePolicy(sp_retain);
+             corWindow->hide();
+             corWindow->makeInvoice();
+        }
+        else {
+
         if (corWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (corWindow->getKAdded()) readBuyer();
+        }
 
         corWindow = 0;
         delete corWindow;
@@ -1069,12 +1131,23 @@ void MainWindow::editFHist() {
         billWindow->billInit();
         billWindow->setWindowTitle(trUtf8("Edytuje Rachunek"));
 
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = billWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             billWindow->setSizePolicy(sp_retain);
+             billWindow->hide();
+             billWindow->makeInvoice();
+        }
+        else {
+
         if (billWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (billWindow->getKAdded()) readBuyer();
+        }
 
         billWindow = 0;
         delete billWindow;
@@ -1088,12 +1161,24 @@ void MainWindow::editFHist() {
         invWindow->readData(ui->tableH->item(row, 0)->text());
         invWindow->setfName(ui->tableH->item(row, 0)->text());
 
-        if (invWindow->exec() == QDialog::Accepted) {
 
-            rereadHist(true);
-        }
+   if (shouldHidden) {
 
-        if (invWindow->getKAdded()) readBuyer();
+       QSizePolicy sp_retain = invWindow->sizePolicy();
+        sp_retain.setRetainSizeWhenHidden(true);
+        invWindow->setSizePolicy(sp_retain);
+        invWindow->hide();
+        invWindow->makeInvoice();
+   }
+   else {
+
+       if (invWindow->exec() == QDialog::Accepted) {
+
+                   rereadHist(true);
+               }
+
+               if (invWindow->getKAdded()) readBuyer();
+   }
 
         invWindow = 0;
         delete invWindow;
@@ -1108,12 +1193,23 @@ void MainWindow::editFHist() {
         invWindow->readData(ui->tableH->item(row, 0)->text());
         invWindow->setfName(ui->tableH->item(row, 0)->text());
 
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = invWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             invWindow->setSizePolicy(sp_retain);
+             invWindow->hide();
+             invWindow->makeInvoice();
+        }
+        else {
+
         if (invWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (invWindow->getKAdded()) readBuyer();
+        }
 
         invWindow = 0;
         delete invWindow;
@@ -1126,12 +1222,23 @@ void MainWindow::editFHist() {
 
         invWindow->readData(ui->tableH->item(row, 0)->text());
         invWindow->setfName(ui->tableH->item(row, 0)->text());
+
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = invWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             invWindow->setSizePolicy(sp_retain);
+             invWindow->hide();
+             invWindow->makeInvoice();
+        }
+        else {
         if (invWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (invWindow->getKAdded()) readBuyer();
+        }
 
         invWindow = 0;
         delete invWindow;
@@ -1144,12 +1251,23 @@ void MainWindow::editFHist() {
 
         invWindow->readData(ui->tableH->item(row, 0)->text());
         invWindow->setfName(ui->tableH->item(row, 0)->text());
+
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = invWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             invWindow->setSizePolicy(sp_retain);
+             invWindow->hide();
+             invWindow->makeInvoice();
+        }
+        else {
         if (invWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (invWindow->getKAdded()) readBuyer();
+        }
 
         invWindow = 0;
         delete invWindow;
@@ -1165,12 +1283,24 @@ void MainWindow::editFHist() {
         dupWindow->setIsEditAllowed(false);
         dupWindow->setfName(ui->tableH->item(row, 0)->text());
 
+        if (shouldHidden) {
+
+            QSizePolicy sp_retain = dupWindow->sizePolicy();
+             sp_retain.setRetainSizeWhenHidden(true);
+             dupWindow->setSizePolicy(sp_retain);
+             dupWindow->hide();
+             dupWindow->makeInvoice();
+        }
+        else {
+
         if (dupWindow->exec() == QDialog::Accepted) {
 
             rereadHist(true);
         }
 
         if (dupWindow->getKAdded()) readBuyer();
+
+        }
 
         dupWindow = 0;
         delete dupWindow;
@@ -1349,12 +1479,13 @@ void MainWindow::printList(QPrinter *printer) {
 
    QTextDocument doc(trUtf8("Lista kontrahentów"));
    QStringList list = QStringList();
-    list << "<!doctype html>" << "<head>" << "<meta charset=\"utf-8\" />" << "</head>";
-    list << "<style type=\"text/css\">";
-    list << "strong { font-weight: 500; }";
-    list << ".page_break {page-break-inside: avoid;}";
-    list << "</style>";
-    list << "<body>";
+   list << "<!doctype html>" << "<head>" << "<meta charset=\"utf-8\" />" << "</head>";
+   list << "<style type=\"text/css\">";
+   list << "strong { font-weight: 500; }";
+   list << ".page_break {page-break-inside: avoid;}";
+   list << "</style>";
+   list << "<body>";
+
 
    QVector<BuyerData> buyerVec = dl->buyersSelectAllData();
 
@@ -2114,7 +2245,7 @@ bool MainWindow::close() {
 
 void MainWindow::help() {
 
-    QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury"));
+    QDesktopServices::openUrl(QUrl("https://github.com/ggoda/qfaktury"));
 }
 
 /** Slot reportBug
@@ -2124,6 +2255,153 @@ void MainWindow::reportBug() {
 
     QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury/issues"));
 }
+
+
+void MainWindow::createFirstWinBackup() {
+
+        QPushButton *browseButton = new QPushButton(trUtf8("&Szukaj katalog..."), this);
+        connect(browseButton, &QAbstractButton::clicked, this, &MainWindow::choosePathBackup);
+
+        QPushButton* okButton = new QPushButton(trUtf8("&Zatwierdź"), this);
+        connect(okButton, &QAbstractButton::clicked, this, &MainWindow::createBackup);
+
+        QPushButton* cancButton = new QPushButton(trUtf8("&Zakończ"), this);
+        connect(cancButton, &QAbstractButton::clicked, this, [=]() {
+            foreach (QWidget * w, windBack->findChildren<QWidget*>()) {
+              if (! w->windowFlags() & Qt::Window) w->deleteLater();
+            }
+
+            windBack->close();
+            if (windBack != 0) windBack = 0;
+            windBack->deleteLater();
+        });
+
+        fileComboBox = new QLineEdit();
+
+        directoryComboBox = new QLineEdit(QDir::toNativeSeparators(QDir::currentPath()));
+
+        QGridLayout *mainLayout = new QGridLayout(this);
+            mainLayout->addWidget(new QLabel(trUtf8("Twoja nazwa archiwum:")), 0, 0);
+            mainLayout->addWidget(fileComboBox, 0, 1, 1, 2);
+            mainLayout->addWidget(new QLabel(trUtf8("Podaj ścieżkę docelową:")), 2, 0);
+            mainLayout->addWidget(directoryComboBox, 2, 1);
+            mainLayout->addWidget(browseButton, 2, 2);
+            mainLayout->addWidget(okButton, 4, 2);
+            mainLayout->addWidget(cancButton,4,3);
+
+           windBack = new QWidget();
+           windBack->setLayout(mainLayout);
+
+          windBack->setWindowTitle(trUtf8("Podaj miejsce dla kopii zapasowej"));
+          const QRect screenGeometry = QApplication::desktop()->screenGeometry(this);
+          windBack->resize(screenGeometry.width() / 2, screenGeometry.height() / 3);
+
+          windBack->show();
+
+          qDebug() << sett().fileName();
+}
+
+
+void MainWindow::choosePathBackup() {
+
+    QString directory =
+            QDir::toNativeSeparators(QFileDialog::getExistingDirectory(this, tr("Find Files"), QDir::currentPath()));
+
+        if (!directory.isEmpty()) {
+            directoryComboBox->setText(directory);
+        }
+}
+
+
+void MainWindow::createBackup() {
+
+
+    QStringList listConf = QStringList() << sett().fileName() << sett().fileName().left(sett().fileName().lastIndexOf("/")) + "/user.conf";
+
+    QMessageBox::warning(this,"",listConf.at(1));
+
+
+    if (fileComboBox->text().isEmpty() || directoryComboBox->text().isEmpty()) {
+
+        QMessageBox::warning(windBack,trUtf8("Brakująca ścieżka"),trUtf8("Nazwa dla archiwum oraz ścieżka dla tworzonego archiwum nie może być pominięta"));
+
+    } else {
+
+        if(JlCompress::compressDir(directoryComboBox->text() + QString("/") + fileComboBox->text() + QString(".zip"),sett().getWorkingDir(),true,QDir::AllDirs) && JlCompress::compressFiles(directoryComboBox->text() + QString("/") + fileComboBox->text() + QString("-configs.zip"), listConf))
+        {
+            qDebug() << "Created archive";
+            QMessageBox::information(windBack,trUtf8("Tworzenie kopii zapasowej"),trUtf8("Stworzenie kopii zapasowej zakończyła się sukcesem!"));
+
+        } else {
+
+            qDebug() << "Archive had not been created";
+            QMessageBox::warning(windBack,trUtf8("Tworzenie kopii zapasowej"),trUtf8("Stworzenie kopii zapasowej nie zakończyło się sukcesem. Sprawdź, czy masz uprawnienia do odczytu i zapisu w wybranym folderze."));
+
+        }
+
+        qDebug() << directoryComboBox->text() + QString("/") + fileComboBox->text() + QString(".zip");
+
+
+        foreach (QWidget * w, windBack->findChildren<QWidget*>()) {
+          if (! w->windowFlags() & Qt::Window) delete w;
+        }
+
+        windBack->close();
+        if (windBack != 0) windBack = 0;
+        delete windBack;
+
+        }
+
+}
+
+
+void MainWindow::loadBackup() {
+
+
+    QMessageBox msgBox;
+    msgBox.setText(trUtf8("Wczytywanie kopii zapasowej nadpisze obecny stan. Wpierw musisz wybrać katalog, następnie pojawi się okno z jego zawartością."));
+    msgBox.setInformativeText(trUtf8("Chcesz kontynuować?"));
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
+
+    switch (ret) {
+        case QMessageBox::Ok:
+
+        QString fileName = QFileDialog::getOpenFileName(this,
+            trUtf8("Wybierz kopię zapasową"), QFileDialog::getExistingDirectory(this, trUtf8("Znajdź"), QDir::currentPath()), trUtf8("pliki archiwalne (*.zip)"));
+
+        if (fileName.endsWith("-configs.zip")) {
+
+            QStringList configsList = QStringList() << "qfaktury.conf" << "user.conf";
+            QStringList confList = JlCompress::extractFiles(fileName,configsList,sett().fileName().left(sett().fileName().lastIndexOf("/")));
+
+            if (confList.count() > 0) QMessageBox::information(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"), trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));
+            else QMessageBox::warning(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"),trUtf8("W archiwum brakuje plików konfiguracyjnych dla QFaktury. Jesteś pewien, że wybrałeś plik z przyrostkiem \"-configs.zip ?\""));
+
+        } else {
+
+
+            QStringList listEl = JlCompress::extractDir(fileName,sett().getWorkingDir());
+
+            if (listEl.contains("customers.xml") && listEl.contains("products.xml"))
+            {
+                QMessageBox::information(this,trUtf8("Kopia zapasowa głównego katalogu"),trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));
+            }
+            else
+            {
+                QMessageBox::information(this,trUtf8("Kopia zapasowa głównego katalogu"),trUtf8("Wczytywanie kopii zapasowej nie zakończyło się sukcesem! Kopia zapasowa powinna zawierać co najmniej listę produktów i kontrahentów."));
+            }
+
+        }
+
+        break;
+
+    }
+
+}
+
 
 /** Slot for sending email to buyers
  */
@@ -2135,4 +2413,3 @@ void MainWindow::sendEmailToBuyer() {
 }
 
 // ----------------------------------------  SLOTS ---------------------------------//
-

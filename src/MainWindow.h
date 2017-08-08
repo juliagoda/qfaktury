@@ -1,7 +1,7 @@
 #ifndef MainWindow_H
 #define MainWindow_H
 
-#include <QMainWindow>
+#include <KXmlGuiWindow>
 #include <QKeyEvent>
 
 #include "ui_MainWindow.h"
@@ -10,7 +10,7 @@
 #include "Setting.h"
 
 
-class MainWindow: public QMainWindow {
+class MainWindow: public KXmlGuiWindow {
 
 Q_OBJECT
 
@@ -23,6 +23,14 @@ public:
     const int getMaxSymbol();
     static MainWindow * instance();
     static bool shouldHidden;
+
+private slots:
+
+    void createFirstWinBackup();
+    void choosePathBackup();
+    void createBackup();
+    void loadBackup();
+    void sendEmailToBuyer();
 
 
 public slots:
@@ -69,7 +77,9 @@ public slots:
     void addNextTask();
     void delTasksFromDay();
     QString changeIfEmpty(QString);
-    void sendEmailToBuyer();
+    bool ifpdfDirExists();
+    void createPdfDir();
+    void generatePdfFromList();
 
 
 protected:
@@ -112,9 +122,6 @@ private:
     bool ifEmergTemplateExists();
     bool applyFiltr(QString);
     bool firstRun();
-    bool ifpdfDirExists();
-    void createPdfDir();
-    void generatePdfFromList();
 
     inline void calendarNoteJustify(QString text) {
 
