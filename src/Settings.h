@@ -58,19 +58,6 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 			return fileNameDateFormat;
 	}
 
-	// returns a translator
-	QTranslator* getTranslation() {
-
-	    translator = new QTranslator();
-	    QString lang = value("lang", "pl").toString();
-	    // The easiest way
-	    // On windows and during testing files have to be in executable dir
-
-        if (!translator->load(QString("qfaktury_") + lang)) translator->load(QString("qfaktury_") + lang, appPath + "/translations");
-        qDebug() << "Translations files are in: " << appPath + "/translations";
-		return translator;
-	}
-
 	/**
 	 * validate the settings and set them to default values if required.
 	 */
@@ -743,7 +730,6 @@ private:
 	QString dateFormat;
 	QString fileNameDateFormat;
 	QLocale *locale;
-    QTranslator* translator;
 
 	// constr
 	Settings() :

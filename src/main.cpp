@@ -13,9 +13,6 @@ int main(int argc, char **argv) {
 	QApplication a(argc, argv);
 
 
-    // sets language from file chosen in "translations" directory
-    a.installTranslator(sett().getTranslation());
-
 
 	QResource::registerResource("qfaktury.rcc"); // using the rcc file so it's more portable
 	// Q_INIT_RESOURCE(qfaktury);
