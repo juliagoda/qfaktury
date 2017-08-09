@@ -53,7 +53,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 Wykonujemy pobranie katalogu z plikami w wybranej przez siebie ścieżce i wpisujemy polecenia:
 
 ```
-git clone https://github.com/juliagoda/qfaktury.git
+git clone -b KF5 https://github.com/juliagoda/qfaktury.git
 cd qfaktury
 qmake
 make
