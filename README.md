@@ -90,3 +90,4 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 ## Zgłaszanie błędów
 
 W razie zauważonych błędów lub poważnych braków, można stworzyć wątek [w tym dziale](https://github.com/juliagoda/qfaktury/issues), klikając w zielony przycisk "New issue" po prawej stronie, a następnie wprowadzając tytuł i treść.
+
