@@ -9,6 +9,7 @@
 #include <QPdfWriter>
 #include <KActionCollection>
 #include <QMenuBar>
+#include <KZip>
 
 #include "JlCompress.h"
 #include "quazipdir.h"
@@ -2327,6 +2328,73 @@ void MainWindow::createBackup() {
 
     } else {
 
+
+     /*   QFile arch1(directoryComboBox->text() + QString("/") + fileComboBox->text());
+        arch1.setPermissions(arch1.fileName(), QFileDevice::WriteGroup | QFileDevice::ReadGroup | QFileDevice::ReadUser | QFileDevice::WriteUser | QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+        QFile arch2(directoryComboBox->text() + QString("/") + fileComboBox->text() + QString("-configs"));
+        arch2.setPermissions(arch2.fileName(), QFileDevice::WriteGroup | QFileDevice::ReadGroup | QFileDevice::ReadUser | QFileDevice::WriteUser | QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+       if (!arch1.open(QFile::ReadWrite))
+                QMessageBox::warning(this, "warning", arch1.error() + " || " + arch1.errorString());
+        else
+            arch1.close();
+
+        if (!arch2.open(QFile::ReadWrite))
+                QMessageBox::warning(this, "warning", arch2.error() + " || " + arch2.errorString());
+        else
+           arch2.close();
+
+        if (!arch1.exists()) QMessageBox::warning(this, "warning", "plik " + arch1.fileName() + " nie mógł zostać stworzony");
+        if (!arch2.exists()) QMessageBox::warning(this, "warning", "plik " + arch2.fileName() + " nie mógł zostać stworzony");
+
+        KZip* kzip = new KZip(arch1.fileName());
+
+        bool openedAr = kzip->open(QIODevice::WriteOnly);
+
+        if (!openedAr) QMessageBox::warning(this, "warning", "Archiwum nie może zostać otworzone do zapisu");
+        if (!openedAr) QMessageBox::warning(this, "warning", kzip->errorString());
+
+        //bool addedDir = kzip->writeDir(sett().getWorkingDir());
+
+        bool addedDir = kzip->addLocalDirectory(sett().getWorkingDir(),sett().getWorkingDir());
+
+        if (!addedDir) QMessageBox::warning(this, "warning", kzip->errorString());
+
+        bool closedOk = kzip->close();
+
+        if (!closedOk) QMessageBox::warning(this, "warning", "Zamknięcie archiwum zakończyło się niepowodzeniem");
+        if (!closedOk) QMessageBox::warning(this, "warning", kzip->errorString());
+
+        if (kzip != 0) kzip = 0;
+        delete kzip;
+
+        // -------------------------------------
+
+        KZip* kzip2 = new KZip(arch2.fileName());
+
+        bool openedAr2 = kzip2->open(QIODevice::WriteOnly);
+
+        if (!openedAr2) QMessageBox::warning(this, "warning", "Archiwum nie może zostać otworzone do zapisu");
+        if (!openedAr2) QMessageBox::warning(this, "warning", kzip2->errorString());
+
+
+        bool addedFile1 = kzip2->addLocalFile(sett().fileName(), sett().fileName().left(sett().fileName().lastIndexOf("/")));
+
+        if (!addedFile1) QMessageBox::warning(this, "warning", kzip2->errorString());
+
+        bool addedFile2 = kzip2->addLocalFile(sett().fileName().left(sett().fileName().lastIndexOf("/")) + "/user.conf", sett().fileName().left(sett().fileName().lastIndexOf("/")));
+
+        if (!addedFile2) QMessageBox::warning(this, "warning", kzip2->errorString());
+
+        bool closedOk2 = kzip2->close();
+
+        if (!closedOk2) QMessageBox::warning(this, "warning", "Zamknięcie archiwum zakończyło się niepowodzeniem");
+        if (!closedOk2) QMessageBox::warning(this, "warning", kzip2->errorString());
+
+        if (kzip2 != 0) kzip2 = 0;
+        delete kzip2;*/
+
+
         if(JlCompress::compressDir(directoryComboBox->text() + QString("/") + fileComboBox->text() + QString(".zip"),sett().getWorkingDir(),true,QDir::AllDirs) && JlCompress::compressFiles(directoryComboBox->text() + QString("/") + fileComboBox->text() + QString("-configs.zip"), listConf))
         {
             qDebug() << "Created archive";
@@ -2372,17 +2440,26 @@ void MainWindow::loadBackup() {
         QString fileName = QFileDialog::getOpenFileName(this,
             trUtf8("Wybierz kopię zapasową"), QFileDialog::getExistingDirectory(this, trUtf8("Znajdź"), QDir::currentPath()), trUtf8("pliki archiwalne (*.zip)"));
 
-        if (fileName.endsWith("-configs.zip")) {
+        if (fileName.endsWith("-configs")) {
 
             QStringList configsList = QStringList() << "qfaktury.conf" << "user.conf";
+        /*    KZip* kzip = new KZip(fileName);
+            kzip->open(QIODevice::ReadOnly);
+            const KArchiveDirectory* archdir = kzip->directory();
+            bool ifCopied = archdir->copyTo(QString());*/
             QStringList confList = JlCompress::extractFiles(fileName,configsList,sett().fileName().left(sett().fileName().lastIndexOf("/")));
 
-            if (confList.count() > 0) QMessageBox::information(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"), trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));
-            else QMessageBox::warning(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"),trUtf8("W archiwum brakuje plików konfiguracyjnych dla QFaktury. Jesteś pewien, że wybrałeś plik z przyrostkiem \"-configs.zip ?\""));
+       //     if (ifCopied) QMessageBox::information(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"), trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));
+       //     else QMessageBox::warning(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"),trUtf8("W archiwum brakuje plików konfiguracyjnych dla QFaktury. Jesteś pewien, że wybrałeś plik z przyrostkiem \"-configs.zip ?\""));
 
         } else {
 
 
+          /*  KZip* kzip = new KZip(fileName);
+            kzip->open(QIODevice::ReadOnly);
+            const KArchiveDirectory* archdir = kzip->directory();
+            bool ifCopied = archdir->copyTo(QString());
+            if (ifCopied) QMessageBox::information(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"), trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));*/
             QStringList listEl = JlCompress::extractDir(fileName,sett().getWorkingDir());
 
             if (listEl.contains("customers.xml") && listEl.contains("products.xml"))

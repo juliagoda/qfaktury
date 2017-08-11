@@ -8,7 +8,7 @@ LIBDIR = /usr/lib
 QUAZIPCODEDIR = $$PWD/src/quazip-0.7.3/quazip
 SMTPCODEDIR = $$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements
 
-QT += gui core widgets printsupport xml webenginewidgets network KCoreAddons KXmlGui KI18n KWidgetsAddons
+QT += gui core widgets printsupport xml webenginewidgets network KCoreAddons KXmlGui KI18n KWidgetsAddons KArchive
 CONFIG += debug
 QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
