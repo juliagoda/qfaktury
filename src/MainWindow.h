@@ -26,8 +26,6 @@ public:
 
 private slots:
 
-    void createFirstWinBackup();
-    void choosePathBackup();
     void createBackup();
     void loadBackup();
     void sendEmailToBuyer();
@@ -91,9 +89,6 @@ private:
 
     IDataLayer *dl;
     Ui::MainWindow *ui;
-    QWidget* windBack;
-    QLineEdit* fileComboBox;
-    QLineEdit* directoryComboBox;
 
     QVector<QAction*> plugActions;
     QString workingDir;
@@ -122,6 +117,7 @@ private:
     bool ifEmergTemplateExists();
     bool applyFiltr(QString);
     bool firstRun();
+    bool copyDir(const QString &src, const QString &dest);
 
     inline void calendarNoteJustify(QString text) {
 

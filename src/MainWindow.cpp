@@ -11,8 +11,6 @@
 #include <QMenuBar>
 #include <KZip>
 
-#include "JlCompress.h"
-#include "quazipdir.h"
 #include "Setting.h"
 #include "User.h"
 #include "Goods.h"
@@ -265,7 +263,7 @@ void MainWindow::init() {
     connect(ui->fileSettingsAction, SIGNAL(triggered()), this, SLOT(settClick()));
     connect(ui->helpAction, SIGNAL(triggered()), this, SLOT(help()));
     connect(ui->action_Qt, SIGNAL(triggered()), this, SLOT(aboutQt()));
-    connect(ui->actionCreateBackup, SIGNAL(triggered()), this, SLOT(createFirstWinBackup()));
+    connect(ui->actionCreateBackup, SIGNAL(triggered()), this, SLOT(createBackup()));
     connect(ui->actionLoadBackup, SIGNAL(triggered()), this, SLOT(loadBackup()));
     connect(ui->hideOrganizer, SIGNAL(clicked(bool)), this, SLOT(openHideOrganizer()));
     connect(calendar, SIGNAL(activated(const QDate&)), this, SLOT(noteDownTask(const QDate&)));
@@ -2257,82 +2255,24 @@ void MainWindow::reportBug() {
     QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury/issues"));
 }
 
-
-void MainWindow::createFirstWinBackup() {
-
-        QPushButton *browseButton = new QPushButton(trUtf8("&Szukaj katalog..."), this);
-        connect(browseButton, &QAbstractButton::clicked, this, &MainWindow::choosePathBackup);
-
-        QPushButton* okButton = new QPushButton(trUtf8("&Zatwierdź"), this);
-        connect(okButton, &QAbstractButton::clicked, this, &MainWindow::createBackup);
-
-        QPushButton* cancButton = new QPushButton(trUtf8("&Zakończ"), this);
-        connect(cancButton, &QAbstractButton::clicked, this, [=]() {
-            foreach (QWidget * w, windBack->findChildren<QWidget*>()) {
-              if (! w->windowFlags() & Qt::Window) w->deleteLater();
-            }
-
-            windBack->close();
-            if (windBack != 0) windBack = 0;
-            windBack->deleteLater();
-        });
-
-        fileComboBox = new QLineEdit();
-
-        directoryComboBox = new QLineEdit(QDir::toNativeSeparators(QDir::currentPath()));
-
-        QGridLayout *mainLayout = new QGridLayout(this);
-            mainLayout->addWidget(new QLabel(trUtf8("Twoja nazwa archiwum:")), 0, 0);
-            mainLayout->addWidget(fileComboBox, 0, 1, 1, 2);
-            mainLayout->addWidget(new QLabel(trUtf8("Podaj ścieżkę docelową:")), 2, 0);
-            mainLayout->addWidget(directoryComboBox, 2, 1);
-            mainLayout->addWidget(browseButton, 2, 2);
-            mainLayout->addWidget(okButton, 4, 2);
-            mainLayout->addWidget(cancButton,4,3);
-
-           windBack = new QWidget();
-           windBack->setLayout(mainLayout);
-
-          windBack->setWindowTitle(trUtf8("Podaj miejsce dla kopii zapasowej"));
-          const QRect screenGeometry = QApplication::desktop()->screenGeometry(this);
-          windBack->resize(screenGeometry.width() / 2, screenGeometry.height() / 3);
-
-          windBack->show();
-
-          qDebug() << sett().fileName();
-}
-
-
-void MainWindow::choosePathBackup() {
-
-    QString directory =
-            QDir::toNativeSeparators(QFileDialog::getExistingDirectory(this, tr("Find Files"), QDir::currentPath()));
-
-        if (!directory.isEmpty()) {
-            directoryComboBox->setText(directory);
-        }
-}
-
-
+// creates two backup files Backup-xml and Backup-configs in zip format
 void MainWindow::createBackup() {
 
-
-    QStringList listConf = QStringList() << sett().fileName() << sett().fileName().left(sett().fileName().lastIndexOf("/")) + "/user.conf";
-
-    QMessageBox::warning(this,"",listConf.at(1));
-
-
-    if (fileComboBox->text().isEmpty() || directoryComboBox->text().isEmpty()) {
-
-        QMessageBox::warning(windBack,trUtf8("Brakująca ścieżka"),trUtf8("Nazwa dla archiwum oraz ścieżka dla tworzonego archiwum nie może być pominięta"));
-
-    } else {
-
-
-     /*   QFile arch1(directoryComboBox->text() + QString("/") + fileComboBox->text());
+        // two separates archives because of KArchive class methods, that add directories and files with absolute paths to created archives - addLocalFile and addLocalDirectory
+        QFile arch1(sett().getWorkingDir() + QString("/") + QString("Backup-xml"));
         arch1.setPermissions(arch1.fileName(), QFileDevice::WriteGroup | QFileDevice::ReadGroup | QFileDevice::ReadUser | QFileDevice::WriteUser | QFileDevice::ReadOwner | QFileDevice::WriteOwner);
-        QFile arch2(directoryComboBox->text() + QString("/") + fileComboBox->text() + QString("-configs"));
+        QFile arch2(sett().fileName().left(sett().fileName().lastIndexOf("/")) + QString("/") + QString("Backup-configs"));
         arch2.setPermissions(arch2.fileName(), QFileDevice::WriteGroup | QFileDevice::ReadGroup | QFileDevice::ReadUser | QFileDevice::WriteUser | QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+        bool removed = false;
+        if (arch1.exists()) removed = arch1.remove();
+
+        if (!removed) qDebug() << arch1.fileName() << " archive couldn't be removed";
+
+        removed = false;
+        if (arch2.exists()) removed = arch2.remove();
+
+        if (!removed) qDebug() << arch2.fileName() <<  " archive couldn't be removed";
 
        if (!arch1.open(QFile::ReadWrite))
                 QMessageBox::warning(this, "warning", arch1.error() + " || " + arch1.errorString());
@@ -2354,8 +2294,6 @@ void MainWindow::createBackup() {
         if (!openedAr) QMessageBox::warning(this, "warning", "Archiwum nie może zostać otworzone do zapisu");
         if (!openedAr) QMessageBox::warning(this, "warning", kzip->errorString());
 
-        //bool addedDir = kzip->writeDir(sett().getWorkingDir());
-
         bool addedDir = kzip->addLocalDirectory(sett().getWorkingDir(),sett().getWorkingDir());
 
         if (!addedDir) QMessageBox::warning(this, "warning", kzip->errorString());
@@ -2365,8 +2303,6 @@ void MainWindow::createBackup() {
         if (!closedOk) QMessageBox::warning(this, "warning", "Zamknięcie archiwum zakończyło się niepowodzeniem");
         if (!closedOk) QMessageBox::warning(this, "warning", kzip->errorString());
 
-        if (kzip != 0) kzip = 0;
-        delete kzip;
 
         // -------------------------------------
 
@@ -2378,11 +2314,11 @@ void MainWindow::createBackup() {
         if (!openedAr2) QMessageBox::warning(this, "warning", kzip2->errorString());
 
 
-        bool addedFile1 = kzip2->addLocalFile(sett().fileName(), sett().fileName().left(sett().fileName().lastIndexOf("/")));
+        bool addedFile1 = kzip2->addLocalFile(sett().fileName(), sett().fileName());
 
         if (!addedFile1) QMessageBox::warning(this, "warning", kzip2->errorString());
 
-        bool addedFile2 = kzip2->addLocalFile(sett().fileName().left(sett().fileName().lastIndexOf("/")) + "/user.conf", sett().fileName().left(sett().fileName().lastIndexOf("/")));
+        bool addedFile2 = kzip2->addLocalFile(sett().fileName().left(sett().fileName().lastIndexOf("/")) + "/user.conf", sett().fileName().left(sett().fileName().lastIndexOf("/")) + "/user.conf");
 
         if (!addedFile2) QMessageBox::warning(this, "warning", kzip2->errorString());
 
@@ -2391,91 +2327,128 @@ void MainWindow::createBackup() {
         if (!closedOk2) QMessageBox::warning(this, "warning", "Zamknięcie archiwum zakończyło się niepowodzeniem");
         if (!closedOk2) QMessageBox::warning(this, "warning", kzip2->errorString());
 
+        if (closedOk && closedOk2)
+            QMessageBox::information(this, "Miejsce zapisu", QString("Został stworzony \"Backup-xml\" w ścieżce %1 oraz archiwum \"Backup-configs\" w ścieżce %2").arg(QFileInfo(arch1.fileName()).absolutePath()).arg(QFileInfo(arch2.fileName()).absolutePath()));
+        else
+            QMessageBox::information(this, "Błąd zapisu", QString("Wystąpił błąd podczas zapisu. Treść ostatniego błędu jest następująca: %1, %2").arg(kzip->errorString()).arg(kzip2->errorString()));
+
         if (kzip2 != 0) kzip2 = 0;
-        delete kzip2;*/
+        delete kzip2;
 
-
-        if(JlCompress::compressDir(directoryComboBox->text() + QString("/") + fileComboBox->text() + QString(".zip"),sett().getWorkingDir(),true,QDir::AllDirs) && JlCompress::compressFiles(directoryComboBox->text() + QString("/") + fileComboBox->text() + QString("-configs.zip"), listConf))
-        {
-            qDebug() << "Created archive";
-            QMessageBox::information(windBack,trUtf8("Tworzenie kopii zapasowej"),trUtf8("Stworzenie kopii zapasowej zakończyła się sukcesem!"));
-
-        } else {
-
-            qDebug() << "Archive had not been created";
-            QMessageBox::warning(windBack,trUtf8("Tworzenie kopii zapasowej"),trUtf8("Stworzenie kopii zapasowej nie zakończyło się sukcesem. Sprawdź, czy masz uprawnienia do odczytu i zapisu w wybranym folderze."));
-
-        }
-
-        qDebug() << directoryComboBox->text() + QString("/") + fileComboBox->text() + QString(".zip");
-
-
-        foreach (QWidget * w, windBack->findChildren<QWidget*>()) {
-          if (! w->windowFlags() & Qt::Window) delete w;
-        }
-
-        windBack->close();
-        if (windBack != 0) windBack = 0;
-        delete windBack;
-
-        }
+        if (kzip != 0) kzip = 0;
+        delete kzip;
 
 }
 
+// idea from wysota's comment: http://www.qtcentre.org/threads/429-how-can-i-copy-a-directary-using-QDir
+bool MainWindow::copyDir(const QString &src, const QString &dest){
 
-void MainWindow::loadBackup() {
+  QDir dir(src);
+  QDir dirdest(dest);
 
+  if (!dirdest.exists()) {
 
-    QMessageBox msgBox;
-    msgBox.setText(trUtf8("Wczytywanie kopii zapasowej nadpisze obecny stan. Wpierw musisz wybrać katalog, następnie pojawi się okno z jego zawartością."));
-    msgBox.setInformativeText(trUtf8("Chcesz kontynuować?"));
-    msgBox.setIcon(QMessageBox::Information);
-    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    int ret = msgBox.exec();
+      dirdest.mkpath(dest);
+  }
 
-    switch (ret) {
-        case QMessageBox::Ok:
+  if(!dir.isReadable()) return false;
 
-        QString fileName = QFileDialog::getOpenFileName(this,
-            trUtf8("Wybierz kopię zapasową"), QFileDialog::getExistingDirectory(this, trUtf8("Znajdź"), QDir::currentPath()), trUtf8("pliki archiwalne (*.zip)"));
+  QFileInfoList entries = dir.entryInfoList();
+  for(QList<QFileInfo>::iterator it = entries.begin(); it!=entries.end();++it){
 
-        if (fileName.endsWith("-configs")) {
+    QFileInfo &finfo = *it;
+    if(finfo.fileName()=="." || finfo.fileName()=="..") continue;
+    if(finfo.isDir()){ copyDir(finfo.filePath(), dirdest.absoluteFilePath(finfo.fileName())); continue; }
+    if(finfo.isSymLink()) { /* do something here */ continue; }
+    if(finfo.isFile() && finfo.isReadable()){
 
-            QStringList configsList = QStringList() << "qfaktury.conf" << "user.conf";
-        /*    KZip* kzip = new KZip(fileName);
-            kzip->open(QIODevice::ReadOnly);
-            const KArchiveDirectory* archdir = kzip->directory();
-            bool ifCopied = archdir->copyTo(QString());*/
-            QStringList confList = JlCompress::extractFiles(fileName,configsList,sett().fileName().left(sett().fileName().lastIndexOf("/")));
-
-       //     if (ifCopied) QMessageBox::information(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"), trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));
-       //     else QMessageBox::warning(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"),trUtf8("W archiwum brakuje plików konfiguracyjnych dla QFaktury. Jesteś pewien, że wybrałeś plik z przyrostkiem \"-configs.zip ?\""));
-
-        } else {
-
-
-          /*  KZip* kzip = new KZip(fileName);
-            kzip->open(QIODevice::ReadOnly);
-            const KArchiveDirectory* archdir = kzip->directory();
-            bool ifCopied = archdir->copyTo(QString());
-            if (ifCopied) QMessageBox::information(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"), trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));*/
-            QStringList listEl = JlCompress::extractDir(fileName,sett().getWorkingDir());
-
-            if (listEl.contains("customers.xml") && listEl.contains("products.xml"))
-            {
-                QMessageBox::information(this,trUtf8("Kopia zapasowa głównego katalogu"),trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));
-            }
-            else
-            {
-                QMessageBox::information(this,trUtf8("Kopia zapasowa głównego katalogu"),trUtf8("Wczytywanie kopii zapasowej nie zakończyło się sukcesem! Kopia zapasowa powinna zawierać co najmniej listę produktów i kontrahentów."));
-            }
-
-        }
-
-        break;
+      QFile file(finfo.filePath());
+      file.copy(dirdest.absoluteFilePath(finfo.fileName()));
 
     }
+    else return false;
+  }
+
+  return true;
+}
+
+// loads two backup files - Backup-xml and Backup-configs in zip formats
+void MainWindow::loadBackup() {
+
+    QMessageBox::warning(this, "Wybór backup", "Pamiętaj, że z uwagi na niebiezpieczeństwo przechowywanych plików, zostaną odtworzone pliki, które nie istnieją. Istniejące nie zostaną nadpisane.");
+
+
+        QString fileName = sett().getWorkingDir() + QString("/Backup-xml");
+        QString fileName2 = sett().fileName().left(sett().fileName().lastIndexOf("/")) + QString("/Backup-configs");
+
+       //   "qfaktury.conf" and "user.conf";
+            KZip* kzip = new KZip(fileName2);
+            kzip->open(QIODevice::ReadOnly);
+            const KArchiveDirectory* archdir = kzip->directory();
+            // extracting path from root path is dangerous and needs permissions, so extracting to config directories the archives and copying to original config directory the files is what I've hit on
+            bool ifCopied = archdir->copyTo(sett().fileName().left(sett().fileName().lastIndexOf("/")));
+
+            if (!ifCopied) qDebug() << fileName << " hasn't been extracted";
+            else qDebug() << fileName << " has been extracted";
+
+            QDir dir2;
+            dir2.setPath(sett().fileName().left(sett().fileName().lastIndexOf("/")) + sett().fileName().left(sett().fileName().lastIndexOf("/")));
+        //    QMessageBox::warning(this,"", sett().fileName().left(sett().fileName().lastIndexOf("/")) + sett().fileName().left(sett().fileName().lastIndexOf("/")));
+            foreach (QString copy_file, dir2.entryList(QDir::Files))
+            {
+                QFile file(sett().fileName().left(sett().fileName().lastIndexOf("/")) + sett().fileName().left(sett().fileName().lastIndexOf("/")) + QString("/") + copy_file);
+                file.copy(sett().fileName().left(sett().fileName().lastIndexOf("/")) + QString("/") + copy_file);
+            }
+
+            QDir dirscHome(sett().fileName().left(sett().fileName().lastIndexOf("/")) + QString("/home"));
+            bool removed = dirscHome.removeRecursively();
+            if (!removed) qDebug() << dirscHome.absolutePath() << " directory couldn't be removed";
+            else qDebug() << dirscHome.absolutePath() << " has been removed";
+
+
+
+
+            KZip* kzip2 = new KZip(fileName);
+            kzip2->open(QIODevice::ReadOnly);
+            const KArchiveDirectory* archdir2 = kzip2->directory();
+            bool ifCopied2 = archdir2->copyTo(sett().getWorkingDir());
+            if (ifCopied2) QMessageBox::information(this,trUtf8("Kopia zapasowa plików konfiguracyjnych"), trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));
+
+            QDir dir;
+            dir.setPath(sett().getWorkingDir() + sett().getWorkingDir());
+         //   QMessageBox::warning(this,"", sett().getWorkingDir() + sett().getWorkingDir());
+            foreach (QString copy_file, dir.entryList(QDir::Dirs | QDir::Files))
+
+                {
+
+                    QFile file(sett().getWorkingDir() + sett().getWorkingDir() + QString("/") + copy_file);
+                    QFileInfo ifDir(sett().getWorkingDir() + sett().getWorkingDir() + QString("/") + copy_file);
+
+                    if (ifDir.isDir()) copyDir(sett().getWorkingDir() + sett().getWorkingDir() + QString("/") + copy_file, sett().getWorkingDir() + QString("/") + copy_file);
+                    else file.copy(sett().getWorkingDir() + QString("/") + copy_file);
+
+                }
+
+            QDir dirscHome2(sett().getWorkingDir() + QString("/home"));
+            removed = dirscHome2.removeRecursively();
+            if (!removed) qDebug() << dirscHome2.absolutePath() << " directory couldn't be removed";
+            else qDebug() << dirscHome2.absolutePath() << " has been removed";
+
+
+                QMessageBox::information(this, "Wczytywanie backup", "Sprawdź, restartując program, czy backup wprowadził brakujące dane");
+
+
+            if (archdir != 0) archdir = 0;
+            delete archdir;
+
+            if (kzip != 0) kzip = 0;
+            delete kzip;
+
+            if (archdir2 != 0) archdir2 = 0;
+            delete archdir2;
+
+            if (kzip2 != 0) kzip2 = 0;
+            delete kzip2;
 
 }
 
