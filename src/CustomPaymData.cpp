@@ -13,5 +13,8 @@ CustomPaymData::CustomPaymData() {
 }
 
 CustomPaymData::~CustomPaymData() {
+
 	// TODO Auto-generated destructor stub
 }
+
+

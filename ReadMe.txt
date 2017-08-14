@@ -1,37 +1,40 @@
-QFaktury to darmowy system fakturujÄ…cy pracujÄ…cy w systemach Windows, Linux i Mac OS.
-UmoÅ¼liwia on drukowanie faktur, faktur pro forma i korekt. UmoÅ¼liwia zarzÄ…dzanie bazÄ… faktur, towarÃ³w 
-i kontrahentÃ³w.
-
+QFaktury to darmowy system fakturujący, pracujący w systemach Linux.
+Umożliwia on drukowanie faktur, faktur pro forma, rachunków, korekt i duplikatów. Umożliwia zarządzanie bazą faktur, towarów i kontrahentów.
 
 Wymagania:
-Dowolny Linux, Windows, MacOSX z zainstalowanym >=Qt4.4 
+System Linux
+biblioteka Qt >= 5.0.0 
+Dostęp do internetu
+Aktualny czas systemowy
 
 Kompilacja:
-Do skompilowania wystaczy wydac dwa polecenia: 
+Do skompilowania wystarczy wydać dwa polecenia: 
 qmake
 make
 
 Instalacja
-Program mozna zainstalowac przy uzyciu polecenia:
+Program można zainstalować przy użyciu polecenia:
 sudo make install
 
-powoduje to skopiowanie wszystkich potrzebnych plikow do:
-qfaktury - /usr/local/bin
-grafiki - /usr/local/share/qfaktury/icons
-css - /usr/local/share/qfaktury/templates
-jezyki - /usr/local/share/qfaktury
-
-
-Upgrade do wersji 0.6.2
-Przy upgradzie do wersji 0.6.2 konieczne jest dodanie nowej formy platnosci np. terminowa. W przeciwnym
-wypadku po wybraniu ostatniej formy platnosci pojawi sie okienko do wystawiania faktur zaliczkowych. 
+powoduje to skopiowanie wszystkich potrzebnych plików do - 
+Na Linux:
+program - /usr/bin
+grafika - /usr/share/qfaktury/icons
+pliki formatu .png
+szablony do drukowania - /usr/share/qfaktury/templates
+pliki formatu .css
+języki - /usr/share/qfaktury/translations
+pliki formatu .qm
+ikona programu - /usr/share/applications
+pliki formatu .desktop
+źródła - /usr/share/qfaktury/src
+pliki formatu .h .cpp
 
 
 Ograniczenia!!
 
-1. Duplikat wystawiony nie jest przechowywany w programie. 
-2. W przypadku faktur brutto, zalozenie jest, ze w karotece towarow ceny sa brutto.
-3. Do rachunku nie wystawimy duplikatu, ani korekty.  
+1. W przypadku faktur brutto, założenie jest, ze w kartotece towarów ceny są brutto.
+2. Do rachunku nie wystawimy duplikatu, ani korekty.  
 
 
 

@@ -1,6 +1,0 @@
--integracja z ksiazka adresowa
--raport miesieczny wystawionych faktur 
--mozliwosc zmiany seperatora daty
--mozliowsc dodawania kontrahenta w oknie faktur 
--staly rabat kontrahenta 
-- mozliwosc wyszukiwania konrtahentow i towarow (przy dodawaniu do faktury)

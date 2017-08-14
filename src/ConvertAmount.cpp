@@ -6,380 +6,332 @@
  */
 
 #include "ConvertAmount.h"
+#include "Settings.h"
+
 
 ConvertAmount::ConvertAmount() {
 	// TODO Auto-generated constructor stub
 
 }
 
+
 ConvertAmount::~ConvertAmount() {
 	// TODO Auto-generated destructor stub
 }
 
-QString ConvertAmount::convertPL(QString input, QString waluta) {
-	// qDebug() << in;
+
+QString& ConvertAmount::descAmount(QString &countMoney, QString partMoney, QString ifOne, QString ifMore, QString ifBetween)
+{
+
+    while (partMoney.length() < 3)
+        partMoney = QObject::trUtf8("0") + partMoney;
+
+    switch (partMoney.left(1).toInt()) {
+    case 1:
+        countMoney += QObject::trUtf8(" ") + hundsList()[0];
+        break;
+    case 2:
+        countMoney += QObject::trUtf8(" ") + hundsList()[1];
+        break;
+    case 3:
+        countMoney += QObject::trUtf8(" ") + hundsList()[2];
+        break;
+    case 4:
+        countMoney += QObject::trUtf8(" ") + hundsList()[3];
+        break;
+    case 5:
+        countMoney += QObject::trUtf8(" ") + hundsList()[4];
+        break;
+    case 6:
+        countMoney += QObject::trUtf8(" ") + hundsList()[5];
+        break;
+    case 7:
+        countMoney += QObject::trUtf8(" ") + hundsList()[6];
+        break;
+    case 8:
+        countMoney += QObject::trUtf8(" ") + hundsList()[7];
+        break;
+    case 9:
+        countMoney += QObject::trUtf8(" ") + hundsList()[8];
+        break;
+    case 0:
+        countMoney += QObject::trUtf8("");
+        break;
+    }
+
+    if (partMoney.mid(1, 1).toInt() == 1) {
+
+        switch (partMoney.right(1).toInt()) {
+        case 1:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[0];
+            break;
+        case 2:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[1];
+            break;
+        case 3:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[2];
+            break;
+        case 4:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[3];
+            break;
+        case 5:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[4];
+            break;
+        case 6:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[5];
+            break;
+        case 7:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[6];
+            break;
+        case 8:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[7];
+            break;
+        case 9:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[8];
+            break;
+        case 0:
+            countMoney += QObject::trUtf8(" ") + endsTensList()[9];
+            break;
+        }
+
+    } else {
+        switch (partMoney.mid(1, 1).toInt()) {
+        case 2:
+            countMoney += QObject::trUtf8(" ") + endsHundList()[0];
+            break;
+        case 3:
+            countMoney += QObject::trUtf8(" ") + endsHundList()[1];
+            break;
+        case 4:
+            countMoney += QObject::trUtf8(" ") + endsHundList()[2];
+            break;
+        case 5:
+            countMoney += QObject::trUtf8(" ") + endsHundList()[3];
+            break;
+        case 6:
+            countMoney += QObject::trUtf8(" ") + endsHundList()[4];
+            break;
+        case 7:
+            countMoney += QObject::trUtf8(" ") + endsHundList()[5];
+            break;
+        case 8:
+            countMoney += QObject::trUtf8(" ") + endsHundList()[6];
+            break;
+        case 9:
+            countMoney += QObject::trUtf8(" ") + endsHundList()[7];
+            break;
+        case 0:
+            countMoney += QObject::trUtf8("");
+            break;
+        }
+
+        switch (partMoney.right(1).toInt()) {
+        case 1:
+            countMoney += QObject::trUtf8(" ") + simpleNumbList()[0];
+            break;
+        case 2:
+            countMoney += QObject::trUtf8(" ") + simpleNumbList()[1];
+            break;
+        case 3:
+            countMoney += QObject::trUtf8(" ") + simpleNumbList()[2];
+            break;
+        case 4:
+            countMoney += QObject::trUtf8(" ") + simpleNumbList()[3];
+            break;
+        case 5:
+            countMoney += QObject::trUtf8(" ") + simpleNumbList()[4];
+            break;
+        case 6:
+            countMoney += QObject::trUtf8(" ") + simpleNumbList()[5];
+            break;
+        case 7:
+            countMoney += QObject::trUtf8(" ") + simpleNumbList()[6];
+            break;
+        case 8:
+            countMoney += QObject::trUtf8(" ") + simpleNumbList()[7];
+            break;
+        case 9:
+            countMoney += QObject::trUtf8(" ") + simpleNumbList()[8];
+            break;
+        case 0:
+            countMoney += QObject::trUtf8("");
+            break;
+        }
+    }
+
+    if (!ifOne.isEmpty() && !ifOne.isNull()) {
+        if (partMoney.toInt() > 9) {
+
+                countMoney += ifMore;
+                qDebug() << "partMoney.toInt() > 9: " << partMoney.toInt();
+
+        } else if ((partMoney.toInt() < 10) && (partMoney.toInt() > 0)) {
+
+            if ((partMoney.toInt() > 1) && (partMoney.toInt() < 5)) countMoney += ifBetween;
+            else if (partMoney.toInt() > 4) countMoney += ifMore;
+            else countMoney += ifOne;
+            qDebug() << "partMoney.toInt() >= 1: " << partMoney.toInt();
+
+        }
+    }
+
+    return countMoney;
+}
+
+
+const QStringList ConvertAmount::hundsList() {
+
+    QStringList hundredsPL = QStringList();
+    hundredsPL << QObject::trUtf8("sto") << QObject::trUtf8("dwieście")
+            << QObject::trUtf8("trzysta") << QObject::trUtf8("czterysta")
+            << QObject::trUtf8("pięćset") << QObject::trUtf8("sześćset")
+            << QObject::trUtf8("siedemset") << QObject::trUtf8("osiemset")
+            << QObject::trUtf8("dziewięćset");
+
+    return hundredsPL;
+}
+
+
+const QStringList ConvertAmount::endsHundList() {
+
+    QStringList hundEndsPL = QStringList();
+    hundEndsPL << QObject::trUtf8("dwadzieścia") << QObject::trUtf8("trzydzieści")
+            << QObject::trUtf8("czterdzieści")
+            << QObject::trUtf8("pięćdziesiąt")
+            << QObject::trUtf8("sześdziesiąt") << QObject::trUtf8(
+            "siedemdziesiąt") << QObject::trUtf8("osiemdziesiąt")
+            << QObject::trUtf8("dziewięćdziesiąt");
+
+    return hundEndsPL;
+}
+
+
+const QStringList ConvertAmount::endsTensList() {
+
+    QStringList tenEndsPL = QStringList();
+    tenEndsPL << QObject::trUtf8("jedenaście") << QObject::trUtf8("dwanaście")
+            << QObject::trUtf8("trzynaście") << QObject::trUtf8("czternaście")
+            << QObject::trUtf8("piętnaście") << QObject::trUtf8("szesnaście")
+            << QObject::trUtf8("siedemnaście")
+            << QObject::trUtf8("osiemnaście") << QObject::trUtf8(
+            "dziewiętnaście") << QObject::trUtf8("dziesięć");
+
+    return tenEndsPL;
+}
+
+const QStringList ConvertAmount::simpleNumbList() {
+
+    QStringList nineNumbs = QStringList();
+    nineNumbs << QObject::trUtf8("jeden") << QObject::trUtf8("dwa")
+            << QObject::trUtf8("trzy") << QObject::trUtf8("cztery")
+            << QObject::trUtf8("pięć") << QObject::trUtf8("sześć")
+            << QObject::trUtf8("siedem") << QObject::trUtf8("osiem")
+            << QObject::trUtf8("dziewięć");
+
+    return nineNumbs;
+}
+
+
+QString ConvertAmount::convertPL(QString input, QString currency) {
+
 	QString in = input.remove(sett().getTPointStr());
+    qDebug() << "in: " << in;
 
 	QString tmp = in.remove(in.indexOf(sett().getDecimalPointStr()), 3);
+    qDebug() << "temp: " << tmp;
 
-	QString setki = tmp.right(3);
-	QString tysiace;
+    QString hundreds = tmp.right(3);
+    QString thousands = QString();
+    QString millions = QString();
+    QString billions = QString();
+
 	switch (tmp.length()) {
 	case 4:
-		tysiace = tmp.left(1);
+
+        thousands = tmp.left(1);
+        millions = QObject::trUtf8("");
+        billions = QObject::trUtf8("");
 		break;
+
 	case 5:
-		tysiace = tmp.left(2);
+
+        thousands = tmp.left(2);
+        millions = QObject::trUtf8("");
+        billions = QObject::trUtf8("");
 		break;
+
 	case 6:
-		tysiace = tmp.left(3);
+
+        thousands = tmp.left(3);
+        millions = QObject::trUtf8("");
+        billions = QObject::trUtf8("");
 		break;
+
+    case 7:
+
+        millions = tmp.left(1);
+        thousands = tmp.mid(1,3);
+        billions = QObject::trUtf8("");
+        break;
+
+    case 8:
+
+        millions = tmp.left(2);
+        thousands = tmp.mid(2,3);
+        billions = QObject::trUtf8("");
+        break;
+
+    case 9:
+
+        millions = tmp.left(3);
+        thousands = tmp.mid(3,3);
+        billions = QObject::trUtf8("");
+        break;
+
+    case 10:
+
+        billions = tmp.left(1);
+        millions = tmp.mid(1,3);
+        thousands = tmp.mid(4,3);
+        break;
+
+    case 11:
+
+        billions = tmp.left(2);
+        millions = tmp.mid(2,3);
+        thousands = tmp.mid(5,3);
+        break;
+
+    case 12:
+
+        billions = tmp.left(3);
+        millions = tmp.mid(3,3);
+        thousands = tmp.mid(6,3);
+        break;
+
 	default:
-		tysiace = QObject::trUtf8("");
+
+        thousands = QObject::trUtf8("");
+        millions = QObject::trUtf8("");
+        billions = QObject::trUtf8("");
 		break;
 	}
 
-	QString out;
+    qDebug() << "billions' value: " << billions;
+    qDebug() << "millions' value: " << millions;
+    qDebug() << "thousands' value: " << thousands;
 
-	QStringList jedynki;
+    QString out = QString();
 
-	jedynki << QObject::trUtf8("jeden") << QObject::trUtf8("dwa")
-			<< QObject::trUtf8("trzy") << QObject::trUtf8("cztery")
-			<< QObject::trUtf8("pięć") << QObject::trUtf8("sześć")
-			<< QObject::trUtf8("siedem") << QObject::trUtf8("osiem")
-			<< QObject::trUtf8("dziewięć");
-
-	/*
-	 jedynki << QObject::trUtf8("jeden złotych") << QObject::trUtf8("dwa złote")  << QObject::trUtf8("trzy złote") << QObject::trUtf8("cztery złote") <<
-	 QObject::trUtf8("pięć złotych") << QObject::trUtf8("sześć złotych") << QObject::trUtf8("siedem złotych") << QObject::trUtf8("osiem złotych") <<
-	 QObject::trUtf8("dziewięć złotych");
-	 */
-
-	QStringList jedynki1;
-	jedynki1 << QObject::trUtf8("jeden") << QObject::trUtf8("dwa")
-			<< QObject::trUtf8("trzy") << QObject::trUtf8("cztery")
-			<< QObject::trUtf8("pięć") << QObject::trUtf8("sześć")
-			<< QObject::trUtf8("siedem") << QObject::trUtf8("osiem")
-			<< QObject::trUtf8("dziewięć");
-
-	QStringList nascie;
-	nascie << QObject::trUtf8("jedenaście") << QObject::trUtf8("dwanaście")
-			<< QObject::trUtf8("trzynaście") << QObject::trUtf8("czternaście")
-			<< QObject::trUtf8("piętnaście") << QObject::trUtf8("szesnaście")
-			<< QObject::trUtf8("siedemnaście")
-			<< QObject::trUtf8("osiemnaście") << QObject::trUtf8(
-			"dziewiętnaście") << QObject::trUtf8("dziesięć");
-
-	/*
-	 nascie << QObject::trUtf8("jedenaście złotych") << QObject::trUtf8("dwanaście złotych") << QObject::trUtf8("trzynaście złotych") <<
-	 QObject::trUtf8("czternaście złotych") << QObject::trUtf8("piętnaście złotych") << QObject::trUtf8("szesnaście złotych") <<
-	 QObject::trUtf8("siedemnaście złotych") << QObject::trUtf8("osiemnaście złotych") << QObject::trUtf8("dziewiętnaście złotych") <<
-	 QObject::trUtf8("dziesięć złotych");
-
-	 */
-
-	QStringList nascie1;
-	nascie1 << QObject::trUtf8("jedenaście") << QObject::trUtf8("dwanaście")
-			<< QObject::trUtf8("trzynaście") << QObject::trUtf8("czternaście")
-			<< QObject::trUtf8("piętnaście") << QObject::trUtf8("szesnaście")
-			<< QObject::trUtf8("siedemnaście")
-			<< QObject::trUtf8("osiemnaście") << QObject::trUtf8(
-			"dziewiętnaście") << QObject::trUtf8("dziesięć");
-
-	QStringList escia;
-	escia << QObject::trUtf8("dwadzieścia") << QObject::trUtf8("trzydzieści")
-			<< QObject::trUtf8("czterdzieści")
-			<< QObject::trUtf8("pięćdziesiąt")
-			<< QObject::trUtf8("sześdziesiąt") << QObject::trUtf8(
-			"siedemdziesiąt") << QObject::trUtf8("osiemdziesiąt")
-			<< QObject::trUtf8("dziewięćdziesiąt");
-
-	QStringList sta;
-	sta << QObject::trUtf8("sto") << QObject::trUtf8("dwieście")
-			<< QObject::trUtf8("trzysta") << QObject::trUtf8("czterysta")
-			<< QObject::trUtf8("pięćset") << QObject::trUtf8("sześćset")
-			<< QObject::trUtf8("siedemset") << QObject::trUtf8("osiemset")
-			<< QObject::trUtf8("dziewięćset");
-
-	// ******************************************************************
-	while (tysiace.length() < 3)
-		tysiace = QObject::trUtf8("0") + tysiace;
-
-	switch (tysiace.left(1).toInt()) {
-	case 1:
-		out += QObject::trUtf8(" ") + sta[0];
-		break;
-	case 2:
-		out += QObject::trUtf8(" ") + sta[1];
-		break;
-	case 3:
-		out += QObject::trUtf8(" ") + sta[2];
-		break;
-	case 4:
-		out += QObject::trUtf8(" ") + sta[3];
-		break;
-	case 5:
-		out += QObject::trUtf8(" ") + sta[4];
-		break;
-	case 6:
-		out += QObject::trUtf8(" ") + sta[5];
-		break;
-	case 7:
-		out += QObject::trUtf8(" ") + sta[6];
-		break;
-	case 8:
-		out += QObject::trUtf8(" ") + sta[7];
-		break;
-	case 9:
-		out += QObject::trUtf8(" ") + sta[8];
-		break;
-	case 0:
-		out += QObject::trUtf8("");
-		break;
-	}
-
-	if (tysiace.mid(1, 1).toInt() == 1) {
-		switch (tysiace.right(1).toInt()) {
-		case 1:
-			out += QObject::trUtf8(" ") + nascie1[0];
-			break;
-		case 2:
-			out += QObject::trUtf8(" ") + nascie1[1];
-			break;
-		case 3:
-			out += QObject::trUtf8(" ") + nascie1[2];
-			break;
-		case 4:
-			out += QObject::trUtf8(" ") + nascie1[3];
-			break;
-		case 5:
-			out += QObject::trUtf8(" ") + nascie1[4];
-			break;
-		case 6:
-			out += QObject::trUtf8(" ") + nascie1[5];
-			break;
-		case 7:
-			out += QObject::trUtf8(" ") + nascie1[6];
-			break;
-		case 8:
-			out += QObject::trUtf8(" ") + nascie1[7];
-			break;
-		case 9:
-			out += QObject::trUtf8(" ") + nascie1[8];
-			break;
-		case 0:
-			out += QObject::trUtf8(" ") + nascie1[9];
-			break;
-		}
-	} else {
-		switch (tysiace.mid(1, 1).toInt()) {
-		//    case 1: out += nascie[0];
-		// break;
-		case 2:
-			out += QObject::trUtf8(" ") + escia[0];
-			break;
-		case 3:
-			out += QObject::trUtf8(" ") + escia[1];
-			break;
-		case 4:
-			out += QObject::trUtf8(" ") + escia[2];
-			break;
-		case 5:
-			out += QObject::trUtf8(" ") + escia[3];
-			break;
-		case 6:
-			out += QObject::trUtf8(" ") + escia[4];
-			break;
-		case 7:
-			out += QObject::trUtf8(" ") + escia[5];
-			break;
-		case 8:
-			out += QObject::trUtf8(" ") + escia[6];
-			break;
-		case 9:
-			out += QObject::trUtf8(" ") + escia[7];
-			break;
-		case 0:
-			out += QObject::trUtf8("");
-			break;
-		}
-		switch (tysiace.right(1).toInt()) {
-		case 1:
-			out += QObject::trUtf8(" ") + jedynki1[0];
-			break;
-		case 2:
-			out += QObject::trUtf8(" ") + jedynki1[1];
-			break;
-		case 3:
-			out += QObject::trUtf8(" ") + jedynki1[2];
-			break;
-		case 4:
-			out += QObject::trUtf8(" ") + jedynki1[3];
-			break;
-		case 5:
-			out += QObject::trUtf8(" ") + jedynki1[4];
-			break;
-		case 6:
-			out += QObject::trUtf8(" ") + jedynki1[5];
-			break;
-		case 7:
-			out += QObject::trUtf8(" ") + jedynki1[6];
-			break;
-		case 8:
-			out += QObject::trUtf8(" ") + jedynki1[7];
-			break;
-		case 9:
-			out += QObject::trUtf8(" ") + jedynki1[8];
-			break;
-		case 0:
-			out += QObject::trUtf8("");
-			break;
-		}
-	}
-
-	if (out.length() > 2)
-		out += QObject::trUtf8(" tys.");
-
-	//***************************************************************
-	while (setki.length() < 3)
-		setki = QObject::trUtf8("0") + setki;
-
-	switch (setki.left(1).toInt()) {
-	case 1:
-		out += QObject::trUtf8(" ") + sta[0];
-		break;
-	case 2:
-		out += QObject::trUtf8(" ") + sta[1];
-		break;
-	case 3:
-		out += QObject::trUtf8(" ") + sta[2];
-		break;
-	case 4:
-		out += QObject::trUtf8(" ") + sta[3];
-		break;
-	case 5:
-		out += QObject::trUtf8(" ") + sta[4];
-		break;
-	case 6:
-		out += QObject::trUtf8(" ") + sta[5];
-		break;
-	case 7:
-		out += QObject::trUtf8(" ") + sta[6];
-		break;
-	case 8:
-		out += QObject::trUtf8(" ") + sta[7];
-		break;
-	case 9:
-		out += QObject::trUtf8(" ") + sta[8];
-		break;
-	case 0:
-		out += QObject::trUtf8("");
-		break;
-	}
-
-	switch (setki.mid(1, 1).toInt()) {
-	//    case 1: out += nascie[0];
-	// break;
-	case 2:
-		out += QObject::trUtf8(" ") + escia[0];
-		break;
-	case 3:
-		out += QObject::trUtf8(" ") + escia[1];
-		break;
-	case 4:
-		out += QObject::trUtf8(" ") + escia[2];
-		break;
-	case 5:
-		out += QObject::trUtf8(" ") + escia[3];
-		break;
-	case 6:
-		out += QObject::trUtf8(" ") + escia[4];
-		break;
-	case 7:
-		out += QObject::trUtf8(" ") + escia[5];
-		break;
-	case 8:
-		out += QObject::trUtf8(" ") + escia[6];
-		break;
-	case 9:
-		out += QObject::trUtf8(" ") + escia[7];
-		break;
-	case 0:
-		out += QObject::trUtf8("");
-		break;
-	}
-
-	if (setki.mid(1, 1).toInt() == 1) {
-		switch (setki.right(1).toInt()) {
-		case 1:
-			out += QObject::trUtf8(" ") + nascie[0];
-			break;
-		case 2:
-			out += QObject::trUtf8(" ") + nascie[1];
-			break;
-		case 3:
-			out += QObject::trUtf8(" ") + nascie[2];
-			break;
-		case 4:
-			out += QObject::trUtf8(" ") + nascie[3];
-			break;
-		case 5:
-			out += QObject::trUtf8(" ") + nascie[4];
-			break;
-		case 6:
-			out += QObject::trUtf8(" ") + nascie[5];
-			break;
-		case 7:
-			out += QObject::trUtf8(" ") + nascie[6];
-			break;
-		case 8:
-			out += QObject::trUtf8(" ") + nascie[7];
-			break;
-		case 9:
-			out += QObject::trUtf8(" ") + nascie[8];
-			break;
-		case 0:
-			out += QObject::trUtf8(" ") + nascie[9];
-			break;
-		}
-	} else {
-		switch (setki.right(1).toInt()) {
-		case 1:
-			out += QObject::trUtf8(" ") + jedynki[0];
-			break;
-		case 2:
-			out += QObject::trUtf8(" ") + jedynki[1];
-			break;
-		case 3:
-			out += QObject::trUtf8(" ") + jedynki[2];
-			break;
-		case 4:
-			out += QObject::trUtf8(" ") + jedynki[3];
-			break;
-		case 5:
-			out += QObject::trUtf8(" ") + jedynki[4];
-			break;
-		case 6:
-			out += QObject::trUtf8(" ") + jedynki[5];
-			break;
-		case 7:
-			out += QObject::trUtf8(" ") + jedynki[6];
-			break;
-		case 8:
-			out += QObject::trUtf8(" ") + jedynki[7];
-			break;
-		case 9:
-			out += QObject::trUtf8(" ") + jedynki[8];
-			break;
-		case 0:
-			out += QObject::trUtf8(" "); // waluta; // QObject::trUtf8(" złotych");
-			break;
-		}
-
-	}
+   descAmount(out, billions, QObject::trUtf8(" miliard"), QObject::trUtf8(" miliardów"), QObject::trUtf8(" miliardy"));
+   descAmount(out, millions, QObject::trUtf8(" milion"), QObject::trUtf8(" milionów"), QObject::trUtf8(" miliony"));
+   descAmount(out, thousands, QObject::trUtf8(" tysiąc"), QObject::trUtf8(" tysięcy"), QObject::trUtf8(" tysiące"));
+   descAmount(out, hundreds);
 
 	in = input;
-	QString grosze = in.remove(0, in.indexOf(sett().getDecimalPointStr()) + 1);
-	return out + QObject::trUtf8(" ") + grosze + QObject::trUtf8("/100 ")
-			+ waluta;
+    QString change = in.remove(0, in.indexOf(sett().getDecimalPointStr()) + 1);
+
+    return out + QObject::trUtf8(" ") + change + QObject::trUtf8("/100 ")
+            + currency;
+
 }

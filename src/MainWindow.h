@@ -1,47 +1,58 @@
 #ifndef MainWindow_H
 #define MainWindow_H
+
 #include <QMainWindow>
 #include <QKeyEvent>
-#include "Settings.h"
+
 #include "ui_MainWindow.h"
+#include "Invoice.h"
+#include "owncalendar.h"
+#include "Setting.h"
 
-#include "IDataLayer.h"
 
-
-class MainWindow: public QMainWindow, public Ui::MainWindow {
+class MainWindow: public QMainWindow {
 
 Q_OBJECT
+
 public:
-	MainWindow(QWidget *parent);
+
+    MainWindow(QWidget *parent=0);
 	~MainWindow();
 	static void insertRow(QTableWidget *t, int row);
+    void newInvoice(Invoice* invoice, QString windowTitle);
+    const int getMaxSymbol();
+    static MainWindow * instance();
 
-	IDataLayer *dl;
+
 public slots:
+
 	void tableClear(QTableWidget * tab);
-	void tabChanged(QWidget * aaa);
-	void rereadHist();
+    void tabChanged();
+    void rereadHist(bool if_clicked);
 	void aboutQt();
-	void oProg();
+    void aboutProg();
 	void editFHist();
 	void delFHist();
-	void daneFirmyClick();
+    void userDataClick();
 	void settClick();
-	void kontrClick();
-	void kontrDel();
-	void kontrEd();
-	void newFra();
+    void buyerClick();
+    void buyerDel();
+    void buyerEd();
+    void newInv();
+    void newInvRR();
 	void newPForm();
-	void newKor();
-	void newDuplikat();
-	void newFBrutto();
-	void newFRachunek();
+    void newCor();
+    void newDuplicate();
+    void newInvGross();
+    void newInvBill();
 	bool close();
-	void pomoc();
+    void help();
+    void openHideOrganizer();
+    void noteDownTask(const QDate&);
 	void reportBug();
-	void towaryDodaj();
-	void towaryUsun();
-	void towaryEdycja();
+    void goodsAdd();
+    void goodsDel();
+    void goodsEdit();
 	void mainUpdateStatus(QTableWidgetItem *item);
 	void showTableMenuT(QPoint p);
 	void showTableMenuK(QPoint p);
@@ -49,20 +60,68 @@ public slots:
 	void pluginSlot();
 	void pluginInfoSlot();
 	void keyPressEvent(QKeyEvent * event);
+    void openWebTableK(int,int);
+    void printBuyerList();
+    void printList(QPrinter *);
+    void cancelTaskWidget();
+    void addTaskToList();
+    void addNextTask();
+    void delTasksFromDay();
+    QString changeIfEmpty(QString);
+
+
+protected:
+
+    virtual void loadPlugins();
+
+
 private:
-	QString workingDir; // should be deprecated
+
+    IDataLayer *dl;
+    Ui::MainWindow *ui;
+    QWidget* windBack;
+    QLineEdit* fileComboBox;
+    QLineEdit* directoryComboBox;
+
+    QVector<QAction*> plugActions;
+    QString workingDir;
 	QMap<int, QString> customActions;
+    QTimer *timer;
+    QList<int> allSymbols;
+    QWidget* windowTask;
+    QPushButton * cancelTaskBtn;
+    QPushButton * addTaskBtn;
+    QDate markedDate;
+    ownCalendarWidget* calendar;
+    static MainWindow * m_instance;
+
+
 	void saveColumnWidth();
-	bool applyFiltr(QString);
 	void init();
-	bool firstRun();
 	void saveAllSett();
 	void saveAllSettAsDefault();
 	void setupDir();
 	void readHist();
-	void readKontr();
-	void readTw();
-protected:
-	virtual void loadPlugins();
+    void readBuyer();
+    void readGoods();
+    void categorizeYears();
+    void checkTodayTask(QString whatToDo = QString("append"));
+    void createEmergTemplate();
+    bool ifEmergTemplateExists();
+    bool applyFiltr(QString);
+    bool firstRun();
+
+    inline void calendarNoteJustify(QString text) {
+
+        ui->todayExercise->append(text);
+
+        QTextCursor cursor = ui->todayExercise->textCursor();
+        QTextBlockFormat textBlockFormat = cursor.blockFormat();
+        textBlockFormat.setAlignment(Qt::AlignHCenter);
+        cursor.mergeBlockFormat(textBlockFormat);
+        ui->todayExercise->setTextCursor(cursor);
+
+    }
+
 };
 #endif

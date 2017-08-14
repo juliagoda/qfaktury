@@ -9,14 +9,23 @@
 #define CONVERTAMOUNT_H_
 
 #include <QString>
-#include "Settings.h"
+
 
 class ConvertAmount {
+
 public:
+
 	ConvertAmount();
 	~ConvertAmount();
-	QString convertPL(QString input, QString waluta);
+
 	void convertTest();
+    QString convertPL(QString input, QString currency);
+    QString& descAmount(QString&,QString,QString = QString(),QString = QString(),QString = QString());
+    const QStringList hundsList();
+    const QStringList endsHundList();
+    const QStringList endsTensList();
+    const QStringList simpleNumbList();
+
 };
 
 #endif /* CONVERTAMOUNT_H_ */

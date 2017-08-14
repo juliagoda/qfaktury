@@ -1,0 +1,368 @@
+Documentation:
+    PL:
+        Spis_treści:
+            - 1: 
+                - Wprowadzenie:
+                    - Wersja_programu
+                    - Opis
+                    - Wiek
+                    - Różnice_w_wersjach:
+                        - 0.7.0
+            - 2: 
+                - Wymagania:
+                    - System_operacyjny
+                    - Biblioteki:
+                        - Nazwa
+                        - Wersja
+                        - Moduły
+                    - Inne
+            - 3: 
+                - Instalacja:
+                    - Wprowadzenie
+                    - Polecenie_1
+                    - Polecenie_2
+                    - Polecenie_3
+                    - Polecenie_4
+            - 4:
+                - Opis techniczny:
+                    - Odwołania_w_kodzie
+                    - Pliki_źródłowe:
+                        - main.cpp
+                        - MainWindow.cpp
+                        - MainWindow.h
+                        - XmlDataLayer.cpp
+                        - XmlDataLayer.h
+                        - Validations.cpp
+                        - Validations.h
+                        - User.cpp
+                        - User.h
+                        - Setting.cpp
+                        - Setting.h
+                        - InvoiceGross.cpp
+                        - InvoiceGross.h
+                        - Bill.cpp
+                        - Bill.h
+                        - Correction.cpp
+                        - Correction.h
+                        - CorrectGross.cpp
+                        - CorrectGross.h
+                        - Invoice.cpp
+                        - Invoice.h
+                        - BuyerData.cpp
+                        - BuyerData.h
+                        - Buyers.cpp
+                        - Buyers.h
+                        - BuyersList.cpp
+                        - BuyersList.h
+                        - ChangeAmount.cpp
+                        - ChangeAmount.h
+                        - CustomPayment.cpp
+                        - CustomPayment.h
+                        - CustomPaymData.cpp
+                        - CustomPaymData.h
+                        - Duplicate.cpp
+                        - Duplicate.h
+                        - Goods.cpp
+                        - Goods.h
+                        - GoodsList.cpp
+                        - GoodsList.h
+                        - GoodsGrossList.cpp
+                        - GoodsGrossList.h
+                        - Settings.h
+                        - ProductData.h
+                        - owncalendar.h
+                        - InvoiceData.h
+                        - IDataLayer.h
+                        - ConvertAmount.cpp
+                        - ConvertAmount.h
+                        - Const.h
+                        - config.h
+            - 5: 
+                - Instrukcja:
+                    - 5a: Pierwsze uruchomienie
+                    - 5b: 
+                        - Ustawienia:
+                            - 5c1: Ogólne
+                            - 5c2: Faktury
+                            - 5c3: Słowniki
+                            - 5c4: Wydruki
+                    - 5c: Menu
+                    - 5d: 
+                        - Lista_danych:
+                            - Dodawanie_danych_do_listy:
+                                - 5d1.1: Dodawanie kontrahentów
+                                - 5d1.2: Dodawanie towaru
+                                - 5d1.3: Dodawanie usługi
+                                - 5d1.4:
+                                    - Dodawanie_faktur:
+                                        - 5d1.4.1: &funkcja1 Konwersja walut
+                                        - 5d1.4.2: &funkcja2 Zmiana metody płatności
+                                        - 5d1.4.3: &funkcja3 Dodawanie kontrahentów
+                                        - 5d1.4.4: &funkcja4 Dodawanie usług/towarów
+                                        - 5d1.4.5: &funkcja5 Wykorzystanie
+                                - 5d1.5: 
+                                    - Dodawanie_rachunku:
+                                        - 5d1.5.1: *funkcja1
+                                        - 5d1.5.2: *funkcja2
+                                        - 5d1.5.3: *funkcja3
+                                        - 5d1.5.4: *funkcja4
+                                        - 5d1.5.5: *funkcja5
+                                - 5d1.6: 
+                                    - Dodawanie_korekty:
+                                        - 5d1.6.1: *funkcja1
+                                        - 5d1.6.2: *funkcja2
+                                        - 5d1.6.3: *funkcja3
+                                        - 5d1.6.4: *funkcja4
+                                        - 5d1.6.5: *funkcja5
+                                - 5d1.7: 
+                                    - Dodawanie_duplikatu:
+                                        - 5d1.7.1: *funkcja5
+                            - Edycja_danych_na_liście:
+                                - 5d2.1: Edycja faktur
+                                - 5d2.2: Edycja korekty
+                                - 5d2.3: Podgląd duplikatu
+                            - Otwieranie adresu URL z listy w przeglądarce
+                    - 5e: Dodawanie firmy wystawiającej fakturę
+                    - 5f: Dodatki
+                    - 5g: Raportowanie błędów
+            - 6: 
+                - FAQ:
+                    - 6a: Skąd pobrać program?
+                    - 6b: Jak pobrać program?
+                    - 6c: Jak zainstalować program?
+                    - 6d: Nie widzę nowych dodatkowych opcji dodanych do programu
+                    - 6e: Gdzie mogę zgłosić błąd?
+                    - 6f: Gdzie mogę zgłosić propozycję dla aplikacji?
+                    - 6g: Program nie widzi moich faktur, towarów ani kontrahentów
+                    - 6i: >
+                        Moje dane wprowadzane do formularza wydają się być błędne, choć jestem pewny/pewna, że
+                        są poprawne
+                    - 6j: Czemu mam listę innych motywów od osoby, który używa tego samego programu?
+                    - 6k: Nie mogę znaleźć katalogu, w którym znajdują się moje faktury
+                    - 6l: Nie mogę wystawić duplikatu do rachunku
+                    - 6m: Nie mogę wystawić duplikatu do faktury pro forma
+                    - 6n: Nie mogę wystawić korekty dla rachunku
+                    - 6o: Nie mogę wystawić korekty dla faktury pro forma
+                    - 6p: > 
+                        Brakuje mi dodatkowych - form płatności / stawek VAT / jednostek miar i wag / przyczyn korekty 
+                        / walut
+                    - 6r: Program nie konwertuje waluty w oknie faktury
+    ENG:
+        Table_of_contents:
+            - 1: Introduction
+            - 2: Requirements
+            - 3: Installation
+            - 4: Architecture/Design Describe
+            - 5: 
+                - Instruction:
+                    - 5a: First run
+                    - 5b: 
+                        - Settings:
+                            - 5c1: General
+                            - 5c2: Invoices
+                            - 5c3: Dictionaries
+                            - 5c4: Printouts
+                    - 5c: Menu
+                    - 5d: 
+                        - Data_List:
+                            - Add_data_to_list:
+                                - 5d1.1: Add buyers
+                                - 5d1.2: Add goods
+                                - 5d1.3: Add services
+                                - 5d1.4:
+                                    - Add_invoice:
+                                        - 5d1.4.1: &function1 Currency conversion
+                                        - 5d1.4.2: &function2 Payment methods change
+                                        - 5d1.4.3: &function3 Add buyers
+                                        - 5d1.4.4: &function4 Add goods/services
+                                        - 5d1.4.5: &function5 Deployment
+                                - 5d1.5: 
+                                    - Add_bill:
+                                        - 5d1.5.1: *function1
+                                        - 5d1.5.2: *function2
+                                        - 5d1.5.3: *function3
+                                        - 5d1.5.4: *function4
+                                        - 5d1.5.5: *function5
+                                - 5d1.6: 
+                                    - Add_correction:
+                                        - 5d1.6.1: *function1
+                                        - 5d1.6.2: *function2
+                                        - 5d1.6.3: *function3
+                                        - 5d1.6.4: *function4
+                                        - 5d1.6.5: *function5
+                                - 5d1.7: 
+                                    - Add_duplicate:
+                                        - 5d1.7.1: *function5
+                            - Edit_of_data_on_the_list:
+                                - 5d2.1: Invoice edit
+                                - 5d2.2: Correction edit
+                                - 5d2.3: Duplicate view
+                            - Open URL from list in default browser
+                    - 5e: Add company, which issues an invoice
+                    - 5f: Add-ons
+                    - 5g: Bug reports
+            - 6: 
+                - FAQ:
+                    - 6a: Where do I download QFaktury?
+                    - 6b: How do I download QFaktury?
+                    - 6c: How do I install QFaktury?
+                    - 6d: I can't use new options added to settings
+                    - 6e: Where do I report a bug?
+                    - 6f: Where do I report a suggestions for the application?
+                    - 6g: Application doesn't detect my previous invoices, goods or/and services
+                    - 6i: My data added to form are not correct for this app, nevertheless I am sure, that it is
+                    - 6j: Why do I have different styles for this app from others, that use the same application?
+                    - 6k: I can't find catalog, where I have my invoices in
+                    - 6l: I can't issue a duplicate for bill
+                    - 6m: I can't issue a duplicate for pro forma invoice
+                    - 6n: I can't issue correction for bill
+                    - 6o: I can't issue correction for pro forma invoice
+                    - 6p: > 
+                        There are no additional - payment methods / VAT rates / units of measurement / reasons for
+                        corrections / currencies
+                    - 6r: Application doesn't convert currencies 
+    
+    
+#    
+#    
+##########################################################################
+
+##########################           DOCUMENTATION PL          ############################
+
+##########################################################################
+#    
+#
+
+1: 
+    Wprowadzenie:
+        Wersja_programu: 0.7.0
+        Opis:
+            QFaktury jest aplikacją do generowania faktur oraz ich drukowania. Oferuje tworzenie faktur pro forma, faktur
+            brutto, rachunków, korekt i duplikatów. Dodatkowo można dodawać listę kontrahentów oraz listę towarów lub
+            usług, które także można edytować. Program zawiera konwersję walut według aktualnego kursu. Istnieje też możliwość
+            uwzględniania danych kupującego jak i sprzedawcy na drukowanej fakturze, zmiana stylu drukowania faktury, zmiana
+            motywu programu, jego języka, sposobu kodowania, dodawania własnej listy metod płatności, walut, stawek VAT, powodów korekty czy jednostek miar i wag. Program obsługuje słownie na fakturze wartości od dziesiątek po miliardy wraz z wartościami po przecinku. 
+        Wiek:
+            Aktualna wersja programu zaistniała w sieci 12-12-2016, gdy prace nad nią rozpoczęto w połowie listopada 2016 roku. Poprzednia wersja 0.6.2 ostatnio została wydana w czerwcu 2009 roku. Wydanie pierwszej wersji może być
+            starsze niż 2006 rok.
+        Różnice_w_wersjach:
+            0.7.0:
+                - Przeportowanie na Qt5
+                - Dodanie walidacji oraz obliczanie sum kontrolnych dla rubryk formularzy
+                - Usunięcie wyboru maski w ustawieniach i zastąpienie jej działaniem regularnymi wyrażeniami
+                - Dodanie możliwości przekształcania waluty według aktualnego kursu walut. Zmiana wartości co pół godziny
+                - Uzupełnienie opcji płatności "zaliczki" o podgląd kwoty rat oraz sposobu płatności pod podsumowaniem w oknie faktury
+                - Dodanie w ustawieniach możliwość wyboru danych kontrahenta, jakie mają znaleźć się na fakturze
+                - Przyciski "Dodaj" i "Usuń" kolejno dla faktur, kontrahentów i towarów są nieczynne dopóki nie pojawi się przynajmniej jeden wpis. Zmiany są na bieżąco wykrywane
+                - Filtr dat dla listy faktur działa według dat w drugiej rubryce zamiast nazwy pliku, zawierającej datę stworzenia pliku
+                - Poprawa rozmiaru czcionki dla elementów tabelki na fakturze
+                - Komunikat w przypadku wybraniu daty wcześniejszej w polu daty końcowej niż wskazuje data początkowa w filtrze.  Komunikat występuje także w przypadku próby wybrania daty wcześniejszej dla wystawienia faktury niż data sprzedaży towaru oraz przy próbie wybrania daty wcześniejszej dla drugiej raty niż data pierwszej zapłaty. Dodatkowo w przypadku zaliczki obie daty nie mogą być sobie równe
+                - Dodanie kolumn dla adresów e-mail oraz stron www w tabeli kontrahentów
+                - Kliknięcie na odsyłacz w tablicy kontrahentów oraz na liście kontrahentów przy dodawaniu danych do faktury powoduje uruchomienie domyślnej przeglądarki systemowej oraz przejście na adres odsyłacza
+                - Podmiana nieaktywnych lub nieaktualnych adresów url
+                - Zmiana domyślnych stawek VAT 22 i 7 na 23, 8 i 5
+                - Dodanie do domyślnej listy powodów korekty 7 kolejnych możliwych powodów
+                - Dodanie 3 rubryk do formularza dla danych użytkownika, możliwość podania numeru telefonu, adresu e-mail i strony internetowej
+                - Duplikat faktury zapisuje się w katalogu systemowym oraz ukazuje się na liście faktur po jego zapisie, wraz z adnotacją o tym, że jest to duplikat
+                - Edytowanie duplikatu równa się temu, że nie można niczego zmieniać, oprócz przeglądania rat faktury zaliczkowej oraz możliwości wydrukowania aktualnego duplikatu
+                - W plikach xml zapisuje się więcej danych, szczególnie dla faktur
+                - W pliku bureau.xml znajdują się aktualne wartości kursu walut. Plik tworzy się po pierwszym użyciu konwersji w oknie faktury
+                - Wprowadzenie zabezpieczenia na wypadek zmiany lokalizacji w systemie oraz wynikających z tego brak formatowania liczb double odczytywanych z plików xml
+                - Dodanie wartości milionowych i miliardowych do zapisu słownego na fakturze
+                - Zmiana ścieżki folderu z ~/elinux na ~/.local/share/data/elinux
+                - Dodanie motywów
+                - Dodanie dwóch styli dla drukowanych faktur
+                - Dodanie organizera z kalendarzem
+            
+2:
+    Wymagania:
+        System_operacyjny: Dowolna dystrybucja Linux
+        Biblioteki: 
+            Nazwa: Qt
+            Wersja: Qt >= 5.0.0
+            Moduły: Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network
+        Inne: Podłączenie do internetu, aktualny czas systemowy
+
+3:
+    Instalacja:
+        Wprowadzenie: Przejdź do ścieżki, z którego chcesz zainstalować program i wykonaj polecenie pierwsze w konsoli. Następnie przejdź do pobranego folderu, w którym znajduje się plik qfaktury.pro i wykonaj pozostałe polecenia
+        Polecenie_1: git clone https://github.com/juliagoda/qfaktury.git
+        Polecenie_2: qmake
+        Polecenie_3: make
+        Polecenie_4: sudo make install
+        
+4:
+    Opis_techniczny:
+        Odwołania_w_kodzie: ["https://github.com/juliagoda/qfaktury","http://www.vat.pl/pkwiu/index.php?rodzajKlasyfikacji=pkwiuvat&kod", "http://www.faqs.org/rfcs/rfc1738.html", "http://waluty.com.pl/rss/?mode=kursy", "https://github.com/juliagoda/qfaktury/issues"] 
+        Pliki_źródłowe:
+            main.cpp: >
+                tworzy instancję QApplication, ustawia język programu według zapisanych danych, pobiera plik
+                z rozszerzeniem .rcc, zawierający zasoby dla aplikacji, pobiera informacje na temat położenia
+                okna aplikacji oraz ustawia okno aplikacji, ustawia okno startowe czynne podczas ładowania aplikacji, uruchamia okres trwania okna startowego, ustawia sygnał zamknięcia programu po zamknięciu ostatniego okna, ustawia ikonę programu, nazwę aplikacji, organizacji oraz motyw programu według dostępnych danych.
+            MainWindow.cpp: >
+                Tworzy główne okno programu, w którym znajduje się menu, toolbar oraz podgląd zapisanych faktur, oraz organizera z kalendarzem.
+            XmlDataLayer.cpp: >
+                Klasa służąca do tworzenia plików formatu XML, wprowadzania do nich danych oraz do ich odczytu. Generuje pliki dla listy kontrahentów (dzielonych według kategorii urząd - firma), listy produktów (dzielonych według kategorii towar - usługa), listy faktur oraz dane sprzedawcy.
+            Validations.cpp: >
+                Klasa bez GUI, służąca do walidacji danych sprzedawcy, kontrahentów oraz produktów. Zawiera funkcje, które także obliczają sumy kontrolne
+                wprowadzanych danych w celu zapewnienia braku możliwości wprowadzenia fikcyjnych danych.
+            User.cpp: >
+                Tworzy okno do wprowadzania i zapisu danych sprzedawcy. Z pomocą klasy QSettings zapisuje i wczytuje dane z pliku konfiguracyjnego aplikacji.
+            Setting.cpp: >
+                Tworzy okno z ustawieniami. Wybór zakładki w ustawieniach pozwala używanie klasy QTabWidget, która stanowi główny element wygenerowanego okna.
+                Opcja wyboru języka wykrywa pliki z rozszerzeniem .qm, natomiast opcja wyboru szablonu drukowania wykrywa pliki z rozszerzeniem .css. Opcja wyboru motywu pobiera listę dostępnych motywów w systemie operacyjnym.
+            InvoiceGross.cpp: >
+                Generuje okno dla tworzonej, lub wczytywanej faktury brutto. Klasa dziedziczy z ogólnej klasy faktur - Invoice.
+            Bill.cpp: >
+                Generuje okno dla tworzonego lub wczytywanego rachunku. Klasa dziedziczy z ogólnej klasy faktur - Invoice.
+            Correction.cpp: >
+                Generuje okno dla tworzonej lub wczytywanej faktury korygującej VAT. Klasa dziedziczy z ogólnej klasy faktur - Invoice.
+            CorrectGross.cpp: >
+                Generuje okno dla tworzonej lub wczytywanej faktury korygującej dla faktury brutto. Klasa dziedziczy z ogólnej klasy faktur - Invoice.
+            Invoice.cpp: >
+                Tworzy okno dla standardowej faktury VAT, wraz z większością szczegółów dla tego okna. Jednocześnie jest klasą bazową dla innych klas, dopasowujących dane do pierwotnego okna, które (dane) różnią się w zależności od rodzaju tworzonej faktury. Okno korzysta z danych, znajdujących się w plikach XML kontrahentów, produktów oraz sprzedawcy. Z tego poziomu możliwe jest wydrukowanie danej faktury.
+            BuyerData.cpp: >
+                Służy do tworzenia oddzielnych instancji dla każdego kontrahenta, do których przypisywane są kolejno wartości - nazwa, miejsce, kod pocztowy, adres, numer NIP, numer konta bankowego, numer telefonu, adres email, strona internetowa oraz kategoria kontrahenta (0 lub 1, czyli firma lub urząd).
+            Buyers.cpp: >
+                Generuje formularz do wprowadzania danych dla nowego kontrahenta lub odczytu danych istniejącego kontrahenta.
+            BuyersList.cpp: >
+                Tworzy okno wyboru zapisanych kontrahentów z pliku XML. Klasyfikuje kontrahentów według osobnych kategorii - urzędów lub firm.
+            ChangeAmount.cpp: >
+                Tworzy okno dla zmiany ilości produktu, zaznaczonego w oknie wybranej faktury.
+            CustomPayment.cpp: >
+                W przypadku wyboru metody płatności w postaci zaliczki, klasa generuje okno, które pozwala na podział kwoty rat.
+            CustomPaymData.cpp: >
+                Przechowuje wartości podzielonych rat w zmiennych, do których można się odwoływać za pomocą tworzonej instancji klasy.
+            Duplicate.cpp: >
+                Generuje okno dla duplikatu dla zaznaczonej faktury. Większość opcji jest zablokowana. Możliwy jest tylko podgląd, zapis oraz wydruk.
+            Goods.cpp: >
+                Generuje formularz do wprowadzania danych dla nowego produktu lub odczytu danych istniejącego produktu.
+            GoodsList.cpp: >
+                Tworzy okno wyboru zapisanych produktów z pliku XML. Klasyfikuje produkty według osobnych kategorii - towaru lub usługi.
+            GoodsGrossList.cpp: >
+                Tworzy okno wyboru zapisanych produktów z pliku XML. Klasyfikuje produkty według osobnych kategorii - towaru lub usługi. Okno dla danych z GoodsGrossList różnią się od z GoodsList odmiennie przeliczonymi wartościami w rubrykach.
+            Settings.h: >
+                Zachowuje domyślne wartości dla różnego rodzaju ustawień dla aplikacji oraz opakowuje nazwy ścieżek, które wielokrotnie pojawiają się w kodzie programu. Jest główną klasą, która operuje na ustawieniach, tworząc, zapisując i odczytując z pliku konfiguracyjnego .config z pomocą odziedziczonej klasy QSettings.
+            ProductData.h: >
+                Dane towaru lub usługi przypisywane są do zmiennych instancji klasy. Instancja pozwala także na zmianę wartości oraz ich odczytywanie.
+            owncalendar.h: >
+                Klasa dziedzicząca z klasy QCalendarWidget, nadpisująca metodę wirtualną paintCell w celu możliwości zaznaczania pojedynczych dni na kalendarzu w sposób stworzony w klasie, przy spełnionym warunku.
+            InvoiceData.h: >
+                Dane dowolnej faktury przypisywane są do zmiennych instancji klasy. Instancja pozwala także na zmianę wartości oraz ich odczytywanie.
+            IDataLayer.h: >
+                Klasa z metodami wirtualnymi, służąca jako opcja dostępu do elementów klasy XmlDataLayer.
+            ConvertAmount.cpp: >
+                Pozwala na przedstawienie kwoty w formie słownej.
+            Const.h: >
+                Przechowuje zmienne stałe, które używane są jako nagłówki okien faktur.
+            config.h: >
+                Przechowuje makro dla numeru wersji programu oraz treść dla domyślnego szablonu drukowania o nazwie black.css, który jest generowany w innej klasie, w przypadku problemów wynikających z wykryciem szablonu w ustalonej ścieżce.
+            
+5:
+    Instrukcja:
+        5a: Przy pierwszym uruchomieniu programu pojawiają się trzy komunikaty. Pierwszy komunikat informuje o możliwości konwersji walut wraz z wymaganiami. Drugi komunikat przestrzega przed ewentualną zmianą sposobu formatowania wartości liczbowych z wartościami po przecinku w przypadku zmiany lokalizacji. Trzeci komunikat sugeruje jako pierwszą czynność, stworzenie konta dla sprzedawcy, wystawiającego faktury.
+        5b: 
+            Ustawienia:
+                5c1: Pierwsza zakładka w ustawieniach dotyczy zmian ogólnych. Kolejno od góry w dół ustawieniu podlegają ustawienie języka (polski, angielski, niemiecki), kodowania znaków, graficznego logo firmy, szablonu drukowania dla faktur, motywu programu oraz katalogu roboczego (wskazującego inną ścieżkę do faktur)
+                5c2: Druga zakładka zawiera ustawienia sposobu numeracji faktur, blokady lub możliwości edycji faktur i korekt, zmiany symbolu faktury (w oknie faktury) oraz zmiany nazwy dodawanego produktu. Dodatkowo pozwala na zmianę ilości kopii, które zostaną uwzględnione podczas drukowania faktur oraz dodanie dodatkowego tekstu, który będzie dodany do faktury.
+                5c3: Trzecia zakładka pozwala na dodawanie własnych i usuwanie istniejących stawek VAT, walut, form płatności, jednostek i przyczyn korekty

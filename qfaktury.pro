@@ -3,89 +3,112 @@
 # #####################################################################
 TEMPLATE = app
 TARGET = qfaktury
-DEPENDPATH += .
-INCLUDEPATH += .
-QT += gui \
-    xml
+
+QT += gui core widgets printsupport xml webenginewidgets network
+DEFINES  += QT_NO_SSL
 CONFIG += debug
+QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
+
+QT_MINOR_VERSION = 5.0.0
+
+INCLUDEPATH += .
 
 # Input
-HEADERS += ./src/XmlDataLayer.h \
-    ./src/KontrData.h \
-    ./src/IDataLayer.h \
-    ./src/Const.h \
-    ./src/CustomPaymData.h \
-    ./src/CustomPayment.h \
-    ./src/KorektaBrutto.h \
-    ./src/TowaryBruttoLista.h \
-    ./src/Rachunek.h \
-    ./src/FakturaBrutto.h \
-    ./src/Duplikat.h \
-    ./src/ConvertAmount.h \
-    ./src/config.h \
-    ./src/Faktura.h \
-    ./src/InvoiceData.h \
-    ./src/Kontrahenci.h \
-    ./src/KontrahenciLista.h \
-    ./src/Korekta.h \
-    ./src/MainWindow.h \
-    ./src/ProductData.h \
-    ./src/Settings.h \
-    ./src/Towary.h \
-    ./src/TowaryLista.h \
-    ./src/Ustawienia.h \
-    ./src/Uzytkownik.h \
-    ./src/ZmienIlosc.h
-FORMS += ./ui/CustomPaymentDialog.ui \
-    ./ui/Faktura.ui \
-    ./ui/Kontrahenci.ui \
-    ./ui/KontrahenciLista.ui \
-    ./ui/MainWindow.ui \
-    ./ui/Towary.ui \
-    ./ui/TowaryLista.ui \
-    ./ui/Ustawienia.ui \
-    ./ui/Uzytkownik.ui \
-    ./ui/ZmienIlosc.ui
-SOURCES += ./src/XmlDataLayer.cpp \
-    ./src/KontrData.cpp \
-    ./src/CustomPaymData.cpp \
-    ./src/CustomPayment.cpp \
-    ./src/KorektaBrutto.cpp \
-    ./src/TowaryBruttoLista.cpp \
-    ./src/Rachunek.cpp \
-    ./src/FakturaBrutto.cpp \
-    ./src/Duplikat.cpp \
-    ./src/ConvertAmount.cpp \
-    ./src/Faktura.cpp \
-    ./src/Kontrahenci.cpp \
-    ./src/KontrahenciLista.cpp \
-    ./src/Korekta.cpp \
-    ./src/main.cpp \
-    ./src/MainWindow.cpp \
-    ./src/Towary.cpp \
-    ./src/TowaryLista.cpp \
-    ./src/Ustawienia.cpp \
-    ./src/Uzytkownik.cpp \
-    ./src/ZmienIlosc.cpp
+HEADERS += $$files($$PWD/src/*.h)
+
+
+FORMS += $$files($$PWD/ui/*.ui)
+
+SOURCES += $$PWD/src/XmlDataLayer.cpp \
+    $$PWD/src/BuyerData.cpp \
+    $$PWD/src/CustomPaymData.cpp \
+    $$PWD/src/CustomPayment.cpp \
+    $$PWD/src/CorrectGross.cpp \
+    $$PWD/src/GoodsGrossList.cpp \
+    $$PWD/src/Bill.cpp \
+    $$PWD/src/InvoiceGross.cpp \
+    $$PWD/src/Duplicate.cpp \
+    $$PWD/src/ConvertAmount.cpp \
+    $$PWD/src/Invoice.cpp \
+    $$PWD/src/Buyers.cpp \
+    $$PWD/src/BuyersList.cpp \
+    $$PWD/src/Correction.cpp \
+    $$PWD/src/main.cpp \
+    $$PWD/src/MainWindow.cpp \
+    $$PWD/src/Goods.cpp \
+    $$PWD/src/GoodsList.cpp \
+    $$PWD/src/Setting.cpp \
+    $$PWD/src/User.cpp \
+    $$PWD/src/ChangeAmount.cpp \
+    $$PWD/src/Validations.cpp \
+    $$PWD/src/InvoiceRR.cpp
+
+
 RESOURCES += qfaktury.qrc
 MOC_DIR = .moc
 UI_DIR = .ui
 OBJECTS_DIR = .obj
 RCC_DIR = .rcc
-TRANSLATIONS += qfaktury_de.ts \
-    qfaktury_en.ts \
-    qfaktury_pl.ts
-pixmaps.path = /usr/local/share/qfaktury/icons
+TRANSLATIONS += $$files($$PWD/translations/*.ts)
+
+
+unix {
+
+target.path = /usr/bin
+pixmaps.path = /usr/share/qfaktury/icons
 pixmaps.files = icons/*.png
-css.path = /usr/local/share/qfaktury/templates
+css.path = /usr/share/qfaktury/templates
 css.files = templates/*.css
-languages.path = /usr/local/share/qfaktury
-languages.files = *.qm
-desktop.path = /usr/local/share/applications
+languages.path = /usr/share/qfaktury/translations
+languages.files = translations/*.qm
+documentation.path = /usr/share/doc/qfaktury
+documentation.files = docs/*
+desktop.path = /usr/share/applications
 desktop.files = *.desktop
+sources.path = /usr/share/qfaktury/src
+sources.files = src/*
+
+}
+
+
+win32 {
+
+target.path = C:/Windows/System32
+pixmaps.path = $$(HOME)/AppData/Roaming/qfaktury/icons
+pixmaps.files = icons/*.png
+css.path = $$(HOME)/AppData/Roaming/qfaktury/templates
+css.files = templates/*.css
+languages.path = $$(HOME)/AppData/Roaming/qfaktury/translations
+languages.files = translations/*.qm
+desktop.path = "$$(HOME)/Desktop"
+desktop.files = *.desktop
+sources.path = $$(HOME)/AppData/Roaming/qfaktury/src
+sources.files = src/*
+
+}
+
+
+macx {
+
 target.path = /usr/local/bin
+pixmaps.path = "~/Library/Application Support/qfaktury/icons"
+pixmaps.files = icons/*.png
+css.path = "~/Library/Application Support/qfaktury/templates"
+css.files = templates/*.css
+languages.path = "~/Library/Application Support/qfaktury/translations"
+languages.files = translations/*.qm
+desktop.path = "$$(HOME)/Desktop"
+desktop.files = *.desktop
+sources.path = "~/Library/Application Support/qfaktury/src"
+sources.files = src/*
+
+}
+
+
 INSTALLS += target \
     pixmaps \
     css \
     languages \
-    desktop
+    documentation \
+    desktop \
+    sources

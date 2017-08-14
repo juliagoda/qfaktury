@@ -5,30 +5,38 @@
  *      Author: moux
  */
 
-#ifndef InvoiceData_H
-#define InvoiceData_H
+#ifndef INVOICEDATA_H
+#define INVOICEDATA_H
 
-#include <QString>
-#include <QDate>
-#include <QMap>
 #include "ProductData.h"
 #include "CustomPaymData.h"
 
 
 class InvoiceData {
+
 public:
-	QString customer; // kontrahent
-	QMap<int, ProductData> products;
+
+    QString customer; // buyer
+    QMap<int, ProductData> products;
 	QDate liabDate;
 	QDate sellingDate;
 	QDate productDate;
-	QString frNr;
+    QDate duplDate;
+	QString invNr;
 	QString paymentType;
 	QString currencyType;
 	QString additText;
+    QString payment1;
+    QDate date1;
+    double amount1;
+
+    QString payment2;
+    QDate date2;
+    double amount2;
 
 	QString type;
 	QString id; // in case of xml, here goes filename
+    bool ifpVAT;
 
 	QString custStreet;
 	QString custTic;
@@ -43,6 +51,7 @@ public:
 	/**
 	 *  Return invoice type
 	 */
+
 	QString getInvoiceTypeAndSaveNr(int invoiceType) {
 		QString ret = "FVAT";
 
@@ -59,6 +68,10 @@ public:
 				break;
 		case 6: ret = QObject::trUtf8("rachunek");
 				break;
+        case 7: ret = QObject::trUtf8("duplikat");
+                break;
+        case 8: ret = QObject::trUtf8("RR");
+                break;
 		default: ret = QObject::trUtf8("FVAT");
 				break;
 		}
@@ -66,4 +79,5 @@ public:
 		return ret;
 	}
 };
+
 #endif
