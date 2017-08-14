@@ -93,6 +93,7 @@ void MainWindow::init() {
         ui->tableT->setColumnWidth(10, 65);
 
 		saveAllSettAsDefault();
+		setupDir();
 
         QMessageBox::information(this, "QFaktury", trUtf8("Program zawiera konwersję walut w oknie edycji faktury lub podczas jej tworzenia. By jej używać, powinieneś mieć dostęp do internetu oraz poprawnie ustawiony czas systemowy."));
         QMessageBox::information(this, "QFaktury", trUtf8("W przypadku zmiany lokalizacji systemu sposób formatowania liczb może się zmienić. Efekt ten może być widoczny po restarcie programu."));

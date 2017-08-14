@@ -2261,7 +2261,7 @@ void Invoice::makeInvoiceSumm() {
         invStrList += "<br><table align=\"right\" width=\"100%\" border=\"0\" cellpadding=\"5\">";
 
     }
-    invStrList += "<tr class=\"productsSumHeader\" valign=\"middle\ width=\"100%\">";
+    invStrList += "<tr class=\"productsSumHeader\" valign=\"middle\" width=\"100%\">";
     invStrList += "<td id=\"notNec\" width=\"10%\" align=\"center\">&nbsp;</td>"; // TUTAJ
     invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Wartość Netto") + "</td>"; // net
     invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Kwota VAT") + "</td>";// vat
