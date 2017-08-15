@@ -2323,6 +2323,7 @@ void MainWindow::reportBug()
 
 void MainWindow::sendEmailToBuyer()
 {
+	//FIXME: investigate this memory leak!
 	Send *sendEmailWidget = new Send(
 		dl->buyersSelectAllData(),
 		dl->invoiceSelectAllData(ui->filtrStart->date(), ui->filtrEnd->date()),

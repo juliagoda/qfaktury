@@ -1048,7 +1048,6 @@ private:
 	QString fileNameDateFormat;
 	QLocale *locale;
 
-	// constr
 	Settings()
 		: QSettings("elinux", "qfaktury")
 	{

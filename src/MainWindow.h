@@ -18,11 +18,11 @@ public:
 	static void insertRow(QTableWidget *t, int row);
 	void newInvoice(Invoice *invoice, QString windowTitle);
 	int getMaxSymbol() const;
+	// FIXME: remove this buggy instance() thing
 	static MainWindow *instance();
 	static bool shouldHidden;
 
 public slots:
-
 	void tableClear(QTableWidget *tab);
 	void tabChanged();
 	void rereadHist(bool if_clicked);

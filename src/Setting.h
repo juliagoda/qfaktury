@@ -10,7 +10,6 @@ public:
 	Setting(QWidget *parent);
 
 public slots:
-
 	void apply();
 	void okButtonClick();
 	void addLogoBtnClick();

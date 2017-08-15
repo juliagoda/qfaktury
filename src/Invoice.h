@@ -31,6 +31,7 @@ public:
 	Invoice(QWidget *parent, IDataLayer *dl, QString Inv = QString());
 	virtual ~Invoice();
 
+	//FIXME: remove this buggy instance() thing
 	static Invoice *instance();
 	void init();
 	void readData(QString fraFile);
