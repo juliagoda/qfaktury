@@ -9,7 +9,46 @@ QT += gui core widgets printsupport xml webenginewidgets network
 LIBDIR = /usr/lib
 SMTPCODEDIR = $$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements
 
-CONFIG += c++11
+QMAKE_CXXFLAGS += \
+    -std=c++17 \
+    -fstack-protector \
+
+QMAKE_CXXFLAGS += \
+    -Wall \
+    -Wcast-align \
+    -Wcast-qual \
+    -Wconversion \
+    -Wctor-dtor-privacy \
+    -Wdouble-promotion \
+    -Werror \
+    -Wextra \
+    -Wlogical-op \
+    -Wnoexcept \
+    -Wold-style-cast \
+    -Woverloaded-virtual \
+    -Wpedantic \
+    -Wredundant-decls \
+    -Wstack-protector \
+    -Wstrict-null-sentinel \
+    -Wzero-as-null-pointer-constant \
+
+#Quite important but needs refactor
+#source: https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/
+#QMAKE_CXXFLAGS += \
+#    -Wfloat-equal \
+
+#It's good to have but needs cleanup
+#QMAKE_CXXFLAGS += \
+#    -Wshadow \
+
+#Usefull but have issues with moc_files - enable from time to time and cleanup the code
+#QMAKE_CXXFLAGS += \
+#    -Wuseless-cast \
+
+#Maybe some day
+#QMAKE_CXXFLAGS += \
+#    -Weffc++
+
 QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
 QT_MINOR_VERSION = 5.0.0
@@ -22,7 +61,8 @@ win32:LIBS += -L$${LIBDIR} -lsmtpdll
 unix:LIBS += -L$${LIBDIR} -lz
 win32:LIBS += -L$${LIBDIR} -lzdll
 
-INCLUDEPATH += . \
+INCLUDEPATH += \
+    .
 
 # Input
 HEADERS += \
@@ -30,12 +70,12 @@ HEADERS += \
     $$files($$PWD/src/alias/*.hpp) \
     $${SMTPCODEDIR}/*.h
 
+FORMS += \
+    $$files($$PWD/ui/*.ui) \
+    $$files($$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements/*.ui)
 
-FORMS += $$files($$PWD/ui/*.ui) \
-        $$files($$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements/*.ui)
-
-
-SOURCES += $$PWD/src/XmlDataLayer.cpp \
+SOURCES += \
+    $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/BuyerData.cpp \
     $$PWD/src/CustomPaymData.cpp \
     $$PWD/src/CustomPayment.cpp \
