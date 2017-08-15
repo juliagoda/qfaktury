@@ -9,9 +9,7 @@ class GoodsList : public QDialog, public Ui::GoodsList
 
 public:
 	GoodsList(QWidget *parent);
-	~GoodsList();
 
-	static GoodsList *instance();
 	QString getRetVal() const;
 	QMap<QString, int> getVatsVal() const;
 	QString getSelItem() const;
@@ -40,5 +38,4 @@ private:
 	QString id;
 	QMap<QString, QString> nets;
 	QMap<QString, int> vats;
-	static GoodsList *m_instance;
 };

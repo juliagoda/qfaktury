@@ -6,8 +6,6 @@
 /** Constructor
  */
 
-GoodsList *GoodsList::m_instance = nullptr;
-
 GoodsList::GoodsList(QWidget *parent)
 	: QDialog(parent)
 {
@@ -15,17 +13,11 @@ GoodsList::GoodsList(QWidget *parent)
 	init();
 }
 
-GoodsList::~GoodsList()
-{
-	m_instance = nullptr;
-}
-
 /** Init
  */
 
 void GoodsList::init()
 {
-	m_instance = this;
 	ret = "";
 
 	// clear all the lists
@@ -54,11 +46,6 @@ void GoodsList::init()
 	connect(spinBox2, SIGNAL(valueChanged(int)), this, SLOT(spinChanged(int)));
 	connect(discountSpin, SIGNAL(valueChanged(int)), this, SLOT(calcNet()));
 	connect(countSpinBox, SIGNAL(valueChanged(const QString &)), this, SLOT(calcNet()));
-}
-
-GoodsList *GoodsList::instance()
-{
-	return m_instance;
 }
 
 QString GoodsList::getGoodsId() const
