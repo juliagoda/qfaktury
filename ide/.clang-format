@@ -1,0 +1,41 @@
+Language: Cpp
+BasedOnStyle: WebKit
+
+ColumnLimit: 100
+IndentWidth: 4
+UseTab: Always
+TabWidth: 4
+ContinuationIndentWidth: 4
+ConstructorInitializerIndentWidth: 4
+
+AlignAfterOpenBracket: AlwaysBreak
+AllowAllParametersOfDeclarationOnNextLine: false
+AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakTemplateDeclarations: true
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+BinPackArguments: false
+BinPackParameters: false
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeTernaryOperators: true
+BreakBeforeBraces: Custom
+BreakStringLiterals: true
+BraceWrapping: {
+    AfterClass: true,
+    AfterControlStatement: true,
+    AfterEnum: true,
+    AfterFunction: true,
+    AfterNamespace: true,
+    AfterObjCDeclaration: true,
+    AfterStruct: true,
+    AfterUnion: true,
+    BeforeCatch: true,
+    BeforeElse: true,
+}
+DerivePointerAlignment: false
+PointerAlignment: Right
+KeepEmptyLinesAtTheStartOfBlocks: false
+SortIncludes: true
+SpaceAfterTemplateKeyword: true
+SpaceBeforeParens: ControlStatements

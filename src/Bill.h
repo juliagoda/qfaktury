@@ -10,24 +10,18 @@
 
 #include "Invoice.h"
 
-
-class Bill: public Invoice {
-
-    Q_OBJECT
-
+class Bill : public Invoice
+{
+	Q_OBJECT
 
 public:
-
-    Bill(QWidget *parent, IDataLayer *dl, QString in_form = QString());
-
+	Bill(QWidget *parent, IDataLayer *dl, QString in_form = QString());
 
 public slots:
 
-    void billInit();
-
+	void billInit();
 
 protected:
-
 	QString getInvoiceTypeAndSaveNr();
 };
 

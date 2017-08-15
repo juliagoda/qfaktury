@@ -5,38 +5,32 @@
 
 #include "ui_BuyersList.h"
 
-
-class BuyersList: public QDialog, public Ui::BuyersList {
-
-Q_OBJECT
+class BuyersList : public QDialog, public Ui::BuyersList
+{
+	Q_OBJECT
 
 public:
-
-    BuyersList(QWidget *parent);
-    const QString getRetBuyerList();
-
+	BuyersList(QWidget *parent);
+	const QString getRetBuyerList();
 
 public slots:
 
-    void readBuyer();
+	void readBuyer();
 	void doAccept();
 	void comboBox1Changed();
 	void updateDetails(QListWidgetItem *);
 	void mouseSelect();
 
-
 private:
-
 	QStringList companiesList;
 	QStringList officesList;
-    QStringList personsList;
-    QString ret;
+	QStringList personsList;
+	QString ret;
 
 	void init();
-    void displayDetails(QStringList custDetails);
-    void clearDetails();
-    QString xmlDataToString(QDomNode n);
+	void displayDetails(QStringList custDetails);
+	void clearDetails();
+	QString xmlDataToString(QDomNode n);
 	QString detailsToString();
-
 };
 #endif

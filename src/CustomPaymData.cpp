@@ -7,14 +7,12 @@
 
 #include "CustomPaymData.h"
 
-CustomPaymData::CustomPaymData() {
+CustomPaymData::CustomPaymData()
+{
 	// TODO Auto-generated constructor stub
-
 }
 
-CustomPaymData::~CustomPaymData() {
-
+CustomPaymData::~CustomPaymData()
+{
 	// TODO Auto-generated destructor stub
 }
-
-
