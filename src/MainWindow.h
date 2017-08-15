@@ -13,7 +13,7 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	MainWindow(QWidget *parent = 0);
+	MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
 	static void insertRow(QTableWidget *t, int row);
 	void newInvoice(Invoice *invoice, QString windowTitle);

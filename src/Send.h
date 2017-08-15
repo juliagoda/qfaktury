@@ -23,7 +23,7 @@ class Send : public QWizard
 	Q_OBJECT
 
 public:
-	Send(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
+	Send(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = nullptr);
 
 	void accept() override;
 
@@ -37,7 +37,7 @@ class IntroPage : public QWizardPage
 	Q_OBJECT
 
 public:
-	IntroPage(QWidget *parent = 0);
+	IntroPage(QWidget *parent = nullptr);
 
 private:
 	QLabel *label;
@@ -48,7 +48,7 @@ class ClassInvoicePage : public QWizardPage
 	Q_OBJECT
 
 public:
-	ClassInvoicePage(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
+	ClassInvoicePage(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = nullptr);
 
 protected:
 	bool validatePage() override;
@@ -65,7 +65,7 @@ class EmailPage : public QWizardPage
 	Q_OBJECT
 
 public:
-	EmailPage(QWidget *parent = 0);
+	EmailPage(QWidget *parent = nullptr);
 	void setHostPort(QString, QString);
 
 protected:
@@ -103,7 +103,7 @@ class ConclusionPage : public QWizardPage
 	Q_OBJECT
 
 public:
-	ConclusionPage(QWidget *parent = 0);
+	ConclusionPage(QWidget *parent = nullptr);
 
 protected:
 	void initializePage() override;

@@ -25,8 +25,10 @@ win32:LIBS += -L$${LIBDIR} -lzdll
 INCLUDEPATH += . \
 
 # Input
-HEADERS += $$files($$PWD/src/*.h) \
-            $${SMTPCODEDIR}/*.h
+HEADERS += \
+    $$files($$PWD/src/*.h) \
+    $$files($$PWD/src/alias/*.hpp) \
+    $${SMTPCODEDIR}/*.h
 
 
 FORMS += $$files($$PWD/ui/*.ui) \

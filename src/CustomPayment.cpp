@@ -16,9 +16,10 @@ CustomPayment::CustomPayment(QWidget *parent)
 
 CustomPayment::~CustomPayment()
 {
-	if (custPaymData != 0)
+	if (custPaymData)
 	{
-		custPaymData = 0;
+		//FIXME: investigate this memleak
+		custPaymData = nullptr;
 	}
 	delete custPaymData;
 }
@@ -55,7 +56,7 @@ bool CustomPayment::validateForm()
 	if ((amount1->value() == 0) || (amount2->value() == 0))
 	{
 		QMessageBox::information(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Jedna z kwot do zapłaty jest równa 0. Wybierz inny sposób "
 				   "płatności lub zmień kwoty."));
@@ -65,7 +66,7 @@ bool CustomPayment::validateForm()
 	if (liabDate2->date() <= liabDate1->date())
 	{
 		QMessageBox::information(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Ostatnia data spłaty nie powinna być mniejsza lub równa dacie zaliczki."));
 		return false;

@@ -9,7 +9,7 @@ class Validations : public QObject
 	Q_OBJECT
 
 public:
-	explicit Validations(QObject *parent = 0);
+	explicit Validations(QObject *parent = nullptr);
 	~Validations();
 	static Validations *instance();
 	bool validateNIP(QString);

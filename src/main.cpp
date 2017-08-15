@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 	QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
 
 	// creates instance of main window and move it in according to the screen geometry
-	MainWindow w(0);
+	MainWindow w;
 	w.move(screen.center() - QPoint(w.width() / 2, w.height() / 2));
 
 	// if argument for app in commandd line is --nosplash, uses no start window

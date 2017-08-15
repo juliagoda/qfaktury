@@ -19,7 +19,7 @@ class EmailWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit EmailWindow(QWidget *parent = 0);
+    explicit EmailWindow(QWidget *parent = nullptr);
     ~EmailWindow();
 
     const QLineEdit* getServerName();

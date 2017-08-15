@@ -14,15 +14,17 @@ Duplicate::Duplicate(QWidget *parent, IDataLayer *dl, QString in_form, bool ifEd
 
 Duplicate::~Duplicate()
 {
-	if (labelDupDate != 0)
+	if (labelDupDate)
 	{
-		labelDupDate = 0;
+		//FIXME: investigate this memleak
+		labelDupDate = nullptr;
 	}
 	delete labelDupDate;
 
-	if (duplicateDate != 0)
+	if (duplicateDate)
 	{
-		duplicateDate = 0;
+		//FIXME: investigate this memleak
+		duplicateDate = nullptr;
 	}
 	delete duplicateDate;
 }
@@ -217,11 +219,11 @@ void Duplicate::canQuit()
 	{
 		if (QMessageBox::warning(
 				this,
-				"QFaktury",
+				trUtf8("QFaktury"),
 				trUtf8("Dane zostały zmienione czy chcesz zapisać?"),
 				trUtf8("Tak"),
 				trUtf8("Nie"),
-				0,
+				nullptr,
 				0,
 				1)
 			== 1)

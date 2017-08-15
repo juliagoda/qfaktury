@@ -65,12 +65,12 @@ void CorrectGross::calculateOneDiscount(int i)
 
 void CorrectGross::addGoods()
 {
-	GoodsGrossList *goodsWindow = new GoodsGrossList(this);
+	GoodsGrossList goodsWindow(this);
 
-	if (goodsWindow->exec() == QDialog::Accepted)
+	if (goodsWindow.exec() == QDialog::Accepted)
 	{
 		MainWindow::insertRow(tableGoods, tableGoods->rowCount());
-		QStringList row = goodsWindow->getRetVal().split("|");
+		QStringList row = goodsWindow.getRetVal().split("|");
 		int rowNum = tableGoods->rowCount() - 1;
 
 		tableGoods->item(rowNum, 0)->setText(sett().numberToString(tableGoods->rowCount())); // id
@@ -92,7 +92,4 @@ void CorrectGross::addGoods()
 
 		calculateSum();
 	}
-
-	delete goodsWindow;
-	goodsWindow = 0;
 }

@@ -16,12 +16,6 @@ Correction::Correction(QWidget *parent, IDataLayer *dl, QString in_form, bool ed
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__ << "EXIT";
 }
 
-Correction::~Correction()
-{
-	delete invData;
-	invData = NULL;
-}
-
 bool Correction::getMode() const
 {
 	return editMode;
@@ -487,7 +481,7 @@ void Correction::canQuit()
 				trUtf8("Dane zostały zmienione czy chcesz zapisać?"),
 				trUtf8("Tak"),
 				trUtf8("Nie"),
-				0,
+				nullptr,
 				0,
 				1)
 			== 1)
@@ -568,7 +562,7 @@ void Correction::readCorrData(QString invFile)
 	productDate->setDate(QDate::fromString(root.attribute("issueDate"), sett().getDateFormat()));
 	origGrossBureau = sett().stringToDouble(root.attribute("invValue"));
 
-	invData = new InvoiceData();
+	invData = std::make_unique<InvoiceData>();
 	invData->invNr = root.attribute("originalInvoiceNo");
 
 	QDomNode tmp;
@@ -683,7 +677,7 @@ void Correction::readCorrData(QString invFile)
 		labelRate->setAlignment(Qt::AlignRight);
 		addDataLabels->addWidget(labelRate);
 
-		if (ratesCombo == 0)
+		if (!ratesCombo)
 		{
 			ratesCombo = new QComboBox();
 		}
@@ -837,9 +831,10 @@ void Correction::setIsEditAllowed(bool isAllowed)
 
 	reasonCombo->setEnabled(isAllowed);
 
-	if (invData == NULL)
+	if (!invData)
 	{
 		invData = createOriginalInv();
+		backBtnClick(); // populate correct correction symbol
 	}
 
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__ << "EXIT";
@@ -848,17 +843,17 @@ void Correction::setIsEditAllowed(bool isAllowed)
 /**  Creates object with the orignal invoice
  */
 
-InvoiceData *Correction::createOriginalInv()
+UPtr<InvoiceData> Correction::createOriginalInv() const
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-	invData = new InvoiceData();
-	invData->customer = buyerName->text();
+	auto invoice = std::make_unique<InvoiceData>();
+	invoice->customer = buyerName->text();
 	qDebug() << "Ile jest wierszy: ";
 
 	for (int i = 0; i < tableGoods->rowCount(); ++i)
 	{
-		ProductData product; //  = new ProductData();
+		ProductData product;
 		product.setId(tableGoods->item(i, 0)->text());
 		product.setName(tableGoods->item(i, 1)->text());
 		product.setCode(tableGoods->item(i, 2)->text());
@@ -872,20 +867,20 @@ InvoiceData *Correction::createOriginalInv()
 		product.setGross(tableGoods->item(i, 10)->text());
 		qDebug() << "Gross w funkcji createOriginalInv " << i << ": "
 				 << tableGoods->item(i, 10)->text();
-		invData->products[i] = product;
+		invoice->products[i] = product;
 	}
 
-	invData->liabDate = liabDate->date();
-	invData->sellingDate = sellingDate->date();
-	invData->productDate = productDate->date();
-	invData->invNr = invNr->text();
-	invData->paymentType = paysCombo->currentText();
-	invData->currencyType = currCombo->currentText();
-	invData->additText = additEdit->text();
+	invoice->liabDate = liabDate->date();
+	invoice->sellingDate = sellingDate->date();
+	invoice->productDate = productDate->date();
+	invoice->invNr = invNr->text();
+	invoice->paymentType = paysCombo->currentText();
+	invoice->currencyType = currCombo->currentText();
+	invoice->additText = additEdit->text();
 
-	backBtnClick(); // populate correct correction symbol
-	return invData;
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__ << "EXIT";
+
+	return invoice;
 }
 
 /** Not used in this class
@@ -975,9 +970,10 @@ void Correction::schemaCalcSum()
 
 		goodsEdited = true;
 
-		if (invData == NULL)
+		if (!invData)
 		{
 			invData = createOriginalInv();
+			backBtnClick(); // populate correct correction symbol
 		}
 		else
 		{

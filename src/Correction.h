@@ -1,10 +1,13 @@
 #pragma once
 
-#include <QComboBox>
-
 #include "Invoice.h"
 #include "InvoiceData.h"
 #include "ui_Invoice.h"
+
+#include "alias/memory.hpp"
+
+#include <QComboBox>
+#include <QPointer>
 
 class Correction : public Invoice
 {
@@ -12,7 +15,7 @@ class Correction : public Invoice
 
 public:
 	Correction(QWidget *parent, IDataLayer *dl, QString in_form = QString(), bool edMode = false);
-	virtual ~Correction();
+
 	bool getMode() const;
 	bool getFirstRun() const;
 	QString getRet() const;
@@ -38,7 +41,7 @@ protected:
 	void calculateDiscount() override;
 	void calculateSum() override;
 	QString getInvoiceTypeAndSaveNr() override;
-	InvoiceData *createOriginalInv();
+	UPtr<InvoiceData> createOriginalInv() const;
 
 private:
 	bool editMode;
@@ -46,8 +49,9 @@ private:
 	double origDiscTotal, origNettTotal, origGrossTotal;
 	double diffTotal;
 	double origGrossBureau;
-	InvoiceData *invData;
-	QComboBox *reasonCombo;
-	QLabel *labelReason1;
-	QString ret, fName;
+	UPtr<InvoiceData> invData;
+	QPointer<QComboBox> reasonCombo;
+	QPointer<QLabel> labelReason1;
+	QString ret;
+	QString fName;
 };

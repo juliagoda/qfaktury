@@ -29,7 +29,7 @@ public slots:
 
 protected:
 	void init();
-	typedef QHash<QString, ProductData *> ProductDataList;
+	typedef QHash<QString, ProductData> ProductDataList;
 	ProductDataList goodsList2;
 	ProductDataList servicesList2;
 	QString trimZeros(QString in);
