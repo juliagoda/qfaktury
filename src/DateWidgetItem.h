@@ -37,7 +37,9 @@ QVariant DateWidgetItem::data(int role) const
 	if (role == Qt::EditRole)
 		return QVariant(m_data);
 	else if (role == Qt::DisplayRole)
-		return QString(m_data.toString(sett().getDateFormat()));
+	{
+		return m_data.toString(sett().getDateFormat());
+	}
 	else
 		return QTableWidgetItem::data(role);
 }

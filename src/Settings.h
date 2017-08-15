@@ -826,7 +826,7 @@ public:
 	// returns working directory
 	QString getWorkingDir()
 	{
-		return QString(QDir::homePath() + "/.local/share/data/elinux");
+		return QDir::homePath() + "/.local/share/data/elinux";
 	}
 
 	QString getStyle()
@@ -868,7 +868,7 @@ public:
 
 	QString getPdfDir()
 	{
-		return QString(getWorkingDir() + "/pdf-invoices");
+		return getWorkingDir() + "/pdf-invoices";
 	}
 
 	QString getEmergTemplate()
@@ -887,19 +887,19 @@ public:
 	// return invoices dir
 	QString getInvoicesDir()
 	{
-		return QString(getWorkingDir() + getDataDir() + "/");
+		return getWorkingDir() + getDataDir() + "/";
 	}
 
 	// return customers xml
 	QString getCustomersXml()
 	{
-		return QString(getWorkingDir() + "/customers.xml");
+		return getWorkingDir() + "/customers.xml";
 	}
 
 	// return customers xml
 	QString getProductsXml()
 	{
-		return QString(getWorkingDir() + "/products.xml");
+		return getWorkingDir() + "/products.xml";
 	}
 
 	// returns inoice doc name stored as a DOCTYPE

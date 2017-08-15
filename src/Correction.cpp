@@ -1303,18 +1303,11 @@ void Correction::makeInvoiceSummAll()
 
 		ratesCombo->setCurrentIndex(0);
 
-		invStrList += QString(
-			trUtf8("Zapłacono ") + whatMethod_one + ": " + rateLabelInfo->text() + " "
-			+ currCombo->currentText()
-			+ " "
-			+ ratesCombo->itemText(0)
-			+ "<br>");
+		invStrList += trUtf8("Zapłacono ") + whatMethod_one + ": " + rateLabelInfo->text() + " "
+			+ currCombo->currentText() + " " + ratesCombo->itemText(0) + "<br>";
 
-		invStrList += QString(
-			trUtf8("Zaległości ") + whatMethod_two + ": " + restLabelInfo->text() + " "
-			+ currCombo->currentText()
-			+ " "
-			+ ratesCombo->itemText(1));
+		invStrList += trUtf8("Zaległości ") + whatMethod_two + ": " + restLabelInfo->text() + " "
+			+ currCombo->currentText() + " " + ratesCombo->itemText(1);
 
 		invStrList += "</span>";
 	}
