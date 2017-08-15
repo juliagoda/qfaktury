@@ -1,18 +1,17 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QSettings>
-#include <QTranslator>
 #include <QDate>
 #include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QMessageBox>
+#include <QSettings>
 #include <QStyleFactory>
 #include <QTextCodec>
-#include <QFile>
-#include <QDir>
-#include <QMessageBox>
+#include <QTranslator>
 
 #include "config.h"
-
 
 // #define trUtf8(x) QObject::aaa(x)
 #define STRING2(x) #x
@@ -20,88 +19,92 @@
 
 // Singleton class to store all the settings and static values
 
-class Settings: public QSettings {
+class Settings : public QSettings
+{
 public:
-
 #ifdef Q_OS_MAC
-QString appPath = "~/Library/Application Support/qfaktury";
+	QString appPath = "~/Library/Application Support/qfaktury";
 #endif
 
 #ifdef Q_OS_LINUX
-QString appPath = "/usr/share/qfaktury";
+	QString appPath = "/usr/share/qfaktury";
 #endif
-// Probably QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1) returns different values on different distributions, for me that was /usr/share/<APPNAME>
+// Probably QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1) returns
+// different values on different distributions, for me that was /usr/share/<APPNAME>
 
 #ifdef Q_OS_WIN32
-QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
+	QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 #endif
 
-    QString getAppDirs() {
-        return appPath + "/";
-    }
+	QString getAppDirs()
+	{
+		return appPath + "/";
+	}
 
 	// get date from settings as QDate
-	QDate getValueAsDate(QString val) {
+	QDate getValueAsDate(QString val)
+	{
 		QString date = value(val).toString();
 		QLocale locale;
-		return locale.toDate( date, getDateFormat());
+		return locale.toDate(date, getDateFormat());
 	}
 
 	// returns date format used for all dates
-	QString getDateFormat() {
+	QString getDateFormat()
+	{
 		// it's better to have a full year... so
 		return dateFormat;
 	}
 
 	// returns date format used while saving the file
-	QString getFnameDateFormat() {
-			return fileNameDateFormat;
+	QString getFnameDateFormat()
+	{
+		return fileNameDateFormat;
 	}
 
 	/**
 	 * validate the settings and set them to default values if required.
 	 */
 
-	void checkSettings() {
-
+	void checkSettings()
+	{
 		if (value("browser_name").toString().compare("") == 0)
 			setValue("browser_name", "");
 		if (value("default_browser").toString().compare("") == 0)
 			setValue("default_browser", "true");
 		if (value("lang").toString().compare("") == 0)
 			setValue("lang", tr("pl"));
-        if (value("style").toString().compare("") == 0)
-            setValue("style", QStyleFactory::keys().at(0));
-        if (value("css").toString().compare("") == 0)
-            setValue("css", "black.css");
+		if (value("style").toString().compare("") == 0)
+			setValue("style", QStyleFactory::keys().at(0));
+		if (value("css").toString().compare("") == 0)
+			setValue("css", "black.css");
 		if (value("localEnc").toString().compare("") == 0)
 			setValue("localEnc", tr("UTF-8"));
 
-
 		if (value("addText").toString().compare("") == 0)
-            setValue("addText", trUtf8("towar odebrałem zgodnie z fakturą"));
+			setValue("addText", trUtf8("towar odebrałem zgodnie z fakturą"));
 		if (value("chars_in_symbol").toString().compare("") == 0)
 			setValue("chars_in_symbol", tr("0"));
 		if (value("day").toString().compare("") == 0)
 			setValue("day", "false");
 		if (value("edit").toString().compare("") == 0)
-            setValue("edit", "true");
+			setValue("edit", "true");
 		if (value("editName").toString().compare("") == 0)
 			setValue("editName", "false");
 		if (value("filtrEnd").toString().compare("") == 0)
-			setValue("filtrEnd",
-					QDate::currentDate().toString(Qt::ISODate));
+			setValue("filtrEnd", QDate::currentDate().toString(Qt::ISODate));
 		if (value("filtrStart").toString().compare("") == 0)
-			setValue("filtrStart", QDate::currentDate().toString(
-					Qt::ISODate));
+			setValue("filtrStart", QDate::currentDate().toString(Qt::ISODate));
 		if (value("firstrun").toString().compare("") == 0)
 			setValue("firstrun", false);
-        if (value("units").toString().compare("") == 0)
-            setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|kWh|l|mb|msc|mila|mtg|MWh|m2|m3|opak|puszka|rolka|skrzynka|tona|tona atro|usługa|wiązka|yard"));
+		if (value("units").toString().compare("") == 0)
+			setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|filiżanka|fracht|"
+								 "GJ|hektar|karton|kpl|kopia|kurs|kWh|l|mb|msc|mila|mtg|MWh|m2|m3|"
+								 "opak|puszka|rolka|skrzynka|tona|tona atro|usługa|wiązka|yard"));
 		if (value("korNr").toString().compare("") == 0)
 			setValue("korNr", "1");
-        if (value("invNr").toString().compare("") == 0)
-            setValue("invNr", "1");
+		if (value("invNr").toString().compare("") == 0)
+			setValue("invNr", "1");
 		if (value("logo").toString().compare("") == 0)
 			setValue("logo", "");
 		if (value("margLeftPrinter").toString().compare("") == 0)
@@ -117,62 +120,65 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		if (value("paym1").toString().compare("") == 0)
 			setValue("paym1", tr("gotówka"));
 		if (value("payments").toString().compare("") == 0)
-            setValue("payments", tr("gotówka|akredytywa|barter|karta kredytowa|karta płatnicza|mieszany|przy odbiorze|ukryj na wydruku|za pobraniem|zapłacono|zgodnie z umową|przelew|zaliczka"));
+			setValue("payments", tr("gotówka|akredytywa|barter|karta kredytowa|karta "
+									"płatnicza|mieszany|przy odbiorze|ukryj na wydruku|za "
+									"pobraniem|zapłacono|zgodnie z umową|przelew|zaliczka"));
 		if (value("pdfQuality").toString().compare("") == 0)
 			setValue("pdfQuality", "1");
-        if (value("corrections").toString().compare("") == 0)
-            setValue("corrections", tr("zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana daty terminu|zmiana daty sprzedaży"));
+		if (value("corrections").toString().compare("") == 0)
+			setValue("corrections", tr("zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu "
+									   "płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana "
+									   "daty terminu|zmiana daty sprzedaży"));
 		if (value("prefix").toString().compare("") == 0)
 			setValue("prefix", "");
 		if (value("renamed").toString().compare("") == 0)
 			setValue("renamed", "tak");
 		if (value("shortYear").toString().compare("") == 0)
 			setValue("shortYear", "false");
-        if (value("rates").toString().compare("") == 0)
-            setValue("rates", tr("23|23|19|18|15|8|7|6.5|5|4|0|ZW|OO|NP|Bez VAT"));
+		if (value("rates").toString().compare("") == 0)
+			setValue("rates", tr("23|23|19|18|15|8|7|6.5|5|4|0|ZW|OO|NP|Bez VAT"));
 		if (value("sufix").toString().compare("") == 0)
 			setValue("sufix", "");
-        if (value("currencies").toString().compare("") == 0)
-            setValue("currencies", tr("PLN|EUR|USD|CHF|GBP|RUB"));
+		if (value("currencies").toString().compare("") == 0)
+			setValue("currencies", tr("PLN|EUR|USD|CHF|GBP|RUB"));
 		if (value("year").toString().compare("") == 0)
 			setValue("year", "false");
 		if (value("numberOfCopies").toString().compare("") == 0)
 			setValue("numberOfCopies", 1);
 
-
-        // here we could add special code for Bill
-        beginGroup("invoices_positions");
+		// here we could add special code for Bill
+		beginGroup("invoices_positions");
 		if (value("Lp").toString().compare("") == 0)
 			setValue("Lp", true);
-        if (value("Name").toString().compare("") == 0)
-            setValue("Name", true);
-        if (value("Code").toString().compare("") == 0)
-            setValue("Code", true);
+		if (value("Name").toString().compare("") == 0)
+			setValue("Name", true);
+		if (value("Code").toString().compare("") == 0)
+			setValue("Code", true);
 		if (value("pkwiu").toString().compare("") == 0)
 			setValue("pkwiu", true);
-        if (value("amount").toString().compare("") == 0)
-            setValue("amount", true);
-        if (value("unit").toString().compare("") == 0)
-            setValue("unit", true);
-        if (value("unitprice").toString().compare("") == 0)
-            setValue("unitprice", true);
-        if (value("netvalue").toString().compare("") == 0)
-            setValue("netvalue", true);
-        if (value("discountperc").toString().compare("") == 0)
-            setValue("discountperc", true);
-        if (value("discountval").toString().compare("") == 0)
-            setValue("discountval", true);
-        if (value("netafter").toString().compare("") == 0)
-            setValue("netafter", true);
+		if (value("amount").toString().compare("") == 0)
+			setValue("amount", true);
+		if (value("unit").toString().compare("") == 0)
+			setValue("unit", true);
+		if (value("unitprice").toString().compare("") == 0)
+			setValue("unitprice", true);
+		if (value("netvalue").toString().compare("") == 0)
+			setValue("netvalue", true);
+		if (value("discountperc").toString().compare("") == 0)
+			setValue("discountperc", true);
+		if (value("discountval").toString().compare("") == 0)
+			setValue("discountval", true);
+		if (value("netafter").toString().compare("") == 0)
+			setValue("netafter", true);
 		if (value("vatval").toString().compare("") == 0)
 			setValue("vatval", true);
 		if (value("vatprice").toString().compare("") == 0)
 			setValue("vatprice", true);
-        if (value("grossval").toString().compare("") == 0)
-            setValue("grossval", true);
+		if (value("grossval").toString().compare("") == 0)
+			setValue("grossval", true);
 		endGroup();
 
-        beginGroup("forms");
+		beginGroup("forms");
 		if (value("chAmount_top").toString().compare("") == 0)
 			setValue("chAmount_top", "50");
 		if (value("chAmount_left").toString().compare("") == 0)
@@ -272,14 +278,14 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		endGroup();
 
 		beginGroup("printpos");
-        if (value("username").toString().compare("") == 0)
-            setValue("username", "true");
-        if (value("usercity").toString().compare("") == 0)
-            setValue("usercity", "true");
-        if (value("useradress").toString().compare("") == 0)
-            setValue("useradress", "true");
-        if (value("useraccount").toString().compare("") == 0)
-            setValue("useraccount", "true");
+		if (value("username").toString().compare("") == 0)
+			setValue("username", "true");
+		if (value("usercity").toString().compare("") == 0)
+			setValue("usercity", "true");
+		if (value("useradress").toString().compare("") == 0)
+			setValue("useradress", "true");
+		if (value("useraccount").toString().compare("") == 0)
+			setValue("useraccount", "true");
 		if (value("usernip").toString().compare("") == 0)
 			setValue("usernip", "true");
 		if (value("userphone").toString().compare("") == 0)
@@ -306,24 +312,24 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 			setValue("clientwww", "true");
 		endGroup();
 
-        beginGroup("printkontr");
-        if (value("buyername").toString().compare("") == 0)
-            setValue("buyername", "true");
-        if (value("buyercity").toString().compare("") == 0)
-            setValue("buyercity", "true");
-        if (value("buyeraddress").toString().compare("") == 0)
-            setValue("buyeraddress", "true");
-        if (value("buyeraccount").toString().compare("") == 0)
-            setValue("buyeraccount", "true");
-        if (value("buyernip").toString().compare("") == 0)
-            setValue("buyernip", "true");
-        if (value("buyerphone").toString().compare("") == 0)
-            setValue("buyerphone", "true");
-        if (value("buyermail").toString().compare("") == 0)
-            setValue("buyermail", "true");
-        if (value("buyerwww").toString().compare("") == 0)
-            setValue("buyerwww", "true");
-        endGroup();
+		beginGroup("printkontr");
+		if (value("buyername").toString().compare("") == 0)
+			setValue("buyername", "true");
+		if (value("buyercity").toString().compare("") == 0)
+			setValue("buyercity", "true");
+		if (value("buyeraddress").toString().compare("") == 0)
+			setValue("buyeraddress", "true");
+		if (value("buyeraccount").toString().compare("") == 0)
+			setValue("buyeraccount", "true");
+		if (value("buyernip").toString().compare("") == 0)
+			setValue("buyernip", "true");
+		if (value("buyerphone").toString().compare("") == 0)
+			setValue("buyerphone", "true");
+		if (value("buyermail").toString().compare("") == 0)
+			setValue("buyermail", "true");
+		if (value("buyerwww").toString().compare("") == 0)
+			setValue("buyerwww", "true");
+		endGroup();
 
 		beginGroup("wydruki");
 		if (value("col1").toString().compare("") == 0)
@@ -363,29 +369,31 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 	/** Reset all settings to default values
 	 */
 
-	void resetSettings() {
-
+	void resetSettings()
+	{
 		beginGroup("General");
 		setValue("browser_name", "");
 		setValue("default_browser", "true");
 		setValue("lang", tr("pl"));
-        setValue("style", QStyleFactory::keys().at(0));
-        setValue("css", "black.css");
-        setValue("currencies", tr("PLN"));
+		setValue("style", QStyleFactory::keys().at(0));
+		setValue("css", "black.css");
+		setValue("currencies", tr("PLN"));
 		endGroup();
 
 		setValue("addText", trUtf8("towar odebrałem zgodnie z fakturą"));
 		setValue("chars_in_symbol", tr("0"));
 		setValue("day", "false");
-        setValue("edit", "true");
+		setValue("edit", "true");
 		setValue("editName", "false");
-        setValue("editSymbol", "true");
+		setValue("editSymbol", "true");
 		setValue("numberOfCopies", 1);
-        setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
+		setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
 		setValue("firstrun", false);
-        setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|kWh|l|mb|msc|mila|mtg|MWh|m2|m3|opak|puszka|rolka|skrzynka|tona|tona atro|usługa|wiązka|yard"));
+		setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|filiżanka|fracht|GJ|"
+							 "hektar|karton|kpl|kopia|kurs|kWh|l|mb|msc|mila|mtg|MWh|m2|m3|opak|"
+							 "puszka|rolka|skrzynka|tona|tona atro|usługa|wiązka|yard"));
 		setValue("korNr", "1");
-        setValue("invNr","1");
+		setValue("invNr", "1");
 		setValue("logo", "");
 
 		setValue("margLeftPrinter", "10");
@@ -393,37 +401,41 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		setValue("margDownPrinter", "10");
 		setValue("margRightPrinter", "10");
 		setValue("month", "false");
-		setValue("paym1", trUtf8("gotówka") );
-        setValue("payments", trUtf8("gotówka|akredytywa|barter|karta kredytowa|karta płatnicza|mieszany|przy odbiorze|ukryj na wydruku|za pobraniem|zapłacono|zgodnie z umową|przelew|zaliczka") );
+		setValue("paym1", trUtf8("gotówka"));
+		setValue("payments", trUtf8("gotówka|akredytywa|barter|karta kredytowa|karta "
+									"płatnicza|mieszany|przy odbiorze|ukryj na wydruku|za "
+									"pobraniem|zapłacono|zgodnie z umową|przelew|zaliczka"));
 		setValue("pdfQuality", "1");
-        setValue("corrections", trUtf8("zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana daty terminu|zmiana daty sprzedaży") );
+		setValue("corrections", trUtf8("zmiana ilości|zmiana waluty|zmiana rabatu|zmiana sposobu "
+									   "płatności|zmiana kontrahenta|zmiana towaru/usługi|zmiana "
+									   "daty terminu|zmiana daty sprzedaży"));
 		setValue("prefix", "");
 		setValue("renamed", "tak");
 		setValue("shortYear", "false");
-        setValue("rates", tr("23|23|19|18|15|8|7|6.5|5|4|0|ZW|OO|NP|Bez VAT"));
+		setValue("rates", tr("23|23|19|18|15|8|7|6.5|5|4|0|ZW|OO|NP|Bez VAT"));
 		setValue("sufix", "");
-        setValue("currencies", tr("PLN|EUR|USD|CHF|GBP|RUB"));
+		setValue("currencies", tr("PLN|EUR|USD|CHF|GBP|RUB"));
 		setValue("year", "false");
 
 		// here we could add special code for Rachunek
-        beginGroup("invoices_positions");
+		beginGroup("invoices_positions");
 		setValue("Lp", true);
-        setValue("Name", true);
-        setValue("Code", true);
+		setValue("Name", true);
+		setValue("Code", true);
 		setValue("pkwiu", true);
-        setValue("amount", true);
-        setValue("unit", true);
-        setValue("unitprice", true);
-        setValue("netvalue", true);
-        setValue("discountperc", true);
-        setValue("discountval", true);
-        setValue("netafter", true);
+		setValue("amount", true);
+		setValue("unit", true);
+		setValue("unitprice", true);
+		setValue("netvalue", true);
+		setValue("discountperc", true);
+		setValue("discountval", true);
+		setValue("netafter", true);
 		setValue("vatval", true);
 		setValue("vatprice", true);
-        setValue("grossval", true);
+		setValue("grossval", true);
 		endGroup();
 
-        beginGroup("forms");
+		beginGroup("forms");
 		setValue("chAmount_top", "50");
 		setValue("chAmount_left", "50");
 		setValue("chAmount_width", "288");
@@ -475,10 +487,10 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		endGroup();
 
 		beginGroup("printpos");
-        setValue("username", "true");
-        setValue("usercity", "true");
-        setValue("useradress", "true");
-        setValue("useraccount", "true");
+		setValue("username", "true");
+		setValue("usercity", "true");
+		setValue("useradress", "true");
+		setValue("useraccount", "true");
 		setValue("usernip", "true");
 		setValue("userphone", "true");
 		setValue("usermail", "true");
@@ -493,16 +505,16 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		setValue("clientwww", "true");
 		endGroup();
 
-        beginGroup("printkontr");
-        setValue("buyername", "true");
-        setValue("buyercity", "true");
-        setValue("buyeraddress", "true");
-        setValue("buyeraccount", "true");
-        setValue("buyernip", "true");
-        setValue("buyerphone", "true");
-        setValue("buyermail", "true");
-        setValue("buyerwww", "true");
-        endGroup();
+		beginGroup("printkontr");
+		setValue("buyername", "true");
+		setValue("buyercity", "true");
+		setValue("buyeraddress", "true");
+		setValue("buyeraccount", "true");
+		setValue("buyernip", "true");
+		setValue("buyerphone", "true");
+		setValue("buyermail", "true");
+		setValue("buyerwww", "true");
+		endGroup();
 
 		beginGroup("wydruki");
 		setValue("col1", "10");
@@ -522,237 +534,265 @@ QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 		endGroup();
 	}
 
-
 	// Compiles version with appName ready for display
-	QString getVersion(QString appName) {
+	QString getVersion(QString appName)
+	{
 		QString str = appName;
 		str.truncate(2);
 		return str.toUpper() + appName.right(6) + trUtf8(" - wersja ") + STRING(QFAKTURY_VERSION);
 	}
 
 	// returns working directory
-	QString getWorkingDir() {
-        return QString(QDir::homePath() + "/.local/share/data/elinux");
+	QString getWorkingDir()
+	{
+		return QString(QDir::homePath() + "/.local/share/data/elinux");
 	}
 
-    QString getStyle() {
+	QString getStyle()
+	{
+		QString style = value("style").toString();
 
-        QString style = value("style").toString();
-
-        qDebug() << "Get STYLE: " << style;
-        if (style == "bb10dark" || style == "bb10bright") style = QStyleFactory::keys().last();
-        return style;
-    }
-
+		qDebug() << "Get STYLE: " << style;
+		if (style == "bb10dark" || style == "bb10bright")
+			style = QStyleFactory::keys().last();
+		return style;
+	}
 
 	// returns templates directory
-	QString getTemplate() {
+	QString getTemplate()
+	{
+		QString style = value("css").toString();
 
-
-        QString style = value("css").toString();
-
-        QString ret = appPath + "/templates/" + style;
+		QString ret = appPath + "/templates/" + style;
 
 		QFile f;
 
 		f.setFileName(ret);
-		if (!f.exists()) {
-            ret = appPath + "/templates/" + style;
+		if (!f.exists())
+		{
+			ret = appPath + "/templates/" + style;
 		}
 
 		f.setFileName(ret);
-		if (!f.exists()) {
-            ret = appPath + "/templates/black.css";
+		if (!f.exists())
+		{
+			ret = appPath + "/templates/black.css";
 		}
 
-        qDebug() << "Get TEMPLATE: " << style;
+		qDebug() << "Get TEMPLATE: " << style;
 		return ret;
 	}
 
+	QString getPdfDir()
+	{
+		return QString(getWorkingDir() + "/pdf-invoices");
+	}
 
-    QString getPdfDir() {
-
-        return QString(getWorkingDir() + "/pdf-invoices");
-    }
-
-
-    QString getEmergTemplate() {
-
-        return (QDir::homePath() + "/.local/share/data/elinux/template/black.css");
-    }
-
+	QString getEmergTemplate()
+	{
+		return (QDir::homePath() + "/.local/share/data/elinux/template/black.css");
+	}
 
 	// return invoices dir
-	QString getDataDir() {
-
+	QString getDataDir()
+	{
 		// Changed name of the folder to avoid overwriting the files.
 		// This may require conversion script.
-        return QString("/invoices");
+		return QString("/invoices");
 	}
 
 	// return invoices dir
-	QString getInvoicesDir() {
-        return QString(getWorkingDir() + getDataDir() + "/");
+	QString getInvoicesDir()
+	{
+		return QString(getWorkingDir() + getDataDir() + "/");
 	}
 
 	// return customers xml
-	QString getCustomersXml() {
-        return QString(getWorkingDir() + "/customers.xml");
+	QString getCustomersXml()
+	{
+		return QString(getWorkingDir() + "/customers.xml");
 	}
 
 	// return customers xml
-	QString getProductsXml() {
-        return QString(getWorkingDir() + "/products.xml");
+	QString getProductsXml()
+	{
+		return QString(getWorkingDir() + "/products.xml");
 	}
 
 	// returns inoice doc name stored as a DOCTYPE
-	QString getInoiveDocName() {
-        return QString("invoice");
+	QString getInoiveDocName()
+	{
+		return QString("invoice");
 	}
 
 	// returns correction doc name stored as a DOCTYPE
-	QString getCorrDocName() {
-        return QString("correction");
+	QString getCorrDocName()
+	{
+		return QString("correction");
 	}
 
-
 	// returns customers doc name stored as a DOCTYPE
-	QString getCustomersDocName() {
-        return QString("customers");
+	QString getCustomersDocName()
+	{
+		return QString("customers");
 	}
 
 	// returns products doc name stored as a DOCTYPE
-	QString getProdutcsDocName() {
-        return QString("products");
+	QString getProdutcsDocName()
+	{
+		return QString("products");
 	}
 
 	// @TODO enforce that translation won't affect this funcionality
 	// converts customer type into int value
-	int getCustomerType(QString custType) {
-		if (custType.compare(trUtf8("Firma")) == 0 || custType.compare(trUtf8("firma")) == 0) {
+	int getCustomerType(QString custType)
+	{
+		if (custType.compare(trUtf8("Firma")) == 0 || custType.compare(trUtf8("firma")) == 0)
+		{
 			return 0;
-        } else if (custType.compare(trUtf8("Urząd")) == 0 || custType.compare(trUtf8("urząd")) == 0) {
+		}
+		else if (custType.compare(trUtf8("Urząd")) == 0 || custType.compare(trUtf8("urząd")) == 0)
+		{
 			return 1;
-        } else {
-            return 2;
-        }
+		}
+		else
+		{
+			return 2;
+		}
 	}
 
 	// converts product type into int value
-	int getProductType(QString prodName) {
-		if (prodName.compare(trUtf8("Towar")) == 0 || prodName.compare(trUtf8("towar")) == 0) {
+	int getProductType(QString prodName)
+	{
+		if (prodName.compare(trUtf8("Towar")) == 0 || prodName.compare(trUtf8("towar")) == 0)
+		{
 			return 0;
-		} else {
+		}
+		else
+		{
 			return 1;
 		}
 	}
 
-	QString getCompanyName() {
-        return QString("company");
+	QString getCompanyName()
+	{
+		return QString("company");
 	}
 
-    QString getNaturalPerson() {
-        return QString("person");
-    }
-
-	QString getOfficeName() {
-        return QString("office");
+	QString getNaturalPerson()
+	{
+		return QString("person");
 	}
 
-	QString getCompanyNameTr() {
+	QString getOfficeName()
+	{
+		return QString("office");
+	}
+
+	QString getCompanyNameTr()
+	{
 		return trUtf8("Firma");
 	}
 
-	QString getOfficeNameTr() {
+	QString getOfficeNameTr()
+	{
 		return trUtf8("Urząd");
 	}
 
-	QString getProductName() {
-        return QString("product");
+	QString getProductName()
+	{
+		return QString("product");
 	}
 
-	QString getServiceName() {
-        return QString("service");
+	QString getServiceName()
+	{
+		return QString("service");
 	}
 
 	// Adds Data to input string
-	QString getNameWithData(QString in) {
+	QString getNameWithData(QString in)
+	{
 		return in + trUtf8("DATA");
 	}
 
-
-	QByteArray getCodecName() {
-        return QByteArray("UTF-8");
+	QByteArray getCodecName()
+	{
+		return QByteArray("UTF-8");
 	}
 
-	QString getDecimalPointStr() {
-		QChar decimalPoint = locale->decimalPoint ();
+	QString getDecimalPointStr()
+	{
+		QChar decimalPoint = locale->decimalPoint();
 		return QString(decimalPoint);
 	}
 
-	QString getTPointStr() {
+	QString getTPointStr()
+	{
 		QChar tPoint = locale->groupSeparator();
 		return QString(tPoint);
 	}
 
-	QString numberToString(double i, char f = 'f', int prec = 2) {
-			return locale->toString(i, f, prec);
+	QString numberToString(double i, char f = 'f', int prec = 2)
+	{
+		return locale->toString(i, f, prec);
+	}
+
+	QString numberToString(int i)
+	{
+		return locale->toString(i);
+	}
+
+	double stringToDouble(QString s)
+	{
+		bool ok = false;
+		int countNumb = 1;
+
+		QList<QLocale> allLocales =
+			QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyCountry);
+
+		for (const QLocale &locale : allLocales)
+		{
+			QLocale whatCountry(locale.language(), locale.country());
+			if (whatCountry.toDouble(s, &ok))
+			{
+				countNumb = whatCountry.toDouble(s, &ok);
+				break;
+			}
 		}
 
-	QString numberToString(int i) {
-			return locale->toString(i);
-		}
-
-	double stringToDouble(QString s) {
-
-        bool ok = false;
-        int countNumb = 1;
-
-        QList<QLocale> allLocales = QLocale::matchingLocales(
-                    QLocale::AnyLanguage,
-                    QLocale::AnyScript,
-                    QLocale::AnyCountry);
-
-        for(const QLocale &locale : allLocales) {
-            QLocale whatCountry(locale.language(),locale.country());
-            if (whatCountry.toDouble(s, &ok)) {
-                countNumb = whatCountry.toDouble(s, &ok);
-                break;
-            }
-        }
-
-        return countNumb;
-
-		}
+		return countNumb;
+	}
 
 private:
-
 	QString dateFormat;
 	QString fileNameDateFormat;
 	QLocale *locale;
 
 	// constr
-	Settings() :
-		QSettings("elinux", "qfaktury") {
-
+	Settings()
+		: QSettings("elinux", "qfaktury")
+	{
 		dateFormat = "dd/MM/yyyy";
 		fileNameDateFormat = "yyyy-MM-dd";
 
-        QTextCodec::setCodecForLocale(QTextCodec::codecForName (getCodecName()));
-        QTextCodec::codecForUtfText(getCodecName());
+		QTextCodec::setCodecForLocale(QTextCodec::codecForName(getCodecName()));
+		QTextCodec::codecForUtfText(getCodecName());
 
 		locale = new QLocale();
-
 	}
 
-	Settings(const Settings&):QSettings() {}
+	Settings(const Settings &)
+		: QSettings()
+	{
+	}
 
-    friend Settings& sett() {
-       static Settings sett;
-       return sett;
-    }
+	friend Settings &sett()
+	{
+		static Settings sett;
+		return sett;
+	}
 };
 
-Settings& sett();
+Settings &sett();
 
 #endif

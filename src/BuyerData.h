@@ -10,12 +10,11 @@
 
 #include <QString>
 
-class BuyerData {
-
+class BuyerData
+{
 public:
-
-    BuyerData();
-    virtual ~BuyerData();
+	BuyerData();
+	virtual ~BuyerData();
 	QString name;
 	QString place;
 	QString code;
@@ -25,12 +24,11 @@ public:
 	QString phone;
 	QString email;
 	QString www;
-    QString fax;
-    QString krs;
-    QString bank;
-    QString swift;
+	QString fax;
+	QString krs;
+	QString bank;
+	QString swift;
 	QString type;
-
 };
 
 #endif /* BUYERDATA_H_ */

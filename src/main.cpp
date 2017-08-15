@@ -1,37 +1,38 @@
 #include <QApplication>
-#include <QTimer>
-#include <QResource>
 #include <QDesktopWidget>
+#include <QResource>
 #include <QSplashScreen>
-#include <QTranslator>
 #include <QStyle>
+#include <QTimer>
+#include <QTranslator>
 
 #include "MainWindow.h"
 
-
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 	QApplication a(argc, argv);
-
-
 
 	QResource::registerResource("qfaktury.rcc"); // using the rcc file so it's more portable
 	// Q_INIT_RESOURCE(qfaktury);
 
-    // gets geometry of the screen
+	// gets geometry of the screen
 	QRect screen = QApplication::desktop()->screenGeometry();
 
-    // sets start window during application load
+	// sets start window during application load
 	QTimer closeSplash;
-    QSplashScreen splash(QPixmap(":/res/icons/splash.png"));\
+	QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
 
-    // creates instance of main window and move it in according to the screen geometry
+	// creates instance of main window and move it in according to the screen geometry
 	MainWindow w(0);
 	w.move(screen.center() - QPoint(w.width() / 2, w.height() / 2));
 
-    // if argument for app in commandd line is --nosplash, uses no start window
-	if (a.arguments().contains("--nosplash")) {
+	// if argument for app in commandd line is --nosplash, uses no start window
+	if (a.arguments().contains("--nosplash"))
+	{
 		w.show();
-	} else {
+	}
+	else
+	{
 		splash.show();
 
 		a.connect(&closeSplash, SIGNAL(timeout()), &w, SLOT(show()));
@@ -40,17 +41,17 @@ int main(int argc, char **argv) {
 		closeSplash.start(5000);
 	}
 
-    // if last window is close, closes down application
+	// if last window is close, closes down application
 	a.connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
 
-    // sets icon, application name, organization name and style for app
+	// sets icon, application name, organization name and style for app
 	QIcon icon;
 	icon.addPixmap(QPixmap(":/res/icons/qfaktury_48.png"), QIcon::Normal, QIcon::Off);
 	a.setWindowIcon(icon);
 	a.setApplicationName("QFaktury");
-    a.setOrganizationName("https://github.com/juliagoda/qfaktury");
-    a.setApplicationVersion(sett().getVersion(qAppName()));
-    a.setStyle(sett().getStyle());
+	a.setOrganizationName("https://github.com/juliagoda/qfaktury");
+	a.setApplicationVersion(sett().getVersion(qAppName()));
+	a.setStyle(sett().getStyle());
 
 	return a.exec();
 }
@@ -58,10 +59,9 @@ int main(int argc, char **argv) {
 #ifdef WIN32
 #if CMAKE_BUILD_TYPE == Release
 #include <windows.h>
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-		LPSTR lpCmdLine, int nCmdShow) {
-	main(0,0);
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	main(0, 0);
 }
 #endif
 #endif
-

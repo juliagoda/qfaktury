@@ -10,29 +10,24 @@
 
 #include "GoodsList.h"
 
-class GoodsGrossList: public GoodsList {
-
-Q_OBJECT
+class GoodsGrossList : public GoodsList
+{
+	Q_OBJECT
 
 public:
-
-    GoodsGrossList(QWidget *parent);
-    const QString getRetValGoodsBr();
-    ~GoodsGrossList();
-
+	GoodsGrossList(QWidget *parent);
+	const QString getRetValGoodsBr();
+	~GoodsGrossList();
 
 public slots:
 
-    void calcNet();
-    void doAccept();
+	void calcNet();
+	void doAccept();
 	QString getPriceOfCurrent();
 
-
 private:
-
-    QString ret;
-    QString selectedItem;
+	QString ret;
+	QString selectedItem;
 };
-
 
 #endif /* TOWARYBRUTTOLISTA_H_ */

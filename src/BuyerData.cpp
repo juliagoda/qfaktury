@@ -7,11 +7,12 @@
 
 #include "BuyerData.h"
 
-BuyerData::BuyerData() {
+BuyerData::BuyerData()
+{
 	// TODO Auto-generated constructor stub
-
 }
 
-BuyerData::~BuyerData() {
+BuyerData::~BuyerData()
+{
 	// TODO Auto-generated destructor stub
 }

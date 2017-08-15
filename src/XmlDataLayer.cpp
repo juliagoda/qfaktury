@@ -9,726 +9,741 @@
 #include "Invoice.h"
 #include "Settings.h"
 
-
-XmlDataLayer::XmlDataLayer():IDataLayer() {
+XmlDataLayer::XmlDataLayer()
+	: IDataLayer()
+{
 	// TODO Auto-generated constructor stub
-
 }
 
-XmlDataLayer::~XmlDataLayer() {
+XmlDataLayer::~XmlDataLayer()
+{
 	// TODO Auto-generated destructor stub
 }
 
-
 QString const XmlDataLayer::getRet() const
 {
-    return ret;
+	return ret;
 }
-
 
 // ************ KONTRAHENCI START *****************
 // helper method
-void XmlDataLayer::buyersElemToData(BuyerData &o_buyerData, QDomElement i_element) {
-
-    o_buyerData.name 	= i_element.attribute("name");
-    o_buyerData.place 	= i_element.attribute("place");
-    o_buyerData.code 	= i_element.attribute("code");
-    o_buyerData.address	= i_element.attribute("address");
-    o_buyerData.tic		= i_element.attribute("tic");
-    o_buyerData.account	= i_element.attribute("account");
-    o_buyerData.phone	= i_element.attribute("phone");
-    o_buyerData.email	= i_element.attribute("email");
-    o_buyerData.www		= i_element.attribute("www");
-    o_buyerData.bank    = i_element.attribute("bank");
-    o_buyerData.fax     = i_element.attribute("fax");
-    o_buyerData.krs     = i_element.attribute("krs");
-    o_buyerData.swift   = i_element.attribute("swift");
+void XmlDataLayer::buyersElemToData(BuyerData &o_buyerData, QDomElement i_element)
+{
+	o_buyerData.name = i_element.attribute("name");
+	o_buyerData.place = i_element.attribute("place");
+	o_buyerData.code = i_element.attribute("code");
+	o_buyerData.address = i_element.attribute("address");
+	o_buyerData.tic = i_element.attribute("tic");
+	o_buyerData.account = i_element.attribute("account");
+	o_buyerData.phone = i_element.attribute("phone");
+	o_buyerData.email = i_element.attribute("email");
+	o_buyerData.www = i_element.attribute("www");
+	o_buyerData.bank = i_element.attribute("bank");
+	o_buyerData.fax = i_element.attribute("fax");
+	o_buyerData.krs = i_element.attribute("krs");
+	o_buyerData.swift = i_element.attribute("swift");
 }
 
 // helper method
-void XmlDataLayer::buyersDataToElem(BuyerData &i_buyerData, QDomElement &o_element) {
-
-    o_element.setAttribute("name", i_buyerData.name);
-    o_element.setAttribute("place", i_buyerData.place);
-    o_element.setAttribute("code", i_buyerData.code);
-    o_element.setAttribute("address", i_buyerData.address);
-    o_element.setAttribute("tic", i_buyerData.tic);
-    o_element.setAttribute("account", i_buyerData.account);
-    o_element.setAttribute("phone", i_buyerData.phone);
-    o_element.setAttribute("email", i_buyerData.email);
-    o_element.setAttribute("www", i_buyerData.www);
-    o_element.setAttribute("bank", i_buyerData.bank);
-    o_element.setAttribute("fax", i_buyerData.fax);
-    o_element.setAttribute("krs", i_buyerData.krs);
-    o_element.setAttribute("swift", i_buyerData.swift);
+void XmlDataLayer::buyersDataToElem(BuyerData &i_buyerData, QDomElement &o_element)
+{
+	o_element.setAttribute("name", i_buyerData.name);
+	o_element.setAttribute("place", i_buyerData.place);
+	o_element.setAttribute("code", i_buyerData.code);
+	o_element.setAttribute("address", i_buyerData.address);
+	o_element.setAttribute("tic", i_buyerData.tic);
+	o_element.setAttribute("account", i_buyerData.account);
+	o_element.setAttribute("phone", i_buyerData.phone);
+	o_element.setAttribute("email", i_buyerData.email);
+	o_element.setAttribute("www", i_buyerData.www);
+	o_element.setAttribute("bank", i_buyerData.bank);
+	o_element.setAttribute("fax", i_buyerData.fax);
+	o_element.setAttribute("krs", i_buyerData.krs);
+	o_element.setAttribute("swift", i_buyerData.swift);
 }
 
-bool XmlDataLayer::ifPersonNodeExists(QDomElement root) {
-
-    if (root.childNodes().at(2).toElement().tagName() == "person") {
-
-        qDebug() << "node person exists";
-        qDebug() << root.childNodes().at(2).toElement().tagName();
-        return true;
-
-    } else {
-
-        qDebug() << "node person doesn't exist";
-        qDebug() << root.childNodes().at(2).toElement().tagName();
-        return false;
-    }
-
+bool XmlDataLayer::ifPersonNodeExists(QDomElement root)
+{
+	if (root.childNodes().at(2).toElement().tagName() == "person")
+	{
+		qDebug() << "node person exists";
+		qDebug() << root.childNodes().at(2).toElement().tagName();
+		return true;
+	}
+	else
+	{
+		qDebug() << "node person doesn't exist";
+		qDebug() << root.childNodes().at(2).toElement().tagName();
+		return false;
+	}
 }
 
 void XmlDataLayer::addSectionPerson(bool checkedRoot)
 {
-    QDomDocument doc(sett().getCustomersDocName());
-    if (!checkedRoot) {
+	QDomDocument doc(sett().getCustomersDocName());
+	if (!checkedRoot)
+	{
+		QFile file(sett().getCustomersXml());
+		file.open(QIODevice::ReadWrite);
+		QTextStream stream(&file);
 
-        QFile file(sett().getCustomersXml());
-        file.open(QIODevice::ReadWrite);
-        QTextStream stream(&file);
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
+			file.close();
+		}
+		else
+		{
+			doc.documentElement().appendChild(doc.createElement(sett().getNaturalPerson()));
+			stream.setCodec(QTextCodec::codecForName(sett().getCodecName()));
 
-        if (!doc.setContent(stream.readAll())) {
+			// Write changes to same file
+			file.resize(0);
+			doc.save(stream, 0);
 
-            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
-            file.close();
-
-        } else {
-
-            doc.documentElement().appendChild(doc.createElement(sett().getNaturalPerson()));
-            stream.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-
-            // Write changes to same file
-            file.resize(0);
-            doc.save(stream, 0);
-
-            file.close();
-        }
-
-    }
+			file.close();
+		}
+	}
 }
 
-QVector<BuyerData> XmlDataLayer::buyersSelectAllData() {
-
-    QVector<BuyerData> buyerVec;
+QVector<BuyerData> XmlDataLayer::buyersSelectAllData()
+{
+	QVector<BuyerData> buyerVec;
 
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement office;
 	QDomElement company;
-    QDomElement natur_person;
-
-
+	QDomElement natur_person;
 
 	QFile file(sett().getCustomersXml());
 
-    if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-        QFileInfo fileInfo(file.fileName());
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			buyersSelectAllData();
+		}
+		else
+		{
+			root = doc.createElement(sett().getCustomersDocName());
+			doc.appendChild(root);
+			office = doc.createElement(sett().getOfficeName());
+			root.appendChild(office);
+			company = doc.createElement(sett().getCompanyName());
+			root.appendChild(company);
+			natur_person = doc.createElement(sett().getNaturalPerson());
+			root.appendChild(natur_person);
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			QString xml = doc.toString();
 
-            buyersSelectAllData();
-
-        } else {
-
-            root = doc.createElement(sett().getCustomersDocName());
-            doc.appendChild(root);
-            office = doc.createElement(sett().getOfficeName());
-            root.appendChild(office);
-            company = doc.createElement(sett().getCompanyName());
-            root.appendChild(company);
-            natur_person = doc.createElement(sett().getNaturalPerson());
-            root.appendChild(natur_person);
-
-            QString xml = doc.toString();
-
-            file.close();
-            file.open(QIODevice::WriteOnly);
-            QTextStream ts(&file);
-            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-            ts << xml;
-
-            file.open(QIODevice::ReadOnly);
-
-            QTextStream stream(&file);
-            doc.setContent(stream.readAll());
-
-            root = doc.documentElement();
-            office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
-
-            file.close();
-            return buyerVec;
-        }
-
-	} else {
-
-		QTextStream stream(&file);
-
-		if (!doc.setContent(stream.readAll())) {
-            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
-            return buyerVec;
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-		} else {
+			file.open(QIODevice::ReadOnly);
+
+			QTextStream stream(&file);
+			doc.setContent(stream.readAll());
 
 			root = doc.documentElement();
-            addSectionPerson(ifPersonNodeExists(root));
 			office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
+
+			file.close();
+			return buyerVec;
+		}
+	}
+	else
+	{
+		QTextStream stream(&file);
+
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
+			file.close();
+			return buyerVec;
+		}
+		else
+		{
+			root = doc.documentElement();
+			addSectionPerson(ifPersonNodeExists(root));
+			office = root.firstChild().toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
 		}
 
-		for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
-            BuyerData buyerData;
-            buyersElemToData(buyerData, n.toElement());
-            buyerData.type = QObject::trUtf8("Firma");
-            buyerVec.push_front(buyerData);
+		for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			BuyerData buyerData;
+			buyersElemToData(buyerData, n.toElement());
+			buyerData.type = QObject::trUtf8("Firma");
+			buyerVec.push_front(buyerData);
 		}
 
-		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
-            BuyerData buyerData;
-            buyersElemToData(buyerData, n.toElement());
-            buyerData.type = QObject::trUtf8("Urząd");
-            buyerVec.push_front(buyerData);
+		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			BuyerData buyerData;
+			buyersElemToData(buyerData, n.toElement());
+			buyerData.type = QObject::trUtf8("Urząd");
+			buyerVec.push_front(buyerData);
 		}
 
-        for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling()) {
-            BuyerData buyerData;
-            buyersElemToData(buyerData, n.toElement());
-            buyerData.type = QObject::trUtf8("Osoba fizyczna");
-            buyerVec.push_front(buyerData);
-        }
+		for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			BuyerData buyerData;
+			buyersElemToData(buyerData, n.toElement());
+			buyerData.type = QObject::trUtf8("Osoba fizyczna");
+			buyerVec.push_front(buyerData);
+		}
 	}
 
-    file.close();
+	file.close();
 
-    return buyerVec;
+	return buyerVec;
 }
 
-
-BuyerData XmlDataLayer::buyersSelectData(QString name, int type) {
-
-    BuyerData o_buyerData;
+BuyerData XmlDataLayer::buyersSelectData(QString name, int type)
+{
+	BuyerData o_buyerData;
 
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement office;
 	QDomElement company;
-    QDomElement natur_person;
+	QDomElement natur_person;
 
 	QFile file(sett().getCustomersXml());
 
-	if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-        QFileInfo fileInfo(file.fileName());
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			buyersSelectData(name, type);
+		}
+		else
+		{
+			root = doc.createElement(sett().getCustomersDocName());
+			doc.appendChild(root);
+			office = doc.createElement(sett().getOfficeName());
+			root.appendChild(office);
+			company = doc.createElement(sett().getCompanyName());
+			root.appendChild(company);
+			natur_person = doc.createElement(sett().getNaturalPerson());
+			root.appendChild(natur_person);
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			QString xml = doc.toString();
 
-            buyersSelectData(name, type);
-
-        } else {
-
-            root = doc.createElement(sett().getCustomersDocName());
-            doc.appendChild(root);
-            office = doc.createElement(sett().getOfficeName());
-            root.appendChild(office);
-            company = doc.createElement(sett().getCompanyName());
-            root.appendChild(company);
-            natur_person = doc.createElement(sett().getNaturalPerson());
-            root.appendChild(natur_person);
-
-            QString xml = doc.toString();
-
-            file.close();
-            file.open(QIODevice::WriteOnly);
-            QTextStream ts(&file);
-            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-            ts << xml;
-
-            file.open(QIODevice::ReadOnly);
-
-            QTextStream stream(&file);
-            doc.setContent(stream.readAll());
-
-            root = doc.documentElement();
-            office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
-
-            file.close();
-            return o_buyerData;
-        }
-
-	} else {
-
-		QTextStream stream(&file);
-
-		if (!doc.setContent(stream.readAll())) {
-
-            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
-            return o_buyerData;
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-		} else {
+			file.open(QIODevice::ReadOnly);
+
+			QTextStream stream(&file);
+			doc.setContent(stream.readAll());
 
 			root = doc.documentElement();
-            addSectionPerson(ifPersonNodeExists(root));
 			office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
+
+			file.close();
+			return o_buyerData;
+		}
+	}
+	else
+	{
+		QTextStream stream(&file);
+
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
+			file.close();
+			return o_buyerData;
+		}
+		else
+		{
+			root = doc.documentElement();
+			addSectionPerson(ifPersonNodeExists(root));
+			office = root.firstChild().toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
 		}
 
-		if (type == 0) {
-			for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
-				if (n.toElement().attribute("name").compare(name) == 0) {
-                    buyersElemToData(o_buyerData, n.toElement());
+		if (type == 0)
+		{
+			for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling())
+			{
+				if (n.toElement().attribute("name").compare(name) == 0)
+				{
+					buyersElemToData(o_buyerData, n.toElement());
 				}
 			}
-
-        } else if (type == 1) {
-			for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
-				if (n.toElement().attribute("name").compare(name) == 0) {
-                    buyersElemToData(o_buyerData, n.toElement());
+		}
+		else if (type == 1)
+		{
+			for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling())
+			{
+				if (n.toElement().attribute("name").compare(name) == 0)
+				{
+					buyersElemToData(o_buyerData, n.toElement());
 				}
 			}
-        } else {
-            for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling()) {
-                if (n.toElement().attribute("name").compare(name) == 0) {
-                    buyersElemToData(o_buyerData, n.toElement());
-                }
-            }
-        }
+		}
+		else
+		{
+			for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling())
+			{
+				if (n.toElement().attribute("name").compare(name) == 0)
+				{
+					buyersElemToData(o_buyerData, n.toElement());
+				}
+			}
+		}
 	}
 
-    file.close();
-    return o_buyerData;
+	file.close();
+	return o_buyerData;
 }
 
-
-bool XmlDataLayer::buyersInsertData(BuyerData& buyerData, int type) {
-
+bool XmlDataLayer::buyersInsertData(BuyerData &buyerData, int type)
+{
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement office;
 	QDomElement company;
-    QDomElement natur_person;
-
+	QDomElement natur_person;
 
 	QFile file(sett().getCustomersXml());
 
-	if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-        QFileInfo fileInfo(file.fileName());
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			buyersInsertData(buyerData, type);
+		}
+		else
+		{
+			root = doc.createElement(sett().getCustomersDocName());
+			doc.appendChild(root);
+			office = doc.createElement(sett().getOfficeName());
+			root.appendChild(office);
+			company = doc.createElement(sett().getCompanyName());
+			root.appendChild(company);
+			natur_person = doc.createElement(sett().getNaturalPerson());
+			root.appendChild(natur_person);
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			QString xml = doc.toString();
 
-            buyersInsertData(buyerData, type);
+			file.close();
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-        } else {
+			file.open(QIODevice::ReadOnly);
+			QTextStream stream(&file);
+			doc.setContent(stream.readAll());
 
-            root = doc.createElement(sett().getCustomersDocName());
-            doc.appendChild(root);
-            office = doc.createElement(sett().getOfficeName());
-            root.appendChild(office);
-            company = doc.createElement(sett().getCompanyName());
-            root.appendChild(company);
-            natur_person = doc.createElement(sett().getNaturalPerson());
-            root.appendChild(natur_person);
-
-            QString xml = doc.toString();
-
-            file.close();
-            file.open(QIODevice::WriteOnly);
-            QTextStream ts(&file);
-            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-            ts << xml;
-
-            file.open(QIODevice::ReadOnly);
-            QTextStream stream(&file);
-            doc.setContent(stream.readAll());
-
-            root = doc.documentElement();
-            office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
-
-        }
-
-	} else {
-
+			root = doc.documentElement();
+			office = root.firstChild().toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
+		}
+	}
+	else
+	{
 		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll())) {
-
-            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
 			// return;
-
-		} else {
-
+		}
+		else
+		{
 			root = doc.documentElement();
-            addSectionPerson(ifPersonNodeExists(root));
+			addSectionPerson(ifPersonNodeExists(root));
 			office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
 		}
 	}
 
 	root.lastChild();
 
-    // company = 0; department = 1; natural person = 2;
-	if (type == 0) {
-
+	// company = 0; department = 1; natural person = 2;
+	if (type == 0)
+	{
 		QDomElement elem = doc.createElement(sett().getCompanyName());
-        buyersDataToElem(buyerData, elem);
+		buyersDataToElem(buyerData, elem);
 		company.appendChild(elem);
 	}
 
-	if (type == 1) {
-
+	if (type == 1)
+	{
 		QDomElement elem = doc.createElement(sett().getOfficeName());
-        buyersDataToElem(buyerData, elem);
+		buyersDataToElem(buyerData, elem);
 		office.appendChild(elem);
 	}
 
-    if (type == 2) {
-
-        QDomElement elem = doc.createElement(sett().getNaturalPerson());
-        buyersDataToElem(buyerData, elem);
-        natur_person.appendChild(elem);
-    }
+	if (type == 2)
+	{
+		QDomElement elem = doc.createElement(sett().getNaturalPerson());
+		buyersDataToElem(buyerData, elem);
+		natur_person.appendChild(elem);
+	}
 
 	QString xml = doc.toString();
 
-    file.close();
-    file.open(QIODevice::WriteOnly);
-    QTextStream ts(&file);
-    ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-    ts << xml;
-    file.close();
+	file.close();
+	file.open(QIODevice::WriteOnly);
+	QTextStream ts(&file);
+	ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+	ts << xml;
+	file.close();
 
 	return true;
 }
 
-QStringList XmlDataLayer::buyersGetFirmList() {
-
+QStringList XmlDataLayer::buyersGetFirmList()
+{
 	QStringList allNames;
 
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement office;
 	QDomElement company;
-    QDomElement natur_person;
-
+	QDomElement natur_person;
 
 	QFile file(sett().getCustomersXml());
 
-	if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-        QFileInfo fileInfo(file.fileName());
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			buyersGetFirmList();
+		}
+		else
+		{
+			root = doc.createElement(sett().getCustomersDocName());
+			doc.appendChild(root);
+			office = doc.createElement(sett().getOfficeName());
+			root.appendChild(office);
+			company = doc.createElement(sett().getCompanyName());
+			root.appendChild(company);
+			natur_person = doc.createElement(sett().getNaturalPerson());
+			root.appendChild(natur_person);
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			QString xml = doc.toString();
 
-            buyersGetFirmList();
-
-           } else {
-
-            root = doc.createElement(sett().getCustomersDocName());
-            doc.appendChild(root);
-            office = doc.createElement(sett().getOfficeName());
-            root.appendChild(office);
-            company = doc.createElement(sett().getCompanyName());
-            root.appendChild(company);
-            natur_person = doc.createElement(sett().getNaturalPerson());
-            root.appendChild(natur_person);
-
-            QString xml = doc.toString();
-
-            file.close();
-            file.open(QIODevice::WriteOnly);
-            QTextStream ts(&file);
-            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-            ts << xml;
-
-            file.open(QIODevice::ReadOnly);
-            QTextStream stream(&file);
-            doc.setContent(stream.readAll());
-
-            root = doc.documentElement();
-            office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
-
-            file.close();
-            return allNames;
-        }
-
-	} else {
-
-		QTextStream stream(&file);
-
-		if (!doc.setContent(stream.readAll())) {
-            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
-			return allNames;
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-		} else {
+			file.open(QIODevice::ReadOnly);
+			QTextStream stream(&file);
+			doc.setContent(stream.readAll());
 
 			root = doc.documentElement();
-            addSectionPerson(ifPersonNodeExists(root));
 			office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
+
+			file.close();
+			return allNames;
+		}
+	}
+	else
+	{
+		QTextStream stream(&file);
+
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
+			file.close();
+			return allNames;
+		}
+		else
+		{
+			root = doc.documentElement();
+			addSectionPerson(ifPersonNodeExists(root));
+			office = root.firstChild().toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
 		}
 
-        QString text = QString();
+		QString text = QString();
 
-		for (QDomNode n = company.firstChild(); !n.isNull(); n
-				= n.nextSibling()) {
+		for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
 			text = n.toElement().attribute("name");
 			allNames << text;
 		}
 
-		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
+		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
 			text = n.toElement().attribute("name");
 			allNames << text;
 		}
 
-        for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling()) {
-            text = n.toElement().attribute("name");
-            allNames << text;
-        }
+		for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			text = n.toElement().attribute("name");
+			allNames << text;
+		}
 	}
 
-    file.close();
+	file.close();
 	return allNames;
 }
 
-bool XmlDataLayer::buyersUpdateData(BuyerData& buyerData, int type, QString name) {
-
-    QDomDocument doc(sett().getCustomersDocName());
+bool XmlDataLayer::buyersUpdateData(BuyerData &buyerData, int type, QString name)
+{
+	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
 	QDomElement office;
 	QDomElement company;
-    QDomElement natur_person;
-    QDomElement elem;
+	QDomElement natur_person;
+	QDomElement elem;
 
+	QFile file(sett().getCustomersXml());
 
-    QFile file(sett().getCustomersXml());
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-    if (!file.open(QIODevice::ReadOnly)) {
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        QFileInfo fileInfo(file.fileName());
+			buyersUpdateData(buyerData, type, name);
+		}
+		else
+		{
+			root = doc.createElement(sett().getCustomersDocName());
+			doc.appendChild(root);
+			office = doc.createElement(sett().getOfficeName());
+			root.appendChild(office);
+			company = doc.createElement(sett().getCompanyName());
+			root.appendChild(company);
+			natur_person = doc.createElement(sett().getNaturalPerson());
+			root.appendChild(natur_person);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			QString xml = doc.toString();
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			file.close();
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-            buyersUpdateData(buyerData, type, name);
+			file.open(QIODevice::ReadOnly);
+			QTextStream stream(&file);
+			doc.setContent(stream.readAll());
 
-           } else {
-
-        root = doc.createElement(sett().getCustomersDocName());
-        doc.appendChild(root);
-        office = doc.createElement(sett().getOfficeName());
-        root.appendChild(office);
-        company = doc.createElement(sett().getCompanyName());
-        root.appendChild(company);
-        natur_person = doc.createElement(sett().getNaturalPerson());
-        root.appendChild(natur_person);
-
-        QString xml = doc.toString();
-
-        file.close();
-        file.open(QIODevice::WriteOnly);
-        QTextStream ts(&file);
-        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-        ts << xml;
-
-        file.open(QIODevice::ReadOnly);
-        QTextStream stream(&file);
-        doc.setContent(stream.readAll());
-
-        root = doc.documentElement();
-        office = root.firstChild().toElement();
-        company = root.childNodes().at(1).toElement();
-        natur_person = root.childNodes().at(2).toElement();
-
-        }
-
-
-    } else {
-
-        QTextStream stream(&file);
-        if (!doc.setContent(stream.readAll())) {
-
-            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
-            file.close();
-            return false;
-
-        } else {
-
-            root = doc.documentElement();
-            addSectionPerson(ifPersonNodeExists(root));
-            office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
-        }
-    }
+			root = doc.documentElement();
+			office = root.firstChild().toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
+		}
+	}
+	else
+	{
+		QTextStream stream(&file);
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
+			file.close();
+			return false;
+		}
+		else
+		{
+			root = doc.documentElement();
+			addSectionPerson(ifPersonNodeExists(root));
+			office = root.firstChild().toElement();
+			company = root.childNodes().at(1).toElement();
+			natur_person = root.childNodes().at(2).toElement();
+		}
+	}
 
 	root.lastChild();
 
-    // company = 0; department = 1; natural person = 2;
-	if (type == 0) {
-		for (QDomNode n = company.firstChild(); !n.isNull(); n
-				= n.nextSibling()) {
-			if (n.toElement().attribute("name").compare(name) == 0) {
+	// company = 0; department = 1; natural person = 2;
+	if (type == 0)
+	{
+		for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("name").compare(name) == 0)
+			{
 				elem = n.toElement();
 				break;
 			}
 		}
 
-        buyersDataToElem(buyerData, elem);
+		buyersDataToElem(buyerData, elem);
 		company.appendChild(elem);
 	}
 
-    if (type == 1) {
-        //  = doc.createElement ("department");
-		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			if (n.toElement().attribute("name").compare(name) == 0) {
+	if (type == 1)
+	{
+		//  = doc.createElement ("department");
+		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("name").compare(name) == 0)
+			{
 				elem = n.toElement();
 				break;
 			}
 		}
 
-        buyersDataToElem(buyerData, elem);
+		buyersDataToElem(buyerData, elem);
 		office.appendChild(elem);
 	}
 
-    if (type == 2) {
-        //  = doc.createElement ("person");
-        for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling()) {
-            if (n.toElement().attribute("name").compare(name) == 0) {
-                elem = n.toElement();
-                break;
-            }
-        }
+	if (type == 2)
+	{
+		//  = doc.createElement ("person");
+		for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("name").compare(name) == 0)
+			{
+				elem = n.toElement();
+				break;
+			}
+		}
 
-        buyersDataToElem(buyerData, elem);
-        natur_person.appendChild(elem);
-    }
+		buyersDataToElem(buyerData, elem);
+		natur_person.appendChild(elem);
+	}
 
-    QString xml = doc.toString();
-    qDebug() << xml;
+	QString xml = doc.toString();
+	qDebug() << xml;
 
-    file.close();
-    file.open(QIODevice::WriteOnly);
-    QTextStream ts(&file);
-    ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-    ts << xml;
-    file.close();
+	file.close();
+	file.open(QIODevice::WriteOnly);
+	QTextStream ts(&file);
+	ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+	ts << xml;
+	file.close();
 
 	return true;
 }
 
-
-bool XmlDataLayer::buyersDeleteData(QString name) {
-
+bool XmlDataLayer::buyersDeleteData(QString name)
+{
 	QDomDocument doc(sett().getCustomersDocName());
 	QDomElement root;
-    QDomElement office;
-    QDomElement company;
-    QDomElement natural_person;
-
+	QDomElement office;
+	QDomElement company;
+	QDomElement natural_person;
 
 	QFile file(sett().getCustomersXml());
 
-	if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-        QFileInfo fileInfo(file.fileName());
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			buyersDeleteData(name);
+		}
+		else
+		{
+			root = doc.createElement(sett().getCustomersDocName());
+			doc.appendChild(root);
+			office = doc.createElement(sett().getOfficeName());
+			root.appendChild(office);
+			company = doc.createElement(sett().getCompanyName());
+			root.appendChild(company);
+			natural_person = doc.createElement(sett().getNaturalPerson());
+			root.appendChild(natural_person);
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			QString xml = doc.toString();
 
-            buyersDeleteData(name);
+			file.close();
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-        } else {
+			file.close();
 
-        root = doc.createElement(sett().getCustomersDocName());
-        doc.appendChild(root);
-        office = doc.createElement(sett().getOfficeName());
-        root.appendChild(office);
-        company = doc.createElement(sett().getCompanyName());
-        root.appendChild(company);
-        natural_person = doc.createElement(sett().getNaturalPerson());
-        root.appendChild(natural_person);
-
-        QString xml = doc.toString();
-
-        file.close();
-        file.open(QIODevice::WriteOnly);
-        QTextStream ts(&file);
-        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-        ts << xml;
-
-        file.close();
-
-		return false;
-
-        }
-
-	} else {
-
+			return false;
+		}
+	}
+	else
+	{
 		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll())) {
-            qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug() << "can not set content, maybe file is empty?: " + file.fileName();
 			file.close();
 			return false;
-
-		} else {
-
+		}
+		else
+		{
 			root = doc.documentElement();
-            addSectionPerson(ifPersonNodeExists(root));
-            office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natural_person = root.childNodes().at(2).toElement();
+			addSectionPerson(ifPersonNodeExists(root));
+			office = root.firstChild().toElement();
+			company = root.childNodes().at(1).toElement();
+			natural_person = root.childNodes().at(2).toElement();
 		}
 
-
-        for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			if (n.toElement().attribute("name"). compare(name) == 0) {
-                office.removeChild(n);
+		for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("name").compare(name) == 0)
+			{
+				office.removeChild(n);
 				break;
 			}
 		}
 
-        for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			if (n.toElement().attribute("name"). compare(name) == 0) {
-                company.removeChild(n);
+		for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("name").compare(name) == 0)
+			{
+				company.removeChild(n);
 				break;
 			}
 		}
 
-        for (QDomNode n = natural_person.firstChild(); !n.isNull(); n = n.nextSibling()) {
-            if (n.toElement().attribute("name"). compare(name) == 0) {
-                natural_person.removeChild(n);
-                break;
-            }
-        }
+		for (QDomNode n = natural_person.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("name").compare(name) == 0)
+			{
+				natural_person.removeChild(n);
+				break;
+			}
+		}
 
 		QString xml = doc.toString();
 		file.close();
@@ -743,29 +758,28 @@ bool XmlDataLayer::buyersDeleteData(QString name) {
 }
 // ************ KONTRAHENCI END *****************
 
-
 // ************ TOWARY START *****************
 // helper method
 
-void XmlDataLayer::productsElemToData(ProductData& o_prodData, QDomElement i_element) {
-
-	o_prodData.id 		= i_element.attribute("idx").toInt();
-	o_prodData.name 	= i_element.attribute("name");
-	o_prodData.desc 	= i_element.attribute("desc");
-	o_prodData.code 	= i_element.attribute("code");
-	o_prodData.pkwiu 	= i_element.attribute("pkwiu");
+void XmlDataLayer::productsElemToData(ProductData &o_prodData, QDomElement i_element)
+{
+	o_prodData.id = i_element.attribute("idx").toInt();
+	o_prodData.name = i_element.attribute("name");
+	o_prodData.desc = i_element.attribute("desc");
+	o_prodData.code = i_element.attribute("code");
+	o_prodData.pkwiu = i_element.attribute("pkwiu");
 	o_prodData.quanType = i_element.attribute("quanType");
 	o_prodData.prices[0] = sett().stringToDouble(i_element.attribute("netto1"));
 	o_prodData.prices[1] = sett().stringToDouble(i_element.attribute("netto2"));
 	o_prodData.prices[2] = sett().stringToDouble(i_element.attribute("netto3"));
 	o_prodData.prices[3] = sett().stringToDouble(i_element.attribute("netto4"));
-	o_prodData.vat 		= i_element.attribute("vat").toInt();
+	o_prodData.vat = i_element.attribute("vat").toInt();
 }
 
 // helper method
 
-void XmlDataLayer::productsDataToElem(ProductData& i_prodData, QDomElement &o_element) {
-
+void XmlDataLayer::productsDataToElem(ProductData &i_prodData, QDomElement &o_element)
+{
 	o_element.setAttribute("idx", i_prodData.id);
 	o_element.setAttribute("name", i_prodData.name);
 	o_element.setAttribute("desc", i_prodData.desc);
@@ -779,8 +793,8 @@ void XmlDataLayer::productsDataToElem(ProductData& i_prodData, QDomElement &o_el
 	o_element.setAttribute("vat", i_prodData.vat);
 }
 
-QVector<ProductData> XmlDataLayer::productsSelectAllData() {
-
+QVector<ProductData> XmlDataLayer::productsSelectAllData()
+{
 	QVector<ProductData> prodVec;
 
 	QDomDocument doc(sett().getProdutcsDocName());
@@ -790,66 +804,66 @@ QVector<ProductData> XmlDataLayer::productsSelectAllData() {
 
 	QFile file(sett().getProductsXml());
 
-	if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-        QFileInfo fileInfo(file.fileName());
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			productsSelectAllData();
+		}
+		else
+		{
+			root = doc.createElement(sett().getProdutcsDocName());
+			int lastId = root.attribute("last", "0").toInt();
+			root.setAttribute("last", sett().numberToString(lastId));
+			doc.appendChild(root);
+			products = doc.createElement(sett().getNameWithData(sett().getProductName()));
+			root.appendChild(products);
+			services = doc.createElement(sett().getNameWithData(sett().getServiceName()));
+			root.appendChild(services);
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			QString xml = doc.toString();
 
-            productsSelectAllData();
+			file.close();
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-        } else {
-
-            root = doc.createElement(sett().getProdutcsDocName());
-            int lastId = root.attribute("last", "0").toInt();
-            root.setAttribute("last", sett().numberToString(lastId));
-            doc.appendChild(root);
-            products = doc.createElement(sett().getNameWithData(sett().getProductName()));
-            root.appendChild(products);
-            services = doc.createElement(sett().getNameWithData(sett().getServiceName()));
-            root.appendChild(services);
-
-        QString xml = doc.toString();
-
-        file.close();
-        file.open(QIODevice::WriteOnly);
-        QTextStream ts(&file);
-        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-        ts << xml;
-
-        file.close();
-		return prodVec;
-
-        }
-
-	} else {
-
+			file.close();
+			return prodVec;
+		}
+	}
+	else
+	{
 		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll())) {
+		if (!doc.setContent(stream.readAll()))
+		{
 			qDebug("can't set content ");
 			file.close();
 			return prodVec;
-
-		} else {
-
+		}
+		else
+		{
 			root = doc.documentElement();
 			products = root.firstChild().toElement();
 			services = root.lastChild().toElement();
 		}
 
-		for (QDomNode n = products.firstChild(); !n.isNull(); n = n.nextSibling()) {
-
+		for (QDomNode n = products.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
 			ProductData prodData;
 			productsElemToData(prodData, n.toElement());
 			prodData.type = QObject::trUtf8("Towar");
 			prodVec.push_front(prodData);
 		}
 
-		for (QDomNode n = services.firstChild(); !n.isNull(); n = n.nextSibling()) {
-
+		for (QDomNode n = services.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
 			ProductData prodData;
 			productsElemToData(prodData, n.toElement());
 			prodData.type = QObject::trUtf8("Usługa");
@@ -857,109 +871,109 @@ QVector<ProductData> XmlDataLayer::productsSelectAllData() {
 		}
 	}
 
-    file.close();
+	file.close();
 	return prodVec;
 }
 
-ProductData XmlDataLayer::productsSelectData(QString name, int type) {
-
+ProductData XmlDataLayer::productsSelectData(QString name, int type)
+{
 	ProductData o_prodData;
 
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
-    QDomElement product;
-    QDomElement service;
+	QDomElement product;
+	QDomElement service;
 
 	QFile file(sett().getProductsXml());
 
-	if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-        QFileInfo fileInfo(file.fileName());
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			productsSelectData(name, type);
+		}
+		else
+		{
+			root = doc.createElement(sett().getProdutcsDocName());
+			int lastId = root.attribute("last", "0").toInt();
+			root.setAttribute("last", sett().numberToString(lastId));
+			doc.appendChild(root);
+			product = doc.createElement(sett().getNameWithData(sett().getProductName()));
+			root.appendChild(product);
+			service = doc.createElement(sett().getNameWithData(sett().getServiceName()));
+			root.appendChild(service);
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			QString xml = doc.toString();
 
-            productsSelectData(name, type);
+			file.close();
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-        } else {
-
-            root = doc.createElement(sett().getProdutcsDocName());
-            int lastId = root.attribute("last", "0").toInt();
-            root.setAttribute("last", sett().numberToString(lastId));
-            doc.appendChild(root);
-            product = doc.createElement(sett().getNameWithData(sett().getProductName()));
-            root.appendChild(product);
-            service = doc.createElement(sett().getNameWithData(sett().getServiceName()));
-            root.appendChild(service);
-
-        QString xml = doc.toString();
-
-        file.close();
-        file.open(QIODevice::WriteOnly);
-        QTextStream ts(&file);
-        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-        ts << xml;
-
-        file.close();
-        return o_prodData;
-
-        }
-
-	} else {
-
+			file.close();
+			return o_prodData;
+		}
+	}
+	else
+	{
 		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll())) {
-
+		if (!doc.setContent(stream.readAll()))
+		{
 			qDebug("can not set content ");
 			file.close();
 			return o_prodData;
-
-		} else {
-
+		}
+		else
+		{
 			root = doc.documentElement();
 			o_prodData.lastProdId = root.attribute("last", "1").toInt();
-            product = root.firstChild().toElement();
-            service = root.lastChild().toElement();
+			product = root.firstChild().toElement();
+			service = root.lastChild().toElement();
 		}
 
-		if (type == 0) {
-
-            for (QDomNode n = product.firstChild(); !n.isNull(); n
-					= n.nextSibling()) {           
-				if (n.toElement().attribute("idx").compare(name) == 0) {
+		if (type == 0)
+		{
+			for (QDomNode n = product.firstChild(); !n.isNull(); n = n.nextSibling())
+			{
+				if (n.toElement().attribute("idx").compare(name) == 0)
+				{
 					productsElemToData(o_prodData, n.toElement());
 				}
 			}
-
-		} else {
-
-            for (QDomNode n = service.firstChild(); !n.isNull(); n
-					= n.nextSibling()) {
-				if (n.toElement().attribute("idx").compare(name) == 0) {
+		}
+		else
+		{
+			for (QDomNode n = service.firstChild(); !n.isNull(); n = n.nextSibling())
+			{
+				if (n.toElement().attribute("idx").compare(name) == 0)
+				{
 					productsElemToData(o_prodData, n.toElement());
 				}
 			}
 		}
 	}
 
-    file.close();
+	file.close();
 	return o_prodData;
 }
 
-
-bool XmlDataLayer::productsInsertData(ProductData& prodData, int type) {
-
+bool XmlDataLayer::productsInsertData(ProductData &prodData, int type)
+{
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
 	QDomElement products, services;
 
 	QFile file(sett().getProductsXml());
 
-	if (!file.open(QIODevice::ReadOnly)) {
-
-        qDebug() << "New products file have been created";
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		qDebug() << "New products file have been created";
 
 		root = doc.createElement(sett().getProdutcsDocName());
 		int lastId = root.attribute("last", "0").toInt();
@@ -970,18 +984,19 @@ bool XmlDataLayer::productsInsertData(ProductData& prodData, int type) {
 		root.appendChild(products);
 		services = doc.createElement(sett().getNameWithData(sett().getServiceName()));
 		root.appendChild(services);
-
-	} else {
-
+	}
+	else
+	{
 		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll())) {
+		if (!doc.setContent(stream.readAll()))
+		{
 			qDebug("can not set content ");
 			file.close();
 			return false;
-
-		} else {
-
+		}
+		else
+		{
 			root = doc.documentElement();
 			int lastId = root.attribute("last", "0").toInt();
 			lastId++;
@@ -993,13 +1008,15 @@ bool XmlDataLayer::productsInsertData(ProductData& prodData, int type) {
 
 	root.lastChild();
 
-	if (type == 0) {
+	if (type == 0)
+	{
 		QDomElement elem = doc.createElement(sett().getProductName());
 		productsDataToElem(prodData, elem);
 		products.appendChild(elem);
 	}
 
-	if (type == 1) {
+	if (type == 1)
+	{
 		QDomElement elem = doc.createElement(sett().getServiceName());
 		productsDataToElem(prodData, elem);
 		services.appendChild(elem);
@@ -1017,95 +1034,98 @@ bool XmlDataLayer::productsInsertData(ProductData& prodData, int type) {
 	return true;
 }
 
-bool XmlDataLayer::productsUpdateData(ProductData& prodData, int type, QString name) {
-
+bool XmlDataLayer::productsUpdateData(ProductData &prodData, int type, QString name)
+{
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
-    QDomElement product;
-    QDomElement service;
+	QDomElement product;
+	QDomElement service;
 
 	QFile file(sett().getProductsXml());
 
-	if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-        QFileInfo fileInfo(file.fileName());
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			productsUpdateData(prodData, type, name);
+		}
+		else
+		{
+			root = doc.createElement(sett().getProdutcsDocName());
+			int lastId = root.attribute("last", "0").toInt();
+			root.setAttribute("last", sett().numberToString(lastId));
+			doc.appendChild(root);
+			product = doc.createElement(sett().getNameWithData(sett().getProductName()));
+			root.appendChild(product);
+			service = doc.createElement(sett().getNameWithData(sett().getServiceName()));
+			root.appendChild(service);
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			QString xml = doc.toString();
 
-            productsUpdateData(prodData, type, name);
+			file.close();
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-        } else {
-
-            root = doc.createElement(sett().getProdutcsDocName());
-            int lastId = root.attribute("last", "0").toInt();
-            root.setAttribute("last", sett().numberToString(lastId));
-            doc.appendChild(root);
-            product = doc.createElement(sett().getNameWithData(sett().getProductName()));
-            root.appendChild(product);
-            service = doc.createElement(sett().getNameWithData(sett().getServiceName()));
-            root.appendChild(service);
-
-        QString xml = doc.toString();
-
-        file.close();
-        file.open(QIODevice::WriteOnly);
-        QTextStream ts(&file);
-        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-        ts << xml;
-
-        file.close();
-        productsUpdateData(prodData, type, name);
-
-        }
-
-	} else {
-
+			file.close();
+			productsUpdateData(prodData, type, name);
+		}
+	}
+	else
+	{
 		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll())) {
-
+		if (!doc.setContent(stream.readAll()))
+		{
 			qDebug("can not set content ");
 			file.close();
 			return false;
-
-		} else {
-
+		}
+		else
+		{
 			root = doc.documentElement();
-            product = root.firstChild().toElement();
-            service = root.lastChild().toElement();
+			product = root.firstChild().toElement();
+			service = root.lastChild().toElement();
 		}
 	}
 
 	root.lastChild();
 
-	if (type == 0) {
-
+	if (type == 0)
+	{
 		QDomElement elem;
 
-        for (QDomNode n = product.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			if (n.toElement().attribute("idx").compare(name) == 0) {
+		for (QDomNode n = product.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("idx").compare(name) == 0)
+			{
 				elem = n.toElement();
 				break;
 			}
 		}
 		productsDataToElem(prodData, elem);
-        product.appendChild(elem);
+		product.appendChild(elem);
 	}
 
-	if (type == 1) {
-
+	if (type == 1)
+	{
 		QDomElement elem;
 
-        for (QDomNode n = service.firstChild(); !n.isNull(); n = n.nextSibling()) {
-			if (n.toElement().attribute("idx").compare(name) == 0) {
+		for (QDomNode n = service.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("idx").compare(name) == 0)
+			{
 				elem = n.toElement();
 				break;
 			}
 		}
 		productsDataToElem(prodData, elem);
-        service.appendChild(elem);
+		service.appendChild(elem);
 	}
 
 	QString xml = doc.toString();
@@ -1120,79 +1140,79 @@ bool XmlDataLayer::productsUpdateData(ProductData& prodData, int type, QString n
 	return true;
 }
 
-bool XmlDataLayer::productsDeleteData(QString name) {
-
+bool XmlDataLayer::productsDeleteData(QString name)
+{
 	QDomDocument doc(sett().getProdutcsDocName());
 	QDomElement root;
-    QDomElement product;
-    QDomElement service;
+	QDomElement product;
+	QDomElement service;
 
 	QFile file(sett().getProductsXml());
 
-	if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		QFileInfo fileInfo(file.fileName());
 
-        QFileInfo fileInfo(file.fileName());
+		if (fileInfo.exists() && fileInfo.isFile())
+		{
+			file.setPermissions(QFileDevice::ReadOwner);
 
-        if (fileInfo.exists() && fileInfo.isFile()) {
+			productsDeleteData(name);
+		}
+		else
+		{
+			root = doc.createElement(sett().getProdutcsDocName());
+			int lastId = root.attribute("last", "0").toInt();
+			root.setAttribute("last", sett().numberToString(lastId));
+			doc.appendChild(root);
+			product = doc.createElement(sett().getNameWithData(sett().getProductName()));
+			root.appendChild(product);
+			service = doc.createElement(sett().getNameWithData(sett().getServiceName()));
+			root.appendChild(service);
 
-            file.setPermissions(QFileDevice::ReadOwner);
+			QString xml = doc.toString();
 
-            productsDeleteData(name);
+			file.close();
+			file.open(QIODevice::WriteOnly);
+			QTextStream ts(&file);
+			ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+			ts << xml;
 
-        } else {
-
-            root = doc.createElement(sett().getProdutcsDocName());
-            int lastId = root.attribute("last", "0").toInt();
-            root.setAttribute("last", sett().numberToString(lastId));
-            doc.appendChild(root);
-            product = doc.createElement(sett().getNameWithData(sett().getProductName()));
-            root.appendChild(product);
-            service = doc.createElement(sett().getNameWithData(sett().getServiceName()));
-            root.appendChild(service);
-
-        QString xml = doc.toString();
-
-        file.close();
-        file.open(QIODevice::WriteOnly);
-        QTextStream ts(&file);
-        ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-        ts << xml;
-
-        file.close();
-        return false;
-
-        }
-
-	} else {
-
+			file.close();
+			return false;
+		}
+	}
+	else
+	{
 		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll())) {
-
+		if (!doc.setContent(stream.readAll()))
+		{
 			qDebug("can not set content ");
 			file.close();
 			return false;
-
-		} else {
-
+		}
+		else
+		{
 			root = doc.documentElement();
-            product = root.firstChild().toElement();
-            service = root.lastChild().toElement();
+			product = root.firstChild().toElement();
+			service = root.lastChild().toElement();
 		}
 
-
-        for (QDomNode n = service.firstChild(); !n.isNull(); n
-				= n.nextSibling()) {
-			if (n.toElement().attribute("idx"). compare(name) == 0) {
-                service.removeChild(n);
+		for (QDomNode n = service.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("idx").compare(name) == 0)
+			{
+				service.removeChild(n);
 				break;
 			}
 		}
 
-        for (QDomNode n = product.firstChild(); !n.isNull(); n
-				= n.nextSibling()) {
-			if (n.toElement().attribute("idx"). compare(name) == 0) {
-                product.removeChild(n);
+		for (QDomNode n = product.firstChild(); !n.isNull(); n = n.nextSibling())
+		{
+			if (n.toElement().attribute("idx").compare(name) == 0)
+			{
+				product.removeChild(n);
 				break;
 			}
 		}
@@ -1213,59 +1233,63 @@ bool XmlDataLayer::productsDeleteData(QString name) {
 
 // ************ INVOICES START *****************
 
-void XmlDataLayer::invoiceSellerDataToElem(InvoiceData&, QDomElement &o_element) {
+void XmlDataLayer::invoiceSellerDataToElem(InvoiceData &, QDomElement &o_element)
+{
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
-
-    QSettings userSettings("elinux", "user");
-    o_element.setAttribute("name", userSettings.value("name").toString());
-    o_element.setAttribute("zip", userSettings.value("zip").toString());
-    o_element.setAttribute("city", userSettings.value("city").toString());
-    o_element.setAttribute("street", userSettings.value("street").toString());
-    o_element.setAttribute("tic", userSettings.value("tic").toString()); // NIP = Taxing Identification Code
-    o_element.setAttribute("account", userSettings.value("account").toString(). replace(" ", "-"));
-    o_element.setAttribute("phone", userSettings.value("phone").toString());
-    o_element.setAttribute("email", userSettings.value("email").toString());
-    o_element.setAttribute("website", userSettings.value("website").toString());
+	QSettings userSettings("elinux", "user");
+	o_element.setAttribute("name", userSettings.value("name").toString());
+	o_element.setAttribute("zip", userSettings.value("zip").toString());
+	o_element.setAttribute("city", userSettings.value("city").toString());
+	o_element.setAttribute("street", userSettings.value("street").toString());
+	o_element.setAttribute(
+		"tic", userSettings.value("tic").toString()); // NIP = Taxing Identification Code
+	o_element.setAttribute("account", userSettings.value("account").toString().replace(" ", "-"));
+	o_element.setAttribute("phone", userSettings.value("phone").toString());
+	o_element.setAttribute("email", userSettings.value("email").toString());
+	o_element.setAttribute("website", userSettings.value("website").toString());
 }
 
-void XmlDataLayer::invoiceSellerElemToData(InvoiceData&, QDomElement) {
-
+void XmlDataLayer::invoiceSellerElemToData(InvoiceData &, QDomElement)
+{
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
 
-void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o_element) {
+void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o_element)
+{
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_invData.customer;
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_invData.customer;
-
-
-    QStringList kht = i_invData.customer.split(",");
-    o_element.setAttribute("name", kht[0]);
-    ret += kht[0] + "|";
-    o_element.setAttribute("city", kht[1]);
-    o_element.setAttribute("street", kht[2]);
-    o_element.setAttribute("tic", kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"),     ""));
-    ret += kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"), "");
-    o_element.setAttribute("account", kht[4].replace(" ", "").replace(QObject::trUtf8("Konto:"), ""));
-    o_element.setAttribute("phone", kht[5].replace(" ", "").replace(QObject::trUtf8("Tel:"), ""));
-    o_element.setAttribute("email", kht[6].replace(" ", "").replace(QObject::trUtf8("Email:"), ""));
-    QString imprWeb = kht[7].replace(" ", "").replace(QObject::trUtf8("Strona:"), "");
-    qDebug() << "imprWeb after first reduction:" << imprWeb;
-    imprWeb = imprWeb.remove(imprWeb.indexOf("<"),imprWeb.indexOf(">") + 1);
-    qDebug() << "imprWeb after second reduction:" << imprWeb;
-    imprWeb = imprWeb.remove(imprWeb.indexOf("<"),imprWeb.indexOf(">") + 1);
-    qDebug() << "imprWeb after third reduction:" << imprWeb;
-    o_element.setAttribute("website", imprWeb);
+	QStringList kht = i_invData.customer.split(",");
+	o_element.setAttribute("name", kht[0]);
+	ret += kht[0] + "|";
+	o_element.setAttribute("city", kht[1]);
+	o_element.setAttribute("street", kht[2]);
+	o_element.setAttribute("tic", kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"), ""));
+	ret += kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"), "");
+	o_element.setAttribute(
+		"account", kht[4].replace(" ", "").replace(QObject::trUtf8("Konto:"), ""));
+	o_element.setAttribute("phone", kht[5].replace(" ", "").replace(QObject::trUtf8("Tel:"), ""));
+	o_element.setAttribute("email", kht[6].replace(" ", "").replace(QObject::trUtf8("Email:"), ""));
+	QString imprWeb = kht[7].replace(" ", "").replace(QObject::trUtf8("Strona:"), "");
+	qDebug() << "imprWeb after first reduction:" << imprWeb;
+	imprWeb = imprWeb.remove(imprWeb.indexOf("<"), imprWeb.indexOf(">") + 1);
+	qDebug() << "imprWeb after second reduction:" << imprWeb;
+	imprWeb = imprWeb.remove(imprWeb.indexOf("<"), imprWeb.indexOf(">") + 1);
+	qDebug() << "imprWeb after third reduction:" << imprWeb;
+	o_element.setAttribute("website", imprWeb);
 }
 
-void XmlDataLayer::invoiceBuyerElemToData(InvoiceData&, QDomElement) {
-
+void XmlDataLayer::invoiceBuyerElemToData(InvoiceData &, QDomElement)
+{
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
 
-void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData, QDomElement &o_element, int currentRow) {
-
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_prodData.id << i_prodData.name;
+void XmlDataLayer::invoiceProdDataToElem(
+	const ProductData &i_prodData,
+	QDomElement &o_element,
+	int currentRow)
+{
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_prodData.id << i_prodData.name;
 
 	o_element.setAttribute("id", i_prodData.id);
 	o_element.setAttribute("name", i_prodData.name);
@@ -1274,217 +1298,237 @@ void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData, QDomElem
 	o_element.setAttribute("quantity", i_prodData.quantity);
 	o_element.setAttribute("quantityType", i_prodData.quanType);
 
-    if (!Invoice::instance()->constRab->isChecked()) {
-
-        o_element.setAttribute("discount", Invoice::instance()->tableGoods->item(currentRow, 6)->text());
-
-    } else {
-
-		o_element.setAttribute("discount",
-                sett().numberToString(Invoice::instance()->discountVal->value())); // rabat
+	if (!Invoice::instance()->constRab->isChecked())
+	{
+		o_element.setAttribute(
+			"discount", Invoice::instance()->tableGoods->item(currentRow, 6)->text());
+	}
+	else
+	{
+		o_element.setAttribute(
+			"discount",
+			sett().numberToString(Invoice::instance()->discountVal->value())); // rabat
 	}
 
-    o_element.setAttribute("price", sett().numberToString(i_prodData.price,'f',2));
+	o_element.setAttribute("price", sett().numberToString(i_prodData.price, 'f', 2));
 
-    o_element.setAttribute("nett", Invoice::instance()->tableGoods->item(currentRow, 8)->text()); // netto without discount
-    o_element.setAttribute("discountedNett", Invoice::instance()->tableGoods->item(currentRow, 8)->text());
+	o_element.setAttribute(
+		"nett",
+		Invoice::instance()->tableGoods->item(currentRow, 8)->text()); // netto without discount
+	o_element.setAttribute(
+		"discountedNett", Invoice::instance()->tableGoods->item(currentRow, 8)->text());
 
-    o_element.setAttribute("vatBucket", Invoice::instance()->tableGoods->item(currentRow, 9)->text());
-    double vatPrice = sett().stringToDouble(Invoice::instance()->tableGoods->item(currentRow, 10)->text()) -
-            sett().stringToDouble(Invoice::instance()->tableGoods->item(currentRow, 8)->text());
+	o_element.setAttribute(
+		"vatBucket", Invoice::instance()->tableGoods->item(currentRow, 9)->text());
+	double vatPrice =
+		sett().stringToDouble(Invoice::instance()->tableGoods->item(currentRow, 10)->text())
+		- sett().stringToDouble(Invoice::instance()->tableGoods->item(currentRow, 8)->text());
 
-    o_element.setAttribute("vatAmout", sett().numberToString(vatPrice, 'f', 2));
-    o_element.setAttribute("gross", Invoice::instance()->tableGoods->item(currentRow, 10)->text());
-
+	o_element.setAttribute("vatAmout", sett().numberToString(vatPrice, 'f', 2));
+	o_element.setAttribute("gross", Invoice::instance()->tableGoods->item(currentRow, 10)->text());
 }
 
-void XmlDataLayer::invoiceProdElemToData(InvoiceData&, QDomElement) {
-
+void XmlDataLayer::invoiceProdElemToData(InvoiceData &, QDomElement)
+{
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
-
 }
 
-bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end) {
-
+bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end)
+{
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
-    QDomDocument doc(sett().getInoiveDocName());
-    QDomElement root;
-    QFile file(sett().getInvoicesDir() + nameToCheck);
+	QDomDocument doc(sett().getInoiveDocName());
+	QDomElement root;
+	QFile file(sett().getInvoicesDir() + nameToCheck);
 
-    if (!file.open(QIODevice::ReadOnly)) {
+	if (!file.open(QIODevice::ReadOnly))
+	{
+		qDebug() << "File" << file.fileName() << "doesn't exists";
+		return false;
+	}
+	else
+	{
+		QTextStream stream(&file);
 
-        qDebug() << "File" << file.fileName() << "doesn't exists";
-        return false;
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug("can not set content ");
+			file.close();
+			return false;
+		}
+	}
 
-    } else {
+	root = doc.documentElement();
+	QString tmp = root.attribute("sellingDate");
+	QStringList dateFacts = tmp.split("/");
 
-        QTextStream stream(&file);
+	QString year = dateFacts.at(2);
+	QString month = dateFacts.at(1);
+	QString day = dateFacts.at(0);
 
-        if (!doc.setContent(stream.readAll())) {
-            qDebug ("can not set content ");
-            file.close();
-            return false;
-        }
-    }
+	QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
 
-    root = doc.documentElement();
-    QString tmp = root.attribute("sellingDate");
-    QStringList dateFacts = tmp.split("/");
-
-    QString year = dateFacts.at(2);
-    QString month = dateFacts.at(1);
-    QString day = dateFacts.at(0);
-
-    QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
-
-	if (tmpDate < start) {
+	if (tmpDate < start)
+	{
 		return false;
 	}
 
-	if (tmpDate > end) {
+	if (tmpDate > end)
+	{
 		return false;
 	}
 
-    file.close();
+	file.close();
 	// default true?
 	return true;
 }
 
-
-InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
-
+InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type)
+{
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
 	InvoiceData o_invData;
 
 	QDomDocument doc(sett().getInoiveDocName());
 	QDomElement root;
-    QDomElement purchaser;
+	QDomElement purchaser;
 	QDomElement product;
 	QString fName = name;
 
 	QFile file(sett().getInvoicesDir() + fName);
 
-	if (!file.open(QIODevice::ReadOnly)) {
-
+	if (!file.open(QIODevice::ReadOnly))
+	{
 		qDebug("file doesn't exist");
 		return o_invData;
-
-	} else {
-
+	}
+	else
+	{
 		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll())) {
-            qDebug("You can't read content from invoice");
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug("You can't read content from invoice");
 			file.close();
 			return o_invData;
 		}
 	}
 
 	root = doc.documentElement();
-    o_invData.invNr = root.attribute("no");
-	o_invData.sellingDate = QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
-	o_invData.productDate = QDate::fromString(root.attribute("issueDate"),	sett().getDateFormat());
-    if (type == 7) o_invData.duplDate = QDate::fromString(root.attribute("duplDate"),	sett().getDateFormat());
-    if (type == 8) {
-        if (root.attribute("ifpaysVAT") == "1") o_invData.ifpVAT = true;
-            else o_invData.ifpVAT = false;
-    }
-
+	o_invData.invNr = root.attribute("no");
+	o_invData.sellingDate =
+		QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
+	o_invData.productDate = QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
+	if (type == 7)
+		o_invData.duplDate = QDate::fromString(root.attribute("duplDate"), sett().getDateFormat());
+	if (type == 8)
+	{
+		if (root.attribute("ifpaysVAT") == "1")
+			o_invData.ifpVAT = true;
+		else
+			o_invData.ifpVAT = false;
+	}
 
 	QDomNode tmp;
 	tmp = root.firstChild();
-    tmp = tmp.toElement().nextSibling(); // purchaser
-    purchaser = tmp.toElement();
+	tmp = tmp.toElement().nextSibling(); // purchaser
+	purchaser = tmp.toElement();
 
-    o_invData.customer = purchaser.attribute("name") + "," + purchaser.attribute(
-            "city") + "," + purchaser.attribute("street") + "," + QObject::trUtf8("NIP: ")
-            + purchaser.attribute("tic")
-            + ", " + QObject::trUtf8("Konto: ")
-            + purchaser.attribute("account")
-            + ", " + QObject::trUtf8("Tel: ")
-            + purchaser.attribute("phone") + ", " + QObject::trUtf8("Email: ")
-            + purchaser.attribute(
-            "email") + ", " + QObject::trUtf8("Strona: ")
-            + purchaser.attribute("website");
+	o_invData.customer = purchaser.attribute("name") + "," + purchaser.attribute("city") + ","
+		+ purchaser.attribute("street") + "," + QObject::trUtf8("NIP: ")
+		+ purchaser.attribute("tic") + ", " + QObject::trUtf8("Konto: ")
+		+ purchaser.attribute("account") + ", " + QObject::trUtf8("Tel: ")
+		+ purchaser.attribute("phone") + ", " + QObject::trUtf8("Email: ")
+		+ purchaser.attribute("email") + ", " + QObject::trUtf8("Strona: ")
+		+ purchaser.attribute("website");
 
-    Invoice::instance()->buyerName->setCursorPosition(1);
+	Invoice::instance()->buyerName->setCursorPosition(1);
 
 	tmp = tmp.toElement().nextSibling(); // product
 	product = tmp.toElement();
 
-    o_invData.discount = product.attribute("discount").toInt();
-    qDebug() << "product.attribute(\"discount\").toInt(): " << product.attribute("discount").toInt();
+	o_invData.discount = product.attribute("discount").toInt();
+	qDebug() << "product.attribute(\"discount\").toInt(): "
+			 << product.attribute("discount").toInt();
 
-
-    int goodsCount = product.childNodes().count();
-    qDebug() << QString::number(goodsCount);
+	int goodsCount = product.childNodes().count();
+	qDebug() << QString::number(goodsCount);
 	int i = 0;
-    QDomElement good;
-    good = product.firstChild().toElement();
+	QDomElement good;
+	good = product.firstChild().toElement();
 
-    static const char *goodsColumns[] = { "id", "name", "code", "PKWiU", "quantity",
-            "quantityType", "discount", "price", "nett", "vatBucket", "gross"};
+	static const char *goodsColumns[] = { "id",		  "name",		  "code",	 "PKWiU",
+										  "quantity", "quantityType", "discount", "price",
+										  "nett",	 "vatBucket",	"gross" };
 
-    // "net",
-    // "vatBucket", "gross"
-    qDebug() << Invoice::instance()->tableGoods->columnCount();
+	// "net",
+	// "vatBucket", "gross"
+	qDebug() << Invoice::instance()->tableGoods->columnCount();
 
-    Invoice::instance()->tableGoods->setRowCount(goodsCount);
-    for (i = 0; i < goodsCount; ++i) {
-        for (int j = 0; j < int(sizeof(goodsColumns)/sizeof(*goodsColumns)); j++) {
-            Invoice::instance()->tableGoods->setItem(i, j, new QTableWidgetItem(good.attribute(
-            goodsColumns[j])));
-            qDebug() << "LOOP :" << goodsColumns[j] << good.attribute(goodsColumns[j]);
-            qDebug() << "COLUMNS :" << Invoice::instance()->tableGoods->item(i,j)->text();
-        }
-        if (good.nextSibling().toElement().tagName() == "product") good = good.nextSibling().toElement();
-        else break;
+	Invoice::instance()->tableGoods->setRowCount(goodsCount);
+	for (i = 0; i < goodsCount; ++i)
+	{
+		for (int j = 0; j < int(sizeof(goodsColumns) / sizeof(*goodsColumns)); j++)
+		{
+			Invoice::instance()->tableGoods->setItem(
+				i, j, new QTableWidgetItem(good.attribute(goodsColumns[j])));
+			qDebug() << "LOOP :" << goodsColumns[j] << good.attribute(goodsColumns[j]);
+			qDebug() << "COLUMNS :" << Invoice::instance()->tableGoods->item(i, j)->text();
+		}
+		if (good.nextSibling().toElement().tagName() == "product")
+			good = good.nextSibling().toElement();
+		else
+			break;
 	}
 
 	tmp = tmp.toElement().nextSibling();
 	QDomElement additional = tmp.toElement();
 	o_invData.additText = additional.attribute("text");
-    o_invData.paymentType = additional.attribute("paymentType");
+	o_invData.paymentType = additional.attribute("paymentType");
 
-    qDebug() << "o_invData.paymentType == " << o_invData.paymentType;
+	qDebug() << "o_invData.paymentType == " << o_invData.paymentType;
 
-    if (o_invData.paymentType == QObject::trUtf8("zaliczka")) {
-
+	if (o_invData.paymentType == QObject::trUtf8("zaliczka"))
+	{
 		o_invData.custPaym.payment1 = additional.attribute("payment1");
-        o_invData.custPaym.amount1  = sett().stringToDouble(additional.attribute("amount1"));
+		o_invData.custPaym.amount1 = sett().stringToDouble(additional.attribute("amount1"));
 
-        double decimalPointsAmount1 = additional.attribute("amount1").right(2).toInt() * 0.01;
-        qDebug() << "decimalPointsAmount1 << " << decimalPointsAmount1;
-        double decimalPointsAmount2 = additional.attribute("amount2").right(2).toInt() * 0.01;
-        qDebug() << "decimalPointsAmount2 << " << decimalPointsAmount2;
+		double decimalPointsAmount1 = additional.attribute("amount1").right(2).toInt() * 0.01;
+		qDebug() << "decimalPointsAmount1 << " << decimalPointsAmount1;
+		double decimalPointsAmount2 = additional.attribute("amount2").right(2).toInt() * 0.01;
+		qDebug() << "decimalPointsAmount2 << " << decimalPointsAmount2;
 
-        o_invData.custPaym.amount1 += decimalPointsAmount1;
-        o_invData.custPaym.amount2  = sett().stringToDouble(additional.attribute("amount2"));
-        o_invData.custPaym.amount2 += decimalPointsAmount2;
-        o_invData.custPaym.date1    = QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
-        qDebug() << "liabDate1: " << additional.attribute("liabDate1");
-        qDebug() << "liabDate1 from file: " << QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
-        qDebug() << "liabDate1 converted to string: " << o_invData.custPaym.date1.toString(sett().getDateFormat());
+		o_invData.custPaym.amount1 += decimalPointsAmount1;
+		o_invData.custPaym.amount2 = sett().stringToDouble(additional.attribute("amount2"));
+		o_invData.custPaym.amount2 += decimalPointsAmount2;
+		o_invData.custPaym.date1 =
+			QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
+		qDebug() << "liabDate1: " << additional.attribute("liabDate1");
+		qDebug() << "liabDate1 from file: "
+				 << QDate::fromString(additional.attribute("liabDate1"), sett().getDateFormat());
+		qDebug() << "liabDate1 converted to string: "
+				 << o_invData.custPaym.date1.toString(sett().getDateFormat());
 		o_invData.custPaym.payment2 = additional.attribute("payment2");
-		o_invData.custPaym.date2    = QDate::fromString(additional.attribute("liabDate2"), sett().getDateFormat());
-    }
+		o_invData.custPaym.date2 =
+			QDate::fromString(additional.attribute("liabDate2"), sett().getDateFormat());
+	}
 
-	o_invData.liabDate = QDate::fromString(additional.attribute("liabDate"), sett().getDateFormat());
-    int curCurrency = sett().value("currencies").toString().split("|").indexOf(additional.attribute("currency"));
-    o_invData.currencyTypeId = curCurrency;
-    o_invData.currencyType = additional.attribute("currency");
+	o_invData.liabDate =
+		QDate::fromString(additional.attribute("liabDate"), sett().getDateFormat());
+	int curCurrency =
+		sett().value("currencies").toString().split("|").indexOf(additional.attribute("currency"));
+	o_invData.currencyTypeId = curCurrency;
+	o_invData.currencyType = additional.attribute("currency");
 
-    file.close();
+	file.close();
 	return o_invData;
 }
 
-QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) {
+QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end)
+{
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
-
-    allSymbols.clear();
+	allSymbols.clear();
 	QVector<InvoiceData> o_invDataVec;
 
 	QDir allFiles;
@@ -1495,87 +1539,87 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 	allFiles.setPath(sett().getInvoicesDir());
 	allFiles.setFilter(QDir::Files);
 	QStringList filters;
-	filters << "h*.xml" << "k*.xml";
+	filters << "h*.xml"
+			<< "k*.xml";
 
 	allFiles.setNameFilters(filters);
 	QStringList files = allFiles.entryList();
-    qDebug("pliki: ");
-    qDebug() << files;
-    int i, max = files.count();
-    for (i = 0; i < max; ++i) {
+	qDebug("pliki: ");
+	qDebug() << files;
+	int i, max = files.count();
+	for (i = 0; i < max; ++i)
+	{
+		InvoiceData invDt;
+		qDebug() << files[i];
+		QFile file(sett().getInvoicesDir() + files[i]);
 
-        InvoiceData invDt;
-        qDebug() << files[i];
-        QFile file(sett().getInvoicesDir() + files[i]);
+		if (!file.open(QIODevice::ReadOnly))
+		{
+			qDebug() << "File" << file.fileName() << "doesn't exists";
+			continue;
+		}
+		else
+		{
+			QTextStream stream(&file);
 
-        if (!file.open(QIODevice::ReadOnly)) {
+			if (!doc.setContent(stream.readAll()))
+			{
+				qDebug("can not set content ");
+				file.close();
+				// return o_invDataVec;
+				continue;
+			}
+		}
 
-            qDebug() << "File" << file.fileName() << "doesn't exists";
-            continue;
-
-        } else {
-
-            QTextStream stream(&file);
-
-            if (!doc.setContent(stream.readAll())) {
-
-                qDebug ("can not set content ");
-                file.close();
-                // return o_invDataVec;
-                continue;
-            }
-        }
-
-		if (nameFilter(files[i], start, end)) {
-
+		if (nameFilter(files[i], start, end))
+		{
 			invDt.id = files[i];
 			root = doc.documentElement();
-            invDt.invNr = root.attribute("no");
-			invDt.sellingDate = QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
-			invDt.productDate = QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
+			invDt.invNr = root.attribute("no");
+			invDt.sellingDate =
+				QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
+			invDt.productDate =
+				QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
 			invDt.type = root.attribute("type");
-
 
 			QDomNode nab;
 			nab = root.firstChild();
 			nab = nab.toElement().nextSibling();
 
 			invDt.custStreet = nab.toElement().attribute("street", "NULL");
-			invDt.custTic  = nab.toElement().attribute("tic", "NULL");
-			invDt.custCity  = nab.toElement().attribute("city", "NULL");
+			invDt.custTic = nab.toElement().attribute("tic", "NULL");
+			invDt.custCity = nab.toElement().attribute("city", "NULL");
 			invDt.custName = nab.toElement().attribute("name", "NULL");
 
 			o_invDataVec.push_back(invDt);
-
 		}
 
-        root = doc.documentElement();
-        QString tmp = root.attribute("sellingDate");
-        QStringList dateFacts = tmp.split("/");
+		root = doc.documentElement();
+		QString tmp = root.attribute("sellingDate");
+		QStringList dateFacts = tmp.split("/");
 
-        QString year = dateFacts.at(2);
-        QString month = dateFacts.at(1);
-        QString day = dateFacts.at(0);
+		QString year = dateFacts.at(2);
+		QString month = dateFacts.at(1);
+		QString day = dateFacts.at(0);
 
-        QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
+		QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
 
-        if (tmpDate.year() == QDate::currentDate().year()) {
+		if (tmpDate.year() == QDate::currentDate().year())
+		{
+			QString symNo = root.attribute("no");
+			symNo = symNo.remove(sett().value("prefix").toString(), Qt::CaseSensitive);
+			symNo = symNo.remove(sett().value("sufix").toString(), Qt::CaseSensitive);
 
-            QString symNo = root.attribute("no");
-            symNo = symNo.remove(sett().value("prefix").toString(), Qt::CaseSensitive);
-            symNo = symNo.remove(sett().value("sufix").toString(), Qt::CaseSensitive);
+			if (symNo.contains("/"))
+			{
+				int toBackChar = symNo.indexOf("/");
+				symNo = symNo.left(toBackChar);
+			}
 
-            if (symNo.contains("/")) {
+			allSymbols.append(symNo.toInt());
+		}
 
-                int toBackChar = symNo.indexOf("/");
-                symNo = symNo.left(toBackChar);
-            }
-
-            allSymbols.append(symNo.toInt());
-        }
-
-
-        file.close();
+		file.close();
 	}
 
 	return o_invDataVec;
@@ -1583,164 +1627,169 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end) 
 
 void XmlDataLayer::checkAllSymbInFiles()
 {
-    allSymbols.clear();
+	allSymbols.clear();
 
-    QDir allFiles;
+	QDir allFiles;
 
-    QDomDocument doc(sett().getInoiveDocName());
-    QDomElement root;
+	QDomDocument doc(sett().getInoiveDocName());
+	QDomElement root;
 
-    allFiles.setPath(sett().getInvoicesDir());
-    allFiles.setFilter(QDir::Files);
-    QStringList filters;
-    filters << "h*.xml" << "k*.xml";
+	allFiles.setPath(sett().getInvoicesDir());
+	allFiles.setFilter(QDir::Files);
+	QStringList filters;
+	filters << "h*.xml"
+			<< "k*.xml";
 
-    allFiles.setNameFilters(filters);
-    QStringList files = allFiles.entryList();
-    qDebug("pliki: ");
-    qDebug() << files;
-    int i, max = files.count();
-    for (i = 0; i < max; ++i) {
+	allFiles.setNameFilters(filters);
+	QStringList files = allFiles.entryList();
+	qDebug("pliki: ");
+	qDebug() << files;
+	int i, max = files.count();
+	for (i = 0; i < max; ++i)
+	{
+		qDebug() << files[i];
+		QFile file(sett().getInvoicesDir() + files[i]);
 
-        qDebug() << files[i];
-        QFile file(sett().getInvoicesDir() + files[i]);
+		if (!file.open(QIODevice::ReadOnly))
+		{
+			qDebug() << "File" << file.fileName() << "doesn't exists";
+			continue;
+		}
+		else
+		{
+			QTextStream stream(&file);
 
-        if (!file.open(QIODevice::ReadOnly)) {
+			if (!doc.setContent(stream.readAll()))
+			{
+				qDebug("can not set content ");
+				file.close();
+				// return o_invDataVec;
+				continue;
+			}
+		}
 
-            qDebug() << "File" << file.fileName() << "doesn't exists";
-            continue;
+		root = doc.documentElement();
+		QString tmp = root.attribute("sellingDate");
+		QStringList dateFacts = tmp.split("/");
 
-        } else {
+		QString year = dateFacts.at(2);
+		QString month = dateFacts.at(1);
+		QString day = dateFacts.at(0);
 
-            QTextStream stream(&file);
+		QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
 
-            if (!doc.setContent(stream.readAll())) {
+		if (tmpDate.year() == QDate::currentDate().year())
+		{
+			QString symNo = root.attribute("no");
+			symNo = symNo.remove(sett().value("prefix").toString(), Qt::CaseSensitive);
+			symNo = symNo.remove(sett().value("sufix").toString(), Qt::CaseSensitive);
 
-                qDebug ("can not set content ");
-                file.close();
-                // return o_invDataVec;
-                continue;
-            }
-        }
+			if (symNo.contains("/"))
+			{
+				int toBackChar = symNo.indexOf("/");
+				symNo = symNo.left(toBackChar);
+			}
 
-        root = doc.documentElement();
-        QString tmp = root.attribute("sellingDate");
-        QStringList dateFacts = tmp.split("/");
+			allSymbols.append(symNo.toInt());
+		}
 
-        QString year = dateFacts.at(2);
-        QString month = dateFacts.at(1);
-        QString day = dateFacts.at(0);
-
-        QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
-
-        if (tmpDate.year() == QDate::currentDate().year()) {
-
-            QString symNo = root.attribute("no");
-            symNo = symNo.remove(sett().value("prefix").toString(), Qt::CaseSensitive);
-            symNo = symNo.remove(sett().value("sufix").toString(), Qt::CaseSensitive);
-
-            if (symNo.contains("/")) {
-
-                int toBackChar = symNo.indexOf("/");
-                symNo = symNo.left(toBackChar);
-            }
-
-            allSymbols.append(symNo.toInt());
-        }
-
-
-        file.close();
-    }
+		file.close();
+	}
 }
 
 QList<int> const XmlDataLayer::getAllSymbols()
 {
-    if (allSymbols.count() == 0) allSymbols.append(0);
-    return allSymbols;
+	if (allSymbols.count() == 0)
+		allSymbols.append(0);
+	return allSymbols;
 }
 
-bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
-
-        qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+bool XmlDataLayer::invoiceInsertData(InvoiceData &oi_invData, int type)
+{
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
 	QDomDocument doc(sett().getInoiveDocName());
 	QDomElement root;
 	QString fileName = oi_invData.id;
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << fileName;
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << fileName;
 
 	QFile file;
 
-	if (fileName == "") {
+	if (fileName == "")
+	{
+		fileName = QDate::currentDate().toString(sett().getFnameDateFormat());
 
-            fileName = QDate::currentDate().toString(sett().getFnameDateFormat());
+		int pNumber = 0;
+		file.setFileName(
+			sett().getInvoicesDir() + "h" + fileName + "_" + sett().numberToString(pNumber)
+			+ ".xml");
+		oi_invData.id = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
+		pNumber += 1;
 
-            int pNumber = 0;
-            file.setFileName(sett().getInvoicesDir() + "h" + fileName + "_"
-				+ sett().numberToString(pNumber) + ".xml");
-            oi_invData.id = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
-            pNumber += 1;
-
-            while (file.exists()) {
-
-                file.setFileName(sett().getInvoicesDir() + "h" + fileName + "_"
-					+ sett().numberToString(pNumber) + ".xml");
-                oi_invData.id = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
-                pNumber += 1;
-            }
-
-	} else {
-
+		while (file.exists())
+		{
+			file.setFileName(
+				sett().getInvoicesDir() + "h" + fileName + "_" + sett().numberToString(pNumber)
+				+ ".xml");
+			oi_invData.id = "h" + fileName + "_" + sett().numberToString(pNumber) + ".xml";
+			pNumber += 1;
+		}
+	}
+	else
+	{
 		file.setFileName(sett().getInvoicesDir() + fileName);
 		oi_invData.id = fileName + "|";
-
 	}
 
-    ret = oi_invData.id + "|";
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << file.fileName();
+	ret = oi_invData.id + "|";
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << file.fileName();
 
 	root = doc.createElement("invoice");
-    root.setAttribute("no", oi_invData.invNr);
-    ret += oi_invData.invNr + "|";
+	root.setAttribute("no", oi_invData.invNr);
+	ret += oi_invData.invNr + "|";
 	oi_invData.issueDate = QDate::currentDate();
-    ret += oi_invData.issueDate.toString(sett().getDateFormat()) + "|";
+	ret += oi_invData.issueDate.toString(sett().getDateFormat()) + "|";
 	root.setAttribute("issueDate", oi_invData.issueDate.toString(sett().getDateFormat()));
 	root.setAttribute("sellingDate", oi_invData.sellingDate.toString(sett().getDateFormat()));
-    if (type == 8) {
-        if (oi_invData.ifpVAT) root.setAttribute("ifpaysVAT","1");
-            else root.setAttribute("ifpaysVAT","0");
-    }
-    
+	if (type == 8)
+	{
+		if (oi_invData.ifpVAT)
+			root.setAttribute("ifpaysVAT", "1");
+		else
+			root.setAttribute("ifpaysVAT", "0");
+	}
 
 	QString invType = oi_invData.getInvoiceTypeAndSaveNr(type);
-    if (invType == QObject::trUtf8("duplikat")) root.setAttribute("duplDate",oi_invData.duplDate.toString(sett().getDateFormat()));
+	if (invType == QObject::trUtf8("duplikat"))
+		root.setAttribute("duplDate", oi_invData.duplDate.toString(sett().getDateFormat()));
 	root.setAttribute("type", invType);
-    ret += invType + "|";
+	ret += invType + "|";
 
 	doc.appendChild(root);
 
-    QDomElement seller = doc.createElement("seller");
-    invoiceSellerDataToElem(oi_invData, seller);
-    root.appendChild(seller);
+	QDomElement seller = doc.createElement("seller");
+	invoiceSellerDataToElem(oi_invData, seller);
+	root.appendChild(seller);
 
-
-    QDomElement buyer = doc.createElement("buyer");
-    invoiceBuyerDataToElem(oi_invData, buyer);
-    root.appendChild(buyer);
+	QDomElement buyer = doc.createElement("buyer");
+	invoiceBuyerDataToElem(oi_invData, buyer);
+	root.appendChild(buyer);
 
 	QDomElement product;
 	QDomElement products;
 	products = doc.createElement("products");
-    products.setAttribute("discount", sett().numberToString(oi_invData.discount));
-    products.setAttribute("productsCount", QString::number(Invoice::instance()->tableGoods->rowCount()));
+	products.setAttribute("discount", sett().numberToString(oi_invData.discount));
+	products.setAttribute(
+		"productsCount", QString::number(Invoice::instance()->tableGoods->rowCount()));
 
-    QMap<int, ProductData>::const_iterator i = oi_invData.products.constBegin();
-    int currentRow = 0;
-	while (i != oi_invData.products.constEnd()) {
-
-        product = doc.createElement("product");
-        invoiceProdDataToElem(i.value(), product, currentRow);
+	QMap<int, ProductData>::const_iterator i = oi_invData.products.constBegin();
+	int currentRow = 0;
+	while (i != oi_invData.products.constEnd())
+	{
+		product = doc.createElement("product");
+		invoiceProdDataToElem(i.value(), product, currentRow);
 		products.appendChild(product);
-        currentRow++;
+		currentRow++;
 		i++;
 	}
 
@@ -1749,29 +1798,29 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 	QDomElement addinfo;
 	addinfo = doc.createElement("addinfo");
 	addinfo.setAttribute("text", oi_invData.additText);
-	addinfo.setAttribute("paymentType", oi_invData.paymentType );
+	addinfo.setAttribute("paymentType", oi_invData.paymentType);
 	addinfo.setAttribute("liabDate", oi_invData.liabDate.toString(sett().getDateFormat()));
 	addinfo.setAttribute("currency", oi_invData.currencyType);
 
-    if (oi_invData.paymentType == QObject::trUtf8("zaliczka")) {
+	if (oi_invData.paymentType == QObject::trUtf8("zaliczka"))
+	{
+		addinfo.setAttribute("payment1", oi_invData.custPaym.payment1);
+		addinfo.setAttribute("amount1", sett().numberToString(oi_invData.custPaym.amount1, 'f', 2));
+		addinfo.setAttribute(
+			"liabDate1", oi_invData.custPaym.date1.toString(sett().getDateFormat()));
 
-        addinfo.setAttribute("payment1", oi_invData.custPaym.payment1);
-        addinfo.setAttribute("amount1", sett().numberToString(oi_invData.custPaym.amount1, 'f', 2));
-        addinfo.setAttribute("liabDate1", oi_invData.custPaym.date1.toString(
-                sett().getDateFormat()));
-
-        addinfo.setAttribute("payment2", oi_invData.custPaym.payment2);
-        addinfo.setAttribute("amount2", sett().numberToString(oi_invData.custPaym.amount2, 'f', 2));
-        addinfo.setAttribute("liabDate2", oi_invData.custPaym.date2.toString(
-                sett().getDateFormat()));
-    }
+		addinfo.setAttribute("payment2", oi_invData.custPaym.payment2);
+		addinfo.setAttribute("amount2", sett().numberToString(oi_invData.custPaym.amount2, 'f', 2));
+		addinfo.setAttribute(
+			"liabDate2", oi_invData.custPaym.date2.toString(sett().getDateFormat()));
+	}
 
 	root.appendChild(addinfo);
 
 	QString xml = doc.toString();
 	file.close();
-	if (!file.open(QIODevice::WriteOnly)) {
-
+	if (!file.open(QIODevice::WriteOnly))
+	{
 		return false;
 	}
 
@@ -1782,129 +1831,128 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData& oi_invData, int type) {
 	return true;
 }
 
+bool XmlDataLayer::ifThereOldInvoice()
+{
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
-bool XmlDataLayer::ifThereOldInvoice() {
+	QDir allFiles;
+	bool oldInvoice = false;
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+	QDomDocument doc(sett().getInoiveDocName());
+	QDomElement root;
 
-    QDir allFiles;
-    bool oldInvoice = false;
+	allFiles.setPath(sett().getInvoicesDir());
+	allFiles.setFilter(QDir::Files);
+	QStringList filters;
+	filters << "h*.xml"
+			<< "k*.xml";
 
-    QDomDocument doc(sett().getInoiveDocName());
-    QDomElement root;
+	allFiles.setNameFilters(filters);
+	QStringList files = allFiles.entryList();
+	qDebug("pliki: ");
+	qDebug() << files;
+	int i, max = files.count();
+	for (i = 0; i < max; ++i)
+	{
+		QFile file(sett().getInvoicesDir() + files[i]);
 
-    allFiles.setPath(sett().getInvoicesDir());
-    allFiles.setFilter(QDir::Files);
-    QStringList filters;
-    filters << "h*.xml" << "k*.xml";
+		if (!file.open(QIODevice::ReadOnly))
+		{
+			qDebug() << "File" << file.fileName() << "doesn't exists";
+			continue;
+		}
+		else
+		{
+			QTextStream stream(&file);
 
-    allFiles.setNameFilters(filters);
-    QStringList files = allFiles.entryList();
-    qDebug("pliki: ");
-    qDebug() << files;
-    int i, max = files.count();
-    for (i = 0; i < max; ++i) {
+			if (!doc.setContent(stream.readAll()))
+			{
+				qDebug("can not set content ");
+				file.close();
+				// return o_invDataVec;
+				continue;
+			}
+		}
 
-        QFile file(sett().getInvoicesDir() + files[i]);
+		root = doc.documentElement();
+		QString tmp = root.attribute("sellingDate");
+		QStringList dateFacts = tmp.split("/");
 
-        if (!file.open(QIODevice::ReadOnly)) {
+		QString year = dateFacts.at(2);
+		QString month = dateFacts.at(1);
+		QString day = dateFacts.at(0);
 
-            qDebug() << "File" << file.fileName() << "doesn't exists";
-            continue;
+		QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
 
-        } else {
+		if (tmpDate.year() != QDate::currentDate().year())
+		{
+			oldInvoice = true;
+			yearsList.append(year);
+			categorizedFiles.insert(year, files[i]);
+			qDebug() << "categorizedFiles.insert( " + year + "," + " " + files[i] + ")";
+			qDebug() << "categorizedFiles count: " << categorizedFiles.count();
+			qDebug() << "categorizedFiles size: " << categorizedFiles.size();
+		}
+	}
 
-            QTextStream stream(&file);
+	qDebug() << "categorizedFiles count first: " << categorizedFiles.count();
 
-            if (!doc.setContent(stream.readAll())) {
-
-                qDebug ("can not set content ");
-                file.close();
-                // return o_invDataVec;
-                continue;
-            }
-        }
-
-        root = doc.documentElement();
-        QString tmp = root.attribute("sellingDate");
-        QStringList dateFacts = tmp.split("/");
-
-        QString year = dateFacts.at(2);
-        QString month = dateFacts.at(1);
-        QString day = dateFacts.at(0);
-
-        QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
-
-        if (tmpDate.year() != QDate::currentDate().year()) {
-
-            oldInvoice = true;
-            yearsList.append(year);
-            categorizedFiles.insert(year, files[i]);
-            qDebug() << "categorizedFiles.insert( " + year + "," + " " + files[i] + ")";
-            qDebug() << "categorizedFiles count: " << categorizedFiles.count();
-            qDebug() << "categorizedFiles size: " << categorizedFiles.size();
-        }
-
-    }
-
-    qDebug() << "categorizedFiles count first: " << categorizedFiles.count();
-
-    return oldInvoice;
+	return oldInvoice;
 }
 
+void XmlDataLayer::separateOldInvoices()
+{
+	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
-void XmlDataLayer::separateOldInvoices() {
+	yearsList.removeDuplicates();
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+	qDebug() << "categorizedFiles count second: " << categorizedFiles.count();
 
-    yearsList.removeDuplicates();
+	QStringList::const_iterator constIterator;
 
-    qDebug() << "categorizedFiles count second: " << categorizedFiles.count();
+	for (constIterator = yearsList.constBegin(); constIterator != yearsList.constEnd();
+		 ++constIterator)
+	{
+		qDebug() << "OLDER YEARS: " << (*constIterator).toLocal8Bit().constData();
 
+		QDir dir(
+			sett().getWorkingDir() + sett().getDataDir() + "/"
+			+ (*constIterator).toLocal8Bit().constData());
 
-    QStringList::const_iterator constIterator;
+		if (!dir.exists())
+		{
+			dir.mkdir(
+				sett().getWorkingDir() + sett().getDataDir() + "/"
+				+ (*constIterator).toLocal8Bit().constData());
+		}
 
-        for (constIterator = yearsList.constBegin(); constIterator != yearsList.constEnd(); ++constIterator) {
+		QHash<QString, QString>::const_iterator i = categorizedFiles.constBegin();
+		while (i != categorizedFiles.constEnd())
+		{
+			if (i.key() == (*constIterator).toLocal8Bit().constData())
+			{
+				qDebug() << sett().getInvoicesDir() + i.value();
+				qDebug() << sett().getInvoicesDir() + i.key() + "/" + i.value();
+				QFile::copy(
+					sett().getInvoicesDir() + i.value(),
+					sett().getInvoicesDir() + i.key() + "/" + i.value());
+				QFile::remove(sett().getInvoicesDir() + i.value());
+			}
 
-            qDebug() << "OLDER YEARS: " << (*constIterator).toLocal8Bit().constData();
-
-            QDir dir(sett().getWorkingDir() + sett().getDataDir() + "/" + (*constIterator).toLocal8Bit().constData());
-
-            if (!dir.exists()) {
-
-                dir.mkdir(sett().getWorkingDir() + sett().getDataDir() + "/" + (*constIterator).toLocal8Bit().constData());
-
-            }
-
-
-
-            QHash<QString, QString>::const_iterator i = categorizedFiles.constBegin();
-            while (i != categorizedFiles.constEnd()) {
-                if (i.key() == (*constIterator).toLocal8Bit().constData()) {
-
-                qDebug() << sett().getInvoicesDir() + i.value();
-                qDebug() << sett().getInvoicesDir() + i.key() + "/" + i.value();
-                QFile::copy(sett().getInvoicesDir() + i.value(), sett().getInvoicesDir() + i.key() + "/" + i.value());
-                QFile::remove(sett().getInvoicesDir() + i.value());
-
-
-                }
-
-                i++;
-            }
-        }
+			i++;
+		}
+	}
 }
 
-
-bool XmlDataLayer::invoiceUpdateData(InvoiceData&, int, QString) {
-
+bool XmlDataLayer::invoiceUpdateData(InvoiceData &, int, QString)
+{
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
 	return true;
 }
 
-bool XmlDataLayer::invoiceDeleteData(QString name) {
-
+bool XmlDataLayer::invoiceDeleteData(QString name)
+{
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
 	QFile file(sett().getInvoicesDir() + name);
@@ -1912,7 +1960,7 @@ bool XmlDataLayer::invoiceDeleteData(QString name) {
 	if (file.exists())
 		file.remove();
 
-    checkAllSymbInFiles();
+	checkAllSymbInFiles();
 
 	return true;
 }
