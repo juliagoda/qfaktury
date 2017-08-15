@@ -1,6 +1,4 @@
 /*
- * ConvertAmount.cpp
- *
  *  Created on: Mar 16, 2009
  *      Author: tpielech
  */
@@ -8,22 +6,12 @@
 #include "ConvertAmount.h"
 #include "Settings.h"
 
-ConvertAmount::ConvertAmount()
-{
-	// TODO Auto-generated constructor stub
-}
-
-ConvertAmount::~ConvertAmount()
-{
-	// TODO Auto-generated destructor stub
-}
-
 QString &ConvertAmount::descAmount(
 	QString &countMoney,
 	QString partMoney,
 	QString ifOne,
 	QString ifMore,
-	QString ifBetween)
+	QString ifBetween) const
 {
 	while (partMoney.length() < 3)
 	{
@@ -196,7 +184,7 @@ QString &ConvertAmount::descAmount(
 	return countMoney;
 }
 
-const QStringList ConvertAmount::hundsList()
+QStringList ConvertAmount::hundsList() const
 {
 	QStringList hundredsPL;
 	hundredsPL << QObject::trUtf8("sto") << QObject::trUtf8("dwieście")
@@ -208,7 +196,7 @@ const QStringList ConvertAmount::hundsList()
 	return hundredsPL;
 }
 
-const QStringList ConvertAmount::endsHundList()
+QStringList ConvertAmount::endsHundList() const
 {
 	QStringList hundEndsPL;
 	hundEndsPL << QObject::trUtf8("dwadzieścia") << QObject::trUtf8("trzydzieści")
@@ -219,7 +207,7 @@ const QStringList ConvertAmount::endsHundList()
 	return hundEndsPL;
 }
 
-const QStringList ConvertAmount::endsTensList()
+QStringList ConvertAmount::endsTensList() const
 {
 	QStringList tenEndsPL;
 	tenEndsPL << QObject::trUtf8("jedenaście") << QObject::trUtf8("dwanaście")
@@ -231,7 +219,7 @@ const QStringList ConvertAmount::endsTensList()
 	return tenEndsPL;
 }
 
-const QStringList ConvertAmount::simpleNumbList()
+QStringList ConvertAmount::simpleNumbList() const
 {
 	QStringList nineNumbs;
 	nineNumbs << QObject::trUtf8("jeden") << QObject::trUtf8("dwa") << QObject::trUtf8("trzy")
@@ -242,7 +230,7 @@ const QStringList ConvertAmount::simpleNumbList()
 	return nineNumbs;
 }
 
-QString ConvertAmount::convertPL(QString input, QString currency)
+QString ConvertAmount::convertPL(QString input, QString currency) const
 {
 	QString in = input.remove(sett().getTPointStr());
 	qDebug() << "in: " << in;
