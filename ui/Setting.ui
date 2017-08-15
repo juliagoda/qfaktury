@@ -47,7 +47,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabPage1">
       <attribute name="title">
@@ -63,23 +63,6 @@
           <enum>QFrame::Sunken</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
-           <layout class="QHBoxLayout" name="_3">
-            <item>
-             <widget class="QLabel" name="textLabel1_4">
-              <property name="text">
-               <string>Język:</string>
-              </property>
-              <property name="wordWrap">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="langList"/>
-            </item>
-           </layout>
-          </item>
           <item>
            <layout class="QHBoxLayout" name="_4">
             <item>
@@ -475,8 +458,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>282</width>
-            <height>355</height>
+            <width>276</width>
+            <height>392</height>
            </rect>
           </property>
           <attribute name="label">
@@ -656,8 +639,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>300</width>
-            <height>172</height>
+            <width>294</width>
+            <height>188</height>
            </rect>
           </property>
           <attribute name="label">
@@ -812,8 +795,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>489</width>
-            <height>346</height>
+            <width>477</width>
+            <height>318</height>
            </rect>
           </property>
           <attribute name="label">
@@ -940,8 +923,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>283</width>
-            <height>152</height>
+            <width>277</width>
+            <height>150</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1076,8 +1059,8 @@ korekt:</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>290</width>
-            <height>152</height>
+            <width>284</width>
+            <height>150</height>
            </rect>
           </property>
           <attribute name="label">

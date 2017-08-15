@@ -25,6 +25,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - prowadzenie organizera z kalendarzem
 - przedstawienie słownie kwoty na fakturze w formacie od dziesiątek po miliardy wraz z wartościami po przecinku
 - dodanie własnych elementów do listy wyborów stawek VAT, metod płatności, powodów korekty, sposobu numeracji faktur, dopisku, jednostek
+- wysyłanie wiadomości e-mail wraz z załącznikami do kontrahentów
 
 
 <br/>
@@ -75,8 +76,6 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 2. Osoby posiadające faktury z wcześniejszych commit'ów w razie jakichkolwiek niepoprawnych wyników mogą spróbować ponownie zapisać istniejąca fakturę, edytując ją, ponieważ możliwe, że dotychczasowe commit'y uwzględniają zauważone błędy i uzupełnią także pliki XML dodatkowymi danymi, które pozwolą korzystać z pełnej funkcjonalności programu. Zalecane jest także trzymać kopię zapasową plików w innym miejscu.
 
 3. Aktualizacja aktualnego kursu walut następuje co pół godziny, pod warunkiem połączenia z internetem oraz poprawnego ustawienia czasu systemowego
-
-4. Tłumaczenie na język angielski i niemiecki jest stale wprowadzany
 
 
 <br/>
