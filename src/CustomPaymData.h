@@ -8,12 +8,8 @@
 #include <QDate>
 #include <QString>
 
-class CustomPaymData
+struct CustomPaymData final
 {
-public:
-	CustomPaymData();
-	virtual ~CustomPaymData();
-
 	QString payment1;
 	QString payment2;
 	QDate date1;

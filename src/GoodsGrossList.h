@@ -14,7 +14,6 @@ class GoodsGrossList : public GoodsList
 public:
 	GoodsGrossList(QWidget *parent);
 	const QString getRetValGoodsBr();
-	~GoodsGrossList();
 
 public slots:
 

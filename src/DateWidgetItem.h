@@ -7,7 +7,7 @@ class DateWidgetItem : public QTableWidgetItem
 {
 public:
 	explicit DateWidgetItem(QDate date);
-	~DateWidgetItem();
+
 	void setData(int role, const QVariant &value);
 	QVariant data(int role) const;
 	bool operator<(const QTableWidgetItem &other) const;
@@ -22,10 +22,6 @@ DateWidgetItem::DateWidgetItem(QDate date)
 	QTableWidgetItem::setData(Qt::DisplayRole, date);
 }
 
-DateWidgetItem::~DateWidgetItem()
-{
-}
-
 void DateWidgetItem::setData(int role, const QVariant &value)
 {
 	m_data = value.toDate();
@@ -35,13 +31,17 @@ void DateWidgetItem::setData(int role, const QVariant &value)
 QVariant DateWidgetItem::data(int role) const
 {
 	if (role == Qt::EditRole)
+	{
 		return QVariant(m_data);
+	}
 	else if (role == Qt::DisplayRole)
 	{
 		return m_data.toString(sett().getDateFormat());
 	}
 	else
+	{
 		return QTableWidgetItem::data(role);
+	}
 }
 
 bool DateWidgetItem::operator<(const QTableWidgetItem &other) const

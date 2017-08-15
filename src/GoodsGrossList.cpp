@@ -11,10 +11,6 @@ GoodsGrossList::GoodsGrossList(QWidget *parent)
 {
 }
 
-GoodsGrossList::~GoodsGrossList()
-{
-}
-
 QString GoodsGrossList::getPriceOfCurrent()
 {
 	double price = sett().stringToDouble(grossLabel->text()) / countSpinBox->value();

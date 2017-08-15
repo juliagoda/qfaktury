@@ -8,9 +8,9 @@
 
 CustomPayment::CustomPayment(QWidget *parent)
 	: QDialog(parent)
+	, invoiceAmount(0)
 {
 	setupUi(this);
-	// TODO Auto-generated constructor stub
 	init();
 }
 

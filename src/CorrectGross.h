@@ -7,7 +7,7 @@
 
 #include "Correction.h"
 
-class CorrectGross : public Correction
+class CorrectGross final : public Correction
 {
 	Q_OBJECT
 

@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+﻿#include "MainWindow.h"
 #include "Bill.h"
 #include "Buyers.h"
 #include "Const.h"
