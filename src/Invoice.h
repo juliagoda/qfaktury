@@ -142,6 +142,5 @@ private:
 	QNetworkReply *reply;
 	QString pressedText;
 	QString ret, inv_form;
-	QDomDocument doc;
 	bool pforma, kAdded;
 };

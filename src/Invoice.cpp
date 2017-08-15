@@ -389,6 +389,7 @@ void Invoice::tellFinished()
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
+	QDomDocument doc;
 	if (file.open(QIODevice::ReadOnly))
 	{
 		if (!doc.setContent(&file))
@@ -465,6 +466,7 @@ QMap<QString, double> Invoice::getActualCurList()
 	}
 	else
 	{
+		QDomDocument doc;
 		if (!doc.setContent(&file))
 		{
 			qDebug("You can't set content to correction xml");
@@ -570,11 +572,12 @@ QMap<QString, double> Invoice::tableOfValues()
 
 	if (currencies.isEmpty())
 	{
-		double eurToPln = getActualCurList().value("EUR");
-		double usdToPln = getActualCurList().value("USD");
-		double chfToPln = getActualCurList().value("CHF");
-		double gbpToPln = getActualCurList().value("GBP");
-		double rubToPln = getActualCurList().value("RUB");
+		auto currenciesList = getActualCurList();
+		double eurToPln = currenciesList.value("EUR");
+		double usdToPln = currenciesList.value("USD");
+		double chfToPln = currenciesList.value("CHF");
+		double gbpToPln = currenciesList.value("GBP");
+		double rubToPln = currenciesList.value("RUB");
 
 		currencies.insert("EUR/PLN", eurToPln);
 		currencies.insert("USD/PLN", usdToPln);
@@ -607,6 +610,7 @@ bool Invoice::ifUpdated()
 	}
 	else
 	{
+		QDomDocument doc;
 		if (!doc.setContent(&file))
 		{
 			qDebug("You can't set content to correction xml");
