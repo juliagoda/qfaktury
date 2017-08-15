@@ -35,13 +35,13 @@ public:
 	QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 #endif
 
-	QString getAppDirs()
+	QString getAppDirs() const
 	{
 		return appPath + "/";
 	}
 
 	// get date from settings as QDate
-	QDate getValueAsDate(QString val)
+	QDate getValueAsDate(QString val) const
 	{
 		QString date = value(val).toString();
 		QLocale locale;
@@ -49,14 +49,14 @@ public:
 	}
 
 	// returns date format used for all dates
-	QString getDateFormat()
+	QString getDateFormat() const
 	{
 		// it's better to have a full year... so
 		return dateFormat;
 	}
 
 	// returns date format used while saving the file
-	QString getFnameDateFormat()
+	QString getFnameDateFormat() const
 	{
 		return fileNameDateFormat;
 	}
@@ -816,7 +816,7 @@ public:
 	}
 
 	// Compiles version with appName ready for display
-	QString getVersion(QString appName)
+	QString getVersion(QString appName) const
 	{
 		QString str = appName;
 		str.truncate(2);
@@ -824,12 +824,12 @@ public:
 	}
 
 	// returns working directory
-	QString getWorkingDir()
+	QString getWorkingDir() const
 	{
 		return QDir::homePath() + "/.local/share/data/elinux";
 	}
 
-	QString getStyle()
+	QString getStyle() const
 	{
 		QString style = value("style").toString();
 
@@ -842,7 +842,7 @@ public:
 	}
 
 	// returns templates directory
-	QString getTemplate()
+	QString getTemplate() const
 	{
 		QString style = value("css").toString();
 
@@ -866,18 +866,18 @@ public:
 		return ret;
 	}
 
-	QString getPdfDir()
+	QString getPdfDir() const
 	{
 		return getWorkingDir() + "/pdf-invoices";
 	}
 
-	QString getEmergTemplate()
+	QString getEmergTemplate() const
 	{
 		return (QDir::homePath() + "/.local/share/data/elinux/template/black.css");
 	}
 
 	// return invoices dir
-	QString getDataDir()
+	QString getDataDir() const
 	{
 		// Changed name of the folder to avoid overwriting the files.
 		// This may require conversion script.
@@ -885,50 +885,50 @@ public:
 	}
 
 	// return invoices dir
-	QString getInvoicesDir()
+	QString getInvoicesDir() const
 	{
 		return getWorkingDir() + getDataDir() + "/";
 	}
 
 	// return customers xml
-	QString getCustomersXml()
+	QString getCustomersXml() const
 	{
 		return getWorkingDir() + "/customers.xml";
 	}
 
 	// return customers xml
-	QString getProductsXml()
+	QString getProductsXml() const
 	{
 		return getWorkingDir() + "/products.xml";
 	}
 
 	// returns inoice doc name stored as a DOCTYPE
-	QString getInoiveDocName()
+	QString getInoiveDocName() const
 	{
 		return QString("invoice");
 	}
 
 	// returns correction doc name stored as a DOCTYPE
-	QString getCorrDocName()
+	QString getCorrDocName() const
 	{
 		return QString("correction");
 	}
 
 	// returns customers doc name stored as a DOCTYPE
-	QString getCustomersDocName()
+	QString getCustomersDocName() const
 	{
 		return QString("customers");
 	}
 
 	// returns products doc name stored as a DOCTYPE
-	QString getProdutcsDocName()
+	QString getProdutcsDocName() const
 	{
 		return QString("products");
 	}
 
 	// @TODO enforce that translation won't affect this funcionality
 	// converts customer type into int value
-	int getCustomerType(QString custType)
+	int getCustomerType(QString custType) const
 	{
 		if (custType.compare(trUtf8("Firma")) == 0 || custType.compare(trUtf8("firma")) == 0)
 		{
@@ -943,7 +943,7 @@ public:
 	}
 
 	// converts product type into int value
-	int getProductType(QString prodName)
+	int getProductType(QString prodName) const
 	{
 		if (prodName.compare(trUtf8("Towar")) == 0 || prodName.compare(trUtf8("towar")) == 0)
 		{
@@ -953,75 +953,75 @@ public:
 		return 1;
 	}
 
-	QString getCompanyName()
+	QString getCompanyName() const
 	{
 		return QString("company");
 	}
 
-	QString getNaturalPerson()
+	QString getNaturalPerson() const
 	{
 		return QString("person");
 	}
 
-	QString getOfficeName()
+	QString getOfficeName() const
 	{
 		return QString("office");
 	}
 
-	QString getCompanyNameTr()
+	QString getCompanyNameTr() const
 	{
 		return trUtf8("Firma");
 	}
 
-	QString getOfficeNameTr()
+	QString getOfficeNameTr() const
 	{
 		return trUtf8("Urząd");
 	}
 
-	QString getProductName()
+	QString getProductName() const
 	{
 		return QString("product");
 	}
 
-	QString getServiceName()
+	QString getServiceName() const
 	{
 		return QString("service");
 	}
 
 	// Adds Data to input string
-	QString getNameWithData(QString in)
+	QString getNameWithData(QString in) const
 	{
 		return in + trUtf8("DATA");
 	}
 
-	QByteArray getCodecName()
+	QByteArray getCodecName() const
 	{
 		return QByteArray("UTF-8");
 	}
 
-	QString getDecimalPointStr()
+	QString getDecimalPointStr() const
 	{
 		QChar decimalPoint = locale->decimalPoint();
 		return QString(decimalPoint);
 	}
 
-	QString getTPointStr()
+	QString getTPointStr() const
 	{
 		QChar tPoint = locale->groupSeparator();
 		return QString(tPoint);
 	}
 
-	QString numberToString(double i, char f = 'f', int prec = 2)
+	QString numberToString(double i, char f = 'f', int prec = 2) const
 	{
 		return locale->toString(i, f, prec);
 	}
 
-	QString numberToString(int i)
+	QString numberToString(int i) const
 	{
 		return locale->toString(i);
 	}
 
-	double stringToDouble(QString s)
+	double stringToDouble(QString s) const
 	{
 		bool ok = false;
 		double countNumb = 1;

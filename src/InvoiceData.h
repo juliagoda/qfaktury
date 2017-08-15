@@ -47,7 +47,7 @@ public:
 	 *  Return invoice type
 	 */
 
-	QString getInvoiceTypeAndSaveNr(int invoiceType)
+	QString getInvoiceTypeAndSaveNr(int invoiceType) const
 	{
 		QString ret = "FVAT";
 

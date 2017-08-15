@@ -64,7 +64,7 @@ public slots:
 	void addTaskToList();
 	void addNextTask();
 	void delTasksFromDay();
-	QString changeIfEmpty(QString);
+	QString changeIfEmpty(QString text) const;
 	void sendEmailToBuyer();
 
 protected:

@@ -61,22 +61,22 @@ GoodsList *GoodsList::instance()
 	return m_instance;
 }
 
-const QString GoodsList::getGoodsId()
+QString GoodsList::getGoodsId() const
 {
 	return id;
 }
 
-const QString GoodsList::getSelItem()
+QString GoodsList::getSelItem() const
 {
 	return selectedItem;
 }
 
-const QMap<QString, int> GoodsList::getVatsVal()
+QMap<QString, int> GoodsList::getVatsVal() const
 {
 	return vats;
 }
 
-const QString GoodsList::getRetVal()
+QString GoodsList::getRetVal() const
 {
 	return ret;
 }

@@ -46,9 +46,9 @@ private:
 	void helpFuncDelNr(QListWidget *listWg, QString const &text);
 	void helpFuncAp(QListWidget *listWg);
 	void helpFuncDown(QListWidget *listWg);
-	QStringList getTemplates();
-	QStringList getTranslations();
-	QStringList getStyles();
-	QString getAll(QListWidget *lb);
+	QStringList getTemplates() const;
+	QStringList getTranslations() const;
+	QStringList getStyles() const;
+	QString getAll(QListWidget *lb) const;
 	QVector<QTextCodec *> codecs;
 };

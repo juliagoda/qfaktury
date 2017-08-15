@@ -55,7 +55,7 @@ public:
 	virtual void setIsEditAllowed(bool isAllowed);
 	void calcAll(double);
 	virtual void calculateOneDiscount(int i);
-	inline void setTextDurRate(QString, QString, QString);
+	void setTextDurRate(QString, QString, QString);
 	QMap<QString, double> getActualCurList();
 	QMap<QString, double> tableOfValues();
 	QString checkInvCurr();

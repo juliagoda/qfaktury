@@ -11,11 +11,11 @@ public:
 	GoodsList(QWidget *parent);
 	~GoodsList();
 
-	const QString getRetVal();
-	const QMap<QString, int> getVatsVal();
-	const QString getSelItem();
-	const QString getGoodsId();
 	static GoodsList *instance();
+	QString getRetVal() const;
+	QMap<QString, int> getVatsVal() const;
+	QString getSelItem() const;
+	QString getGoodsId() const;
 
 public slots:
 	virtual void doAccept();

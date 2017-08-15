@@ -481,7 +481,7 @@ void Setting::getEncodings()
 /** Used for parsing
  */
 
-QString Setting::getAll(QListWidget *lb)
+QString Setting::getAll(QListWidget *lb) const
 {
 	QString tmp = QString();
 	int selNr, posCount = lb->count();
@@ -686,7 +686,7 @@ void Setting::readSettings()
 }
 
 // returns list of translations
-QStringList Setting::getTemplates()
+QStringList Setting::getTemplates() const
 {
 	QStringList templates;
 	QString path = QDir::currentPath() + "/templates/";
@@ -710,13 +710,13 @@ QStringList Setting::getTemplates()
 	return templates;
 }
 
-QStringList Setting::getStyles()
+QStringList Setting::getStyles() const
 {
 	return QStyleFactory::keys();
 }
 
 // returns list of translations
-QStringList Setting::getTranslations()
+QStringList Setting::getTranslations() const
 {
 	QStringList translations;
 	QString path = QDir::currentPath() + "/translations/";

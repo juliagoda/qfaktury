@@ -35,7 +35,7 @@ void Goods::init()
 	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
 }
 
-const QString Goods::getRetGoods()
+QString Goods::getRetGoods() const
 {
 	return ret;
 }

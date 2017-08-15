@@ -52,7 +52,7 @@ public:
 
 protected:
 	bool validatePage() override;
-	QString transformType(QString);
+	QString transformType(QString text) const;
 
 private:
 	QVector<BuyerData> bList;

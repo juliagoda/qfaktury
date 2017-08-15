@@ -11,13 +11,13 @@ GoodsGrossList::GoodsGrossList(QWidget *parent)
 {
 }
 
-QString GoodsGrossList::getPriceOfCurrent()
+QString GoodsGrossList::getPriceOfCurrent() const
 {
 	double price = sett().stringToDouble(grossLabel->text()) / countSpinBox->value();
 	return sett().numberToString(price, 'f', 2);
 }
 
-QString const GoodsGrossList::getRetValGoodsBr()
+QString GoodsGrossList::getRetValGoodsBr() const
 {
 	return ret;
 }
