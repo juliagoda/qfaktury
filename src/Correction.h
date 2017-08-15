@@ -13,32 +13,31 @@ class Correction : public Invoice
 public:
 	Correction(QWidget *parent, IDataLayer *dl, QString in_form = QString(), bool edMode = false);
 	virtual ~Correction();
-	const bool getMode();
-	const bool getFirstRun();
-	QString const getRet();
+	bool getMode() const;
+	bool getFirstRun() const;
+	QString getRet() const;
 	void schemaCalcSum();
-	virtual void correctionInit(bool mode);
-	virtual void readCorrData(QString invFile);
+	void correctionInit(bool mode);
+	void readCorrData(QString invFile);
+
+	void calculateOneDiscount(int i) override;
+	void setIsEditAllowed(bool isAllowed) override;
 
 public slots:
-
-	// have to be overwritten in child class
-	virtual bool saveInvoice();
-	virtual void backBtnClick();
-	virtual void makeInvoice();
-	virtual void canQuit();
+	bool saveInvoice() override;
+	void backBtnClick() override;
+	void makeInvoice() override;
+	void canQuit() override;
 
 protected:
-	virtual void makeInvoiceSummAll();
-	virtual void makeInvoiceSumm();
-	virtual void makeInvoceProductsTitle(short a);
-	virtual void makeBeforeCorrProducts();
-	virtual void makeBeforeCorrSumm();
-	virtual void setIsEditAllowed(bool isAllowed);
-	virtual void calculateDiscount();
-	virtual void calculateSum();
-	virtual void calculateOneDiscount(int i);
-	virtual QString getInvoiceTypeAndSaveNr();
+	void makeInvoiceSummAll() override;
+	void makeInvoiceSumm() override;
+	void makeInvoceProductsTitle(short a);
+	void makeBeforeCorrProducts();
+	void makeBeforeCorrSumm();
+	void calculateDiscount() override;
+	void calculateSum() override;
+	QString getInvoiceTypeAndSaveNr() override;
 	InvoiceData *createOriginalInv();
 
 private:

@@ -45,15 +45,15 @@ public:
 		bool kadded,
 		InvoiceType invTyp,
 		int numbType);
-	const QString getRet();
-	const QString getfName();
-	const QString getInvForm();
-	const QString pressedTxt();
-	const bool getKAdded();
+	QString getRet() const;
+	QString getfName() const;
+	QString getInvForm() const;
+	QString pressedTxt() const;
+	bool getKAdded() const;
 	bool convWarn();
 	bool ifUpdated();
 	virtual void setIsEditAllowed(bool isAllowed);
-	virtual void calcAll(const double &);
+	void calcAll(double);
 	virtual void calculateOneDiscount(int i);
 	inline void setTextDurRate(QString, QString, QString);
 	QMap<QString, double> getActualCurList();
@@ -61,15 +61,14 @@ public:
 	QString checkInvCurr();
 
 public slots:
-
 	virtual void addGoods();
-	virtual void discountChange();
+	void discountChange();
 	virtual void backBtnClick();
 	virtual void canQuit();
 	virtual bool saveInvoice();
 	virtual void makeInvoice();
-	virtual void payTextChanged(QString text);
-	virtual void discountConstChange(); // Overwritten in GrossInvoice
+	void payTextChanged(QString text);
+	void discountConstChange();
 	void getCustomer();
 	void delGoods();
 	void editGoods();

@@ -23,17 +23,17 @@ Correction::~Correction()
 	invData = NULL;
 }
 
-const bool Correction::getMode()
+bool Correction::getMode() const
 {
 	return editMode;
 }
 
-bool const Correction::getFirstRun()
+bool Correction::getFirstRun() const
 {
 	return firstRunned;
 }
 
-QString const Correction::getRet()
+QString Correction::getRet() const
 {
 	return ret;
 }

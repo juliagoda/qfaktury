@@ -22,5 +22,5 @@ public slots:
 	void billInit();
 
 protected:
-	QString getInvoiceTypeAndSaveNr();
+	QString getInvoiceTypeAndSaveNr() override;
 };

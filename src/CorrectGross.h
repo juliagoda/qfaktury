@@ -15,9 +15,12 @@ class CorrectGross : public Correction
 
 public:
 	CorrectGross(QWidget *parent, IDataLayer *dl, QString in_form = QString(), bool edMode = false);
-	void addGoods();
+
+	void calculateOneDiscount(int i) override;
+
+public slots:
+	void addGoods() override;
 
 protected:
-	void calculateOneDiscount(int i);
-	QString getInvoiceTypeAndSaveNr();
+	QString getInvoiceTypeAndSaveNr() override;
 };

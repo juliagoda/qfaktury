@@ -103,12 +103,12 @@ Invoice *Invoice::instance()
 	return m_instance;
 }
 
-QString const Invoice::getRet()
+QString Invoice::getRet() const
 {
 	return ret;
 }
 
-QString const Invoice::getfName()
+QString Invoice::getfName() const
 {
 	return fName;
 }
@@ -118,12 +118,12 @@ void Invoice::setfName(QString text)
 	fName = text;
 }
 
-QString const Invoice::getInvForm()
+QString Invoice::getInvForm() const
 {
 	return inv_form;
 }
 
-bool const Invoice::getKAdded()
+bool Invoice::getKAdded() const
 {
 	return kAdded;
 }
@@ -594,6 +594,8 @@ bool Invoice::ifUpdated()
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
+	bool result = false;
+
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		if (file.exists())
@@ -607,54 +609,58 @@ bool Invoice::ifUpdated()
 		if (!doc.setContent(&file))
 		{
 			qDebug("You can't set content to correction xml");
-			return true;
+			result = true;
 		}
+		else
+		{
+			QMap<QString, int> helpMonths;
+			helpMonths.insert("Jan", 1);
+			helpMonths.insert("Feb", 2);
+			helpMonths.insert("Mar", 3);
+			helpMonths.insert("Apr", 4);
+			helpMonths.insert("May", 5);
+			helpMonths.insert("Jun", 6);
+			helpMonths.insert("Jul", 7);
+			helpMonths.insert("Aug", 8);
+			helpMonths.insert("Sep", 9);
+			helpMonths.insert("Oct", 10);
+			helpMonths.insert("Nov", 11);
+			helpMonths.insert("Dec", 12);
 
-		QMap<QString, int> helpMonths;
-		helpMonths.insert("Jan", 1);
-		helpMonths.insert("Feb", 2);
-		helpMonths.insert("Mar", 3);
-		helpMonths.insert("Apr", 4);
-		helpMonths.insert("May", 5);
-		helpMonths.insert("Jun", 6);
-		helpMonths.insert("Jul", 7);
-		helpMonths.insert("Aug", 8);
-		helpMonths.insert("Sep", 9);
-		helpMonths.insert("Oct", 10);
-		helpMonths.insert("Nov", 11);
-		helpMonths.insert("Dec", 12);
+			QDomNodeList lastUpdate = doc.elementsByTagName(QString("lastBuildDate"));
+			QStringList dateElements =
+				lastUpdate.at(0).toElement().text().replace(",", " ").split(" ");
+			dateElements.removeLast();
+			QString hours = dateElements.last();
+			QStringList hms = hours.split(":");
+			QDateTime dateNow = QDateTime::currentDateTime();
 
-		QDomNodeList lastUpdate = doc.elementsByTagName(QString("lastBuildDate"));
-		QStringList dateElements = lastUpdate.at(0).toElement().text().replace(",", " ").split(" ");
-		dateElements.removeLast();
-		QString hours = dateElements.last();
-		QStringList hms = hours.split(":");
-		QDateTime dateNow = QDateTime::currentDateTime();
+			QString year = dateElements.at(3);
+			qDebug() << "Year: " << year;
+			QString day = dateElements.at(1);
+			qDebug() << "Month: " << helpMonths.value(dateElements.at(2));
+			qDebug() << "Day: " << day;
+			QString hour = hms.at(0);
+			qDebug() << "Hour: " << hour;
+			QString min = hms.at(1);
+			qDebug() << "Min: " << min;
+			QString sec = hms.at(2);
+			qDebug() << "Sec: " << sec;
 
-		QString year = dateElements.at(3);
-		qDebug() << "Year: " << year;
-		QString day = dateElements.at(1);
-		qDebug() << "Month: " << helpMonths.value(dateElements.at(2));
-		qDebug() << "Day: " << day;
-		QString hour = hms.at(0);
-		qDebug() << "Hour: " << hour;
-		QString min = hms.at(1);
-		qDebug() << "Min: " << min;
-		QString sec = hms.at(2);
-		qDebug() << "Sec: " << sec;
+			QDateTime dateOfFile(
+				QDate(year.toInt(), helpMonths.value(dateElements.at(2)), day.toInt()),
+				QTime(hour.toInt(), min.toInt(), sec.toInt()));
 
-		QDateTime dateOfFile(
-			QDate(year.toInt(), helpMonths.value(dateElements.at(2)), day.toInt()),
-			QTime(hour.toInt(), min.toInt(), sec.toInt()));
+			qDebug() << "file date: " << dateOfFile.toString();
+			qDebug() << "now: " << dateNow.toString();
+			qDebug() << "have passed: " << dateOfFile.secsTo(dateNow);
 
-		qDebug() << "file date: " << dateOfFile.toString();
-		qDebug() << "now: " << dateNow.toString();
-		qDebug() << "have passed: " << dateOfFile.secsTo(dateNow);
-
-		return dateOfFile.secsTo(dateNow) > 1800;
+			result = dateOfFile.secsTo(dateNow) > 1800;
+		}
 	}
 
 	file.close();
+	return result;
 }
 
 QString Invoice::checkInvCurr()
@@ -792,14 +798,14 @@ void Invoice::changeToRUB()
 	convertCurrShort(konvRUB->text().replace("&", "").trimmed());
 }
 
-const QString Invoice::pressedTxt()
+QString Invoice::pressedTxt() const
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
 	return pressedText;
 }
 
-void Invoice::calcAll(const double &currVal)
+void Invoice::calcAll(double currVal)
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -2939,7 +2945,6 @@ void Invoice::calculateSum()
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-	double net = 0, price = 0, gross = 0;
 	double discountValue = 0;
 
 	nettTotal = 0;
@@ -2948,16 +2953,14 @@ void Invoice::calculateSum()
 
 	for (int i = 0; i < tableGoods->rowCount(); ++i)
 	{
-		price = sett().stringToDouble(tableGoods->item(i, 7)->text());
-
 		double decimalPointsNetto = tableGoods->item(i, 8)->text().right(2).toInt() * 0.01;
 		qDebug() << "decimalPointsNetto << " << decimalPointsNetto;
 		double decimalPointsGross = tableGoods->item(i, 10)->text().right(2).toInt() * 0.01;
 		qDebug() << "decimalPointsGross << " << decimalPointsGross;
 
-		net = sett().stringToDouble(tableGoods->item(i, 8)->text());
+		double net = sett().stringToDouble(tableGoods->item(i, 8)->text());
 		net += decimalPointsNetto;
-		gross = sett().stringToDouble(tableGoods->item(i, 10)->text());
+		double gross = sett().stringToDouble(tableGoods->item(i, 10)->text());
 		gross += decimalPointsGross;
 		discountValue += tableGoods->item(i, 6)->text().toInt();
 
