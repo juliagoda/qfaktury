@@ -543,6 +543,7 @@ void Setting::saveSettings() {
 	sett().setValue("edit", cbEdit->isChecked());
 	sett().setValue("editSymbol", cbSmbEdit->isChecked());
 	sett().setValue("editName", cbSmbEdit_2->isChecked());
+    sett().setValue("validation", cbValOn->isChecked());
 	sett().setValue("shortYear", shortYear->isChecked());
 	sett().setValue("chars_in_symbol", spbNumb->value());
 	sett().setValue("numberOfCopies", spbNumCopies->value());
@@ -631,6 +632,7 @@ void Setting::readSettings() {
 
     cbSmbEdit->setChecked(sett().value("editSymbol").toBool());
 	cbSmbEdit_2->setChecked(sett().value("editName").toBool());
+    cbValOn->setChecked(sett().value("validation").toBool());
 
 	spbNumb->setValue(sett(). value("chars_in_symbol").toInt());
 	spbNumCopies->setValue(sett(). value("numberOfCopies").toInt());
@@ -670,6 +672,7 @@ void Setting::readSettings() {
     shortYear->setChecked(sett().value("shortYear").toBool());
     cbEdit->setChecked(sett().value("edit").toBool());
     cbSmbEdit->setChecked(sett().value("editSymbol").toBool());
+    cbValOn->setChecked(sett().value("validation").toBool());
 	spbNumb->setValue(sett().value("chars_in_symbol").toInt());
 
     read = true;

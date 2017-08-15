@@ -193,7 +193,7 @@ void User::okClick ()
 
   bool ifOtherSeller = false;
 
-  if (checkAll()) {
+  if (sett().value("validation").toBool() == false || (sett().value("validation").toBool() && checkAll())) {
 
       int i = 0;
       foreach (QWidget* widg, sellersWidgets)
