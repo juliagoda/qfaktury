@@ -1,5 +1,4 @@
-#ifndef GOODSLIST_H
-#define GOODSLIST_H
+#pragma once
 
 #include "ProductData.h"
 #include "ui_GoodsList.h"
@@ -19,7 +18,6 @@ public:
 	static GoodsList *instance();
 
 public slots:
-
 	virtual void doAccept();
 	virtual void calcNet();
 	void readGoods();
@@ -44,4 +42,3 @@ private:
 	QMap<QString, int> vats;
 	static GoodsList *m_instance;
 };
-#endif

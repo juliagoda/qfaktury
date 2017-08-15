@@ -1,5 +1,4 @@
-#ifndef CHANGEAMOUNT_H
-#define CHANGEAMOUNT_H
+#pragma once
 
 #include "ui_ChangeAmount.h"
 
@@ -16,4 +15,3 @@ public:
 private:
 	static ChangeAmount *m_instance;
 };
-#endif

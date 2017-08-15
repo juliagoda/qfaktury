@@ -13,6 +13,7 @@
 #include "Setting.h"
 #include "User.h"
 #include "XmlDataLayer.h"
+
 #include <QAction>
 #include <QDesktopServices>
 #include <QDesktopWidget>
@@ -51,15 +52,21 @@ MainWindow::~MainWindow()
 	saveAllSett();
 
 	if (timer != 0)
+	{
 		timer = 0;
+	}
 	delete timer;
 
 	if (dl != 0)
+	{
 		dl = 0;
+	}
 	delete dl;
 
 	if (ui != 0)
+	{
 		ui = 0;
+	}
 	delete ui;
 
 	m_instance = nullptr;
@@ -69,7 +76,9 @@ MainWindow::~MainWindow()
 		foreach (QAction *plugAct_single, plugActions)
 		{
 			if (plugAct_single != 0)
+			{
 				plugAct_single = 0;
+			}
 			delete plugAct_single;
 		}
 	}
@@ -100,13 +109,17 @@ void MainWindow::init()
 		setupDir();
 
 		QMessageBox::information(
-			this, "QFaktury", trUtf8("Program zawiera konwersję walut w oknie edycji faktury lub "
-									 "podczas jej tworzenia. By jej używać, powinieneś mieć dostęp "
-									 "do internetu oraz poprawnie ustawiony czas systemowy."));
+			this,
+			"QFaktury",
+			trUtf8("Program zawiera konwersję walut w oknie edycji faktury lub "
+				   "podczas jej tworzenia. By jej używać, powinieneś mieć dostęp "
+				   "do internetu oraz poprawnie ustawiony czas systemowy."));
 		QMessageBox::information(
-			this, "QFaktury", trUtf8("W przypadku zmiany lokalizacji systemu sposób formatowania "
-									 "liczb może się zmienić. Efekt ten może być widoczny po "
-									 "restarcie programu."));
+			this,
+			"QFaktury",
+			trUtf8("W przypadku zmiany lokalizacji systemu sposób formatowania "
+				   "liczb może się zmienić. Efekt ten może być widoczny po "
+				   "restarcie programu."));
 
 		if (QMessageBox::information(
 				this,
@@ -134,7 +147,9 @@ void MainWindow::init()
 	setupDir();
 
 	if (!ifEmergTemplateExists())
+	{
 		createEmergTemplate();
+	}
 
 	if (ui->tableH->rowCount() != 0)
 	{
@@ -293,7 +308,9 @@ void MainWindow::init()
 		QStringList files = _dir.entryList();
 
 		if (files.isEmpty())
+		{
 			generatePdfFromList();
+		}
 	}
 }
 
@@ -301,14 +318,7 @@ bool MainWindow::ifpdfDirExists()
 {
 	QDir mainPath(sett().getPdfDir());
 
-	if (!mainPath.exists())
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+	return mainPath.exists();
 }
 
 void MainWindow::createPdfDir()
@@ -335,9 +345,13 @@ bool MainWindow::ifEmergTemplateExists()
 	QFileInfo fileInfo(sett().getEmergTemplate());
 
 	if (fileInfo.exists() && fileInfo.isFile())
+	{
 		return true;
+	}
 	else
+	{
 		return false;
+	}
 }
 
 void MainWindow::createEmergTemplate()
@@ -359,7 +373,9 @@ void MainWindow::createEmergTemplate()
 		for (constIterator = blackEmergTemplate.constBegin();
 			 constIterator != blackEmergTemplate.constEnd();
 			 ++constIterator)
+		{
 			stream << (*constIterator).toLocal8Bit().constData() << endl;
+		}
 
 		file.close();
 	}
@@ -439,7 +455,9 @@ bool MainWindow::firstRun()
 void MainWindow::categorizeYears()
 {
 	if (dl->ifThereOldInvoice())
+	{
 		dl->separateOldInvoices();
+	}
 }
 
 void MainWindow::checkTodayTask(QString whatToDo)
@@ -856,10 +874,14 @@ void MainWindow::pluginSlot()
 	}
 
 	if (cmd != 0)
+	{
 		cmd = 0;
+	}
 	delete cmd;
 	if (a != 0)
+	{
 		a = 0;
+	}
 	delete a;
 }
 
@@ -987,7 +1009,7 @@ void MainWindow::tabChanged()
 
 /** Slot used to read the invoices, calls readHist.
  */
-void MainWindow::rereadHist(bool)
+void MainWindow::rereadHist(bool /*unused*/)
 {
 	//  qDebug( __FUNCTION__ );
 
@@ -1082,7 +1104,9 @@ void MainWindow::editFHist()
 		}
 
 		if (corWindow->getKAdded())
+		{
 			readBuyer();
+		}
 
 		corWindow = 0;
 		delete corWindow;
@@ -1101,7 +1125,9 @@ void MainWindow::editFHist()
 		}
 
 		if (corWindow->getKAdded())
+		{
 			readBuyer();
+		}
 
 		corWindow = 0;
 		delete corWindow;
@@ -1121,7 +1147,9 @@ void MainWindow::editFHist()
 		}
 
 		if (billWindow->getKAdded())
+		{
 			readBuyer();
+		}
 
 		billWindow = 0;
 		delete billWindow;
@@ -1140,7 +1168,9 @@ void MainWindow::editFHist()
 		}
 
 		if (invWindow->getKAdded())
+		{
 			readBuyer();
+		}
 
 		invWindow = 0;
 		delete invWindow;
@@ -1160,7 +1190,9 @@ void MainWindow::editFHist()
 		}
 
 		if (invWindow->getKAdded())
+		{
 			readBuyer();
+		}
 
 		invWindow = 0;
 		delete invWindow;
@@ -1178,7 +1210,9 @@ void MainWindow::editFHist()
 		}
 
 		if (invWindow->getKAdded())
+		{
 			readBuyer();
+		}
 
 		invWindow = 0;
 		delete invWindow;
@@ -1196,7 +1230,9 @@ void MainWindow::editFHist()
 		}
 
 		if (invWindow->getKAdded())
+		{
 			readBuyer();
+		}
 
 		invWindow = 0;
 		delete invWindow;
@@ -1217,7 +1253,9 @@ void MainWindow::editFHist()
 		}
 
 		if (dupWindow->getKAdded())
+		{
 			readBuyer();
+		}
 
 		dupWindow = 0;
 		delete dupWindow;
@@ -1473,7 +1511,9 @@ void MainWindow::printList(QPrinter *printer)
 		bool removed = false;
 
 		if (file.exists())
+		{
 			removed = file.remove();
+		}
 
 		if (!removed)
 		{
@@ -1489,7 +1529,9 @@ void MainWindow::printList(QPrinter *printer)
 		QTextStream stream(&file);
 
 		for (QStringList::Iterator it = list.begin(); it != list.end(); ++it)
+		{
 			stream << *it << "\n";
+		}
 
 		file.close();
 
@@ -1558,7 +1600,9 @@ void MainWindow::newInv()
 	}
 
 	if (invWindow->getKAdded())
+	{
 		readBuyer();
+	}
 	dl->checkAllSymbInFiles();
 	allSymbols = dl->getAllSymbols();
 
@@ -1590,7 +1634,9 @@ void MainWindow::newInvRR()
 	}
 
 	if (invWindow->getKAdded())
+	{
 		readBuyer();
+	}
 	dl->checkAllSymbInFiles();
 	allSymbols = dl->getAllSymbols();
 
@@ -1625,7 +1671,9 @@ void MainWindow::newInvBill()
 	}
 
 	if (billWindow->getKAdded())
+	{
 		readBuyer();
+	}
 	dl->checkAllSymbInFiles();
 	allSymbols = dl->getAllSymbols();
 	billWindow = 0;
@@ -1658,7 +1706,9 @@ void MainWindow::newInvGross()
 	}
 
 	if (invWindow->getKAdded())
+	{
 		readBuyer();
+	}
 	dl->checkAllSymbInFiles();
 	allSymbols = dl->getAllSymbols();
 	invWindow = 0;
@@ -1693,7 +1743,9 @@ void MainWindow::newPForm()
 	}
 
 	if (invWindow->getKAdded())
+	{
 		readBuyer();
+	}
 	dl->checkAllSymbInFiles();
 	allSymbols = dl->getAllSymbols();
 	invWindow = 0;
@@ -1761,7 +1813,9 @@ void MainWindow::newCor()
 		}
 
 		if (corWindow->getKAdded())
+		{
 			readBuyer();
+		}
 		dl->checkAllSymbInFiles();
 		allSymbols = dl->getAllSymbols();
 		corWindow = 0;
@@ -1831,7 +1885,9 @@ void MainWindow::newDuplicate()
 		}
 
 		if (dupWindow->getKAdded())
+		{
 			readBuyer();
+		}
 		dl->checkAllSymbInFiles();
 		allSymbols = dl->getAllSymbols();
 		dupWindow = 0;
@@ -1982,9 +2038,13 @@ void MainWindow::noteDownTask(const QDate &taskDate)
 	QFile filename(planDir);
 
 	if (filename.exists())
+	{
 		addTaskBtn->setText(trUtf8("Zastąp zadanie"));
+	}
 	else
+	{
 		addTaskBtn->setText(trUtf8("Dodaj zadanie"));
+	}
 
 	cancelTaskBtn = new QPushButton;
 	cancelTaskBtn->setText(trUtf8("Anuluj zadanie"));
@@ -1992,10 +2052,14 @@ void MainWindow::noteDownTask(const QDate &taskDate)
 	QHBoxLayout *buttons = new QHBoxLayout;
 	buttons->addWidget(addTaskBtn);
 	if (filename.exists())
+	{
 		buttons->addWidget(addNextTask);
+	}
 	buttons->addWidget(cancelTaskBtn);
 	if (filename.exists())
+	{
 		buttons->addWidget(delTasks);
+	}
 
 	QTextEdit *taskDescription = new QTextEdit;
 
@@ -2050,11 +2114,15 @@ void MainWindow::cancelTaskWidget()
 	foreach (QWidget *w, windowTask->findChildren<QWidget *>())
 	{
 		if (!w->windowFlags() & Qt::Window)
+		{
 			delete w;
+		}
 	}
 
 	if (windowTask != 0)
+	{
 		windowTask = 0;
+	}
 	delete windowTask;
 }
 
@@ -2065,7 +2133,9 @@ void MainWindow::delTasksFromDay()
 	bool removed = false;
 
 	if (file.exists())
+	{
 		removed = file.remove();
+	}
 
 	if (removed)
 	{
@@ -2263,10 +2333,8 @@ bool MainWindow::close()
 		saveAllSett();
 		return QMainWindow::close();
 	}
-	else
-	{
-		return false;
-	}
+
+	return false;
 }
 
 /** Slot help

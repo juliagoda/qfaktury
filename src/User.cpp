@@ -94,9 +94,13 @@ void User::init()
 			->findChild<QLineEdit *>("bicSwiftEdit")
 			->setText(settings.value("swift").toString());
 		if (settings.value("ifUsed").toBool())
+		{
 			sellersWidgets.at(i)->findChild<QCheckBox *>()->setChecked(true);
+		}
 		else
+		{
 			sellersWidgets.at(i)->findChild<QCheckBox *>()->setChecked(false);
+		}
 		settings.endGroup();
 	}
 }
@@ -107,14 +111,18 @@ bool User::checkAll()
 	{
 		if (Validations::instance()->isEmptyField(
 				widg->findChild<QLineEdit *>("nameEdit")->text(), textLabel1->text()))
+		{
 			return false;
+		}
 	}
 
 	foreach (QWidget *widg, sellersWidgets)
 	{
 		if (Validations::instance()->isEmptyField(
 				widg->findChild<QLineEdit *>("placeEdit")->text(), textLabel3->text()))
+		{
 			return false;
+		}
 	}
 
 	foreach (QWidget *widg, sellersWidgets)
@@ -124,7 +132,9 @@ bool User::checkAll()
 		{
 			if (!Validations::instance()->validateZip(
 					widg->findChild<QLineEdit *>("codeEdit")->text()))
+			{
 				return false;
+			}
 		}
 		else
 		{
@@ -136,7 +146,9 @@ bool User::checkAll()
 	{
 		if (Validations::instance()->isEmptyField(
 				widg->findChild<QLineEdit *>("addressEdit")->text(), textLabel2->text()))
+		{
 			return false;
+		}
 	}
 
 	foreach (QWidget *widg, sellersWidgets)
@@ -146,10 +158,14 @@ bool User::checkAll()
 		{
 			if (!Validations::instance()->validateAccount(
 					widg->findChild<QLineEdit *>("accountEdit")->text()))
+			{
 				return false;
+			}
 			if (!Validations::instance()->checkSumAccount(
 					widg->findChild<QLineEdit *>("accountEdit")->text()))
+			{
 				return false;
+			}
 		}
 		else
 		{
@@ -160,9 +176,13 @@ bool User::checkAll()
 	if (!Validations::instance()->isEmptyField(nipEdit->text(), textLabel2_2->text()))
 	{
 		if (!Validations::instance()->validateNIP(nipEdit->text()))
+		{
 			return false;
+		}
 		if (!Validations::instance()->checkSumNIP(nipEdit->text()))
+		{
 			return false;
+		}
 	}
 	else
 	{
@@ -195,40 +215,56 @@ bool User::checkAll()
 
 				if (!Validations::instance()->validateRegon(
 						widg->findChild<QLineEdit *>("regonEdit")->text()))
+				{
 					return false;
+				}
 				if (!Validations::instance()->checkSumREGON(
 						widg->findChild<QLineEdit *>("regonEdit")->text()))
+				{
 					return false;
+				}
 				break;
 
 			case 3:
 
 				if (!Validations::instance()->validatePESEL(
 						widg->findChild<QLineEdit *>("regonEdit")->text()))
+				{
 					return false;
+				}
 				if (!Validations::instance()->checkSumPESEL(
 						widg->findChild<QLineEdit *>("regonEdit")->text()))
+				{
 					return false;
+				}
 				break;
 
 			case 4:
 
 				if (!Validations::instance()->validateIDCard(
 						widg->findChild<QLineEdit *>("regonEdit")->text()))
+				{
 					return false;
+				}
 				if (!Validations::instance()->checkSumIDCard(
 						widg->findChild<QLineEdit *>("regonEdit")->text()))
+				{
 					return false;
+				}
 				break;
 
 			case 5:
 
 				if (!Validations::instance()->validatePass(
 						widg->findChild<QLineEdit *>("regonEdit")->text()))
+				{
 					return false;
+				}
 				if (!Validations::instance()->checkSumPass(
 						widg->findChild<QLineEdit *>("regonEdit")->text()))
+				{
 					return false;
+				}
 				break;
 			}
 		}
@@ -240,7 +276,9 @@ bool User::checkAll()
 		{
 			if (!Validations::instance()->validateTel(
 					widg->findChild<QLineEdit *>("phonEdit")->text()))
+			{
 				return false;
+			}
 		}
 	}
 
@@ -250,7 +288,9 @@ bool User::checkAll()
 		{
 			if (!Validations::instance()->validateEmail(
 					widg->findChild<QLineEdit *>("emailEdit")->text()))
+			{
 				return false;
+			}
 		}
 	}
 
@@ -260,7 +300,9 @@ bool User::checkAll()
 		{
 			if (!Validations::instance()->validateWebsite(
 					widg->findChild<QLineEdit *>("webEdit")->text()))
+			{
 				return false;
+			}
 		}
 	}
 
@@ -511,7 +553,9 @@ void User::delcurrSel()
 
 		bool isLess = false;
 		if (sellersList->currentIndex() < sellersList->count() - 1)
+		{
 			isLess = true;
+		}
 
 		int delIndex = sellersList->currentIndex();
 		sellersWidgets.removeAt(sellersList->currentIndex());

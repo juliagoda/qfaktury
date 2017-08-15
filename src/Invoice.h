@@ -1,16 +1,15 @@
-#ifndef INVOICE_H
-#define INVOICE_H
+#pragma once
+
+#include "ConvertAmount.h"
+#include "CustomPaymData.h"
+#include "IDataLayer.h"
+#include "ui_Invoice.h"
 
 #include <QDomDocument>
 #include <QDomElement>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QPrinter>
-
-#include "ConvertAmount.h"
-#include "CustomPaymData.h"
-#include "IDataLayer.h"
-#include "ui_Invoice.h"
 
 enum InvoiceType
 {
@@ -41,7 +40,7 @@ public:
 	void templateCurr(const QString &);
 	void convertMoneyFunc(QString);
 	void whatTypeFromTitle(
-		const QString title,
+		QString title,
 		bool ifForm,
 		bool kadded,
 		InvoiceType invTyp,
@@ -55,7 +54,7 @@ public:
 	bool ifUpdated();
 	virtual void setIsEditAllowed(bool isAllowed);
 	virtual void calcAll(const double &);
-	virtual void calculateOneDiscount(int a);
+	virtual void calculateOneDiscount(int i);
 	inline void setTextDurRate(QString, QString, QString);
 	QMap<QString, double> getActualCurList();
 	QMap<QString, double> tableOfValues();
@@ -69,7 +68,7 @@ public slots:
 	virtual void canQuit();
 	virtual bool saveInvoice();
 	virtual void makeInvoice();
-	virtual void payTextChanged(QString someStr);
+	virtual void payTextChanged(QString text);
 	virtual void discountConstChange(); // Overwritten in GrossInvoice
 	void getCustomer();
 	void delGoods();
@@ -120,7 +119,7 @@ protected:
 	void makeInvoiceFooter();
 	virtual void calculateDiscount();
 	virtual void calculateSum();
-	virtual void makeInvoiceHeadar(bool sellDate, bool brakePage, bool original);
+	virtual void makeInvoiceHeadar(bool sellDate, bool breakPage, bool original);
 	virtual void makeInvoiceBody();
 	virtual void print();
 	virtual void makeInvoiceProducts();
@@ -147,4 +146,3 @@ private:
 	QDomDocument doc;
 	bool pforma, kAdded;
 };
-#endif

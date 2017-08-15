@@ -10,16 +10,17 @@ ConstructorInitializerIndentWidth: 4
 
 AlignAfterOpenBracket: AlwaysBreak
 AllowAllParametersOfDeclarationOnNextLine: false
-AlwaysBreakBeforeMultilineStrings: true
-AlwaysBreakTemplateDeclarations: true
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakTemplateDeclarations: true
 BinPackArguments: false
 BinPackParameters: false
 BreakBeforeBinaryOperators: NonAssignment
-BreakBeforeTernaryOperators: true
 BreakBeforeBraces: Custom
+BreakBeforeTernaryOperators: true
 BreakStringLiterals: true
 BraceWrapping: {
     AfterClass: true,
@@ -33,9 +34,10 @@ BraceWrapping: {
     BeforeCatch: true,
     BeforeElse: true,
 }
+Cpp11BracedListStyle: true
 DerivePointerAlignment: false
-PointerAlignment: Right
 KeepEmptyLinesAtTheStartOfBlocks: false
+PointerAlignment: Right
 SortIncludes: true
 SpaceAfterTemplateKeyword: true
 SpaceBeforeParens: ControlStatements

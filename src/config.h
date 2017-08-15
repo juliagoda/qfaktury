@@ -1,3 +1,5 @@
+#pragma once
+
 #define QFAKTURY_VERSION 0.7.0
 #include <QStringList>
 

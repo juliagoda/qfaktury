@@ -301,39 +301,67 @@ QString BuyersList::detailsToString()
 	QString ret = labelNameE->text();
 
 	if (!labelAddressE->text().isEmpty())
+	{
 		ret += "," + labelAddressE->text();
+	}
 	else
+	{
 		ret += ",-";
+	}
 
 	if (!labelCityE->text().isEmpty())
+	{
 		ret += "," + labelCityE->text();
+	}
 	else
+	{
 		ret += ",-";
+	}
 
 	if (!labelTicE->text().isEmpty())
+	{
 		ret += "," + trUtf8("NIP: ") + labelTicE->text();
+	}
 	else
+	{
 		ret += "," + trUtf8("NIP: ") + "-";
+	}
 
 	if (!labelAccountE->text().isEmpty())
+	{
 		ret += ", " + trUtf8("Konto: ") + labelAccountE->text();
+	}
 	else
+	{
 		ret += "," + trUtf8("Konto: ") + "-";
+	}
 
 	if (!labelPhoneE->text().isEmpty())
+	{
 		ret += ", " + trUtf8("Tel: ") + labelPhoneE->text();
+	}
 	else
+	{
 		ret += "," + trUtf8("Tel: ") + "-";
+	}
 
 	if (!labelEmailE->text().isEmpty())
+	{
 		ret += ", " + trUtf8("Email: ") + labelEmailE->text();
+	}
 	else
+	{
 		ret += "," + trUtf8("Email: ") + "-";
+	}
 
 	if (!labelWWWE->text().isEmpty())
+	{
 		ret += ", " + trUtf8("Strona: ") + labelWWWE->text();
+	}
 	else
+	{
 		ret += "," + trUtf8("Strona: ") + "-";
+	}
 
 	return ret;
 }

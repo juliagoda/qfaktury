@@ -1,7 +1,9 @@
-#ifndef PRODUCTDATA_H_
-#define PRODUCTDATA_H_
+#pragma once
 
 #include "Settings.h"
+
+#include <QString>
+#include <QTextStream>
 
 /* Class used in the Products list
  *
@@ -30,13 +32,19 @@ public:
 	{
 		code = c1;
 		if (code == "")
+		{
 			code = "-";
+		}
 		curr = c2;
 		if (curr == "")
+		{
 			curr = "-";
+		}
 		pkwiu = c3;
 		if (pkwiu == "")
+		{
 			pkwiu = "-";
+		}
 	}
 
 	ProductData(
@@ -231,5 +239,3 @@ public:
 	double gross;
 	QMap<int, double> prices;
 };
-
-#endif

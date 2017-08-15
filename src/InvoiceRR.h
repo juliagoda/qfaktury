@@ -1,5 +1,4 @@
-#ifndef INVOICERR_H
-#define INVOICERR_H
+#pragma once
 
 #include "Invoice.h"
 
@@ -21,5 +20,3 @@ protected:
 private:
 	QCheckBox *ifpaysVAT;
 };
-
-#endif // INVOICERR_H

@@ -36,9 +36,13 @@ void CorrectGross::calculateOneDiscount(int i)
 	price = sett().stringToDouble(tableGoods->item(i, 7)->text());
 
 	if (constRab->isChecked())
+	{
 		discount = discountVal->value() * 0.01;
+	}
 	else
+	{
 		discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
+	}
 
 	quantity = sett().stringToDouble(tableGoods->item(i, 4)->text());
 	price = price * quantity;
@@ -84,7 +88,9 @@ void CorrectGross::addGoods()
 		canClose = false;
 
 		if (constRab->isChecked())
+		{
 			calculateDiscount();
+		}
 
 		calculateSum();
 	}

@@ -26,7 +26,9 @@ QString &ConvertAmount::descAmount(
 	QString ifBetween)
 {
 	while (partMoney.length() < 3)
+	{
 		partMoney = QObject::trUtf8("0") + partMoney;
+	}
 
 	switch (partMoney.left(1).toInt())
 	{
@@ -176,11 +178,17 @@ QString &ConvertAmount::descAmount(
 		else if ((partMoney.toInt() < 10) && (partMoney.toInt() > 0))
 		{
 			if ((partMoney.toInt() > 1) && (partMoney.toInt() < 5))
+			{
 				countMoney += ifBetween;
+			}
 			else if (partMoney.toInt() > 4)
+			{
 				countMoney += ifMore;
+			}
 			else
+			{
 				countMoney += ifOne;
+			}
 			qDebug() << "partMoney.toInt() >= 1: " << partMoney.toInt();
 		}
 	}

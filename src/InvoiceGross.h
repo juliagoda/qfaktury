@@ -1,12 +1,11 @@
+#pragma once
+
 /*
  * FakturaBrutto.h
  *
  *  Created on: Apr 2, 2009
  *      Author: TPIELECH
  */
-
-#ifndef INVOICEGROSS_H_
-#define INVOICEGROSS_H_
 
 #include "Invoice.h"
 
@@ -18,7 +17,6 @@ public:
 	InvoiceGross(QWidget *parent, IDataLayer *dl, QString in_form = QString());
 
 public slots:
-
 	void invoiceGrossInit();
 	void addGoods();
 
@@ -26,5 +24,3 @@ protected:
 	void calculateOneDiscount(int i);
 	QString getInvoiceTypeAndSaveNr();
 };
-
-#endif /* FAKTURABRUTTO_H_ */

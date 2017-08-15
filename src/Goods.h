@@ -1,5 +1,4 @@
-#ifndef GOODS_H
-#define GOODS_H
+#pragma once
 
 #include "IDataLayer.h"
 #include "ProductData.h"
@@ -34,4 +33,3 @@ private:
 	bool insertData();
 	QString isEmpty(QString in);
 };
-#endif

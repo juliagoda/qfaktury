@@ -1,12 +1,11 @@
+#pragma once
+
 /*
  * KorektaBrutto.h
  *
  *  Created on: Apr 3, 2009
  *      Author: moux
  */
-
-#ifndef CORRECTGROSS_H_
-#define CORRECTGROSS_H_
 
 #include "Correction.h"
 
@@ -22,5 +21,3 @@ protected:
 	void calculateOneDiscount(int i);
 	QString getInvoiceTypeAndSaveNr();
 };
-
-#endif /* CorrectGross_H_ */

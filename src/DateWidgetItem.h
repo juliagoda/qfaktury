@@ -1,5 +1,4 @@
-#ifndef DateWidgetItem_H
-#define DateWidgetItem_H
+#pragma once
 
 #include <QDate>
 #include <QTableWidgetItem>
@@ -47,5 +46,3 @@ bool DateWidgetItem::operator<(const QTableWidgetItem &other) const
 {
 	return m_data < other.data(Qt::EditRole).toDate();
 }
-
-#endif

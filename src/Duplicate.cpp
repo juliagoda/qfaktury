@@ -17,11 +17,15 @@ Duplicate::Duplicate(QWidget *parent, IDataLayer *dl, QString in_form, bool ifEd
 Duplicate::~Duplicate()
 {
 	if (labelDupDate != 0)
+	{
 		labelDupDate = 0;
+	}
 	delete labelDupDate;
 
 	if (duplicateDate != 0)
+	{
 		duplicateDate = 0;
+	}
 	delete duplicateDate;
 }
 
@@ -64,9 +68,13 @@ void Duplicate::setData(InvoiceData &invData)
 	invData.issueDate = productDate->date();
 
 	if (constRab->isChecked())
+	{
 		invData.discount = discountVal->value();
+	}
 	else
+	{
 		invData.discount = 0;
+	}
 
 	// lp, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
 	for (int i = 0; i < tableGoods->rowCount(); ++i)
@@ -134,8 +142,10 @@ void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original)
 {
 	QString breakPageStr = "class=\"page_break\"";
 
-	if (breakPage == false)
+	if (!breakPage)
+	{
 		breakPageStr = "";
+	}
 
 	invStrList +=
 		"<table comment=\"headar table\" width=\"100%\" border=\"0\"" + breakPageStr + ">";
@@ -146,9 +156,13 @@ void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original)
 	QString logo = sett().value("logo").toString();
 
 	if (logo != "")
+	{
 		invStrList += "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
+	}
 	else
+	{
 		invStrList += trUtf8("Pieczęć wystawcy");
+	}
 
 	invStrList += "</span>";
 	invStrList += "</td>";
@@ -163,8 +177,10 @@ void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original)
 		+ productDate->date().toString(sett().getDateFormat()) + "<br>";
 
 	if (sellDate)
+	{
 		invStrList += trUtf8("Data sprzedaży: ")
 			+ sellingDate->date().toString(sett().getDateFormat()) + "<br>";
+	}
 
 	invStrList += "</span>";
 	invStrList += "</td><td width=\"3%\">&nbsp;</td>";
@@ -173,9 +189,13 @@ void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original)
 	invStrList += "<td colspan=\"2\" align=\"right\" valign=\"top\"><br>";
 
 	if (original)
+	{
 		invStrList += trUtf8("ORYGINAŁ");
+	}
 	else
+	{
 		invStrList += trUtf8("KOPIA");
+	}
 
 	invStrList += "<br></td><td width=\"3%\">&nbsp;</td>";
 	invStrList += "</tr>";

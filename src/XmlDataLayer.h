@@ -1,12 +1,11 @@
+#pragma once
+
 /*
  * XmlDataLayer.h
  *
  *  Created on: Apr 18, 2009
  *      Author: moux
  */
-
-#ifndef XMLDATALAYER_H_
-#define XMLDATALAYER_H_
 
 #include <QtXml/qdom.h>
 
@@ -33,7 +32,7 @@ public:
 
 	virtual InvoiceData invoiceSelectData(QString name, int type);
 	virtual QVector<InvoiceData> invoiceSelectAllData(QDate start, QDate end);
-	virtual bool invoiceInsertData(InvoiceData &invData, int type);
+	virtual bool invoiceInsertData(InvoiceData &oi_invData, int type);
 	virtual bool invoiceUpdateData(InvoiceData &invData, int type, QString name);
 	virtual bool invoiceDeleteData(QString name);
 
@@ -70,5 +69,3 @@ private:
 	QStringList yearsList;
 	QMultiHash<QString, QString> categorizedFiles;
 };
-
-#endif /* XMLDATALAYER_H_ */

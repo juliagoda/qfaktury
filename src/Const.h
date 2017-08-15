@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * Const.h
  *
@@ -5,8 +7,8 @@
  *      Author: moux
  */
 
-#ifndef CONST_H_
-#define CONST_H_
+#include <QObject>
+#include <QString>
 
 static const QString s_PROFORMA = QObject::trUtf8("Faktura Pro Forma");
 static const QString s_INVOICE = QObject::trUtf8("Faktura VAT");
@@ -28,5 +30,3 @@ static const QString s_WIN_PROFORMA_EDIT = QObject::trUtf8("Edytuje Fakturę Pro
 static const QString s_BILL_EDIT = QObject::trUtf8("Edytuje Rachunek");
 static const QString s_WIN_DUPLICATE_LOOK = QObject::trUtf8("Sprawdza Duplikat");
 static const QString s_WIN_CORRECT_EDIT = QObject::trUtf8("Edytuje Korektę");
-
-#endif /* CONST_H_ */

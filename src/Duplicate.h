@@ -1,12 +1,11 @@
+#pragma once
+
 /*
  * Duplicat.h
  *
  *  Created on: Mar 31, 2009
  *      Author: moux
  */
-
-#ifndef DUPLICATE_H_
-#define DUPLICATE_H_
 
 #include "Invoice.h"
 
@@ -34,4 +33,3 @@ private:
 	QLabel *labelDupDate;
 	bool editMode;
 };
-#endif /* DUPLICATE_H */

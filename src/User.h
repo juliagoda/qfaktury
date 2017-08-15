@@ -1,5 +1,4 @@
-#ifndef USER_H
-#define USER_H
+#pragma once
 
 #include "ui_User.h"
 
@@ -23,4 +22,3 @@ private slots:
 private:
 	QList<QWidget *> sellersWidgets;
 };
-#endif

@@ -1,5 +1,4 @@
-#ifndef BUYERSLIST_H
-#define BUYERSLIST_H
+#pragma once
 
 #include <QtXml/qdom.h>
 
@@ -14,11 +13,10 @@ public:
 	const QString getRetBuyerList();
 
 public slots:
-
 	void readBuyer();
 	void doAccept();
 	void comboBox1Changed();
-	void updateDetails(QListWidgetItem *);
+	void updateDetails(QListWidgetItem *item);
 	void mouseSelect();
 
 private:
@@ -33,4 +31,3 @@ private:
 	QString xmlDataToString(QDomNode n);
 	QString detailsToString();
 };
-#endif

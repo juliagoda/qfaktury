@@ -167,10 +167,19 @@ bool ClassInvoicePage::validatePage()
 				QDomElement good;
 				good = product.firstChild().toElement();
 
-				static const char *goodsColumns[] = { "id",		   "name",	 "code",
-													  "PKWiU",	 "quantity", "quantityType",
-													  "discount",  "price",	"nett",
-													  "vatBucket", "gross" };
+				static const char *goodsColumns[] = {
+					"id",
+					"name",
+					"code",
+					"PKWiU",
+					"quantity",
+					"quantityType",
+					"discount",
+					"price",
+					"nett",
+					"vatBucket",
+					"gross",
+				};
 
 				for (x = 0; x < goodsCount; ++x)
 				{
@@ -179,9 +188,13 @@ bool ClassInvoicePage::validatePage()
 					res += sett().stringToDouble(good.attribute(goodsColumns[10]));
 					res += decimalPointsAmount1;
 					if (good.nextSibling().toElement().tagName() == "product")
+					{
 						good = good.nextSibling().toElement();
+					}
 					else
+					{
 						break;
+					}
 				}
 
 				tmp = tmp.toElement().nextSibling();
@@ -212,31 +225,45 @@ bool ClassInvoicePage::validatePage()
 
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+
+	return false;
 }
 
 // transform short types to normal text for email message
 QString ClassInvoicePage::transformType(QString text)
 {
 	if (text == "FVAT")
+	{
 		return s_INVOICE;
+	}
 	if (text == "FPro")
+	{
 		return s_PROFORMA;
+	}
 	if (text == "korekta")
+	{
 		return s_CORRECTION;
+	}
 	if (text == "FBrutto")
+	{
 		return s_FBRUTTO;
+	}
 	if (text == "kbrutto")
+	{
 		return s_FBRUTTO;
+	}
 	if (text == "rachunek")
+	{
 		return s_BILL;
+	}
 	if (text == "duplikat")
+	{
 		return s_DUPLICATE;
+	}
 	if (text == "RR")
+	{
 		return s_RR;
+	}
 
 	return s_INVOICE;
 }
@@ -391,7 +418,9 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 		edit1->setText("smtp.gmail.com");
 
 		if (protocol == "SSL")
+		{
 			edit2->setText("465");
+		}
 		else if (protocol == "TCP")
 		{
 			this->protocol = "";
@@ -402,14 +431,18 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 				"Do wysłania wiadomości z tej skrzynki pocztowej wybierz protokół SSL lub TLS.");
 		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 	else if (checked == "Onet")
 	{
 		edit1->setText("smtp.poczta.onet.pl");
 
 		if (protocol == "SSL")
+		{
 			edit2->setText("465");
+		}
 		else if (protocol == "TCP")
 		{
 			this->protocol = "";
@@ -420,14 +453,18 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 				"Do wysłania wiadomości z tej skrzynki pocztowej wybierz protokół SSL lub TLS.");
 		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 	else if (checked == "o2")
 	{
 		edit1->setText("poczta.o2.pl");
 
 		if (protocol == "SSL")
+		{
 			edit2->setText("465");
+		}
 		else if (protocol == "TCP")
 		{
 			this->protocol = "";
@@ -438,14 +475,18 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 				"Do wysłania wiadomości z tej skrzynki pocztowej wybierz protokół SSL lub TLS.");
 		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 	else if (checked == "Interia")
 	{
 		edit1->setText("poczta.interia.pl");
 
 		if (protocol == "SSL")
+		{
 			edit2->setText("465");
+		}
 		else if (protocol == "TCP")
 		{
 			this->protocol = "";
@@ -456,14 +497,18 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 				"Do wysłania wiadomości z tej skrzynki pocztowej wybierz protokół SSL lub TLS.");
 		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 	else if (checked == "WP")
 	{
 		edit1->setText("smtp.wp.pl");
 
 		if (protocol == "SSL")
+		{
 			edit2->setText("465");
+		}
 		else if (protocol == "TCP")
 		{
 			this->protocol = "";
@@ -474,14 +519,18 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 				"Do wysłania wiadomości z tej skrzynki pocztowej wybierz protokół SSL lub TLS.");
 		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 	else if (checked == "Yahoo")
 	{
 		edit1->setText("smtp.mail.yahoo.com");
 
 		if (protocol == "SSL")
+		{
 			edit2->setText("465");
+		}
 		else if (protocol == "TCP")
 		{
 			this->protocol = "";
@@ -492,7 +541,9 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 				"Do wysłania wiadomości z tej skrzynki pocztowej wybierz protokół SSL lub TLS.");
 		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 	else if (checked == "Outlook")
 	{
@@ -508,20 +559,30 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 				"Do wysłania wiadomości z tej skrzynki pocztowej wybierz protokół TLS lub TCP.");
 		}
 		else if (protocol == "TCP")
+		{
 			edit2->setText("25");
+		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 	else if (checked == "Foxmail / QQMail")
 	{
 		edit1->setText("smtp.qq.com");
 
 		if (protocol == "SSL")
+		{
 			edit2->setText("465");
+		}
 		else if (protocol == "TCP")
+		{
 			edit2->setText("25");
+		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 	else if (checked == "Aol")
 	{
@@ -546,14 +607,18 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 				"Do wysłania wiadomości z tej skrzynki pocztowej wybierz protokół TLS.");
 		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 	else if (checked == "Gazeta")
 	{
 		edit1->setText("smtp.gazeta.pl");
 
 		if (protocol == "SSL")
+		{
 			edit2->setText("465");
+		}
 		else if (protocol == "TCP")
 		{
 			this->protocol = "";
@@ -596,135 +661,171 @@ void EmailPage::setHostPort(QString checked, QString protocol)
 				"Do wysłania wiadomości z tej skrzynki pocztowej wybierz protokół TLS.");
 		}
 		else if (protocol == "TLS")
+		{
 			edit2->setText("587");
+		}
 	}
 }
 
-void EmailPage::setSSL(bool)
+void EmailPage::setSSL(bool /*unused*/)
 {
 	if (!checkedMailButton)
+	{
 		QMessageBox::warning(
 			this,
 			"Zaznaczenie skrzynki pocztowej",
 			"Zaznacz jeszcze jedną ze skrzynek pocztowych po lewej stronie.");
+	}
 	checkedPortButton = true;
 	protocol = "SSL";
 	if (checkedMailButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setTCP(bool)
+void EmailPage::setTCP(bool /*unused*/)
 {
 	if (!checkedMailButton)
+	{
 		QMessageBox::warning(
 			this,
 			"Zaznaczenie skrzynki pocztowej",
 			"Zaznacz jeszcze jedną ze skrzynek pocztowych po lewej stronie.");
+	}
 	checkedPortButton = true;
 	protocol = "TCP";
 	if (checkedMailButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setTLS(bool)
+void EmailPage::setTLS(bool /*unused*/)
 {
 	if (!checkedMailButton)
+	{
 		QMessageBox::warning(
 			this,
 			"Zaznaczenie skrzynki pocztowej",
 			"Zaznacz jeszcze jedną ze skrzynek pocztowych po lewej stronie.");
+	}
 	checkedPortButton = true;
 	protocol = "TLS";
 	if (checkedMailButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setGmail(bool)
+void EmailPage::setGmail(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "Gmail";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setOnet(bool)
+void EmailPage::setOnet(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "Onet";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::seto2(bool)
+void EmailPage::seto2(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "o2";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setInteria(bool)
+void EmailPage::setInteria(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "Interia";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setWP(bool)
+void EmailPage::setWP(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "WP";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setYahoo(bool)
+void EmailPage::setYahoo(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "Yahoo";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setHotMail(bool)
+void EmailPage::setHotMail(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "HotMail (stare serwery)";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setGazeta(bool)
+void EmailPage::setGazeta(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "Gazeta";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setAol(bool)
+void EmailPage::setAol(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "Aol";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setFoxMail(bool)
+void EmailPage::setFoxMail(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "Foxmail / QQMail";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
-void EmailPage::setOutlook(bool)
+void EmailPage::setOutlook(bool /*unused*/)
 {
 	checkedMailButton = true;
 	checkedMail = "Outlook";
 	if (checkedPortButton)
+	{
 		setHostPort(checkedMail, protocol);
+	}
 }
 
 // Last page with email form, where some informations are ready in QLineEdits
@@ -765,7 +866,7 @@ void ConclusionPage::initializePage()
 	finishText.remove('&');
 }
 
-void ConclusionPage::getTemplateOne(bool)
+void ConclusionPage::getTemplateOne(bool /*unused*/)
 {
 	QDir allFiles;
 	allFiles.setPath(sett().getPdfDir());
@@ -796,7 +897,7 @@ void ConclusionPage::getTemplateOne(bool)
 	settings.endGroup();
 }
 
-void ConclusionPage::getTemplateTwo(bool)
+void ConclusionPage::getTemplateTwo(bool /*unused*/)
 {
 	QDir allFiles;
 	allFiles.setPath(sett().getPdfDir());
@@ -827,7 +928,7 @@ void ConclusionPage::getTemplateTwo(bool)
 	settings.endGroup();
 }
 
-void ConclusionPage::getTemplateThree(bool)
+void ConclusionPage::getTemplateThree(bool /*unused*/)
 {
 	QDir allFiles;
 	allFiles.setPath(sett().getPdfDir());

@@ -19,7 +19,9 @@ CustomPayment::CustomPayment(QWidget *parent)
 CustomPayment::~CustomPayment()
 {
 	if (custPaymData != 0)
+	{
 		custPaymData = 0;
+	}
 	delete custPaymData;
 }
 
@@ -55,8 +57,10 @@ bool CustomPayment::validateForm()
 	if ((amount1->value() == 0) || (amount2->value() == 0))
 	{
 		QMessageBox::information(
-			0, "QFaktury", trUtf8("Jedna z kwot do zapłaty jest równa 0. Wybierz inny sposób "
-								  "płatności lub zmień kwoty."));
+			0,
+			"QFaktury",
+			trUtf8("Jedna z kwot do zapłaty jest równa 0. Wybierz inny sposób "
+				   "płatności lub zmień kwoty."));
 		return false;
 	}
 
@@ -74,7 +78,7 @@ bool CustomPayment::validateForm()
 
 // ---------- SLOT START ------------
 
-void CustomPayment::amount1Changed(double)
+void CustomPayment::amount1Changed(double /*unused*/)
 {
 	qDebug() << __FUNCTION__;
 	disconnect(amount2, SIGNAL(valueChanged(double)), this, SLOT(amount2Changed(double)));
@@ -82,7 +86,7 @@ void CustomPayment::amount1Changed(double)
 	connect(amount2, SIGNAL(valueChanged(double)), this, SLOT(amount2Changed(double)));
 }
 
-void CustomPayment::amount2Changed(double)
+void CustomPayment::amount2Changed(double /*unused*/)
 {
 	qDebug() << __FUNCTION__;
 	disconnect(amount1, SIGNAL(valueChanged(double)), this, SLOT(amount1Changed(double)));

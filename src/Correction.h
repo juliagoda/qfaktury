@@ -1,5 +1,4 @@
-#ifndef CORRECTION_H
-#define CORRECTION_H
+#pragma once
 
 #include <QComboBox>
 
@@ -19,7 +18,7 @@ public:
 	QString const getRet();
 	void schemaCalcSum();
 	virtual void correctionInit(bool mode);
-	virtual void readCorrData(QString fraFile);
+	virtual void readCorrData(QString invFile);
 
 public slots:
 
@@ -53,4 +52,3 @@ private:
 	QLabel *labelReason1;
 	QString ret, fName;
 };
-#endif

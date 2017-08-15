@@ -161,7 +161,9 @@ void Setting::setDefaultClick()
 			QMessageBox::Yes,
 			QMessageBox::No)
 		== QMessageBox::No)
+	{
 		return;
+	}
 
 	sett().resetSettings();
 
@@ -451,9 +453,13 @@ void Setting::getEncodings()
 		else if (iso8859RegExp.exactMatch(sortKey))
 		{
 			if (iso8859RegExp.cap(1).size() == 1)
+			{
 				rank = 3;
+			}
 			else
+			{
 				rank = 4;
+			}
 		}
 		else
 		{
@@ -486,8 +492,9 @@ QString Setting::getAll(QListWidget *lb)
 		tmp += lb->item(selNr)->text();
 
 		if (selNr != posCount - 1)
-
+		{
 			tmp += "|";
+		}
 	}
 
 	return tmp;

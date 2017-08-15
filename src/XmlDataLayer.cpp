@@ -10,7 +10,6 @@
 #include "Settings.h"
 
 XmlDataLayer::XmlDataLayer()
-	: IDataLayer()
 {
 	// TODO Auto-generated constructor stub
 }
@@ -1233,7 +1232,7 @@ bool XmlDataLayer::productsDeleteData(QString name)
 
 // ************ INVOICES START *****************
 
-void XmlDataLayer::invoiceSellerDataToElem(InvoiceData &, QDomElement &o_element)
+void XmlDataLayer::invoiceSellerDataToElem(InvoiceData & /*unused*/, QDomElement &o_element)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
@@ -1250,7 +1249,7 @@ void XmlDataLayer::invoiceSellerDataToElem(InvoiceData &, QDomElement &o_element
 	o_element.setAttribute("website", userSettings.value("website").toString());
 }
 
-void XmlDataLayer::invoiceSellerElemToData(InvoiceData &, QDomElement)
+void XmlDataLayer::invoiceSellerElemToData(InvoiceData & /*unused*/, QDomElement /*unused*/)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
@@ -1279,7 +1278,7 @@ void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o
 	o_element.setAttribute("website", imprWeb);
 }
 
-void XmlDataLayer::invoiceBuyerElemToData(InvoiceData &, QDomElement)
+void XmlDataLayer::invoiceBuyerElemToData(InvoiceData & /*unused*/, QDomElement /*unused*/)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
@@ -1328,7 +1327,7 @@ void XmlDataLayer::invoiceProdDataToElem(
 	o_element.setAttribute("gross", Invoice::instance()->tableGoods->item(currentRow, 10)->text());
 }
 
-void XmlDataLayer::invoiceProdElemToData(InvoiceData &, QDomElement)
+void XmlDataLayer::invoiceProdElemToData(InvoiceData & /*unused*/, QDomElement /*unused*/)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
@@ -1346,16 +1345,14 @@ bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end)
 		qDebug() << "File" << file.fileName() << "doesn't exists";
 		return false;
 	}
-	else
-	{
-		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll()))
-		{
-			qDebug("can not set content ");
-			file.close();
-			return false;
-		}
+	QTextStream stream(&file);
+
+	if (!doc.setContent(stream.readAll()))
+	{
+		qDebug("can not set content ");
+		file.close();
+		return false;
 	}
 
 	root = doc.documentElement();
@@ -1402,16 +1399,14 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type)
 		qDebug("file doesn't exist");
 		return o_invData;
 	}
-	else
-	{
-		QTextStream stream(&file);
 
-		if (!doc.setContent(stream.readAll()))
-		{
-			qDebug("You can't read content from invoice");
-			file.close();
-			return o_invData;
-		}
+	QTextStream stream(&file);
+
+	if (!doc.setContent(stream.readAll()))
+	{
+		qDebug("You can't read content from invoice");
+		file.close();
+		return o_invData;
 	}
 
 	root = doc.documentElement();
@@ -1420,13 +1415,19 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type)
 		QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
 	o_invData.productDate = QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
 	if (type == 7)
+	{
 		o_invData.duplDate = QDate::fromString(root.attribute("duplDate"), sett().getDateFormat());
+	}
 	if (type == 8)
 	{
 		if (root.attribute("ifpaysVAT") == "1")
+		{
 			o_invData.ifpVAT = true;
+		}
 		else
+		{
 			o_invData.ifpVAT = false;
+		}
 	}
 
 	QDomNode tmp;
@@ -1457,9 +1458,19 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type)
 	QDomElement good;
 	good = product.firstChild().toElement();
 
-	static const char *goodsColumns[] = { "id",		  "name",		  "code",	 "PKWiU",
-										  "quantity", "quantityType", "discount", "price",
-										  "nett",	 "vatBucket",	"gross" };
+	static const char *goodsColumns[] = {
+		"id",
+		"name",
+		"code",
+		"PKWiU",
+		"quantity",
+		"quantityType",
+		"discount",
+		"price",
+		"nett",
+		"vatBucket",
+		"gross",
+	};
 
 	// "net",
 	// "vatBucket", "gross"
@@ -1476,9 +1487,13 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type)
 			qDebug() << "COLUMNS :" << Invoice::instance()->tableGoods->item(i, j)->text();
 		}
 		if (good.nextSibling().toElement().tagName() == "product")
+		{
 			good = good.nextSibling().toElement();
+		}
 		else
+		{
 			break;
+		}
 	}
 
 	tmp = tmp.toElement().nextSibling();
@@ -1558,17 +1573,15 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start, QDate end)
 			qDebug() << "File" << file.fileName() << "doesn't exists";
 			continue;
 		}
-		else
-		{
-			QTextStream stream(&file);
 
-			if (!doc.setContent(stream.readAll()))
-			{
-				qDebug("can not set content ");
-				file.close();
-				// return o_invDataVec;
-				continue;
-			}
+		QTextStream stream(&file);
+
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug("can not set content ");
+			file.close();
+			// return o_invDataVec;
+			continue;
 		}
 
 		if (nameFilter(files[i], start, end))
@@ -1655,17 +1668,15 @@ void XmlDataLayer::checkAllSymbInFiles()
 			qDebug() << "File" << file.fileName() << "doesn't exists";
 			continue;
 		}
-		else
-		{
-			QTextStream stream(&file);
 
-			if (!doc.setContent(stream.readAll()))
-			{
-				qDebug("can not set content ");
-				file.close();
-				// return o_invDataVec;
-				continue;
-			}
+		QTextStream stream(&file);
+
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug("can not set content ");
+			file.close();
+			// return o_invDataVec;
+			continue;
 		}
 
 		root = doc.documentElement();
@@ -1700,7 +1711,9 @@ void XmlDataLayer::checkAllSymbInFiles()
 QList<int> const XmlDataLayer::getAllSymbols()
 {
 	if (allSymbols.count() == 0)
+	{
 		allSymbols.append(0);
+	}
 	return allSymbols;
 }
 
@@ -1754,14 +1767,20 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData &oi_invData, int type)
 	if (type == 8)
 	{
 		if (oi_invData.ifpVAT)
+		{
 			root.setAttribute("ifpaysVAT", "1");
+		}
 		else
+		{
 			root.setAttribute("ifpaysVAT", "0");
+		}
 	}
 
 	QString invType = oi_invData.getInvoiceTypeAndSaveNr(type);
 	if (invType == QObject::trUtf8("duplikat"))
+	{
 		root.setAttribute("duplDate", oi_invData.duplDate.toString(sett().getDateFormat()));
+	}
 	root.setAttribute("type", invType);
 	ret += invType + "|";
 
@@ -1861,17 +1880,15 @@ bool XmlDataLayer::ifThereOldInvoice()
 			qDebug() << "File" << file.fileName() << "doesn't exists";
 			continue;
 		}
-		else
-		{
-			QTextStream stream(&file);
 
-			if (!doc.setContent(stream.readAll()))
-			{
-				qDebug("can not set content ");
-				file.close();
-				// return o_invDataVec;
-				continue;
-			}
+		QTextStream stream(&file);
+
+		if (!doc.setContent(stream.readAll()))
+		{
+			qDebug("can not set content ");
+			file.close();
+			// return o_invDataVec;
+			continue;
 		}
 
 		root = doc.documentElement();
@@ -1944,7 +1961,7 @@ void XmlDataLayer::separateOldInvoices()
 	}
 }
 
-bool XmlDataLayer::invoiceUpdateData(InvoiceData &, int, QString)
+bool XmlDataLayer::invoiceUpdateData(InvoiceData & /*unused*/, int /*unused*/, QString /*unused*/)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
@@ -1958,7 +1975,9 @@ bool XmlDataLayer::invoiceDeleteData(QString name)
 	QFile file(sett().getInvoicesDir() + name);
 
 	if (file.exists())
+	{
 		file.remove();
+	}
 
 	checkAllSymbInFiles();
 

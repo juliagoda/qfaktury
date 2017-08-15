@@ -57,28 +57,44 @@ Invoice::~Invoice()
 	delete reply;
 	delete manager;
 	if (ratesCombo != 0)
+	{
 		ratesCombo = 0;
+	}
 	delete ratesCombo;
 	if (labelRate != 0)
+	{
 		labelRate = 0;
+	}
 	delete labelRate;
 	if (rateLabel != 0)
+	{
 		rateLabel = 0;
+	}
 	delete rateLabel;
 	if (restLabel != 0)
+	{
 		restLabel = 0;
+	}
 	delete restLabel;
 	if (sendKind != 0)
+	{
 		sendKind = 0;
+	}
 	delete sendKind;
 	if (rateLabelInfo != 0)
+	{
 		rateLabelInfo = 0;
+	}
 	delete rateLabelInfo;
 	if (restLabelInfo != 0)
+	{
 		restLabelInfo = 0;
+	}
 	delete restLabelInfo;
 	if (sendKindInfo != 0)
+	{
 		sendKindInfo = 0;
+	}
 	delete sendKindInfo;
 }
 
@@ -148,9 +164,13 @@ void Invoice::init()
 	whatTypeFromTitle(s_RR, false, false, RR, 8);
 
 	if (sett().value("editSymbol").toBool())
+	{
 		invNr->setEnabled(false);
+	}
 	else
+	{
 		invNr->setEnabled(true);
+	}
 
 	// set width of the columns on the products list
 	sett().beginGroup("fakturaForm");
@@ -229,7 +249,9 @@ void Invoice::init()
 	currCombo->insertItems(0, sett().value("currencies").toString().split("|"));
 
 	if (sett().value("addText").toString().compare("") != 0)
+	{
 		additEdit->setText(sett().value("addText").toString());
+	}
 
 	backBtnClick();
 
@@ -314,17 +336,23 @@ void Invoice::connectedWebsite(const QUrl &webExchRate)
 	QString fileName = fileInfo.fileName();
 
 	if (fileName.isEmpty())
+	{
 		fileName = sett().getInvoicesDir() + "bureau.xml";
+	}
 
 	if (file.exists())
 	{
 		if (QFile::remove(fileName))
+		{
 			qDebug("Plik usunięto");
+		}
 		else
 		{
 			QFile(fileName).setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther);
 			if (QFile::remove(fileName))
+			{
 				qDebug("Plik usunięto");
+			}
 		}
 	}
 
@@ -458,12 +486,16 @@ QMap<QString, double> Invoice::getActualCurList()
 			qDebug() << "Wartości drugie tytułów: " << val_two;
 			double val_two_fl = val_two.toDouble();
 			if (!currencies.contains(val_one))
+			{
 				currencies.insert(val_one, val_two_fl);
+			}
 		}
 	}
 
 	if (currencies.isEmpty())
+	{
 		currencies.insert("nothing", 0.0);
+	}
 
 	file.close();
 	return currencies;
@@ -494,13 +526,17 @@ void Invoice::algorithmCurrencies(
 		{
 			if ((*constIterator).toLocal8Bit().constData()
 				== (*constIteratorDepth).toLocal8Bit().constData())
+			{
 				continue;
+			}
 
 			QString desc = QString((*constIterator).toLocal8Bit().constData()) + "/"
 				+ QString((*constIteratorDepth).toLocal8Bit().constData());
 
 			if (mappedList.contains(desc))
+			{
 				continue;
+			}
 
 			if ((*constIterator).toLocal8Bit().constData() == mainEl)
 			{
@@ -620,10 +656,7 @@ bool Invoice::ifUpdated()
 		qDebug() << "now: " << dateNow.toString();
 		qDebug() << "have passed: " << dateOfFile.secsTo(dateNow);
 
-		if (dateOfFile.secsTo(dateNow) > 1800)
-			return true;
-		else
-			return false;
+		return dateOfFile.secsTo(dateNow) > 1800;
 	}
 
 	file.close();
@@ -992,7 +1025,9 @@ void Invoice::addGoods()
 		canClose = false;
 
 		if (constRab->isChecked())
+		{
 			calculateDiscount();
+		}
 
 		calculateSum();
 	}
@@ -1138,17 +1173,25 @@ void Invoice::backBtnClick()
 	lastInvoice = prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
 
 	if (sett().value("day").toBool())
+	{
 		lastInvoice += "/" + QDate::currentDate().toString("dd");
+	}
 
 	if (sett().value("month").toBool())
+	{
 		lastInvoice += "/" + QDate::currentDate().toString("MM");
+	}
 
 	if (sett().value("year").toBool())
 	{
 		if (!sett().value("shortYear").toBool())
+		{
 			lastInvoice += "/" + QDate::currentDate().toString("yy");
+		}
 		else
+		{
 			lastInvoice += "/" + QDate::currentDate().toString("yyyy");
+		}
 	}
 
 	suffix = sett().value("sufix").toString();
@@ -1169,9 +1212,13 @@ void Invoice::canQuit()
 	if (canClose)
 	{
 		if (ret.isNull())
+		{
 			reject();
+		}
 		else
+		{
 			accept();
+		}
 	}
 	else
 	{
@@ -1292,10 +1339,14 @@ void Invoice::payTextChanged(QString text)
 				SLOT(rateDateChanged(QString)));
 
 			if (ratesCombo == 0)
+			{
 				ratesCombo = new QComboBox();
+			}
 
 			if (labelRate == 0)
+			{
 				labelRate = new QLabel();
+			}
 
 			labelRate->setText(trUtf8("Termin raty:"));
 			labelRate->setAlignment(Qt::AlignRight);
@@ -1307,35 +1358,47 @@ void Invoice::payTextChanged(QString text)
 			addData->addWidget(ratesCombo);
 
 			if (rateLabel == 0)
+			{
 				rateLabel = new QLabel();
+			}
 			rateLabel->setText(trUtf8("Rata:"));
 			rateLabel->setAlignment(Qt::AlignRight);
 			descPayments->addWidget(rateLabel);
 
 			if (sendKind == 0)
+			{
 				sendKind = new QLabel();
+			}
 			sendKind->setText(trUtf8("Rodzaj zapłaty:"));
 			sendKind->setAlignment(Qt::AlignRight);
 			descPayments->addWidget(sendKind);
 
 			if (restLabel == 0)
+			{
 				restLabel = new QLabel();
+			}
 			restLabel->setText(trUtf8("Pozostało do spłaty:"));
 			restLabel->setAlignment(Qt::AlignRight);
 			descPayments->addWidget(restLabel);
 
 			if (rateLabelInfo == 0)
+			{
 				rateLabelInfo = new QLabel();
+			}
 			rateLabelInfo->setText(sett().numberToString(custPaymData->amount1, 'f', 2));
 			dataPayments->addWidget(rateLabelInfo);
 
 			if (sendKindInfo == 0)
+			{
 				sendKindInfo = new QLabel();
+			}
 			sendKindInfo->setText(custPaymData->payment1);
 			dataPayments->addWidget(sendKindInfo);
 
 			if (restLabelInfo == 0)
+			{
 				restLabelInfo = new QLabel();
+			}
 			restLabelInfo->setText(sett().numberToString(custPaymData->amount2, 'f', 2));
 			dataPayments->addWidget(restLabelInfo);
 
@@ -1367,7 +1430,7 @@ void Invoice::payTextChanged(QString text)
  *  Activates buttons
  */
 
-void Invoice::textChanged(QString)
+void Invoice::textChanged(QString /*unused*/)
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 	saveBtn->setEnabled(true);
@@ -1380,7 +1443,7 @@ void Invoice::textChanged(QString)
  *  Activates buttons
  */
 
-void Invoice::dateChanged(QDate)
+void Invoice::dateChanged(QDate /*unused*/)
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -1528,9 +1591,13 @@ void Invoice::setData(InvoiceData &invData)
 	invData.issueDate = productDate->date();
 
 	if (constRab->isChecked())
+	{
 		invData.discount = discountVal->value();
+	}
 	else
+	{
 		invData.discount = 0;
+	}
 
 	// no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
 	for (int i = 0; i < tableGoods->rowCount(); ++i)
@@ -1604,7 +1671,9 @@ void Invoice::getData(InvoiceData invData)
 	productDate->setDate(invData.issueDate);
 
 	if (!invData.duplDate.isNull() && invData.duplDate.isValid())
+	{
 		dupDate = invData.duplDate;
+	}
 
 	qDebug() << "DISCOUNT: " << invData.discount;
 	if (invData.discount == 0)
@@ -1696,7 +1765,9 @@ bool Invoice::saveInvoice()
 
 	bool result = false;
 	if (!validateForm())
+	{
 		return false;
+	}
 
 	InvoiceData invData;
 	setData(invData);
@@ -1810,7 +1881,9 @@ void Invoice::printSlot(QPrinter *printer)
 			QDir mainPath(sett().getWorkingDir());
 
 			if (!mainPath.exists())
+			{
 				mainPath.mkpath(sett().getWorkingDir());
+			}
 
 			file.setFileName(sett().getWorkingDir() + "/invoice.html");
 
@@ -1821,7 +1894,9 @@ void Invoice::printSlot(QPrinter *printer)
 	QTextStream stream(&file);
 
 	for (QStringList::Iterator it = invStrList.begin(); it != invStrList.end(); ++it)
+	{
 		stream << *it << "\n";
+	}
 
 	file.close();
 
@@ -1998,8 +2073,10 @@ void Invoice::makeInvoiceHeadarHTML()
 void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original)
 {
 	QString breakPageStr = "class=\"page_break\"";
-	if (breakPage == false)
+	if (!breakPage)
+	{
 		breakPageStr = "";
+	}
 
 	invStrList += "<table comment=\"headar table\" width=\"100%\" " + breakPageStr + ">";
 	invStrList += "<tr>";
@@ -2040,8 +2117,10 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original)
 		invStrList += "</tr>";
 		invStrList += "<tr><td>";
 		if (sellDate)
+		{
 			invStrList += trUtf8("Data sprzedaży: ")
 				+ sellingDate->date().toString(sett().getDateFormat()) + "</td>";
+		}
 		invStrList += "</tr>";
 
 		invStrList += "</table></td><td width=\"3%\">&nbsp;</td>";
@@ -2064,8 +2143,10 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original)
 		invStrList += "<tr><td>";
 
 		if (sellDate)
+		{
 			invStrList += trUtf8("Data sprzedaży: ")
 				+ sellingDate->date().toString(sett().getDateFormat()) + "</td>";
+		}
 		invStrList += "</tr>";
 
 		invStrList += "</table></td><td width=\"3%\">&nbsp;</td>";
@@ -2108,56 +2189,82 @@ void Invoice::makeInvoiceBody()
 
 	if (sett().value("username").toBool()
 		&& (!userSettings.value("name").toString().trimmed().isEmpty()))
+	{
 		invStrList += userSettings.value("name").toString() + "<br/>";
+	}
 
 	if (sett().value("useradress").toBool()
 		&& (!userSettings.value("address").toString().trimmed().isEmpty()))
+	{
 		invStrList += userSettings.value("address").toString() + "<br/>";
+	}
 
 	if (sett().value("usercity").toBool()
 		&& (!userSettings.value("zip").toString().trimmed().isEmpty()))
+	{
 		invStrList += userSettings.value("zip").toString() + " ";
+	}
 
 	if (sett().value("usercity").toBool()
 		&& (!userSettings.value("city").toString().trimmed().isEmpty()))
+	{
 		invStrList += userSettings.value("city").toString() + "<br/>";
+	}
 
 	if (sett().value("usernip").toBool()
 		&& (!userSettings.value("tic").toString().trimmed().isEmpty()))
+	{
 		invStrList += trUtf8("NIP: ") + userSettings.value("tic").toString() + "<br/>";
+	}
 
 	if (sett().value("userbank").toBool()
 		&& (!userSettings.value("bank").toString().trimmed().isEmpty()))
+	{
 		invStrList += trUtf8("Nazwa banku: ") + userSettings.value("bank").toString() + "<br/>";
+	}
 
 	if (sett().value("useraccount").toBool()
 		&& (!userSettings.value("account").toString().trimmed().isEmpty()))
+	{
 		invStrList += trUtf8("Nr konta: ")
 			+ userSettings.value("account").toString().replace("-", " ") + "<br/>";
+	}
 
 	if (sett().value("userswift").toBool()
 		&& (!userSettings.value("swift").toString().trimmed().isEmpty()))
+	{
 		invStrList += trUtf8("SWIFT/BIC: ") + userSettings.value("swift").toString() + "<br/>";
+	}
 
 	if (sett().value("userkrs").toBool()
 		&& (!userSettings.value("krs").toString().trimmed().isEmpty()))
+	{
 		invStrList += trUtf8("KRS: ") + userSettings.value("krs").toString() + "<br/>";
+	}
 
 	if (sett().value("userphone").toBool()
 		&& (!userSettings.value("phone").toString().trimmed().isEmpty()))
+	{
 		invStrList += trUtf8("Telefon: ") + userSettings.value("phone").toString() + "<br/>";
+	}
 
 	if (sett().value("userfax").toBool()
 		&& (!userSettings.value("fax").toString().trimmed().isEmpty()))
+	{
 		invStrList += trUtf8("Fax: ") + userSettings.value("fax").toString() + "<br/>";
+	}
 
 	if (sett().value("usermail").toBool()
 		&& (!userSettings.value("email").toString().trimmed().isEmpty()))
+	{
 		invStrList += trUtf8("Email: ") + userSettings.value("email").toString() + "<br/>";
+	}
 
 	if (sett().value("userwww").toBool()
 		&& (!userSettings.value("website").toString().trimmed().isEmpty()))
+	{
 		invStrList += trUtf8("Strona www: ") + userSettings.value("website").toString() + "<br/>";
+	}
 
 	userSettings.endGroup();
 	sett().endGroup();
@@ -2174,40 +2281,56 @@ void Invoice::makeInvoiceBody()
 
 	QString el1 = lista.at(0);
 	if (sett().value("buyername").toBool() && (el1.trimmed() != "-"))
+	{
 		invStrList += el1 + "<br>";
+	}
 
 	QString el2 = lista.at(1);
 	if (sett().value("buyercity").toBool() && (el2.trimmed() != "-"))
+	{
 		invStrList += el2 + "<br>";
+	}
 
 	QString el3 = lista.at(2);
 	if (sett().value("buyeraddress").toBool() && (el3.trimmed() != "-"))
+	{
 		invStrList += el3 + "<br>";
+	}
 
 	QString el4 = lista.at(3);
 	if (sett().value("buyernip").toBool()
 		&& (el4.replace(" ", "").replace(QObject::trUtf8("NIP:"), "") != "-"))
+	{
 		invStrList += trUtf8("NIP: ") + el4 + "<br>";
+	}
 
 	QString el5 = lista.at(4);
 	if (sett().value("buyeraccount").toBool()
 		&& (el5.replace(" ", "").replace(QObject::trUtf8("Konto:"), "") != "-"))
+	{
 		invStrList += trUtf8("Nr konta: ") + el5 + "<br>";
+	}
 
 	QString el6 = lista.at(5);
 	if (sett().value("buyerphone").toBool()
 		&& (el6.replace(" ", "").replace(QObject::trUtf8("Tel:"), "") != "-"))
+	{
 		invStrList += trUtf8("Telefon: ") + el6 + "<br>";
+	}
 
 	QString el7 = lista.at(6);
 	if (sett().value("buyermail").toBool()
 		&& (el7.replace(" ", "").replace(QObject::trUtf8("Email:"), "") != "-"))
+	{
 		invStrList += trUtf8("Email: ") + el7 + "<br>";
+	}
 
 	QString el8 = lista.at(7);
 	if (sett().value("buyerwww").toBool()
 		&& (el8.replace(" ", "").replace(QObject::trUtf8("Strona:"), "") != ""))
+	{
 		invStrList += trUtf8("Strona www: ") + el8 + "<br>";
+	}
 
 	sett().endGroup();
 
@@ -2347,25 +2470,39 @@ void Invoice::makeInvoiceProducts()
 		sett().beginGroup("invoices_positions");
 
 		if (sett().value("Lp").toBool())
+		{
 			invStrList += "<td>" + sett().numberToString(i + 1) + "</td>";
+		}
 
 		if (sett().value("Name").toBool())
+		{
 			invStrList += "<td align=\"left\">" + tableGoods->item(i, 1)->text() + "</td>";
+		}
 
 		if (sett().value("Code").toBool())
+		{
 			invStrList += "<td>" + tableGoods->item(i, 2)->text() + "</td>";
+		}
 
 		if (sett().value("pkwiu").toBool())
+		{
 			invStrList += "<td>" + tableGoods->item(i, 3)->text() + "</td>";
+		}
 
 		if (sett().value("amount").toBool())
+		{
 			invStrList += "<td>" + tableGoods->item(i, 4)->text() + "</td>";
+		}
 
 		if (sett().value("unit").toBool())
+		{
 			invStrList += "<td>" + tableGoods->item(i, 5)->text() + "</td>";
+		}
 
 		if (sett().value("unitprice").toBool())
+		{
 			invStrList += "<td>" + tableGoods->item(i, 7)->text() + "</td>";
+		}
 
 		double discountVal = sett().stringToDouble(tableGoods->item(i, 8)->text())
 			* (sett().stringToDouble(tableGoods->item(i, 6)->text()) * 0.01);
@@ -2373,29 +2510,43 @@ void Invoice::makeInvoiceProducts()
 		double nettMinusDisc = sett().stringToDouble(tableGoods->item(i, 8)->text()) - discountVal;
 
 		if (sett().value("netvalue").toBool())
+		{
 			invStrList += "<td>" + tableGoods->item(i, 8)->text() + "</td>"; // netto
+		}
 
 		if (sett().value("discountperc").toBool())
+		{
 			invStrList += "<td>" + tableGoods->item(i, 6)->text() + "%</td>"; // rabat
+		}
 
 		if (sett().value("discountval").toBool())
+		{
 			invStrList +=
 				"<td align=\"center\" >" + sett().numberToString(discountVal, 'f', 2) + "</td>";
+		}
 
 		if (sett().value("netafter").toBool())
+		{
 			invStrList += "<td>" + sett().numberToString(nettMinusDisc, 'f', 2) + "</td>";
+		}
 
 		if (sett().value("vatval").toBool())
+		{
 			invStrList += "<td>" + tableGoods->item(i, 9)->text() + "%</td>";
+		}
 
 		double vatPrice = sett().stringToDouble(tableGoods->item(i, 10)->text())
 			- sett().stringToDouble(tableGoods->item(i, 8)->text()); // brutt-nett :)
 
 		if (sett().value("vatprice").toBool())
+		{
 			invStrList += "<td>" + sett().numberToString(vatPrice, 'f', 2) + "</td>";
+		}
 
 		if (sett().value("grossval").toBool())
+		{
 			invStrList += "<td>" + tableGoods->item(i, 10)->text() + "</td>";
+		}
 
 		sett().endGroup();
 		invStrList += "</tr>";
@@ -2465,16 +2616,24 @@ void Invoice::makeInvoiceSummAll()
 		ratesCombo->setCurrentIndex(0);
 		QString whatMethod_one = QString();
 		if (sendKindInfo->text() == trUtf8("gotówka"))
+		{
 			whatMethod_one = trUtf8("gotówką");
+		}
 		else
+		{
 			whatMethod_one = trUtf8("przelewem");
+		}
 
 		ratesCombo->setCurrentIndex(1);
 		QString whatMethod_two = QString();
 		if (sendKindInfo->text() == trUtf8("gotówka"))
+		{
 			whatMethod_two = trUtf8("gotówką");
+		}
 		else
+		{
 			whatMethod_two = trUtf8("przelewem");
+		}
 
 		ratesCombo->setCurrentIndex(0);
 
@@ -2657,7 +2816,9 @@ void Invoice::setIsEditAllowed(bool isAllowed)
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
 	if (!sett().value("editSymbol").toBool())
+	{
 		invNr->setEnabled(isAllowed);
+	}
 
 	backBtn->setEnabled(isAllowed);
 	sellingDate->setEnabled(isAllowed);
@@ -2690,9 +2851,13 @@ void Invoice::setIsEditAllowed(bool isAllowed)
 	}
 
 	if (isAllowed && (paysCombo->currentText() != trUtf8("przelew")))
+	{
 		liabDate->setEnabled(false);
+	}
 	else
+	{
 		liabDate->setEnabled(true);
+	}
 
 	konvPLN->setEnabled(isAllowed);
 	konvEUR->setEnabled(isAllowed);
@@ -2827,7 +2992,9 @@ QString Invoice::numbersCount(int in, int x)
 	int incr = x - tmp.length();
 
 	for (int i = 0; i < incr; ++i)
+	{
 		tmp2 += "0";
+	}
 
 	return tmp2 + tmp;
 }
@@ -2842,7 +3009,9 @@ void Invoice::saveColumnsWidth()
 	sett().beginGroup("fakturaForm");
 
 	for (int i = 0; i < 11; ++i)
+	{
 		sett().setValue("towCol" + sett().numberToString(i), tableGoods->columnWidth(i));
+	}
 
 	sett().endGroup();
 }

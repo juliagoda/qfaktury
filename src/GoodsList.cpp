@@ -39,9 +39,13 @@ void GoodsList::init()
 	displayData(0);
 
 	if (sett().value("editName").toBool())
+	{
 		nameEdit->setEnabled(true);
+	}
 	else
+	{
 		nameEdit->setEnabled(false);
+	}
 
 	// connects
 	connect(okBtn, SIGNAL(clicked()), this, SLOT(doAccept()));
@@ -211,63 +215,63 @@ void GoodsList::readGoods()
 		qDebug("file doesn't exists");
 		return;
 	}
-	else
+
+	QTextStream stream(&file);
+	if (!doc.setContent(stream.readAll()))
 	{
-		QTextStream stream(&file);
-		if (!doc.setContent(stream.readAll()))
+		qDebug("can not set content ");
+		file.close();
+		return;
+	}
+
+	root = doc.documentElement();
+	good = root.firstChild().toElement();
+	service = root.lastChild().toElement();
+
+	QString text = QString();
+
+	for (QDomNode n = good.firstChild(); !n.isNull(); n = n.nextSibling())
+	{
+		text = n.toElement().attribute("name");
+		ProductData *product = new ProductData();
+		product->setId(n.toElement().attribute("idx"));
+		product->setName(text);
+		product->setCode(n.toElement().attribute("code"));
+		product->setVat(n.toElement().attribute("vat"));
+		product->setQuanType(n.toElement().attribute("quanType"));
+		product->setPkwiu(n.toElement().attribute("pkwiu"));
+		vats[text] = n.toElement().attribute("vat").toInt();
+		nets[text] = n.toElement().attribute("netto1") + "|" + n.toElement().attribute("netto2")
+			+ "|" + n.toElement().attribute("netto3") + "|" + n.toElement().attribute("netto4");
+		goodsList2.insert(text, product);
+
+		if (product != 0)
 		{
-			qDebug("can not set content ");
-			file.close();
-			return;
+			product = 0;
 		}
-		else
+		delete product;
+	}
+
+	for (QDomNode n = service.firstChild(); !n.isNull(); n = n.nextSibling())
+	{
+		text = n.toElement().attribute("name");
+		ProductData *product = new ProductData();
+		product->setId(n.toElement().attribute("idx"));
+		product->setName(text);
+		product->setVat(n.toElement().attribute("vat"));
+		product->setCode(n.toElement().attribute("code"));
+		product->setQuanType(n.toElement().attribute("quanType"));
+		product->setPkwiu(n.toElement().attribute("pkwiu"));
+		vats[text] = n.toElement().attribute("vat").toInt();
+		nets[text] = n.toElement().attribute("netto1") + "|" + n.toElement().attribute("netto2")
+			+ "|" + n.toElement().attribute("netto3") + "|" + n.toElement().attribute("netto4");
+		servicesList2.insert(text, product);
+
+		if (product != 0)
 		{
-			root = doc.documentElement();
-			good = root.firstChild().toElement();
-			service = root.lastChild().toElement();
+			product = 0;
 		}
-
-		QString text = QString();
-
-		for (QDomNode n = good.firstChild(); !n.isNull(); n = n.nextSibling())
-		{
-			text = n.toElement().attribute("name");
-			ProductData *product = new ProductData();
-			product->setId(n.toElement().attribute("idx"));
-			product->setName(text);
-			product->setCode(n.toElement().attribute("code"));
-			product->setVat(n.toElement().attribute("vat"));
-			product->setQuanType(n.toElement().attribute("quanType"));
-			product->setPkwiu(n.toElement().attribute("pkwiu"));
-			vats[text] = n.toElement().attribute("vat").toInt();
-			nets[text] = n.toElement().attribute("netto1") + "|" + n.toElement().attribute("netto2")
-				+ "|" + n.toElement().attribute("netto3") + "|" + n.toElement().attribute("netto4");
-			goodsList2.insert(text, product);
-
-			if (product != 0)
-				product = 0;
-			delete product;
-		}
-
-		for (QDomNode n = service.firstChild(); !n.isNull(); n = n.nextSibling())
-		{
-			text = n.toElement().attribute("name");
-			ProductData *product = new ProductData();
-			product->setId(n.toElement().attribute("idx"));
-			product->setName(text);
-			product->setVat(n.toElement().attribute("vat"));
-			product->setCode(n.toElement().attribute("code"));
-			product->setQuanType(n.toElement().attribute("quanType"));
-			product->setPkwiu(n.toElement().attribute("pkwiu"));
-			vats[text] = n.toElement().attribute("vat").toInt();
-			nets[text] = n.toElement().attribute("netto1") + "|" + n.toElement().attribute("netto2")
-				+ "|" + n.toElement().attribute("netto3") + "|" + n.toElement().attribute("netto4");
-			servicesList2.insert(text, product);
-
-			if (product != 0)
-				product = 0;
-			delete product;
-		}
+		delete product;
 	}
 }
 
@@ -322,7 +326,9 @@ QString GoodsList::trimZeros(QString in)
 	QString quantity = in;
 
 	if (quan[1].compare("000") == 0)
+	{
 		quantity = quan[0];
+	}
 
 	return quantity;
 }

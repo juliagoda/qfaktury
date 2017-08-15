@@ -41,9 +41,13 @@ void InvoiceGross::calculateOneDiscount(int i)
 	price = sett().stringToDouble(tableGoods->item(i, 7)->text());
 
 	if (constRab->isChecked())
+	{
 		discount = discountVal->value() * 0.01;
+	}
 	else
+	{
 		discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
+	}
 
 	if ((tableGoods->item(i, 6)->text()) == "0")
 	{
@@ -97,7 +101,9 @@ void InvoiceGross::addGoods()
 		canClose = false;
 
 		if (constRab->isChecked())
+		{
 			calculateDiscount();
+		}
 
 		calculateSum();
 	}

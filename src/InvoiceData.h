@@ -1,12 +1,11 @@
+#pragma once
+
 /*
  * InvoiceData.h
  *
  *  Created on: Mar 12, 2009
  *      Author: moux
  */
-
-#ifndef INVOICEDATA_H
-#define INVOICEDATA_H
 
 #include "CustomPaymData.h"
 #include "ProductData.h"
@@ -88,5 +87,3 @@ public:
 		return ret;
 	}
 };
-
-#endif

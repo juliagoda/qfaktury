@@ -1,5 +1,4 @@
-#ifndef SETTING_H
-#define SETTING_H
+#pragma once
 
 #include "ui_Setting.h"
 
@@ -43,14 +42,13 @@ private:
 	void saveSettings();
 	void readSettings();
 	void getEncodings();
-	void helpFuncAddNr(QLineEdit *, QListWidget *, QString const &);
-	void helpFuncDelNr(QListWidget *, QString const &);
-	void helpFuncAp(QListWidget *);
-	void helpFuncDown(QListWidget *);
+	void helpFuncAddNr(QLineEdit *lineEd, QListWidget *listWg, QString const &text);
+	void helpFuncDelNr(QListWidget *listWg, QString const &text);
+	void helpFuncAp(QListWidget *listWg);
+	void helpFuncDown(QListWidget *listWg);
 	QStringList getTemplates();
 	QStringList getTranslations();
 	QStringList getStyles();
 	QString getAll(QListWidget *lb);
 	QVector<QTextCodec *> codecs;
 };
-#endif

@@ -97,18 +97,26 @@ void InvoiceRR::setData(InvoiceData &invData)
 	invData.id = fName;
 	invData.customer = buyerName->text();
 	if (ifpaysVAT->isChecked())
+	{
 		invData.ifpVAT = true;
+	}
 	else
+	{
 		invData.ifpVAT = false;
+	}
 	qDebug() << "buyerName->text() in setData(InvoiceData&):" << buyerName->text();
 	invData.invNr = invNr->text();
 	invData.sellingDate = sellingDate->date();
 	invData.issueDate = productDate->date();
 
 	if (constRab->isChecked())
+	{
 		invData.discount = discountVal->value();
+	}
 	else
+	{
 		invData.discount = 0;
+	}
 
 	// no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
 	for (int i = 0; i < tableGoods->rowCount(); ++i)
@@ -180,7 +188,9 @@ void InvoiceRR::getData(InvoiceData invData)
 	productDate->setDate(invData.issueDate);
 
 	if (!invData.duplDate.isNull() && invData.duplDate.isValid())
+	{
 		dupDate = invData.duplDate;
+	}
 
 	qDebug() << "DISCOUNT: " << invData.discount;
 	if (invData.discount == 0)

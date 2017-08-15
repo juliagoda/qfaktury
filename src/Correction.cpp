@@ -97,17 +97,25 @@ void Correction::backBtnClick()
 	lastInvoice = prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
 
 	if (sett().value("day").toBool())
+	{
 		lastInvoice += "/" + QDate::currentDate().toString("dd");
+	}
 
 	if (sett().value("month").toBool())
+	{
 		lastInvoice += "/" + QDate::currentDate().toString("MM");
+	}
 
 	if (sett().value("year").toBool())
 	{
 		if (!sett().value("shortYear").toBool())
+		{
 			lastInvoice += "/" + QDate::currentDate().toString("yy");
+		}
 		else
+		{
 			lastInvoice += "/" + QDate::currentDate().toString("yyyy");
+		}
 	}
 
 	suffix = sett().value("sufix").toString();
@@ -131,7 +139,9 @@ bool Correction::saveInvoice()
 	QDomElement root;
 
 	if (!editMode && (fName == ""))
+	{
 		fName = "NULL";
+	}
 
 	qDebug() << fName;
 
@@ -462,9 +472,13 @@ void Correction::canQuit()
 	if (canClose)
 	{
 		if (ret.isNull())
+		{
 			reject();
+		}
 		else
+		{
 			accept();
+		}
 	}
 	else
 	{
@@ -487,7 +501,9 @@ void Correction::canQuit()
 			saveInvoice();
 
 			if (saveFailed)
+			{
 				return;
+			}
 
 			saveColumnsWidth();
 			accept();
@@ -582,12 +598,21 @@ void Correction::readCorrData(QString invFile)
 	//*********************** Load Products Vars ***************************
 
 	int goodsCount = 0;
-	int i = 0;
 	QDomElement good;
 
-	static const char *goodsColumns[] = { "id",		  "name",		  "code",	 "PKWiU",
-										  "quantity", "quantityType", "discount", "price",
-										  "nett",	 "vatBucket",	"gross" };
+	static const char *goodsColumns[] = {
+		"id",
+		"name",
+		"code",
+		"PKWiU",
+		"quantity",
+		"quantityType",
+		"discount",
+		"price",
+		"nett",
+		"vatBucket",
+		"gross",
+	};
 
 	//*********************** Load Products After ***************************
 
@@ -597,12 +622,11 @@ void Correction::readCorrData(QString invFile)
 	discountVal->setValue(product.attribute("discount").toInt());
 
 	goodsCount = product.attribute("productsCount").toInt();
-	i = 0;
 	good = product.firstChild().toElement();
 
 	tableGoods->setRowCount(goodsCount);
 
-	for (i = 0; i < goodsCount; ++i)
+	for (int i = 0; i < goodsCount; ++i)
 	{
 		for (int j = 0; j < int(sizeof(goodsColumns) / sizeof(*goodsColumns)); j++)
 		{
@@ -623,7 +647,7 @@ void Correction::readCorrData(QString invFile)
 	invData->sellingDate = sellingDate->date();
 	invData->productDate = productDate->date();
 
-	for (i = 0; i < goodsCount; ++i)
+	for (int i = 0; i < goodsCount; ++i)
 	{
 		ProductData product; //  = new ProductData();
 		product.setId(good.attribute(goodsColumns[0]));
@@ -661,7 +685,9 @@ void Correction::readCorrData(QString invFile)
 		addDataLabels->addWidget(labelRate);
 
 		if (ratesCombo == 0)
+		{
 			ratesCombo = new QComboBox();
+		}
 		disconnect(
 			ratesCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(rateDateChanged(QString)));
 
@@ -762,7 +788,7 @@ void Correction::setIsEditAllowed(bool isAllowed)
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-	if (editMode == false)
+	if (!editMode)
 	{
 		isAllowed = true;
 		canClose = false;
@@ -802,14 +828,20 @@ void Correction::setIsEditAllowed(bool isAllowed)
 	}
 
 	if (isAllowed && (paysCombo->currentText() != trUtf8("zaliczka")))
+	{
 		liabDate->setEnabled(true);
+	}
 	else
+	{
 		liabDate->setEnabled(false);
+	}
 
 	reasonCombo->setEnabled(isAllowed);
 
 	if (invData == NULL)
+	{
 		invData = createOriginalInv();
+	}
 
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__ << "EXIT";
 }
@@ -896,7 +928,9 @@ void Correction::schemaCalcSum()
 			}
 		}
 		if (origGrossTotal != -1)
+		{
 			origGrossTotal = -1;
+		}
 	}
 
 	qDebug() << "origGrossTotal na początku funkcji 2: " << origGrossTotal;
@@ -994,14 +1028,22 @@ void Correction::schemaCalcSum()
 	qDebug() << "diffTotal: " << diffTotal;
 
 	if (diffTotal < 0)
+	{
 		textLabelSum3->setText(trUtf8("Do zwrotu:"));
+	}
 	else if (diffTotal > 0)
+	{
 		textLabelSum3->setText(trUtf8("Do zapłaty:"));
+	}
 	else
+	{
 		textLabelSum3->setText("");
+	}
 
 	if (firstRunned)
+	{
 		firstRunned = false;
+	}
 }
 
 /** Calculates the sums original invoice and the new one
@@ -1037,9 +1079,13 @@ void Correction::calculateOneDiscount(int i)
 	price = sett().stringToDouble(tableGoods->item(i, 7)->text());
 
 	if (constRab->isChecked())
+	{
 		discount = discountVal->value() * 0.01;
+	}
 	else
+	{
 		discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
+	}
 
 	quantity = tableGoods->item(i, 4)->text().toInt();
 	net = (price * quantity);
@@ -1135,7 +1181,9 @@ void Correction::makeBeforeCorrProducts()
 			 ++iterDepth)
 		{
 			if (sett().value(iterDepth.key()).toBool())
+			{
 				invStrList += "<td align=\"center\">" + iterDepth.value() + "</td>";
+			}
 		}
 
 		invStrList += "</tr>";
@@ -1238,17 +1286,25 @@ void Correction::makeInvoiceSummAll()
 		QString whatMethod_one = QString();
 
 		if (sendKindInfo->text() == trUtf8("gotówka"))
+		{
 			whatMethod_one = trUtf8("gotówką");
+		}
 		else
+		{
 			whatMethod_one = trUtf8("przelewem");
+		}
 
 		ratesCombo->setCurrentIndex(1);
 		QString whatMethod_two = QString();
 
 		if (sendKindInfo->text() == trUtf8("gotówka"))
+		{
 			whatMethod_two = trUtf8("gotówką");
+		}
 		else
+		{
 			whatMethod_two = trUtf8("przelewem");
+		}
 
 		ratesCombo->setCurrentIndex(0);
 

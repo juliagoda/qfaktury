@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * IDataLayer.h
  *
@@ -5,12 +7,11 @@
  *      Author: moux
  */
 
-#ifndef IDATALAYER_H_
-#define IDATALAYER_H_
-
 #include "BuyerData.h"
 #include "InvoiceData.h"
 #include "ProductData.h"
+
+#include <QList>
 
 class IDataLayer
 {
@@ -31,7 +32,7 @@ public:
 		return a;
 	};
 
-	virtual BuyerData buyersSelectData(QString, int)
+	virtual BuyerData buyersSelectData(QString /*unused*/, int /*unused*/)
 	{
 		return BuyerData();
 	};
@@ -40,15 +41,15 @@ public:
 		QVector<BuyerData> a;
 		return a;
 	};
-	virtual bool buyersInsertData(BuyerData &, int)
+	virtual bool buyersInsertData(BuyerData & /*unused*/, int /*unused*/)
 	{
 		return true;
 	};
-	virtual bool buyersUpdateData(BuyerData &, int, QString)
+	virtual bool buyersUpdateData(BuyerData & /*unused*/, int /*unused*/, QString /*unused*/)
 	{
 		return true;
 	};
-	virtual bool buyersDeleteData(QString)
+	virtual bool buyersDeleteData(QString /*unused*/)
 	{
 		return true;
 	};
@@ -57,7 +58,7 @@ public:
 		return QStringList();
 	};
 
-	virtual ProductData productsSelectData(QString, int)
+	virtual ProductData productsSelectData(QString /*unused*/, int /*unused*/)
 	{
 		return ProductData();
 	};
@@ -66,37 +67,37 @@ public:
 		QVector<ProductData> a;
 		return a;
 	};
-	virtual bool productsInsertData(ProductData &, int)
+	virtual bool productsInsertData(ProductData & /*unused*/, int /*unused*/)
 	{
 		return true;
 	};
-	virtual bool productsUpdateData(ProductData &, int, QString)
+	virtual bool productsUpdateData(ProductData & /*unused*/, int /*unused*/, QString /*unused*/)
 	{
 		return true;
 	};
-	virtual bool productsDeleteData(QString)
+	virtual bool productsDeleteData(QString /*unused*/)
 	{
 		return true;
 	};
 
-	virtual InvoiceData invoiceSelectData(QString, int)
+	virtual InvoiceData invoiceSelectData(QString /*unused*/, int /*unused*/)
 	{
 		return InvoiceData();
 	};
-	virtual QVector<InvoiceData> invoiceSelectAllData(QDate, QDate)
+	virtual QVector<InvoiceData> invoiceSelectAllData(QDate /*unused*/, QDate /*unused*/)
 	{
 		QVector<InvoiceData> a;
 		return a;
 	};
-	virtual bool invoiceInsertData(InvoiceData &, int)
+	virtual bool invoiceInsertData(InvoiceData & /*unused*/, int /*unused*/)
 	{
 		return true;
 	};
-	virtual bool invoiceUpdateData(InvoiceData &, int, QString)
+	virtual bool invoiceUpdateData(InvoiceData & /*unused*/, int /*unused*/, QString /*unused*/)
 	{
 		return true;
 	};
-	virtual bool invoiceDeleteData(QString)
+	virtual bool invoiceDeleteData(QString /*unused*/)
 	{
 		return true;
 	};
@@ -107,5 +108,3 @@ public:
 	};
 	virtual void separateOldInvoices(){};
 };
-
-#endif /* IDATALAYER_H_ */

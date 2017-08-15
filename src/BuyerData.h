@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * BuyerData.h
  *
@@ -5,8 +7,7 @@
  *      Author: moux
  */
 
-#ifndef BUYERDATA_H
-#define BUYERDATA_H_
+#pragma once
 
 #include <QString>
 
@@ -30,5 +31,3 @@ public:
 	QString swift;
 	QString type;
 };
-
-#endif /* BUYERDATA_H_ */

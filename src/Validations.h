@@ -1,5 +1,4 @@
-#ifndef VALIDATIONS_H
-#define VALIDATIONS_H
+#pragma once
 
 #include <QLineEdit>
 #include <QObject>
@@ -87,10 +86,4 @@ private:
 		symb.insert('Z', 35);
 		return symb;
 	}
-
-signals:
-
-public slots:
 };
-
-#endif // Validations_H

@@ -1,5 +1,4 @@
-#ifndef MainWindow_H
-#define MainWindow_H
+#pragma once
 
 #include <QKeyEvent>
 #include <QMainWindow>
@@ -119,4 +118,3 @@ private:
 		ui->todayExercise->setTextCursor(cursor);
 	}
 };
-#endif

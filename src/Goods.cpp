@@ -50,12 +50,16 @@ const QString Goods::getRetGoods()
 void Goods::okClick()
 {
 	if (Validations::instance()->isEmptyField(nameEdit->text(), textLabel3->text()))
+	{
 		return;
+	}
 
 	if (!pkwiuEdit->text().isEmpty())
 	{
 		if (!Validations::instance()->validatePkwiu(pkwiuEdit->text()))
+		{
 			return;
+		}
 	}
 
 	QStringList listRet = QStringList()
@@ -94,7 +98,9 @@ void Goods::okClick()
 QString Goods::isEmpty(QString in)
 {
 	if (in == "")
+	{
 		return " ";
+	}
 	return in;
 }
 
@@ -111,7 +117,7 @@ void Goods::spinChanged(int a)
  *  Nett value changed
  */
 
-void Goods::netChanged(double)
+void Goods::netChanged(double /*unused*/)
 {
 	net[spinBox2->value() - 1] = netEdit->cleanText();
 }
@@ -136,7 +142,9 @@ void Goods::selectData(QString idx, int type)
 	if (idx == "")
 	{
 		for (int i = 1; i < 5; i++)
+		{
 			net.append("0");
+		}
 		netEdit->setValue(0);
 	}
 	else
@@ -204,7 +212,9 @@ void Goods::getData(ProductData prodData)
 	netEdit->setValue(prodData.prices[0]);
 
 	for (int i = 0; i < 4; i++)
+	{
 		net[i] = sett().numberToString(prodData.prices[i]);
+	}
 }
 
 /** Display productData
@@ -220,6 +230,8 @@ void Goods::setData(ProductData &prodData)
 	prodData.quanType = jednCombo->currentText();
 
 	for (int i = 0; i < 4; i++)
+	{
 		prodData.prices[i] = sett().stringToDouble(net[i]);
+	}
 	prodData.vat = cbVat->currentText().toInt();
 }

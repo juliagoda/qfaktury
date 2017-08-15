@@ -1,5 +1,4 @@
-#ifndef OWNCALENDAR_H
-#define OWNCALENDAR_H
+#pragma once
 
 #include <QCalendarWidget>
 #include <QDir>
@@ -61,5 +60,3 @@ protected:
 		}
 	}
 };
-
-#endif // OWNCALENDAR_H

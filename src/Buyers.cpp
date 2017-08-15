@@ -72,9 +72,13 @@ void Buyers::okClick()
 void Buyers::requiredTic(int type)
 {
 	if (type == 2)
+	{
 		textLabel2_2->setText(trUtf8("NIP:"));
+	}
 	else
+	{
 		textLabel2_2->setText(trUtf8("NIP*:"));
+	}
 
 	this->update();
 }
@@ -159,14 +163,20 @@ bool Buyers::updateData()
 bool Buyers::validate()
 {
 	if (Validations::instance()->isEmptyField(nameEdit->text(), textLabel1->text()))
+	{
 		return false;
+	}
 	if (Validations::instance()->isEmptyField(placeEdit->text(), textLabel3->text()))
+	{
 		return false;
+	}
 
 	if (!Validations::instance()->isEmptyField(codeEdit->text(), textLabel4->text()))
 	{
 		if (!Validations::instance()->validateZip(codeEdit->text()))
+		{
 			return false;
+		}
 	}
 	else
 	{
@@ -174,7 +184,9 @@ bool Buyers::validate()
 	}
 
 	if (Validations::instance()->isEmptyField(addressEdit->text(), textLabel2->text()))
+	{
 		return false;
+	}
 
 	if (typeCombo->currentIndex() == 2)
 	{
@@ -184,9 +196,13 @@ bool Buyers::validate()
 		if (!nipEdit->text().isEmpty())
 		{
 			if (!Validations::instance()->validateNIP(nipEdit->text()))
+			{
 				return false;
+			}
 			if (!Validations::instance()->checkSumNIP(nipEdit->text()))
+			{
 				return false;
+			}
 		}
 	}
 	else
@@ -197,9 +213,13 @@ bool Buyers::validate()
 		if (!Validations::instance()->isEmptyField(nipEdit->text(), textLabel2_2->text()))
 		{
 			if (!Validations::instance()->validateNIP(nipEdit->text()))
+			{
 				return false;
+			}
 			if (!Validations::instance()->checkSumNIP(nipEdit->text()))
+			{
 				return false;
+			}
 		}
 		else
 		{
@@ -210,33 +230,46 @@ bool Buyers::validate()
 	if (!accountEdit->text().isEmpty())
 	{
 		if (!Validations::instance()->validateAccount(accountEdit->text()))
+		{
 			return false;
+		}
 		if (!Validations::instance()->checkSumAccount(accountEdit->text()))
+		{
 			return false;
+		}
 	}
 
 	if (!telefonEdit->text().isEmpty())
 	{
 		if (!Validations::instance()->validateTel(telefonEdit->text()))
+		{
 			return false;
+		}
 	}
 
 	if (!emailEdit->text().isEmpty())
 	{
 		if (!Validations::instance()->validateEmail(emailEdit->text()))
+		{
 			return false;
+		}
 	}
 
 	if (!wwwEdit->text().isEmpty())
 	{
 		if (!Validations::instance()->validateWebsite(wwwEdit->text()))
+		{
 			return false;
+		}
 	}
 
 	if (allNames.indexOf(QRegExp(nameEdit->text(), Qt::CaseSensitive, QRegExp::FixedString)) != -1)
 	{
-		QMessageBox::critical(0, "QFaktury", trUtf8("Kontrahent nie moze zostać dodany ponieważ "
-													"istnieje już kontrahent o tej nazwie."));
+		QMessageBox::critical(
+			0,
+			"QFaktury",
+			trUtf8("Kontrahent nie moze zostać dodany ponieważ "
+				   "istnieje już kontrahent o tej nazwie."));
 		return false;
 	}
 
@@ -246,14 +279,20 @@ bool Buyers::validate()
 bool Buyers::validateUpdated()
 {
 	if (Validations::instance()->isEmptyField(nameEdit->text(), textLabel1->text()))
+	{
 		return false;
+	}
 	if (Validations::instance()->isEmptyField(placeEdit->text(), textLabel3->text()))
+	{
 		return false;
+	}
 
 	if (!Validations::instance()->isEmptyField(codeEdit->text(), textLabel4->text()))
 	{
 		if (!Validations::instance()->validateZip(codeEdit->text()))
+		{
 			return false;
+		}
 	}
 	else
 	{
@@ -261,14 +300,20 @@ bool Buyers::validateUpdated()
 	}
 
 	if (Validations::instance()->isEmptyField(addressEdit->text(), textLabel2->text()))
+	{
 		return false;
+	}
 
 	if (!Validations::instance()->isEmptyField(nipEdit->text(), textLabel2_2->text()))
 	{
 		if (!Validations::instance()->validateNIP(nipEdit->text()))
+		{
 			return false;
+		}
 		if (!Validations::instance()->checkSumNIP(nipEdit->text()))
+		{
 			return false;
+		}
 	}
 	else
 	{
@@ -278,27 +323,37 @@ bool Buyers::validateUpdated()
 	if (!accountEdit->text().isEmpty())
 	{
 		if (!Validations::instance()->validateAccount(accountEdit->text()))
+		{
 			return false;
+		}
 		if (!Validations::instance()->checkSumAccount(accountEdit->text()))
+		{
 			return false;
+		}
 	}
 
 	if (!telefonEdit->text().isEmpty())
 	{
 		if (!Validations::instance()->validateTel(telefonEdit->text()))
+		{
 			return false;
+		}
 	}
 
 	if (!emailEdit->text().isEmpty())
 	{
 		if (!Validations::instance()->validateEmail(emailEdit->text()))
+		{
 			return false;
+		}
 	}
 
 	if (!wwwEdit->text().isEmpty())
 	{
 		if (!Validations::instance()->validateWebsite(wwwEdit->text()))
+		{
 			return false;
+		}
 	}
 
 	return true;
@@ -344,6 +399,8 @@ void Buyers::getData(BuyerData buyerData)
 QString Buyers::isEmpty(QString in)
 {
 	if (in == "")
+	{
 		return "-";
+	}
 	return in;
 }

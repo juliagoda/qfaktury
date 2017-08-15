@@ -1,5 +1,4 @@
-#ifndef SEND_H
-#define SEND_H
+#pragma once
 
 #include <QCheckBox>
 #include <QFile>
@@ -17,7 +16,7 @@
 #include <QWizardPage>
 
 #include "Buyers.h"
-#include "mainwindow.h"
+#include "SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.h"
 
 class Send : public QWizard
 {
@@ -117,5 +116,3 @@ private slots:
 private:
 	EmailWindow *emailWindow;
 };
-
-#endif // SEND_H

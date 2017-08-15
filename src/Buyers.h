@@ -1,5 +1,4 @@
-#ifndef BUYERS_H
-#define BUYERS_H
+#pragma once
 
 #include "IDataLayer.h"
 #include "ui_Buyers.h"
@@ -16,9 +15,8 @@ public:
 	const QString getRetBuyer();
 
 public slots:
-
 	void okClick();
-	void requiredTic(int);
+	void requiredTic(int type);
 
 private:
 	QStringList allNames;
@@ -33,4 +31,3 @@ private:
 	bool validate();
 	bool validateUpdated();
 };
-#endif
