@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 		a.connect(&closeSplash, SIGNAL(timeout()), &w, SLOT(show()));
 		a.connect(&closeSplash, SIGNAL(timeout()), &splash, SLOT(close()));
 
-		closeSplash.start(5000);
+		closeSplash.start(2500);
 	}
 
 	// if last window is close, closes down application
