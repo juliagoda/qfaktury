@@ -8,7 +8,6 @@ class Setting : public QDialog, public Ui::Setting
 
 public:
 	Setting(QWidget *parent);
-	~Setting();
 
 public slots:
 

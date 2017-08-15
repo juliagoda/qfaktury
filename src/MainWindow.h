@@ -107,7 +107,7 @@ private:
 	void createPdfDir();
 	void generatePdfFromList();
 
-	inline void calendarNoteJustify(QString text)
+	void calendarNoteJustify(QString text)
 	{
 		ui->todayExercise->append(text);
 

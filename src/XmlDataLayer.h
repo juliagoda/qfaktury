@@ -12,9 +12,6 @@
 class XmlDataLayer : public IDataLayer
 {
 public:
-	XmlDataLayer();
-	virtual ~XmlDataLayer();
-
 	// methods used for accessing customers
 	BuyerData buyersSelectData(QString name, int type) override;
 	QVector<BuyerData> buyersSelectAllData() override;

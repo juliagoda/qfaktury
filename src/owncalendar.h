@@ -14,10 +14,6 @@ public:
 	{
 	}
 
-	~ownCalendarWidget()
-	{
-	}
-
 	void ourCall(QDate)
 	{
 		// here we set some conditions

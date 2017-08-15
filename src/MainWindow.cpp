@@ -1544,7 +1544,7 @@ void MainWindow::printList(QPrinter *printer)
 
 QString MainWindow::changeIfEmpty(QString text) const
 {
-	QString result = QString();
+	QString result;
 
 	if (text.isEmpty())
 	{

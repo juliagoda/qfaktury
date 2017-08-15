@@ -7,16 +7,6 @@
 #include "Invoice.h"
 #include "Settings.h"
 
-XmlDataLayer::XmlDataLayer()
-{
-	// TODO Auto-generated constructor stub
-}
-
-XmlDataLayer::~XmlDataLayer()
-{
-	// TODO Auto-generated destructor stub
-}
-
 QString XmlDataLayer::getRet() const
 {
 	return ret;
