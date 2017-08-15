@@ -1,4 +1,3 @@
-
 #include <QtXml/qdom.h>
 
 #include "GoodsList.h"

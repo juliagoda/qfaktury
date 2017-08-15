@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * InvoiceData.h
- *
  *  Created on: Mar 12, 2009
  *      Author: moux
  */

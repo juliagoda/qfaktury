@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * Duplicat.h
- *
  *  Created on: Mar 31, 2009
  *      Author: moux
  */

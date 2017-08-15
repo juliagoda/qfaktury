@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * FakturaBrutto.h
- *
  *  Created on: Apr 2, 2009
  *      Author: TPIELECH
  */

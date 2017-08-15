@@ -1,4 +1,3 @@
-
 #include <QFileDialog>
 
 #include "Setting.h"

@@ -1,4 +1,3 @@
-
 #include "Goods.h"
 #include "Settings.h"
 #include "Validations.h"

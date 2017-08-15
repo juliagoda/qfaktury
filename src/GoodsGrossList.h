@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * TowaryBruttoLista.h
- *
  *  Created on: Apr 3, 2009
  *      Author: TPIELECH
  */

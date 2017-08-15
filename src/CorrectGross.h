@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * KorektaBrutto.h
- *
  *  Created on: Apr 3, 2009
  *      Author: moux
  */

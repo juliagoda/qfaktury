@@ -1,4 +1,3 @@
-
 #include <QPrintPreviewDialog>
 
 #include "Buyers.h"

@@ -1,4 +1,3 @@
-
 #include "Correction.h"
 #include "Const.h"
 #include "MainWindow.h"

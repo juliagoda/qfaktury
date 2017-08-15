@@ -1,6 +1,4 @@
 /*
- * Duplicate.cpp
- *
  *  Created on: Mar 31, 2009, improved on Dec 2016
  *      Author: moux, juliagoda
  */

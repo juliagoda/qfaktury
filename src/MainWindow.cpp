@@ -1,4 +1,3 @@
-﻿
 #include "MainWindow.h"
 #include "Bill.h"
 #include "Buyers.h"
