@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Buyers.h"
+#include "SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.h"
+
 #include <QCheckBox>
 #include <QFile>
 #include <QGroupBox>
@@ -14,9 +17,6 @@
 #include <QVariant>
 #include <QWizard>
 #include <QWizardPage>
-
-#include "Buyers.h"
-#include "SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.h"
 
 class Send : public QWizard
 {

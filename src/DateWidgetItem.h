@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Settings.h"
+
 #include <QDate>
 #include <QTableWidgetItem>
 

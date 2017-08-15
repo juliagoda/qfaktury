@@ -5,9 +5,9 @@
  *      Author: moux
  */
 
-#include <QtXml/qdom.h>
-
 #include "IDataLayer.h"
+
+#include <QtXml/qdom.h>
 
 class XmlDataLayer : public IDataLayer
 {

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QKeyEvent>
-#include <QMainWindow>
-
 #include "Invoice.h"
 #include "Setting.h"
 #include "owncalendar.h"
 #include "ui_MainWindow.h"
+
+#include <QKeyEvent>
+#include <QMainWindow>
 
 class MainWindow : public QMainWindow
 {

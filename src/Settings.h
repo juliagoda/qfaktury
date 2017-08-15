@@ -1,5 +1,7 @@
 #pragma once
 
+#include "config.h"
+
 #include <QDate>
 #include <QDebug>
 #include <QDir>
@@ -9,8 +11,6 @@
 #include <QStyleFactory>
 #include <QTextCodec>
 #include <QTranslator>
-
-#include "config.h"
 
 // #define trUtf8(x) QObject::aaa(x)
 #define STRING2(x) #x

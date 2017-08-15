@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QtXml/qdom.h>
-
 #include "ui_BuyersList.h"
+
+#include <QtXml/qdom.h>
 
 class BuyersList : public QDialog, public Ui::BuyersList
 {
