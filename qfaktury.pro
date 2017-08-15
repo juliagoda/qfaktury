@@ -9,7 +9,7 @@ QT += gui core widgets printsupport xml webenginewidgets network
 LIBDIR = /usr/lib
 SMTPCODEDIR = $$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements
 
-CONFIG += debug
+CONFIG += c++11
 QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
 QT_MINOR_VERSION = 5.0.0

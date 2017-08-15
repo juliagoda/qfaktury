@@ -689,7 +689,7 @@ void Setting::readSettings()
 // returns list of translations
 QStringList Setting::getTemplates()
 {
-	QStringList templates = QStringList();
+	QStringList templates;
 	QString path = QDir::currentPath() + "/templates/";
 
 	QFile f(path);
@@ -703,7 +703,7 @@ QStringList Setting::getTemplates()
 	QDir allFiles;
 	allFiles.setPath(path);
 	allFiles.setFilter(QDir::Files);
-	QStringList filters = QStringList() << "*css";
+	QStringList filters{"*css"};
 	allFiles.setNameFilters(filters);
 	QStringList tmp = allFiles.entryList();
 	templates = tmp;
@@ -719,7 +719,7 @@ QStringList Setting::getStyles()
 // returns list of translations
 QStringList Setting::getTranslations()
 {
-	QStringList translations = QStringList();
+	QStringList translations;
 	QString path = QDir::currentPath() + "/translations/";
 
 	qDebug() << path;
@@ -735,7 +735,7 @@ QStringList Setting::getTranslations()
 	QDir allFiles;
 	allFiles.setPath(path);
 	allFiles.setFilter(QDir::Files);
-	QStringList filters = QStringList() << "*.qm";
+	QStringList filters{"*.qm"};
 	allFiles.setNameFilters(filters);
 	QStringList tmp = allFiles.entryList();
 	tmp = tmp.replaceInStrings("qfaktury_", "");

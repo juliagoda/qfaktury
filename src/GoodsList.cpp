@@ -126,12 +126,13 @@ void GoodsList::doAccept()
 		{
 			if (comboBox1->currentIndex() == i)
 			{
-				QStringList listRest = QStringList()
-					<< selectedItem << listProducts[i][id]->getCode()
-					<< listProducts[i][id]->getPkwiu() << trimZeros(countSpinBox->cleanText())
-					<< listProducts[i][id]->getQuantityType() << discountSpin->cleanText()
-					<< sett().numberToString(priceBoxEdit->value()) << netLabel->text()
-					<< sett().numberToString(listProducts[i][id]->getVat()) << grossLabel->text();
+				QStringList listRest;
+				listRest << selectedItem << listProducts[i][id]->getCode()
+						 << listProducts[i][id]->getPkwiu() << trimZeros(countSpinBox->cleanText())
+						 << listProducts[i][id]->getQuantityType() << discountSpin->cleanText()
+						 << sett().numberToString(priceBoxEdit->value()) << netLabel->text()
+						 << sett().numberToString(listProducts[i][id]->getVat())
+						 << grossLabel->text();
 
 				for (int j = 0; j < listRest.count(); j++)
 				{

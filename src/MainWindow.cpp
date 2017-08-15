@@ -392,10 +392,9 @@ void MainWindow::loadPlugins()
 	path = sett().getAppDirs() + "plugins/";
 	allFiles.setPath(path);
 	allFiles.setFilter(QDir::Files);
-	QStringList filters = QStringList() << "*.py"
-										<< "*.Py"
-										<< "*.PY"
-										<< "*.pY";
+	QStringList filters{
+		"*.py", "*.Py", "*.PY", "*.pY",
+	};
 	allFiles.setNameFilters(filters);
 	QStringList files = allFiles.entryList();
 
@@ -628,10 +627,14 @@ void MainWindow::insertRow(QTableWidget *t, int row)
 	}
 }
 
-int const MainWindow::getMaxSymbol()
+int MainWindow::getMaxSymbol() const
 {
-	int max = *std::max_element(allSymbols.begin(), allSymbols.end());
-	return max;
+	if (allSymbols.count())
+	{
+		return *std::max_element(allSymbols.begin(), allSymbols.end());
+	}
+
+	return 0;
 }
 
 /** Reads the invoices from the directory passed in the input.
@@ -1461,16 +1464,16 @@ void MainWindow::printList(QPrinter *printer)
 	if (ui->tableK->rowCount() != 0)
 	{
 		QTextDocument doc(trUtf8("Lista kontrahentów"));
-		QStringList list = QStringList();
+		QStringList list;
 		list << "<!doctype html>"
 			 << "<head>"
 			 << "<meta charset=\"utf-8\" />"
-			 << "</head>";
-		list << "<style type=\"text/css\">";
-		list << "strong { font-weight: 500; }";
-		list << ".page_break {page-break-inside: avoid;}";
-		list << "</style>";
-		list << "<body>";
+			 << "</head>"
+			 << "<style type=\"text/css\">"
+			 << "strong { font-weight: 500; }"
+			 << ".page_break {page-break-inside: avoid;}"
+			 << "</style>"
+			 << "<body>";
 
 		QVector<BuyerData> buyerVec = dl->buyersSelectAllData();
 
@@ -1772,9 +1775,10 @@ void MainWindow::newCor()
 
 	int row = ui->tableH->selectedItems()[0]->row();
 
-	QStringList invTypes = QStringList();
-	invTypes << "FVAT"
-			 << "FBrutto";
+	QStringList invTypes{
+		"FVAT",
+		"FBrutto",
+	};
 
 	if (invTypes.contains(ui->tableH->item(row, 3)->text()))
 	{
@@ -1855,9 +1859,10 @@ void MainWindow::newDuplicate()
 	int row = ui->tableH->selectedItems()[0]->row();
 
 	// types of invoices for which it's ok to issue a duplicate
-	QStringList invTypes = QStringList();
-	invTypes << "FVAT"
-			 << "FBrutto";
+	QStringList invTypes{
+		"FVAT",
+		"FBrutto",
+	};
 
 	if (invTypes.contains(ui->tableH->item(row, 3)->text()))
 	{
@@ -2113,7 +2118,7 @@ void MainWindow::cancelTaskWidget()
 
 	foreach (QWidget *w, windowTask->findChildren<QWidget *>())
 	{
-		if (!w->windowFlags() & Qt::Window)
+		if (!w->windowFlags().testFlag(Qt::Window))
 		{
 			delete w;
 		}

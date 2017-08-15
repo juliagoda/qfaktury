@@ -52,13 +52,13 @@ void GoodsGrossList::doAccept()
 		{
 			if (comboBox1->currentIndex() == i)
 			{
-				QStringList listRest = QStringList()
-					<< selectedItem << listProducts[i][getGoodsId()]->getCode()
-					<< listProducts[i][getGoodsId()]->getPkwiu()
-					<< trimZeros(countSpinBox->cleanText())
-					<< listProducts[i][getGoodsId()]->getQuantityType() << discountSpin->cleanText()
-					<< getPriceOfCurrent() << netLabel->text()
-					<< sett().numberToString(getVatsVal()[selectedItem]) << grossLabel->text();
+				QStringList listRest;
+				listRest << selectedItem << listProducts[i][getGoodsId()]->getCode()
+						 << listProducts[i][getGoodsId()]->getPkwiu()
+						 << trimZeros(countSpinBox->cleanText())
+						 << listProducts[i][getGoodsId()]->getQuantityType()
+						 << discountSpin->cleanText() << getPriceOfCurrent() << netLabel->text()
+						 << sett().numberToString(getVatsVal()[selectedItem]) << grossLabel->text();
 
 				for (int j = 0; j < listRest.count(); j++)
 				{

@@ -198,7 +198,7 @@ QString &ConvertAmount::descAmount(
 
 const QStringList ConvertAmount::hundsList()
 {
-	QStringList hundredsPL = QStringList();
+	QStringList hundredsPL;
 	hundredsPL << QObject::trUtf8("sto") << QObject::trUtf8("dwieście")
 			   << QObject::trUtf8("trzysta") << QObject::trUtf8("czterysta")
 			   << QObject::trUtf8("pięćset") << QObject::trUtf8("sześćset")
@@ -210,7 +210,7 @@ const QStringList ConvertAmount::hundsList()
 
 const QStringList ConvertAmount::endsHundList()
 {
-	QStringList hundEndsPL = QStringList();
+	QStringList hundEndsPL;
 	hundEndsPL << QObject::trUtf8("dwadzieścia") << QObject::trUtf8("trzydzieści")
 			   << QObject::trUtf8("czterdzieści") << QObject::trUtf8("pięćdziesiąt")
 			   << QObject::trUtf8("sześdziesiąt") << QObject::trUtf8("siedemdziesiąt")
@@ -221,7 +221,7 @@ const QStringList ConvertAmount::endsHundList()
 
 const QStringList ConvertAmount::endsTensList()
 {
-	QStringList tenEndsPL = QStringList();
+	QStringList tenEndsPL;
 	tenEndsPL << QObject::trUtf8("jedenaście") << QObject::trUtf8("dwanaście")
 			  << QObject::trUtf8("trzynaście") << QObject::trUtf8("czternaście")
 			  << QObject::trUtf8("piętnaście") << QObject::trUtf8("szesnaście")
@@ -233,7 +233,7 @@ const QStringList ConvertAmount::endsTensList()
 
 const QStringList ConvertAmount::simpleNumbList()
 {
-	QStringList nineNumbs = QStringList();
+	QStringList nineNumbs;
 	nineNumbs << QObject::trUtf8("jeden") << QObject::trUtf8("dwa") << QObject::trUtf8("trzy")
 			  << QObject::trUtf8("cztery") << QObject::trUtf8("pięć") << QObject::trUtf8("sześć")
 			  << QObject::trUtf8("siedem") << QObject::trUtf8("osiem")

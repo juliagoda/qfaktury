@@ -38,10 +38,10 @@ const QString Buyers::getRetBuyer()
 
 void Buyers::okClick()
 {
-	QStringList list = QStringList()
-		<< nameEdit->text() << typeCombo->currentText() << placeEdit->text() << addressEdit->text()
-		<< telefonEdit->text() << nipEdit->text() << codeEdit->text() << accountEdit->text()
-		<< emailEdit->text() << wwwEdit->text();
+	QStringList list;
+	list << nameEdit->text() << typeCombo->currentText() << placeEdit->text() << addressEdit->text()
+		 << telefonEdit->text() << nipEdit->text() << codeEdit->text() << accountEdit->text()
+		 << emailEdit->text() << wwwEdit->text();
 
 	if (workingMode == 1)
 	{

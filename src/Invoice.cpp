@@ -582,12 +582,7 @@ QMap<QString, double> Invoice::tableOfValues()
 		currencies.insert("RUB/PLN", rubToPln);
 
 		QMap<QString, double> &r = currencies;
-		QStringList langList = QStringList() << "PLN"
-											 << "EUR"
-											 << "USD"
-											 << "CHF"
-											 << "GBP"
-											 << "RUB";
+		QStringList langList{ "PLN", "EUR", "USD", "CHF", "GBP", "RUB" };
 
 		algorithmCurrencies("PLN", langList, r);
 	}
