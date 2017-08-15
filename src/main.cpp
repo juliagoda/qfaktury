@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
 	QRect screen = QApplication::desktop()->screenGeometry();
 
     // sets start window during application load
+	QTimer closeSplash;
     QSplashScreen splash(QPixmap(":/res/icons/splash.png"));\
 
     // creates instance of main window and move it in according to the screen geometry
@@ -31,23 +32,12 @@ int main(int argc, char **argv) {
 	if (a.arguments().contains("--nosplash")) {
 		w.show();
 	} else {
-
-    // else uses start window
 		splash.show();
 
-		a.processEvents();
+		a.connect(&closeSplash, SIGNAL(timeout()), &w, SLOT(show()));
+		a.connect(&closeSplash, SIGNAL(timeout()), &splash, SLOT(close()));
 
-        // when start window should to start
-		QTimer *showSplash = new QTimer();
-		a.connect(showSplash, SIGNAL(timeout()), &w, SLOT(show()));
-
-        // when start window should to be closed
-		QTimer *closeSplash = new QTimer();
-		a.connect(closeSplash, SIGNAL(timeout()), &splash, SLOT(close()));
-
-        // start of signals
-		showSplash->start(5000);
-		closeSplash->start(4960);
+		closeSplash.start(5000);
 	}
 
     // if last window is close, closes down application
