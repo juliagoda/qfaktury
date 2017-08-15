@@ -12,7 +12,7 @@ public:
 	void selectData(QString name, int type); // 0 - company, 1 - department, 2 - natural person
 	bool insertData();
 	bool updateData();
-	const QString getRetBuyer();
+	QString getRetBuyer() const;
 
 public slots:
 	void okClick();

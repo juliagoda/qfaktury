@@ -10,7 +10,7 @@ class BuyersList : public QDialog, public Ui::BuyersList
 
 public:
 	BuyersList(QWidget *parent);
-	const QString getRetBuyerList();
+	QString getRetBuyerList() const;
 
 public slots:
 	void readBuyer();

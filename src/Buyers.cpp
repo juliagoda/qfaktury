@@ -27,7 +27,7 @@ void Buyers::init()
 	connect(typeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(requiredTic(int)));
 }
 
-const QString Buyers::getRetBuyer()
+QString Buyers::getRetBuyer() const
 {
 	return ret;
 }

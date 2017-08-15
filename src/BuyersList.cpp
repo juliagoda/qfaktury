@@ -45,7 +45,7 @@ void BuyersList::init()
 		SLOT(updateDetails(QListWidgetItem *)));
 }
 
-const QString BuyersList::getRetBuyerList()
+QString BuyersList::getRetBuyerList() const
 {
 	return ret;
 }
