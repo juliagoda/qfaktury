@@ -60,6 +60,7 @@ void Setting::init() {
     connect( cbEdit, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( cbSmbEdit, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( cbSmbEdit_2, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
+    connect( cbValOn, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( additText,  SIGNAL( textChanged() ), this, SLOT( saveBtnEnable() ) );
     connect( userinfoname, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
     connect( userinfocity, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
