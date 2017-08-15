@@ -47,7 +47,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="TabPage1">
       <attribute name="title">
@@ -357,6 +357,13 @@
                <widget class="QCheckBox" name="cbSmbEdit_2">
                 <property name="text">
                  <string>Możliwość zmiany nazwy dodawanego produktu</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="cbValOn">
+                <property name="text">
+                 <string>Włącz walidację</string>
                 </property>
                </widget>
               </item>

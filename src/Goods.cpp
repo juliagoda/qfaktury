@@ -48,11 +48,14 @@ const QString Goods::getRetGoods()
 
 void Goods::okClick() {
 
-    if (Validations::instance()->isEmptyField(nameEdit->text(),textLabel3->text())) return;
+    if (sett().value("validation").toBool()) {
 
-    if (!pkwiuEdit->text().isEmpty()) {
+        if (Validations::instance()->isEmptyField(nameEdit->text(),textLabel3->text())) return;
 
-        if (!Validations::instance()->validatePkwiu(pkwiuEdit->text())) return;
+        if (!pkwiuEdit->text().isEmpty()) {
+
+            if (!Validations::instance()->validatePkwiu(pkwiuEdit->text())) return;
+        }
     }
 
     QStringList listRet = QStringList() << isEmpty(idxEdit->text()) << isEmpty(nameEdit->text()) << isEmpty(shortcutEdit->text()) << isEmpty(codeEdit->text()) << isEmpty(pkwiuEdit->text()) <<

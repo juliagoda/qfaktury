@@ -107,14 +107,14 @@ void Buyers::selectData(QString name, int type) {
 bool Buyers::insertData() {
 
 	bool result = false;
+    BuyerData buyerData;
 
-	if (validate()) {
+    if ((sett().value("validation").toBool() && validate()) || sett().value("validation").toBool() == false) {
 
-        BuyerData buyerData;
         setData(buyerData);
         result = dataLayer->buyersInsertData(buyerData,
-					typeCombo->currentIndex());
-	}
+                    typeCombo->currentIndex());
+    }
 
 	return result;
 }
@@ -123,14 +123,15 @@ bool Buyers::insertData() {
 bool Buyers::updateData() {
 
 	bool result = false;
-    if (validateUpdated()) {
+    BuyerData buyerData;
 
-        BuyerData buyerData;
+    if ((sett().value("validation").toBool() && validateUpdated()) || sett().value("validation").toBool() == false) {
+
         setData(buyerData);
 
         result = dataLayer->buyersUpdateData(buyerData,
-					typeCombo->currentIndex(), nameEdit->text());
-	}
+                    typeCombo->currentIndex(), nameEdit->text());
+    }
 
     if (typeCombo->currentIndex() == 2) {
         textLabel2_2->setText(trUtf8("NIP:"));
