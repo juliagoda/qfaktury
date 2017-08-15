@@ -1024,7 +1024,7 @@ public:
 	double stringToDouble(QString s)
 	{
 		bool ok = false;
-		int countNumb = 1;
+		double countNumb = 1;
 
 		QList<QLocale> allLocales =
 			QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyCountry);

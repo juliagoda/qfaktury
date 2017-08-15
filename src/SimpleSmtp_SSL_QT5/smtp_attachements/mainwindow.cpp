@@ -37,7 +37,7 @@ void EmailWindow::browse()
 
 void EmailWindow::sendMail()
 {
-    smtp = new Smtp(ui->uname->text(), ui->paswd->text(), ui->server->text(), ui->port->text().toInt());
+	smtp = new Smtp(ui->uname->text(), ui->paswd->text(), ui->server->text(), ui->port->text().toUShort());
 
     if( !files.isEmpty() )
         smtp->sendMail(ui->uname->text(), ui->rcpt->text() , ui->subject->text(),ui->msg->toPlainText(), files );

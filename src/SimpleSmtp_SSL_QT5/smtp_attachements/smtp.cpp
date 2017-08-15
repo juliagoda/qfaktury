@@ -13,7 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 QString Smtp::status = " ";
 
-Smtp::Smtp( const QString &user, const QString &pass, const QString &host, int port, int timeout )
+Smtp::Smtp( const QString &user, const QString &pass, const QString &host, quint16 port, int timeout )
 {    
     socket = new QSslSocket(this);
 
