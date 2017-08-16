@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QtXml/qdom.h>
-
 #include "ui_BuyersList.h"
+
+#include <QtXml/qdom.h>
 
 class BuyersList : public QDialog, public Ui::BuyersList
 {
@@ -10,7 +10,7 @@ class BuyersList : public QDialog, public Ui::BuyersList
 
 public:
 	BuyersList(QWidget *parent);
-	const QString getRetBuyerList();
+	QString getRetBuyerList() const;
 
 public slots:
 	void readBuyer();

@@ -1,4 +1,3 @@
-
 #include "Goods.h"
 #include "Settings.h"
 #include "Validations.h"
@@ -36,7 +35,7 @@ void Goods::init()
 	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
 }
 
-const QString Goods::getRetGoods()
+QString Goods::getRetGoods() const
 {
 	return ret;
 }
@@ -73,11 +72,12 @@ void Goods::okClick()
 		}
 	}
 
-	QStringList listRet = QStringList()
-		<< isEmpty(idxEdit->text()) << isEmpty(nameEdit->text()) << isEmpty(shortcutEdit->text())
-		<< isEmpty(codeEdit->text()) << isEmpty(pkwiuEdit->text())
-		<< isEmpty(typeCombo->currentText()) << isEmpty(jednCombo->currentText()) << isEmpty(net[0])
-		<< isEmpty(net[1]) << isEmpty(net[2]) << isEmpty(net[3]) << isEmpty(cbVat->currentText());
+	QStringList listRet;
+	listRet << isEmpty(idxEdit->text()) << isEmpty(nameEdit->text())
+			<< isEmpty(shortcutEdit->text()) << isEmpty(codeEdit->text())
+			<< isEmpty(pkwiuEdit->text()) << isEmpty(typeCombo->currentText())
+			<< isEmpty(jednCombo->currentText()) << isEmpty(net[0]) << isEmpty(net[1])
+			<< isEmpty(net[2]) << isEmpty(net[3]) << isEmpty(cbVat->currentText());
 
 	if (workMode == 1)
 	{

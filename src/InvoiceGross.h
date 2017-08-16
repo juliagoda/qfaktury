@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * FakturaBrutto.h
- *
  *  Created on: Apr 2, 2009
  *      Author: TPIELECH
  */
@@ -16,11 +14,12 @@ class InvoiceGross : public Invoice
 public:
 	InvoiceGross(QWidget *parent, IDataLayer *dl, QString in_form = QString());
 
+	void calculateOneDiscount(int i) override;
+
 public slots:
 	void invoiceGrossInit();
-	void addGoods();
+	void addGoods() override;
 
 protected:
-	void calculateOneDiscount(int i);
-	QString getInvoiceTypeAndSaveNr();
+	QString getInvoiceTypeAndSaveNr() override;
 };

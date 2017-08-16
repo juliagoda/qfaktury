@@ -10,12 +10,12 @@ public:
 
 public slots:
 	void invoiceRRInit();
-	void makeInvoice();
+	void makeInvoice() override;
 
 protected:
-	QString getInvoiceTypeAndSaveNr();
-	void getData(InvoiceData invData);
-	void setData(InvoiceData &invData);
+	QString getInvoiceTypeAndSaveNr() override;
+	void getData(InvoiceData invData) override;
+	void setData(InvoiceData &invData) override;
 
 private:
 	QCheckBox *ifpaysVAT;

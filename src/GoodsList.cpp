@@ -1,4 +1,3 @@
-
 #include <QtXml/qdom.h>
 
 #include "GoodsList.h"
@@ -7,8 +6,6 @@
 /** Constructor
  */
 
-GoodsList *GoodsList::m_instance = nullptr;
-
 GoodsList::GoodsList(QWidget *parent)
 	: QDialog(parent)
 {
@@ -16,17 +13,11 @@ GoodsList::GoodsList(QWidget *parent)
 	init();
 }
 
-GoodsList::~GoodsList()
-{
-	m_instance = nullptr;
-}
-
 /** Init
  */
 
 void GoodsList::init()
 {
-	m_instance = this;
 	ret = "";
 
 	// clear all the lists
@@ -57,27 +48,22 @@ void GoodsList::init()
 	connect(countSpinBox, SIGNAL(valueChanged(const QString &)), this, SLOT(calcNet()));
 }
 
-GoodsList *GoodsList::instance()
-{
-	return m_instance;
-}
-
-const QString GoodsList::getGoodsId()
+QString GoodsList::getGoodsId() const
 {
 	return id;
 }
 
-const QString GoodsList::getSelItem()
+QString GoodsList::getSelItem() const
 {
 	return selectedItem;
 }
 
-const QMap<QString, int> GoodsList::getVatsVal()
+QMap<QString, int> GoodsList::getVatsVal() const
 {
 	return vats;
 }
 
-const QString GoodsList::getRetVal()
+QString GoodsList::getRetVal() const
 {
 	return ret;
 }
@@ -113,9 +99,9 @@ void GoodsList::doAccept()
 
 	selectedItem = nameEdit->text();
 
-	QVector<QHash<QString, ProductData *>> listProducts;
-	listProducts.append(goodsList2);
-	listProducts.append(servicesList2);
+	QVector<ProductDataList *> listProducts;
+	listProducts.append(std::addressof(goodsList2));
+	listProducts.append(std::addressof(servicesList2));
 
 	qDebug() << "listProducts[0]" << listProducts[0];
 	qDebug() << "listProducts[1]" << listProducts[1];
@@ -126,12 +112,15 @@ void GoodsList::doAccept()
 		{
 			if (comboBox1->currentIndex() == i)
 			{
-				QStringList listRest = QStringList()
-					<< selectedItem << listProducts[i][id]->getCode()
-					<< listProducts[i][id]->getPkwiu() << trimZeros(countSpinBox->cleanText())
-					<< listProducts[i][id]->getQuantityType() << discountSpin->cleanText()
-					<< sett().numberToString(priceBoxEdit->value()) << netLabel->text()
-					<< sett().numberToString(listProducts[i][id]->getVat()) << grossLabel->text();
+				const auto &currentList = (*listProducts[i]);
+				const auto &currentProduct = currentList[id];
+
+				QStringList listRest;
+				listRest << selectedItem << currentProduct.getCode() << currentProduct.getPkwiu()
+						 << trimZeros(countSpinBox->cleanText()) << currentProduct.getQuantityType()
+						 << discountSpin->cleanText()
+						 << sett().numberToString(priceBoxEdit->value()) << netLabel->text()
+						 << sett().numberToString(currentProduct.getVat()) << grossLabel->text();
 
 				for (int j = 0; j < listRest.count(); j++)
 				{
@@ -233,45 +222,33 @@ void GoodsList::readGoods()
 	for (QDomNode n = good.firstChild(); !n.isNull(); n = n.nextSibling())
 	{
 		text = n.toElement().attribute("name");
-		ProductData *product = new ProductData();
-		product->setId(n.toElement().attribute("idx"));
-		product->setName(text);
-		product->setCode(n.toElement().attribute("code"));
-		product->setVat(n.toElement().attribute("vat"));
-		product->setQuanType(n.toElement().attribute("quanType"));
-		product->setPkwiu(n.toElement().attribute("pkwiu"));
+		ProductData product;
+		product.setId(n.toElement().attribute("idx"));
+		product.setName(text);
+		product.setCode(n.toElement().attribute("code"));
+		product.setVat(n.toElement().attribute("vat"));
+		product.setQuanType(n.toElement().attribute("quanType"));
+		product.setPkwiu(n.toElement().attribute("pkwiu"));
 		vats[text] = n.toElement().attribute("vat").toInt();
 		nets[text] = n.toElement().attribute("netto1") + "|" + n.toElement().attribute("netto2")
 			+ "|" + n.toElement().attribute("netto3") + "|" + n.toElement().attribute("netto4");
 		goodsList2.insert(text, product);
-
-		if (product != 0)
-		{
-			product = 0;
-		}
-		delete product;
 	}
 
 	for (QDomNode n = service.firstChild(); !n.isNull(); n = n.nextSibling())
 	{
 		text = n.toElement().attribute("name");
-		ProductData *product = new ProductData();
-		product->setId(n.toElement().attribute("idx"));
-		product->setName(text);
-		product->setVat(n.toElement().attribute("vat"));
-		product->setCode(n.toElement().attribute("code"));
-		product->setQuanType(n.toElement().attribute("quanType"));
-		product->setPkwiu(n.toElement().attribute("pkwiu"));
+		ProductData product;
+		product.setId(n.toElement().attribute("idx"));
+		product.setName(text);
+		product.setVat(n.toElement().attribute("vat"));
+		product.setCode(n.toElement().attribute("code"));
+		product.setQuanType(n.toElement().attribute("quanType"));
+		product.setPkwiu(n.toElement().attribute("pkwiu"));
 		vats[text] = n.toElement().attribute("vat").toInt();
 		nets[text] = n.toElement().attribute("netto1") + "|" + n.toElement().attribute("netto2")
 			+ "|" + n.toElement().attribute("netto3") + "|" + n.toElement().attribute("netto4");
 		servicesList2.insert(text, product);
-
-		if (product != 0)
-		{
-			product = 0;
-		}
-		delete product;
 	}
 }
 
@@ -286,21 +263,18 @@ void GoodsList::displayData(int x)
 	{
 	case 0:
 
-		for (QHash<QString, ProductData *>::iterator iter = goodsList2.begin();
-			 iter != goodsList2.end();
-			 ++iter)
+		for (auto it = goodsList2.begin(); it != goodsList2.end(); ++it)
 		{
-			listWidget->addItem(iter.key());
+			listWidget->addItem(it.key());
 		}
 
 		break;
+
 	case 1:
 
-		for (QHash<QString, ProductData *>::iterator iter = servicesList2.begin();
-			 iter != servicesList2.end();
-			 ++iter)
+		for (auto it = servicesList2.begin(); it != servicesList2.end(); ++it)
 		{
-			listWidget->addItem(iter.key());
+			listWidget->addItem(it.key());
 		}
 
 		break;

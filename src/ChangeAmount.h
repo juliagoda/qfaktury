@@ -8,10 +8,4 @@ class ChangeAmount : public QDialog, public Ui::ChangeAmount
 
 public:
 	ChangeAmount(QWidget *parent);
-	~ChangeAmount();
-	static ChangeAmount *instance();
-	void init();
-
-private:
-	static ChangeAmount *m_instance;
 };

@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * TowaryBruttoLista.h
- *
  *  Created on: Apr 3, 2009
  *      Author: TPIELECH
  */
@@ -15,14 +13,12 @@ class GoodsGrossList : public GoodsList
 
 public:
 	GoodsGrossList(QWidget *parent);
-	const QString getRetValGoodsBr();
-	~GoodsGrossList();
+	QString getRetValGoodsBr() const;
 
 public slots:
-
 	void calcNet();
 	void doAccept();
-	QString getPriceOfCurrent();
+	QString getPriceOfCurrent() const;
 
 private:
 	QString ret;

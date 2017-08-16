@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * InvoiceData.h
- *
  *  Created on: Mar 12, 2009
  *      Author: moux
  */
@@ -49,7 +47,7 @@ public:
 	 *  Return invoice type
 	 */
 
-	QString getInvoiceTypeAndSaveNr(int invoiceType)
+	QString getInvoiceTypeAndSaveNr(int invoiceType) const
 	{
 		QString ret = "FVAT";
 

@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * Duplicat.h
- *
  *  Created on: Mar 31, 2009
  *      Author: moux
  */
@@ -17,16 +15,15 @@ public:
 	Duplicate(QWidget *parent, IDataLayer *dl, QString in_form, bool ifEdited);
 	~Duplicate();
 
-	virtual void setData(InvoiceData &invData);
+	void setData(InvoiceData &invData) override;
 
 public slots:
-
-	virtual void canQuit();
+	void canQuit() override;
 	void cancelDupl();
 	void duplicateInit();
 
 protected:
-	virtual void makeInvoiceHeadar(bool sellDate, bool breakPage, bool original);
+	void makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) override;
 
 private:
 	QDateEdit *duplicateDate;

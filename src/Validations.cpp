@@ -31,7 +31,7 @@ bool Validations::validateAccount(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany rachunek bankowy. Wymagany format to "
 				   "\"SSXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX\" lub "
@@ -103,7 +103,7 @@ bool Validations::validateEmail(QString text)
 	if (!masks.exactMatch(text) || !notTwoDotted)
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany adres email. Dozwolone są duże litery, małe litery, cyfry, "
 				   "specjalne znaki !#$%&'*+-/=?^_`{|}~, znak . (pod warunkiem że nie znajduje się "
@@ -124,7 +124,7 @@ bool Validations::validateIDCard(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany numer dowodu osobistego. Wymagany format dowodu to "
 				   "AAAXXXXXX, gdzie X oznacza cyfrę, a A oznacza dużą literę"));
@@ -144,7 +144,7 @@ bool Validations::validateNIP(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany numer NIP. Wymagany format NIP to XXX-XXX-XX-XX lub "
 				   "XXX-XX-XX-XXX, gdzie X oznacza cyfrę"));
@@ -162,7 +162,7 @@ bool Validations::validatePass(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany numer seryjny paszportu. Wymagany format dowodu to "
 				   "AAXXXXXXX, gdzie X oznacza cyfrę, a A oznacza dużą literę"));
@@ -180,7 +180,7 @@ bool Validations::validatePESEL(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany PESEL. Wymagany format to "
 				   "XXXXXXXXXXX (11 razy), gdzie X oznacza cyfrę"));
@@ -198,7 +198,7 @@ bool Validations::validatePkwiu(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany numer PKWiU. Wymagany format to XX(.XX.XX.X) , gdzie "
 				   "X oznacza cyfrę, a część w nawiasie oznacza opcjonalną postać. "
@@ -217,7 +217,7 @@ bool Validations::validateRegon(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8(
 				"Źle podany REGON. Wymagany format to XXXXXXXXX (9 razy), gdzie X oznacza cyfrę"));
@@ -235,7 +235,7 @@ bool Validations::validateTel(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany numer telefonu. Wymagany format to +XX(X od 5 do 20) "
 				   "lub 0(X od 5 do 20), gdzie X oznacza cyfrę."));
@@ -266,7 +266,7 @@ bool Validations::validateWebsite(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany adres internetowy. Format pozwala na umieszczenie "
 				   "opcjonalnie https://, http:// jak i www. Wymagany jest adres "
@@ -286,7 +286,7 @@ bool Validations::validateZip(QString text)
 	if (!masks.exactMatch(text))
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Źle podany kod pocztowy. Wymagany format to XX-XXX, gdzie X oznacza cyfrę"));
 
@@ -322,7 +322,7 @@ bool Validations::checkSumNIP(QString text)
 	}
 
 	QMessageBox::warning(
-		0,
+		nullptr,
 		"QFaktury",
 		trUtf8("Weryfikator cyfry kontrolnej NIP wykrył niepoprawny numer NIP. "
 			   "Sprawdź kolejność wpisanych liczb."));
@@ -365,7 +365,7 @@ bool Validations::checkSumREGON(QString text)
 	}
 
 	QMessageBox::warning(
-		0,
+		nullptr,
 		"QFaktury",
 		trUtf8("Weryfikator cyfry kontrolnej REGON wykrył niepoprawny numer. "
 			   "Sprawdź kolejność wpisanych liczb."));
@@ -398,7 +398,7 @@ bool Validations::checkSumPESEL(QString text)
 	}
 
 	QMessageBox::warning(
-		0,
+		nullptr,
 		"QFaktury",
 		trUtf8("Weryfikator cyfry kontrolnej PESEL wykrył niepoprawny numer. "
 			   "Sprawdź kolejność wpisanych liczb."));
@@ -470,7 +470,7 @@ bool Validations::checkSumAccount(QString text)
 		}
 
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Weryfikator konta bankowego IBAN wykrył niepoprawny numer. "
 				   "Sprawdź kolejność wpisanych liczb."));
@@ -524,7 +524,7 @@ bool Validations::checkSumIDCard(QString text)
 	}
 
 	QMessageBox::warning(
-		0,
+		nullptr,
 		"QFaktury",
 		trUtf8("Weryfikator polskiego dowodu osobistego wykrył niepoprawny "
 			   "numer. Sprawdź kolejność wpisanych znaków. Możesz także zgłosić "
@@ -567,7 +567,7 @@ bool Validations::checkSumPass(QString text)
 	}
 
 	QMessageBox::warning(
-		0,
+		nullptr,
 		"QFaktury",
 		trUtf8("Weryfikator numeru seryjnego paszportu wykrył niepoprawny "
 			   "numer. Sprawdź kolejność wpisanych znaków. Możesz także zgłosić "
@@ -581,7 +581,7 @@ bool Validations::isEmptyField(QLineEdit *field, QString title)
 	if (field->text().isEmpty())
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Firma nie może zostać zapisana, pownieważ brakuje wymaganych danych w polu - ")
 				+ title);
@@ -597,7 +597,7 @@ bool Validations::isEmptyField(QString input, QString title)
 	if (input.isEmpty())
 	{
 		QMessageBox::warning(
-			0,
+			nullptr,
 			"QFaktury",
 			trUtf8("Firma nie może zostać zapisana, pownieważ brakuje wymaganych danych w polu - ")
 				+ title);

@@ -1,8 +1,6 @@
 #pragma once
 
 /*
- * BuyerData.h
- *
  *  Created on: Apr 18, 2009
  *      Author: moux
  */
@@ -11,11 +9,8 @@
 
 #include <QString>
 
-class BuyerData
+struct BuyerData final
 {
-public:
-	BuyerData();
-	virtual ~BuyerData();
 	QString name;
 	QString place;
 	QString code;

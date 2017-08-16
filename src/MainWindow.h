@@ -1,28 +1,28 @@
 #pragma once
 
-#include <QKeyEvent>
-#include <QMainWindow>
-
 #include "Invoice.h"
 #include "Setting.h"
 #include "owncalendar.h"
 #include "ui_MainWindow.h"
+
+#include <QKeyEvent>
+#include <QMainWindow>
 
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	MainWindow(QWidget *parent = 0);
+	MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
 	static void insertRow(QTableWidget *t, int row);
 	void newInvoice(Invoice *invoice, QString windowTitle);
-	const int getMaxSymbol();
+	int getMaxSymbol() const;
+	// FIXME: remove this buggy instance() thing
 	static MainWindow *instance();
 	static bool shouldHidden;
 
 public slots:
-
 	void tableClear(QTableWidget *tab);
 	void tabChanged();
 	void rereadHist(bool if_clicked);
@@ -64,7 +64,7 @@ public slots:
 	void addTaskToList();
 	void addNextTask();
 	void delTasksFromDay();
-	QString changeIfEmpty(QString);
+	QString changeIfEmpty(QString text) const;
 	void sendEmailToBuyer();
 
 protected:
@@ -107,7 +107,7 @@ private:
 	void createPdfDir();
 	void generatePdfFromList();
 
-	inline void calendarNoteJustify(QString text)
+	void calendarNoteJustify(QString text)
 	{
 		ui->todayExercise->append(text);
 
