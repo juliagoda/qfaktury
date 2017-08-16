@@ -1,7 +1,5 @@
 #pragma once
 
-#include "config.h"
-
 #include <QDate>
 #include <QDebug>
 #include <QDir>
@@ -11,6 +9,8 @@
 #include <QStyleFactory>
 #include <QTextCodec>
 #include <QTranslator>
+
+#include "config.h"
 
 // #define trUtf8(x) QObject::aaa(x)
 #define STRING2(x) #x
@@ -35,13 +35,13 @@ public:
 	QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
 #endif
 
-	QString getAppDirs() const
+	QString getAppDirs()
 	{
 		return appPath + "/";
 	}
 
 	// get date from settings as QDate
-	QDate getValueAsDate(QString val) const
+	QDate getValueAsDate(QString val)
 	{
 		QString date = value(val).toString();
 		QLocale locale;
@@ -49,14 +49,14 @@ public:
 	}
 
 	// returns date format used for all dates
-	QString getDateFormat() const
+	QString getDateFormat()
 	{
 		// it's better to have a full year... so
 		return dateFormat;
 	}
 
 	// returns date format used while saving the file
-	QString getFnameDateFormat() const
+	QString getFnameDateFormat()
 	{
 		return fileNameDateFormat;
 	}
@@ -816,7 +816,7 @@ public:
 	}
 
 	// Compiles version with appName ready for display
-	QString getVersion(QString appName) const
+	QString getVersion(QString appName)
 	{
 		QString str = appName;
 		str.truncate(2);
@@ -824,12 +824,12 @@ public:
 	}
 
 	// returns working directory
-	QString getWorkingDir() const
+	QString getWorkingDir()
 	{
-		return QDir::homePath() + "/.local/share/data/elinux";
+		return QString(QDir::homePath() + "/.local/share/data/elinux");
 	}
 
-	QString getStyle() const
+	QString getStyle()
 	{
 		QString style = value("style").toString();
 
@@ -842,7 +842,7 @@ public:
 	}
 
 	// returns templates directory
-	QString getTemplate() const
+	QString getTemplate()
 	{
 		QString style = value("css").toString();
 
@@ -866,18 +866,18 @@ public:
 		return ret;
 	}
 
-	QString getPdfDir() const
+	QString getPdfDir()
 	{
-		return getWorkingDir() + "/pdf-invoices";
+		return QString(getWorkingDir() + "/pdf-invoices");
 	}
 
-	QString getEmergTemplate() const
+	QString getEmergTemplate()
 	{
 		return (QDir::homePath() + "/.local/share/data/elinux/template/black.css");
 	}
 
 	// return invoices dir
-	QString getDataDir() const
+	QString getDataDir()
 	{
 		// Changed name of the folder to avoid overwriting the files.
 		// This may require conversion script.
@@ -885,50 +885,50 @@ public:
 	}
 
 	// return invoices dir
-	QString getInvoicesDir() const
+	QString getInvoicesDir()
 	{
-		return getWorkingDir() + getDataDir() + "/";
+		return QString(getWorkingDir() + getDataDir() + "/");
 	}
 
 	// return customers xml
-	QString getCustomersXml() const
+	QString getCustomersXml()
 	{
-		return getWorkingDir() + "/customers.xml";
+		return QString(getWorkingDir() + "/customers.xml");
 	}
 
 	// return customers xml
-	QString getProductsXml() const
+	QString getProductsXml()
 	{
-		return getWorkingDir() + "/products.xml";
+		return QString(getWorkingDir() + "/products.xml");
 	}
 
 	// returns inoice doc name stored as a DOCTYPE
-	QString getInoiveDocName() const
+	QString getInoiveDocName()
 	{
 		return QString("invoice");
 	}
 
 	// returns correction doc name stored as a DOCTYPE
-	QString getCorrDocName() const
+	QString getCorrDocName()
 	{
 		return QString("correction");
 	}
 
 	// returns customers doc name stored as a DOCTYPE
-	QString getCustomersDocName() const
+	QString getCustomersDocName()
 	{
 		return QString("customers");
 	}
 
 	// returns products doc name stored as a DOCTYPE
-	QString getProdutcsDocName() const
+	QString getProdutcsDocName()
 	{
 		return QString("products");
 	}
 
 	// @TODO enforce that translation won't affect this funcionality
 	// converts customer type into int value
-	int getCustomerType(QString custType) const
+	int getCustomerType(QString custType)
 	{
 		if (custType.compare(trUtf8("Firma")) == 0 || custType.compare(trUtf8("firma")) == 0)
 		{
@@ -943,7 +943,7 @@ public:
 	}
 
 	// converts product type into int value
-	int getProductType(QString prodName) const
+	int getProductType(QString prodName)
 	{
 		if (prodName.compare(trUtf8("Towar")) == 0 || prodName.compare(trUtf8("towar")) == 0)
 		{
@@ -953,78 +953,78 @@ public:
 		return 1;
 	}
 
-	QString getCompanyName() const
+	QString getCompanyName()
 	{
 		return QString("company");
 	}
 
-	QString getNaturalPerson() const
+	QString getNaturalPerson()
 	{
 		return QString("person");
 	}
 
-	QString getOfficeName() const
+	QString getOfficeName()
 	{
 		return QString("office");
 	}
 
-	QString getCompanyNameTr() const
+	QString getCompanyNameTr()
 	{
 		return trUtf8("Firma");
 	}
 
-	QString getOfficeNameTr() const
+	QString getOfficeNameTr()
 	{
 		return trUtf8("Urząd");
 	}
 
-	QString getProductName() const
+	QString getProductName()
 	{
 		return QString("product");
 	}
 
-	QString getServiceName() const
+	QString getServiceName()
 	{
 		return QString("service");
 	}
 
 	// Adds Data to input string
-	QString getNameWithData(QString in) const
+	QString getNameWithData(QString in)
 	{
 		return in + trUtf8("DATA");
 	}
 
-	QByteArray getCodecName() const
+	QByteArray getCodecName()
 	{
 		return QByteArray("UTF-8");
 	}
 
-	QString getDecimalPointStr() const
+	QString getDecimalPointStr()
 	{
 		QChar decimalPoint = locale->decimalPoint();
 		return QString(decimalPoint);
 	}
 
-	QString getTPointStr() const
+	QString getTPointStr()
 	{
 		QChar tPoint = locale->groupSeparator();
 		return QString(tPoint);
 	}
 
-	QString numberToString(double i, char f = 'f', int prec = 2) const
+	QString numberToString(double i, char f = 'f', int prec = 2)
 	{
 		return locale->toString(i, f, prec);
 	}
 
-	QString numberToString(int i) const
+	QString numberToString(int i)
 	{
 		return locale->toString(i);
 	}
 
-	double stringToDouble(QString s) const
+	double stringToDouble(QString s)
 	{
 		bool ok = false;
-		double countNumb = 1;
+		int countNumb = 1;
 
 		QList<QLocale> allLocales =
 			QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyCountry);
@@ -1048,6 +1048,7 @@ private:
 	QString fileNameDateFormat;
 	QLocale *locale;
 
+	// constr
 	Settings()
 		: QSettings("elinux", "qfaktury")
 	{

@@ -27,7 +27,7 @@ void Buyers::init()
 	connect(typeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(requiredTic(int)));
 }
 
-QString Buyers::getRetBuyer() const
+const QString Buyers::getRetBuyer()
 {
 	return ret;
 }
@@ -38,10 +38,10 @@ QString Buyers::getRetBuyer() const
 
 void Buyers::okClick()
 {
-	QStringList list;
-	list << nameEdit->text() << typeCombo->currentText() << placeEdit->text() << addressEdit->text()
-		 << telefonEdit->text() << nipEdit->text() << codeEdit->text() << accountEdit->text()
-		 << emailEdit->text() << wwwEdit->text();
+	QStringList list = QStringList()
+		<< nameEdit->text() << typeCombo->currentText() << placeEdit->text() << addressEdit->text()
+		<< telefonEdit->text() << nipEdit->text() << codeEdit->text() << accountEdit->text()
+		<< emailEdit->text() << wwwEdit->text();
 
 	if (workingMode == 1)
 	{
@@ -269,7 +269,7 @@ bool Buyers::validate()
 	if (allNames.indexOf(QRegExp(nameEdit->text(), Qt::CaseSensitive, QRegExp::FixedString)) != -1)
 	{
 		QMessageBox::critical(
-			nullptr,
+			0,
 			"QFaktury",
 			trUtf8("Kontrahent nie moze zostać dodany ponieważ "
 				   "istnieje już kontrahent o tej nazwie."));

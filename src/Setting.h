@@ -8,8 +8,10 @@ class Setting : public QDialog, public Ui::Setting
 
 public:
 	Setting(QWidget *parent);
+	~Setting();
 
 public slots:
+
 	void apply();
 	void okButtonClick();
 	void addLogoBtnClick();
@@ -44,9 +46,9 @@ private:
 	void helpFuncDelNr(QListWidget *listWg, QString const &text);
 	void helpFuncAp(QListWidget *listWg);
 	void helpFuncDown(QListWidget *listWg);
-	QStringList getTemplates() const;
-	QStringList getTranslations() const;
-	QStringList getStyles() const;
-	QString getAll(QListWidget *lb) const;
+	QStringList getTemplates();
+	QStringList getTranslations();
+	QStringList getStyles();
+	QString getAll(QListWidget *lb);
 	QVector<QTextCodec *> codecs;
 };

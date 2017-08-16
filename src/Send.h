@@ -1,8 +1,5 @@
 #pragma once
 
-#include "Buyers.h"
-#include "SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.h"
-
 #include <QCheckBox>
 #include <QFile>
 #include <QGroupBox>
@@ -18,12 +15,15 @@
 #include <QWizard>
 #include <QWizardPage>
 
+#include "Buyers.h"
+#include "SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.h"
+
 class Send : public QWizard
 {
 	Q_OBJECT
 
 public:
-	Send(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = nullptr);
+	Send(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
 
 	void accept() override;
 
@@ -37,7 +37,7 @@ class IntroPage : public QWizardPage
 	Q_OBJECT
 
 public:
-	IntroPage(QWidget *parent = nullptr);
+	IntroPage(QWidget *parent = 0);
 
 private:
 	QLabel *label;
@@ -48,11 +48,11 @@ class ClassInvoicePage : public QWizardPage
 	Q_OBJECT
 
 public:
-	ClassInvoicePage(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = nullptr);
+	ClassInvoicePage(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
 
 protected:
 	bool validatePage() override;
-	QString transformType(QString text) const;
+	QString transformType(QString);
 
 private:
 	QVector<BuyerData> bList;
@@ -65,7 +65,7 @@ class EmailPage : public QWizardPage
 	Q_OBJECT
 
 public:
-	EmailPage(QWidget *parent = nullptr);
+	EmailPage(QWidget *parent = 0);
 	void setHostPort(QString, QString);
 
 protected:
@@ -103,7 +103,7 @@ class ConclusionPage : public QWizardPage
 	Q_OBJECT
 
 public:
-	ConclusionPage(QWidget *parent = nullptr);
+	ConclusionPage(QWidget *parent = 0);
 
 protected:
 	void initializePage() override;

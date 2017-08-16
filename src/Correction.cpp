@@ -1,3 +1,4 @@
+
 #include "Correction.h"
 #include "Const.h"
 #include "MainWindow.h"
@@ -16,17 +17,23 @@ Correction::Correction(QWidget *parent, IDataLayer *dl, QString in_form, bool ed
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__ << "EXIT";
 }
 
-bool Correction::getMode() const
+Correction::~Correction()
+{
+	delete invData;
+	invData = NULL;
+}
+
+const bool Correction::getMode()
 {
 	return editMode;
 }
 
-bool Correction::getFirstRun() const
+bool const Correction::getFirstRun()
 {
 	return firstRunned;
 }
 
-QString Correction::getRet() const
+QString const Correction::getRet()
 {
 	return ret;
 }
@@ -481,7 +488,7 @@ void Correction::canQuit()
 				trUtf8("Dane zostały zmienione czy chcesz zapisać?"),
 				trUtf8("Tak"),
 				trUtf8("Nie"),
-				nullptr,
+				0,
 				0,
 				1)
 			== 1)
@@ -562,7 +569,7 @@ void Correction::readCorrData(QString invFile)
 	productDate->setDate(QDate::fromString(root.attribute("issueDate"), sett().getDateFormat()));
 	origGrossBureau = sett().stringToDouble(root.attribute("invValue"));
 
-	invData = std::make_unique<InvoiceData>();
+	invData = new InvoiceData();
 	invData->invNr = root.attribute("originalInvoiceNo");
 
 	QDomNode tmp;
@@ -677,7 +684,7 @@ void Correction::readCorrData(QString invFile)
 		labelRate->setAlignment(Qt::AlignRight);
 		addDataLabels->addWidget(labelRate);
 
-		if (!ratesCombo)
+		if (ratesCombo == 0)
 		{
 			ratesCombo = new QComboBox();
 		}
@@ -831,10 +838,9 @@ void Correction::setIsEditAllowed(bool isAllowed)
 
 	reasonCombo->setEnabled(isAllowed);
 
-	if (!invData)
+	if (invData == NULL)
 	{
 		invData = createOriginalInv();
-		backBtnClick(); // populate correct correction symbol
 	}
 
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__ << "EXIT";
@@ -843,17 +849,17 @@ void Correction::setIsEditAllowed(bool isAllowed)
 /**  Creates object with the orignal invoice
  */
 
-UPtr<InvoiceData> Correction::createOriginalInv() const
+InvoiceData *Correction::createOriginalInv()
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-	auto invoice = std::make_unique<InvoiceData>();
-	invoice->customer = buyerName->text();
+	invData = new InvoiceData();
+	invData->customer = buyerName->text();
 	qDebug() << "Ile jest wierszy: ";
 
 	for (int i = 0; i < tableGoods->rowCount(); ++i)
 	{
-		ProductData product;
+		ProductData product; //  = new ProductData();
 		product.setId(tableGoods->item(i, 0)->text());
 		product.setName(tableGoods->item(i, 1)->text());
 		product.setCode(tableGoods->item(i, 2)->text());
@@ -867,20 +873,20 @@ UPtr<InvoiceData> Correction::createOriginalInv() const
 		product.setGross(tableGoods->item(i, 10)->text());
 		qDebug() << "Gross w funkcji createOriginalInv " << i << ": "
 				 << tableGoods->item(i, 10)->text();
-		invoice->products[i] = product;
+		invData->products[i] = product;
 	}
 
-	invoice->liabDate = liabDate->date();
-	invoice->sellingDate = sellingDate->date();
-	invoice->productDate = productDate->date();
-	invoice->invNr = invNr->text();
-	invoice->paymentType = paysCombo->currentText();
-	invoice->currencyType = currCombo->currentText();
-	invoice->additText = additEdit->text();
+	invData->liabDate = liabDate->date();
+	invData->sellingDate = sellingDate->date();
+	invData->productDate = productDate->date();
+	invData->invNr = invNr->text();
+	invData->paymentType = paysCombo->currentText();
+	invData->currencyType = currCombo->currentText();
+	invData->additText = additEdit->text();
 
+	backBtnClick(); // populate correct correction symbol
+	return invData;
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__ << "EXIT";
-
-	return invoice;
 }
 
 /** Not used in this class
@@ -970,10 +976,9 @@ void Correction::schemaCalcSum()
 
 		goodsEdited = true;
 
-		if (!invData)
+		if (invData == NULL)
 		{
 			invData = createOriginalInv();
-			backBtnClick(); // populate correct correction symbol
 		}
 		else
 		{
@@ -1303,11 +1308,18 @@ void Correction::makeInvoiceSummAll()
 
 		ratesCombo->setCurrentIndex(0);
 
-		invStrList += trUtf8("Zapłacono ") + whatMethod_one + ": " + rateLabelInfo->text() + " "
-			+ currCombo->currentText() + " " + ratesCombo->itemText(0) + "<br>";
+		invStrList += QString(
+			trUtf8("Zapłacono ") + whatMethod_one + ": " + rateLabelInfo->text() + " "
+			+ currCombo->currentText()
+			+ " "
+			+ ratesCombo->itemText(0)
+			+ "<br>");
 
-		invStrList += trUtf8("Zaległości ") + whatMethod_two + ": " + restLabelInfo->text() + " "
-			+ currCombo->currentText() + " " + ratesCombo->itemText(1);
+		invStrList += QString(
+			trUtf8("Zaległości ") + whatMethod_two + ": " + restLabelInfo->text() + " "
+			+ currCombo->currentText()
+			+ " "
+			+ ratesCombo->itemText(1));
 
 		invStrList += "</span>";
 	}

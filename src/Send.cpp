@@ -230,7 +230,7 @@ bool ClassInvoicePage::validatePage()
 }
 
 // transform short types to normal text for email message
-QString ClassInvoicePage::transformType(QString text) const
+QString ClassInvoicePage::transformType(QString text)
 {
 	if (text == "FVAT")
 	{

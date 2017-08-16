@@ -1,6 +1,8 @@
 #pragma once
 
 /*
+ * CustomPaymData.h
+ *
  *  Created on: Apr 4, 2009
  *      Author: moux
  */
@@ -8,8 +10,12 @@
 #include <QDate>
 #include <QString>
 
-struct CustomPaymData final
+class CustomPaymData
 {
+public:
+	CustomPaymData();
+	virtual ~CustomPaymData();
+
 	QString payment1;
 	QString payment2;
 	QDate date1;
