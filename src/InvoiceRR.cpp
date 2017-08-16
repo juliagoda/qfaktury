@@ -10,7 +10,7 @@ InvoiceRR::~InvoiceRR()
 	additEdit->clear();
 	additEdit->setDisabled(false);
 	ifpaysVAT->deleteLater();
-	ifpaysVAT = nullptr;
+	ifpaysVAT = 0;
 }
 
 void InvoiceRR::invoiceRRInit()

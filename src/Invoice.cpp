@@ -1,3 +1,4 @@
+
 #include <QPrintPreviewDialog>
 
 #include "Buyers.h"
@@ -55,46 +56,44 @@ Invoice::~Invoice()
 	m_instance = nullptr;
 	delete reply;
 	delete manager;
-
-	//FIXME: investigate these memory leaks!
-	if (ratesCombo)
+	if (ratesCombo != 0)
 	{
-		ratesCombo = nullptr;
+		ratesCombo = 0;
 	}
 	delete ratesCombo;
-	if (labelRate)
+	if (labelRate != 0)
 	{
-		labelRate = nullptr;
+		labelRate = 0;
 	}
 	delete labelRate;
-	if (rateLabel)
+	if (rateLabel != 0)
 	{
-		rateLabel = nullptr;
+		rateLabel = 0;
 	}
 	delete rateLabel;
-	if (restLabel)
+	if (restLabel != 0)
 	{
-		restLabel = nullptr;
+		restLabel = 0;
 	}
 	delete restLabel;
-	if (sendKind)
+	if (sendKind != 0)
 	{
-		sendKind = nullptr;
+		sendKind = 0;
 	}
 	delete sendKind;
-	if (rateLabelInfo)
+	if (rateLabelInfo != 0)
 	{
-		rateLabelInfo = nullptr;
+		rateLabelInfo = 0;
 	}
 	delete rateLabelInfo;
-	if (restLabelInfo)
+	if (restLabelInfo != 0)
 	{
-		restLabelInfo = nullptr;
+		restLabelInfo = 0;
 	}
 	delete restLabelInfo;
-	if (sendKindInfo)
+	if (sendKindInfo != 0)
 	{
-		sendKindInfo = nullptr;
+		sendKindInfo = 0;
 	}
 	delete sendKindInfo;
 }
@@ -104,12 +103,12 @@ Invoice *Invoice::instance()
 	return m_instance;
 }
 
-QString Invoice::getRet() const
+QString const Invoice::getRet()
 {
 	return ret;
 }
 
-QString Invoice::getfName() const
+QString const Invoice::getfName()
 {
 	return fName;
 }
@@ -119,12 +118,12 @@ void Invoice::setfName(QString text)
 	fName = text;
 }
 
-QString Invoice::getInvForm() const
+QString const Invoice::getInvForm()
 {
 	return inv_form;
 }
 
-bool Invoice::getKAdded() const
+bool const Invoice::getKAdded()
 {
 	return kAdded;
 }
@@ -135,16 +134,16 @@ bool Invoice::getKAdded() const
 void Invoice::init()
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-	reply = nullptr;
-	manager = nullptr;
+	reply = 0;
+	manager = 0;
 	ratesCombo = new QComboBox();
-	labelRate = nullptr;
-	rateLabel = nullptr;
-	restLabel = nullptr;
-	sendKind = nullptr;
-	rateLabelInfo = nullptr;
-	restLabelInfo = nullptr;
-	sendKindInfo = nullptr;
+	labelRate = 0;
+	rateLabel = 0;
+	restLabel = 0;
+	sendKind = 0;
+	rateLabelInfo = 0;
+	restLabelInfo = 0;
+	sendKindInfo = 0;
 	rComboWasChanged = false;
 	goodsEdited = false;
 
@@ -389,7 +388,6 @@ void Invoice::tellFinished()
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-	QDomDocument doc;
 	if (file.open(QIODevice::ReadOnly))
 	{
 		if (!doc.setContent(&file))
@@ -466,7 +464,6 @@ QMap<QString, double> Invoice::getActualCurList()
 	}
 	else
 	{
-		QDomDocument doc;
 		if (!doc.setContent(&file))
 		{
 			qDebug("You can't set content to correction xml");
@@ -572,12 +569,11 @@ QMap<QString, double> Invoice::tableOfValues()
 
 	if (currencies.isEmpty())
 	{
-		auto currenciesList = getActualCurList();
-		double eurToPln = currenciesList.value("EUR");
-		double usdToPln = currenciesList.value("USD");
-		double chfToPln = currenciesList.value("CHF");
-		double gbpToPln = currenciesList.value("GBP");
-		double rubToPln = currenciesList.value("RUB");
+		double eurToPln = getActualCurList().value("EUR");
+		double usdToPln = getActualCurList().value("USD");
+		double chfToPln = getActualCurList().value("CHF");
+		double gbpToPln = getActualCurList().value("GBP");
+		double rubToPln = getActualCurList().value("RUB");
 
 		currencies.insert("EUR/PLN", eurToPln);
 		currencies.insert("USD/PLN", usdToPln);
@@ -586,7 +582,12 @@ QMap<QString, double> Invoice::tableOfValues()
 		currencies.insert("RUB/PLN", rubToPln);
 
 		QMap<QString, double> &r = currencies;
-		QStringList langList{ "PLN", "EUR", "USD", "CHF", "GBP", "RUB" };
+		QStringList langList = QStringList() << "PLN"
+											 << "EUR"
+											 << "USD"
+											 << "CHF"
+											 << "GBP"
+											 << "RUB";
 
 		algorithmCurrencies("PLN", langList, r);
 	}
@@ -598,8 +599,6 @@ bool Invoice::ifUpdated()
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-	bool result = false;
-
 	if (!file.open(QIODevice::ReadOnly))
 	{
 		if (file.exists())
@@ -610,62 +609,57 @@ bool Invoice::ifUpdated()
 	}
 	else
 	{
-		QDomDocument doc;
 		if (!doc.setContent(&file))
 		{
 			qDebug("You can't set content to correction xml");
-			result = true;
+			return true;
 		}
-		else
-		{
-			QMap<QString, int> helpMonths;
-			helpMonths.insert("Jan", 1);
-			helpMonths.insert("Feb", 2);
-			helpMonths.insert("Mar", 3);
-			helpMonths.insert("Apr", 4);
-			helpMonths.insert("May", 5);
-			helpMonths.insert("Jun", 6);
-			helpMonths.insert("Jul", 7);
-			helpMonths.insert("Aug", 8);
-			helpMonths.insert("Sep", 9);
-			helpMonths.insert("Oct", 10);
-			helpMonths.insert("Nov", 11);
-			helpMonths.insert("Dec", 12);
 
-			QDomNodeList lastUpdate = doc.elementsByTagName(QString("lastBuildDate"));
-			QStringList dateElements =
-				lastUpdate.at(0).toElement().text().replace(",", " ").split(" ");
-			dateElements.removeLast();
-			QString hours = dateElements.last();
-			QStringList hms = hours.split(":");
-			QDateTime dateNow = QDateTime::currentDateTime();
+		QMap<QString, int> helpMonths;
+		helpMonths.insert("Jan", 1);
+		helpMonths.insert("Feb", 2);
+		helpMonths.insert("Mar", 3);
+		helpMonths.insert("Apr", 4);
+		helpMonths.insert("May", 5);
+		helpMonths.insert("Jun", 6);
+		helpMonths.insert("Jul", 7);
+		helpMonths.insert("Aug", 8);
+		helpMonths.insert("Sep", 9);
+		helpMonths.insert("Oct", 10);
+		helpMonths.insert("Nov", 11);
+		helpMonths.insert("Dec", 12);
 
-			QString year = dateElements.at(3);
-			qDebug() << "Year: " << year;
-			QString day = dateElements.at(1);
-			qDebug() << "Month: " << helpMonths.value(dateElements.at(2));
-			qDebug() << "Day: " << day;
-			QString hour = hms.at(0);
-			qDebug() << "Hour: " << hour;
-			QString min = hms.at(1);
-			qDebug() << "Min: " << min;
-			QString sec = hms.at(2);
-			qDebug() << "Sec: " << sec;
+		QDomNodeList lastUpdate = doc.elementsByTagName(QString("lastBuildDate"));
+		QStringList dateElements = lastUpdate.at(0).toElement().text().replace(",", " ").split(" ");
+		dateElements.removeLast();
+		QString hours = dateElements.last();
+		QStringList hms = hours.split(":");
+		QDateTime dateNow = QDateTime::currentDateTime();
 
-			QDateTime dateOfFile(
-				QDate(year.toInt(), helpMonths.value(dateElements.at(2)), day.toInt()),
-				QTime(hour.toInt(), min.toInt(), sec.toInt()));
+		QString year = dateElements.at(3);
+		qDebug() << "Year: " << year;
+		QString day = dateElements.at(1);
+		qDebug() << "Month: " << helpMonths.value(dateElements.at(2));
+		qDebug() << "Day: " << day;
+		QString hour = hms.at(0);
+		qDebug() << "Hour: " << hour;
+		QString min = hms.at(1);
+		qDebug() << "Min: " << min;
+		QString sec = hms.at(2);
+		qDebug() << "Sec: " << sec;
 
-			qDebug() << "file date: " << dateOfFile.toString();
-			qDebug() << "now: " << dateNow.toString();
-			qDebug() << "have passed: " << dateOfFile.secsTo(dateNow);
+		QDateTime dateOfFile(
+			QDate(year.toInt(), helpMonths.value(dateElements.at(2)), day.toInt()),
+			QTime(hour.toInt(), min.toInt(), sec.toInt()));
 
-			result = dateOfFile.secsTo(dateNow) > 1800;
-		}
+		qDebug() << "file date: " << dateOfFile.toString();
+		qDebug() << "now: " << dateNow.toString();
+		qDebug() << "have passed: " << dateOfFile.secsTo(dateNow);
+
+		return dateOfFile.secsTo(dateNow) > 1800;
 	}
 
 	file.close();
-	return result;
 }
 
 QString Invoice::checkInvCurr()
@@ -803,14 +797,14 @@ void Invoice::changeToRUB()
 	convertCurrShort(konvRUB->text().replace("&", "").trimmed());
 }
 
-QString Invoice::pressedTxt() const
+const QString Invoice::pressedTxt()
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
 	return pressedText;
 }
 
-void Invoice::calcAll(double currVal)
+void Invoice::calcAll(const double &currVal)
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -1234,7 +1228,7 @@ void Invoice::canQuit()
 				trUtf8("Dane zostały zmienione czy chcesz zapisać?"),
 				trUtf8("Tak"),
 				trUtf8("Nie"),
-				nullptr,
+				0,
 				0,
 				1)
 			== 1)
@@ -1286,7 +1280,7 @@ void Invoice::payTextChanged(QString text)
 
 	if (text != trUtf8("zaliczka"))
 	{
-		if (restLabel && rateLabelInfo)
+		if (restLabel != 0 && rateLabelInfo != 0)
 		{
 			rComboWasChanged = false;
 			disconnect(
@@ -1296,23 +1290,23 @@ void Invoice::payTextChanged(QString text)
 				SLOT(rateDateChanged(QString)));
 
 			ratesCombo->deleteLater();
-			ratesCombo = nullptr;
+			ratesCombo = 0;
 			labelRate->deleteLater();
-			labelRate = nullptr;
+			labelRate = 0;
 
 			rateLabel->deleteLater();
-			rateLabel = nullptr;
+			rateLabel = 0;
 			restLabel->deleteLater();
-			restLabel = nullptr;
+			restLabel = 0;
 			sendKind->deleteLater();
-			sendKind = nullptr;
+			sendKind = 0;
 
 			rateLabelInfo->deleteLater();
-			rateLabelInfo = nullptr;
+			rateLabelInfo = 0;
 			restLabelInfo->deleteLater();
-			restLabelInfo = nullptr;
+			restLabelInfo = 0;
 			sendKindInfo->deleteLater();
-			sendKindInfo = nullptr;
+			sendKindInfo = 0;
 		}
 
 		if (text == trUtf8("gotówka"))
@@ -1334,7 +1328,7 @@ void Invoice::payTextChanged(QString text)
 
 		if (cp->exec() == QDialog::Accepted)
 		{
-			custPaymData = nullptr;
+			custPaymData = 0;
 			custPaymData = cp->custPaymData;
 
 			rComboWasChanged = true;
@@ -1344,12 +1338,12 @@ void Invoice::payTextChanged(QString text)
 				this,
 				SLOT(rateDateChanged(QString)));
 
-			if (!ratesCombo)
+			if (ratesCombo == 0)
 			{
 				ratesCombo = new QComboBox();
 			}
 
-			if (!labelRate)
+			if (labelRate == 0)
 			{
 				labelRate = new QLabel();
 			}
@@ -1363,7 +1357,7 @@ void Invoice::payTextChanged(QString text)
 			ratesCombo->setCurrentText(custPaymData->date1.toString(sett().getDateFormat()));
 			addData->addWidget(ratesCombo);
 
-			if (!rateLabel)
+			if (rateLabel == 0)
 			{
 				rateLabel = new QLabel();
 			}
@@ -1371,7 +1365,7 @@ void Invoice::payTextChanged(QString text)
 			rateLabel->setAlignment(Qt::AlignRight);
 			descPayments->addWidget(rateLabel);
 
-			if (!sendKind)
+			if (sendKind == 0)
 			{
 				sendKind = new QLabel();
 			}
@@ -1379,7 +1373,7 @@ void Invoice::payTextChanged(QString text)
 			sendKind->setAlignment(Qt::AlignRight);
 			descPayments->addWidget(sendKind);
 
-			if (!restLabel)
+			if (restLabel == 0)
 			{
 				restLabel = new QLabel();
 			}
@@ -1387,21 +1381,21 @@ void Invoice::payTextChanged(QString text)
 			restLabel->setAlignment(Qt::AlignRight);
 			descPayments->addWidget(restLabel);
 
-			if (!rateLabelInfo)
+			if (rateLabelInfo == 0)
 			{
 				rateLabelInfo = new QLabel();
 			}
 			rateLabelInfo->setText(sett().numberToString(custPaymData->amount1, 'f', 2));
 			dataPayments->addWidget(rateLabelInfo);
 
-			if (!sendKindInfo)
+			if (sendKindInfo == 0)
 			{
 				sendKindInfo = new QLabel();
 			}
 			sendKindInfo->setText(custPaymData->payment1);
 			dataPayments->addWidget(sendKindInfo);
 
-			if (!restLabelInfo)
+			if (restLabelInfo == 0)
 			{
 				restLabelInfo = new QLabel();
 			}
@@ -2643,10 +2637,17 @@ void Invoice::makeInvoiceSummAll()
 
 		ratesCombo->setCurrentIndex(0);
 
-		invStrList += trUtf8("Zapłacono ") + whatMethod_one + ": " + rateLabelInfo->text() + " "
-			+ currCombo->currentText() + " " + ratesCombo->itemText(0) + "<br>";
-		invStrList += trUtf8("Zaległości ") + whatMethod_two + ": " + restLabelInfo->text() + " "
-			+ currCombo->currentText() + " " + ratesCombo->itemText(1);
+		invStrList += QString(
+			trUtf8("Zapłacono ") + whatMethod_one + ": " + rateLabelInfo->text() + " "
+			+ currCombo->currentText()
+			+ " "
+			+ ratesCombo->itemText(0)
+			+ "<br>");
+		invStrList += QString(
+			trUtf8("Zaległości ") + whatMethod_two + ": " + restLabelInfo->text() + " "
+			+ currCombo->currentText()
+			+ " "
+			+ ratesCombo->itemText(1));
 		invStrList += "</span>";
 	}
 	else if (paysCombo->currentText() == trUtf8("przelew"))
@@ -2943,6 +2944,7 @@ void Invoice::calculateSum()
 {
 	qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
+	double net = 0, price = 0, gross = 0;
 	double discountValue = 0;
 
 	nettTotal = 0;
@@ -2951,14 +2953,16 @@ void Invoice::calculateSum()
 
 	for (int i = 0; i < tableGoods->rowCount(); ++i)
 	{
+		price = sett().stringToDouble(tableGoods->item(i, 7)->text());
+
 		double decimalPointsNetto = tableGoods->item(i, 8)->text().right(2).toInt() * 0.01;
 		qDebug() << "decimalPointsNetto << " << decimalPointsNetto;
 		double decimalPointsGross = tableGoods->item(i, 10)->text().right(2).toInt() * 0.01;
 		qDebug() << "decimalPointsGross << " << decimalPointsGross;
 
-		double net = sett().stringToDouble(tableGoods->item(i, 8)->text());
+		net = sett().stringToDouble(tableGoods->item(i, 8)->text());
 		net += decimalPointsNetto;
-		double gross = sett().stringToDouble(tableGoods->item(i, 10)->text());
+		gross = sett().stringToDouble(tableGoods->item(i, 10)->text());
 		gross += decimalPointsGross;
 		discountValue += tableGoods->item(i, 6)->text().toInt();
 

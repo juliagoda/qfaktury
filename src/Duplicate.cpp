@@ -1,4 +1,6 @@
 /*
+ * Duplicate.cpp
+ *
  *  Created on: Mar 31, 2009, improved on Dec 2016
  *      Author: moux, juliagoda
  */
@@ -14,17 +16,15 @@ Duplicate::Duplicate(QWidget *parent, IDataLayer *dl, QString in_form, bool ifEd
 
 Duplicate::~Duplicate()
 {
-	if (labelDupDate)
+	if (labelDupDate != 0)
 	{
-		//FIXME: investigate this memleak
-		labelDupDate = nullptr;
+		labelDupDate = 0;
 	}
 	delete labelDupDate;
 
-	if (duplicateDate)
+	if (duplicateDate != 0)
 	{
-		//FIXME: investigate this memleak
-		duplicateDate = nullptr;
+		duplicateDate = 0;
 	}
 	delete duplicateDate;
 }
@@ -219,11 +219,11 @@ void Duplicate::canQuit()
 	{
 		if (QMessageBox::warning(
 				this,
-				trUtf8("QFaktury"),
+				"QFaktury",
 				trUtf8("Dane zostały zmienione czy chcesz zapisać?"),
 				trUtf8("Tak"),
 				trUtf8("Nie"),
-				nullptr,
+				0,
 				0,
 				1)
 			== 1)

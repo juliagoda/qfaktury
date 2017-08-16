@@ -9,11 +9,13 @@ class GoodsList : public QDialog, public Ui::GoodsList
 
 public:
 	GoodsList(QWidget *parent);
+	~GoodsList();
 
-	QString getRetVal() const;
-	QMap<QString, int> getVatsVal() const;
-	QString getSelItem() const;
-	QString getGoodsId() const;
+	const QString getRetVal();
+	const QMap<QString, int> getVatsVal();
+	const QString getSelItem();
+	const QString getGoodsId();
+	static GoodsList *instance();
 
 public slots:
 	virtual void doAccept();
@@ -27,7 +29,7 @@ public slots:
 
 protected:
 	void init();
-	typedef QHash<QString, ProductData> ProductDataList;
+	typedef QHash<QString, ProductData *> ProductDataList;
 	ProductDataList goodsList2;
 	ProductDataList servicesList2;
 	QString trimZeros(QString in);
@@ -38,4 +40,5 @@ private:
 	QString id;
 	QMap<QString, QString> nets;
 	QMap<QString, int> vats;
+	static GoodsList *m_instance;
 };

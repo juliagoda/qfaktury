@@ -203,7 +203,7 @@ public:
 
 	// ********************************* All TO STRING ********************
 
-	QString toString() const
+	QString toString()
 	{
 		QString str;
 		QTextStream ret(&str);

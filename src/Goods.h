@@ -11,9 +11,10 @@ class Goods : public QDialog, public Ui::Goods
 public:
 	Goods(QWidget *parent, int mode, IDataLayer *dl);
 	void selectData(QString idx, int type); // called from MainWindow
-	QString getRetGoods() const;
+	const QString getRetGoods();
 
 public slots:
+
 	void okClick();
 	void spinChanged(int a);
 	void netChanged(double a);

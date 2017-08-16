@@ -9,10 +9,8 @@ class Validations : public QObject
 	Q_OBJECT
 
 public:
-	explicit Validations(QObject *parent = nullptr);
+	explicit Validations(QObject *parent = 0);
 	~Validations();
-
-	//FIXME: remove this buggy instance() thing
 	static Validations *instance();
 	bool validateNIP(QString);
 	bool validatePESEL(QString);

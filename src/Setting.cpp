@@ -1,3 +1,4 @@
+
 #include <QFileDialog>
 
 #include "Setting.h"
@@ -8,6 +9,10 @@ Setting::Setting(QWidget *parent)
 {
 	setupUi(this);
 	init();
+}
+
+Setting::~Setting()
+{
 }
 
 void Setting::init()
@@ -478,7 +483,7 @@ void Setting::getEncodings()
 /** Used for parsing
  */
 
-QString Setting::getAll(QListWidget *lb) const
+QString Setting::getAll(QListWidget *lb)
 {
 	QString tmp = QString();
 	int selNr, posCount = lb->count();
@@ -686,9 +691,9 @@ void Setting::readSettings()
 }
 
 // returns list of translations
-QStringList Setting::getTemplates() const
+QStringList Setting::getTemplates()
 {
-	QStringList templates;
+	QStringList templates = QStringList();
 	QString path = QDir::currentPath() + "/templates/";
 
 	QFile f(path);
@@ -702,7 +707,7 @@ QStringList Setting::getTemplates() const
 	QDir allFiles;
 	allFiles.setPath(path);
 	allFiles.setFilter(QDir::Files);
-	QStringList filters{"*css"};
+	QStringList filters = QStringList() << "*css";
 	allFiles.setNameFilters(filters);
 	QStringList tmp = allFiles.entryList();
 	templates = tmp;
@@ -710,15 +715,15 @@ QStringList Setting::getTemplates() const
 	return templates;
 }
 
-QStringList Setting::getStyles() const
+QStringList Setting::getStyles()
 {
 	return QStyleFactory::keys();
 }
 
 // returns list of translations
-QStringList Setting::getTranslations() const
+QStringList Setting::getTranslations()
 {
-	QStringList translations;
+	QStringList translations = QStringList();
 	QString path = QDir::currentPath() + "/translations/";
 
 	qDebug() << path;
@@ -734,7 +739,7 @@ QStringList Setting::getTranslations() const
 	QDir allFiles;
 	allFiles.setPath(path);
 	allFiles.setFilter(QDir::Files);
-	QStringList filters{"*.qm"};
+	QStringList filters = QStringList() << "*.qm";
 	allFiles.setNameFilters(filters);
 	QStringList tmp = allFiles.entryList();
 	tmp = tmp.replaceInStrings("qfaktury_", "");

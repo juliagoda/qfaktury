@@ -1,4 +1,6 @@
 /*
+ * KorektaBrutto.cpp
+ *
  *  Created on: Apr 3, 2009
  *      Author: moux
  */
@@ -27,9 +29,11 @@ QString CorrectGross::getInvoiceTypeAndSaveNr()
 void CorrectGross::calculateOneDiscount(int i)
 {
 	// qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
-	double discount = 0;
+	double quantity = 0, vat = 0, gross = 0;
+	double net = 0, price = 0;
+	double discountValue = 0, discount;
 
-	double price = sett().stringToDouble(tableGoods->item(i, 7)->text());
+	price = sett().stringToDouble(tableGoods->item(i, 7)->text());
 
 	if (constRab->isChecked())
 	{
@@ -40,15 +44,15 @@ void CorrectGross::calculateOneDiscount(int i)
 		discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
 	}
 
-	double quantity = sett().stringToDouble(tableGoods->item(i, 4)->text());
+	quantity = sett().stringToDouble(tableGoods->item(i, 4)->text());
 	price = price * quantity;
-	double discountValue = price * discount;
+	discountValue = price * discount;
 
-	double gross = price - discountValue;
-	auto vatValue = sett().stringToDouble(tableGoods->item(i, 9)->text());
-	double vat = (gross * vatValue) / (100 + vatValue);
+	gross = price - discountValue;
+	int vatValue = sett().stringToDouble(tableGoods->item(i, 9)->text());
+	vat = (gross * vatValue) / (100 + vatValue);
 
-	double net = gross - vat;
+	net = gross - vat;
 
 	// qDebug() << price << quantity << net << discount << discountValue << vat << gross;
 
@@ -63,12 +67,12 @@ void CorrectGross::calculateOneDiscount(int i)
 
 void CorrectGross::addGoods()
 {
-	GoodsGrossList goodsWindow(this);
+	GoodsGrossList *goodsWindow = new GoodsGrossList(this);
 
-	if (goodsWindow.exec() == QDialog::Accepted)
+	if (goodsWindow->exec() == QDialog::Accepted)
 	{
 		MainWindow::insertRow(tableGoods, tableGoods->rowCount());
-		QStringList row = goodsWindow.getRetVal().split("|");
+		QStringList row = goodsWindow->getRetVal().split("|");
 		int rowNum = tableGoods->rowCount() - 1;
 
 		tableGoods->item(rowNum, 0)->setText(sett().numberToString(tableGoods->rowCount())); // id
@@ -90,4 +94,7 @@ void CorrectGross::addGoods()
 
 		calculateSum();
 	}
+
+	delete goodsWindow;
+	goodsWindow = 0;
 }

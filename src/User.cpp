@@ -441,41 +441,37 @@ void User::on_nextSeller_clicked()
 	QVBoxLayout *vLayout1 = new QVBoxLayout();
 	QVBoxLayout *vLayout2 = new QVBoxLayout();
 
-	QStringList listNames{
-		"Nazwa*:",
-		"Miejscowość*:",
-		"Kod*:",
-		"Adres*:",
-		"Nr konta*:",
-		"Nazwa banku:",
-		"Nr SWIFT/BIC:",
-		"NIP*:",
-		"Typ 2 Id:",
-		"Drugi Id:",
-		"Numer KRS:",
-		"Telefon:",
-		"Fax:",
-		"Email:",
-		"Strona www:",
-	};
+	QStringList listNames = QStringList() << "Nazwa*:"
+										  << "Miejscowość*:"
+										  << "Kod*:"
+										  << "Adres*:"
+										  << "Nr konta*:"
+										  << "Nazwa banku:"
+										  << "Nr SWIFT/BIC:"
+										  << "NIP*:"
+										  << "Typ 2 Id:"
+										  << "Drugi Id:"
+										  << "Numer KRS:"
+										  << "Telefon:"
+										  << "Fax:"
+										  << "Email:"
+										  << "Strona www:";
 
-	QStringList objectNames{
-		"nameEdit",
-		"placeEdit",
-		"codeEdit",
-		"addressEdit",
-		"accountEdit",
-		"bankNameEdit",
-		"bicSwiftEdit",
-		"nipEdit",
-		"secIdType",
-		"regonEdit",
-		"krsEdit",
-		"phonEdit",
-		"faxEdit",
-		"emailEdit",
-		"webEdit",
-	};
+	QStringList objectNames = QStringList() << "nameEdit"
+											<< "placeEdit"
+											<< "codeEdit"
+											<< "addressEdit"
+											<< "accountEdit"
+											<< "bankNameEdit"
+											<< "bicSwiftEdit"
+											<< "nipEdit"
+											<< "secIdType"
+											<< "regonEdit"
+											<< "krsEdit"
+											<< "phonEdit"
+											<< "faxEdit"
+											<< "emailEdit"
+											<< "webEdit";
 
 	QLabel *useLabel = new QLabel;
 	useLabel->setText(trUtf8("Zastosuj do faktur"));
@@ -493,9 +489,12 @@ void User::on_nextSeller_clicked()
 
 		if (objectNames.at(i) == "secIdType")
 		{
-			QStringList listcombo{
-				"Brak", "NUSP", "REGON", "PESEL", "Dowód osobisty", "Paszport",
-			};
+			QStringList listcombo = QStringList() << "Brak"
+												  << "NUSP"
+												  << "REGON"
+												  << "PESEL"
+												  << "Dowód osobisty"
+												  << "Paszport";
 			QComboBox *lname = new QComboBox;
 			lname->addItems(listcombo);
 			lname->setObjectName(objectNames.at(i));
@@ -545,7 +544,7 @@ void User::delcurrSel()
 			trUtf8("Usunąć dane kolejnego sprzedawcy/oddziału?"),
 			trUtf8("Tak"),
 			trUtf8("Nie"),
-			nullptr,
+			0,
 			0,
 			1)
 		== 0)
@@ -559,6 +558,7 @@ void User::delcurrSel()
 			isLess = true;
 		}
 
+		int delIndex = sellersList->currentIndex();
 		sellersWidgets.removeAt(sellersList->currentIndex());
 		sellersList->removeTab(sellersList->currentIndex());
 		sellersList->setCurrentIndex(0);
@@ -567,9 +567,11 @@ void User::delcurrSel()
 
 		if (isLess)
 		{
-			for (int i = sellersList->currentIndex(); i < sellersList->count(); ++i)
+			for (int i = delIndex, j = delIndex + 1;
+				 i < sellersList->count(), j <= sellersList->count();
+				 ++i, ++j)
 			{
-				settings.beginGroup("seller" + QString::number(i + 1));
+				settings.beginGroup("seller" + QString::number(j));
 				QSettings settings2("elinux", "user");
 				settings2.beginGroup("seller" + QString::number(i));
 

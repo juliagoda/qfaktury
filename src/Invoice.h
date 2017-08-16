@@ -31,7 +31,6 @@ public:
 	Invoice(QWidget *parent, IDataLayer *dl, QString Inv = QString());
 	virtual ~Invoice();
 
-	//FIXME: remove this buggy instance() thing
 	static Invoice *instance();
 	void init();
 	void readData(QString fraFile);
@@ -46,30 +45,31 @@ public:
 		bool kadded,
 		InvoiceType invTyp,
 		int numbType);
-	QString getRet() const;
-	QString getfName() const;
-	QString getInvForm() const;
-	QString pressedTxt() const;
-	bool getKAdded() const;
+	const QString getRet();
+	const QString getfName();
+	const QString getInvForm();
+	const QString pressedTxt();
+	const bool getKAdded();
 	bool convWarn();
 	bool ifUpdated();
 	virtual void setIsEditAllowed(bool isAllowed);
-	void calcAll(double);
+	virtual void calcAll(const double &);
 	virtual void calculateOneDiscount(int i);
-	void setTextDurRate(QString, QString, QString);
+	inline void setTextDurRate(QString, QString, QString);
 	QMap<QString, double> getActualCurList();
 	QMap<QString, double> tableOfValues();
 	QString checkInvCurr();
 
 public slots:
+
 	virtual void addGoods();
-	void discountChange();
+	virtual void discountChange();
 	virtual void backBtnClick();
 	virtual void canQuit();
 	virtual bool saveInvoice();
 	virtual void makeInvoice();
-	void payTextChanged(QString text);
-	void discountConstChange();
+	virtual void payTextChanged(QString text);
+	virtual void discountConstChange(); // Overwritten in GrossInvoice
 	void getCustomer();
 	void delGoods();
 	void editGoods();
@@ -143,5 +143,6 @@ private:
 	QNetworkReply *reply;
 	QString pressedText;
 	QString ret, inv_form;
+	QDomDocument doc;
 	bool pforma, kAdded;
 };

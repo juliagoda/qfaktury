@@ -45,7 +45,7 @@ void BuyersList::init()
 		SLOT(updateDetails(QListWidgetItem *)));
 }
 
-QString BuyersList::getRetBuyerList() const
+const QString BuyersList::getRetBuyerList()
 {
 	return ret;
 }
@@ -114,7 +114,7 @@ void BuyersList::comboBox1Changed()
 
 void BuyersList::updateDetails(QListWidgetItem *item)
 {
-	QStringList custDetails;
+	QStringList custDetails = QStringList();
 	QString customer = QString();
 
 	switch (comboBox1->currentIndex())

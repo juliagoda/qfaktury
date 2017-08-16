@@ -1,4 +1,6 @@
 /*
+ * XmlDataLayer.cpp
+ *
  *  Created on: Apr 18, 2009
  *      Author: moux
  */
@@ -7,14 +9,24 @@
 #include "Invoice.h"
 #include "Settings.h"
 
-QString XmlDataLayer::getRet() const
+XmlDataLayer::XmlDataLayer()
+{
+	// TODO Auto-generated constructor stub
+}
+
+XmlDataLayer::~XmlDataLayer()
+{
+	// TODO Auto-generated destructor stub
+}
+
+QString const XmlDataLayer::getRet() const
 {
 	return ret;
 }
 
 // ************ KONTRAHENCI START *****************
 // helper method
-void XmlDataLayer::buyersElemToData(BuyerData &o_buyerData, QDomElement i_element) const
+void XmlDataLayer::buyersElemToData(BuyerData &o_buyerData, QDomElement i_element)
 {
 	o_buyerData.name = i_element.attribute("name");
 	o_buyerData.place = i_element.attribute("place");
@@ -32,7 +44,7 @@ void XmlDataLayer::buyersElemToData(BuyerData &o_buyerData, QDomElement i_elemen
 }
 
 // helper method
-void XmlDataLayer::buyersDataToElem(BuyerData &i_buyerData, QDomElement &o_element) const
+void XmlDataLayer::buyersDataToElem(BuyerData &i_buyerData, QDomElement &o_element)
 {
 	o_element.setAttribute("name", i_buyerData.name);
 	o_element.setAttribute("place", i_buyerData.place);
@@ -49,7 +61,7 @@ void XmlDataLayer::buyersDataToElem(BuyerData &i_buyerData, QDomElement &o_eleme
 	o_element.setAttribute("swift", i_buyerData.swift);
 }
 
-bool XmlDataLayer::ifPersonNodeExists(QDomElement root) const
+bool XmlDataLayer::ifPersonNodeExists(QDomElement root)
 {
 	if (root.childNodes().at(2).toElement().tagName() == "person")
 	{
@@ -748,7 +760,7 @@ bool XmlDataLayer::buyersDeleteData(QString name)
 // ************ TOWARY START *****************
 // helper method
 
-void XmlDataLayer::productsElemToData(ProductData &o_prodData, QDomElement i_element) const
+void XmlDataLayer::productsElemToData(ProductData &o_prodData, QDomElement i_element)
 {
 	o_prodData.id = i_element.attribute("idx").toInt();
 	o_prodData.name = i_element.attribute("name");
@@ -765,7 +777,7 @@ void XmlDataLayer::productsElemToData(ProductData &o_prodData, QDomElement i_ele
 
 // helper method
 
-void XmlDataLayer::productsDataToElem(ProductData &i_prodData, QDomElement &o_element) const
+void XmlDataLayer::productsDataToElem(ProductData &i_prodData, QDomElement &o_element)
 {
 	o_element.setAttribute("idx", i_prodData.id);
 	o_element.setAttribute("name", i_prodData.name);
@@ -1220,7 +1232,7 @@ bool XmlDataLayer::productsDeleteData(QString name)
 
 // ************ INVOICES START *****************
 
-void XmlDataLayer::invoiceSellerDataToElem(InvoiceData & /*unused*/, QDomElement &o_element) const
+void XmlDataLayer::invoiceSellerDataToElem(InvoiceData & /*unused*/, QDomElement &o_element)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
@@ -1237,7 +1249,7 @@ void XmlDataLayer::invoiceSellerDataToElem(InvoiceData & /*unused*/, QDomElement
 	o_element.setAttribute("website", userSettings.value("website").toString());
 }
 
-void XmlDataLayer::invoiceSellerElemToData(InvoiceData & /*unused*/, QDomElement /*unused*/) const
+void XmlDataLayer::invoiceSellerElemToData(InvoiceData & /*unused*/, QDomElement /*unused*/)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
@@ -1266,7 +1278,7 @@ void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o
 	o_element.setAttribute("website", imprWeb);
 }
 
-void XmlDataLayer::invoiceBuyerElemToData(InvoiceData & /*unused*/, QDomElement /*unused*/) const
+void XmlDataLayer::invoiceBuyerElemToData(InvoiceData & /*unused*/, QDomElement /*unused*/)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
@@ -1274,7 +1286,7 @@ void XmlDataLayer::invoiceBuyerElemToData(InvoiceData & /*unused*/, QDomElement 
 void XmlDataLayer::invoiceProdDataToElem(
 	const ProductData &i_prodData,
 	QDomElement &o_element,
-	int currentRow) const
+	int currentRow)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_prodData.id << i_prodData.name;
 
@@ -1315,7 +1327,7 @@ void XmlDataLayer::invoiceProdDataToElem(
 	o_element.setAttribute("gross", Invoice::instance()->tableGoods->item(currentRow, 10)->text());
 }
 
-void XmlDataLayer::invoiceProdElemToData(InvoiceData & /*unused*/, QDomElement /*unused*/) const
+void XmlDataLayer::invoiceProdElemToData(InvoiceData & /*unused*/, QDomElement /*unused*/)
 {
 	qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
@@ -1696,8 +1708,12 @@ void XmlDataLayer::checkAllSymbInFiles()
 	}
 }
 
-QList<int> XmlDataLayer::getAllSymbols() const
+QList<int> const XmlDataLayer::getAllSymbols()
 {
+	if (allSymbols.count() == 0)
+	{
+		allSymbols.append(0);
+	}
 	return allSymbols;
 }
 

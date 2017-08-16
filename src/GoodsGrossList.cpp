@@ -1,4 +1,6 @@
 /*
+ * TowaryBruttoLista.cpp
+ *
  *  Created on: Apr 3, 2009
  *      Author: TPIELECH
  */
@@ -11,13 +13,17 @@ GoodsGrossList::GoodsGrossList(QWidget *parent)
 {
 }
 
-QString GoodsGrossList::getPriceOfCurrent() const
+GoodsGrossList::~GoodsGrossList()
+{
+}
+
+QString GoodsGrossList::getPriceOfCurrent()
 {
 	double price = sett().stringToDouble(grossLabel->text()) / countSpinBox->value();
 	return sett().numberToString(price, 'f', 2);
 }
 
-QString GoodsGrossList::getRetValGoodsBr() const
+QString const GoodsGrossList::getRetValGoodsBr()
 {
 	return ret;
 }
@@ -36,27 +42,23 @@ void GoodsGrossList::doAccept()
 
 	selectedItem = nameEdit->text();
 
-	QVector<ProductDataList *> listProducts;
-	listProducts.append(std::addressof(goodsList2));
-	listProducts.append(std::addressof(servicesList2));
+	QVector<ProductDataList> listProducts;
+	listProducts.append(goodsList2);
+	listProducts.append(servicesList2);
 
 	if (selectedItem != "")
 	{
-		auto id = getGoodsId();
 		for (int i = 0; i < 2; i++)
 		{
 			if (comboBox1->currentIndex() == i)
 			{
-				const auto& currentList = (*listProducts[i]);
-				const auto& currentProduct = currentList[id];
-
-				QStringList listRest;
-				listRest << selectedItem << currentProduct.getCode()
-						 << currentProduct.getPkwiu()
-						 << trimZeros(countSpinBox->cleanText())
-						 << currentProduct.getQuantityType()
-						 << discountSpin->cleanText() << getPriceOfCurrent() << netLabel->text()
-						 << sett().numberToString(getVatsVal()[selectedItem]) << grossLabel->text();
+				QStringList listRest = QStringList()
+					<< selectedItem << listProducts[i][getGoodsId()]->getCode()
+					<< listProducts[i][getGoodsId()]->getPkwiu()
+					<< trimZeros(countSpinBox->cleanText())
+					<< listProducts[i][getGoodsId()]->getQuantityType() << discountSpin->cleanText()
+					<< getPriceOfCurrent() << netLabel->text()
+					<< sett().numberToString(getVatsVal()[selectedItem]) << grossLabel->text();
 
 				for (int j = 0; j < listRest.count(); j++)
 				{
