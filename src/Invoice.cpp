@@ -578,6 +578,7 @@ bool Invoice::ifUpdated()
     }
 
    file.close();
+   return true;
 
 }
 

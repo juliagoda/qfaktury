@@ -1,9 +1,18 @@
 #ifndef OWNCALENDAR_H
 #define OWNCALENDAR_H
 
-#include <QCalendarWidget>
-#include <QPainter>
-#include <QDir>
+#include <QCalendarWidget>;
+
+class QSize;
+class QDate;
+class QWidget;
+class QResizeEvent;
+class QMouseEvent;
+class QKeyEvent;
+class QObject;
+class QEvent;
+class QPainter;
+class QRect;
 
 class ownCalendarWidget : public QCalendarWidget
 {
@@ -11,56 +20,24 @@ class ownCalendarWidget : public QCalendarWidget
 
 public:
 
-    ownCalendarWidget(QWidget* parent=0)
-        : QCalendarWidget(parent)
-    {
-    }
+    ownCalendarWidget(QWidget* parent=0);
+    ~ownCalendarWidget();
 
-    ~ownCalendarWidget()
-    {
-    }
+    void ourCall(QDate);
 
-    void ourCall(QDate)
-    {
-        // here we set some conditions
-        update();
-    }
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
 
 protected:
 
-    void paintCell(QPainter *painter, const QRect &rect, const QDate &date) const
-    {
-        QDir allFiles;
-        QList<QDate> dateList;
+    void resizeEvent(QResizeEvent *);
+    void mousePressEvent(QMouseEvent *);
+    void keyPressEvent(QKeyEvent *);
+    bool eventFilter(QObject *, QEvent *);
+    bool event(QEvent *);
 
-        allFiles.setPath(QDir::homePath() + "/.local/share/data/elinux/plans");
-        allFiles.setFilter(QDir::Files);
-        QStringList filters;
-        filters << "*.txt";
+    void paintCell(QPainter *painter, const QRect &rect, const QDate &date) const;
 
-        allFiles.setNameFilters(filters);
-        QStringList files = allFiles.entryList();
-        int i, max = files.count();
-
-        for (i = 0; i < max; ++i) {
-
-            QString dateFound = files.at(i);
-            dateFound = dateFound.remove(".txt");
-            dateList.append(QDate::fromString(dateFound));
-
-        }
-
-        if (dateList.contains(date)) { // our conditions
-            // When the conditions are matched, passed QDate is drawn as we like.
-            painter->save();
-            painter->drawRoundedRect(rect,12,12); // here we draw n ellipse and the day—
-            painter->drawText(rect, Qt::AlignCenter, QString::number(date.day()));
-            painter->restore();
-
-        } else { // if our conditions are not matching, show the default way.
-            QCalendarWidget::paintCell(painter, rect, date);
-        }
-    }
 };
 
 #endif // OWNCALENDAR_H
