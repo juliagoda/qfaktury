@@ -107,10 +107,11 @@ void Buyers::selectData(QString name, int type) {
 bool Buyers::insertData() {
 
 	bool result = false;
-    BuyerData buyerData;
+
 
     if ((sett().value("validation").toBool() && validate()) || sett().value("validation").toBool() == false) {
 
+        BuyerData buyerData;
         setData(buyerData);
         result = dataLayer->buyersInsertData(buyerData,
                     typeCombo->currentIndex());
@@ -123,12 +124,12 @@ bool Buyers::insertData() {
 bool Buyers::updateData() {
 
 	bool result = false;
-    BuyerData buyerData;
+
 
     if ((sett().value("validation").toBool() && validateUpdated()) || sett().value("validation").toBool() == false) {
 
+        BuyerData buyerData;
         setData(buyerData);
-
         result = dataLayer->buyersUpdateData(buyerData,
                     typeCombo->currentIndex(), nameEdit->text());
     }
