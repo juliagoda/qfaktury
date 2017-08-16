@@ -14,6 +14,8 @@ AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: true
 AlwaysBreakTemplateDeclarations: true
 BinPackArguments: false
@@ -37,7 +39,11 @@ BraceWrapping: {
 Cpp11BracedListStyle: true
 DerivePointerAlignment: false
 KeepEmptyLinesAtTheStartOfBlocks: false
+PenaltyBreakBeforeFirstCallParameter: 0
+PenaltyBreakFirstLessLess: 0
+PenaltyReturnTypeOnItsOwnLine: 1000
 PointerAlignment: Right
 SortIncludes: true
 SpaceAfterTemplateKeyword: true
 SpaceBeforeParens: ControlStatements
+
