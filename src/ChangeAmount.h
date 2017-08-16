@@ -1,23 +1,17 @@
-#ifndef CHANGEAMOUNT_H
-#define CHANGEAMOUNT_H
+#pragma once
 
 #include "ui_ChangeAmount.h"
 
-
-class ChangeAmount: public QDialog, public Ui::ChangeAmount {
-
-Q_OBJECT
+class ChangeAmount : public QDialog, public Ui::ChangeAmount
+{
+	Q_OBJECT
 
 public:
-
-    ChangeAmount(QWidget *parent);
-    ~ChangeAmount();
-    static ChangeAmount * instance();
-    void init();
+	ChangeAmount(QWidget *parent);
+	~ChangeAmount();
+	static ChangeAmount *instance();
+	void init();
 
 private:
-
-    static ChangeAmount * m_instance;
-
+	static ChangeAmount *m_instance;
 };
-#endif

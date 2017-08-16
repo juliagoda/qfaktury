@@ -23,8 +23,6 @@ unix:LIBS += -L$${LIBDIR} -lz
 win32:LIBS += -L$${LIBDIR} -lzdll
 
 INCLUDEPATH += . \
-            $${SMTPCODEDIR} \
-            $${LIBDIR}
 
 # Input
 HEADERS += $$files($$PWD/src/*.h) \

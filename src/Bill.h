@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * Rachunek.h
  *
@@ -5,30 +7,20 @@
  *      Author: moux
  */
 
-#ifndef BILL_H_
-#define BILL_H_
-
 #include "Invoice.h"
 
+class IDataLayer;
 
-class Bill: public Invoice {
-
-    Q_OBJECT
-
+class Bill : public Invoice
+{
+	Q_OBJECT
 
 public:
-
-    Bill(QWidget *parent, IDataLayer *dl, QString in_form = QString());
-
+	Bill(QWidget *parent, IDataLayer *dl, QString in_form = QString());
 
 public slots:
-
-    void billInit();
-
+	void billInit();
 
 protected:
-
 	QString getInvoiceTypeAndSaveNr();
 };
-
-#endif /* BILL_H_ */
