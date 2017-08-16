@@ -1,64 +1,57 @@
-#ifndef CORRECTION_H
-#define CORRECTION_H
+#pragma once
 
-#include <QComboBox>
-
-#include "ui_Invoice.h"
 #include "Invoice.h"
 #include "InvoiceData.h"
+#include "ui_Invoice.h"
 
+#include "alias/memory.hpp"
 
-class Correction: public Invoice {
+#include <QComboBox>
+#include <QPointer>
 
-Q_OBJECT
+class Correction : public Invoice
+{
+	Q_OBJECT
 
 public:
+	Correction(QWidget *parent, IDataLayer *dl, QString in_form = QString(), bool edMode = false);
 
-    Correction(QWidget *parent, IDataLayer *dl, QString in_form = QString(), bool edMode = false);
-    virtual ~Correction();
-    const bool getMode();
-    const bool getFirstRun();
-    QString const getRet();
-    void schemaCalcSum();
-    virtual void correctionInit(bool mode);
-    virtual void readCorrData(QString fraFile);
+	bool getMode() const;
+	bool getFirstRun() const;
+	QString getRet() const;
+	void schemaCalcSum();
+	void correctionInit(bool mode);
+	void readCorrData(QString invFile);
 
+	void calculateOneDiscount(int i) override;
+	void setIsEditAllowed(bool isAllowed) override;
 
 public slots:
-
-    // have to be overwritten in child class
-	virtual bool saveInvoice();
-    virtual void backBtnClick();
-	virtual void makeInvoice();
-    virtual void canQuit();
-
+	bool saveInvoice() override;
+	void backBtnClick() override;
+	void makeInvoice() override;
+	void canQuit() override;
 
 protected:
-
-	virtual void makeInvoiceSummAll();
-	virtual void makeInvoiceSumm();
-	virtual void makeInvoceProductsTitle(short a);
-	virtual void makeBeforeCorrProducts();
-	virtual void makeBeforeCorrSumm();
-	virtual void setIsEditAllowed(bool isAllowed);
-	virtual void calculateDiscount();
-	virtual void calculateSum();
-	virtual void calculateOneDiscount(int i);
-	virtual QString getInvoiceTypeAndSaveNr();
-    InvoiceData *createOriginalInv();
-
+	void makeInvoiceSummAll() override;
+	void makeInvoiceSumm() override;
+	void makeInvoceProductsTitle(short a);
+	void makeBeforeCorrProducts();
+	void makeBeforeCorrSumm();
+	void calculateDiscount() override;
+	void calculateSum() override;
+	QString getInvoiceTypeAndSaveNr() override;
+	UPtr<InvoiceData> createOriginalInv() const;
 
 private:
-
-    bool editMode;
-    bool firstRunned;
-    double origDiscTotal, origNettTotal, origGrossTotal;
-    double diffTotal;
-    double origGrossBureau;
-    InvoiceData *invData;
-    QComboBox *reasonCombo;
-    QLabel *labelReason1;
-    QString ret, fName;
-
+	bool editMode;
+	bool firstRunned;
+	double origDiscTotal, origNettTotal, origGrossTotal;
+	double diffTotal;
+	double origGrossBureau;
+	UPtr<InvoiceData> invData;
+	QPointer<QComboBox> reasonCombo;
+	QPointer<QLabel> labelReason1;
+	QString ret;
+	QString fName;
 };
-#endif

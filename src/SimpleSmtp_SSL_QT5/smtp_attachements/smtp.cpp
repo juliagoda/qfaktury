@@ -13,7 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 QString Smtp::status = " ";
 
-Smtp::Smtp( const QString &user, const QString &pass, const QString &host, int port, int timeout )
+Smtp::Smtp( const QString &user, const QString &pass, const QString &host, quint16 port, int timeout )
 {    
     socket = new QSslSocket(this);
 
@@ -59,11 +59,15 @@ void Smtp::sendMail(const QString &from, const QString &to, const QString &subje
             if(file.exists())
             {
                 if (!file.open(QIODevice::ReadOnly))
-                {
-                    qDebug("Couldn't open the file");
-                    QMessageBox::warning( 0, trUtf8( "Qt Simple SMTP client" ), trUtf8( "Niemożliwy był odczyt pliku. Sprawdź uprawnienia do pliku lub sprawdź czy istnieje.\n\n" )  );
-                        return ;
-                }
+				{
+					qDebug("Couldn't open the file");
+					QMessageBox::warning(
+						nullptr,
+						trUtf8("Qt Simple SMTP client"),
+						trUtf8("Niemożliwy był odczyt pliku. Sprawdź uprawnienia do pliku lub "
+							   "sprawdź czy istnieje.\n\n"));
+					return;
+				}
                 QByteArray bytes = file.readAll();
                 message.append( "--frontier\n" );
                 message.append( "Content-Type: application/octet-stream\nContent-Disposition: attachment; filename="+ QFileInfo(file.fileName()).fileName() +";\nContent-Transfer-Encoding: base64\n\n" );

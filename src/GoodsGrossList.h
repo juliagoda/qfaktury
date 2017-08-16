@@ -1,38 +1,26 @@
+#pragma once
+
 /*
- * TowaryBruttoLista.h
- *
  *  Created on: Apr 3, 2009
  *      Author: TPIELECH
  */
 
-#ifndef GOODSGROSSLIST_H_
-#define GOODSGROSSLIST_H_
-
 #include "GoodsList.h"
 
-class GoodsGrossList: public GoodsList {
-
-Q_OBJECT
+class GoodsGrossList : public GoodsList
+{
+	Q_OBJECT
 
 public:
-
-    GoodsGrossList(QWidget *parent);
-    const QString getRetValGoodsBr();
-    ~GoodsGrossList();
-
+	GoodsGrossList(QWidget *parent);
+	QString getRetValGoodsBr() const;
 
 public slots:
-
-    void calcNet();
-    void doAccept();
-	QString getPriceOfCurrent();
-
+	void calcNet();
+	void doAccept();
+	QString getPriceOfCurrent() const;
 
 private:
-
-    QString ret;
-    QString selectedItem;
+	QString ret;
+	QString selectedItem;
 };
-
-
-#endif /* TOWARYBRUTTOLISTA_H_ */

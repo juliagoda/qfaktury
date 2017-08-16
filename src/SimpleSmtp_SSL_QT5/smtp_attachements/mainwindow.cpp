@@ -37,7 +37,7 @@ void EmailWindow::browse()
 
 void EmailWindow::sendMail()
 {
-    smtp = new Smtp(ui->uname->text(), ui->paswd->text(), ui->server->text(), ui->port->text().toInt());
+	smtp = new Smtp(ui->uname->text(), ui->paswd->text(), ui->server->text(), ui->port->text().toUShort());
 
     if( !files.isEmpty() )
         smtp->sendMail(ui->uname->text(), ui->rcpt->text() , ui->subject->text(),ui->msg->toPlainText(), files );
@@ -50,7 +50,8 @@ void EmailWindow::sendMail()
     connect(showStatus, SIGNAL(timeout()), this, SLOT(mailSent()));
     showStatus->start(3000);
 
-    if (showStatus != 0) showStatus = 0;
+	//FIXME: investigate this memory leak!
+	if (!showStatus) showStatus = nullptr;
     delete showStatus;
 
 }
@@ -181,7 +182,8 @@ const QRadioButton* EmailWindow::getTemplate_3()
 EmailWindow::~EmailWindow()
 {
     files = QStringList();
-    if (smtp != 0) smtp = 0;
+	//FIXME: investigate this memory leak!
+	if (!smtp) smtp = nullptr;
     delete smtp;
     delete ui;
 }
