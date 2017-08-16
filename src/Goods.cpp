@@ -49,9 +49,14 @@ const QString Goods::getRetGoods()
 
 void Goods::okClick()
 {
-	if (Validations::instance()->isEmptyField(nameEdit->text(), textLabel3->text()))
-	{
-		return;
+    if (sett().value("validation").toBool()) {
+
+        if (Validations::instance()->isEmptyField(nameEdit->text(),textLabel3->text())) return;
+
+        if (!pkwiuEdit->text().isEmpty()) {
+
+            if (!Validations::instance()->validatePkwiu(pkwiuEdit->text())) return;
+        }
 	}
 
 	if (!pkwiuEdit->text().isEmpty())
