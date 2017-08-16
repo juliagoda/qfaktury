@@ -112,8 +112,9 @@ bool Buyers::insertData()
 {
 	bool result = false;
 
-
-    if ((sett().value("validation").toBool() && validate()) || sett().value("validation").toBool() == false) {
+	if ((sett().value("validation").toBool() && validate())
+		|| sett().value("validation").toBool() == false)
+	{
 		BuyerData buyerData;
 		setData(buyerData);
 		result = dataLayer->buyersInsertData(buyerData, typeCombo->currentIndex());
@@ -127,8 +128,9 @@ bool Buyers::updateData()
 {
 	bool result = false;
 
-
-    if ((sett().value("validation").toBool() && validateUpdated()) || sett().value("validation").toBool() == false) {
+	if ((sett().value("validation").toBool() && validateUpdated())
+		|| sett().value("validation").toBool() == false)
+	{
 		BuyerData buyerData;
 		setData(buyerData);
 
