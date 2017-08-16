@@ -1,41 +1,55 @@
-#pragma once
+#ifndef GOODSLIST_H
+#define GOODSLIST_H
 
 #include "ProductData.h"
 #include "ui_GoodsList.h"
 
-class GoodsList : public QDialog, public Ui::GoodsList
-{
-	Q_OBJECT
+
+class GoodsList: public QDialog, public Ui::GoodsList {
+
+Q_OBJECT
 
 public:
-	GoodsList(QWidget *parent);
 
-	QString getRetVal() const;
-	QMap<QString, int> getVatsVal() const;
-	QString getSelItem() const;
-	QString getGoodsId() const;
+    GoodsList(QWidget *parent);
+    ~GoodsList();
+
+    const QString getRetVal();
+    const QMap<QString, int> getVatsVal();
+    const QString getSelItem();
+    const QString getGoodsId();
+    static GoodsList * instance();
+
 
 public slots:
+
 	virtual void doAccept();
-	virtual void calcNet();
-	void readGoods();
+    virtual void calcNet();
+    void readGoods();
 	void comboBox1Changed(int x);
 	void displayData(int x);
 	void lv1selChanged();
-	void displayNet(QString index);
+    void displayNet(QString index);
 	void spinChanged(int a);
 
+
 protected:
+
 	void init();
-	typedef QHash<QString, ProductData> ProductDataList;
-	ProductDataList goodsList2;
-	ProductDataList servicesList2;
-	QString trimZeros(QString in);
+    typedef QHash<QString, ProductData *> ProductDataList;
+    ProductDataList goodsList2;
+    ProductDataList servicesList2;
+    QString trimZeros(QString in);
+
 
 private:
-	QString ret;
-	QString selectedItem;
-	QString id;
-	QMap<QString, QString> nets;
-	QMap<QString, int> vats;
+
+    QString ret;
+    QString selectedItem;
+    QString id;
+    QMap<QString, QString> nets;
+    QMap<QString, int> vats;
+    static GoodsList * m_instance;
+
 };
+#endif

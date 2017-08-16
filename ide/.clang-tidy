@@ -1,7 +1,0 @@
-Checks: '-*,llvm*,readability*,modernize*'
-#Checks: '-*,cppcoreguidelines*,llvm*,readability*'
-CheckOptions:
-  - key: cppcoreguidelines-pro-bounds-array-to-pointer-decay
-    value: 0
-  - key: llvm-header-guard.HeaderFileExtensions
-    value: 0

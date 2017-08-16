@@ -1,24 +1,32 @@
-#pragma once
-
 /*
+ * KorektaBrutto.h
+ *
  *  Created on: Apr 3, 2009
  *      Author: moux
  */
 
+#ifndef CORRECTGROSS_H_
+#define CORRECTGROSS_H_
+
 #include "Correction.h"
 
-class CorrectGross final : public Correction
-{
-	Q_OBJECT
+
+class CorrectGross: public Correction {
+
+    Q_OBJECT
 
 public:
-	CorrectGross(QWidget *parent, IDataLayer *dl, QString in_form = QString(), bool edMode = false);
 
-	void calculateOneDiscount(int i) override;
+    CorrectGross(QWidget *parent, IDataLayer *dl, QString in_form = QString(), bool edMode = false);
+    void addGoods();
 
-public slots:
-	void addGoods() override;
 
 protected:
-	QString getInvoiceTypeAndSaveNr() override;
+
+	void calculateOneDiscount(int i);
+	QString getInvoiceTypeAndSaveNr();
+
 };
+
+
+#endif /* CorrectGross_H_ */

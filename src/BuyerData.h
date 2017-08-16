@@ -1,16 +1,21 @@
-#pragma once
-
 /*
+ * BuyerData.h
+ *
  *  Created on: Apr 18, 2009
  *      Author: moux
  */
 
-#pragma once
+#ifndef BUYERDATA_H
+#define BUYERDATA_H_
 
 #include <QString>
 
-struct BuyerData final
-{
+class BuyerData {
+
+public:
+
+    BuyerData();
+    virtual ~BuyerData();
 	QString name;
 	QString place;
 	QString code;
@@ -20,9 +25,12 @@ struct BuyerData final
 	QString phone;
 	QString email;
 	QString www;
-	QString fax;
-	QString krs;
-	QString bank;
-	QString swift;
+    QString fax;
+    QString krs;
+    QString bank;
+    QString swift;
 	QString type;
+
 };
+
+#endif /* BUYERDATA_H_ */

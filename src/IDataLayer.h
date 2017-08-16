@@ -1,46 +1,52 @@
-#pragma once
-
 /*
+ * IDataLayer.h
+ *
  *  Created on: Apr 18, 2009
  *      Author: moux
  */
 
+#ifndef IDATALAYER_H_
+#define IDATALAYER_H_
+
 #include "BuyerData.h"
-#include "InvoiceData.h"
 #include "ProductData.h"
+#include "InvoiceData.h"
 
-#include <QList>
 
-class IDataLayer
-{
+class IDataLayer {
+
 public:
-	virtual ~IDataLayer() = default;
 
-	virtual void saveInvoiceData() = 0;
-	virtual void readInvoiceData() = 0;
-	virtual QString getRet() const = 0;
-	virtual void checkAllSymbInFiles() = 0;
-	virtual QList<int> getAllSymbols() const = 0;
+	IDataLayer() {};
+	virtual ~IDataLayer() {};
+	virtual void saveInvoiceData() {};
+	virtual void readInvoiceData() {};
+    virtual const QString getRet() const { return "|"; };
+    virtual void checkAllSymbInFiles() {};
+    virtual const QList<int> getAllSymbols() {QList<int> a; a.append(0); return a;};
 
-	virtual BuyerData buyersSelectData(QString /*unused*/, int /*unused*/) = 0;
-	virtual QVector<BuyerData> buyersSelectAllData() = 0;
-	virtual bool buyersInsertData(BuyerData & /*unused*/, int /*unused*/) = 0;
-	virtual bool buyersUpdateData(BuyerData & /*unused*/, int /*unused*/, QString /*unused*/) = 0;
-	virtual bool buyersDeleteData(QString /*unused*/) = 0;
-	virtual QStringList buyersGetFirmList() = 0;
+    virtual BuyerData buyersSelectData(QString, int) { return BuyerData(); };
+    virtual QVector<BuyerData> buyersSelectAllData() { QVector<BuyerData > a; return a; };
+    virtual bool buyersInsertData(BuyerData&, int) { return true; };
+    virtual bool buyersUpdateData(BuyerData&, int, QString) { return true; };
+    virtual bool buyersDeleteData(QString ) { return true; };
+    virtual QStringList buyersGetFirmList() { return QStringList(); };
 
-	virtual ProductData productsSelectData(QString /*unused*/, int /*unused*/) = 0;
-	virtual QVector<ProductData> productsSelectAllData() = 0;
-	virtual bool productsInsertData(ProductData & /*unused*/, int /*unused*/) = 0;
-	virtual bool productsUpdateData(ProductData & /*unused*/, int /*unused*/, QString /*unused*/) = 0;
-	virtual bool productsDeleteData(QString /*unused*/) = 0;
+	virtual ProductData productsSelectData(QString, int) { return ProductData(); };
+	virtual QVector<ProductData> productsSelectAllData() { QVector<ProductData> a; return a; };
+	virtual bool productsInsertData(ProductData&, int) { return true; };
+	virtual bool productsUpdateData(ProductData&, int, QString) { return true; };
+	virtual bool productsDeleteData(QString) { return true; };
 
-	virtual InvoiceData invoiceSelectData(QString /*unused*/, int /*unused*/) = 0;
-	virtual QVector<InvoiceData> invoiceSelectAllData(QDate /*unused*/, QDate /*unused*/) = 0;
-	virtual bool invoiceInsertData(InvoiceData & /*unused*/, int /*unused*/) = 0;
-	virtual bool invoiceUpdateData(InvoiceData & /*unused*/, int /*unused*/, QString /*unused*/) = 0;
-	virtual bool invoiceDeleteData(QString /*unused*/) = 0;
+    virtual InvoiceData invoiceSelectData(QString, int) { return InvoiceData(); };
+	virtual QVector<InvoiceData> invoiceSelectAllData(QDate, QDate) { QVector<InvoiceData> a; return a; };
+    virtual bool invoiceInsertData(InvoiceData&, int) { return true; };
+	virtual bool invoiceUpdateData(InvoiceData&, int, QString) { return true; };
+	virtual bool invoiceDeleteData(QString) { return true; };
 
-	virtual bool ifThereOldInvoice() = 0;
-	virtual void separateOldInvoices() = 0;
+    virtual bool ifThereOldInvoice() { return true; };
+    virtual void separateOldInvoices() {};
+
 };
+
+#endif /* IDATALAYER_H_ */

@@ -1,22 +1,27 @@
-#pragma once
+#ifndef INVOICERR_H
+#define INVOICERR_H
 
 #include "Invoice.h"
+
 
 class InvoiceRR : public Invoice
 {
 public:
-	InvoiceRR(QWidget *parent, IDataLayer *dl, QString in_form = QString());
-	~InvoiceRR();
+   InvoiceRR(QWidget *parent, IDataLayer *dl, QString in_form = QString());
+   ~InvoiceRR();
 
 public slots:
-	void invoiceRRInit();
-	void makeInvoice() override;
+   void invoiceRRInit();
+   void makeInvoice();
 
 protected:
-	QString getInvoiceTypeAndSaveNr() override;
-	void getData(InvoiceData invData) override;
-	void setData(InvoiceData &invData) override;
+   QString getInvoiceTypeAndSaveNr();
+   void getData(InvoiceData invData);
+   void setData(InvoiceData &invData);
 
 private:
-	QCheckBox *ifpaysVAT;
+   QCheckBox* ifpaysVAT;
+
 };
+
+#endif // INVOICERR_H
