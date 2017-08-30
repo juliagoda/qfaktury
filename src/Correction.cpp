@@ -75,7 +75,12 @@ void Correction::correctionInit (bool mode){
     qDebug() << "Do zapłaty w korekcie: " << sett().stringToDouble(sum3->text());
 
 	// connects
-    connect(reasonCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(textChanged(QString)));
+    connect(reasonCombo, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged), [this](const QString&) {
+        saveBtn->setEnabled(true);
+        canClose = false;
+        });
+
+
     qDebug() << "[" << __FILE__  << ": " << __LINE__ << "] " << __FUNCTION__  << "EXIT";
 
 }

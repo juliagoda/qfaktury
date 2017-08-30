@@ -26,7 +26,6 @@ public:
 public slots:
 
 	virtual void canQuit();
-    void cancelDupl();
     void duplicateInit();
 
 

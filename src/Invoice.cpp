@@ -180,12 +180,31 @@ void Invoice::init() {
     connect(discountVal, SIGNAL(valueChanged(int)), this, SLOT(discountChange()));
 	connect(constRab, SIGNAL(stateChanged(int)), this, SLOT(discountConstChange()));
     connect(addBuyerBtn, SIGNAL(clicked()), this, SLOT(buyerClick()));
-    connect(konvUSD, SIGNAL(clicked()), this, SLOT(changeToUSD()));
-    connect(konvEUR, SIGNAL(clicked()), this, SLOT(changeToEUR()));
-    connect(konvPLN, SIGNAL(clicked()), this, SLOT(changeToPLN()));
-    connect(konvCHF, SIGNAL(clicked()), this, SLOT(changeToCHF()));
-    connect(konvGBP, SIGNAL(clicked()), this, SLOT(changeToGBP()));
-    connect(konvRUB, SIGNAL(clicked()), this, SLOT(changeToRUB()));
+
+    connect(konvUSD, &QPushButton::clicked, [this]() {
+        convertCurrShort(konvUSD->text().trimmed());
+    });
+
+    connect(konvEUR, &QPushButton::clicked, [this]() {
+        convertCurrShort(konvEUR->text().trimmed());
+    });
+
+    connect(konvPLN, &QPushButton::clicked, [this]() {
+        convertCurrShort(konvPLN->text().replace("&","").trimmed());
+    });
+
+    connect(konvCHF, &QPushButton::clicked, [this]() {
+        convertCurrShort(konvCHF->text().replace("&","").trimmed());
+    });
+
+    connect(konvGBP, &QPushButton::clicked, [this]() {
+        convertCurrShort(konvGBP->text().replace("&","").trimmed());
+    });
+
+    connect(konvRUB, &QPushButton::clicked, [this]() {
+        convertCurrShort(konvRUB->text().replace("&","").trimmed());
+    });
+
     connect(ratesCombo, SIGNAL(currentIndexChanged (QString)), this, SLOT(rateDateChanged(QString)));
 
 
@@ -682,40 +701,6 @@ void Invoice::convertCurrShort(QString btnText) {
 
 
 // ---- SLOTS START  --//////////////////////////////////////////////////////////////////////////////////
-
-void Invoice::changeToEUR() {
-
-    convertCurrShort(konvEUR->text().trimmed());
-}
-
-
-void Invoice::changeToUSD() {
-
-    convertCurrShort(konvUSD->text().trimmed());
-}
-
-void Invoice::changeToPLN() {
-
-    convertCurrShort(konvPLN->text().replace("&","").trimmed());
-}
-
-
-void Invoice::changeToCHF() {
-
-    convertCurrShort(konvCHF->text().replace("&","").trimmed());
-}
-
-
-void Invoice::changeToGBP() {
-
-    convertCurrShort(konvGBP->text().replace("&","").trimmed());
-}
-
-
-void Invoice::changeToRUB() {
-
-    convertCurrShort(konvRUB->text().replace("&","").trimmed());
-}
 
 
 const QString Invoice::pressedTxt()
