@@ -238,7 +238,10 @@ void MainWindow::init() {
 
 
 	// connect slots
-    connect(ui->actionBug, SIGNAL (triggered()), this, SLOT(reportBug()));
+    connect(ui->actionBug, &QAction::triggered, [this]() {
+             QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury/issues"));
+         });
+
     connect(ui->applyFiltrBtn, SIGNAL (clicked(bool)), this, SLOT(rereadHist(bool)));
     connect(ui->fileData_companyAction, SIGNAL(triggered()), this, SLOT(userDataClick()));
     connect(ui->fileEndAction, SIGNAL(triggered()), this, SLOT(close()));
@@ -258,10 +261,24 @@ void MainWindow::init() {
     connect(ui->actionPrintBuyer, SIGNAL(triggered()), this, SLOT(printBuyerList()));
     connect(ui->editGoodsAction, SIGNAL(triggered()), this, SLOT(goodsEdit()));
     connect(ui->delGoodsAction, SIGNAL(triggered()), this, SLOT(goodsDel()));
-    connect(ui->pomocO_QtAction, SIGNAL(triggered()), this, SLOT(aboutQt()));
+
+    /** Slot used to display aboutQt informations.
+          */
+
+        connect(ui->pomocO_QtAction, &QAction::triggered, [this]() {
+              QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
+         });
+
     connect(ui->helpAbout_appAction, SIGNAL(triggered()), this, SLOT(aboutProg()));
     connect(ui->fileSettingsAction, SIGNAL(triggered()), this, SLOT(settClick()));
-    connect(ui->helpAction, SIGNAL(triggered()), this, SLOT(help()));
+
+    /** Slot help
+          */
+
+         connect(ui->helpAction, &QAction::triggered, [this]() {
+             QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury"));
+         });
+
     connect(ui->action_Qt, SIGNAL(triggered()), this, SLOT(aboutQt()));
     connect(ui->actionCreateBackup, SIGNAL(triggered()), this, SLOT(createBackup()));
     connect(ui->actionLoadBackup, SIGNAL(triggered()), this, SLOT(loadBackup()));
@@ -1025,14 +1042,6 @@ void MainWindow::rereadHist(bool) {
         readHist();
 
     }
-}
-
-/** Slot used to display aboutQt informations.
- */
-
-void MainWindow::aboutQt() {
-
-	QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
 }
 
 /** Slot used to display information about QFaktury
@@ -2237,22 +2246,6 @@ bool MainWindow::close() {
 
 		return false;
 	}
-}
-
-/** Slot help
- */
-
-void MainWindow::help() {
-
-    QDesktopServices::openUrl(QUrl("https://github.com/ggoda/qfaktury"));
-}
-
-/** Slot reportBug
- */
-
-void MainWindow::reportBug() {
-
-    QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury/issues"));
 }
 
 // creates two backup files Backup-xml and Backup-configs in zip format

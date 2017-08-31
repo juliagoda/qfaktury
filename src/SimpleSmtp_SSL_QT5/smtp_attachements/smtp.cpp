@@ -18,10 +18,22 @@ Smtp::Smtp( const QString &user, const QString &pass, const QString &host, int p
     socket = new QSslSocket(this);
 
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    connect(socket, SIGNAL(connected()), this, SLOT(connected() ) );
-    connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this,SLOT(errorReceived(QAbstractSocket::SocketError)));   
-    connect(socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChanged(QAbstractSocket::SocketState)));
-    connect(socket, SIGNAL(disconnected()), this,SLOT(disconnected()));
+    connect(socket, &QSslSocket::connected, [this]() {
+             qDebug() << "Connected ";
+             });
+
+         connect(socket, static_cast<void (QSslSocket::*)(QAbstractSocket::SocketError)>(&QSslSocket::error), [this](QAbstractSocket::SocketError socketError) {
+             qDebug() << "error " << socketError;
+             });
+
+         connect(socket, static_cast<void (QSslSocket::*)(QAbstractSocket::SocketState)>(&QSslSocket::stateChanged), [this](QAbstractSocket::SocketState socketState) {
+             qDebug() <<"stateChanged " << socketState;
+             });
+
+         connect(socket, &QSslSocket::disconnected, [this]() {
+             qDebug() <<"disconneted";
+             qDebug() << "error "  << socket->errorString();
+         });
 
 
     this->user = user;
@@ -98,30 +110,6 @@ Smtp::~Smtp()
 {
     delete t;
     delete socket;
-}
-
-
-void Smtp::stateChanged(QAbstractSocket::SocketState socketState)
-{
-
-    qDebug() <<"stateChanged " << socketState;
-}
-
-void Smtp::errorReceived(QAbstractSocket::SocketError socketError)
-{
-    qDebug() << "error " <<socketError;
-}
-
-void Smtp::disconnected()
-{
-
-    qDebug() <<"disconneted";
-    qDebug() << "error "  << socket->errorString();
-}
-
-void Smtp::connected()
-{    
-    qDebug() << "Connected ";
 }
 
 

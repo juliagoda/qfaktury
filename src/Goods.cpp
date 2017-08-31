@@ -30,9 +30,29 @@ void Goods::init() {
 
 	connect(okButton, SIGNAL(clicked()), this, SLOT(okClick()));
 	connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
-    connect(netEdit, SIGNAL(valueChanged(double)), this, SLOT(netChanged(double)));
-	connect(spinBox2, SIGNAL(valueChanged(int)), this, SLOT(spinChanged(int)));
-	connect(pkwiuBtn, SIGNAL(clicked()), this, SLOT(pkwiuGet()));
+
+    /** Slot
+       *  Nett value changed
+       */
+
+      connect(netEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [this](double) {
+          net[spinBox2->value() - 1] = netEdit->cleanText();
+      });
+
+      /** Slot
+       *  spinBox with list of prices changed
+       */
+
+      connect(spinBox2, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this](int a) {
+          netEdit->setValue(net[a - 1].toDouble());
+      });
+
+      /** Slot
+       *  Finds PKWIU code on the net
+       */
+      connect(pkwiuBtn, &QToolButton::clicked, [this]() {
+          QDesktopServices::openUrl(QUrl(tr("http://www.vat.pl/pkwiu/index.php?rodzajKlasyfikacji=pkwiuvat&kod")));
+      });
 }
 
 const QString Goods::getRetGoods()
@@ -98,33 +118,6 @@ QString Goods::isEmpty(QString in) {
     return in;
 }
 
-/** Slot
- *  spinBox with list of prices changed
- */
-
-void Goods::spinChanged(int a) {
-
-    netEdit->setValue(net[a - 1].toDouble());
-}
-
-/** Slot
- *  Nett value changed
- */
-
-void Goods::netChanged(double ) {
-
-    net[spinBox2->value() - 1] = netEdit->cleanText();
-}
-
-/** Slot
- *  Finds PKWIU code on the net
- */
-
-void Goods::pkwiuGet() {
-
-    QDesktopServices::openUrl(QUrl(tr("http://www.vat.pl/pkwiu/index.php?rodzajKlasyfikacji=pkwiuvat&kod")));
-}
-
 /******************** SLOTS END ***************************/
 
 /** Loads data into the form
@@ -164,7 +157,6 @@ void Goods::selectData(QString idx, int type) {
 
 bool Goods::insertData() {
 
-    netChanged(0);
 	ProductData prodData;
 	setData(prodData);
 	dataLayer->productsInsertData(prodData, typeCombo->currentIndex());
@@ -177,7 +169,6 @@ bool Goods::insertData() {
 
 bool Goods::updateData() {
 
-    netChanged(0);
 	ProductData prodData;
 	setData(prodData);
 	dataLayer->productsUpdateData(prodData, typeCombo->currentIndex(), idxEdit->text() );
