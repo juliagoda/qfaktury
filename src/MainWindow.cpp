@@ -5,8 +5,13 @@
 #include <QPrintPreviewDialog>
 #include <QInputDialog>
 #include <QFileDialog>
+#include <QPrinter>
 #include <QDesktopWidget>
 #include <QPdfWriter>
+
+#include "Invoice.h"
+#include "Setting.h"
+#include "owncalendar.h"
 #include "JlCompress.h"
 #include "quazipdir.h"
 #include "Setting.h"

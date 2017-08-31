@@ -8,6 +8,7 @@
 
 #include "CustomPayment.h"
 #include "Settings.h"
+#include "CustomPaymData.h"
 
 
 CustomPayment::CustomPayment(QWidget *parent): QDialog(parent) {

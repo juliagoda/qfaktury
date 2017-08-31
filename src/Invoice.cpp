@@ -1,6 +1,11 @@
 
 #include <QPrintPreviewDialog>
+#include <QPrinter>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QKeyEvent>
 
+#include "Invoice.h"
 #include "BuyersList.h"
 #include "GoodsList.h"
 #include "ChangeAmount.h"
@@ -8,6 +13,8 @@
 #include "Buyers.h"
 #include "CustomPayment.h"
 #include "Const.h"
+#include "CustomPaymData.h"
+#include "IDataLayer.h"
 
 
 short invType;

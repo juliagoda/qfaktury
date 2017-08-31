@@ -5,16 +5,23 @@
 #ifndef INVOICE_H
 #define INVOICE_H
 
-#include <QPrinter>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
+
 #include <QDomElement>
 #include <QDomDocument>
 
-#include "ConvertAmount.h"
-#include "CustomPaymData.h"
-#include "IDataLayer.h"
 #include "ui_Invoice.h"
+#include "ConvertAmount.h"
+#include "InvoiceData.h"
+
+
+class QPrinter;
+class QNetworkAccessManager;
+class QNetworkReply;
+class CustomPaymData;
+class QLabel;
+class QComboBox;
+class QKeyEvent;
+class IDataLayer;
 
 
 enum InvoiceType {FVat, FPro, EFVat, EFPro, KBR, BILL, DUP, RR};

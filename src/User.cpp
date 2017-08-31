@@ -1,5 +1,6 @@
 #include <QCheckBox>
 #include <QScrollArea>
+
 #include "Validations.h"
 #include "Settings.h"
 #include "User.h"

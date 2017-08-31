@@ -1,8 +1,21 @@
 #include <QTextEdit>
-#include <QObject>
 #include <QDomDocument>
+#include <QVariant>
+#include <QLayout>
+#include <QLineEdit>
+#include <QCheckBox>
+#include <QRadioButton>
+#include <QLabel>
+#include <QGroupBox>
+#include <QFile>
+#include <QMessageBox>
+#include <QRegularExpression>
+#include <QWizard>
+#include <QWizardPage>
+#include <QTableWidget>
 
 
+#include "InvoiceData.h"
 #include "Send.h"
 #include "Buyers.h"
 #include "IDataLayer.h"

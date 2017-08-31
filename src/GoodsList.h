@@ -5,8 +5,8 @@
 #ifndef GOODSLIST_H
 #define GOODSLIST_H
 
-#include "ProductData.h"
 #include "ui_GoodsList.h"
+#include "ProductData.h"
 
 
 class GoodsList: public QDialog, public Ui::GoodsList {

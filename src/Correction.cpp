@@ -3,6 +3,10 @@
 #include "Const.h"
 #include "MainWindow.h"
 #include "Settings.h"
+#include "InvoiceData.h"
+
+#include <QComboBox>
+#include <QLabel>
 
 
 // constructor

@@ -13,8 +13,9 @@
 #define CUSTOMPAYMENT_H_
 
 
-#include "CustomPaymData.h"
 #include "ui_CustomPaymentDialog.h"
+
+class CustomPaymData;
 
 
 class CustomPayment: public QDialog, public Ui::CustomPaymentDialog  {
