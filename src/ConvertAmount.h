@@ -4,7 +4,10 @@
  *  Created on: Mar 16, 2009
  *      Author: tpielech
  */
-
+#include "detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef CONVERTAMOUNT_H_
 #define CONVERTAMOUNT_H_
 

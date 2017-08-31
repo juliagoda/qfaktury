@@ -4,7 +4,10 @@
  *  Created on: Apr 3, 2009
  *      Author: moux
  */
-
+#include "detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef CORRECTGROSS_H_
 #define CORRECTGROSS_H_
 
