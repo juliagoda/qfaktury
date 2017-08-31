@@ -297,7 +297,7 @@ void MainWindow::init() {
   /** Slot used to display aboutQt informations.
         */
 
-  connect(ui->pomocO_QtAction, &QAction::triggered, [this]() {
+  connect(ui->action_Qt, &QAction::triggered, [this]() {
     QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
   });
 
