@@ -51,12 +51,16 @@ Invoice::Invoice(QWidget *parent, IDataLayer *dl, QString Inv)
                              "się różni wyboru waluty z listy obok."));
 
   init();
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 
 /** Destructor
  */
 
 Invoice::~Invoice() {
+
+  qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
 
   m_instance = nullptr;
   delete reply;
@@ -85,6 +89,9 @@ Invoice::~Invoice() {
   if (sendKindInfo != 0)
     sendKindInfo = 0;
   delete sendKindInfo;
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 
 Invoice *Invoice::instance() { return m_instance; }
@@ -248,10 +255,16 @@ void Invoice::init() {
   discountVal->setEnabled(false);
 
   canClose = true;
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 
 void Invoice::whatTypeFromTitle(QString title, bool ifForm, bool kadded,
                                 InvoiceType invTyp, int numbType) {
+
+  qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+
   if (inv_form == title) {
 
     pforma = ifForm;
@@ -259,6 +272,9 @@ void Invoice::whatTypeFromTitle(QString title, bool ifForm, bool kadded,
     invType = invTyp;
     type = numbType;
   }
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 
 /**
@@ -2784,6 +2800,9 @@ QString Invoice::numbersCount(int in, int x) {
     tmp2 += "0";
 
   return tmp2 + tmp;
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 
 /** Saves width of the columns
@@ -2800,4 +2819,7 @@ void Invoice::saveColumnsWidth() {
                     tableGoods->columnWidth(i));
 
   sett().endGroup();
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }

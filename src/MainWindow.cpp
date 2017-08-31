@@ -260,7 +260,7 @@ void MainWindow::init() {
   /** Slot used to display aboutQt informations.
    */
 
-  connect(ui->pomocO_QtAction, &QAction::triggered, [this]() {
+  connect(ui->action_Qt, &QAction::triggered, [this]() {
     QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
   });
 
@@ -275,7 +275,6 @@ void MainWindow::init() {
     QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury"));
   });
 
-  connect(ui->action_Qt, SIGNAL(triggered()), this, SLOT(aboutQt()));
   connect(ui->actionCreateBackup, SIGNAL(triggered()), this,
           SLOT(createFirstWinBackup()));
   connect(ui->actionLoadBackup, SIGNAL(triggered()), this, SLOT(loadBackup()));
