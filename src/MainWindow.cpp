@@ -411,7 +411,7 @@ void MainWindow::loadPlugins() {
     }
 
     ui->menuPlugins->addSeparator();
-    ui->menuPlugins->addAction(trUtf8("Informacje"), this, SLOT (pluginInfoSlot()));
+    ui->menuPlugins->addAction(trUtf8("Informacje"), this, SLOT (pluginInfoSlot()))->setIcon(QIcon(":/res/icons/informacja_dodatki.png"));
 }
 
 /**
