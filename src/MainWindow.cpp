@@ -2,6 +2,7 @@
 #include <QTimer>
 #include <QDesktopServices>
 #include <QProcess>
+#include <QPointer>
 #include <QPrintPreviewDialog>
 #include <QInputDialog>
 #include <QFileDialog>
@@ -458,7 +459,11 @@ void MainWindow::loadPlugins() {
     }
 
    // ui->menuPlugins->addSeparator();
-    actionCollection()->addAction("Informacje", this, SLOT (pluginInfoSlot()));
+    QPointer<QAction> action(actionCollection()->addAction("Informacje", this, SLOT (pluginInfoSlot())));
+    action->setIcon(QIcon(":/res/icons/informacja_dodatki.png"));
+    action->setText("Informacje");
+
+
 }
 
 /**
