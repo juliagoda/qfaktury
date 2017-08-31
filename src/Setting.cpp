@@ -1,5 +1,6 @@
 
 #include <QFileDialog>
+#include <QSignalMapper>
 
 #include "Settings.h"
 #include "Setting.h"
@@ -19,6 +20,64 @@ Setting::~Setting()
 
 
 void Setting::init() {
+
+
+    QCheckBox *cbDay;
+    QCheckBox *cbMonth;
+    QCheckBox *cbYear;
+    QCheckBox *shortYear;
+    QCheckBox *cbEdit;
+    QCheckBox *cbSmbEdit;
+    QCheckBox *cbSmbEdit_2;
+    QCheckBox *cbValOn;
+    QCheckBox *userinfoswift;
+    QCheckBox *userinfobank;
+    QCheckBox *userinfowww;
+    QCheckBox *userinfoadress;
+    QCheckBox *userinfocity;
+    QCheckBox *userinfonip;
+    QCheckBox *userinfomail;
+    QCheckBox *buyerinfowww;
+    QCheckBox *buyerinfocity;
+    QCheckBox *buyerinfoaddress;
+    QCheckBox *buyerinfoaccount;
+    QCheckBox *buyerinfomail;
+    QCheckBox *buyerinfotel;
+    QCheckBox *buyerinfotic;
+    QCheckBox *buyerinfoname;
+    QCheckBox *userinfotel;
+    QCheckBox *userinfoaccount;
+    QCheckBox *userinfoname;
+    QCheckBox *userinfofax;
+    QCheckBox *userinfokrs;
+    QCheckBox *cb1;
+    QCheckBox *cb2;
+    QCheckBox *cb3;
+    QCheckBox *cb4;
+    QCheckBox *cb5;
+    QCheckBox *cb6;
+    QCheckBox *cb7;
+    QCheckBox *cb8;
+    QCheckBox *cb9;
+    QCheckBox *cb10;
+    QCheckBox *cb11;
+    QCheckBox *cb12;
+    QCheckBox *cb13;
+    QCheckBox *cb14;
+
+
+    QList<QSharedPointer<QCheckBox>> settBoxes;
+    settBoxes.append();
+
+    QSignalMapper *signalMapper = new QSignalMapper(this);
+            connect(signalMapper, SIGNAL(mapped(int)), this, SIGNAL(digitClicked(int)));
+
+            for (int i = 0; i < 10; ++i) {
+                QString text = QString::number(i);
+                buttons[i] = new QPushButton(text, this);
+                signalMapper->setMapping(buttons[i], i);
+                connect(buttons[i], SIGNAL(clicked()), signalMapper, SLOT(map()));
+            }
 
 	// connect all slots
     connect(saveButton, SIGNAL(clicked()), this, SLOT(apply()));
