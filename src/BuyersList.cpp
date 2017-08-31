@@ -1,12 +1,12 @@
 
-#include "Settings.h"
 #include "BuyersList.h"
+#include "Settings.h"
 
 /** Constructor
  */
-BuyersList::BuyersList(QWidget *parent): QDialog(parent) {
-    setupUi(this);
-    init();
+BuyersList::BuyersList(QWidget *parent) : QDialog(parent) {
+  setupUi(this);
+  init();
 }
 
 /** Init
@@ -14,40 +14,36 @@ BuyersList::BuyersList(QWidget *parent): QDialog(parent) {
 
 void BuyersList::init() {
 
-	// qDebug () << __FUNCTION__;
+  // qDebug () << __FUNCTION__;
 
-	companiesList.clear();
-	officesList.clear();
-    personsList.clear();
+  companiesList.clear();
+  officesList.clear();
+  personsList.clear();
 
-	// read data
-    readBuyer();
+  // read data
+  readBuyer();
 
-	// load data
-	QString customer;
-	listBox1->clear();
+  // load data
+  QString customer;
+  listBox1->clear();
 
-	foreach (customer, companiesList)
-		listBox1->addItem(customer.split("|")[0]);
+  foreach (customer, companiesList)
+    listBox1->addItem(customer.split("|")[0]);
 
-	// connects
-    connect(okBtn, SIGNAL(clicked()), this, SLOT(doAccept()));
-    connect(cancelBtn, SIGNAL(clicked()), this, SLOT(close()));
-    connect(comboBox1, SIGNAL(activated(int)), this, SLOT(comboBox1Changed()));
-    connect(listBox1, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doAccept()));
+  // connects
+  connect(okBtn, SIGNAL(clicked()), this, SLOT(doAccept()));
+  connect(cancelBtn, SIGNAL(clicked()), this, SLOT(close()));
+  connect(comboBox1, SIGNAL(activated(int)), this, SLOT(comboBox1Changed()));
+  connect(listBox1, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doAccept()));
 
-    connect(listBox1, &QListWidget::itemSelectionChanged, [this]() {
-                updateDetails(listBox1->currentItem());
-            });
+  connect(listBox1, &QListWidget::itemSelectionChanged,
+          [this]() { updateDetails(listBox1->currentItem()); });
 
-    connect(listBox1, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(updateDetails(QListWidgetItem *)));
+  connect(listBox1, SIGNAL(itemClicked(QListWidgetItem *)), this,
+          SLOT(updateDetails(QListWidgetItem *)));
 }
 
-
-const QString BuyersList::getRetBuyerList()
-{
-    return ret;
-}
+const QString BuyersList::getRetBuyerList() { return ret; }
 
 // *************************** SLOTS START *************************************
 
@@ -57,16 +53,16 @@ const QString BuyersList::getRetBuyerList()
 
 void BuyersList::doAccept() {
 
-    if (!listBox1->selectedItems().isEmpty()) {
+  if (!listBox1->selectedItems().isEmpty()) {
 
-		ret = detailsToString();
-		accept();
+    ret = detailsToString();
+    accept();
 
-	} else {
+  } else {
 
-		QMessageBox::information(this, "QFaktury", trUtf8("Wskaż kontrahenta."),
-				QMessageBox::Ok);
-	}
+    QMessageBox::information(this, "QFaktury", trUtf8("Wskaż kontrahenta."),
+                             QMessageBox::Ok);
+  }
 }
 
 /** Slot
@@ -75,31 +71,30 @@ void BuyersList::doAccept() {
 
 void BuyersList::comboBox1Changed() {
 
-    // qDebug (__FUNCTION__);
-    listBox1->clear();
-    clearDetails();
-    QString customer;
+  // qDebug (__FUNCTION__);
+  listBox1->clear();
+  clearDetails();
+  QString customer;
 
-    switch (comboBox1->currentIndex()) {
-    case 0:
+  switch (comboBox1->currentIndex()) {
+  case 0:
 
-        foreach (customer, companiesList)
-            listBox1->addItem(customer.split("|")[0]);
-        break;
+    foreach (customer, companiesList)
+      listBox1->addItem(customer.split("|")[0]);
+    break;
 
-    case 1:
+  case 1:
 
-        foreach (customer, officesList)
-            listBox1->addItem(customer.split("|")[0]);
-        break;
+    foreach (customer, officesList)
+      listBox1->addItem(customer.split("|")[0]);
+    break;
 
-    default:
+  default:
 
-        foreach (customer, personsList)
-            listBox1->addItem(customer.split("|")[0]);
-        break;
-
-    }
+    foreach (customer, personsList)
+      listBox1->addItem(customer.split("|")[0]);
+    break;
+  }
 }
 
 /** Slot
@@ -108,40 +103,40 @@ void BuyersList::comboBox1Changed() {
 
 void BuyersList::updateDetails(QListWidgetItem *item) {
 
-    QStringList custDetails = QStringList();
-    QString customer = QString();
+  QStringList custDetails = QStringList();
+  QString customer = QString();
 
-    switch (comboBox1->currentIndex()) {
-    case 0:
+  switch (comboBox1->currentIndex()) {
+  case 0:
 
-        foreach (customer, companiesList) {
-            custDetails = customer.split("|");
-            if (item->text().compare(custDetails[0]) == 0) {
-                displayDetails(custDetails);
-            }
-        }
-        break;
-
-    case 1:
-
-        foreach (customer, officesList) {
-            custDetails = customer.split("|");
-            if (item->text().compare(custDetails[0]) == 0) {
-                displayDetails(custDetails);
-            }
-        }
-        break;
-
-    default:
-
-        foreach (customer, personsList) {
-            custDetails = customer.split("|");
-            if (item->text().compare(custDetails[0]) == 0) {
-                displayDetails(custDetails);
-            }
-        }
-        break;
+    foreach (customer, companiesList) {
+      custDetails = customer.split("|");
+      if (item->text().compare(custDetails[0]) == 0) {
+        displayDetails(custDetails);
+      }
     }
+    break;
+
+  case 1:
+
+    foreach (customer, officesList) {
+      custDetails = customer.split("|");
+      if (item->text().compare(custDetails[0]) == 0) {
+        displayDetails(custDetails);
+      }
+    }
+    break;
+
+  default:
+
+    foreach (customer, personsList) {
+      custDetails = customer.split("|");
+      if (item->text().compare(custDetails[0]) == 0) {
+        displayDetails(custDetails);
+      }
+    }
+    break;
+  }
 }
 
 // *************************** SLOTS END *************************************
@@ -150,82 +145,84 @@ void BuyersList::updateDetails(QListWidgetItem *item) {
  */
 void BuyersList::readBuyer() {
 
-    QDomDocument doc(sett().getCustomersDocName());
-    QDomElement root;
-    QDomElement office;
-    QDomElement company;
-    QDomElement natur_person;
+  QDomDocument doc(sett().getCustomersDocName());
+  QDomElement root;
+  QDomElement office;
+  QDomElement company;
+  QDomElement natur_person;
 
-    QFile file(sett().getCustomersXml());
+  QFile file(sett().getCustomersXml());
 
-    if (!file.open(QIODevice::ReadOnly)) {
+  if (!file.open(QIODevice::ReadOnly)) {
 
-        QFileInfo check_file(file.fileName());
+    QFileInfo check_file(file.fileName());
 
-            if (check_file.exists() && check_file.isFile()) {
+    if (check_file.exists() && check_file.isFile()) {
 
-                QFile(file.fileName()).setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
-
-            } else {
-
-                QDir mainPath(file.fileName());
-
-                mainPath.mkpath(file.fileName());
-
-                readBuyer();
-            }
+      QFile(file.fileName())
+          .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
 
     } else {
 
-        QTextStream stream(&file);
+      QDir mainPath(file.fileName());
 
-        if (!doc.setContent(stream.readAll())) {
+      mainPath.mkpath(file.fileName());
 
-            root = doc.createElement(sett().getCustomersDocName());
-            doc.appendChild(root);
-            office = doc.createElement(sett().getOfficeName());
-            root.appendChild(office);
-            company = doc.createElement(sett().getCompanyName());
-            root.appendChild(company);
-            natur_person = doc.createElement(sett().getNaturalPerson());
-            root.appendChild(natur_person);
-
-            QString xml = doc.toString();
-
-            file.close();
-            file.open(QIODevice::WriteOnly);
-            QTextStream ts(&file);
-            ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
-            ts << xml;
-            file.close();
-
-            readBuyer();
-
-        } else {
-
-            root = doc.documentElement();
-            office = root.firstChild().toElement();
-            company = root.childNodes().at(1).toElement();
-            natur_person = root.childNodes().at(2).toElement();
-        }
-
-        for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
-
-            companiesList.append(xmlDataToString(n));
-        }
-
-        for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
-
-            officesList.append(xmlDataToString(n));
-        }
-
-        for (QDomNode n = natur_person.firstChild(); !n.isNull(); n = n.nextSibling()) {
-
-            personsList.append(xmlDataToString(n));
-        }
+      readBuyer();
     }
 
-    file.close();
+  } else {
+
+    QTextStream stream(&file);
+
+    if (!doc.setContent(stream.readAll())) {
+
+      root = doc.createElement(sett().getCustomersDocName());
+      doc.appendChild(root);
+      office = doc.createElement(sett().getOfficeName());
+      root.appendChild(office);
+      company = doc.createElement(sett().getCompanyName());
+      root.appendChild(company);
+      natur_person = doc.createElement(sett().getNaturalPerson());
+      root.appendChild(natur_person);
+
+      QString xml = doc.toString();
+
+      file.close();
+      file.open(QIODevice::WriteOnly);
+      QTextStream ts(&file);
+      ts.setCodec(QTextCodec::codecForName(sett().getCodecName()));
+      ts << xml;
+      file.close();
+
+      readBuyer();
+
+    } else {
+
+      root = doc.documentElement();
+      office = root.firstChild().toElement();
+      company = root.childNodes().at(1).toElement();
+      natur_person = root.childNodes().at(2).toElement();
+    }
+
+    for (QDomNode n = company.firstChild(); !n.isNull(); n = n.nextSibling()) {
+
+      companiesList.append(xmlDataToString(n));
+    }
+
+    for (QDomNode n = office.firstChild(); !n.isNull(); n = n.nextSibling()) {
+
+      officesList.append(xmlDataToString(n));
+    }
+
+    for (QDomNode n = natur_person.firstChild(); !n.isNull();
+         n = n.nextSibling()) {
+
+      personsList.append(xmlDataToString(n));
+    }
+  }
+
+  file.close();
 }
 
 /** Loads data one string
@@ -233,20 +230,21 @@ void BuyersList::readBuyer() {
 
 QString BuyersList::xmlDataToString(QDomNode n) {
 
-    QString text = QString();
-    text = n.toElement().attribute("name") + "|"; // 0
-    text += n.toElement().attribute("address") + "|"; // 1
-    text += n.toElement().attribute("code") + " " + n.toElement().attribute("place") + "|"; // 2
-    text += n.toElement().attribute("tic") + "|"; // 3
-    text += n.toElement().attribute("bank") + "|"; // 4
-    text += n.toElement().attribute("account") + "|"; // 5
-    text += n.toElement().attribute("swift") + "|"; // 6
-    text += n.toElement().attribute("krs") + "|"; // 7
-    text += n.toElement().attribute("phone") + "|"; // 8
-    text += n.toElement().attribute("fax") + "|"; // 9
-    text += n.toElement().attribute("email") + "|"; // 10
-    text += n.toElement().attribute("www"); // 11
-    return text;
+  QString text = QString();
+  text = n.toElement().attribute("name") + "|";     // 0
+  text += n.toElement().attribute("address") + "|"; // 1
+  text += n.toElement().attribute("code") + " " +
+          n.toElement().attribute("place") + "|";   // 2
+  text += n.toElement().attribute("tic") + "|";     // 3
+  text += n.toElement().attribute("bank") + "|";    // 4
+  text += n.toElement().attribute("account") + "|"; // 5
+  text += n.toElement().attribute("swift") + "|";   // 6
+  text += n.toElement().attribute("krs") + "|";     // 7
+  text += n.toElement().attribute("phone") + "|";   // 8
+  text += n.toElement().attribute("fax") + "|";     // 9
+  text += n.toElement().attribute("email") + "|";   // 10
+  text += n.toElement().attribute("www");           // 11
+  return text;
 }
 
 /** Loads data to labels
@@ -254,15 +252,16 @@ QString BuyersList::xmlDataToString(QDomNode n) {
 
 void BuyersList::displayDetails(QStringList custDetails) {
 
-    labelNameE->setText(custDetails[0]);
-    labelAddressE->setText(custDetails[1]);
-    labelCityE->setText(custDetails[2]);
-    labelTicE->setText(custDetails[3]);
-    labelAccountE->setText(custDetails[5]);
-    labelPhoneE->setText(custDetails[8]);
-    labelEmailE->setText(custDetails[10]);
-    labelWWWE->setText("<a href=" + custDetails[11] + ">" + custDetails[11] + "</a>");
-    labelWWWE->setStyleSheet("color: #1E90FF");
+  labelNameE->setText(custDetails[0]);
+  labelAddressE->setText(custDetails[1]);
+  labelCityE->setText(custDetails[2]);
+  labelTicE->setText(custDetails[3]);
+  labelAccountE->setText(custDetails[5]);
+  labelPhoneE->setText(custDetails[8]);
+  labelEmailE->setText(custDetails[10]);
+  labelWWWE->setText("<a href=" + custDetails[11] + ">" + custDetails[11] +
+                     "</a>");
+  labelWWWE->setStyleSheet("color: #1E90FF");
 }
 
 /** Clear labels
@@ -270,14 +269,14 @@ void BuyersList::displayDetails(QStringList custDetails) {
 
 void BuyersList::clearDetails() {
 
-	labelNameE->setText("");
-    labelAddressE->setText("");
-    labelCityE->setText("");
-    labelTicE->setText("");
-    labelAccountE->setText("");
-    labelPhoneE->setText("");
-    labelEmailE->setText("");
-    labelWWWE->setText("");
+  labelNameE->setText("");
+  labelAddressE->setText("");
+  labelCityE->setText("");
+  labelTicE->setText("");
+  labelAccountE->setText("");
+  labelPhoneE->setText("");
+  labelEmailE->setText("");
+  labelWWWE->setText("");
 }
 
 /** Labels to string
@@ -285,29 +284,42 @@ void BuyersList::clearDetails() {
 
 QString BuyersList::detailsToString() {
 
-	QString ret = labelNameE->text();
+  QString ret = labelNameE->text();
 
-    if (!labelAddressE->text().isEmpty()) ret += "," +  labelAddressE->text();
-    else ret += ",-";
+  if (!labelAddressE->text().isEmpty())
+    ret += "," + labelAddressE->text();
+  else
+    ret += ",-";
 
-    if (!labelCityE->text().isEmpty()) ret +=  "," + labelCityE->text();
-    else ret += ",-";
+  if (!labelCityE->text().isEmpty())
+    ret += "," + labelCityE->text();
+  else
+    ret += ",-";
 
-    if (!labelTicE->text().isEmpty()) ret += "," + trUtf8("NIP: ") + labelTicE->text();
-    else ret += "," + trUtf8("NIP: ") + "-";
+  if (!labelTicE->text().isEmpty())
+    ret += "," + trUtf8("NIP: ") + labelTicE->text();
+  else
+    ret += "," + trUtf8("NIP: ") + "-";
 
-    if (!labelAccountE->text().isEmpty()) ret += ", " + trUtf8("Konto: ") + labelAccountE->text();
-    else ret += "," + trUtf8("Konto: ") + "-";
+  if (!labelAccountE->text().isEmpty())
+    ret += ", " + trUtf8("Konto: ") + labelAccountE->text();
+  else
+    ret += "," + trUtf8("Konto: ") + "-";
 
-    if (!labelPhoneE->text().isEmpty()) ret += ", " + trUtf8("Tel: ") + labelPhoneE->text();
-    else ret += "," + trUtf8("Tel: ") + "-";
+  if (!labelPhoneE->text().isEmpty())
+    ret += ", " + trUtf8("Tel: ") + labelPhoneE->text();
+  else
+    ret += "," + trUtf8("Tel: ") + "-";
 
-    if (!labelEmailE->text().isEmpty()) ret += ", " + trUtf8("Email: ") + labelEmailE->text();
-    else ret += "," + trUtf8("Email: ") + "-";
+  if (!labelEmailE->text().isEmpty())
+    ret += ", " + trUtf8("Email: ") + labelEmailE->text();
+  else
+    ret += "," + trUtf8("Email: ") + "-";
 
-    if (!labelWWWE->text().isEmpty()) ret += ", " + trUtf8("Strona: ") + labelWWWE->text();
-    else ret += "," + trUtf8("Strona: ") + "-";
+  if (!labelWWWE->text().isEmpty())
+    ret += ", " + trUtf8("Strona: ") + labelWWWE->text();
+  else
+    ret += "," + trUtf8("Strona: ") + "-";
 
-    return ret;
+  return ret;
 }
-

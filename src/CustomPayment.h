@@ -6,44 +6,37 @@
  */
 #include "detector.h"
 #if _pragma_once_support
-#    pragma once
+#pragma once
 #endif
 #ifndef CUSTOMPAYMENT_H_
 #define CUSTOMPAYMENT_H_
-
 
 #include "ui_CustomPaymentDialog.h"
 
 class CustomPaymData;
 
+class CustomPayment : public QDialog, public Ui::CustomPaymentDialog {
 
-class CustomPayment: public QDialog, public Ui::CustomPaymentDialog  {
-
-Q_OBJECT
+  Q_OBJECT
 
 public:
+  CustomPayment(QWidget *parent);
+  virtual ~CustomPayment();
 
-	CustomPayment(QWidget* parent);
-	virtual ~CustomPayment();
+  bool validateForm();
+  void setInvoiceAmount(double a);
+  void init();
 
-	bool validateForm();
-	void setInvoiceAmount(double a);
-    void init();
-
-    CustomPaymData *custPaymData;
-
+  CustomPaymData *custPaymData;
 
 public slots:
 
-	void okClicked();
-	void amount1Changed(double a);
-	void amount2Changed(double a);
-
+  void okClicked();
+  void amount1Changed(double a);
+  void amount2Changed(double a);
 
 private:
-
-    double invoiceAmount;
-
+  double invoiceAmount;
 };
 
 #endif /* CUSTOMPAYMENT_H_ */

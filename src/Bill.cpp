@@ -8,20 +8,15 @@
 #include "Bill.h"
 #include "Const.h"
 
-
 // constructor
-Bill::Bill(QWidget *parent, IDataLayer *dl, QString in_form): Invoice(parent, dl, in_form) {
+Bill::Bill(QWidget *parent, IDataLayer *dl, QString in_form)
+    : Invoice(parent, dl, in_form) {}
 
-}
-
-void Bill::billInit() {
-	invoiceType = s_BILL;
-}
-
+void Bill::billInit() { invoiceType = s_BILL; }
 
 QString Bill::getInvoiceTypeAndSaveNr() {
 
-    QString bill = "rachunek";
-    sett().setValue("fvat", invNr->text());
-    return bill;
+  QString bill = "rachunek";
+  sett().setValue("fvat", invNr->text());
+  return bill;
 }
