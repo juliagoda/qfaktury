@@ -74,7 +74,8 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $${QUAZIPCODEDIR}/*.cpp \
     $${QUAZIPCODEDIR}/*.c \
     $${SMTPCODEDIR}/*.cpp \
-    $$PWD/src/Send.cpp
+    $$PWD/src/Send.cpp \
+    $$PWD/src/owncalendar.cpp
 
 
 RESOURCES += qfaktury.qrc
