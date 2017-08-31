@@ -1,6 +1,6 @@
 #include "../../detector.h"
 #if _pragma_once_support
-#    pragma once
+#pragma once
 #endif
 #ifndef QUA_ZIPFILEINFO_H
 #define QUA_ZIPFILEINFO_H
@@ -176,7 +176,7 @@ struct QUAZIP_EXPORT QuaZipFileInfo64 {
    */
   QDateTime getNTFScTime(int *fineTicks = NULL) const;
   /// Checks whether the file is encrypted.
-  bool isEncrypted() const {return (flags & 1) != 0;}
+  bool isEncrypted() const { return (flags & 1) != 0; }
 };
 
 #endif

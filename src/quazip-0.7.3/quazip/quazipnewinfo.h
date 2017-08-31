@@ -1,6 +1,6 @@
 #include "../../detector.h"
 #if _pragma_once_support
-#    pragma once
+#pragma once
 #endif
 #ifndef QUA_ZIPNEWINFO_H
 #define QUA_ZIPNEWINFO_H
@@ -91,17 +91,18 @@ struct QUAZIP_EXPORT QuaZipNewInfo {
    * time. Attributes are initialized with zeros, comment and extra
    * field with null values.
    **/
-  QuaZipNewInfo(const QString& name);
+  QuaZipNewInfo(const QString &name);
   /// Constructs QuaZipNewInfo instance.
   /** Initializes name with \a name. Timestamp and permissions are taken
    * from the specified file. If the \a file does not exists or its timestamp
    * is inaccessible (e. g. you do not have read permission for the
-   * directory file in), uses current time and zero permissions. Other attributes are
+   * directory file in), uses current time and zero permissions. Other
+   *attributes are
    * initialized with zeros, comment and extra field with null values.
-   * 
+   *
    * \sa setFileDateTime()
    **/
-  QuaZipNewInfo(const QString& name, const QString& file);
+  QuaZipNewInfo(const QString &name, const QString &file);
   /// Initializes the new instance from existing file info.
   /** Mainly used when copying files between archives.
    *
@@ -133,7 +134,7 @@ struct QUAZIP_EXPORT QuaZipNewInfo {
    * This function does not change dateTime if some error occured (e. g.
    * file is inaccessible).
    **/
-  void setFileDateTime(const QString& file);
+  void setFileDateTime(const QString &file);
   /// Sets the file permissions from the existing file.
   /**
     Takes permissions from the file and sets the high 16 bits of

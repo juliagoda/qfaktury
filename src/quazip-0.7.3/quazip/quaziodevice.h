@@ -1,6 +1,6 @@
 #include "../../detector.h"
 #if _pragma_once_support
-#    pragma once
+#pragma once
 #endif
 #ifndef QUAZIP_QUAZIODEVICE_H
 #define QUAZIP_QUAZIODEVICE_H
@@ -29,8 +29,8 @@ Original ZIP package is copyrighted by Gilles Vollant and contributors,
 see quazip/(un)zip.h files for details. Basically it's the zlib license.
 */
 
-#include <QIODevice>
 #include "quazip_global.h"
+#include <QIODevice>
 
 #include <zlib.h>
 
@@ -42,7 +42,7 @@ class QuaZIODevicePrivate;
   decompress it back. Compressing data sent over a QTcpSocket is a good
   example.
   */
-class QUAZIP_EXPORT QuaZIODevice: public QIODevice {
+class QUAZIP_EXPORT QuaZIODevice : public QIODevice {
   Q_OBJECT
 public:
   /// Constructor.
@@ -95,11 +95,13 @@ public:
   virtual bool atEnd() const;
   /// Returns the number of the bytes buffered.
   virtual qint64 bytesAvailable() const;
+
 protected:
   /// Implementation of QIODevice::readData().
   virtual qint64 readData(char *data, qint64 maxSize);
   /// Implementation of QIODevice::writeData().
   virtual qint64 writeData(const char *data, qint64 maxSize);
+
 private:
   QuaZIODevicePrivate *d;
 };

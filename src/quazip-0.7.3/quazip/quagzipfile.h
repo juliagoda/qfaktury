@@ -1,6 +1,6 @@
 #include "../../detector.h"
 #if _pragma_once_support
-#    pragma once
+#pragma once
 #endif
 #ifndef QUAZIP_QUAGZIPFILE_H
 #define QUAZIP_QUAGZIPFILE_H
@@ -29,8 +29,8 @@ Original ZIP package is copyrighted by Gilles Vollant and contributors,
 see quazip/(un)zip.h files for details. Basically it's the zlib license.
 */
 
-#include <QIODevice>
 #include "quazip_global.h"
+#include <QIODevice>
 
 #include <zlib.h>
 
@@ -38,9 +38,13 @@ class QuaGzipFilePrivate;
 
 /// GZIP file
 /**
-  This class is a wrapper around GZIP file access functions in zlib. Unlike QuaZip classes, it doesn't allow reading from a GZIP file opened as QIODevice, for example, if your GZIP file is in QBuffer. It only provides QIODevice access to a GZIP file contents, but the GZIP file itself must be identified by its name on disk or by descriptor id.
+  This class is a wrapper around GZIP file access functions in zlib. Unlike
+  QuaZip classes, it doesn't allow reading from a GZIP file opened as QIODevice,
+  for example, if your GZIP file is in QBuffer. It only provides QIODevice
+  access to a GZIP file contents, but the GZIP file itself must be identified by
+  its name on disk or by descriptor id.
   */
-class QUAZIP_EXPORT QuaGzipFile: public QIODevice {
+class QUAZIP_EXPORT QuaGzipFile : public QIODevice {
   Q_OBJECT
 public:
   /// Empty constructor.
@@ -63,7 +67,7 @@ public:
   /// Destructor.
   virtual ~QuaGzipFile();
   /// Sets the name of the GZIP file to be opened.
-  void setFileName(const QString& fileName);
+  void setFileName(const QString &fileName);
   /// Returns the name of the GZIP file.
   QString getFileName() const;
   /// Returns true.
@@ -97,16 +101,18 @@ public:
   virtual bool flush();
   /// Closes the file.
   virtual void close();
+
 protected:
   /// Implementation of QIODevice::readData().
   virtual qint64 readData(char *data, qint64 maxSize);
   /// Implementation of QIODevice::writeData().
   virtual qint64 writeData(const char *data, qint64 maxSize);
+
 private:
-    // not implemented by design to disable copy
-    QuaGzipFile(const QuaGzipFile &that);
-    QuaGzipFile& operator=(const QuaGzipFile &that);
-    QuaGzipFilePrivate *d;
+  // not implemented by design to disable copy
+  QuaGzipFile(const QuaGzipFile &that);
+  QuaGzipFile &operator=(const QuaGzipFile &that);
+  QuaGzipFilePrivate *d;
 };
 
 #endif // QUAZIP_QUAGZIPFILE_H

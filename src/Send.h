@@ -1,16 +1,16 @@
 #include "detector.h"
 #if _pragma_once_support
-#    pragma once
+#pragma once
 #endif
 #ifndef SEND_H
 #define SEND_H
 
 #include <QWizard>
 
-#include "mainwindow.h"
-#include "Buyers.h"
 #include "BuyerData.h"
+#include "Buyers.h"
 #include "InvoiceData.h"
+#include "mainwindow.h"
 
 class EmailWindow;
 class QLabel;
@@ -18,110 +18,99 @@ class QLineEdit;
 class QGroupBox;
 class QTableWidget;
 
-
-class Send : public QWizard
-{
-    Q_OBJECT
+class Send : public QWizard {
+  Q_OBJECT
 
 public:
-    Send(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
+  Send(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
 
-    void accept() override;
+  void accept() override;
 
 private:
-
-    QVector<BuyerData> bList;
-    QVector<InvoiceData> iList;
+  QVector<BuyerData> bList;
+  QVector<InvoiceData> iList;
 };
 
-class IntroPage : public QWizardPage
-{
-    Q_OBJECT
+class IntroPage : public QWizardPage {
+  Q_OBJECT
 
 public:
-    IntroPage(QWidget *parent = 0);
+  IntroPage(QWidget *parent = 0);
 
 private:
-    QLabel *label;
+  QLabel *label;
 };
 
-class ClassInvoicePage : public QWizardPage
-{
-    Q_OBJECT
+class ClassInvoicePage : public QWizardPage {
+  Q_OBJECT
 
 public:
-    ClassInvoicePage(QVector<BuyerData>, QVector<InvoiceData>, QWidget *parent = 0);
+  ClassInvoicePage(QVector<BuyerData>, QVector<InvoiceData>,
+                   QWidget *parent = 0);
 
 protected:
-    bool validatePage() override;
-    QString transformType(QString);
+  bool validatePage() override;
+  QString transformType(QString);
 
 private:
-    QVector<BuyerData> bList;
-    QVector<InvoiceData> iList;
-    QTableWidget* invoicesList;
-
+  QVector<BuyerData> bList;
+  QVector<InvoiceData> iList;
+  QTableWidget *invoicesList;
 };
 
-class EmailPage : public QWizardPage
-{
-    Q_OBJECT
+class EmailPage : public QWizardPage {
+  Q_OBJECT
 
 public:
-    EmailPage(QWidget *parent = 0);
-    void setHostPort(QString,QString);
+  EmailPage(QWidget *parent = 0);
+  void setHostPort(QString, QString);
 
 protected:
-    void initializePage() override;
-
+  void initializePage() override;
 
 private slots:
-    void setSSL(bool);
-    void setTCP(bool);
-    void setTLS(bool);
-    void setGmail(bool);
-    void seto2(bool);
-    void setYahoo(bool);
-    void setInteria(bool);
-    void setOnet(bool);
-    void setWP(bool);
-    void setHotMail(bool);
-    void setGazeta(bool);
-    void setAol(bool);
-    void setFoxMail(bool);
-    void setOutlook(bool);
+  void setSSL(bool);
+  void setTCP(bool);
+  void setTLS(bool);
+  void setGmail(bool);
+  void seto2(bool);
+  void setYahoo(bool);
+  void setInteria(bool);
+  void setOnet(bool);
+  void setWP(bool);
+  void setHotMail(bool);
+  void setGazeta(bool);
+  void setAol(bool);
+  void setFoxMail(bool);
+  void setOutlook(bool);
 
 private:
-    QLabel *label;
-    QGroupBox* groupBox;
-    bool checkedMailButton;
-    bool checkedPortButton;
-    QString protocol;
-    QString checkedMail;
-    QLineEdit* edit1;
-    QLineEdit* edit2;
-
+  QLabel *label;
+  QGroupBox *groupBox;
+  bool checkedMailButton;
+  bool checkedPortButton;
+  QString protocol;
+  QString checkedMail;
+  QLineEdit *edit1;
+  QLineEdit *edit2;
 };
 
-class ConclusionPage : public QWizardPage
-{
-    Q_OBJECT
+class ConclusionPage : public QWizardPage {
+  Q_OBJECT
 
 public:
-    ConclusionPage(QWidget *parent = 0);
-
+  ConclusionPage(QWidget *parent = 0);
 
 protected:
-    void initializePage() override;
+  void initializePage() override;
 
-private slots:    
-    void getTemplateOne(bool);
-    void getTemplateTwo(bool);
-    void getTemplateThree(bool);
+private slots:
+  void getTemplateOne(bool);
+  void getTemplateTwo(bool);
+  void getTemplateThree(bool);
 
-private: 
-    EmailWindow* emailWindow;
-
+private:
+  EmailWindow *emailWindow;
 };
 
 #endif // SEND_H

@@ -1,6 +1,6 @@
 #include "../../detector.h"
 #if _pragma_once_support
-#    pragma once
+#pragma once
 #endif
 #ifndef QUAADLER32_H
 #define QUAADLER32_H
@@ -39,20 +39,19 @@ see quazip/(un)zip.h files for details. Basically it's the zlib license.
  * This class wrappers the adler32 function with the QuaChecksum32 interface.
  * See QuaChecksum32 for more info.
  */
-class QUAZIP_EXPORT QuaAdler32 : public QuaChecksum32
-{
+class QUAZIP_EXPORT QuaAdler32 : public QuaChecksum32 {
 
 public:
-	QuaAdler32();
+  QuaAdler32();
 
-	quint32 calculate(const QByteArray &data);
+  quint32 calculate(const QByteArray &data);
 
-	void reset();
-	void update(const QByteArray &buf);
-	quint32 value();
+  void reset();
+  void update(const QByteArray &buf);
+  quint32 value();
 
 private:
-	quint32 checksum;
+  quint32 checksum;
 };
 
-#endif //QUAADLER32_H
+#endif // QUAADLER32_H
