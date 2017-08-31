@@ -5,11 +5,14 @@
 #ifndef CORRECTION_H
 #define CORRECTION_H
 
-#include <QComboBox>
 
 #include "ui_Invoice.h"
 #include "Invoice.h"
-#include "InvoiceData.h"
+
+
+class QComboBox;
+class InvoiceData;
+class QLabel;
 
 
 class Correction: public Invoice {

@@ -10,7 +10,12 @@
 #include <KActionCollection>
 #include <QMenuBar>
 #include <KZip>
+#include <QPrinter>
 
+
+#include "Invoice.h"
+#include "Setting.h"
+#include "owncalendar.h"
 #include "Setting.h"
 #include "User.h"
 #include "Goods.h"

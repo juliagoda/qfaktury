@@ -3,7 +3,6 @@
 #include <QResource>
 #include <QDesktopWidget>
 #include <QSplashScreen>
-#include <QTranslator>
 #include <QStyle>
 #include <KAboutData>
 #include <QCommandLineParser>
@@ -11,6 +10,7 @@
 
 
 #include "MainWindow.h"
+#include "Settings.h"
 
 
 int main(int argc, char **argv) {

@@ -3,6 +3,8 @@
 #include <QChar>
 #include <QList>
 #include <QDebug>
+#include <QLineEdit>
+#include <QRegExp>
 
 #include "Validations.h"
 

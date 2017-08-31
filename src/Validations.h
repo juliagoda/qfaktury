@@ -6,8 +6,11 @@
 #define VALIDATIONS_H
 
 #include <QObject>
-#include <QRegExp>
-#include <QLineEdit>
+#include <QVector>
+#include <QHash>
+
+
+class QLineEdit;
 
 
 class Validations : public QObject

@@ -5,10 +5,13 @@
 #ifndef GOODS_H
 #define GOODS_H
 
-
-#include "IDataLayer.h"
-#include "ProductData.h"
 #include "ui_Goods.h"
+#include "ProductData.h"
+
+
+class IDataLayer;
+
+
 
 
 class Goods: public QDialog, public Ui::Goods {

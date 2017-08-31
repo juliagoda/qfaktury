@@ -2,6 +2,7 @@
 #include "Settings.h"
 #include "Validations.h"
 #include "Goods.h"
+#include "IDataLayer.h"
 
 #include <QDesktopServices>
 #include <QUrl>
