@@ -5,6 +5,10 @@
  *      Author: moux
  */
 
+#include "detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef BILL_H_
 #define BILL_H_
 
@@ -28,7 +32,9 @@ public slots:
 
 protected:
 
-	QString getInvoiceTypeAndSaveNr();
+    QString getInvoiceTypeAndSaveNr();
 };
+
+
 
 #endif /* BILL_H_ */

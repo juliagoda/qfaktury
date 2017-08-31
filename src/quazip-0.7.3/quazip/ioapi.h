@@ -19,7 +19,10 @@
                           (but you should use iowin32.c for windows instead)
 
 */
-
+#include "../../detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef _ZLIBIOAPI64_H
 #define _ZLIBIOAPI64_H
 

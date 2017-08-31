@@ -42,6 +42,7 @@ INCLUDEPATH += . \
 HEADERS += $$files($$PWD/src/*.h) \
             $${SMTPCODEDIR}/*.h \
             $${QUAZIPCODEDIR}/*.h \
+    src/detector.h
 
 
 FORMS += $$files($$PWD/ui/*.ui) \

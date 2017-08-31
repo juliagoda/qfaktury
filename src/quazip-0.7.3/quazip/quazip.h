@@ -1,3 +1,7 @@
+#include "../../detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef QUA_ZIP_H
 #define QUA_ZIP_H
 

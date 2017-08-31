@@ -6,6 +6,7 @@
  */
 
 #include "BuyerData.h"
+#include <QString>
 
 BuyerData::BuyerData() {
 	// TODO Auto-generated constructor stub

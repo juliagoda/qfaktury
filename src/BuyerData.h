@@ -5,8 +5,13 @@
  *      Author: moux
  */
 
+#include "detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef BUYERDATA_H
 #define BUYERDATA_H_
+
 
 #include <QString>
 

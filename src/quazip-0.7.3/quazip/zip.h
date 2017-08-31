@@ -42,7 +42,10 @@
   to support QIODevice interface. Some improvements and small fixes were also made.
 
 */
-
+#include "../../detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef _zip12_H
 #define _zip12_H
 

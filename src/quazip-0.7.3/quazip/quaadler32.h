@@ -1,3 +1,7 @@
+#include "../../detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef QUAADLER32_H
 #define QUAADLER32_H
 

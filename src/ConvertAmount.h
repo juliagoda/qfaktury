@@ -5,6 +5,10 @@
  *      Author: tpielech
  */
 
+#include "detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef CONVERTAMOUNT_H_
 #define CONVERTAMOUNT_H_
 

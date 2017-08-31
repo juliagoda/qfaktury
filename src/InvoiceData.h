@@ -4,7 +4,10 @@
  *  Created on: Mar 12, 2009
  *      Author: moux
  */
-
+#include "detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef INVOICEDATA_H
 #define INVOICEDATA_H
 

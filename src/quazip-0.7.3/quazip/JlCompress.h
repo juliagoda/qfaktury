@@ -1,3 +1,7 @@
+#include "../../detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef JLCOMPRESSFOLDER_H_
 #define JLCOMPRESSFOLDER_H_
 

@@ -1,3 +1,7 @@
+#include "detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef VALIDATIONS_H
 #define VALIDATIONS_H
 

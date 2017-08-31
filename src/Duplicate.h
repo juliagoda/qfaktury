@@ -5,6 +5,10 @@
  *      Author: moux
  */
 
+#include "detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef DUPLICATE_H_
 #define DUPLICATE_H_
 

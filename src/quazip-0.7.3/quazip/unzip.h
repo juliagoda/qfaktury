@@ -44,7 +44,10 @@
   by Sergey A. Tachenov. Most modifications include the I/O API redesign
   to support QIODevice interface. Some improvements and small fixes were also made.
 */
-
+#include "../../detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef _unz64_H
 #define _unz64_H
 

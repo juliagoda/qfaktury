@@ -1,3 +1,7 @@
+#include "../../detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef QUAZIP_QUAZIODEVICE_H
 #define QUAZIP_QUAZIODEVICE_H
 

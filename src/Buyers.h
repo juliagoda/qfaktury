@@ -1,3 +1,8 @@
+
+#include "detector.h"
+#if _pragma_once_support
+#    pragma once
+#endif
 #ifndef BUYERS_H
 #define BUYERS_H
 
