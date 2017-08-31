@@ -22,62 +22,47 @@ Setting::~Setting()
 void Setting::init() {
 
 
-    QCheckBox *cbDay;
-    QCheckBox *cbMonth;
-    QCheckBox *cbYear;
-    QCheckBox *shortYear;
-    QCheckBox *cbEdit;
-    QCheckBox *cbSmbEdit;
-    QCheckBox *cbSmbEdit_2;
-    QCheckBox *cbValOn;
-    QCheckBox *userinfoswift;
-    QCheckBox *userinfobank;
-    QCheckBox *userinfowww;
-    QCheckBox *userinfoadress;
-    QCheckBox *userinfocity;
-    QCheckBox *userinfonip;
-    QCheckBox *userinfomail;
-    QCheckBox *buyerinfowww;
-    QCheckBox *buyerinfocity;
-    QCheckBox *buyerinfoaddress;
-    QCheckBox *buyerinfoaccount;
-    QCheckBox *buyerinfomail;
-    QCheckBox *buyerinfotel;
-    QCheckBox *buyerinfotic;
-    QCheckBox *buyerinfoname;
-    QCheckBox *userinfotel;
-    QCheckBox *userinfoaccount;
-    QCheckBox *userinfoname;
-    QCheckBox *userinfofax;
-    QCheckBox *userinfokrs;
-    QCheckBox *cb1;
-    QCheckBox *cb2;
-    QCheckBox *cb3;
-    QCheckBox *cb4;
-    QCheckBox *cb5;
-    QCheckBox *cb6;
-    QCheckBox *cb7;
-    QCheckBox *cb8;
-    QCheckBox *cb9;
-    QCheckBox *cb10;
-    QCheckBox *cb11;
-    QCheckBox *cb12;
-    QCheckBox *cb13;
-    QCheckBox *cb14;
+    QList<QCheckBox*> settBoxes = QList<QCheckBox*>() << cbMonth <<
+                                                 cbYear << shortYear <<
+                                                 cbEdit <<  cbSmbEdit <<
+                                                  cbSmbEdit_2 <<  cbValOn <<
+                                                  userinfoswift <<  userinfobank <<
+                                                  userinfowww <<  userinfoadress <<
+                                                  userinfocity <<  userinfonip <<
+                                                  userinfomail <<  buyerinfowww <<
+                                                  buyerinfocity <<  buyerinfoaddress <<
+                                                  buyerinfoaccount <<  buyerinfomail <<
+                                                  buyerinfotel <<  buyerinfotic <<
+                                                  buyerinfoname <<  userinfotel <<
+                                                  userinfoaccount <<  userinfoname <<
+                                                  userinfofax <<  userinfokrs <<
+                                                  cb1 <<  cb2 <<
+                                                  cb3 <<  cb4 <<
+                                                  cb5 <<  cb6 <<
+                                                  cb7 <<  cb8 <<
+                                                  cb9 <<  cb10 <<
+                                                  cb11 <<  cb12 <<
+                                                  cb13 <<  cb14 <<
+                                                  cbDay;
 
 
-    QList<QSharedPointer<QCheckBox>> settBoxes;
-    settBoxes.append();
-
+//static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
     QSignalMapper *signalMapper = new QSignalMapper(this);
-            connect(signalMapper, SIGNAL(mapped(int)), this, SIGNAL(digitClicked(int)));
+            connect(signalMapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped), [this](int) {
+                saveButton->setEnabled(true);
+            });
 
-            for (int i = 0; i < 10; ++i) {
-                QString text = QString::number(i);
-                buttons[i] = new QPushButton(text, this);
-                signalMapper->setMapping(buttons[i], i);
-                connect(buttons[i], SIGNAL(clicked()), signalMapper, SLOT(map()));
+
+            int j = 0;
+            QList<QCheckBox*>::iterator i;
+            for (i = settBoxes.begin(); i != settBoxes.end(); ++i) {
+                signalMapper->setMapping((*i), j);
+                connect((*i), SIGNAL(stateChanged(int)), signalMapper, SLOT(map()));
+                j++;
             }
+
+            j = 0;
+
 
 	// connect all slots
     connect(saveButton, SIGNAL(clicked()), this, SLOT(apply()));
@@ -112,51 +97,6 @@ void Setting::init() {
     connect( sufixEdit, SIGNAL(  textChanged (const QString &) ), this, SLOT( saveBtnEnable() ) );
     connect( spbNumb, SIGNAL(  valueChanged (const QString &) ), this, SLOT( saveBtnEnable() ) );
     connect( spbNumCopies, SIGNAL(  valueChanged (const QString &) ), this, SLOT( saveBtnEnable() ) );
-    connect( cbDay, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable()) );
-    connect( cbMonth, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cbYear, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( shortYear, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cbEdit, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cbSmbEdit, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cbSmbEdit_2, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cbValOn, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( additText,  SIGNAL( textChanged() ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfoname, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfocity, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfoadress, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfoaccount, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfonip, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfotel, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfomail, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfowww, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfobank, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfofax, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfokrs, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( userinfoswift, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( buyerinfoname, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( buyerinfocity, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( buyerinfoaddress, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( buyerinfoaccount, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( buyerinfotic, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( buyerinfotel, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( buyerinfomail, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( buyerinfowww, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-
-
-    connect( cb1, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb2, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb3, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb4, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb5, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb6, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb7, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb8, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb9, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb10, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb11, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb12, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb13, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
-    connect( cb14, SIGNAL( stateChanged(int) ), this, SLOT( saveBtnEnable() ) );
 
 
     cssList->clear();

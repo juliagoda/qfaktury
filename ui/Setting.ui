@@ -47,7 +47,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="TabPage1">
       <attribute name="title">
@@ -465,8 +465,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>276</width>
-            <height>392</height>
+            <width>269</width>
+            <height>381</height>
            </rect>
           </property>
           <attribute name="label">
@@ -646,7 +646,7 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>294</width>
+            <width>287</width>
             <height>188</height>
            </rect>
           </property>
@@ -802,8 +802,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>477</width>
-            <height>318</height>
+            <width>475</width>
+            <height>339</height>
            </rect>
           </property>
           <attribute name="label">
@@ -930,8 +930,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>277</width>
-            <height>150</height>
+            <width>271</width>
+            <height>144</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1066,8 +1066,8 @@ korekt:</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>284</width>
-            <height>150</height>
+            <width>276</width>
+            <height>144</height>
            </rect>
           </property>
           <attribute name="label">
