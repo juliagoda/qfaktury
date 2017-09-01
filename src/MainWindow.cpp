@@ -990,11 +990,13 @@ void MainWindow::tabChanged() {
 
     ui->editBuyersAction->setEnabled(true);
     ui->delBuyersAction->setEnabled(true);
+    ui->actionPrintBuyer->setEnabled(true);
 
   } else {
 
     ui->editBuyersAction->setDisabled(true);
     ui->delBuyersAction->setDisabled(true);
+    ui->actionPrintBuyer->setDisabled(true);
   }
 
   // goods
