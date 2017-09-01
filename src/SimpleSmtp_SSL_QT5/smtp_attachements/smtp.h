@@ -45,10 +45,6 @@ public:
 //    void status( const QString &);
 
 private slots:
-    void stateChanged(QAbstractSocket::SocketState socketState);
-    void errorReceived(QAbstractSocket::SocketError socketError);
-    void disconnected();
-    void connected();
     void readyRead();
 
 private:

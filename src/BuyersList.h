@@ -22,7 +22,6 @@ public slots:
 	void doAccept();
 	void comboBox1Changed();
 	void updateDetails(QListWidgetItem *);
-	void mouseSelect();
 
 
 private:

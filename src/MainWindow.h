@@ -30,7 +30,6 @@ public slots:
 	void tableClear(QTableWidget * tab);
     void tabChanged();
     void rereadHist(bool if_clicked);
-	void aboutQt();
     void aboutProg();
 	void editFHist();
 	void delFHist();
@@ -47,10 +46,8 @@ public slots:
     void newInvGross();
     void newInvBill();
 	bool close();
-    void help();
     void openHideOrganizer();
     void noteDownTask(const QDate&);
-	void reportBug();
     void goodsAdd();
     void goodsDel();
     void goodsEdit();

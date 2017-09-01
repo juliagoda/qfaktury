@@ -50,7 +50,9 @@ void Duplicate::duplicateInit() {
     setIsEditAllowed(false); // since it's a duplicate
     saveBtn->setEnabled(true);
 
-    connect(closeBtn, SIGNAL(clicked()), this, SLOT(cancelDupl()));
+        connect(closeBtn, &QPushButton::clicked, [this]() {
+             reject();
+         });
 }
 
 
@@ -213,10 +215,3 @@ void Duplicate::canQuit() {
         }
     }
 }
-
-
-void Duplicate::cancelDupl()
-{
-    reject();
-}
-

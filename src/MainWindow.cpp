@@ -197,7 +197,10 @@ void MainWindow::init() {
     ui->calendarLayout->addWidget(calendar);
 
 	// connect slots
-    connect(ui->actionBug, SIGNAL (triggered()), this, SLOT(reportBug()));
+    connect(ui->actionBug, &QAction::triggered, [this]() {
+             QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury/issues"));
+         });
+
     connect(ui->applyFiltrBtn, SIGNAL (clicked(bool)), this, SLOT(rereadHist(bool)));
     connect(ui->fileData_companyAction, SIGNAL(triggered()), this, SLOT(userDataClick()));
     connect(ui->fileEndAction, SIGNAL(triggered()), this, SLOT(close()));
@@ -217,11 +220,27 @@ void MainWindow::init() {
     connect(ui->actionPrintBuyer, SIGNAL(triggered()), this, SLOT(printBuyerList()));
     connect(ui->editGoodsAction, SIGNAL(triggered()), this, SLOT(goodsEdit()));
     connect(ui->delGoodsAction, SIGNAL(triggered()), this, SLOT(goodsDel()));
-    connect(ui->pomocO_QtAction, SIGNAL(triggered()), this, SLOT(aboutQt()));
+
+    /** Slot used to display aboutQt informations.
+         */
+
+        connect(ui->pomocO_QtAction, &QAction::triggered, [this]() {
+             QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
+        });
+
     connect(ui->helpAbout_appAction, SIGNAL(triggered()), this, SLOT(aboutProg()));
     connect(ui->fileSettingsAction, SIGNAL(triggered()), this, SLOT(settClick()));
-    connect(ui->helpAction, SIGNAL(triggered()), this, SLOT(help()));
-    connect(ui->action_Qt, SIGNAL(triggered()), this, SLOT(aboutQt()));
+
+    /** Slot help
+          */
+
+         connect(ui->helpAction, &QAction::triggered, [this]() {
+             QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury"));
+         });
+
+    connect(ui->action_Qt, &QAction::triggered, [this]() {
+        QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
+   });
     connect(ui->hideOrganizer, SIGNAL(clicked(bool)), this, SLOT(openHideOrganizer()));
     connect(calendar, SIGNAL(activated(const QDate&)), this, SLOT(noteDownTask(const QDate&)));
     connect(ui->tableH, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(editFHist()));
@@ -977,14 +996,6 @@ void MainWindow::rereadHist(bool) {
         readHist();
 
     }
-}
-
-/** Slot used to display aboutQt informations.
- */
-
-void MainWindow::aboutQt() {
-
-	QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
 }
 
 /** Slot used to display information about QFaktury
@@ -2110,21 +2121,6 @@ bool MainWindow::close() {
 	}
 }
 
-/** Slot help
- */
-
-void MainWindow::help() {
-
-    QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury"));
-}
-
-/** Slot reportBug
- */
-
-void MainWindow::reportBug() {
-
-    QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury/issues"));
-}
 
 /** Slot for sending email to buyers
  */

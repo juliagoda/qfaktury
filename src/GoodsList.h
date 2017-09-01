@@ -26,7 +26,6 @@ public slots:
 	virtual void doAccept();
     virtual void calcNet();
     void readGoods();
-	void comboBox1Changed(int x);
 	void displayData(int x);
 	void lv1selChanged();
     void displayNet(QString index);

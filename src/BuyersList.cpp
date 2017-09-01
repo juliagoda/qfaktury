@@ -35,7 +35,8 @@ void BuyersList::init() {
     connect(cancelBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect(comboBox1, SIGNAL(activated(int)), this, SLOT(comboBox1Changed()));
     connect(listBox1, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doAccept()));
-    connect(listBox1, SIGNAL(itemSelectionChanged ()), this, SLOT(mouseSelect()));
+    connect(listBox1, &QListWidget::itemSelectionChanged,
+            [this]() { updateDetails(listBox1->currentItem()); });
     connect(listBox1, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(updateDetails(QListWidgetItem *)));
 }
 
@@ -46,12 +47,6 @@ const QString BuyersList::getRetBuyerList()
 }
 
 // *************************** SLOTS START *************************************
-
-void BuyersList::mouseSelect() {
-
-	// qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
-	updateDetails(listBox1->currentItem());
-}
 
 /** Slot
  *  Connected to accept signal

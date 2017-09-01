@@ -42,7 +42,15 @@ void GoodsList::init() {
 	// connects
 	connect(okBtn, SIGNAL( clicked() ), this, SLOT( doAccept()));
 	connect(cancelBtn, SIGNAL( clicked() ), this, SLOT( close()));
-	connect(comboBox1, SIGNAL( activated(int) ), this, SLOT( comboBox1Changed(int)));
+
+    /** Slot
+          *  ComboBox changed reload the list.
+          */
+
+         connect(comboBox1, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this](int x) {
+             displayData(x);
+         });
+
 	connect(listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(lv1selChanged()));
 	connect(spinBox2, SIGNAL( valueChanged(int) ), this, SLOT( spinChanged(int) ) );
     connect(discountSpin, SIGNAL( valueChanged(int) ), this, SLOT( calcNet() ) );
@@ -139,16 +147,6 @@ void GoodsList::doAccept() {
 		QMessageBox::information(this, "QFaktury", trUtf8("Wskaż towar"),
 				QMessageBox::Ok);
 	}
-}
-
-/** Slot
- *  ComboBox changed reload the list.
- */
-
-void GoodsList::comboBox1Changed(int x) {
-
-	// qDebug (__FUNCTION__);
-	displayData(x);
 }
 
 /** Slot

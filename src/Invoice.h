@@ -69,12 +69,6 @@ public slots:
     void buyerClick();
     void tellFinished();
     void httpReadyRead();
-    void changeToUSD();
-    void changeToEUR();
-    void changeToPLN();
-    void changeToCHF();
-    void changeToGBP();
-    void changeToRUB();
     void rateDateChanged(QString);
 
 

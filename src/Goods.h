@@ -21,9 +21,6 @@ public:
 public slots:
 
 	void okClick();
-	void spinChanged(int a);
-    void netChanged(double a);
-	void pkwiuGet();
 
 
 private:
