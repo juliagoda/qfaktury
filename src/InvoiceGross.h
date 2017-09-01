@@ -4,7 +4,10 @@
  *  Created on: Apr 2, 2009
  *      Author: TPIELECH
  */
-
+#include "detector.h"
+#if _pragma_once_support
+#pragma once
+#endif
 #ifndef INVOICEGROSS_H_
 #define INVOICEGROSS_H_
 

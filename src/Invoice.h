@@ -1,3 +1,7 @@
+#include "detector.h"
+#if _pragma_once_support
+#pragma once
+#endif
 #ifndef INVOICE_H
 #define INVOICE_H
 

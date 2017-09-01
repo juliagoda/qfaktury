@@ -4,7 +4,10 @@
  *  Created on: Apr 2, 2009
  *      Author: moux
  */
-
+#include "detector.h"
+#if _pragma_once_support
+#pragma once
+#endif
 #ifndef BILL_H_
 #define BILL_H_
 

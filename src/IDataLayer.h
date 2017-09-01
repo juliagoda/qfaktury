@@ -4,7 +4,10 @@
  *  Created on: Apr 18, 2009
  *      Author: moux
  */
-
+#include "detector.h"
+#if _pragma_once_support
+#pragma once
+#endif
 #ifndef IDATALAYER_H_
 #define IDATALAYER_H_
 

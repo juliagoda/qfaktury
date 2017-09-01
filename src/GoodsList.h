@@ -1,3 +1,7 @@
+#include "detector.h"
+#if _pragma_once_support
+#pragma once
+#endif
 #ifndef GOODSLIST_H
 #define GOODSLIST_H
 

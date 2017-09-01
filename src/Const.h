@@ -4,7 +4,10 @@
  *  Created on: Apr 11, 2009
  *      Author: moux
  */
-
+#include "detector.h"
+#if _pragma_once_support
+#pragma once
+#endif
 #ifndef CONST_H_
 #define CONST_H_
 
