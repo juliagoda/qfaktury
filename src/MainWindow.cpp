@@ -135,10 +135,14 @@ void MainWindow::init() {
     ui->invoiceEdAction->setEnabled(true);
     ui->invoiceDelAction->setEnabled(true);
 
+    if (ui->tableK->rowCount() != 0) ui->sendEmailAction->setEnabled(true);
+    else ui->sendEmailAction->setDisabled(true);
+
   } else {
 
     ui->invoiceEdAction->setDisabled(true);
     ui->invoiceDelAction->setDisabled(true);
+    ui->sendEmailAction->setDisabled(true);
   }
 
   if (ui->tableK->rowCount() != 0) {
@@ -147,11 +151,15 @@ void MainWindow::init() {
     ui->delBuyersAction->setEnabled(true);
     ui->actionPrintBuyer->setEnabled(true);
 
+    if (ui->tableH->rowCount() != 0) ui->sendEmailAction->setEnabled(true);
+    else ui->sendEmailAction->setDisabled(true);
+
   } else {
 
     ui->editBuyersAction->setDisabled(true);
     ui->delBuyersAction->setDisabled(true);
     ui->actionPrintBuyer->setDisabled(true);
+    ui->sendEmailAction->setDisabled(true);
   }
 
   if (ui->tableT->rowCount() != 0) {
