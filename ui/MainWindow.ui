@@ -91,7 +91,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab1">
        <attribute name="title">
@@ -475,7 +475,7 @@
      <x>0</x>
      <y>0</y>
      <width>655</width>
-     <height>27</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct">
@@ -1146,7 +1146,7 @@
      <normaloff>:/res/icons/importuj_qfaktury.png</normaloff>:/res/icons/importuj_qfaktury.png</iconset>
    </property>
    <property name="text">
-    <string>Stwórz kopię zapasową</string>
+    <string>&amp;Stwórz kopię zapasową</string>
    </property>
   </action>
   <action name="actionLoadBackup">
@@ -1155,7 +1155,7 @@
      <normaloff>:/res/icons/eksportuj_qfaktury.png</normaloff>:/res/icons/eksportuj_qfaktury.png</iconset>
    </property>
    <property name="text">
-    <string>Wczytaj kopię zapasową</string>
+    <string>&amp;Wczytaj kopię zapasową</string>
    </property>
   </action>
   <action name="sendEmailAction">
@@ -1164,7 +1164,7 @@
      <normaloff>:/res/icons/wyslij_fakture.png</normaloff>:/res/icons/wyslij_fakture.png</iconset>
    </property>
    <property name="text">
-    <string>Wyślij</string>
+    <string>&amp;Wyślij</string>
    </property>
   </action>
  </widget>
