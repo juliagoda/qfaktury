@@ -7,6 +7,7 @@
 
 
 #include "CustomPayment.h"
+#include "CustomPaymData.h"
 #include "Settings.h"
 
 

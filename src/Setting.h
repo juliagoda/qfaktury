@@ -7,6 +7,8 @@
 
 #include "ui_Setting.h"
 
+class QTextCodec;
+
 
 class Setting: public QDialog, public Ui::Setting {
 

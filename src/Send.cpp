@@ -1,15 +1,26 @@
-#include <QTextEdit>
-#include <QObject>
+#include <QCheckBox>
 #include <QDomDocument>
+#include <QFile>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLayout>
+#include <QLineEdit>
+#include <QMessageBox>
+#include <QRadioButton>
+#include <QRegularExpression>
+#include <QTableWidget>
+#include <QTextEdit>
+#include <QVariant>
+#include <QWizard>
+#include <QWizardPage>
 
-
-#include "Send.h"
 #include "Buyers.h"
-#include "IDataLayer.h"
-#include "ConvertAmount.h"
-#include "Invoice.h"
 #include "Const.h"
-
+#include "ConvertAmount.h"
+#include "IDataLayer.h"
+#include "Invoice.h"
+#include "InvoiceData.h"
+#include "Send.h"
 
 
 Send::Send(QVector<BuyerData> buyersList, QVector<InvoiceData> invList, QWidget *parent)

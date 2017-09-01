@@ -1,13 +1,20 @@
 
+#include <QKeyEvent>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QPrintPreviewDialog>
+#include <QPrinter>
 
-#include "BuyersList.h"
-#include "GoodsList.h"
-#include "ChangeAmount.h"
-#include "MainWindow.h"
 #include "Buyers.h"
-#include "CustomPayment.h"
+#include "BuyersList.h"
+#include "ChangeAmount.h"
 #include "Const.h"
+#include "CustomPaymData.h"
+#include "CustomPayment.h"
+#include "GoodsList.h"
+#include "IDataLayer.h"
+#include "Invoice.h"
+#include "MainWindow.h"
 
 
 

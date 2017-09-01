@@ -11,6 +11,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include "smtp.h"
 
+#include <QByteArray>
+#include <QDebug>
+#include <QFile>
+#include <QFileInfo>
+#include <QString>
+#include <QTextStream>
+#include <QtNetwork/QAbstractSocket>
+#include <QtNetwork/QSslSocket>
+#include <QtWidgets/QMessageBox>
+
 QString Smtp::status = " ";
 
 Smtp::Smtp( const QString &user, const QString &pass, const QString &host, int port, int timeout )

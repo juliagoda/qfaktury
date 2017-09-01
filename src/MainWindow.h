@@ -6,12 +6,20 @@
 #define MainWindow_H
 
 #include <QMainWindow>
-#include <QKeyEvent>
 
 #include "ui_MainWindow.h"
-#include "Invoice.h"
-#include "owncalendar.h"
-#include "Setting.h"
+
+class QKeyEvent;
+class QPrinter;
+class IDataLayer;
+class QPushButton;
+class QTableWidget;
+class QLineEdit;
+class ownCalendarWidget;
+class QWidget;
+class QTimer;
+class QAction;
+class Invoice;
 
 
 class MainWindow: public QMainWindow {

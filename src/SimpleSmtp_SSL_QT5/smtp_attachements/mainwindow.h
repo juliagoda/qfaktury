@@ -6,7 +6,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "smtp.h"
 #include <QtWidgets/QMessageBox>
 #include <QFileDialog>
 
@@ -17,6 +16,7 @@ class EmailWindow;
 class QLineEdit;
 class QPlainTextEdit;
 class QRadioButton;
+class Smtp;
 
 class EmailWindow : public QMainWindow
 {

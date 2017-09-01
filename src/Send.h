@@ -5,24 +5,18 @@
 #ifndef SEND_H
 #define SEND_H
 
-#include <QVariant>
-#include <QLayout>
-#include <QLineEdit>
-#include <QCheckBox>
-#include <QRadioButton>
-#include <QLabel>
-#include <QGroupBox>
-#include <QFile>
-#include <QMessageBox>
-#include <QRegularExpression>
 #include <QWizard>
-#include <QWizardPage>
-#include <QTableWidget>
-#include <QTextEdit>
 
-#include "mainwindow.h"
+#include "BuyerData.h"
 #include "Buyers.h"
+#include "InvoiceData.h"
+#include "mainwindow.h"
 
+class EmailWindow;
+class QLabel;
+class QLineEdit;
+class QGroupBox;
+class QTableWidget;
 
 class Send : public QWizard
 {

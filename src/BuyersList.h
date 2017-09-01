@@ -5,9 +5,9 @@
 #ifndef BUYERSLIST_H
 #define BUYERSLIST_H
 
-#include <QtXml/qdom.h>
-
 #include "ui_BuyersList.h"
+
+#include <QtXml/qdom.h>
 
 
 class BuyersList: public QDialog, public Ui::BuyersList {

@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "smtp.h"
 #include "ui_mainwindow.h"
 
 #include <QLineEdit>

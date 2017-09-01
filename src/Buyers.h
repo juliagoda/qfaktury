@@ -5,9 +5,10 @@
 #ifndef BUYERS_H
 #define BUYERS_H
 
-
 #include "ui_Buyers.h"
-#include "IDataLayer.h"
+
+class IDataLayer;
+class BuyerData;
 
 
 class Buyers: public QDialog, public Ui::Buyers {

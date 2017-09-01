@@ -1,8 +1,12 @@
 
 #include "Correction.h"
 #include "Const.h"
+#include "InvoiceData.h"
 #include "MainWindow.h"
 #include "Settings.h"
+
+#include <QComboBox>
+#include <QLabel>
 
 
 // constructor

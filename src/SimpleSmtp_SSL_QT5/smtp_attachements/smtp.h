@@ -16,17 +16,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define SMTP_H
 
 
-#include <QtNetwork/QAbstractSocket>
-#include <QtNetwork/QSslSocket>
-#include <QString>
-#include <QTextStream>
-#include <QDebug>
-#include <QtWidgets/QMessageBox>
-#include <QByteArray>
-#include <QFile>
-#include <QFileInfo>
+#include <QObject>
 
-
+class QTextStream;
+class QSslSocket;
 
 class Smtp : public QObject
 {
