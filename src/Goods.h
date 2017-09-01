@@ -10,35 +10,30 @@
 
 class IDataLayer;
 
-class Goods: public QDialog, public Ui::Goods {
+class Goods : public QDialog, public Ui::Goods {
 
-Q_OBJECT
+  Q_OBJECT
 
 public:
-
-    Goods(QWidget *parent, int mode, IDataLayer *dl);
-    void selectData(QString idx, int type); // called from MainWindow
-    const QString getRetGoods();
-
+  Goods(QWidget *parent, int mode, IDataLayer *dl);
+  void selectData(QString idx, int type); // called from MainWindow
+  const QString getRetGoods();
 
 public slots:
 
-	void okClick();
-
+  void okClick();
 
 private:
+  IDataLayer *dataLayer;
+  QString ret;
+  QStringList net;
+  int workMode; // Working mode - 0 = new; 1 = edit
 
-	IDataLayer* dataLayer;
-    QString ret;
-    QStringList net;
-    int workMode; // Working mode - 0 = new; 1 = edit
-
-	void init();
-    void getData(ProductData prodData);
-	void setData(ProductData &prodData);
-	bool updateData();
-	bool insertData();
-    QString isEmpty(QString in);
-
+  void init();
+  void getData(ProductData prodData);
+  void setData(ProductData &prodData);
+  bool updateData();
+  bool insertData();
+  QString isEmpty(QString in);
 };
 #endif

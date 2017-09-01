@@ -8,13 +8,10 @@
 #include "CustomPaymData.h"
 
 CustomPaymData::CustomPaymData() {
-	// TODO Auto-generated constructor stub
-
+  // TODO Auto-generated constructor stub
 }
 
 CustomPaymData::~CustomPaymData() {
 
-	// TODO Auto-generated destructor stub
+  // TODO Auto-generated destructor stub
 }
-
-

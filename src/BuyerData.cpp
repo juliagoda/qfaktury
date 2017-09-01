@@ -8,10 +8,9 @@
 #include "BuyerData.h"
 
 BuyerData::BuyerData() {
-	// TODO Auto-generated constructor stub
-
+  // TODO Auto-generated constructor stub
 }
 
 BuyerData::~BuyerData() {
-	// TODO Auto-generated destructor stub
+  // TODO Auto-generated destructor stub
 }

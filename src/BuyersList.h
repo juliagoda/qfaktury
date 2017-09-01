@@ -9,37 +9,31 @@
 
 #include <QtXml/qdom.h>
 
+class BuyersList : public QDialog, public Ui::BuyersList {
 
-class BuyersList: public QDialog, public Ui::BuyersList {
-
-Q_OBJECT
+  Q_OBJECT
 
 public:
-
-    BuyersList(QWidget *parent);
-    const QString getRetBuyerList();
-
+  BuyersList(QWidget *parent);
+  const QString getRetBuyerList();
 
 public slots:
 
-    void readBuyer();
-	void doAccept();
-	void comboBox1Changed();
-	void updateDetails(QListWidgetItem *);
-
+  void readBuyer();
+  void doAccept();
+  void comboBox1Changed();
+  void updateDetails(QListWidgetItem *);
 
 private:
+  QStringList companiesList;
+  QStringList officesList;
+  QStringList personsList;
+  QString ret;
 
-	QStringList companiesList;
-	QStringList officesList;
-    QStringList personsList;
-    QString ret;
-
-	void init();
-    void displayDetails(QStringList custDetails);
-    void clearDetails();
-    QString xmlDataToString(QDomNode n);
-	QString detailsToString();
-
+  void init();
+  void displayDetails(QStringList custDetails);
+  void clearDetails();
+  QString xmlDataToString(QDomNode n);
+  QString detailsToString();
 };
 #endif
