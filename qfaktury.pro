@@ -59,7 +59,8 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/Validations.cpp \
     $$PWD/src/InvoiceRR.cpp \
     $${SMTPCODEDIR}/*.cpp \
-    $$PWD/src/Send.cpp
+    $$PWD/src/Send.cpp \
+    $$PWD/src/owncalendar.cpp
 
 
 RESOURCES += qfaktury.qrc
