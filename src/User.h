@@ -21,10 +21,26 @@ public slots:
   bool checkAll();
 
 private slots:
+
   void on_nextSeller_clicked();
   void delcurrSel();
+  void on_addAcc_clicked();
+  void on_remAcc_clicked();
+  void on_accountsCombo_currentTextChanged(const QString &arg1);
+  void on_addTel_clicked();
+  void on_remTel_clicked();
+  void on_telsCombo_currentTextChanged(const QString &arg1);
+  void on_addFax_clicked();
+  void on_remFax_clicked();
+  void on_faxesCombo_currentTextChanged(const QString &arg1);
+  void on_addEmail_clicked();
+  void on_remEmail_clicked();
+  void on_emailsCombo_currentTextChanged(const QString &arg1);
 
 private:
   QList<QWidget *> sellersWidgets;
+
+  bool cameFromOldVersion();
+  void prepareFor_0_7_1(bool cameFromOlder);
 };
 #endif

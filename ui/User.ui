@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>408</width>
+    <width>584</width>
     <height>650</height>
    </rect>
   </property>
@@ -86,9 +86,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-18</y>
-            <width>352</width>
-            <height>556</height>
+            <y>-128</y>
+            <width>532</width>
+            <height>670</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -157,6 +157,13 @@
                 <widget class="QLabel" name="label_2">
                  <property name="text">
                   <string>Nr SWIFT/BIC:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -242,20 +249,132 @@
                 <widget class="QLineEdit" name="addressEdit"/>
                </item>
                <item>
-                <widget class="QLineEdit" name="accountEdit">
-                 <property name="inputMask">
-                  <string/>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <property name="leftMargin">
+                  <number>5</number>
                  </property>
-                 <property name="maxLength">
-                  <number>34</number>
+                 <property name="topMargin">
+                  <number>5</number>
                  </property>
-                </widget>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout">
+                   <property name="leftMargin">
+                    <number>5</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>5</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>5</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>5</number>
+                   </property>
+                   <item>
+                    <widget class="QLineEdit" name="accountEdit">
+                     <property name="inputMask">
+                      <string/>
+                     </property>
+                     <property name="maxLength">
+                      <number>34</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="bankNameEdit"/>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="bicSwiftEdit"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="addAcc">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>60</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
-                <widget class="QLineEdit" name="bankNameEdit"/>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="bicSwiftEdit"/>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QComboBox" name="accountsCombo">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>10</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="remAcc">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Usun</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
                 <widget class="QLineEdit" name="nipEdit">
@@ -308,13 +427,250 @@
                 <widget class="QLineEdit" name="krsEdit"/>
                </item>
                <item>
-                <widget class="QLineEdit" name="phonEdit"/>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="addTel">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="phonEdit">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="telsCombo">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="remTel">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Usun</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
-                <widget class="QLineEdit" name="faxEdit"/>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="addFax">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="faxEdit">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="faxesCombo">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="remFax">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Usun</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
-                <widget class="QLineEdit" name="emailEdit"/>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="addEmail">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="emailEdit">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="emailsCombo">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="remEmail">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>60</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Usun</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
                 <widget class="QLineEdit" name="webEdit"/>
@@ -324,7 +680,6 @@
             </layout>
            </item>
           </layout>
-          <zorder></zorder>
           <zorder></zorder>
          </widget>
         </widget>

@@ -1,12 +1,18 @@
-#include "User.h"
-#include "Settings.h"
-#include "Validations.h"
 #include <QCheckBox>
+#include <QComboBox>
+#include <QLineEdit>
 #include <QScrollArea>
+
+#include "Settings.h"
+#include "User.h"
+#include "Validations.h"
 
 User::User(QWidget *parent) : QDialog(parent) {
   setupUi(this);
   sellersWidgets.append(mainSeller);
+  bool ifOld = cameFromOldVersion();
+  if (ifOld)
+    prepareFor_0_7_1(ifOld);
   init();
 }
 
@@ -31,13 +37,30 @@ void User::init() {
   nipEdit->setText(settings.value("tic").toString());
   regonEdit->setText(
       settings.value("regon").toString()); // i guess it's statistical number
-  phonEdit->setText(settings.value("phone").toString());
-  emailEdit->setText(settings.value("email").toString());
   webEdit->setText(settings.value("website").toString());
   bankNameEdit->setText(settings.value("bank").toString());
   bicSwiftEdit->setText(settings.value("swift").toString());
   krsEdit->setText(settings.value("krs").toString());
-  faxEdit->setText(settings.value("fax").toString());
+
+  for (int i = 0; i < settings.value("accountsCount").toInt(); ++i) {
+    accountsCombo->addItem(
+        settings.value("account" + QString::number(i + 1)).toString());
+  }
+
+  for (int i = 0; i < settings.value("telsCount").toInt(); ++i) {
+    telsCombo->addItem(
+        settings.value("phone" + QString::number(i + 1)).toString());
+  }
+
+  for (int i = 0; i < settings.value("faxesCount").toInt(); ++i) {
+    faxesCombo->addItem(
+        settings.value("fax" + QString::number(i + 1)).toString());
+  }
+
+  for (int i = 0; i < settings.value("emailsCount").toInt(); ++i) {
+    emailsCombo->addItem(
+        settings.value("email" + QString::number(i + 1)).toString());
+  }
 
   for (int i = 1; i < settings.value("sellerCount").toInt(); ++i) {
 
@@ -98,6 +121,15 @@ void User::init() {
       sellersWidgets.at(i)->findChild<QCheckBox *>()->setChecked(false);
     settings.endGroup();
   }
+
+  accountsCombo->setMaxCount(5);
+  accountsCombo->setDuplicatesEnabled(false);
+  telsCombo->setMaxCount(5);
+  telsCombo->setDuplicatesEnabled(false);
+  faxesCombo->setMaxCount(5);
+  faxesCombo->setDuplicatesEnabled(false);
+  emailsCombo->setMaxCount(5);
+  emailsCombo->setDuplicatesEnabled(false);
 }
 
 bool User::checkAll() {
@@ -262,22 +294,68 @@ void User::okClick() {
     foreach (QWidget *widg, sellersWidgets) {
       if (i == 0) {
 
+        int accParts = 0;
+        QString temp = accountsCombo->currentText();
+        QStringList listOfAcc = temp.split(" | ");
+        if (temp.contains('|'))
+          accParts = listOfAcc.count();
+
         QSettings settings("elinux", "user");
+
+        if (accParts > 0) {
+          switch (accParts) {
+          case 1:
+            settings.setValue("account", listOfAcc.at(0));
+            break;
+          case 2:
+            settings.setValue("account", listOfAcc.at(0));
+            settings.setValue("bank", listOfAcc.at(1));
+            break;
+          case 3:
+            settings.setValue("account", listOfAcc.at(0));
+            settings.setValue("bank", listOfAcc.at(1));
+            settings.setValue("swift", listOfAcc.at(2));
+            break;
+          }
+        }
+
         settings.setValue("name", nameEdit->text()); // save String
         settings.setValue("city", placeEdit->text());
         settings.setValue("zip", codeEdit->text());
         settings.setValue("address", addressEdit->text());
-        settings.setValue("account", accountEdit->text());
         settings.setValue("tic", nipEdit->text());
         settings.setValue("secIdType", secIdType->currentText());
         settings.setValue("regon", regonEdit->text());
-        settings.setValue("phone", phonEdit->text());
-        settings.setValue("email", emailEdit->text());
+        settings.setValue("phone", telsCombo->currentText());
+        settings.setValue("email", emailsCombo->currentText());
         settings.setValue("website", webEdit->text());
         settings.setValue("krs", krsEdit->text());
-        settings.setValue("fax", faxEdit->text());
-        settings.setValue("bank", bankNameEdit->text());
-        settings.setValue("swift", bicSwiftEdit->text());
+        settings.setValue("fax", faxesCombo->currentText());
+
+        settings.setValue("accountsCount", accountsCombo->count());
+        settings.setValue("telsCount", telsCombo->count());
+        settings.setValue("faxesCount", faxesCombo->count());
+        settings.setValue("emailsCount", emailsCombo->count());
+
+        for (int i = 0; i < settings.value("accountsCount").toInt(); ++i) {
+          settings.setValue("account" + QString::number(i + 1),
+                            accountsCombo->itemText(i));
+        }
+
+        for (int i = 0; i < settings.value("telsCount").toInt(); ++i) {
+          settings.setValue("phone" + QString::number(i + 1),
+                            telsCombo->itemText(i));
+        }
+
+        for (int i = 0; i < settings.value("faxesCount").toInt(); ++i) {
+          settings.setValue("fax" + QString::number(i + 1),
+                            faxesCombo->itemText(i));
+        }
+
+        for (int i = 0; i < settings.value("emailsCount").toInt(); ++i) {
+          settings.setValue("email" + QString::number(i + 1),
+                            emailsCombo->itemText(i));
+        }
 
       } else {
 
@@ -368,24 +446,24 @@ void User::okClick() {
 
     if (!ifOtherSeller) {
       QSettings settings("elinux", "user");
-
-      settings.beginGroup("choosenSeller");
-      settings.setValue("name", nameEdit->text()); // save String
-      settings.setValue("city", placeEdit->text());
-      settings.setValue("zip", codeEdit->text());
-      settings.setValue("address", addressEdit->text());
-      settings.setValue("account", accountEdit->text());
-      settings.setValue("tic", nipEdit->text());
-      settings.setValue("secIdType", secIdType->currentText());
-      settings.setValue("regon", regonEdit->text());
-      settings.setValue("phone", phonEdit->text());
-      settings.setValue("email", emailEdit->text());
-      settings.setValue("website", webEdit->text());
-      settings.setValue("krs", krsEdit->text());
-      settings.setValue("fax", faxEdit->text());
-      settings.setValue("bank", bankNameEdit->text());
-      settings.setValue("swift", bicSwiftEdit->text());
-      settings.endGroup();
+      QSettings setts("elinux", "user");
+      setts.beginGroup("choosenSeller");
+      setts.setValue("name", settings.value("name").toString()); // save String
+      setts.setValue("city", settings.value("city").toString());
+      setts.setValue("zip", settings.value("zip").toString());
+      setts.setValue("address", settings.value("address").toString());
+      setts.setValue("account", settings.value("account").toString());
+      setts.setValue("tic", settings.value("tic").toString());
+      setts.setValue("secIdType", settings.value("secIdType").toString());
+      setts.setValue("regon", settings.value("regon").toString());
+      setts.setValue("phone", settings.value("phone").toString());
+      setts.setValue("email", settings.value("email").toString());
+      setts.setValue("website", settings.value("website").toString());
+      setts.setValue("krs", settings.value("krs").toString());
+      setts.setValue("fax", settings.value("fax").toString());
+      setts.setValue("bank", settings.value("bank").toString());
+      setts.setValue("swift", settings.value("swift").toString());
+      setts.endGroup();
     }
 
     close();
@@ -531,5 +609,230 @@ void User::delcurrSel() {
 
       settings.remove("seller" + QString::number(sellersList->count()));
     }
+  }
+}
+
+// adds bank account from QLineEdit to QComboBox list in form -> "account number
+// | bank name | bank swift/bic"
+void User::on_addAcc_clicked() {
+  if (!accountEdit->text().isEmpty()) {
+    if (!accountEdit->text().isEmpty() && !bankNameEdit->text().isEmpty() &&
+        !bicSwiftEdit->text().isEmpty())
+      accountsCombo->addItem(accountEdit->text().trimmed() + " | " +
+                             bankNameEdit->text().trimmed() + " | " +
+                             bicSwiftEdit->text().trimmed());
+    else if (!accountEdit->text().isEmpty() && !bankNameEdit->text().isEmpty())
+      accountsCombo->addItem(accountEdit->text().trimmed() + " | " +
+                             bankNameEdit->text().trimmed());
+    else if (!accountEdit->text().isEmpty())
+      accountsCombo->addItem(accountEdit->text().trimmed());
+
+    update();
+  } else
+    QMessageBox::warning(
+        this, "Pusta rubryka dla konta",
+        "Powinienes wprowadzic co najmniej numer konta bankowego do rubryki. ");
+}
+
+// removes current option in QComboBox for bank accounts. Changes in user.conf
+// will be added automatically after "OK" pressing
+void User::on_remAcc_clicked() {
+  if (accountsCombo->currentIndex() != -1)
+    accountsCombo->removeItem(accountsCombo->currentIndex());
+}
+
+// after other account select in QComboBox, informations in QLineEdits are
+// updated
+void User::on_accountsCombo_currentTextChanged(const QString &arg1) {
+  int accParts = 0;
+  QStringList listOfAcc = arg1.split(" | ");
+  if (arg1.contains('|'))
+    accParts = listOfAcc.count();
+
+  if (accParts > 0) {
+    switch (accParts) {
+    case 1:
+      accountEdit->clear();
+      accountEdit->setText(listOfAcc.at(0));
+      break;
+    case 2:
+      accountEdit->clear();
+      bankNameEdit->clear();
+
+      accountEdit->setText(listOfAcc.at(0));
+      bankNameEdit->setText(listOfAcc.at(1));
+      break;
+    case 3:
+      accountEdit->clear();
+      bankNameEdit->clear();
+      bicSwiftEdit->clear();
+
+      accountEdit->setText(listOfAcc.at(0));
+      bankNameEdit->setText(listOfAcc.at(1));
+      bicSwiftEdit->setText(listOfAcc.at(2));
+      break;
+    }
+  }
+
+  // if this won't be executed, then under old index and first index has the
+  // same value. Avoiding second select in QComboBox the first value, to
+  // confirm, we execute "setCurrentIndex"
+  int index = accountsCombo->findText(arg1);
+  QString tempFirst = accountsCombo->itemText(0);
+  accountsCombo->setItemText(index, tempFirst);
+  accountsCombo->setItemText(0, arg1);
+  accountsCombo->setCurrentIndex(0);
+}
+
+// adds phone number from QLineEdit to QComboBox list
+void User::on_addTel_clicked() {
+  if (!phonEdit->text().isEmpty()) {
+    if (telsCombo->findText(phonEdit->text().trimmed()) == -1) {
+      telsCombo->addItem(phonEdit->text().trimmed());
+      phonEdit->clear();
+    } else
+      QMessageBox::warning(this, "Istniejacy numer",
+                           "Taki numer znajduje sie juz na Twojej liscie ");
+  } else
+    QMessageBox::warning(this, "Pusta rubryka dla numeru telefonu",
+                         "Nie ma wpisanego numeru telefonu w rubryce, ktora "
+                         "moglbys dodac do listy. Wprowadz wpierw numer. ");
+}
+
+// removes current option in QComboBox for phone numbers. Changes in user.conf
+// will be added automatically after "OK" pressing
+void User::on_remTel_clicked() {
+  if (telsCombo->currentIndex() != -1)
+    telsCombo->removeItem(telsCombo->currentIndex());
+}
+
+// if this won't be executed, then under old index and first index has the same
+// value. Avoiding second select in QComboBox the first value, to confirm, we
+// execute "setCurrentIndex"
+void User::on_telsCombo_currentTextChanged(const QString &arg1) {
+  int index = telsCombo->findText(arg1);
+  QString tempFirst = telsCombo->itemText(0);
+  telsCombo->setItemText(index, tempFirst);
+  telsCombo->setItemText(0, arg1);
+  telsCombo->setCurrentIndex(0);
+}
+
+// adds fax from QLineEdit to QComboBox list
+void User::on_addFax_clicked() {
+  if (!faxEdit->text().isEmpty()) {
+    if (faxesCombo->findText(faxEdit->text().trimmed()) == -1) {
+      faxesCombo->addItem(faxEdit->text().trimmed());
+      faxEdit->clear();
+    } else
+      QMessageBox::warning(this, "Istniejacy numer",
+                           "Taki numer znajduje sie juz na Twojej liscie ");
+  } else
+    QMessageBox::warning(this, "Pusta rubryka dla faksu",
+                         "Nie ma wpisanego faksu w rubryce, ktory moglbys "
+                         "dodac do listy. Wprowadz wpierw numer. ");
+}
+
+// removes current option in QComboBox for faxes. Changes in user.conf will be
+// added automatically after "OK" pressing
+void User::on_remFax_clicked() {
+  if (faxesCombo->currentIndex() != -1)
+    faxesCombo->removeItem(faxesCombo->currentIndex());
+}
+
+// if this won't be executed, then under old index and first index has the same
+// value. Avoiding second select in QComboBox the first value, to confirm, we
+// execute "setCurrentIndex"
+void User::on_faxesCombo_currentTextChanged(const QString &arg1) {
+  int index = faxesCombo->findText(arg1);
+  QString tempFirst = faxesCombo->itemText(0);
+  faxesCombo->setItemText(index, tempFirst);
+  faxesCombo->setItemText(0, arg1);
+  faxesCombo->setCurrentIndex(0);
+}
+
+// adds email from QLineEdit to QComboBox list
+void User::on_addEmail_clicked() {
+  if (!emailEdit->text().isEmpty()) {
+    if (emailsCombo->findText(emailEdit->text().trimmed()) == -1) {
+      emailsCombo->addItem(emailEdit->text().trimmed());
+      emailEdit->clear();
+    } else
+      QMessageBox::warning(this, "Istniejacy adres",
+                           "Taki adres znajduje sie juz na Twojej liscie ");
+  } else
+    QMessageBox::warning(this, "Pusta rubryka dla adresu email",
+                         "Nie ma wpisanego adresu email w rubryce, ktory "
+                         "moglbys dodac do listy. Wprowadz wpierw adres. ");
+}
+
+// removes current option in QComboBox for emails. Changes in user.conf will be
+// added automatically after "OK" pressing
+void User::on_remEmail_clicked() {
+  if (emailsCombo->currentIndex() != -1)
+    emailsCombo->removeItem(emailsCombo->currentIndex());
+}
+
+// if this won't be executed, then under old index and first index has the same
+// value. Avoiding second select in QComboBox the first value, to confirm, we
+// execute "setCurrentIndex"
+void User::on_emailsCombo_currentTextChanged(const QString &arg1) {
+  int index = emailsCombo->findText(arg1);
+  QString tempFirst = emailsCombo->itemText(0);
+  emailsCombo->setItemText(index, tempFirst);
+  emailsCombo->setItemText(0, arg1);
+  emailsCombo->setCurrentIndex(0);
+}
+
+// checks if in user.conf exist keys like "accountsCount" or "telsCount", which
+// are needed for multiple choice
+bool User::cameFromOldVersion() {
+
+  QSettings settings("elinux", "user");
+  if (settings.contains("accountsCount") || settings.contains("telsCount") ||
+      settings.contains("faxesCount") || settings.contains("emailsCount"))
+    return false;
+  else
+    return true;
+}
+
+// if user.conf doesn't have needed keys in, then takes values from QLineEdits
+// to QQComboBoxes and writes changes in user.conf
+void User::prepareFor_0_7_1(bool cameFromOlder) {
+
+  if (cameFromOlder) {
+
+    QSettings settings("elinux", "user");
+
+    QString account = settings.value("account").toString();
+    QString bank = settings.value("bank").toString();
+    QString swift = settings.value("swift").toString();
+
+    QString togetherAcc = QString();
+
+    if (!account.isNull() || !account.isEmpty())
+      togetherAcc = account;
+
+    if (!bank.isNull() || !bank.isEmpty()) {
+      if (account.isNull() || account.isEmpty())
+        togetherAcc = QString();
+      else
+        togetherAcc += " | " + bank;
+    }
+    if (!swift.isNull() || !swift.isEmpty()) {
+      if ((account.isNull() || account.isEmpty()) &&
+          (bank.isNull() || bank.isEmpty()))
+        togetherAcc = QString();
+      else
+        togetherAcc += " | " + swift;
+    }
+
+    settings.setValue("account1", togetherAcc);
+    settings.setValue("accountsCount", "1");
+    settings.setValue("phone1", settings.value("phone").toString());
+    settings.setValue("telsCount", "1");
+    settings.setValue("fax1", settings.value("fax").toString());
+    settings.setValue("faxesCount", "1");
+    settings.setValue("email1", settings.value("email").toString());
+    settings.setValue("emailsCount", "1");
   }
 }
