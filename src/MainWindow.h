@@ -42,6 +42,8 @@ private slots:
   void loadBackup();
   void sendEmailToBuyer();
 
+  void on_WZAction_triggered();
+
 public slots:
 
   void tableClear(QTableWidget *tab);

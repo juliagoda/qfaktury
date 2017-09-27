@@ -21,7 +21,7 @@ class QComboBox;
 class QKeyEvent;
 class IDataLayer;
 
-enum InvoiceType { FVat, FPro, EFVat, EFPro, KBR, BILL, DUP, RR };
+enum InvoiceType { FVat, FPro, EFVat, EFPro, KBR, BILL, DUP, RR, WZ };
 
 class Invoice : public QDialog, public Ui::Invoice {
 
@@ -42,6 +42,7 @@ public:
   void whatTypeFromTitle(const QString title, bool ifForm, bool kadded,
                          InvoiceType invTyp, int numbType);
   const QString getRet();
+  const QString getRetWarehouse();
   const QString getfName();
   const QString getInvForm();
   const QString pressedTxt();
@@ -103,11 +104,12 @@ protected:
   int type;
   QString fName;
   bool ifCSS;
+  QString ret, retWarehouse;
 
   QString getGroupedSums();
   QString numbersCount(int in, int x);
   void saveColumnsWidth();
-  void makeInvoiceFooter();
+  virtual void makeInvoiceFooter();
   virtual void calculateDiscount();
   virtual void calculateSum();
   virtual void makeInvoiceHeadar(bool sellDate, bool brakePage, bool original);
@@ -133,7 +135,7 @@ private:
   QFile file;
   QNetworkReply *reply;
   QString pressedText;
-  QString ret, inv_form;
+  QString inv_form;
   QDomDocument doc;
   bool pforma, kAdded;
 };

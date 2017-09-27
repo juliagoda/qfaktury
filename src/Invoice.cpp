@@ -98,6 +98,8 @@ Invoice *Invoice::instance() { return m_instance; }
 
 QString const Invoice::getRet() { return ret; }
 
+QString const Invoice::getRetWarehouse() { return retWarehouse; }
+
 QString const Invoice::getfName() { return fName; }
 
 void Invoice::setfName(QString text) { fName = text; }
@@ -140,6 +142,7 @@ void Invoice::init() {
   whatTypeFromTitle(s_DUPLICATE, false, true, DUP, 7);
   whatTypeFromTitle(s_WIN_DUPLICATE_LOOK, false, true, DUP, 7);
   whatTypeFromTitle(s_RR, false, false, RR, 8);
+  whatTypeFromTitle(s_WZ, false, false, WZ, 9);
 
   if (sett().value("editSymbol").toBool())
     invNr->setEnabled(false);
@@ -302,6 +305,9 @@ QString Invoice::getInvoiceTypeAndSaveNr() {
   } else if (inv_form == s_RR) {
     ret = trUtf8("rr");
     sett().setValue("rr", invNr->text());
+  } else if (inv_form == s_WZ) {
+    ret = trUtf8("wz");
+    sett().setValue("wz", invNr->text());
   }
 
   return ret;

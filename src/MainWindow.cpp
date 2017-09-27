@@ -9,6 +9,7 @@
 #include <QProcess>
 #include <QTimer>
 
+#include "deliverynote.h"
 #include "Bill.h"
 #include "Buyers.h"
 #include "Const.h"
@@ -777,11 +778,17 @@ void MainWindow::setupDir() {
 
     dir.mkdir(workingDir);
     dir.mkdir(workingDir + sett().getDataDir());
+    dir.mkdir(workingDir + sett().getWarehouseDir());
   }
 
   if (!dir.exists(workingDir + sett().getDataDir())) {
 
     dir.mkdir(workingDir + sett().getDataDir());
+  }
+
+  if (!dir.exists(workingDir + sett().getWarehouseDir())) {
+
+     dir.mkdir(workingDir + sett().getWarehouseDir());
   }
 }
 
@@ -2500,5 +2507,44 @@ void MainWindow::sendEmailToBuyer() {
   sendEmailWidget->show();
 }
 
+/*
+ *  Slot for delivery note creation (WZ)
+ */
+
+void MainWindow::on_WZAction_triggered()
+{
+    DeliveryNote *noteWindow = new DeliveryNote(this, dl, s_WZ);
+    noteWindow->setWindowTitle(trUtf8("WZ"));
+    noteWindow->backBtnClick();
+
+    if (noteWindow->exec() == QDialog::Accepted) {
+
+      ui->tableM->setSortingEnabled(false);
+      insertRow(ui->tableM, ui->tableM->rowCount());
+      QStringList row = noteWindow->getRetWarehouse().split("|");
+      ui->tableM->item(ui->tableM->rowCount() - 1, 0)
+          ->setText(row[0]); // file name
+      ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(row[1]); // symbol
+      ui->tableM->item(ui->tableM->rowCount() - 1, 2)->setText(row[2]); // date
+      ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(row[3]); // type
+      ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(row[4]); // buyer
+      ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(row[5]); // NIP
+      ui->tableM->setSortingEnabled(true);
+
+    } else {
+
+      rereadHist(true);
+    }
+
+    if (noteWindow->getKAdded())
+      readBuyer();
+    dl->checkAllSymbInFiles();
+    allSymbols = dl->getAllSymbols();
+    noteWindow = 0;
+    delete noteWindow;
+}
+
+
 // ----------------------------------------  SLOTS
 // ---------------------------------//
+

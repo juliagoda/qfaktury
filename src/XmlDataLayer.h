@@ -38,10 +38,12 @@ public:
   virtual InvoiceData invoiceSelectData(QString name, int type);
   virtual QVector<InvoiceData> invoiceSelectAllData(QDate start, QDate end);
   virtual bool invoiceInsertData(InvoiceData &invData, int type);
+  virtual bool delivNoteInsertData(InvoiceData &invData, int type);
   virtual bool invoiceUpdateData(InvoiceData &invData, int type, QString name);
   virtual bool invoiceDeleteData(QString name);
 
   virtual QString const getRet() const;
+  virtual QString getRetWarehouse() const;
   virtual void checkAllSymbInFiles();
   virtual QList<int> const getAllSymbols();
   virtual bool ifThereOldInvoice();
@@ -70,6 +72,7 @@ private:
   void addSectionPerson(bool checkedRoot);
 
   QString ret;
+  QString retWarehouse;
   QList<int> allSymbols;
   QStringList yearsList;
   QMultiHash<QString, QString> categorizedFiles;

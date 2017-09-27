@@ -612,9 +612,21 @@ public:
     return QString("/invoices");
   }
 
+  QString getWarehouseDir() {
+
+    // Changed name of the folder to avoid overwriting the files.
+    // This may require conversion script.
+    return QString("/warehouse");
+  }
+
   // return invoices dir
   QString getInvoicesDir() {
     return QString(getWorkingDir() + getDataDir() + "/");
+  }
+
+  // return warehouse dir
+  QString getWarehouseFullDir() {
+    return QString(getWorkingDir() + getWarehouseDir() + "/");
   }
 
   // return customers xml
@@ -627,8 +639,11 @@ public:
     return QString(getWorkingDir() + "/products.xml");
   }
 
-  // returns inoice doc name stored as a DOCTYPE
+  // returns invoice doc name stored as a DOCTYPE
   QString getInoiveDocName() { return QString("invoice"); }
+
+  // returns warehouse doc name stored as a DOCTYPE
+  QString getWarehouseDocName() { return QString("warehouse"); }
 
   // returns correction doc name stored as a DOCTYPE
   QString getCorrDocName() { return QString("correction"); }

@@ -93,9 +93,9 @@
       <property name="currentIndex">
        <number>1</number>
       </property>
-      <widget class="QWidget" name="tab1">
+      <widget class="QWidget" name="invoiceTab">
        <attribute name="title">
-        <string>Historia</string>
+        <string>Historia faktur</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
@@ -293,7 +293,91 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab2">
+      <widget class="QWidget" name="warehouseTab">
+       <attribute name="title">
+        <string>Historia magazynu</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Wyświtl od: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="warehouseFromDate"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>do: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="warehouseToDate"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="findWarehouses">
+            <property name="text">
+             <string>Zastosuj</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableM">
+          <column>
+           <property name="text">
+            <string>Nazwa pliku</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Symbol</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Data</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Typ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Nabywca</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>NIP</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="buyerTab">
        <attribute name="title">
         <string>Kontrahenci</string>
        </attribute>
@@ -363,7 +447,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="TabPage">
+      <widget class="QWidget" name="goodsTab">
        <attribute name="title">
         <string>Towary/Usługi</string>
        </attribute>
@@ -561,8 +645,15 @@
      <string>Dodatk&amp;i</string>
     </property>
    </widget>
+   <widget class="QMenu" name="warehouseMenu">
+    <property name="title">
+     <string>Ma&amp;gazyn</string>
+    </property>
+    <addaction name="WZAction"/>
+   </widget>
    <addaction name="plikAct"/>
    <addaction name="fakturyAct"/>
+   <addaction name="warehouseMenu"/>
    <addaction name="buyersAct"/>
    <addaction name="goodsAct"/>
    <addaction name="menuPlugins"/>
@@ -1165,6 +1256,11 @@
    </property>
    <property name="text">
     <string>&amp;Wyślij</string>
+   </property>
+  </action>
+  <action name="WZAction">
+   <property name="text">
+    <string>WZ</string>
    </property>
   </action>
  </widget>
