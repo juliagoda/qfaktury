@@ -1212,7 +1212,7 @@ bool XmlDataLayer::productsDeleteData(QString name) {
 
 // ************ INVOICES START *****************
 
-void XmlDataLayer::invoiceSellerDataToElem(InvoiceData &,
+void XmlDataLayer::invoiceSellerDataToElem(DocumentData &,
                                            QDomElement &o_element) {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
@@ -1237,12 +1237,12 @@ void XmlDataLayer::invoiceSellerElemToData(InvoiceData &, QDomElement) {
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
 
-void XmlDataLayer::invoiceBuyerDataToElem(InvoiceData &i_invData,
+void XmlDataLayer::invoiceBuyerDataToElem(DocumentData &i_invData,
                                           QDomElement &o_element) {
 
-  qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_invData.customer;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_invData.getCustomer();
 
-  QStringList kht = i_invData.customer.split(",");
+  QStringList kht = i_invData.getCustomer().split(",");
   o_element.setAttribute("name", kht[0]);
   ret += kht[0] + "|";
   o_element.setAttribute("city", kht[1]);
@@ -1326,18 +1326,33 @@ void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData,
       "gross", Invoice::instance()->tableGoods->item(currentRow, 10)->text());
 }
 
+
+void XmlDataLayer::warehouseProdDataToElem(const ProductData &i_prodData,
+                                         QDomElement &o_element,
+                                         int currentRow) {
+
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_prodData.id
+           << i_prodData.name << i_prodData.quantity << i_prodData.quanType;
+
+  o_element.setAttribute("id", i_prodData.id);
+  o_element.setAttribute("name", i_prodData.name);
+  o_element.setAttribute("quantity", i_prodData.quantity);
+  o_element.setAttribute("quantityType", i_prodData.quanType);
+
+}
+
 void XmlDataLayer::invoiceProdElemToData(InvoiceData &, QDomElement) {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 }
 
-bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end) {
+bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end, QString docName, QString path) {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
-  QDomDocument doc(sett().getInoiveDocName());
+  QDomDocument doc(docName);
   QDomElement root;
-  QFile file(sett().getInvoicesDir() + nameToCheck);
+  QFile file(path + nameToCheck);
 
   if (!file.open(QIODevice::ReadOnly)) {
 
@@ -1529,6 +1544,121 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
   return o_invData;
 }
 
+WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+    WarehouseData o_invData;
+
+    QDomDocument doc(sett().getWarehouseDocName());
+    QDomElement root;
+    QDomElement purchaser;
+    QDomElement product;
+    QString fName = name;
+
+    QFile file(sett().getWarehouseFullDir() + fName);
+
+    if (!file.open(QIODevice::ReadOnly)) {
+
+      qDebug("file doesn't exist");
+      return o_invData;
+
+    } else {
+
+      QTextStream stream(&file);
+
+      if (!doc.setContent(stream.readAll())) {
+        qDebug("You can't read content from invoice");
+        file.close();
+        return o_invData;
+      }
+    }
+
+    root = doc.documentElement();
+    o_invData.invNr = root.attribute("no");
+    o_invData.sellingDate =
+        QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
+    o_invData.productDate =
+        QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
+    if (type == 7)
+      o_invData.duplDate =
+          QDate::fromString(root.attribute("duplDate"), sett().getDateFormat());
+
+    QDomNode tmp;
+    tmp = root.firstChild();
+    tmp = tmp.toElement().nextSibling(); // purchaser
+    purchaser = tmp.toElement();
+
+    o_invData.customer =
+        purchaser.attribute("name") + "," + purchaser.attribute("city") + "," +
+        purchaser.attribute("street") + "," + QObject::trUtf8("NIP: ") +
+        purchaser.attribute("tic") + ", " + QObject::trUtf8("Konto: ") +
+        purchaser.attribute("account") + ", " + QObject::trUtf8("Tel: ") +
+        purchaser.attribute("phone") + ", " + QObject::trUtf8("Email: ") +
+        purchaser.attribute("email") + ", " + QObject::trUtf8("Strona: ") +
+        purchaser.attribute("website");
+
+    Invoice::instance()->buyerName->setCursorPosition(1);
+
+    tmp = tmp.toElement().nextSibling(); // product
+    product = tmp.toElement();
+
+    qDebug() << "product.attribute(\"discount\").toInt(): "
+             << product.attribute("discount").toInt();
+
+    int goodsCount = product.childNodes().count();
+    qDebug() << QString::number(goodsCount);
+    int i = 0;
+    QDomElement good;
+    good = product.firstChild().toElement();
+
+    static const char *goodsColumns[] = {
+        "id",       "name",  "quantity", "quantityType" };
+
+    // "net",
+    // "vatBucket", "gross"
+    qDebug() << Invoice::instance()->tableGoods->columnCount();
+
+    Invoice::instance()->tableGoods->setRowCount(goodsCount);
+    for (i = 0; i < goodsCount; ++i) {
+        Invoice::instance()->tableGoods->setItem(
+            i, 0, new QTableWidgetItem(good.attribute(goodsColumns[0])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 1, new QTableWidgetItem(good.attribute(goodsColumns[1])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 4, new QTableWidgetItem(good.attribute(goodsColumns[2])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 5, new QTableWidgetItem(good.attribute(goodsColumns[3])));
+
+      if (good.nextSibling().toElement().tagName() == "product")
+        good = good.nextSibling().toElement();
+      else
+        break;
+
+    }
+
+    tmp = tmp.toElement().nextSibling();
+    QDomElement additional = tmp.toElement();
+    o_invData.additText = additional.attribute("text");
+    o_invData.paymentType = additional.attribute("paymentType");
+
+    qDebug() << "o_invData.paymentType == " << o_invData.paymentType;
+
+
+      qDebug() << "liabDate1: " << additional.attribute("liabDate1");
+      qDebug() << "liabDate1 from file: "
+               << QDate::fromString(additional.attribute("liabDate1"),
+                                    sett().getDateFormat());
+
+
+    o_invData.liabDate = QDate::fromString(additional.attribute("liabDate"),
+                                           sett().getDateFormat());
+
+    file.close();
+    return o_invData;
+}
+
+
 QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
                                                         QDate end) {
 
@@ -1577,7 +1707,7 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
       }
     }
 
-    if (nameFilter(files[i], start, end)) {
+    if (nameFilter(files[i], start, end, sett().getInoiveDocName(), sett().getInvoicesDir())) {
 
       invDt.id = files[i];
       root = doc.documentElement();
@@ -1631,6 +1761,110 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
 
   return o_invDataVec;
 }
+
+
+QVector<WarehouseData> XmlDataLayer::warehouseSelectAllData(QDate start,
+                                                        QDate end) {
+
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+  allSymbolsWarehouse.clear();
+  QVector<WarehouseData> o_invDataVec;
+
+  QDir allFiles;
+
+  QDomDocument doc(sett().getWarehouseDocName());
+  QDomElement root;
+
+  allFiles.setPath(sett().getWarehouseFullDir());
+  allFiles.setFilter(QDir::Files);
+  QStringList filters;
+  filters << "m*.xml";
+
+  allFiles.setNameFilters(filters);
+  QStringList files = allFiles.entryList();
+  qDebug("pliki: ");
+  qDebug() << files;
+  int i, max = files.count();
+  for (i = 0; i < max; ++i) {
+
+    WarehouseData invDt;
+    qDebug() << files[i];
+    QFile file(sett().getWarehouseFullDir() + files[i]);
+
+    if (!file.open(QIODevice::ReadOnly)) {
+
+      qDebug() << "File" << file.fileName() << "doesn't exists";
+      continue;
+
+    } else {
+
+      QTextStream stream(&file);
+
+      if (!doc.setContent(stream.readAll())) {
+
+        qDebug("can not set content ");
+        file.close();
+        // return o_invDataVec;
+        continue;
+      }
+    }
+
+    if (nameFilter(files[i], start, end, sett().getWarehouseDocName(), sett().getWarehouseFullDir())) {
+
+      invDt.id = files[i];
+      root = doc.documentElement();
+      invDt.invNr = root.attribute("no");
+      invDt.sellingDate = QDate::fromString(root.attribute("sellingDate"),
+                                            sett().getDateFormat());
+      invDt.productDate = QDate::fromString(root.attribute("issueDate"),
+                                            sett().getDateFormat());
+      invDt.type = root.attribute("type");
+
+      QDomNode nab;
+      nab = root.firstChild();
+      nab = nab.toElement().nextSibling();
+
+      invDt.custStreet = nab.toElement().attribute("street", "NULL");
+      invDt.custTic = nab.toElement().attribute("tic", "NULL");
+      invDt.custCity = nab.toElement().attribute("city", "NULL");
+      invDt.custName = nab.toElement().attribute("name", "NULL");
+
+      o_invDataVec.push_back(invDt);
+    }
+
+    root = doc.documentElement();
+    QString tmp = root.attribute("sellingDate");
+    QStringList dateFacts = tmp.split("/");
+
+    QString year = dateFacts.at(2);
+    QString month = dateFacts.at(1);
+    QString day = dateFacts.at(0);
+
+    QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
+
+    if (tmpDate.year() == QDate::currentDate().year()) {
+
+      QString symNo = root.attribute("no");
+      symNo =
+          symNo.remove(sett().value("prefix").toString(), Qt::CaseSensitive);
+      symNo = symNo.remove(sett().value("sufix").toString(), Qt::CaseSensitive);
+
+      if (symNo.contains("/")) {
+
+        int toBackChar = symNo.indexOf("/");
+        symNo = symNo.left(toBackChar);
+      }
+
+      allSymbolsWarehouse.append(symNo.toInt());
+    }
+
+    file.close();
+  }
+
+  return o_invDataVec;
+}
+
 
 void XmlDataLayer::checkAllSymbInFiles() {
   allSymbols.clear();
@@ -1704,10 +1938,90 @@ void XmlDataLayer::checkAllSymbInFiles() {
   }
 }
 
+void XmlDataLayer::checkAllSymbWareInFiles() {
+
+    allSymbolsWarehouse.clear();
+
+    QDir allFiles;
+
+    QDomDocument doc(sett().getWarehouseDocName());
+    QDomElement root;
+
+    allFiles.setPath(sett().getWarehouseFullDir());
+    allFiles.setFilter(QDir::Files);
+    QStringList filters;
+    filters << "m*.xml";
+
+    allFiles.setNameFilters(filters);
+    QStringList files = allFiles.entryList();
+    qDebug("pliki: ");
+    qDebug() << files;
+    int i, max = files.count();
+    for (i = 0; i < max; ++i) {
+
+      qDebug() << files[i];
+      QFile file(sett().getWarehouseFullDir() + files[i]);
+
+      if (!file.open(QIODevice::ReadOnly)) {
+
+        qDebug() << "File" << file.fileName() << "doesn't exists";
+        continue;
+
+      } else {
+
+        QTextStream stream(&file);
+
+        if (!doc.setContent(stream.readAll())) {
+
+          qDebug("can not set content ");
+          file.close();
+          // return o_invDataVec;
+          continue;
+        }
+      }
+
+      root = doc.documentElement();
+      QString tmp = root.attribute("sellingDate");
+      QStringList dateFacts = tmp.split("/");
+
+      QString year = dateFacts.at(2);
+      QString month = dateFacts.at(1);
+      QString day = dateFacts.at(0);
+
+      QDate tmpDate(year.toInt(), month.toInt(), day.toInt());
+
+      if (tmpDate.year() == QDate::currentDate().year()) {
+
+        QString symNo = root.attribute("no");
+        symNo =
+            symNo.remove(sett().value("prefix").toString(), Qt::CaseSensitive);
+        symNo = symNo.remove(sett().value("sufix").toString(), Qt::CaseSensitive);
+
+        if (symNo.contains("/")) {
+
+          int toBackChar = symNo.indexOf("/");
+          symNo = symNo.left(toBackChar);
+        }
+
+        allSymbolsWarehouse.append(symNo.toInt());
+      }
+
+      file.close();
+    }
+}
+
+
 QList<int> const XmlDataLayer::getAllSymbols() {
   if (allSymbols.count() == 0)
     allSymbols.append(0);
   return allSymbols;
+}
+
+
+QList<int> const XmlDataLayer::getAllSymbolsWarehouse() {
+  if (allSymbolsWarehouse.count() == 0)
+    allSymbolsWarehouse.append(0);
+  return allSymbolsWarehouse;
 }
 
 bool XmlDataLayer::invoiceInsertData(InvoiceData &oi_invData, int type) {
@@ -1847,7 +2161,7 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData &oi_invData, int type) {
 }
 
 
-bool XmlDataLayer::delivNoteInsertData(InvoiceData &oi_invData, int type) {
+bool XmlDataLayer::delivNoteInsertData(WarehouseData &oi_invData, int type) {
 
     qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
@@ -1887,7 +2201,7 @@ bool XmlDataLayer::delivNoteInsertData(InvoiceData &oi_invData, int type) {
     retWarehouse = oi_invData.id + "|";
     qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << file.fileName();
 
-    root = doc.createElement("document");
+    root = doc.createElement("warehouse");
     root.setAttribute("no", oi_invData.invNr);
     root.setAttribute("invoice",oi_invData.ifInvForDelNote);
     retWarehouse += oi_invData.invNr + "|";
@@ -1913,7 +2227,10 @@ bool XmlDataLayer::delivNoteInsertData(InvoiceData &oi_invData, int type) {
 
     QDomElement buyer = doc.createElement("buyer");
     invoiceBuyerDataToElem(oi_invData, buyer);
+    retWarehouse += buyer.attribute("name") + "|";
+    retWarehouse += buyer.attribute("tic");
     root.appendChild(buyer);
+
 
     QDomElement product;
     QDomElement products;
@@ -1927,7 +2244,7 @@ bool XmlDataLayer::delivNoteInsertData(InvoiceData &oi_invData, int type) {
     while (i != oi_invData.products.constEnd()) {
 
       product = doc.createElement("product");
-      invoiceProdDataToElem(i.value(), product, currentRow);
+      warehouseProdDataToElem(i.value(), product, currentRow);
       products.appendChild(product);
       currentRow++;
       i++;
@@ -1941,23 +2258,6 @@ bool XmlDataLayer::delivNoteInsertData(InvoiceData &oi_invData, int type) {
     addinfo.setAttribute("paymentType", oi_invData.paymentType);
     addinfo.setAttribute("liabDate",
                          oi_invData.liabDate.toString(sett().getDateFormat()));
-
-    if (oi_invData.paymentType == QObject::trUtf8("zaliczka")) {
-
-      addinfo.setAttribute("payment1", oi_invData.custPaym.payment1);
-      addinfo.setAttribute(
-          "amount1", sett().numberToString(oi_invData.custPaym.amount1, 'f', 2));
-      addinfo.setAttribute(
-          "liabDate1",
-          oi_invData.custPaym.date1.toString(sett().getDateFormat()));
-
-      addinfo.setAttribute("payment2", oi_invData.custPaym.payment2);
-      addinfo.setAttribute(
-          "amount2", sett().numberToString(oi_invData.custPaym.amount2, 'f', 2));
-      addinfo.setAttribute(
-          "liabDate2",
-          oi_invData.custPaym.date2.toString(sett().getDateFormat()));
-    }
 
     root.appendChild(addinfo);
 

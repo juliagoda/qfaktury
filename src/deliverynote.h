@@ -6,6 +6,7 @@
 #define DELIVERYNOTE_H
 
 #include "Invoice.h"
+#include "warehousedata.h"
 
 
 class DeliveryNote : public Invoice {
@@ -13,6 +14,9 @@ class DeliveryNote : public Invoice {
 public:
   DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form);
   virtual ~DeliveryNote();
+
+  void readWarehouseData(QString fraFile);
+  void setData(WarehouseData &invData);
 
 
 protected:
@@ -26,6 +30,7 @@ protected:
 
 private:
   bool ifcreateInv;
+  WarehouseData *wareData;
 
 
 private slots:
@@ -33,6 +38,8 @@ private slots:
 
 public slots:
   bool saveInvoice();
+  void backBtnClick();
+  void canQuit();
 
 
 };

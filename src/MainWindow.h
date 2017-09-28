@@ -31,6 +31,7 @@ public:
   static void insertRow(QTableWidget *t, int row);
   void newInvoice(Invoice *invoice, QString windowTitle);
   const int getMaxSymbol();
+  const int getMaxSymbolWarehouse();
   static MainWindow *instance();
   static bool shouldHidden;
 
@@ -49,8 +50,10 @@ public slots:
   void tableClear(QTableWidget *tab);
   void tabChanged();
   void rereadHist(bool if_clicked);
+  void rereadWarehouses(bool);
   void aboutProg();
   void editFHist();
+  void warehouseEdit();
   void delFHist();
   void userDataClick();
   void settClick();
@@ -74,6 +77,7 @@ public slots:
   void showTableMenuT(QPoint p);
   void showTableMenuK(QPoint p);
   void showTableMenuH(QPoint p);
+  void showTableMenuM(QPoint p);
   void pluginSlot();
   void pluginInfoSlot();
   void keyPressEvent(QKeyEvent *event);
@@ -104,6 +108,7 @@ private:
   QMap<int, QString> customActions;
   QTimer *timer;
   QList<int> allSymbols;
+  QList<int> allSymbolsWarehouse;
   QWidget *windowTask;
   QPushButton *cancelTaskBtn;
   QPushButton *addTaskBtn;
@@ -117,6 +122,7 @@ private:
   void saveAllSettAsDefault();
   void setupDir();
   void readHist();
+  void readWarehouses();
   void readBuyer();
   void readGoods();
   void categorizeYears();

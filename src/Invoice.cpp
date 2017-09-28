@@ -1088,29 +1088,32 @@ void Invoice::backBtnClick() {
 
   QString prefix, suffix;
   prefix = sett().value("prefix").toString();
-
   int nr = MainWindow::instance()->getMaxSymbol() + 1;
-  lastInvoice =
-      prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
 
-  if (sett().value("day").toBool())
-    lastInvoice += "/" + QDate::currentDate().toString("dd");
 
-  if (sett().value("month").toBool())
-    lastInvoice += "/" + QDate::currentDate().toString("MM");
+      lastInvoice =
+          prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
 
-  if (sett().value("year").toBool()) {
-    if (!sett().value("shortYear").toBool())
-      lastInvoice += "/" + QDate::currentDate().toString("yy");
-    else
-      lastInvoice += "/" + QDate::currentDate().toString("yyyy");
-  }
+      if (sett().value("day").toBool())
+        lastInvoice += "/" + QDate::currentDate().toString("dd");
 
-  suffix = sett().value("sufix").toString();
-  lastInvoice += suffix;
-  invNr->setText(lastInvoice);
+      if (sett().value("month").toBool())
+        lastInvoice += "/" + QDate::currentDate().toString("MM");
+
+      if (sett().value("year").toBool()) {
+        if (!sett().value("shortYear").toBool())
+          lastInvoice += "/" + QDate::currentDate().toString("yy");
+        else
+          lastInvoice += "/" + QDate::currentDate().toString("yyyy");
+      }
+
+      suffix = sett().value("sufix").toString();
+      lastInvoice += suffix;
+      invNr->setText(lastInvoice);
+
   saveBtn->setEnabled(true);
 }
+
 
 /** Slot
  *  Validate close and save if requested

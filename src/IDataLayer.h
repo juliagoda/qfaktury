@@ -14,6 +14,7 @@
 #include "BuyerData.h"
 #include "InvoiceData.h"
 #include "ProductData.h"
+#include "warehousedata.h"
 
 class IDataLayer {
 
@@ -25,7 +26,13 @@ public:
   virtual const QString getRet() const { return "|"; };
   virtual QString getRetWarehouse() const { return "|"; };
   virtual void checkAllSymbInFiles(){};
+  virtual void checkAllSymbWareInFiles() {};
   virtual const QList<int> getAllSymbols() {
+    QList<int> a;
+    a.append(0);
+    return a;
+  };
+  virtual const QList<int> getAllSymbolsWarehouse() {
     QList<int> a;
     a.append(0);
     return a;
@@ -53,12 +60,17 @@ public:
   virtual bool productsDeleteData(QString) { return true; };
 
   virtual InvoiceData invoiceSelectData(QString, int) { return InvoiceData(); };
+  virtual WarehouseData warehouseSelectData(QString name, int type) { return WarehouseData(); };
   virtual QVector<InvoiceData> invoiceSelectAllData(QDate, QDate) {
     QVector<InvoiceData> a;
     return a;
   };
+  virtual QVector<WarehouseData> warehouseSelectAllData(QDate, QDate) {
+    QVector<WarehouseData> a;
+    return a;
+  };
   virtual bool invoiceInsertData(InvoiceData &, int) { return true; };
-  virtual bool delivNoteInsertData(InvoiceData &invData, int type) { return true; };
+  virtual bool delivNoteInsertData(WarehouseData &invData, int type) { return true; };
   virtual bool invoiceUpdateData(InvoiceData &, int, QString) { return true; };
   virtual bool invoiceDeleteData(QString) { return true; };
 

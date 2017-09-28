@@ -84,6 +84,7 @@ protected:
   QDate dupDate;
   QString prepayFile;
   QString lastInvoice;
+  QString lastWarehouse;
   QComboBox *ratesCombo;
   QLabel *labelRate;
   QLabel *rateLabel;

@@ -43,7 +43,9 @@ HEADERS += $$files($$PWD/src/*.h) \
             $${SMTPCODEDIR}/*.h \
             $${QUAZIPCODEDIR}/*.h \
     src/detector.h \
-    src/deliverynote.h
+    src/deliverynote.h \
+    src/warehousedata.h \
+    src/documentdata.h
 
 
 FORMS += $$files($$PWD/ui/*.ui) \

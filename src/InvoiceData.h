@@ -13,10 +13,12 @@
 
 #include "CustomPaymData.h"
 #include "ProductData.h"
+#include "documentdata.h"
 
-class InvoiceData {
+class InvoiceData : public DocumentData {
 
 public:
+  QString getCustomer() {return customer;}
   QString customer; // buyer
   QMap<int, ProductData> products;
   QDate liabDate;
@@ -83,7 +85,7 @@ public:
       ret = QObject::trUtf8("RR");
       break;
     case 9:
-      ret = QObject::trUtf8("WZ");
+      ret = QObject::trUtf8("FVAT");
       break;
     default:
       ret = QObject::trUtf8("FVAT");

@@ -106,6 +106,10 @@ public:
       setValue("filtrEnd", QDate::currentDate().toString(Qt::ISODate));
     if (value("filtrStart").toString().compare("") == 0)
       setValue("filtrStart", QDate::currentDate().toString(Qt::ISODate));
+    if (value("filtrEndWarehouse").toString().compare("") == 0)
+      setValue("filtrEndWarehouse", QDate::currentDate().toString(Qt::ISODate));
+    if (value("filtrStartWarehouse").toString().compare("") == 0)
+      setValue("filtrStartWarehouse", QDate::currentDate().toString(Qt::ISODate));
     if (value("firstrun").toString().compare("") == 0)
       setValue("firstrun", false);
     if (value("units").toString().compare("") == 0)
@@ -402,6 +406,7 @@ public:
     setValue("editSymbol", "true");
     setValue("numberOfCopies", 1);
     setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
+    setValue("filtrStartWarehouse", QDate::currentDate().toString(getDateFormat()));
     setValue("firstrun", false);
     setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|"
                          "filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|kWh|"

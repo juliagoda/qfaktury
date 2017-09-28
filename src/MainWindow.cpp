@@ -9,6 +9,7 @@
 #include <QProcess>
 #include <QTimer>
 
+
 #include "deliverynote.h"
 #include "Bill.h"
 #include "Buyers.h"
@@ -124,6 +125,11 @@ void MainWindow::init() {
     ui->filtrStart->setDate(sett().getValueAsDate("filtrStart"));
     ui->filtrEnd->setDisplayFormat(sett().getDateFormat());
     ui->filtrEnd->setDate(sett().getValueAsDate("filtrEnd"));
+
+    ui->warehouseFromDate->setDisplayFormat(sett().getDateFormat());
+    ui->warehouseFromDate->setDate(sett().getValueAsDate("filtrStartWarehouse"));
+    ui->warehouseToDate->setDisplayFormat(sett().getDateFormat());
+    ui->warehouseToDate->setDate(sett().getValueAsDate("filtrEndWarehouse"));
   }
 
   setupDir();
@@ -152,8 +158,9 @@ void MainWindow::init() {
     ui->delBuyersAction->setEnabled(true);
     ui->actionPrintBuyer->setEnabled(true);
 
-    if (ui->tableH->rowCount() != 0) ui->sendEmailAction->setEnabled(true);
-    else ui->sendEmailAction->setDisabled(true);
+    if (ui->tableH->rowCount() != 0) { ui->sendEmailAction->setEnabled(true); }
+    else { ui->sendEmailAction->setDisabled(true); }
+    
 
   } else {
 
@@ -161,6 +168,7 @@ void MainWindow::init() {
     ui->delBuyersAction->setDisabled(true);
     ui->actionPrintBuyer->setDisabled(true);
     ui->sendEmailAction->setDisabled(true);
+
   }
 
   if (ui->tableT->rowCount() != 0) {
@@ -172,6 +180,7 @@ void MainWindow::init() {
 
     ui->editGoodsAction->setDisabled(true);
     ui->delGoodsAction->setDisabled(true);
+
   }
 
   // choose data access mode
@@ -202,6 +211,15 @@ void MainWindow::init() {
                              sett().value("histCol3", QVariant(140)).toInt());
   ui->tableH->setColumnWidth(5,
                              sett().value("histCol4", QVariant(120)).toInt());
+  ui->tableM->setColumnWidth(0, sett().value("wareCol0", QVariant(0)).toInt());
+  ui->tableM->setColumnWidth(1,
+                             sett().value("wareCol1", QVariant(120)).toInt());
+  ui->tableM->setColumnWidth(3,
+                             sett().value("wareCol2", QVariant(120)).toInt());
+  ui->tableM->setColumnWidth(4,
+                             sett().value("wareCol3", QVariant(140)).toInt());
+  ui->tableM->setColumnWidth(5,
+                             sett().value("wareCol4", QVariant(120)).toInt());
 
   ui->tableK->setColumnWidth(0,
                              sett().value("custCol0", QVariant(140)).toInt());
@@ -244,6 +262,8 @@ void MainWindow::init() {
 
   connect(ui->applyFiltrBtn, SIGNAL(clicked(bool)), this,
           SLOT(rereadHist(bool)));
+  connect(ui->findWarehouses, SIGNAL(clicked(bool)), this,
+          SLOT(rereadWarehouses(bool)));
   connect(ui->fileData_companyAction, SIGNAL(triggered()), this,
           SLOT(userDataClick()));
   connect(ui->fileEndAction, SIGNAL(triggered()), this, SLOT(close()));
@@ -301,6 +321,10 @@ void MainWindow::init() {
           SLOT(buyerEd()));
   connect(ui->tableK, SIGNAL(customContextMenuRequested(QPoint)), this,
           SLOT(showTableMenuK(QPoint)));
+  connect(ui->tableM, SIGNAL(customContextMenuRequested(QPoint)), this,
+          SLOT(showTableMenuM(QPoint)));
+  connect(ui->tableM, SIGNAL(cellDoubleClicked(int, int)), this,
+          SLOT(warehouseEdit()));
   connect(ui->tableT, SIGNAL(cellDoubleClicked(int, int)), this,
           SLOT(goodsEdit()));
   connect(ui->tableT, SIGNAL(customContextMenuRequested(QPoint)), this,
@@ -314,11 +338,14 @@ void MainWindow::init() {
           SLOT(mainUpdateStatus(QTableWidgetItem *)));
   connect(ui->tableT, SIGNAL(itemClicked(QTableWidgetItem *)), this,
           SLOT(mainUpdateStatus(QTableWidgetItem *)));
+  connect(ui->tableM, SIGNAL(itemClicked(QTableWidgetItem *)), this,
+          SLOT(mainUpdateStatus(QTableWidgetItem *)));
   connect(ui->tableK, SIGNAL(cellClicked(int, int)), this,
           SLOT(openWebTableK(int, int)));
 
   readBuyer();
   readHist();
+  readWarehouses();
   readGoods();
   categorizeYears();
   checkTodayTask();
@@ -363,9 +390,15 @@ void MainWindow::createPdfDir() {
 
 void MainWindow::generatePdfFromList() {
   shouldHidden = true;
+
   for (int i = 0; i < ui->tableH->rowCount(); i++) {
     ui->tableH->setCurrentCell(i, 0);
     editFHist();
+  }
+
+  for (int i = 0; i < ui->tableM->rowCount(); i++) {
+    ui->tableM->setCurrentCell(i, 0);
+    warehouseEdit();
   }
 
   shouldHidden = false;
@@ -468,6 +501,9 @@ bool MainWindow::firstRun() {
 
   ui->filtrStart->setDate(QDate(QDate::currentDate().year(), 1, 1));
   ui->filtrEnd->setDate(QDate(QDate::currentDate().year(), 12, 31));
+
+  ui->warehouseFromDate->setDate(QDate(QDate::currentDate().year(), 1, 1));
+  ui->warehouseToDate->setDate(QDate(QDate::currentDate().year(), 12, 31));
 
   sett().checkSettings();
 
@@ -601,6 +637,14 @@ void MainWindow::saveColumnWidth() {
   sett().setValue("custCol4", ui->tableK->columnWidth(4));
   sett().setValue("custCol5", ui->tableK->columnWidth(5));
   sett().setValue("custCol6", ui->tableK->columnWidth(6));
+
+  sett().setValue("wareCol0", ui->tableM->columnWidth(0));
+  sett().setValue("wareCol1", ui->tableM->columnWidth(1));
+  sett().setValue("wareCol2", ui->tableM->columnWidth(2));
+  sett().setValue("wareCol3", ui->tableM->columnWidth(3));
+  sett().setValue("wareCol4", ui->tableM->columnWidth(4));
+  sett().setValue("wareCol5", ui->tableM->columnWidth(5));
+
 }
 
 /** Saves all sett() as default - first run
@@ -616,6 +660,9 @@ void MainWindow::saveAllSett() {
   // saves filtr
   sett().setValue("filtrStart", ui->filtrStart->text());
   sett().setValue("filtrEnd", ui->filtrEnd->text());
+
+  sett().setValue("filtrStartWarehouse", ui->warehouseFromDate->text());
+  sett().setValue("filtrEndWarehouse", ui->warehouseToDate->text());
 
   saveColumnWidth();
 
@@ -644,6 +691,11 @@ void MainWindow::insertRow(QTableWidget *t, int row) {
 
 int const MainWindow::getMaxSymbol() {
   int max = *std::max_element(allSymbols.begin(), allSymbols.end());
+  return max;
+}
+
+int const MainWindow::getMaxSymbolWarehouse() {
+  int max = *std::max_element(allSymbolsWarehouse.begin(), allSymbolsWarehouse.end());
   return max;
 }
 
@@ -683,6 +735,45 @@ void MainWindow::readHist() {
   }
 
   ui->tableH->setSortingEnabled(true);
+}
+
+
+/** Reads the invoices from the directory passed in the input.
+ *  @param QString - directory from where the invoices should be read
+ */
+
+void MainWindow::readWarehouses() {
+
+  QVector<WarehouseData> wareVec;
+  wareVec =
+      dl->warehouseSelectAllData(ui->warehouseFromDate->date(), ui->warehouseToDate->date());
+  allSymbols = dl->getAllSymbolsWarehouse();
+  ui->tableM->setSortingEnabled(false);
+
+  for (int i = 0; i < wareVec.size(); ++i) {
+
+    insertRow(ui->tableM, ui->tableM->rowCount());
+    QString text = wareVec.at(i).id;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 0)->setText(text);
+    qDebug("Added ID of file");
+    text = wareVec.at(i).invNr;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(text);
+    qDebug("Added file name");
+    ui->tableM->setItem(ui->tableM->rowCount() - 1, 2,
+                        new DateWidgetItem(wareVec.at(i).sellingDate));
+    qDebug("Added file date");
+    text = wareVec.at(i).type;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(text);
+    qDebug("Added file type");
+    text = wareVec.at(i).custName;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(text);
+    qDebug("Added buyer's name");
+    text = wareVec.at(i).custTic;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(text);
+    qDebug("Added file NIP");
+  }
+
+  ui->tableM->setSortingEnabled(true);
 }
 
 /** Reads customers from the XML
@@ -934,6 +1025,18 @@ void MainWindow::showTableMenuK(QPoint p) {
   delete menuTable;
 }
 
+
+void MainWindow::showTableMenuM(QPoint p) {
+
+  // qDebug() << __FUNCTION__ << __LINE__;
+  QMenu *menuTable = new QMenu(ui->tableM);
+  menuTable->addAction(ui->WZAction);
+  menuTable->exec(ui->tableM->mapToGlobal(p));
+
+  menuTable = 0;
+  delete menuTable;
+}
+
 /** Slot
  *  Show context menu
  */
@@ -1044,6 +1147,26 @@ void MainWindow::rereadHist(bool) {
     tableClear(ui->tableH);
     ui->tableH->setSortingEnabled(false);
     readHist();
+  }
+}
+
+/** Slot used to read the invoices, calls readHist.
+ */
+void MainWindow::rereadWarehouses(bool) {
+
+  //  qDebug( __FUNCTION__ );
+
+  if (ui->warehouseFromDate->date() > ui->warehouseToDate->date()) {
+
+    QMessageBox::information(
+        this, trUtf8("Filtr dat"),
+        trUtf8("Data początkowa nie może być większa od daty końcowej"));
+
+  } else {
+
+    tableClear(ui->tableM);
+    ui->tableM->setSortingEnabled(false);
+    readWarehouses();
   }
 }
 
@@ -1328,8 +1451,49 @@ void MainWindow::editFHist() {
 
   ui->tableH->setSortingEnabled(true);
 }
-/** Slot used to delete invoices
- */
+
+
+void MainWindow::warehouseEdit() {
+
+  if (ui->tableM->selectedItems().count() <= 0) {
+
+    QMessageBox::information(this, trUtf8("QFaktury"),
+                             trUtf8("Dokument magazynu nie został wybrany. Nie można edytować."),
+                             trUtf8("Ok"), 0, 0, 1);
+    return;
+  }
+
+  ui->tableM->setSortingEnabled(false);
+
+  int row = 0;
+  row = ui->tableM->selectedItems().at(0)->row();
+
+  if (ui->tableM->item(row, 3)->text() == trUtf8("WZ")) {
+
+    DeliveryNote *delivNoteWindow = new DeliveryNote(this, dl, s_WZ);
+    delivNoteWindow->readWarehouseData(ui->tableM->item(row, 0)->text());
+
+    if (shouldHidden) {
+
+      QSizePolicy sp_retain = delivNoteWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      delivNoteWindow->setSizePolicy(sp_retain);
+      delivNoteWindow->hide();
+      delivNoteWindow->makeInvoice();
+
+    } else {
+
+    if (delivNoteWindow->exec() == QDialog::Accepted) {
+
+      rereadWarehouses(true);
+    }
+    }
+
+    delivNoteWindow = 0;
+    delete delivNoteWindow;
+  }
+}
+
 
 void MainWindow::delFHist() {
 
@@ -2533,13 +2697,12 @@ void MainWindow::on_WZAction_triggered()
 
     } else {
 
+      rereadWarehouses(true);
       rereadHist(true);
     }
 
-    if (noteWindow->getKAdded())
-      readBuyer();
-    dl->checkAllSymbInFiles();
-    allSymbols = dl->getAllSymbols();
+    dl->checkAllSymbWareInFiles();
+    allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
     noteWindow = 0;
     delete noteWindow;
 }
