@@ -43,9 +43,11 @@ public:
   virtual QVector<WarehouseData> warehouseSelectAllData(QDate start,
                                                                   QDate end);
   virtual bool invoiceInsertData(InvoiceData &invData, int type);
-  virtual bool delivNoteInsertData(WarehouseData &invData, int type);
+  virtual bool warehouseInsertData(WarehouseData &invData, int type);
   virtual bool invoiceUpdateData(InvoiceData &invData, int type, QString name);
+  virtual bool warehouseUpdateData(WarehouseData &invData, int type, QString name);
   virtual bool invoiceDeleteData(QString name);
+  virtual bool warehouseDeleteData(QString name);
 
   virtual QString const getRet() const;
   virtual QString getRetWarehouse() const;

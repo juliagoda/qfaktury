@@ -39,5 +39,8 @@
         <file>icons/zglos_blad.png</file>
         <file>icons/o_qt.png</file>
         <file>icons/informacja_dodatki.png</file>
+        <file>icons/delivery_note.png</file>
+        <file>icons/usun_magazyn.png</file>
+        <file>icons/edytuj_magazyn.png</file>
     </qresource>
 </RCC>

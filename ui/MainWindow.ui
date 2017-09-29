@@ -102,8 +102,20 @@
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QLabel" name="textLabel1">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>85</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="text">
-             <string>Wyświetlaj dokumenty od:</string>
+             <string>Wyświetl od:</string>
             </property>
             <property name="wordWrap">
              <bool>false</bool>
@@ -209,22 +221,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::MinimumExpanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>180</width>
-              <height>0</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </item>
         <item row="1" column="0">
@@ -314,8 +310,20 @@
           </property>
           <item>
            <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>85</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="text">
-             <string>Wyświtl od: </string>
+             <string>Wyświetl od: </string>
             </property>
            </widget>
           </item>
@@ -343,6 +351,12 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tableM">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <column>
            <property name="text">
             <string>Nazwa pliku</string>
@@ -650,6 +664,9 @@
      <string>Ma&amp;gazyn</string>
     </property>
     <addaction name="WZAction"/>
+    <addaction name="separator"/>
+    <addaction name="warehouseEdAction"/>
+    <addaction name="warehouseDelAction"/>
    </widget>
    <addaction name="plikAct"/>
    <addaction name="fakturyAct"/>
@@ -1259,8 +1276,30 @@
    </property>
   </action>
   <action name="WZAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/delivery_note.png</normaloff>:/res/icons/delivery_note.png</iconset>
+   </property>
    <property name="text">
-    <string>WZ</string>
+    <string>&amp;WZ</string>
+   </property>
+  </action>
+  <action name="warehouseEdAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/edytuj_magazyn.png</normaloff>:/res/icons/edytuj_magazyn.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edytuj</string>
+   </property>
+  </action>
+  <action name="warehouseDelAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/usun_magazyn.png</normaloff>:/res/icons/usun_magazyn.png</iconset>
+   </property>
+   <property name="text">
+    <string>Usuń</string>
    </property>
   </action>
  </widget>

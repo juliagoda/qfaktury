@@ -1277,7 +1277,7 @@ void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData,
                                          int currentRow) {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_prodData.id
-           << i_prodData.name;
+           << i_prodData.name << i_prodData.quantity << i_prodData.quanType;
 
   o_element.setAttribute("id", i_prodData.id);
   o_element.setAttribute("name", i_prodData.name);
@@ -2161,7 +2161,7 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData &oi_invData, int type) {
 }
 
 
-bool XmlDataLayer::delivNoteInsertData(WarehouseData &oi_invData, int type) {
+bool XmlDataLayer::warehouseInsertData(WarehouseData &oi_invData, int type) {
 
     qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
@@ -2393,6 +2393,14 @@ bool XmlDataLayer::invoiceUpdateData(InvoiceData &, int, QString) {
   return true;
 }
 
+
+bool XmlDataLayer::warehouseUpdateData(WarehouseData &, int, QString) {
+
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+  return true;
+}
+
 bool XmlDataLayer::invoiceDeleteData(QString name) {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
@@ -2406,4 +2414,20 @@ bool XmlDataLayer::invoiceDeleteData(QString name) {
 
   return true;
 }
+
+
+bool XmlDataLayer::warehouseDeleteData(QString name) {
+
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+  QFile file(sett().getWarehouseFullDir() + name);
+
+  if (file.exists())
+    file.remove();
+
+  checkAllSymbWareInFiles();
+
+  return true;
+}
+
 // ************ INVOICES END *****************

@@ -17,6 +17,8 @@ public:
 
   void readWarehouseData(QString fraFile);
   void setData(WarehouseData &invData);
+  void getData(WarehouseData invData);
+  void readData(QString fraFile);
 
 
 protected:
@@ -26,6 +28,7 @@ protected:
   void makeInvoiceProducts(); // changed invoice form to delivery note form of products table
   void makeInvoiceFooter();
   void setData(InvoiceData &invData);
+
 
 
 private:

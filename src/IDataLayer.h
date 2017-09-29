@@ -70,9 +70,11 @@ public:
     return a;
   };
   virtual bool invoiceInsertData(InvoiceData &, int) { return true; };
-  virtual bool delivNoteInsertData(WarehouseData &invData, int type) { return true; };
+  virtual bool warehouseInsertData(WarehouseData &invData, int type) { return true; };
   virtual bool invoiceUpdateData(InvoiceData &, int, QString) { return true; };
+  virtual bool warehouseUpdateData(WarehouseData &, int, QString) { return true; };
   virtual bool invoiceDeleteData(QString) { return true; };
+  virtual bool warehouseDeleteData(QString) { return true; };
 
   virtual bool ifThereOldInvoice() { return true; };
   virtual void separateOldInvoices(){};

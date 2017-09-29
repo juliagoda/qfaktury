@@ -5,6 +5,7 @@
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QLineEdit>
 
 /** Constructor
  */
@@ -387,7 +388,7 @@ bool DeliveryNote::saveInvoice() {
                   sett().getInvoicesDir() + trUtf8(" oraz czy ścieżka istnieje."));
         }
 
-        result = dataLayer->delivNoteInsertData(wareData, type);
+        result = dataLayer->warehouseInsertData(wareData, type);
         retWarehouse = dataLayer->getRetWarehouse();
         MainWindow::instance()->shouldHidden = true;
         makeInvoice();
@@ -406,7 +407,7 @@ bool DeliveryNote::saveInvoice() {
     case QMessageBox::Cancel:
     {
 
-        result = dataLayer->delivNoteInsertData(wareData, type);
+        result = dataLayer->warehouseInsertData(wareData, type);
         retWarehouse = dataLayer->getRetWarehouse();
         MainWindow::instance()->shouldHidden = true;
         makeInvoice();
@@ -455,8 +456,8 @@ void DeliveryNote::setData(WarehouseData &invData) {
 
       product.setId(tableGoods->item(i, 0)->text());
       product.setName(tableGoods->item(i, 1)->text());
-      product.setQuantity(tableGoods->item(i, 2)->text());
-      product.setQuanType(tableGoods->item(i, 3)->text());
+      product.setQuantity(tableGoods->item(i, 4)->text());
+      product.setQuanType(tableGoods->item(i, 5)->text());
       invData.products[i] = product;
     }
 
@@ -478,7 +479,7 @@ void DeliveryNote::setData(InvoiceData &invData) {
   invData.customer = buyerName->text();
   qDebug() << "buyerName->text() in setData(InvoiceData&):"
            << buyerName->text();
-  invData.invNr = invNr->text();
+  invData.invNr = lastInvoice;
   invData.sellingDate = sellingDate->date();
   invData.issueDate = productDate->date();
 
@@ -558,8 +559,12 @@ void DeliveryNote::backBtnClick() {
     int nr = MainWindow::instance()->getMaxSymbolWarehouse() + 1;
 
 
+    qDebug() << "nr: " << nr;
+
         lastWarehouse =
             prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
+
+        qDebug() << "Begin of lastWarehouse : " << lastWarehouse;
 
         if (sett().value("day").toBool())
           lastWarehouse += "/" + QDate::currentDate().toString("dd");
@@ -575,8 +580,12 @@ void DeliveryNote::backBtnClick() {
 
         suffix = sett().value("sufix").toString();
         lastWarehouse += suffix;
-        invNr->setText(lastWarehouse);
+
     }
+
+        Invoice::instance()->invNr->setText(lastWarehouse);
+
+        qDebug() << "QLineEdit invNr: " << invNr->text();
 
     saveBtn->setEnabled(true);
 }
@@ -615,5 +624,48 @@ void DeliveryNote::canQuit() {
   }
 
 
+}
+
+
+void DeliveryNote::readData(QString fraFile) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+    prepayFile = fraFile;
+    qDebug() << "prepayFile w readData: " << prepayFile;
+    backBtn->setEnabled(false);
+    invNr->setEnabled(false);
+
+    getData(dataLayer->warehouseSelectData(fraFile, type));
+
+    canClose = true;
+    saveBtn->setEnabled(false);
+
+    setIsEditAllowed(sett().value("edit").toBool());
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+             << "EXIT";
+}
+
+
+void DeliveryNote::getData(WarehouseData invData) {
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+  buyerName->setText(invData.customer);
+  invNr->setText(invData.invNr);
+  sellingDate->setDate(invData.sellingDate);
+  productDate->setDate(invData.issueDate);
+
+  if (!invData.duplDate.isNull() && invData.duplDate.isValid())
+    dupDate = invData.duplDate;
+
+  additEdit->setText(invData.additText);
+
+  paysCombo->setCurrentText(invData.paymentType);
+  liabDate->setDate(invData.liabDate);
+
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 

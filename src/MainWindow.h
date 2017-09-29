@@ -55,6 +55,7 @@ public slots:
   void editFHist();
   void warehouseEdit();
   void delFHist();
+  void delMHist();
   void userDataClick();
   void settClick();
   void buyerClick();

@@ -2800,6 +2800,8 @@ void Invoice::calculateSum() {
 QString Invoice::numbersCount(int in, int x) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "nr: " << in;
+  qDebug() << "sett().value(\"chars_in_symbol\")" << x;
 
   QString tmp2, tmp = sett().numberToString(in);
   tmp2 = "";

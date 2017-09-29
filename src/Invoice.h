@@ -33,7 +33,7 @@ public:
 
   static Invoice *instance();
   void init();
-  void readData(QString fraFile);
+  virtual void readData(QString fraFile);
   void setfName(QString text);
   void keyPressEvent(QKeyEvent *event);
   void connectedWebsite(const QUrl &);

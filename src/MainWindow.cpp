@@ -272,7 +272,9 @@ void MainWindow::init() {
   connect(ui->editBuyersAction, SIGNAL(triggered()), this, SLOT(buyerEd()));
   connect(ui->addInvoiceAction, SIGNAL(triggered()), this, SLOT(newInv()));
   connect(ui->invoiceDelAction, SIGNAL(triggered()), this, SLOT(delFHist()));
+  connect(ui->warehouseDelAction, SIGNAL(triggered()), this, SLOT(delMHist()));
   connect(ui->invoiceEdAction, SIGNAL(triggered()), this, SLOT(editFHist()));
+  connect(ui->warehouseEdAction, SIGNAL(triggered()), this, SLOT(warehouseEdit()));
   connect(ui->invoiceDuplAction, SIGNAL(triggered()), this,
           SLOT(newDuplicate()));
   connect(ui->invoiceGrossAction, SIGNAL(triggered()), this,
@@ -747,7 +749,7 @@ void MainWindow::readWarehouses() {
   QVector<WarehouseData> wareVec;
   wareVec =
       dl->warehouseSelectAllData(ui->warehouseFromDate->date(), ui->warehouseToDate->date());
-  allSymbols = dl->getAllSymbolsWarehouse();
+  allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
   ui->tableM->setSortingEnabled(false);
 
   for (int i = 0; i < wareVec.size(); ++i) {
@@ -1031,6 +1033,8 @@ void MainWindow::showTableMenuM(QPoint p) {
   // qDebug() << __FUNCTION__ << __LINE__;
   QMenu *menuTable = new QMenu(ui->tableM);
   menuTable->addAction(ui->WZAction);
+  menuTable->addAction(ui->warehouseEdAction);
+  menuTable->addAction(ui->warehouseDelAction);
   menuTable->exec(ui->tableM->mapToGlobal(p));
 
   menuTable = 0;
@@ -1486,6 +1490,7 @@ void MainWindow::warehouseEdit() {
     if (delivNoteWindow->exec() == QDialog::Accepted) {
 
       rereadWarehouses(true);
+      rereadHist(true);
     }
     }
 
@@ -1514,6 +1519,29 @@ void MainWindow::delFHist() {
     dl->invoiceDeleteData(name);
     ui->tableH->removeRow(ui->tableH->currentRow());
     allSymbols = dl->getAllSymbols();
+  }
+}
+
+
+void MainWindow::delMHist() {
+
+  if (ui->tableM->selectedItems().count() <= 0) {
+
+    QMessageBox::information(this, trUtf8("QFaktury"),
+                             trUtf8("Dokument magazynu nie został wybrany. Nie można usuwać."),
+                             trUtf8("Ok"), 0, 0, 1);
+    return;
+  }
+
+  if (QMessageBox::warning(
+          this, sett().getVersion(qAppName()),
+          trUtf8("Czy napewno chcesz usunąć tą dokument magazynu z historii?"),
+          trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
+
+    QString name = ui->tableM->item(ui->tableM->currentRow(), 0)->text();
+    dl->warehouseDeleteData(name);
+    ui->tableM->removeRow(ui->tableM->currentRow());
+    allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
   }
 }
 
@@ -2694,6 +2722,9 @@ void MainWindow::on_WZAction_triggered()
       ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(row[4]); // buyer
       ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(row[5]); // NIP
       ui->tableM->setSortingEnabled(true);
+
+      rereadWarehouses(true);
+      rereadHist(true);
 
     } else {
 
