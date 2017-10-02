@@ -87,6 +87,9 @@ public:
     case 9:
       ret = QObject::trUtf8("FVAT");
       break;
+    case 10:
+      ret = QObject::trUtf8("RW");
+      break;
     default:
       ret = QObject::trUtf8("FVAT");
       break;

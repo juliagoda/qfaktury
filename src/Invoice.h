@@ -21,7 +21,7 @@ class QComboBox;
 class QKeyEvent;
 class IDataLayer;
 
-enum InvoiceType { FVat, FPro, EFVat, EFPro, KBR, BILL, DUP, RR, WZ };
+enum InvoiceType { FVat, FPro, EFVat, EFPro, KBR, BILL, DUP, RR, WZ, RW };
 
 class Invoice : public QDialog, public Ui::Invoice {
 

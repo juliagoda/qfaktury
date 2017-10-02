@@ -75,7 +75,7 @@ private:
   void invoiceProdDataToElem(const ProductData &i_prodData,
                              QDomElement &o_element, int currentRow);
   void warehouseProdDataToElem(const ProductData &i_prodData,
-                             QDomElement &o_element, int currentRow);
+                             QDomElement &o_element, int type);
   void invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element);
 
   bool nameFilter(QString nameToCheck, QDate start, QDate end, QString docName, QString path);

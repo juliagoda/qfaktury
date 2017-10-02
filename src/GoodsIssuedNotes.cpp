@@ -1,38 +1,89 @@
-#include "DeliveryNote.h"
+#include "GoodsIssuedNotes.h"
 #include "MainWindow.h"
 #include "XmlDataLayer.h"
 #include "Const.h"
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QFormLayout>
 #include <QLineEdit>
+#include <QDateTimeEdit>
 
 /** Constructor
  */
 
-DeliveryNote::DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form)
+GoodsIssuedNotes::GoodsIssuedNotes(QWidget *parent, IDataLayer *dl, QString in_form)
     : Warehouse(parent, dl, in_form) {
 
-    invoiceType = s_WZ;
+    invoiceType = s_RW;
+
+    QLabel* label1 = new QLabel;
+    label1->setText("Miejsce odbioru towaru: ");
+    lineEdit1 = new QLineEdit;
+    label1->setBuddy(lineEdit1);
+
+    QLabel* label2 = new QLabel;
+    label2->setText("Miejsce przekazania towaru ");
+    lineEdit2 = new QLineEdit;
+    label2->setBuddy(lineEdit2);
+
+    QLabel* label3 = new QLabel;
+    label3->setText("Dział/wydział dla kosztu: ");
+    lineEdit3 = new QLineEdit;
+    label3->setBuddy(lineEdit3);
+
+    QLabel* label4 = new QLabel;
+    label4->setText("Data wydania towaru: ");
+    dateTimeEdit1 = new QDateTimeEdit;
+    dateTimeEdit1->setDateTime(QDateTime::currentDateTime());
+    label4->setBuddy(dateTimeEdit1);
+
+    QLabel* label5 = new QLabel;
+    label5->setText("Data przyjęcia towaru: ");
+    dateTimeEdit2 = new QDateTimeEdit;
+    dateTimeEdit2->setDateTime(QDateTime::currentDateTime());
+    label5->setBuddy(dateTimeEdit2);
+
+    formLayout = new QFormLayout;
+
+    formLayout->addRow(label1,lineEdit1);
+    formLayout->addRow(label2,lineEdit2);
+    formLayout->addRow(label3,lineEdit3);
+    formLayout->addRow(label4,dateTimeEdit1);
+    formLayout->addRow(label5,dateTimeEdit2);
+
+    widgetsRW = new QWidget;
+    widgetsRW->setLayout(formLayout);
+    verticalLayout->addWidget(widgetsRW);
+    widgetsRW->show();
+    this->update();
 
 }
 
 /** Destructor
  */
 
-DeliveryNote::~DeliveryNote() {
+GoodsIssuedNotes::~GoodsIssuedNotes() {
 
+    foreach (QWidget *w, widgetsRW->findChildren<QWidget *>()) {
+      if (!w->windowFlags() && Qt::Window)
+        delete w;
+    }
+
+    if (formLayout != 0) formLayout = 0;
+    delete formLayout;
+    widgetsRW->deleteLater();
 }
 
 
-void DeliveryNote::readWarehouseData(QString invFile) {
+void GoodsIssuedNotes::readWarehouseData(QString invFile) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   backBtn->setEnabled(false);
   invNr->setEnabled(false);
 
-  setWindowTitle(trUtf8("Edytuje WZ"));
+  setWindowTitle(s_WIN_RW_EDIT);
 
   qDebug("invFile file");
   qDebug() << invFile;
@@ -70,16 +121,22 @@ void DeliveryNote::readWarehouseData(QString invFile) {
   }
 
   root = doc.documentElement();
-  QLabel *messageDelNote = new QLabel;
-  messageDelNote->setText("Dla tego dokumentu faktura była już wystawiana");
-  if (root.attribute("invoice").toInt() == 0) horizontalLayout_4->addWidget(messageDelNote);
-  else messageDelNote->deleteLater();
-  this->update();
+
+  
   invNr->setText(root.attribute("no"));
   sellingDate->setDate(
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
   productDate->setDate(
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat()));
+
+  lineEdit1->setText(root.attribute("goodFromPlace"));
+  lineEdit2->setText(root.attribute("goodToPlace"));
+  lineEdit3->setText(root.attribute("departmentCost"));
+
+  dateTimeEdit1->setDate(QDate::fromString(root.attribute("goodFromDate"),
+                                           sett().getDateFormat()));
+  dateTimeEdit2->setDate(QDate::fromString(root.attribute("goodToDate"),
+                                           sett().getDateFormat()));
 
   wareData = new WarehouseData();
   wareData->invNr = invNr->text();
@@ -105,7 +162,7 @@ void DeliveryNote::readWarehouseData(QString invFile) {
   QDomElement good;
 
   static const char *goodsColumns[] = {
-      "id",       "name", "quantity", "quantityType" };
+      "id",       "name", "quantity", "quantityType", "price", "nett"  };
 
   //*********************** Load Products After ***************************
 
@@ -131,6 +188,10 @@ void DeliveryNote::readWarehouseData(QString invFile) {
           i, 4, new QTableWidgetItem(good.attribute(goodsColumns[2])));
       tableGoods->setItem(
           i, 5, new QTableWidgetItem(good.attribute(goodsColumns[3])));
+      tableGoods->setItem(
+          i, 7, new QTableWidgetItem(good.attribute(goodsColumns[4])));
+      tableGoods->setItem(
+          i, 8, new QTableWidgetItem(good.attribute(goodsColumns[5])));
 
 
     good = good.nextSibling().toElement();
@@ -147,6 +208,13 @@ void DeliveryNote::readWarehouseData(QString invFile) {
   wareData->sellingDate = sellingDate->date();
   wareData->productDate = productDate->date();
 
+  wareData->goodFromPlace = lineEdit1->text();
+  wareData->goodToPlace = lineEdit2->text();
+  wareData->departmentCost = lineEdit3->text();
+  wareData->goodFromDate = dateTimeEdit1->date();
+  wareData->goodToDate = dateTimeEdit2->date();
+
+
   for (i = 0; i < goodsCount; ++i) {
 
     ProductData product; //  = new ProductData();
@@ -154,6 +222,8 @@ void DeliveryNote::readWarehouseData(QString invFile) {
     product.setName(good.attribute(goodsColumns[1]));
     product.setQuantity(good.attribute(goodsColumns[2]));
     product.setQuanType(good.attribute(goodsColumns[3]));
+    product.setPrice(good.attribute(goodsColumns[4]));
+    product.setNett(good.attribute(goodsColumns[5]));
     wareData->products[i] = product;
     good = good.nextSibling().toElement();
   }
@@ -181,8 +251,181 @@ void DeliveryNote::readWarehouseData(QString invFile) {
 }
 
 
+void GoodsIssuedNotes::makeInvoiceHeadar(bool, bool breakPage, bool original) {
 
-void DeliveryNote::makeInvoiceProductsHeadar() {
+    QString breakPageStr = "class=\"page_break\"";
+    if (breakPage == false)
+      breakPageStr = "";
+
+    invStrList +=
+        "<table comment=\"headar table\" width=\"100%\" " + breakPageStr + ">";
+    invStrList += "<tr>";
+    invStrList += "<td width=\"60%\" align=\"center\" valign=\"bottom\">";
+    invStrList += "<span class=\"stamp\">";
+    QString logo = sett().value("logo").toString();
+
+    if (logo != "") {
+      invStrList +=
+          "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
+    } else {
+      invStrList += "";
+    }
+
+    invStrList += "</span>";
+    invStrList += "</td>";
+
+    if (sett().value("css").toString() == "tables.css") {
+
+      invStrList += "<td id=\"invoiceInfo\" width=\"35%\" align=\"right\">";
+
+      invStrList += "<table id=\"rightInvTable\" width=\"100%\" border=\"1\" "
+                    "cellspacing=\"0\" cellpadding=\"5\" >";
+
+      invStrList += "<tr>";
+      invStrList += "<td id=\"invFirstLine\" style=\"font-size:12pt\">";
+      invStrList += invoiceType + "<br/>";
+      invStrList += trUtf8("Nr: ") + invNr->text() + "</td>";
+      invStrList += "</tr>";
+      invStrList += "<tr>";
+      invStrList += "<td>" + trUtf8("Data wystawienia: ") +
+                    productDate->date().toString(sett().getDateFormat()) +
+                    "</td>";
+
+      invStrList += "</tr>";
+
+      invStrList += "</table></td><td width=\"3%\">&nbsp;</td>";
+
+    } else {
+
+      invStrList += "<td id=\"invoiceInfo\" width=\"35%\" align=\"right\">";
+
+      invStrList += "<table id=\"rightInvTable\" width=\"100%\" border=\"0\" "
+                    "cellspacing=\"0\" >";
+      invStrList += "<tr>";
+      invStrList += "<td id=\"invFirstLine\" style=\"font-size:12pt\">";
+      invStrList += invoiceType + "<br/>";
+      invStrList += trUtf8("Nr: ") + invNr->text() + "<br></td>";
+      invStrList += "</tr>";
+      invStrList += "<tr>";
+      invStrList += "<td>" + trUtf8("Data wystawienia: ") +
+                    productDate->date().toString(sett().getDateFormat());
+
+      invStrList += "</tr>";
+
+      invStrList += "</table></td><td width=\"3%\">&nbsp;</td>";
+    }
+
+    invStrList += "</tr>";
+    invStrList += "<br/><br/>";
+    invStrList += "<tr>";
+    invStrList += "<td class=\"origcopy\" colspan=\"2\" align=\"right\" "
+                  "valign=\"top\"><br>";
+
+    if (original) {
+      invStrList += trUtf8("ORYGINAŁ");
+    } else {
+      invStrList += trUtf8("KOPIA");
+    }
+
+    invStrList += "<hr/><br/>";
+
+    invStrList += "</td><td width=\"3%\">&nbsp;</td>";
+    invStrList += "</tr>";
+    invStrList += "</table>";
+    invStrList += "</td></tr>";
+
+}
+
+
+void GoodsIssuedNotes::makeInvoiceBody() {
+
+  invStrList += "<tr width=\"100%\"><td width=\"100%\">";
+  invStrList += "<table width=\"100%\" border=\"0\">";
+  invStrList += "<tr class=\"persons\" width=\"100%\">";
+  invStrList += "<td width=\"20\">&nbsp;</td>";
+  invStrList += "<td class=\"buyerSeller\" width=\"48%\"> ";
+  invStrList += "<p id=\"seller\"></p><br/>";
+
+  QSettings userSettings("elinux", "user");
+
+  sett().beginGroup("printpos");
+  userSettings.beginGroup("choosenSeller");
+
+  if (sett().value("username").toBool() &&
+      (!userSettings.value("name").toString().trimmed().isEmpty()))
+    invStrList += userSettings.value("name").toString() + "<br/>";
+
+  if (sett().value("useradress").toBool() &&
+      (!userSettings.value("address").toString().trimmed().isEmpty()))
+    invStrList += userSettings.value("address").toString() + "<br/>";
+
+  if (sett().value("usercity").toBool() &&
+      (!userSettings.value("zip").toString().trimmed().isEmpty()))
+    invStrList += userSettings.value("zip").toString() + " ";
+
+  if (sett().value("usercity").toBool() &&
+      (!userSettings.value("city").toString().trimmed().isEmpty()))
+    invStrList += userSettings.value("city").toString() + "<br/>";
+
+  if (sett().value("usernip").toBool() &&
+      (!userSettings.value("tic").toString().trimmed().isEmpty()))
+    invStrList +=
+        trUtf8("NIP: ") + userSettings.value("tic").toString() + "<br/>";
+
+  if (sett().value("userbank").toBool() &&
+      (!userSettings.value("bank").toString().trimmed().isEmpty()))
+    invStrList += trUtf8("Nazwa banku: ") +
+                  userSettings.value("bank").toString() + "<br/>";
+
+  if (sett().value("useraccount").toBool() &&
+      (!userSettings.value("account").toString().trimmed().isEmpty()))
+    invStrList += trUtf8("Nr konta: ") +
+                  userSettings.value("account").toString().replace("-", " ") +
+                  "<br/>";
+
+  if (sett().value("userswift").toBool() &&
+      (!userSettings.value("swift").toString().trimmed().isEmpty()))
+    invStrList += trUtf8("SWIFT/BIC: ") +
+                  userSettings.value("swift").toString() + "<br/>";
+
+  if (sett().value("userkrs").toBool() &&
+      (!userSettings.value("krs").toString().trimmed().isEmpty()))
+    invStrList +=
+        trUtf8("KRS: ") + userSettings.value("krs").toString() + "<br/>";
+
+  if (sett().value("userphone").toBool() &&
+      (!userSettings.value("phone").toString().trimmed().isEmpty()))
+    invStrList +=
+        trUtf8("Telefon: ") + userSettings.value("phone").toString() + "<br/>";
+
+  if (sett().value("userfax").toBool() &&
+      (!userSettings.value("fax").toString().trimmed().isEmpty()))
+    invStrList +=
+        trUtf8("Fax: ") + userSettings.value("fax").toString() + "<br/>";
+
+  if (sett().value("usermail").toBool() &&
+      (!userSettings.value("email").toString().trimmed().isEmpty()))
+    invStrList +=
+        trUtf8("Email: ") + userSettings.value("email").toString() + "<br/>";
+
+  if (sett().value("userwww").toBool() &&
+      (!userSettings.value("website").toString().trimmed().isEmpty()))
+    invStrList += trUtf8("Strona www: ") +
+                  userSettings.value("website").toString() + "<br/>";
+
+  userSettings.endGroup();
+  sett().endGroup();
+
+  invStrList += "</td>";
+  invStrList += "</tr>";
+  invStrList += "</table>";
+  invStrList += "<hr/>";
+  invStrList += "</td></tr>";
+}
+
+
+
+void GoodsIssuedNotes::makeInvoiceProductsHeadar() {
 
     invStrList += "<tr align=\"center\" valign=\"middle\" "
                   "class=\"productsHeader\" width=\"100%\" >"; // TUTAJ
@@ -198,7 +441,7 @@ void DeliveryNote::makeInvoiceProductsHeadar() {
 
       int res = 100 - sumPercents;
       invStrList += "<td align=\"center\" width=\"" + sett().numberToString(res) +
-                    "%\">" + trUtf8("Nazwa towaru/usługi") + "</td>";
+                    "%\">" + trUtf8("Nazwa towaru/materiału") + "</td>";
 
 
       currentPercent += 9;
@@ -209,20 +452,20 @@ void DeliveryNote::makeInvoiceProductsHeadar() {
 
       currentPercent += 3;
       invStrList += "<td align=\"center\" width=\"" + sett().numberToString(3) +
-                    "%\">" + trUtf8("jm.") + "</td>";
+                    "%\">" + trUtf8("Cena jn.") + "</td>";
 
 
 
       currentPercent += 8;
       invStrList += "<td align=\"center\" width=\"" + sett().numberToString(8) +
-                    "%\">" + trUtf8("Uwagi") + "</td>";
+                    "%\">" + trUtf8("Jm.") + "</td>";
 
 
     invStrList += "</tr>";
 }
 
 
-void DeliveryNote::makeInvoiceProducts() {
+void GoodsIssuedNotes::makeInvoiceProducts() {
 
     invStrList += "<tr width=\"100%\"><td width=\"100%\">";
 
@@ -244,9 +487,9 @@ void DeliveryNote::makeInvoiceProducts() {
 
         invStrList += "<td>" + tableGoods->item(i, 4)->text() + "</td>"; // AMOUNT
 
-        invStrList += "<td>" + tableGoods->item(i, 5)->text() + "</td>"; // UNIT
+        invStrList += "<td>" + tableGoods->item(i, 7)->text() + "</td>"; // UNIT PRICE
 
-        invStrList += "<td></td>"; // NOTES
+        invStrList += "<td>" + tableGoods->item(i, 5)->text() + "</td>"; // UNIT
 
 
       invStrList += "</tr>";
@@ -258,14 +501,54 @@ void DeliveryNote::makeInvoiceProducts() {
 }
 
 
-void DeliveryNote::makeInvoiceSumm() {
+void GoodsIssuedNotes::makeInvoiceSumm() {
 
-    invStrList += "<br><br>";
+    invStrList += "<tr width=\"100%\"><td width=\"100%\">";
+    if (sett().value("css").toString() == "tables.css") {
+      invStrList += "<br/><table align=\"right\" width=\"100%\" border=\"2\" "
+                    "cellspacing=\"0\" cellpadding=\"5\">";
+
+    } else {
+      invStrList += "<br/><table align=\"right\" width=\"100%\" border=\"0\" "
+                    "cellpadding=\"5\">";
+    }
+    invStrList +=
+        "<tr class=\"productsSumHeader\" valign=\"middle\ width=\"100%\">";
+    invStrList +=
+        "<td id=\"notNec\" width=\"10%\" align=\"center\">&nbsp;</td>"; // TUTAJ
+    invStrList += "<td width=\"21%\" align=\"center\">" +
+                  trUtf8("Skąd") + "</td>"; // net
+    invStrList += "<td width=\"21%\" align=\"center\">" + trUtf8("Dokąd") +
+                  "</td>"; // vat
+    invStrList += "<td width=\"31%\" align=\"center\">" +
+                  trUtf8("Wydział/Dział") + "</td>"; // brutto
+    invStrList += "</tr><tr width=\"100%\" class=\"productsSum\">";
+    invStrList += "<td align=\"center\"></td>";
+    invStrList += "<td align=\"center\">" + lineEdit1->text() + "</td>"; // net
+    invStrList += "<td align=\"center\">" +
+                  lineEdit2->text() + "</td>"; // vat
+    invStrList += "<td align=\"center\">" + lineEdit3->text() + "</td>";  // brutto
+    invStrList += "</tr>";
+    invStrList += "</table></tr><br/><br/><br/>";
+    /*invStrList += "<table align=\"right\" width=\"100%\" border=\"0\" "
+                                "cellspacing=\"0\" cellpadding=\"5\">";
+    invStrList +=
+        "<tr class=\"productsSumHeader\" valign=\"middle\ width=\"100%\">";
+    invStrList +=
+        "<td id=\"notNec\" width=\"10%\" align=\"center\">&nbsp;</td>"; // TUTAJ
+    invStrList += "<td width=\"11%\" align=\"center\">" +
+                  trUtf8("Razem netto: ") + "</td>"; // net
+
+
+    invStrList += "<td width=\"11%\" align=\"center\">" + tableGoods->item +
+                  "</td>"; // vat
+    invStrList += "</tr>";
+    invStrList += "</table><br/>";*/
 
 }
 
 
-void DeliveryNote::makeInvoiceSummAll() {
+void GoodsIssuedNotes::makeInvoiceSummAll() {
 
     invStrList += "<table width=\"100%\" border=\"0\">";
 
@@ -273,22 +556,19 @@ void DeliveryNote::makeInvoiceSummAll() {
     invStrList += "<td width=\"3%\">&nbsp;</td>";
     invStrList += "<td width=\"48%\">";
 
-    // <span/>???
 
-
-
-      invStrList += "<span class=\"toPay\">";
-      invStrList +=
-          trUtf8("forma płatności: ") + paysCombo->currentText() + "<br>";
+      invStrList += "<span>";
+      invStrList += trUtf8("Data wydania towaru: ") +
+                    dateTimeEdit1->date().toString(sett().getDateFormat()) + "<br/>";
       invStrList += "</span>";
 
-      invStrList += "<span class=\"payDate\">";
-      invStrList += trUtf8("termin płatności: ") +
-                    liabDate->date().toString(sett().getDateFormat()) + "<br>";
+      invStrList += "<span>";
+      invStrList += trUtf8("Data przyjęcia towaru: ") +
+                    dateTimeEdit2->date().toString(sett().getDateFormat()) + "<br/>";
       invStrList += "</span>";
 
 
-    invStrList += "<br><br>";
+    invStrList += "<br/><br/>";
     invStrList +=
         "<span class=\"additionalText\">" + additEdit->text() + "</span>";
     invStrList += "</td>";
@@ -299,7 +579,7 @@ void DeliveryNote::makeInvoiceSummAll() {
 }
 
 
-void DeliveryNote::makeInvoiceFooter() {
+void GoodsIssuedNotes::makeInvoiceFooter() {
 
     invStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
     invStrList += "<br><br><br><br>";
@@ -341,53 +621,19 @@ void DeliveryNote::makeInvoiceFooter() {
 }
 
 
-bool DeliveryNote::saveInvoice() {
+bool GoodsIssuedNotes::saveInvoice() {
 
     qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << fName;
 
     bool result = false;
-    ifcreateInv = false;
     if (!validateForm())
       return false;
 
-    QMessageBox msgBox;
-    msgBox.setText(trUtf8("Czy chcesz od razu do tworzonego dokumentu WZ wygenerować fakturę?"));
-    msgBox.setInformativeText(
-        trUtf8("Jeśli chcesz dodać dodatkowo fakturę do listy faktur, wciśnij - OK. Jeśli "
-               "chcesz zapisać tylko dokument WZ, wciśnij - Anuluj. Pamiętaj, że fakturę do"
-               "każdego dokumentu WZ należy wystawić w nieprzekraczalnym terminie 7 dni"));
-    msgBox.setIcon(QMessageBox::Information);
-    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    int ret2 = msgBox.exec();
-
-    InvoiceData invData;
-    setData(invData);
 
     WarehouseData wareData;
     setData(wareData);
 
 
-    switch (ret2) {
-    case QMessageBox::Ok:
-    {
-
-        ifcreateInv = true;
-
-        result = dataLayer->invoiceInsertData(invData, type);
-        ret = dataLayer->getRet();
-        MainWindow::instance()->shouldHidden = true;
-        Invoice::instance()->makeInvoice();
-        MainWindow::instance()->shouldHidden = false;
-
-        if (!result) {
-          QMessageBox::warning(
-              this, trUtf8("Zapis faktury"),
-              trUtf8("Zapis faktury zakończył się niepowodzeniem. Sprawdź czy masz "
-                     "uprawnienia do zapisu lub odczytu w ścieżce ") +
-                  sett().getInvoicesDir() + trUtf8(" oraz czy ścieżka istnieje."));
-        }
-
         result = dataLayer->warehouseInsertData(wareData, type);
         retWarehouse = dataLayer->getRetWarehouse();
         MainWindow::instance()->shouldHidden = true;
@@ -396,34 +642,12 @@ bool DeliveryNote::saveInvoice() {
 
         if (!result) {
           QMessageBox::warning(
-              this, trUtf8("Zapis dokumentu WZ"),
-              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź czy masz "
+              this, trUtf8("Zapis dokumentu RW"),
+              trUtf8("Zapis dokumentu RW zakończył się niepowodzeniem. Sprawdź czy masz "
                      "uprawnienia do zapisu lub odczytu w ścieżce ") +
                   sett().getWarehouseFullDir() + trUtf8(" oraz czy ścieżka istnieje."));
         }
 
-    break;
-    }
-    case QMessageBox::Cancel:
-    {
-
-        result = dataLayer->warehouseInsertData(wareData, type);
-        retWarehouse = dataLayer->getRetWarehouse();
-        MainWindow::instance()->shouldHidden = true;
-        makeInvoice();
-        MainWindow::instance()->shouldHidden = false;
-
-        if (!result) {
-          QMessageBox::warning(
-              this, trUtf8("Zapis dokumentu WZ"),
-              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź czy masz "
-                     "uprawnienia do zapisu lub odczytu w ścieżce ") +
-                  sett().getWarehouseFullDir() + trUtf8(" oraz czy ścieżka istnieje."));
-        }
-
-    break;
-    }
-    }
 
     saveBtn->setEnabled(false);
     rmGoodsBtn->setEnabled(false);
@@ -436,7 +660,7 @@ bool DeliveryNote::saveInvoice() {
 }
 
 
-void DeliveryNote::setData(WarehouseData &invData) {
+void GoodsIssuedNotes::setData(WarehouseData &invData) {
 
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -447,7 +671,12 @@ void DeliveryNote::setData(WarehouseData &invData) {
     invData.invNr = invNr->text();
     invData.sellingDate = sellingDate->date();
     invData.issueDate = productDate->date();
-    invData.ifInvForDelNote = ifcreateInv;
+
+    invData.goodFromPlace = lineEdit1->text();
+    invData.goodToPlace = lineEdit2->text();
+    invData.departmentCost = lineEdit3->text();
+    invData.goodFromDate = dateTimeEdit1->date();
+    invData.goodToDate = dateTimeEdit2->date();
 
 
     // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
@@ -458,6 +687,8 @@ void DeliveryNote::setData(WarehouseData &invData) {
       product.setName(tableGoods->item(i, 1)->text());
       product.setQuantity(tableGoods->item(i, 4)->text());
       product.setQuanType(tableGoods->item(i, 5)->text());
+      product.setPrice(tableGoods->item(i, 7)->text());
+      product.setNett(tableGoods->item(i, 8)->text());
       invData.products[i] = product;
     }
 
@@ -471,7 +702,7 @@ void DeliveryNote::setData(WarehouseData &invData) {
 }
 
 
-void DeliveryNote::setData(InvoiceData &invData) {
+void GoodsIssuedNotes::setData(InvoiceData &invData) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -550,7 +781,7 @@ void DeliveryNote::setData(InvoiceData &invData) {
 }
 
 
-void DeliveryNote::readData(QString fraFile) {
+void GoodsIssuedNotes::readData(QString fraFile) {
 
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
     prepayFile = fraFile;
@@ -570,7 +801,7 @@ void DeliveryNote::readData(QString fraFile) {
 }
 
 
-void DeliveryNote::getData(WarehouseData invData) {
+void GoodsIssuedNotes::getData(WarehouseData invData) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -578,6 +809,11 @@ void DeliveryNote::getData(WarehouseData invData) {
   invNr->setText(invData.invNr);
   sellingDate->setDate(invData.sellingDate);
   productDate->setDate(invData.issueDate);
+  lineEdit1->setText(invData.goodFromPlace);
+  lineEdit2->setText(invData.goodToPlace);
+  lineEdit3->setText(invData.departmentCost);
+  dateTimeEdit1->setDate(invData.goodFromDate);
+  dateTimeEdit2->setDate(invData.goodToDate);
 
   if (!invData.duplDate.isNull() && invData.duplDate.isValid())
     dupDate = invData.duplDate;

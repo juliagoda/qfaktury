@@ -143,6 +143,7 @@ void Invoice::init() {
   whatTypeFromTitle(s_WIN_DUPLICATE_LOOK, false, true, DUP, 7);
   whatTypeFromTitle(s_RR, false, false, RR, 8);
   whatTypeFromTitle(s_WZ, false, false, WZ, 9);
+  whatTypeFromTitle(s_RW, false, false, RW, 10);
 
   if (sett().value("editSymbol").toBool())
     invNr->setEnabled(false);
@@ -308,6 +309,9 @@ QString Invoice::getInvoiceTypeAndSaveNr() {
   } else if (inv_form == s_WZ) {
     ret = trUtf8("wz");
     sett().setValue("wz", invNr->text());
+  } else if (inv_form == s_RW) {
+      ret = trUtf8("rw");
+      sett().setValue("rw", invNr->text());
   }
 
   return ret;

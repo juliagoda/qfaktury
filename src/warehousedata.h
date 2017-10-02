@@ -30,7 +30,15 @@ public:
   QString custCity;
   QString custName;
   QDate issueDate;
-  int invoiceType; // 9 - WZ
+  int invoiceType; // 9 - WZ, 10 - RW
+
+  // *START* for good issue note (RW)
+  QString goodFromPlace;
+  QString goodToPlace;
+  QString departmentCost;
+  QDate goodFromDate;
+  QDate goodToDate;
+  // *END*
 
   /**
    *  Return invoice type
@@ -42,6 +50,9 @@ public:
     switch (invoiceType) {
     case 9:
       ret = QObject::trUtf8("WZ");
+      break;
+    case 10:
+      ret = QObject::trUtf8("RW");
       break;
     default:
       ret = QObject::trUtf8("WZ");

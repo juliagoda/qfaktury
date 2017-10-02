@@ -42,8 +42,9 @@ private slots:
   void createBackup();
   void loadBackup();
   void sendEmailToBuyer();
-
   void on_WZAction_triggered();
+  void on_RWAction_triggered();
+
 
 public slots:
 

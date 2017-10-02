@@ -1329,7 +1329,7 @@ void XmlDataLayer::invoiceProdDataToElem(const ProductData &i_prodData,
 
 void XmlDataLayer::warehouseProdDataToElem(const ProductData &i_prodData,
                                          QDomElement &o_element,
-                                         int currentRow) {
+                                         int type) {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_prodData.id
            << i_prodData.name << i_prodData.quantity << i_prodData.quanType;
@@ -1338,6 +1338,11 @@ void XmlDataLayer::warehouseProdDataToElem(const ProductData &i_prodData,
   o_element.setAttribute("name", i_prodData.name);
   o_element.setAttribute("quantity", i_prodData.quantity);
   o_element.setAttribute("quantityType", i_prodData.quanType);
+
+  if (type == 10) {
+  o_element.setAttribute("price", sett().numberToString(i_prodData.price, 'f', 2));
+  o_element.setAttribute("nett", sett().numberToString(i_prodData.nett, 'f', 2));
+  }
 
 }
 
@@ -1584,6 +1589,16 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
       o_invData.duplDate =
           QDate::fromString(root.attribute("duplDate"), sett().getDateFormat());
 
+    if (type == 10) {
+        o_invData.goodFromPlace = root.attribute("goodFromPlace");
+        o_invData.goodToPlace = root.attribute("goodToPlace");
+        o_invData.departmentCost = root.attribute("departmentCost");
+        o_invData.goodFromDate = QDate::fromString(root.attribute("goodFromDate"),
+                                           sett().getDateFormat());
+        o_invData.goodToDate = QDate::fromString(root.attribute("goodToDate"),
+                                           sett().getDateFormat());
+    }
+          
     QDomNode tmp;
     tmp = root.firstChild();
     tmp = tmp.toElement().nextSibling(); // purchaser
@@ -1613,7 +1628,7 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
     good = product.firstChild().toElement();
 
     static const char *goodsColumns[] = {
-        "id",       "name",  "quantity", "quantityType" };
+        "id",       "name",  "quantity", "quantityType", "price", "nett" };
 
     // "net",
     // "vatBucket", "gross"
@@ -1629,6 +1644,13 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
             i, 4, new QTableWidgetItem(good.attribute(goodsColumns[2])));
         Invoice::instance()->tableGoods->setItem(
             i, 5, new QTableWidgetItem(good.attribute(goodsColumns[3])));
+        
+        if (type == 10) {
+        Invoice::instance()->tableGoods->setItem(
+            i, 7, new QTableWidgetItem(good.attribute(goodsColumns[4])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 8, new QTableWidgetItem(good.attribute(goodsColumns[5])));
+        }
 
       if (good.nextSibling().toElement().tagName() == "product")
         good = good.nextSibling().toElement();
@@ -2203,7 +2225,18 @@ bool XmlDataLayer::warehouseInsertData(WarehouseData &oi_invData, int type) {
 
     root = doc.createElement("warehouse");
     root.setAttribute("no", oi_invData.invNr);
+    
+    if (type == 9)
     root.setAttribute("invoice",oi_invData.ifInvForDelNote);
+    
+    if (type == 10) {
+    root.setAttribute("goodFromPlace", oi_invData.goodFromPlace);
+    root.setAttribute("goodToPlace", oi_invData.goodToPlace);
+    root.setAttribute("departmentCost", oi_invData.departmentCost);
+    root.setAttribute("goodFromDate", oi_invData.goodFromDate.toString(sett().getDateFormat()));
+    root.setAttribute("goodToDate", oi_invData.goodToDate.toString(sett().getDateFormat()));
+    }
+    
     retWarehouse += oi_invData.invNr + "|";
     oi_invData.issueDate = QDate::currentDate();
     retWarehouse += oi_invData.issueDate.toString(sett().getDateFormat()) + "|";
@@ -2240,13 +2273,11 @@ bool XmlDataLayer::warehouseInsertData(WarehouseData &oi_invData, int type) {
         QString::number(Invoice::instance()->tableGoods->rowCount()));
 
     QMap<int, ProductData>::const_iterator i = oi_invData.products.constBegin();
-    int currentRow = 0;
     while (i != oi_invData.products.constEnd()) {
 
       product = doc.createElement("product");
-      warehouseProdDataToElem(i.value(), product, currentRow);
+      warehouseProdDataToElem(i.value(), product, type);
       products.appendChild(product);
-      currentRow++;
       i++;
     }
 

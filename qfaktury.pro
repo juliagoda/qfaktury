@@ -76,7 +76,8 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $$PWD/src/Send.cpp \
     $$PWD/src/owncalendar.cpp \
     $$PWD/src/Warehouse.cpp \
-    $$PWD/src/DeliveryNote.cpp
+    $$PWD/src/DeliveryNote.cpp \
+    $$PWD/src/GoodsIssuedNotes.cpp
 
 
 RESOURCES += qfaktury.qrc

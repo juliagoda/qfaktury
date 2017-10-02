@@ -664,6 +664,7 @@
      <string>Ma&amp;gazyn</string>
     </property>
     <addaction name="WZAction"/>
+    <addaction name="RWAction"/>
     <addaction name="separator"/>
     <addaction name="warehouseEdAction"/>
     <addaction name="warehouseDelAction"/>
@@ -1290,7 +1291,7 @@
      <normaloff>:/res/icons/edytuj_magazyn.png</normaloff>:/res/icons/edytuj_magazyn.png</iconset>
    </property>
    <property name="text">
-    <string>Edytuj</string>
+    <string>&amp;Edytuj</string>
    </property>
   </action>
   <action name="warehouseDelAction">
@@ -1299,7 +1300,16 @@
      <normaloff>:/res/icons/usun_magazyn.png</normaloff>:/res/icons/usun_magazyn.png</iconset>
    </property>
    <property name="text">
-    <string>Usuń</string>
+    <string>&amp;Usuń</string>
+   </property>
+  </action>
+  <action name="RWAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/good_issue_note.png</normaloff>:/res/icons/good_issue_note.png</iconset>
+   </property>
+   <property name="text">
+    <string>RW</string>
    </property>
   </action>
  </widget>

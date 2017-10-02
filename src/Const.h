@@ -18,6 +18,7 @@ static const QString s_BILL = QObject::trUtf8("Rachunek");
 static const QString s_CORRECTION = QObject::trUtf8("Faktura VAT korygująca");
 static const QString s_RR = QObject::trUtf8("Faktura RR");
 static const QString s_WZ = QObject::trUtf8("WZ");
+static const QString s_RW = QObject::trUtf8("RW");
 
 static const QString s_FBRUTTO = QObject::trUtf8("Faktura VAT Brutto");
 static const QString s_DUPLICATE = QObject::trUtf8("Nowy Duplikat");
@@ -39,5 +40,7 @@ static const QString s_WIN_DUPLICATE_LOOK =
 static const QString s_WIN_CORRECT_EDIT = QObject::trUtf8("Edytuje Korektę");
 static const QString s_WIN_WZ_EDIT =
     QObject::trUtf8("Edytuje WZ");
+static const QString s_WIN_RW_EDIT =
+    QObject::trUtf8("Edytuje RW");
 
 #endif /* CONST_H_ */

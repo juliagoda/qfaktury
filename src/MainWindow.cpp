@@ -11,6 +11,7 @@
 
 
 #include "DeliveryNote.h"
+#include "GoodsIssuedNotes.h"
 #include "Bill.h"
 #include "Buyers.h"
 #include "Const.h"
@@ -1033,6 +1034,7 @@ void MainWindow::showTableMenuM(QPoint p) {
   // qDebug() << __FUNCTION__ << __LINE__;
   QMenu *menuTable = new QMenu(ui->tableM);
   menuTable->addAction(ui->WZAction);
+  menuTable->addAction(ui->RWAction);
   menuTable->addAction(ui->warehouseEdAction);
   menuTable->addAction(ui->warehouseDelAction);
   menuTable->exec(ui->tableM->mapToGlobal(p));
@@ -1496,6 +1498,32 @@ void MainWindow::warehouseEdit() {
 
     delivNoteWindow = 0;
     delete delivNoteWindow;
+  }
+
+
+  if (ui->tableM->item(row, 3)->text() == trUtf8("RW")) {
+
+    GoodsIssuedNotes *goodsNoteWindow = new GoodsIssuedNotes(this, dl, s_RW);
+    goodsNoteWindow->readWarehouseData(ui->tableM->item(row, 0)->text());
+
+    if (shouldHidden) {
+
+      QSizePolicy sp_retain = goodsNoteWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      goodsNoteWindow->setSizePolicy(sp_retain);
+      goodsNoteWindow->hide();
+      goodsNoteWindow->makeInvoice();
+
+    } else {
+
+    if (goodsNoteWindow->exec() == QDialog::Accepted) {
+
+      rereadWarehouses(true);
+    }
+    }
+
+    goodsNoteWindow = 0;
+    delete goodsNoteWindow;
   }
 }
 
@@ -2742,3 +2770,36 @@ void MainWindow::on_WZAction_triggered()
 // ----------------------------------------  SLOTS
 // ---------------------------------//
 
+
+void MainWindow::on_RWAction_triggered()
+{
+    GoodsIssuedNotes *noteWindow = new GoodsIssuedNotes(this, dl, s_RW);
+    noteWindow->setWindowTitle(trUtf8("RW"));
+    noteWindow->backBtnClick();
+
+    if (noteWindow->exec() == QDialog::Accepted) {
+
+      ui->tableM->setSortingEnabled(false);
+      insertRow(ui->tableM, ui->tableM->rowCount());
+      QStringList row = noteWindow->getRetWarehouse().split("|");
+      ui->tableM->item(ui->tableM->rowCount() - 1, 0)
+          ->setText(row[0]); // file name
+      ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(row[1]); // symbol
+      ui->tableM->item(ui->tableM->rowCount() - 1, 2)->setText(row[2]); // date
+      ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(row[3]); // type
+      ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(row[4]); // buyer
+      ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(row[5]); // NIP
+      ui->tableM->setSortingEnabled(true);
+
+      rereadWarehouses(true);
+
+    } else {
+
+      rereadWarehouses(true);
+    }
+
+    dl->checkAllSymbWareInFiles();
+    allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
+    noteWindow = 0;
+    delete noteWindow;
+}
