@@ -10,7 +10,7 @@
 #include <QTimer>
 
 
-#include "deliverynote.h"
+#include "DeliveryNote.h"
 #include "Bill.h"
 #include "Buyers.h"
 #include "Const.h"
@@ -2300,7 +2300,7 @@ void MainWindow::cancelTaskWidget() {
   windowTask->hide();
 
   foreach (QWidget *w, windowTask->findChildren<QWidget *>()) {
-    if (!w->windowFlags() & Qt::Window)
+    if (!w->windowFlags() && Qt::Window)
       delete w;
   }
 
@@ -2524,7 +2524,7 @@ void MainWindow::createFirstWinBackup() {
   QPushButton *cancButton = new QPushButton(trUtf8("&Zakończ"), this);
   connect(cancButton, &QAbstractButton::clicked, this, [=]() {
     foreach (QWidget *w, windBack->findChildren<QWidget *>()) {
-      if (!w->windowFlags() & Qt::Window)
+      if (!w->windowFlags() && Qt::Window)
         w->deleteLater();
     }
 
@@ -2614,7 +2614,7 @@ void MainWindow::createBackup() {
                     fileComboBox->text() + QString(".zip");
 
     foreach (QWidget *w, windBack->findChildren<QWidget *>()) {
-      if (!w->windowFlags() & Qt::Window)
+      if (!w->windowFlags() && Qt::Window)
         delete w;
     }
 

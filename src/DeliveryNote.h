@@ -5,11 +5,11 @@
 #ifndef DELIVERYNOTE_H
 #define DELIVERYNOTE_H
 
-#include "Invoice.h"
+#include "Warehouse.h"
 #include "warehousedata.h"
 
 
-class DeliveryNote : public Invoice {
+class DeliveryNote : public Warehouse {
 
 public:
   DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form);
@@ -41,8 +41,6 @@ private slots:
 
 public slots:
   bool saveInvoice();
-  void backBtnClick();
-  void canQuit();
 
 
 };

@@ -2,7 +2,7 @@
 #pragma once
 #endif
 #ifndef WAREHOUSEDATA_H
-#define WAREHOUSE_H
+#define WAREHOUSEDATA_H
 
 #include "ProductData.h"
 #include "documentdata.h"
@@ -23,14 +23,14 @@ public:
 
   QString type;
   QString id; // in case of xml, here goes filename
-  bool ifInvForDelNote;
+  bool ifInvForDelNote; // for delivery note (WZ)
 
   QString custStreet;
   QString custTic;
   QString custCity;
   QString custName;
   QDate issueDate;
-  int invoiceType; // 1 - FVAT, 2 - FPro, 3 - corr, 4 - FBrutto
+  int invoiceType; // 9 - WZ
 
   /**
    *  Return invoice type

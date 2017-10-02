@@ -41,11 +41,7 @@ INCLUDEPATH += . \
 # Input
 HEADERS += $$files($$PWD/src/*.h) \
             $${SMTPCODEDIR}/*.h \
-            $${QUAZIPCODEDIR}/*.h \
-    src/detector.h \
-    src/deliverynote.h \
-    src/warehousedata.h \
-    src/documentdata.h
+            $${QUAZIPCODEDIR}/*.h
 
 
 FORMS += $$files($$PWD/ui/*.ui) \
@@ -79,7 +75,8 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $${SMTPCODEDIR}/*.cpp \
     $$PWD/src/Send.cpp \
     $$PWD/src/owncalendar.cpp \
-    src/deliverynote.cpp
+    $$PWD/src/Warehouse.cpp \
+    $$PWD/src/DeliveryNote.cpp
 
 
 RESOURCES += qfaktury.qrc

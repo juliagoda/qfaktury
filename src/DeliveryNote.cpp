@@ -1,4 +1,4 @@
-#include "deliverynote.h"
+#include "DeliveryNote.h"
 #include "MainWindow.h"
 #include "XmlDataLayer.h"
 #include "Const.h"
@@ -11,7 +11,7 @@
  */
 
 DeliveryNote::DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form)
-    : Invoice(parent, dl, in_form) {
+    : Warehouse(parent, dl, in_form) {
 
     invoiceType = s_WZ;
 
@@ -462,7 +462,7 @@ void DeliveryNote::setData(WarehouseData &invData) {
     }
 
     invData.additText = additEdit->text();
-    invData.paymentType = paysCombo->currentText();   
+    invData.paymentType = paysCombo->currentText();
 
     invData.liabDate = liabDate->date();
 
@@ -547,83 +547,6 @@ void DeliveryNote::setData(InvoiceData &invData) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
            << "EXIT";
-}
-
-
-void DeliveryNote::backBtnClick() {
-
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-    QString prefix, suffix;
-    prefix = sett().value("prefix").toString();
-    int nr = MainWindow::instance()->getMaxSymbolWarehouse() + 1;
-
-
-    qDebug() << "nr: " << nr;
-
-        lastWarehouse =
-            prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
-
-        qDebug() << "Begin of lastWarehouse : " << lastWarehouse;
-
-        if (sett().value("day").toBool())
-          lastWarehouse += "/" + QDate::currentDate().toString("dd");
-
-        if (sett().value("month").toBool())
-          lastWarehouse += "/" + QDate::currentDate().toString("MM");
-
-        if (sett().value("year").toBool()) {
-          if (!sett().value("shortYear").toBool())
-            lastWarehouse += "/" + QDate::currentDate().toString("yy");
-          else
-            lastWarehouse += "/" + QDate::currentDate().toString("yyyy");
-
-        suffix = sett().value("sufix").toString();
-        lastWarehouse += suffix;
-
-    }
-
-        Invoice::instance()->invNr->setText(lastWarehouse);
-
-        qDebug() << "QLineEdit invNr: " << invNr->text();
-
-    saveBtn->setEnabled(true);
-}
-
-
-void DeliveryNote::canQuit() {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
-           << ": canClose " << canClose;
-
-  if (canClose) {
-
-    if (retWarehouse.isNull())
-      reject();
-    else
-      accept();
-
-  } else {
-
-    if (QMessageBox::warning(
-            this, "QFaktury",
-            trUtf8("Dane zostały zmienione czy chcesz zapisać?"), trUtf8("Tak"),
-            trUtf8("Nie"), 0, 0, 1) == 1) {
-      saveColumnsWidth();
-      reject();
-
-    } else {
-
-      saveInvoice();
-      if (saveFailed) {
-        return;
-      }
-      saveColumnsWidth();
-      accept();
-    }
-  }
-
-
 }
 
 
