@@ -1243,6 +1243,7 @@ void XmlDataLayer::invoiceBuyerDataToElem(DocumentData &i_invData,
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << i_invData.getCustomer();
 
   QStringList kht = i_invData.getCustomer().split(",");
+
   o_element.setAttribute("name", kht[0]);
   ret += kht[0] + "|";
   o_element.setAttribute("city", kht[1]);
@@ -1257,6 +1258,7 @@ void XmlDataLayer::invoiceBuyerDataToElem(DocumentData &i_invData,
       "phone", kht[5].replace(" ", "").replace(QObject::trUtf8("Tel:"), ""));
   o_element.setAttribute(
       "email", kht[6].replace(" ", "").replace(QObject::trUtf8("Email:"), ""));
+
   QString imprWeb =
       kht[7].replace(" ", "").replace(QObject::trUtf8("Strona:"), "");
   qDebug() << "imprWeb after first reduction:" << imprWeb;

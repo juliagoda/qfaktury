@@ -8,6 +8,7 @@
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QDateTimeEdit>
+#include <QTableWidget>
 
 /** Constructor
  */
@@ -530,7 +531,7 @@ void GoodsIssuedNotes::makeInvoiceSumm() {
     invStrList += "<td align=\"center\">" + lineEdit3->text() + "</td>";  // brutto
     invStrList += "</tr>";
     invStrList += "</table></tr><br/><br/><br/>";
-    /*invStrList += "<table align=\"right\" width=\"100%\" border=\"0\" "
+    invStrList += "<tr><table align=\"right\" width=\"100%\" border=\"0\" "
                                 "cellspacing=\"0\" cellpadding=\"5\">";
     invStrList +=
         "<tr class=\"productsSumHeader\" valign=\"middle\ width=\"100%\">";
@@ -539,11 +540,16 @@ void GoodsIssuedNotes::makeInvoiceSumm() {
     invStrList += "<td width=\"11%\" align=\"center\">" +
                   trUtf8("Razem netto: ") + "</td>"; // net
 
+    double sumNet = 0;
+    for (int i = 0; i < tableGoods->rowCount(); i++) {
 
-    invStrList += "<td width=\"11%\" align=\"center\">" + tableGoods->item +
+        sumNet += tableGoods->item(i,8)->text().toDouble();
+    }
+
+    invStrList += "<td width=\"11%\" align=\"center\">" + sett().numberToString(sumNet, 'f', 2) +
                   "</td>"; // vat
     invStrList += "</tr>";
-    invStrList += "</table><br/>";*/
+    invStrList += "</table></tr><br/>";
 
 }
 
