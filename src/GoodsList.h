@@ -8,6 +8,9 @@
 #include "ProductData.h"
 #include "ui_GoodsList.h"
 
+class QSpinBox;
+class QLabel;
+
 class GoodsList : public QDialog, public Ui::GoodsList {
 
   Q_OBJECT
@@ -45,6 +48,12 @@ private:
   QString id;
   QMap<QString, QString> nets;
   QMap<QString, int> vats;
+  QList<int> amounts;
   static GoodsList *m_instance;
+  bool ifGoodIssueNote;
+  QLabel* lab1;
+  QLabel* lab2;
+  QSpinBox* amountWant;
+  QSpinBox* amountOut;
 };
 #endif

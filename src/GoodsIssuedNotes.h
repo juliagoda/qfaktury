@@ -53,6 +53,8 @@ private slots:
 
 public slots:
   bool saveInvoice();
+  void addGoods();
+  void editGoods();
 
 
 };

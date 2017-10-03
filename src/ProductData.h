@@ -27,6 +27,8 @@ public:
     vat = 0;
     gross = 0;
     curr = "";
+    requiredAmount = 0;
+    givedOutAmount = 0;
   }
 
   ProductData(QString c1, QString c2, QString c3) {
@@ -44,7 +46,7 @@ public:
   ProductData(int inId, QString inName, QString inCode, QString inPkwiu,
               double inQuantity, QString inQuanType, double inDiscount,
               double inPrice, double inNett, int inVat, double inGross,
-              QString inCurr) {
+              QString inCurr, int reqAmount, int givAmount) {
 
     id = inId;
     name = inName;
@@ -58,6 +60,8 @@ public:
     vat = inVat;
     gross = inGross;
     curr = inCurr;
+    requiredAmount = reqAmount;
+    givedOutAmount = givAmount;
   }
 
   //*************************************************** getters
@@ -115,6 +119,10 @@ public:
   }
 
   void setCurr(QString cr) { curr = cr; }
+  
+  void setRequiredAmount(QString reqAmount) { requiredAmount = reqAmount.toInt(); }
+  
+  void setGivedOutAmount(QString givAmount) { givedOutAmount = givAmount.toInt(); }
 
   // ********************************* All TO STRING ********************
 
@@ -132,7 +140,9 @@ public:
         << "nett: " << nett << "\n"
         << "vat: " << vat << "\n"
         << "gross: " << gross << "\n"
-        << "curr: " << curr;
+        << "curr: " << curr << "\n"
+        << "requiredAmount: " << requiredAmount << "\n"
+        << "givedOutAmount: " << givedOutAmount;
     return "ProductData: [" + str + "]";
   }
 
@@ -152,6 +162,8 @@ public:
   double nett;
   double gross;
   QMap<int, double> prices;
+  int requiredAmount;
+  int givedOutAmount;
 };
 
 #endif

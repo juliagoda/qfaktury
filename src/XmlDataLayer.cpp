@@ -1344,6 +1344,8 @@ void XmlDataLayer::warehouseProdDataToElem(const ProductData &i_prodData,
   if (type == 10) {
   o_element.setAttribute("price", sett().numberToString(i_prodData.price, 'f', 2));
   o_element.setAttribute("nett", sett().numberToString(i_prodData.nett, 'f', 2));
+  o_element.setAttribute("requiredAmount", QString::number(i_prodData.requiredAmount));
+  o_element.setAttribute("givedOutAmount", QString::number(i_prodData.givedOutAmount));
   }
 
 }
@@ -1630,7 +1632,7 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
     good = product.firstChild().toElement();
 
     static const char *goodsColumns[] = {
-        "id",       "name",  "quantity", "quantityType", "price", "nett" };
+        "id",       "name",  "quantity", "quantityType", "price", "nett", "requiredAmount", "givedOutAmount" };
 
     // "net",
     // "vatBucket", "gross"
@@ -1652,6 +1654,10 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
             i, 7, new QTableWidgetItem(good.attribute(goodsColumns[4])));
         Invoice::instance()->tableGoods->setItem(
             i, 8, new QTableWidgetItem(good.attribute(goodsColumns[5])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 9, new QTableWidgetItem(good.attribute(goodsColumns[6])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 10, new QTableWidgetItem(good.attribute(goodsColumns[7])));
         }
 
       if (good.nextSibling().toElement().tagName() == "product")

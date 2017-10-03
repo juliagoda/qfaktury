@@ -2,6 +2,8 @@
 #include "MainWindow.h"
 #include "XmlDataLayer.h"
 #include "Const.h"
+#include "GoodsList.h"
+#include "ChangeAmount.h"
 
 #include <QLabel>
 #include <QHBoxLayout>
@@ -10,13 +12,19 @@
 #include <QDateTimeEdit>
 #include <QTableWidget>
 
+
 /** Constructor
  */
 
 GoodsIssuedNotes::GoodsIssuedNotes(QWidget *parent, IDataLayer *dl, QString in_form)
     : Warehouse(parent, dl, in_form) {
 
+    tableGoods->setHorizontalHeaderItem(9, new QTableWidgetItem("Ilość żądana"));
+    tableGoods->setHorizontalHeaderItem(10, new QTableWidgetItem("Ilość wydana"));
+    
+    
     invoiceType = s_RW;
+    setObjectName("GoodsIssuedNotes");
 
     QLabel* label1 = new QLabel;
     label1->setText("Miejsce odbioru towaru: ");
@@ -57,6 +65,9 @@ GoodsIssuedNotes::GoodsIssuedNotes(QWidget *parent, IDataLayer *dl, QString in_f
     widgetsRW->setLayout(formLayout);
     verticalLayout->addWidget(widgetsRW);
     widgetsRW->show();
+    
+    
+
     this->update();
 
 }
@@ -74,6 +85,8 @@ GoodsIssuedNotes::~GoodsIssuedNotes() {
     if (formLayout != 0) formLayout = 0;
     delete formLayout;
     widgetsRW->deleteLater();
+    tableGoods->setHorizontalHeaderItem(9, new QTableWidgetItem("VAT"));
+    tableGoods->setHorizontalHeaderItem(10, new QTableWidgetItem("Brutto"));
 }
 
 
@@ -139,6 +152,7 @@ void GoodsIssuedNotes::readWarehouseData(QString invFile) {
   dateTimeEdit2->setDate(QDate::fromString(root.attribute("goodToDate"),
                                            sett().getDateFormat()));
 
+
   wareData = new WarehouseData();
   wareData->invNr = invNr->text();
 
@@ -163,7 +177,7 @@ void GoodsIssuedNotes::readWarehouseData(QString invFile) {
   QDomElement good;
 
   static const char *goodsColumns[] = {
-      "id",       "name", "quantity", "quantityType", "price", "nett"  };
+      "id",       "name", "quantity", "quantityType", "price", "nett", "requiredAmount", "givedOutAmount"  };
 
   //*********************** Load Products After ***************************
 
@@ -193,6 +207,10 @@ void GoodsIssuedNotes::readWarehouseData(QString invFile) {
           i, 7, new QTableWidgetItem(good.attribute(goodsColumns[4])));
       tableGoods->setItem(
           i, 8, new QTableWidgetItem(good.attribute(goodsColumns[5])));
+      tableGoods->setItem(
+          i, 9, new QTableWidgetItem(good.attribute(goodsColumns[6])));
+      tableGoods->setItem(
+          i, 10, new QTableWidgetItem(good.attribute(goodsColumns[7])));
 
 
     good = good.nextSibling().toElement();
@@ -225,6 +243,8 @@ void GoodsIssuedNotes::readWarehouseData(QString invFile) {
     product.setQuanType(good.attribute(goodsColumns[3]));
     product.setPrice(good.attribute(goodsColumns[4]));
     product.setNett(good.attribute(goodsColumns[5]));
+    product.setRequiredAmount(good.attribute(goodsColumns[6]));
+    product.setGivedOutAmount(good.attribute(goodsColumns[7]));
     wareData->products[i] = product;
     good = good.nextSibling().toElement();
   }
@@ -445,9 +465,16 @@ void GoodsIssuedNotes::makeInvoiceProductsHeadar() {
                     "%\">" + trUtf8("Nazwa towaru/materiału") + "</td>";
 
 
+
       currentPercent += 9;
       invStrList += "<td align=\"center\" width=\"" + sett().numberToString(9) +
-                    "%\">" + trUtf8("Ilość") + "</td>";
+                    "%\">" + trUtf8("Ilość żądana") + "</td>";
+
+
+
+      currentPercent += 9;
+      invStrList += "<td align=\"center\" width=\"" + sett().numberToString(9) +
+                    "%\">" + trUtf8("Ilość wydana") + "</td>";
 
 
 
@@ -486,7 +513,9 @@ void GoodsIssuedNotes::makeInvoiceProducts() {
 
         invStrList += "<td align=\"left\">" + tableGoods->item(i, 1)->text() + "</td>"; // Name
 
-        invStrList += "<td>" + tableGoods->item(i, 4)->text() + "</td>"; // AMOUNT
+        invStrList += "<td>" + tableGoods->item(i, 9)->text() + "</td>"; // REQUIRED AMOUNT
+
+        invStrList += "<td>" + tableGoods->item(i, 10)->text() + "</td>"; // GIVED OUT AMOUNT
 
         invStrList += "<td>" + tableGoods->item(i, 7)->text() + "</td>"; // UNIT PRICE
 
@@ -543,7 +572,7 @@ void GoodsIssuedNotes::makeInvoiceSumm() {
     double sumNet = 0;
     for (int i = 0; i < tableGoods->rowCount(); i++) {
 
-        sumNet += tableGoods->item(i,8)->text().toDouble();
+        sumNet += sett().stringToDouble(tableGoods->item(i,8)->text());
     }
 
     invStrList += "<td width=\"11%\" align=\"center\">" + sett().numberToString(sumNet, 'f', 2) +
@@ -695,6 +724,8 @@ void GoodsIssuedNotes::setData(WarehouseData &invData) {
       product.setQuanType(tableGoods->item(i, 5)->text());
       product.setPrice(tableGoods->item(i, 7)->text());
       product.setNett(tableGoods->item(i, 8)->text());
+      product.setRequiredAmount(tableGoods->item(i, 9)->text());
+      product.setGivedOutAmount(tableGoods->item(i, 10)->text());
       invData.products[i] = product;
     }
 
@@ -832,5 +863,121 @@ void GoodsIssuedNotes::getData(WarehouseData invData) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
            << "EXIT";
+}
+
+
+void GoodsIssuedNotes::addGoods() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+    GoodsList *goodslistWindow = new GoodsList(this);
+
+    if (goodslistWindow->exec() == QDialog::Accepted) {
+
+      MainWindow::insertRow(tableGoods, tableGoods->rowCount());
+      QStringList row = goodslistWindow->getRetVal().split("|");
+      int rowNum = tableGoods->rowCount() - 1;
+      tableGoods->item(rowNum, 0)->setText(
+          sett().numberToString(tableGoods->rowCount())); // id
+      tableGoods->item(rowNum, 1)->setText(row[0]);       // name
+      tableGoods->item(rowNum, 2)->setText(row[1]);       // code
+      tableGoods->item(rowNum, 3)->setText(row[2]);       // pkwiu
+      tableGoods->item(rowNum, 4)->setText(row[3]);       // quantity
+      tableGoods->item(rowNum, 5)->setText(row[4]);       // qType
+      tableGoods->item(rowNum, 6)->setText(row[5]);       // discount
+      tableGoods->item(rowNum, 7)->setText(row[6]);       // price
+      tableGoods->item(rowNum, 8)->setText(row[7]);       // net
+      tableGoods->item(rowNum, 9)->setText(row[8]);       // required amount
+      tableGoods->item(rowNum, 10)->setText(row[9]);      // gived out amount
+
+      saveBtn->setEnabled(true);
+      canClose = false;
+
+    }
+
+
+    delete goodslistWindow;
+    goodslistWindow = NULL;
+
+}
+
+
+void GoodsIssuedNotes::editGoods() {
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  // we can only modify quantity
+
+  goodsEdited = true;
+  int cur = tableGoods->currentRow();
+
+  if (cur >= 0) {
+
+    ChangeAmount *changeQuant = new ChangeAmount(this);
+
+    changeQuant->nameTow->setText(
+        tableGoods->item(tableGoods->currentRow(), 1)->text());
+
+    changeQuant->codeTow->setText(
+        tableGoods->item(tableGoods->currentRow(), 2)->text());
+
+    changeQuant->spinAmount->setValue(
+        tableGoods->item(tableGoods->currentRow(), 4)->text().toInt());
+
+    if (changeQuant->exec() == QDialog::Accepted) {
+
+      int currentRow = tableGoods->currentRow();
+      tableGoods->item(currentRow, 4)
+          ->setText(changeQuant->spinAmount->cleanText());
+      saveBtn->setEnabled(true);
+      canClose = false;
+    }
+
+    delete changeQuant;
+    changeQuant = NULL;
+
+  } else if (tableGoods->rowCount() == 0) {
+
+    QMessageBox msgBox;
+    msgBox.setText(trUtf8("Nie ma na liście żadnych towarów, które można by "
+                          "było edytować. Kliknij na przycisk \"Dodaj\" i "
+                          "wybierz towar lub usługę z listy"));
+    msgBox.setInformativeText(
+        trUtf8("Chcesz potwierdzić by dokonać zmiany, czy anulować, by wyjść "
+               "do głównego okna?"));
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
+
+    switch (ret) {
+    case QMessageBox::Ok:
+      addGoods();
+      break;
+
+    case QMessageBox::Cancel:
+      reject();
+      break;
+    }
+
+  } else {
+
+    QMessageBox msgBox;
+    msgBox.setText(trUtf8("Musisz zaznaczyć towar, który chcesz edytować, "
+                          "klikając na określony rząd w tabeli"));
+    msgBox.setIcon(QMessageBox::Information);
+    int re = msgBox.exec();
+
+    switch (re) {
+    case QMessageBox::Ok:
+      tableGoods->setCurrentCell(0, 0);
+      break;
+
+    case QMessageBox::Cancel:
+      reject();
+      break;
+    }
+  }
+
+  qDebug() << __FUNCTION__ << ": EXIT";
 }
 
