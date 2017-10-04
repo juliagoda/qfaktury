@@ -60,7 +60,7 @@ public:
   virtual bool productsDeleteData(QString) { return true; };
 
   virtual InvoiceData invoiceSelectData(QString, int) { return InvoiceData(); };
-  virtual WarehouseData warehouseSelectData(QString name, int type) { return WarehouseData(); };
+  virtual WarehouseData warehouseSelectData(QString, int) { return WarehouseData(); };
   virtual QVector<InvoiceData> invoiceSelectAllData(QDate, QDate) {
     QVector<InvoiceData> a;
     return a;
@@ -70,7 +70,7 @@ public:
     return a;
   };
   virtual bool invoiceInsertData(InvoiceData &, int) { return true; };
-  virtual bool warehouseInsertData(WarehouseData &invData, int type) { return true; };
+  virtual bool warehouseInsertData(WarehouseData &, int) { return true; };
   virtual bool invoiceUpdateData(InvoiceData &, int, QString) { return true; };
   virtual bool warehouseUpdateData(WarehouseData &, int, QString) { return true; };
   virtual bool invoiceDeleteData(QString) { return true; };

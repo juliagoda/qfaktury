@@ -30,8 +30,8 @@ public:
   ~MainWindow();
   static void insertRow(QTableWidget *t, int row);
   void newInvoice(Invoice *invoice, QString windowTitle);
-  const int getMaxSymbol();
-  const int getMaxSymbolWarehouse();
+  int getMaxSymbol() const;
+  int getMaxSymbolWarehouse() const;
   static MainWindow *instance();
   static bool shouldHidden;
 

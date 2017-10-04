@@ -106,7 +106,7 @@ void Invoice::setfName(QString text) { fName = text; }
 
 QString const Invoice::getInvForm() { return inv_form; }
 
-bool const Invoice::getKAdded() { return kAdded; }
+bool Invoice::getKAdded() const { return kAdded; }
 
 /** Init method
  */
@@ -636,6 +636,7 @@ bool Invoice::ifUpdated() {
   }
 
   file.close();
+  return true;
 }
 
 QString Invoice::checkInvCurr() { return currCombo->currentText().trimmed(); }
@@ -2392,7 +2393,7 @@ void Invoice::makeInvoiceSumm() {
                   "cellpadding=\"5\">";
   }
   invStrList +=
-      "<tr class=\"productsSumHeader\" valign=\"middle\ width=\"100%\">";
+      "<tr class=\"productsSumHeader\" valign=\"middle\" width=\"100%\">";
   invStrList +=
       "<td id=\"notNec\" width=\"10%\" align=\"center\">&nbsp;</td>"; // TUTAJ
   invStrList += "<td width=\"11%\" align=\"center\">" +
@@ -2759,16 +2760,15 @@ void Invoice::calculateSum() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  double net = 0, price = 0, gross = 0;
+  double net = 0;
   double discountValue = 0;
+  double gross = 0;
 
   nettTotal = 0;
   discountTotal = 0;
   grossTotal = 0;
 
   for (int i = 0; i < tableGoods->rowCount(); ++i) {
-
-    price = sett().stringToDouble(tableGoods->item(i, 7)->text());
 
     double decimalPointsNetto =
         tableGoods->item(i, 8)->text().right(2).toInt() * 0.01;
@@ -2814,10 +2814,12 @@ QString Invoice::numbersCount(int in, int x) {
   for (int i = 0; i < incr; ++i)
     tmp2 += "0";
 
-  return tmp2 + tmp;
+
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
            << "EXIT";
+
+  return tmp2 + tmp;
 }
 
 /** Saves width of the columns

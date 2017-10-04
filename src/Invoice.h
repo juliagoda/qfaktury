@@ -46,7 +46,7 @@ public:
   const QString getfName();
   const QString getInvForm();
   const QString pressedTxt();
-  const bool getKAdded();
+  bool getKAdded() const;
   bool convWarn();
   bool ifUpdated();
   virtual void setIsEditAllowed(bool isAllowed);

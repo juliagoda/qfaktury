@@ -5,7 +5,7 @@
 #ifndef OWNCALENDAR_H
 #define OWNCALENDAR_H
 
-#include <QCalendarWidget>;
+#include <QCalendarWidget>
 
 class QSize;
 class QDate;

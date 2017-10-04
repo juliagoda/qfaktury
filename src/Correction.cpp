@@ -28,11 +28,11 @@ Correction::~Correction() {
   invData = NULL;
 }
 
-const bool Correction::getMode() { return editMode; }
+bool Correction::getMode() const { return editMode; }
 
-bool const Correction::getFirstRun() { return firstRunned; }
+bool Correction::getFirstRun() const { return firstRunned; }
 
-QString const Correction::getRet() { return ret; }
+const QString Correction::getRet() { return ret; }
 
 /* Init
  */

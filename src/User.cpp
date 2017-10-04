@@ -585,16 +585,18 @@ void User::delcurrSel() {
       isLess = true;
 
     int delIndex = sellersList->currentIndex();
+
     sellersWidgets.removeAt(sellersList->currentIndex());
     sellersList->removeTab(sellersList->currentIndex());
     sellersList->setCurrentIndex(0);
 
+    int countedSellers = sellersList->count();
     settings.setValue("sellerCount", sellersWidgets.count());
 
     if (isLess) {
 
       for (int i = delIndex, j = delIndex + 1;
-           i < sellersList->count(), j <= sellersList->count(); ++i, ++j) {
+           j <= countedSellers; ++i, ++j) {
         settings.beginGroup("seller" + QString::number(j));
         QSettings settings2("elinux", "user");
         settings2.beginGroup("seller" + QString::number(i));

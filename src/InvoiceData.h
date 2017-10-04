@@ -18,6 +18,9 @@
 class InvoiceData : public DocumentData {
 
 public:
+    InvoiceData(){}
+    virtual ~InvoiceData(){}
+
   QString getCustomer() {return customer;}
   QString customer; // buyer
   QMap<int, ProductData> products;

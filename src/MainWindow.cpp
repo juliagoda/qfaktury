@@ -692,12 +692,12 @@ void MainWindow::insertRow(QTableWidget *t, int row) {
   }
 }
 
-int const MainWindow::getMaxSymbol() {
+int MainWindow::getMaxSymbol() const {
   int max = *std::max_element(allSymbols.begin(), allSymbols.end());
   return max;
 }
 
-int const MainWindow::getMaxSymbolWarehouse() {
+int MainWindow::getMaxSymbolWarehouse() const {
   int max = *std::max_element(allSymbolsWarehouse.begin(), allSymbolsWarehouse.end());
   return max;
 }

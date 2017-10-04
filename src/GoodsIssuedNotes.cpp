@@ -543,7 +543,7 @@ void GoodsIssuedNotes::makeInvoiceSumm() {
                     "cellpadding=\"5\">";
     }
     invStrList +=
-        "<tr class=\"productsSumHeader\" valign=\"middle\ width=\"100%\">";
+        "<tr class=\"productsSumHeader\" valign=\"middle\" width=\"100%\">";
     invStrList +=
         "<td id=\"notNec\" width=\"10%\" align=\"center\">&nbsp;</td>"; // TUTAJ
     invStrList += "<td width=\"21%\" align=\"center\">" +
@@ -563,7 +563,7 @@ void GoodsIssuedNotes::makeInvoiceSumm() {
     invStrList += "<tr><table align=\"right\" width=\"100%\" border=\"0\" "
                                 "cellspacing=\"0\" cellpadding=\"5\">";
     invStrList +=
-        "<tr class=\"productsSumHeader\" valign=\"middle\ width=\"100%\">";
+        "<tr class=\"productsSumHeader\" valign=\"middle\" width=\"100%\">";
     invStrList +=
         "<td id=\"notNec\" width=\"10%\" align=\"center\">&nbsp;</td>"; // TUTAJ
     invStrList += "<td width=\"11%\" align=\"center\">" +
