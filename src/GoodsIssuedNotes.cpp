@@ -917,9 +917,6 @@ void GoodsIssuedNotes::editGoods() {
     changeQuant->nameTow->setText(
         tableGoods->item(tableGoods->currentRow(), 1)->text());
 
-    changeQuant->codeTow->setText(
-        tableGoods->item(tableGoods->currentRow(), 2)->text());
-
     changeQuant->spinAmount->setValue(
         tableGoods->item(tableGoods->currentRow(), 4)->text().toInt());
 
@@ -979,5 +976,24 @@ void GoodsIssuedNotes::editGoods() {
   }
 
   qDebug() << __FUNCTION__ << ": EXIT";
+}
+
+
+void GoodsIssuedNotes::delGoods() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+    tableGoods->removeRow(tableGoods->currentRow());
+
+    for (int i = 0; i < tableGoods->rowCount(); ++i) {
+      tableGoods->item(i, 0)->setText(sett().numberToString(i + 1));
+    }
+
+    if (tableGoods->rowCount() == 0) {
+      paysCombo->setCurrentIndex(0);
+    }
+
+    saveBtn->setEnabled(true);
+    canClose = false;
 }
 

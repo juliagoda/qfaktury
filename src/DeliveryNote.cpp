@@ -2,6 +2,8 @@
 #include "MainWindow.h"
 #include "XmlDataLayer.h"
 #include "Const.h"
+#include "GoodsList.h"
+#include "ChangeAmount.h"
 
 #include <QLabel>
 #include <QHBoxLayout>
@@ -350,6 +352,11 @@ bool DeliveryNote::saveInvoice() {
     if (!validateForm())
       return false;
 
+    WarehouseData wareData;
+    setData(wareData);
+
+    if (this->windowTitle() != s_WIN_WZ_EDIT) {
+
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Czy chcesz od razu do tworzonego dokumentu WZ wygenerować fakturę?"));
     msgBox.setInformativeText(
@@ -361,11 +368,9 @@ bool DeliveryNote::saveInvoice() {
     msgBox.setDefaultButton(QMessageBox::Ok);
     int ret2 = msgBox.exec();
 
+
     InvoiceData invData;
     setData(invData);
-
-    WarehouseData wareData;
-    setData(wareData);
 
 
     switch (ret2) {
@@ -423,6 +428,22 @@ bool DeliveryNote::saveInvoice() {
 
     break;
     }
+    }
+    } else {
+
+        result = dataLayer->warehouseInsertData(wareData, type);
+        retWarehouse = dataLayer->getRetWarehouse();
+        MainWindow::instance()->shouldHidden = true;
+        makeInvoice();
+        MainWindow::instance()->shouldHidden = false;
+
+        if (!result) {
+          QMessageBox::warning(
+              this, trUtf8("Zapis dokumentu WZ"),
+              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź czy masz "
+                     "uprawnienia do zapisu lub odczytu w ścieżce ") +
+                  sett().getWarehouseFullDir() + trUtf8(" oraz czy ścieżka istnieje."));
+        }
     }
 
     saveBtn->setEnabled(false);
@@ -590,5 +611,137 @@ void DeliveryNote::getData(WarehouseData invData) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
            << "EXIT";
+}
+
+
+void DeliveryNote::addGoods() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+    GoodsList *goodslistWindow = new GoodsList(this);
+
+    if (goodslistWindow->exec() == QDialog::Accepted) {
+
+      MainWindow::insertRow(tableGoods, tableGoods->rowCount());
+      QStringList row = goodslistWindow->getRetVal().split("|");
+      int rowNum = tableGoods->rowCount() - 1;
+      tableGoods->item(rowNum, 0)->setText(
+          sett().numberToString(tableGoods->rowCount())); // id
+      tableGoods->item(rowNum, 1)->setText(row[0]);       // name
+      tableGoods->item(rowNum, 2)->setText(row[1]);       // code
+      tableGoods->item(rowNum, 3)->setText(row[2]);       // pkwiu
+      tableGoods->item(rowNum, 4)->setText(row[3]);       // quantity
+      tableGoods->item(rowNum, 5)->setText(row[4]);       // qType
+      tableGoods->item(rowNum, 6)->setText(row[5]);       // discount
+      tableGoods->item(rowNum, 7)->setText(row[6]);       // price
+      tableGoods->item(rowNum, 8)->setText(row[7]);       // net
+      tableGoods->item(rowNum, 9)->setText(row[8]);       // vat
+      tableGoods->item(rowNum, 10)->setText(row[9]);      // brutto
+
+      saveBtn->setEnabled(true);
+      canClose = false;
+
+    }
+
+
+    delete goodslistWindow;
+    goodslistWindow = NULL;
+
+}
+
+
+void DeliveryNote::editGoods() {
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  // we can only modify quantity
+
+  goodsEdited = true;
+  int cur = tableGoods->currentRow();
+
+  if (cur >= 0) {
+
+    ChangeAmount *changeQuant = new ChangeAmount(this);
+
+    changeQuant->nameTow->setText(
+        tableGoods->item(tableGoods->currentRow(), 1)->text());
+
+    changeQuant->spinAmount->setValue(
+        tableGoods->item(tableGoods->currentRow(), 4)->text().toInt());
+
+    if (changeQuant->exec() == QDialog::Accepted) {
+
+      int currentRow = tableGoods->currentRow();
+      tableGoods->item(currentRow, 4)
+          ->setText(changeQuant->spinAmount->cleanText());
+      saveBtn->setEnabled(true);
+      canClose = false;
+    }
+
+    delete changeQuant;
+    changeQuant = NULL;
+
+  } else if (tableGoods->rowCount() == 0) {
+
+    QMessageBox msgBox;
+    msgBox.setText(trUtf8("Nie ma na liście żadnych towarów, które można by "
+                          "było edytować. Kliknij na przycisk \"Dodaj\" i "
+                          "wybierz towar lub usługę z listy"));
+    msgBox.setInformativeText(
+        trUtf8("Chcesz potwierdzić by dokonać zmiany, czy anulować, by wyjść "
+               "do głównego okna?"));
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    int ret = msgBox.exec();
+
+    switch (ret) {
+    case QMessageBox::Ok:
+      addGoods();
+      break;
+
+    case QMessageBox::Cancel:
+      reject();
+      break;
+    }
+
+  } else {
+
+    QMessageBox msgBox;
+    msgBox.setText(trUtf8("Musisz zaznaczyć towar, który chcesz edytować, "
+                          "klikając na określony rząd w tabeli"));
+    msgBox.setIcon(QMessageBox::Information);
+    int re = msgBox.exec();
+
+    switch (re) {
+    case QMessageBox::Ok:
+      tableGoods->setCurrentCell(0, 0);
+      break;
+
+    case QMessageBox::Cancel:
+      reject();
+      break;
+    }
+  }
+
+  qDebug() << __FUNCTION__ << ": EXIT";
+}
+
+
+void DeliveryNote::delGoods() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+    tableGoods->removeRow(tableGoods->currentRow());
+
+    for (int i = 0; i < tableGoods->rowCount(); ++i) {
+      tableGoods->item(i, 0)->setText(sett().numberToString(i + 1));
+    }
+
+    if (tableGoods->rowCount() == 0) {
+      paysCombo->setCurrentIndex(0);
+    }
+
+    saveBtn->setEnabled(true);
+    canClose = false;
 }
 

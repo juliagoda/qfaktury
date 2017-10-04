@@ -55,6 +55,7 @@ public slots:
   bool saveInvoice();
   void addGoods();
   void editGoods();
+  void delGoods();
 
 
 };

@@ -1478,6 +1478,7 @@ void MainWindow::warehouseEdit() {
 
     DeliveryNote *delivNoteWindow = new DeliveryNote(this, dl, s_WZ);
     delivNoteWindow->readWarehouseData(ui->tableM->item(row, 0)->text());
+    delivNoteWindow->setfName(ui->tableM->item(row, 0)->text());
 
     if (shouldHidden) {
 
@@ -1494,6 +1495,10 @@ void MainWindow::warehouseEdit() {
       rereadWarehouses(true);
       rereadHist(true);
     }
+
+    if (delivNoteWindow->getKAdded())
+      readBuyer();
+
     }
 
     delivNoteWindow = 0;
@@ -1505,6 +1510,7 @@ void MainWindow::warehouseEdit() {
 
     GoodsIssuedNotes *goodsNoteWindow = new GoodsIssuedNotes(this, dl, s_RW);
     goodsNoteWindow->readWarehouseData(ui->tableM->item(row, 0)->text());
+    goodsNoteWindow->setfName(ui->tableM->item(row, 0)->text());
 
     if (shouldHidden) {
 
@@ -1520,11 +1526,18 @@ void MainWindow::warehouseEdit() {
 
       rereadWarehouses(true);
     }
+
+    if (goodsNoteWindow->getKAdded())
+      readBuyer();
+
     }
 
     goodsNoteWindow = 0;
     delete goodsNoteWindow;
   }
+
+  ui->tableM->setSortingEnabled(true);
+
 }
 
 

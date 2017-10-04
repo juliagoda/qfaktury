@@ -69,7 +69,7 @@ public slots:
   virtual void payTextChanged(QString someStr);
   virtual void discountConstChange(); // Overwritten in GrossInvoice
   void getCustomer();
-  void delGoods();
+  virtual void delGoods();
   virtual void editGoods();
   void tableActivated(QTableWidgetItem *item);
   void textChanged(QString someStr);

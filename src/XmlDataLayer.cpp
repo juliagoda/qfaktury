@@ -2312,6 +2312,7 @@ bool XmlDataLayer::warehouseInsertData(WarehouseData &oi_invData, int type) {
     file.close();
 
     return true;
+
 }
 
 
