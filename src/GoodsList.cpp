@@ -17,6 +17,7 @@ GoodsList::GoodsList(QWidget *parent) : QDialog(parent) {
   setupUi(this);
   if (parent->objectName() == "GoodsIssuedNotes") ifGoodIssueNote = true;
   else ifGoodIssueNote = false;
+  if (parent->objectName() == "DeliveryNote") lockWidgetsDelNotes();
   amounts.clear();
   init();
 }
@@ -24,11 +25,22 @@ GoodsList::GoodsList(QWidget *parent) : QDialog(parent) {
 GoodsList::~GoodsList() {
     
     if (ifGoodIssueNote) {
+
+        disconnect(amountOut, SIGNAL(valueChanged(const QString &)), this,
+                               SLOT(calcNet()));
+
      lab1->deleteLater();
      lab2->deleteLater();
      amountWant->deleteLater();
      amountOut->deleteLater();
+
+     textLabel3_4->show();
+     grossLabel->show();
+     textLabel1_8->show();
+     discountSpin->show();
     }
+
+    if (this->parent()->objectName() == "DeliveryNote") unlockWidgetsDelNotes();
     
     m_instance = nullptr; }
 
@@ -38,6 +50,7 @@ GoodsList::~GoodsList() {
 void GoodsList::init() {
 
     if (ifGoodIssueNote) {
+
         lab1 = new QLabel;
         lab1->setText("Ilość żądana*:");
         amountWant = new QSpinBox;
@@ -48,6 +61,11 @@ void GoodsList::init() {
         _14->addWidget(lab2);
         verticalLayout->addWidget(amountWant);
         verticalLayout->addWidget(amountOut);
+
+        textLabel3_4->hide();
+        grossLabel->hide();
+        textLabel1_8->hide();
+        discountSpin->hide();
         
     }
 
@@ -84,7 +102,12 @@ void GoodsList::init() {
           SLOT(lv1selChanged()));
   connect(spinBox2, SIGNAL(valueChanged(int)), this, SLOT(spinChanged(int)));
   connect(discountSpin, SIGNAL(valueChanged(int)), this, SLOT(calcNet()));
-  connect(countSpinBox, SIGNAL(valueChanged(const QString &)), this,
+
+  if (ifGoodIssueNote)
+        connect(amountOut, SIGNAL(valueChanged(const QString &)), this,
+                               SLOT(calcNet()));
+  else
+        connect(countSpinBox, SIGNAL(valueChanged(const QString &)), this,
           SLOT(calcNet()));
 }
 
@@ -126,10 +149,18 @@ void GoodsList::doAccept() {
   if (countSpinBox->text() == "" || countSpinBox->value() < 0.001) {
     QMessageBox::information(this, "QFaktury", trUtf8("Podaj ilość"),
                              QMessageBox::Ok);
-    
-    if (ifGoodIssueNote) QMessageBox::information(this, "QFaktury", trUtf8("Podaj ilość, ilość żądaną i ilość wydaną"),QMessageBox::Ok);
+
     return;
   }
+    
+    if (ifGoodIssueNote) {
+        if ((amountWant->text() == "" || amountWant->value() < 0.001) && (amountOut->text() == "" || amountOut->value() < 0.001)) {
+        QMessageBox::information(this, "QFaktury", trUtf8("Podaj ilość żądaną i ilość wydaną"),QMessageBox::Ok);
+
+        return;
+        }
+    }
+
 
   selectedItem = nameEdit->text();
 
@@ -220,17 +251,11 @@ void GoodsList::calcNet() {
 
   if (listWidget->selectedItems().size() == 1) {
 
-    QListWidgetItem *item = listWidget->selectedItems().at(0);
     double price =
-        (countSpinBox->value() * priceBoxEdit->value()); // price * quantity
-    double discount = price * (discountSpin->value() * 0.01);
-    double net2 = price - discount;
-    int vat = vats[item->text()];
-    double gross2 = net2 * ((vat * 0.01) + 1);
+        (amountOut->value() * priceBoxEdit->value()); // price * quantity
 
-    // qDebug() << price << discount << net2 << gross2 << vat;
-    grossLabel->setText(sett().numberToString(gross2, 'f', 2));
-    netLabel->setText(sett().numberToString(net2, 'f', 2));
+    // qDebug() << price;
+    netLabel->setText(sett().numberToString(price, 'f', 2));
   }
 }
 
@@ -282,6 +307,7 @@ void GoodsList::readGoods() {
       product->setVat(n.toElement().attribute("vat"));
       product->setQuanType(n.toElement().attribute("quanType"));
       product->setPkwiu(n.toElement().attribute("pkwiu"));
+
       if (ifGoodIssueNote) {
        product->setRequiredAmount(n.toElement().attribute("requiredAmount"));
        product->setGivedOutAmount(n.toElement().attribute("givedOutAmount"));
@@ -309,6 +335,7 @@ void GoodsList::readGoods() {
       product->setCode(n.toElement().attribute("code"));
       product->setQuanType(n.toElement().attribute("quanType"));
       product->setPkwiu(n.toElement().attribute("pkwiu"));
+
       if (ifGoodIssueNote) {
        product->setRequiredAmount(n.toElement().attribute("requiredAmount"));
        product->setGivedOutAmount(n.toElement().attribute("givedOutAmount"));
@@ -383,4 +410,27 @@ QString GoodsList::trimZeros(QString in) {
     quantity = quan[0];
 
   return quantity;
+}
+
+
+void GoodsList::lockWidgetsDelNotes() {
+
+textLabel1_8->hide();
+discountSpin->hide();
+textLabel3_3->hide();
+textLabel3_4->hide();
+netLabel->hide();
+grossLabel->hide();
+
+}
+
+void GoodsList::unlockWidgetsDelNotes() {
+
+textLabel1_8->show();
+discountSpin->show();
+textLabel3_3->show();
+textLabel3_4->show();
+netLabel->show();
+grossLabel->show();
+
 }

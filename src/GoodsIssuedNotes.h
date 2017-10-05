@@ -25,6 +25,7 @@ public:
   void readData(QString fraFile);
 
 
+
 protected:
   void makeInvoiceHeadar(bool, bool breakPage, bool original);
   void makeInvoiceBody();
@@ -34,6 +35,7 @@ protected:
   void makeInvoiceProducts(); // changed invoice form to delivery note form of products table
   void makeInvoiceFooter();
   void setData(InvoiceData &invData);
+  void setIsEditAllowed(bool isAllowed);
 
 
 
@@ -49,6 +51,8 @@ private:
 
 
 private slots:
+  void emitChange(QString &);
+  void emitChange(const QDate &);
 
 
 public slots:
@@ -56,6 +60,7 @@ public slots:
   void addGoods();
   void editGoods();
   void delGoods();
+
 
 
 };

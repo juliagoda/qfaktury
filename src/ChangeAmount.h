@@ -7,6 +7,9 @@
 
 #include "ui_ChangeAmount.h"
 
+class QLabel;
+class QSpinBox;
+
 class ChangeAmount : public QDialog, public Ui::ChangeAmount {
 
   Q_OBJECT
@@ -17,7 +20,14 @@ public:
   static ChangeAmount *instance();
   void init();
 
+  QLabel* requiredAm;
+  QLabel* givedOutAm;
+  QSpinBox* requiredAmBox;
+  QSpinBox* givedOutBox;
+
 private:
   static ChangeAmount *m_instance;
+
+  
 };
 #endif

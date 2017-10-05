@@ -24,6 +24,8 @@ public:
   const QString getSelItem();
   const QString getGoodsId();
   static GoodsList *instance();
+  void lockWidgetsDelNotes();
+  void unlockWidgetsDelNotes();
 
 public slots:
 

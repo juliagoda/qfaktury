@@ -29,6 +29,7 @@ GoodsIssuedNotes::GoodsIssuedNotes(QWidget *parent, IDataLayer *dl, QString in_f
     QLabel* label1 = new QLabel;
     label1->setText("Miejsce odbioru towaru: ");
     lineEdit1 = new QLineEdit;
+    connect(lineEdit1, SIGNAL(textChanged(QString)), this, SLOT(emitChange(QString)));
     label1->setBuddy(lineEdit1);
 
     QLabel* label2 = new QLabel;
@@ -65,9 +66,28 @@ GoodsIssuedNotes::GoodsIssuedNotes(QWidget *parent, IDataLayer *dl, QString in_f
     widgetsRW->setLayout(formLayout);
     verticalLayout->addWidget(widgetsRW);
     widgetsRW->show();
-    
-    
 
+    constRab->setDisabled(true);
+
+    textLabel3->hide();
+    sellingDate->hide();
+
+    textLabelSum1->hide();
+    textLabelSum2->hide();
+    textLabelSum3->hide();
+
+    sum1->hide();
+    sum2->hide();
+    sum3->hide();
+
+    paysCombo->setDisabled(true);
+
+    connect(lineEdit2, SIGNAL(textEdited(const QString &)), this, SLOT(emitChange(const QString &)));
+    connect(lineEdit3, SIGNAL(textEdited(const QString &)), this, SLOT(emitChange(const QString &)));
+    connect(dateTimeEdit1, SIGNAL(dateChanged(const QDate &)), this, SLOT(emitChange(const QDate &)));
+    connect(dateTimeEdit2, SIGNAL(dateChanged(const QDate &)), this, SLOT(emitChange(const QDate &)));
+    
+    
     this->update();
 
 }
@@ -77,6 +97,28 @@ GoodsIssuedNotes::GoodsIssuedNotes(QWidget *parent, IDataLayer *dl, QString in_f
 
 GoodsIssuedNotes::~GoodsIssuedNotes() {
 
+    disconnect(lineEdit1, SIGNAL(textEdited(const QString &)), this, SLOT(emitChange(const QString &)));
+    disconnect(lineEdit2, SIGNAL(textEdited(const QString &)), this, SLOT(emitChange(const QString &)));
+    disconnect(lineEdit3, SIGNAL(textEdited(const QString &)), this, SLOT(emitChange(const QString &)));
+    disconnect(dateTimeEdit1, SIGNAL(dateChanged(const QDate &)), this, SLOT(emitChange(const QDate &)));
+    disconnect(dateTimeEdit2, SIGNAL(dateChanged(const QDate &)), this, SLOT(emitChange(const QDate &)));
+
+    constRab->setEnabled(true);
+
+    textLabel3->show();
+    sellingDate->show();
+
+    textLabelSum1->show();
+    textLabelSum2->show();
+    textLabelSum3->show();
+
+    sum1->show();
+    sum2->show();
+    sum3->show();
+
+    paysCombo->setEnabled(true);
+
+
     foreach (QWidget *w, widgetsRW->findChildren<QWidget *>()) {
       if (!w->windowFlags() && Qt::Window)
         delete w;
@@ -85,6 +127,7 @@ GoodsIssuedNotes::~GoodsIssuedNotes() {
     if (formLayout != 0) formLayout = 0;
     delete formLayout;
     widgetsRW->deleteLater();
+
     tableGoods->setHorizontalHeaderItem(9, new QTableWidgetItem("VAT"));
     tableGoods->setHorizontalHeaderItem(10, new QTableWidgetItem("Brutto"));
 }
@@ -916,15 +959,24 @@ void GoodsIssuedNotes::editGoods() {
 
     changeQuant->nameTow->setText(
         tableGoods->item(tableGoods->currentRow(), 1)->text());
-
-    changeQuant->spinAmount->setValue(
-        tableGoods->item(tableGoods->currentRow(), 4)->text().toInt());
+    
+    changeQuant->requiredAmBox->setValue(
+        tableGoods->item(tableGoods->currentRow(), 9)->text().toInt());
+    
+    changeQuant->givedOutBox->setValue(
+        tableGoods->item(tableGoods->currentRow(), 10)->text().toInt());
 
     if (changeQuant->exec() == QDialog::Accepted) {
 
       int currentRow = tableGoods->currentRow();
-      tableGoods->item(currentRow, 4)
-          ->setText(changeQuant->spinAmount->cleanText());
+      tableGoods->item(currentRow, 9)
+          ->setText(changeQuant->requiredAmBox->cleanText());
+      tableGoods->item(currentRow, 10)
+          ->setText(changeQuant->givedOutBox->cleanText());
+
+      double changedNet = sett().stringToDouble(tableGoods->item(currentRow, 7)->text()) * sett().stringToDouble(tableGoods->item(currentRow, 10)->text());
+      tableGoods->item(currentRow,8)->setText(sett().numberToString(changedNet, 'f', 2));
+
       saveBtn->setEnabled(true);
       canClose = false;
     }
@@ -997,3 +1049,51 @@ void GoodsIssuedNotes::delGoods() {
     canClose = false;
 }
 
+
+void GoodsIssuedNotes::emitChange(QString &) {
+
+    saveBtn->setEnabled(true);
+}
+
+
+void GoodsIssuedNotes::emitChange(const QDate &) {
+
+    saveBtn->setEnabled(true);
+}
+
+
+/** Sets the editability
+ */
+void GoodsIssuedNotes::setIsEditAllowed(bool isAllowed) {
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+  if (!sett().value("editSymbol").toBool())
+    invNr->setEnabled(isAllowed);
+
+  backBtn->setEnabled(isAllowed);
+  productDate->setEnabled(isAllowed);
+
+  textLabelSum1->hide();
+  textLabelSum2->hide();
+  textLabelSum3->hide();
+
+  sum1->hide();
+  sum2->hide();
+  sum3->hide();
+
+  paysCombo->setDisabled(true);
+  currCombo->setEnabled(true);
+  constRab->setDisabled(true);
+
+  liabDate->setDisabled(true);
+
+  lineEdit1->setEnabled(true);
+  lineEdit2->setEnabled(true);
+  lineEdit3->setEnabled(true);
+  dateTimeEdit1->setEnabled(true);
+  dateTimeEdit2->setEnabled(true);
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
+}

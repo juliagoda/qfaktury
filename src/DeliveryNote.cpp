@@ -8,6 +8,8 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QComboBox>
+#include <QCheckBox>
 
 /** Constructor
  */
@@ -16,6 +18,26 @@ DeliveryNote::DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form)
     : Warehouse(parent, dl, in_form) {
 
     invoiceType = s_WZ;
+    setObjectName("DeliveryNote");
+
+    textLabelSum1->hide();
+    textLabelSum2->hide();
+    textLabelSum3->hide();
+    sum1->hide();
+    sum2->hide();
+    sum3->hide();
+
+    currCombo->setDisabled(true);
+    constRab->setDisabled(true);
+
+    konvCHF->setDisabled(true);
+    konvEUR->setDisabled(true);
+    konvGBP->setDisabled(true);
+    konvPLN->setDisabled(true);
+    konvRUB->setDisabled(true);
+    konvUSD->setDisabled(true);
+
+    liabDate->setEnabled(true);
 
 }
 
@@ -23,6 +45,23 @@ DeliveryNote::DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form)
  */
 
 DeliveryNote::~DeliveryNote() {
+
+    textLabelSum1->show();
+    textLabelSum2->show();
+    textLabelSum3->show();
+    sum1->hide();
+    sum2->hide();
+    sum3->hide();
+
+    currCombo->setEnabled(true);
+    constRab->setEnabled(true);
+
+    konvCHF->setEnabled(true);
+    konvEUR->setEnabled(true);
+    konvGBP->setEnabled(true);
+    konvPLN->setEnabled(true);
+    konvRUB->setEnabled(true);
+    konvUSD->setEnabled(true);
 
 }
 
@@ -262,7 +301,7 @@ void DeliveryNote::makeInvoiceProducts() {
 
 void DeliveryNote::makeInvoiceSumm() {
 
-    invStrList += "<br><br>";
+    invStrList += "<br/><br/>";
 
 }
 
@@ -277,20 +316,18 @@ void DeliveryNote::makeInvoiceSummAll() {
 
     // <span/>???
 
-
-
       invStrList += "<span class=\"toPay\">";
       invStrList +=
-          trUtf8("forma płatności: ") + paysCombo->currentText() + "<br>";
+          trUtf8("forma płatności: ") + paysCombo->currentText() + "<br/>";
       invStrList += "</span>";
 
       invStrList += "<span class=\"payDate\">";
       invStrList += trUtf8("termin płatności: ") +
-                    liabDate->date().toString(sett().getDateFormat()) + "<br>";
+                    liabDate->date().toString(sett().getDateFormat()) + "<br/>";
       invStrList += "</span>";
 
 
-    invStrList += "<br><br>";
+    invStrList += "<br/><br/>";
     invStrList +=
         "<span class=\"additionalText\">" + additEdit->text() + "</span>";
     invStrList += "</td>";
@@ -628,15 +665,8 @@ void DeliveryNote::addGoods() {
       tableGoods->item(rowNum, 0)->setText(
           sett().numberToString(tableGoods->rowCount())); // id
       tableGoods->item(rowNum, 1)->setText(row[0]);       // name
-      tableGoods->item(rowNum, 2)->setText(row[1]);       // code
-      tableGoods->item(rowNum, 3)->setText(row[2]);       // pkwiu
       tableGoods->item(rowNum, 4)->setText(row[3]);       // quantity
       tableGoods->item(rowNum, 5)->setText(row[4]);       // qType
-      tableGoods->item(rowNum, 6)->setText(row[5]);       // discount
-      tableGoods->item(rowNum, 7)->setText(row[6]);       // price
-      tableGoods->item(rowNum, 8)->setText(row[7]);       // net
-      tableGoods->item(rowNum, 9)->setText(row[8]);       // vat
-      tableGoods->item(rowNum, 10)->setText(row[9]);      // brutto
 
       saveBtn->setEnabled(true);
       canClose = false;
@@ -743,5 +773,39 @@ void DeliveryNote::delGoods() {
 
     saveBtn->setEnabled(true);
     canClose = false;
+}
+
+
+/** Sets the editability
+ */
+void DeliveryNote::setIsEditAllowed(bool isAllowed) {
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+  if (!sett().value("editSymbol").toBool())
+    invNr->setEnabled(isAllowed);
+
+  backBtn->setEnabled(isAllowed);
+  sellingDate->setEnabled(isAllowed);
+  productDate->setEnabled(isAllowed);
+  textLabelSum1->hide();
+  textLabelSum2->hide();
+  textLabelSum3->hide();
+  sum1->hide();
+  sum2->hide();
+  sum3->hide();
+
+  currCombo->setDisabled(true);
+  konvCHF->setDisabled(true);
+  konvEUR->setDisabled(true);
+  konvGBP->setDisabled(true);
+  konvPLN->setDisabled(true);
+  konvRUB->setDisabled(true);
+  konvUSD->setDisabled(true);
+
+  liabDate->setEnabled(true);
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 

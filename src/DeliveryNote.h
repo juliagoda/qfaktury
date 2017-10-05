@@ -19,6 +19,7 @@ public:
   void setData(WarehouseData &invData);
   void getData(WarehouseData invData);
   void readData(QString fraFile);
+  void setIsEditAllowed(bool isAllowed);
 
 
 protected:
