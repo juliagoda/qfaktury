@@ -8,7 +8,8 @@
 #include "Warehouse.h"
 #include "warehousedata.h"
 
-
+// class for creating delivery note document, that belongs to warehouse
+// documents
 class DeliveryNote : public Warehouse {
 
 public:
@@ -21,32 +22,26 @@ public:
   void readData(QString fraFile);
   void setIsEditAllowed(bool isAllowed);
 
-
 protected:
   void makeInvoiceSummAll();
   void makeInvoiceSumm();
   void makeInvoiceProductsHeadar();
-  void makeInvoiceProducts(); // changed invoice form to delivery note form of products table
+  void makeInvoiceProducts(); // changed invoice form to delivery note form of
+                              // products table
   void makeInvoiceFooter();
   void setData(InvoiceData &invData);
-
-
 
 private:
   bool ifcreateInv;
   WarehouseData *wareData;
 
-
 private slots:
-
 
 public slots:
   bool saveInvoice();
   void addGoods();
   void editGoods();
   void delGoods();
-
-
 };
 
 #endif // DELIVERYNOTE_H

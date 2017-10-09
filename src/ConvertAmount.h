@@ -14,6 +14,7 @@
 
 #include <QString>
 
+// class for converting number values to in words
 class ConvertAmount {
 
 public:

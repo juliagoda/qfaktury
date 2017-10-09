@@ -9,6 +9,7 @@
 
 class QTextCodec;
 
+// class for creating window with settings with GUI
 class Setting : public QDialog, public Ui::Setting {
 
   Q_OBJECT

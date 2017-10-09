@@ -15,6 +15,7 @@
 #include <QDate>
 #include <QString>
 
+// class for holding data from splitting cost sum, when prepayment method is checked. One instance per one document
 class CustomPaymData {
 
 public:

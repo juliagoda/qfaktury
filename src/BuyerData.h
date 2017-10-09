@@ -14,6 +14,7 @@
 
 #include <QString>
 
+// class for holding buyers data. One instance -> One buyer
 class BuyerData {
 
 public:

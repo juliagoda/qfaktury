@@ -16,6 +16,7 @@
 
 class CustomPaymData;
 
+// class for splitting cost sum with GUI, when prepayment method is checked
 class CustomPayment : public QDialog, public Ui::CustomPaymentDialog {
 
   Q_OBJECT

@@ -8,7 +8,8 @@
 #include "Invoice.h"
 #include "warehousedata.h"
 
-
+// base class for created/updated warehouse documents. Form is used from invoice
+// class
 class Warehouse : public Invoice {
 
 public:
@@ -20,23 +21,16 @@ public:
   virtual void getData(WarehouseData invData);
   virtual void readData(QString fraFile);
 
-
 protected:
-
-
 private:
   WarehouseData *wareData;
 
-
 private slots:
-
 
 public slots:
   virtual bool saveInvoice();
   void backBtnClick();
   void canQuit();
-
-
 };
 
 #endif // WAREHOUSE_H

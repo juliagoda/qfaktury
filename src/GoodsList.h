@@ -11,6 +11,7 @@
 class QSpinBox;
 class QLabel;
 
+// class for choosing goods/services with GUI, when a document is created
 class GoodsList : public QDialog, public Ui::GoodsList {
 
   Q_OBJECT

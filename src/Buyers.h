@@ -11,6 +11,7 @@
 class IDataLayer;
 class BuyerData;
 
+// class for setting your data as company with GUI
 class Buyers : public QDialog, public Ui::Buyers {
 
   Q_OBJECT
@@ -21,7 +22,9 @@ public:
                   int type); // 0 - company, 1 - department, 2 - natural person
   bool insertData();
   bool updateData();
-  const QString getRetBuyer();
+  const QString getRetBuyer(); // gets variable in string format, that holds
+                               // information for table rows (for example: "id |
+                               // name | tic" etc)
 
 public slots:
 

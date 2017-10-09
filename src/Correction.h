@@ -12,6 +12,8 @@ class QComboBox;
 class InvoiceData;
 class QLabel;
 
+// class for creation correction document with GUI, using invoice class as
+// parent
 class Correction : public Invoice {
 
   Q_OBJECT

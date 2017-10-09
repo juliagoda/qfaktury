@@ -17,6 +17,8 @@
 
 #include "config.h"
 
+// class for settings and holding directory paths
+
 // #define trUtf8(x) QObject::aaa(x)
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -32,10 +34,10 @@ public:
 #ifdef Q_OS_LINUX
   QString appPath = "/usr/share/qfaktury";
 #endif
-// Probably
-// QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1)
-// returns different values on different distributions, for me that was
-// /usr/share/<APPNAME>
+  // Probably
+  // QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1)
+  // returns different values on different distributions, for me that was
+  // /usr/share/<APPNAME>
 
 #ifdef Q_OS_WIN32
   QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
@@ -109,7 +111,8 @@ public:
     if (value("filtrEndWarehouse").toString().compare("") == 0)
       setValue("filtrEndWarehouse", QDate::currentDate().toString(Qt::ISODate));
     if (value("filtrStartWarehouse").toString().compare("") == 0)
-      setValue("filtrStartWarehouse", QDate::currentDate().toString(Qt::ISODate));
+      setValue("filtrStartWarehouse",
+               QDate::currentDate().toString(Qt::ISODate));
     if (value("firstrun").toString().compare("") == 0)
       setValue("firstrun", false);
     if (value("units").toString().compare("") == 0)
@@ -406,7 +409,8 @@ public:
     setValue("editSymbol", "true");
     setValue("numberOfCopies", 1);
     setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
-    setValue("filtrStartWarehouse", QDate::currentDate().toString(getDateFormat()));
+    setValue("filtrStartWarehouse",
+             QDate::currentDate().toString(getDateFormat()));
     setValue("firstrun", false);
     setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|"
                          "filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|kWh|"

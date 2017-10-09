@@ -21,6 +21,7 @@ class QTimer;
 class QAction;
 class Invoice;
 
+// class for creating main window with menu, toolbar, calendar and table widget
 class MainWindow : public QMainWindow {
 
   Q_OBJECT

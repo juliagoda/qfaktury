@@ -15,6 +15,7 @@
 #include "ProductData.h"
 #include "documentdata.h"
 
+// class for holding data about invoices. One instance -> one invoice.
 class InvoiceData : public DocumentData {
 
 public:

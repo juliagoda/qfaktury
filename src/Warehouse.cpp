@@ -1,28 +1,22 @@
 #include "Warehouse.h"
+#include "Const.h"
 #include "MainWindow.h"
 #include "XmlDataLayer.h"
-#include "Const.h"
 
-#include <QLabel>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QLineEdit>
 
 /** Constructor
  */
 
 Warehouse::Warehouse(QWidget *parent, IDataLayer *dl, QString in_form)
-    : Invoice(parent, dl, in_form) {
-
-
-}
+    : Invoice(parent, dl, in_form) {}
 
 /** Destructor
  */
 
-Warehouse::~Warehouse() {
-
-}
-
+Warehouse::~Warehouse() {}
 
 void Warehouse::readWarehouseData(QString invFile) {
 
@@ -41,8 +35,8 @@ void Warehouse::readWarehouseData(QString invFile) {
   QDomElement buyer;
   QDomElement product;
 
- // fName = invFile;
- // prepayFile = invFile;
+  // fName = invFile;
+  // prepayFile = invFile;
 
   QFile file(sett().getWarehouseFullDir() + invFile);
   QTextStream stream(&file);
@@ -71,8 +65,10 @@ void Warehouse::readWarehouseData(QString invFile) {
   root = doc.documentElement();
   QLabel *messageDelNote = new QLabel;
   messageDelNote->setText("Dla tego dokumentu faktura była już wystawiana");
-  if (root.attribute("invoice").toInt() == 0) horizontalLayout_4->addWidget(messageDelNote);
-  else messageDelNote->deleteLater();
+  if (root.attribute("invoice").toInt() == 0)
+    horizontalLayout_4->addWidget(messageDelNote);
+  else
+    messageDelNote->deleteLater();
   this->update();
   invNr->setText(root.attribute("no"));
   sellingDate->setDate(
@@ -82,7 +78,6 @@ void Warehouse::readWarehouseData(QString invFile) {
 
   wareData = new WarehouseData();
   wareData->invNr = invNr->text();
-
 
   QDomNode tmp;
   tmp = root.firstChild();
@@ -103,8 +98,8 @@ void Warehouse::readWarehouseData(QString invFile) {
   int i = 0;
   QDomElement good;
 
-  static const char *goodsColumns[] = {
-      "id",       "name", "quantity", "quantityType" };
+  static const char *goodsColumns[] = {"id", "name", "quantity",
+                                       "quantityType"};
 
   //*********************** Load Products After ***************************
 
@@ -121,16 +116,14 @@ void Warehouse::readWarehouseData(QString invFile) {
 
   for (i = 0; i < goodsCount; ++i) {
 
-
-      tableGoods->setItem(
-          i, 0, new QTableWidgetItem(good.attribute(goodsColumns[0])));
-      tableGoods->setItem(
-          i, 1, new QTableWidgetItem(good.attribute(goodsColumns[1])));
-      tableGoods->setItem(
-          i, 4, new QTableWidgetItem(good.attribute(goodsColumns[2])));
-      tableGoods->setItem(
-          i, 5, new QTableWidgetItem(good.attribute(goodsColumns[3])));
-
+    tableGoods->setItem(i, 0,
+                        new QTableWidgetItem(good.attribute(goodsColumns[0])));
+    tableGoods->setItem(i, 1,
+                        new QTableWidgetItem(good.attribute(goodsColumns[1])));
+    tableGoods->setItem(i, 4,
+                        new QTableWidgetItem(good.attribute(goodsColumns[2])));
+    tableGoods->setItem(i, 5,
+                        new QTableWidgetItem(good.attribute(goodsColumns[3])));
 
     good = good.nextSibling().toElement();
   }
@@ -164,7 +157,6 @@ void Warehouse::readWarehouseData(QString invFile) {
   wareData->paymentType = additional.attribute("paymentType");
   paysCombo->setCurrentText(wareData->paymentType);
 
-
   liabDate->setDate(QDate::fromString(additional.attribute("liabDate"),
                                       sett().getDateFormat()));
   wareData->liabDate = liabDate->date();
@@ -179,120 +171,112 @@ void Warehouse::readWarehouseData(QString invFile) {
            << "EXIT";
 }
 
-
 bool Warehouse::saveInvoice() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << fName;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__ << fName;
 
-    bool result = false;
-    if (!validateForm())
-      return false;
+  bool result = false;
+  if (!validateForm())
+    return false;
 
+  WarehouseData wareData;
+  setData(wareData);
 
-    WarehouseData wareData;
-    setData(wareData);
+  result = dataLayer->warehouseInsertData(wareData, type);
+  retWarehouse = dataLayer->getRetWarehouse();
+  MainWindow::instance()->shouldHidden = true;
+  makeInvoice();
+  MainWindow::instance()->shouldHidden = false;
 
+  if (!result) {
+    QMessageBox::warning(
+        this, trUtf8("Zapis dokumentu WZ"),
+        trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź, czy "
+               "masz "
+               "uprawnienia do zapisu lub odczytu w ścieżce ") +
+            sett().getWarehouseFullDir() +
+            trUtf8(" oraz czy ścieżka istnieje."));
+  }
 
-        result = dataLayer->warehouseInsertData(wareData, type);
-        retWarehouse = dataLayer->getRetWarehouse();
-        MainWindow::instance()->shouldHidden = true;
-        makeInvoice();
-        MainWindow::instance()->shouldHidden = false;
+  saveBtn->setEnabled(false);
+  rmGoodsBtn->setEnabled(false);
+  editGoodsBtn->setEnabled(false);
 
-        if (!result) {
-          QMessageBox::warning(
-              this, trUtf8("Zapis dokumentu WZ"),
-              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź, czy masz "
-                     "uprawnienia do zapisu lub odczytu w ścieżce ") +
-                  sett().getWarehouseFullDir() + trUtf8(" oraz czy ścieżka istnieje."));
-        }
+  saveFailed = false;
+  canClose = true;
 
-
-    saveBtn->setEnabled(false);
-    rmGoodsBtn->setEnabled(false);
-    editGoodsBtn->setEnabled(false);
-
-    saveFailed = false;
-    canClose = true;
-
-    return result;
+  return result;
 }
-
 
 void Warehouse::setData(WarehouseData &invData) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-    invData.id = fName;
-    invData.customer = buyerName->text();
-    qDebug() << "buyerName->text() in setData(InvoiceData&):"
-             << buyerName->text();
-    invData.invNr = invNr->text();
-    invData.sellingDate = sellingDate->date();
-    invData.issueDate = productDate->date();
+  invData.id = fName;
+  invData.customer = buyerName->text();
+  qDebug() << "buyerName->text() in setData(InvoiceData&):"
+           << buyerName->text();
+  invData.invNr = invNr->text();
+  invData.sellingDate = sellingDate->date();
+  invData.issueDate = productDate->date();
 
+  // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
+  for (int i = 0; i < tableGoods->rowCount(); ++i) {
+    ProductData product; //  = new ProductData();
 
-    // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
-    for (int i = 0; i < tableGoods->rowCount(); ++i) {
-      ProductData product; //  = new ProductData();
+    product.setId(tableGoods->item(i, 0)->text());
+    product.setName(tableGoods->item(i, 1)->text());
+    product.setQuantity(tableGoods->item(i, 4)->text());
+    product.setQuanType(tableGoods->item(i, 5)->text());
+    invData.products[i] = product;
+  }
 
-      product.setId(tableGoods->item(i, 0)->text());
-      product.setName(tableGoods->item(i, 1)->text());
-      product.setQuantity(tableGoods->item(i, 4)->text());
-      product.setQuanType(tableGoods->item(i, 5)->text());
-      invData.products[i] = product;
-    }
+  invData.additText = additEdit->text();
+  invData.paymentType = paysCombo->currentText();
 
-    invData.additText = additEdit->text();
-    invData.paymentType = paysCombo->currentText();   
+  invData.liabDate = liabDate->date();
 
-    invData.liabDate = liabDate->date();
-
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
-             << "EXIT";
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
-
 
 void Warehouse::backBtnClick() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-    QString prefix, suffix;
-    prefix = sett().value("prefix").toString();
-    int nr = MainWindow::instance()->getMaxSymbolWarehouse() + 1;
+  QString prefix, suffix;
+  prefix = sett().value("prefix").toString();
+  int nr = MainWindow::instance()->getMaxSymbolWarehouse() + 1;
 
+  qDebug() << "nr: " << nr;
 
-    qDebug() << "nr: " << nr;
+  lastWarehouse =
+      prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
 
-        lastWarehouse =
-            prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
+  qDebug() << "Begin of lastWarehouse : " << lastWarehouse;
 
-        qDebug() << "Begin of lastWarehouse : " << lastWarehouse;
+  if (sett().value("day").toBool())
+    lastWarehouse += "/" + QDate::currentDate().toString("dd");
 
-        if (sett().value("day").toBool())
-          lastWarehouse += "/" + QDate::currentDate().toString("dd");
+  if (sett().value("month").toBool())
+    lastWarehouse += "/" + QDate::currentDate().toString("MM");
 
-        if (sett().value("month").toBool())
-          lastWarehouse += "/" + QDate::currentDate().toString("MM");
+  if (sett().value("year").toBool()) {
+    if (!sett().value("shortYear").toBool())
+      lastWarehouse += "/" + QDate::currentDate().toString("yy");
+    else
+      lastWarehouse += "/" + QDate::currentDate().toString("yyyy");
 
-        if (sett().value("year").toBool()) {
-          if (!sett().value("shortYear").toBool())
-            lastWarehouse += "/" + QDate::currentDate().toString("yy");
-          else
-            lastWarehouse += "/" + QDate::currentDate().toString("yyyy");
+    suffix = sett().value("sufix").toString();
+    lastWarehouse += suffix;
+  }
 
-        suffix = sett().value("sufix").toString();
-        lastWarehouse += suffix;
+  Invoice::instance()->invNr->setText(lastWarehouse);
 
-    }
+  qDebug() << "QLineEdit invNr: " << invNr->text();
 
-        Invoice::instance()->invNr->setText(lastWarehouse);
-
-        qDebug() << "QLineEdit invNr: " << invNr->text();
-
-    saveBtn->setEnabled(true);
+  saveBtn->setEnabled(true);
 }
-
 
 void Warehouse::canQuit() {
 
@@ -310,8 +294,8 @@ void Warehouse::canQuit() {
 
     if (QMessageBox::warning(
             this, "QFaktury",
-            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"), trUtf8("Tak"),
-            trUtf8("Nie"), 0, 0, 1) == 1) {
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"),
+            trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 1) {
       saveColumnsWidth();
       reject();
 
@@ -325,30 +309,26 @@ void Warehouse::canQuit() {
       accept();
     }
   }
-
-
 }
-
 
 void Warehouse::readData(QString fraFile) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-    prepayFile = fraFile;
-    qDebug() << "prepayFile w readData: " << prepayFile;
-    backBtn->setEnabled(false);
-    invNr->setEnabled(false);
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  prepayFile = fraFile;
+  qDebug() << "prepayFile w readData: " << prepayFile;
+  backBtn->setEnabled(false);
+  invNr->setEnabled(false);
 
-    getData(dataLayer->warehouseSelectData(fraFile, type));
+  getData(dataLayer->warehouseSelectData(fraFile, type));
 
-    canClose = true;
-    saveBtn->setEnabled(false);
+  canClose = true;
+  saveBtn->setEnabled(false);
 
-    setIsEditAllowed(sett().value("edit").toBool());
+  setIsEditAllowed(sett().value("edit").toBool());
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
-             << "EXIT";
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
-
 
 void Warehouse::getData(WarehouseData invData) {
 
@@ -367,8 +347,6 @@ void Warehouse::getData(WarehouseData invData) {
   paysCombo->setCurrentText(invData.paymentType);
   liabDate->setDate(invData.liabDate);
 
-
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
            << "EXIT";
 }
-

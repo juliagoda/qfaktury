@@ -11,6 +11,8 @@
  *
  */
 
+// class for holding data about goods/services. One instance -> one type of
+// service/good
 class ProductData {
 
 public:
@@ -119,10 +121,14 @@ public:
   }
 
   void setCurr(QString cr) { curr = cr; }
-  
-  void setRequiredAmount(QString reqAmount) { requiredAmount = reqAmount.toInt(); }
-  
-  void setGivedOutAmount(QString givAmount) { givedOutAmount = givAmount.toInt(); }
+
+  void setRequiredAmount(QString reqAmount) {
+    requiredAmount = reqAmount.toInt();
+  }
+
+  void setGivedOutAmount(QString givAmount) {
+    givedOutAmount = givAmount.toInt();
+  }
 
   // ********************************* All TO STRING ********************
 

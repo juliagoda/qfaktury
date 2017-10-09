@@ -11,6 +11,7 @@
 
 class QLineEdit;
 
+// class for data validation, putted into widgets
 class Validations : public QObject {
   Q_OBJECT
 

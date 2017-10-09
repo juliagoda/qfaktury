@@ -14,14 +14,17 @@
 #include <QtXml/qdom.h>
 
 #include "IDataLayer.h"
-#include "warehousedata.h"
 #include "documentdata.h"
+#include "warehousedata.h"
 
+// class for creating, updating and removing xml files with goods/services,
+// invoices, warehouse documents and buyers informations
 class XmlDataLayer : public IDataLayer {
 
 public:
   XmlDataLayer();
   virtual ~XmlDataLayer();
+
   // methods used for accessing customers
   virtual BuyerData buyersSelectData(QString name, int type);
   virtual QVector<BuyerData> buyersSelectAllData();
@@ -40,12 +43,12 @@ public:
   virtual InvoiceData invoiceSelectData(QString name, int type);
   virtual WarehouseData warehouseSelectData(QString name, int type);
   virtual QVector<InvoiceData> invoiceSelectAllData(QDate start, QDate end);
-  virtual QVector<WarehouseData> warehouseSelectAllData(QDate start,
-                                                                  QDate end);
+  virtual QVector<WarehouseData> warehouseSelectAllData(QDate start, QDate end);
   virtual bool invoiceInsertData(InvoiceData &invData, int type);
   virtual bool warehouseInsertData(WarehouseData &invData, int type);
   virtual bool invoiceUpdateData(InvoiceData &invData, int type, QString name);
-  virtual bool warehouseUpdateData(WarehouseData &invData, int type, QString name);
+  virtual bool warehouseUpdateData(WarehouseData &invData, int type,
+                                   QString name);
   virtual bool invoiceDeleteData(QString name);
   virtual bool warehouseDeleteData(QString name);
 
@@ -75,10 +78,11 @@ private:
   void invoiceProdDataToElem(const ProductData &i_prodData,
                              QDomElement &o_element, int currentRow);
   void warehouseProdDataToElem(const ProductData &i_prodData,
-                             QDomElement &o_element, int type);
+                               QDomElement &o_element, int type);
   void invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element);
 
-  bool nameFilter(QString nameToCheck, QDate start, QDate end, QString docName, QString path);
+  bool nameFilter(QString nameToCheck, QDate start, QDate end, QString docName,
+                  QString path);
   bool ifPersonNodeExists(QDomElement root);
   void addSectionPerson(bool checkedRoot);
 

@@ -7,10 +7,12 @@
 #include "ProductData.h"
 #include "documentdata.h"
 
+// class for holding informations about warehouse documents. One instance -> one
+// document
 class WarehouseData : public DocumentData {
 
 public:
-  QString getCustomer() {return customer;}
+  QString getCustomer() { return customer; }
   QString customer; // buyer
   QMap<int, ProductData> products;
   QDate liabDate;
@@ -22,7 +24,7 @@ public:
   QString additText;
 
   QString type;
-  QString id; // in case of xml, here goes filename
+  QString id;           // in case of xml, here goes filename
   bool ifInvForDelNote; // for delivery note (WZ)
 
   QString custStreet;
