@@ -18,6 +18,8 @@ class QLineEdit;
 class QGroupBox;
 class QTableWidget;
 
+// class for creating wizard window, used for sending emails with invoices to
+// buyers
 class Send : public QWizard {
   Q_OBJECT
 

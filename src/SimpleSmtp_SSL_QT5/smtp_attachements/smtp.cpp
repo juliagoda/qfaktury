@@ -39,6 +39,7 @@ Smtp::Smtp(const QString &user, const QString &pass, const QString &host,
   socket = new QSslSocket(this);
 
   connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+
   connect(socket, &QSslSocket::connected,
           [this]() { qDebug() << "Connected "; });
 

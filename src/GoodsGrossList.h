@@ -4,6 +4,7 @@
  *  Created on: Apr 3, 2009
  *      Author: TPIELECH
  */
+
 #include "detector.h"
 #if _pragma_once_support
 #pragma once
@@ -13,6 +14,7 @@
 
 #include "GoodsList.h"
 
+// class for calculating gross and net in goods list window
 class GoodsGrossList : public GoodsList {
 
   Q_OBJECT
@@ -33,4 +35,4 @@ private:
   QString selectedItem;
 };
 
-#endif /* TOWARYBRUTTOLISTA_H_ */
+#endif /* GOODSGROSSLIST_H_ */

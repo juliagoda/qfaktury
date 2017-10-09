@@ -4,6 +4,7 @@
  *  Created on: Apr 3, 2009
  *      Author: moux
  */
+
 #include "detector.h"
 #if _pragma_once_support
 #pragma once
@@ -13,6 +14,8 @@
 
 #include "Correction.h"
 
+// class for creating correction invoice with gross, using correction class as
+// parent
 class CorrectGross : public Correction {
 
   Q_OBJECT

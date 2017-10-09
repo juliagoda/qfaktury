@@ -3,13 +3,15 @@
 #include <QDesktopWidget>
 #include <QFileDialog>
 #include <QInputDialog>
-#include <QKeyEvent>
 #include <QPdfWriter>
 #include <QPrintPreviewDialog>
 #include <QPrinter>
 #include <QProcess>
 #include <QTimer>
 
+
+#include "DeliveryNote.h"
+#include "GoodsIssuedNotes.h"
 #include "Bill.h"
 #include "Buyers.h"
 #include "Const.h"
@@ -20,12 +22,14 @@
 #include "Invoice.h"
 #include "InvoiceGross.h"
 #include "InvoiceRR.h"
+#include "JlCompress.h"
 #include "MainWindow.h"
 #include "Send.h"
 #include "Setting.h"
 #include "User.h"
 #include "XmlDataLayer.h"
-#include "owncalendar.h"
+#include "OwnCalendar.h"
+#include "quazipdir.h"
 
 MainWindow *MainWindow::m_instance = nullptr;
 bool MainWindow::shouldHidden = false;
@@ -96,7 +100,6 @@ void MainWindow::init() {
     ui->tableT->setColumnWidth(10, 65);
 
     saveAllSettAsDefault();
-    setupDir();
 
     QMessageBox::information(
         this, "QFaktury",
@@ -105,7 +108,7 @@ void MainWindow::init() {
                "do internetu oraz poprawnie ustawiony czas systemowy."));
     QMessageBox::information(
         this, "QFaktury",
-        trUtf8("W przypadku zmiany lokalizacji systemu sposób formatowania "
+        trUtf8("W przypadku zmiany lokalizacji systemu, sposób formatowania "
                "liczb może się zmienić. Efekt ten może być widoczny po "
                "restarcie programu."));
 
@@ -123,6 +126,11 @@ void MainWindow::init() {
     ui->filtrStart->setDate(sett().getValueAsDate("filtrStart"));
     ui->filtrEnd->setDisplayFormat(sett().getDateFormat());
     ui->filtrEnd->setDate(sett().getValueAsDate("filtrEnd"));
+
+    ui->warehouseFromDate->setDisplayFormat(sett().getDateFormat());
+    ui->warehouseFromDate->setDate(sett().getValueAsDate("filtrStartWarehouse"));
+    ui->warehouseToDate->setDisplayFormat(sett().getDateFormat());
+    ui->warehouseToDate->setDate(sett().getValueAsDate("filtrEndWarehouse"));
   }
 
   setupDir();
@@ -135,21 +143,33 @@ void MainWindow::init() {
     ui->invoiceEdAction->setEnabled(true);
     ui->invoiceDelAction->setEnabled(true);
 
+    if (ui->tableK->rowCount() != 0) ui->sendEmailAction->setEnabled(true);
+    else ui->sendEmailAction->setDisabled(true);
+
   } else {
 
     ui->invoiceEdAction->setDisabled(true);
     ui->invoiceDelAction->setDisabled(true);
+    ui->sendEmailAction->setDisabled(true);
   }
 
   if (ui->tableK->rowCount() != 0) {
 
     ui->editBuyersAction->setEnabled(true);
     ui->delBuyersAction->setEnabled(true);
+    ui->actionPrintBuyer->setEnabled(true);
+
+    if (ui->tableH->rowCount() != 0) { ui->sendEmailAction->setEnabled(true); }
+    else { ui->sendEmailAction->setDisabled(true); }
+    
 
   } else {
 
     ui->editBuyersAction->setDisabled(true);
     ui->delBuyersAction->setDisabled(true);
+    ui->actionPrintBuyer->setDisabled(true);
+    ui->sendEmailAction->setDisabled(true);
+
   }
 
   if (ui->tableT->rowCount() != 0) {
@@ -161,6 +181,7 @@ void MainWindow::init() {
 
     ui->editGoodsAction->setDisabled(true);
     ui->delGoodsAction->setDisabled(true);
+
   }
 
   // choose data access mode
@@ -191,6 +212,15 @@ void MainWindow::init() {
                              sett().value("histCol3", QVariant(140)).toInt());
   ui->tableH->setColumnWidth(5,
                              sett().value("histCol4", QVariant(120)).toInt());
+  ui->tableM->setColumnWidth(0, sett().value("wareCol0", QVariant(0)).toInt());
+  ui->tableM->setColumnWidth(1,
+                             sett().value("wareCol1", QVariant(120)).toInt());
+  ui->tableM->setColumnWidth(3,
+                             sett().value("wareCol2", QVariant(120)).toInt());
+  ui->tableM->setColumnWidth(4,
+                             sett().value("wareCol3", QVariant(140)).toInt());
+  ui->tableM->setColumnWidth(5,
+                             sett().value("wareCol4", QVariant(120)).toInt());
 
   ui->tableK->setColumnWidth(0,
                              sett().value("custCol0", QVariant(140)).toInt());
@@ -233,6 +263,8 @@ void MainWindow::init() {
 
   connect(ui->applyFiltrBtn, SIGNAL(clicked(bool)), this,
           SLOT(rereadHist(bool)));
+  connect(ui->findWarehouses, SIGNAL(clicked(bool)), this,
+          SLOT(rereadWarehouses(bool)));
   connect(ui->fileData_companyAction, SIGNAL(triggered()), this,
           SLOT(userDataClick()));
   connect(ui->fileEndAction, SIGNAL(triggered()), this, SLOT(close()));
@@ -241,7 +273,9 @@ void MainWindow::init() {
   connect(ui->editBuyersAction, SIGNAL(triggered()), this, SLOT(buyerEd()));
   connect(ui->addInvoiceAction, SIGNAL(triggered()), this, SLOT(newInv()));
   connect(ui->invoiceDelAction, SIGNAL(triggered()), this, SLOT(delFHist()));
+  connect(ui->warehouseDelAction, SIGNAL(triggered()), this, SLOT(delMHist()));
   connect(ui->invoiceEdAction, SIGNAL(triggered()), this, SLOT(editFHist()));
+  connect(ui->warehouseEdAction, SIGNAL(triggered()), this, SLOT(warehouseEdit()));
   connect(ui->invoiceDuplAction, SIGNAL(triggered()), this,
           SLOT(newDuplicate()));
   connect(ui->invoiceGrossAction, SIGNAL(triggered()), this,
@@ -258,9 +292,9 @@ void MainWindow::init() {
   connect(ui->delGoodsAction, SIGNAL(triggered()), this, SLOT(goodsDel()));
 
   /** Slot used to display aboutQt informations.
-       */
+   */
 
-  connect(ui->pomocO_QtAction, &QAction::triggered, [this]() {
+  connect(ui->action_Qt, &QAction::triggered, [this]() {
     QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
   });
 
@@ -269,15 +303,15 @@ void MainWindow::init() {
   connect(ui->fileSettingsAction, SIGNAL(triggered()), this, SLOT(settClick()));
 
   /** Slot help
-        */
+   */
 
   connect(ui->helpAction, &QAction::triggered, [this]() {
     QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury"));
   });
 
-  connect(ui->action_Qt, &QAction::triggered, [this]() {
-    QMessageBox::aboutQt(this, sett().getVersion(qAppName()));
-  });
+  connect(ui->actionCreateBackup, SIGNAL(triggered()), this,
+          SLOT(createFirstWinBackup()));
+  connect(ui->actionLoadBackup, SIGNAL(triggered()), this, SLOT(loadBackup()));
   connect(ui->hideOrganizer, SIGNAL(clicked(bool)), this,
           SLOT(openHideOrganizer()));
   connect(calendar, SIGNAL(activated(const QDate &)), this,
@@ -290,6 +324,10 @@ void MainWindow::init() {
           SLOT(buyerEd()));
   connect(ui->tableK, SIGNAL(customContextMenuRequested(QPoint)), this,
           SLOT(showTableMenuK(QPoint)));
+  connect(ui->tableM, SIGNAL(customContextMenuRequested(QPoint)), this,
+          SLOT(showTableMenuM(QPoint)));
+  connect(ui->tableM, SIGNAL(cellDoubleClicked(int, int)), this,
+          SLOT(warehouseEdit()));
   connect(ui->tableT, SIGNAL(cellDoubleClicked(int, int)), this,
           SLOT(goodsEdit()));
   connect(ui->tableT, SIGNAL(customContextMenuRequested(QPoint)), this,
@@ -303,11 +341,14 @@ void MainWindow::init() {
           SLOT(mainUpdateStatus(QTableWidgetItem *)));
   connect(ui->tableT, SIGNAL(itemClicked(QTableWidgetItem *)), this,
           SLOT(mainUpdateStatus(QTableWidgetItem *)));
+  connect(ui->tableM, SIGNAL(itemClicked(QTableWidgetItem *)), this,
+          SLOT(mainUpdateStatus(QTableWidgetItem *)));
   connect(ui->tableK, SIGNAL(cellClicked(int, int)), this,
           SLOT(openWebTableK(int, int)));
 
   readBuyer();
   readHist();
+  readWarehouses();
   readGoods();
   categorizeYears();
   checkTodayTask();
@@ -352,9 +393,15 @@ void MainWindow::createPdfDir() {
 
 void MainWindow::generatePdfFromList() {
   shouldHidden = true;
+
   for (int i = 0; i < ui->tableH->rowCount(); i++) {
     ui->tableH->setCurrentCell(i, 0);
     editFHist();
+  }
+
+  for (int i = 0; i < ui->tableM->rowCount(); i++) {
+    ui->tableM->setCurrentCell(i, 0);
+    warehouseEdit();
   }
 
   shouldHidden = false;
@@ -457,6 +504,9 @@ bool MainWindow::firstRun() {
 
   ui->filtrStart->setDate(QDate(QDate::currentDate().year(), 1, 1));
   ui->filtrEnd->setDate(QDate(QDate::currentDate().year(), 12, 31));
+
+  ui->warehouseFromDate->setDate(QDate(QDate::currentDate().year(), 1, 1));
+  ui->warehouseToDate->setDate(QDate(QDate::currentDate().year(), 12, 31));
 
   sett().checkSettings();
 
@@ -590,6 +640,14 @@ void MainWindow::saveColumnWidth() {
   sett().setValue("custCol4", ui->tableK->columnWidth(4));
   sett().setValue("custCol5", ui->tableK->columnWidth(5));
   sett().setValue("custCol6", ui->tableK->columnWidth(6));
+
+  sett().setValue("wareCol0", ui->tableM->columnWidth(0));
+  sett().setValue("wareCol1", ui->tableM->columnWidth(1));
+  sett().setValue("wareCol2", ui->tableM->columnWidth(2));
+  sett().setValue("wareCol3", ui->tableM->columnWidth(3));
+  sett().setValue("wareCol4", ui->tableM->columnWidth(4));
+  sett().setValue("wareCol5", ui->tableM->columnWidth(5));
+
 }
 
 /** Saves all sett() as default - first run
@@ -605,6 +663,9 @@ void MainWindow::saveAllSett() {
   // saves filtr
   sett().setValue("filtrStart", ui->filtrStart->text());
   sett().setValue("filtrEnd", ui->filtrEnd->text());
+
+  sett().setValue("filtrStartWarehouse", ui->warehouseFromDate->text());
+  sett().setValue("filtrEndWarehouse", ui->warehouseToDate->text());
 
   saveColumnWidth();
 
@@ -631,8 +692,13 @@ void MainWindow::insertRow(QTableWidget *t, int row) {
   }
 }
 
-int const MainWindow::getMaxSymbol() {
+int MainWindow::getMaxSymbol() const {
   int max = *std::max_element(allSymbols.begin(), allSymbols.end());
+  return max;
+}
+
+int MainWindow::getMaxSymbolWarehouse() const {
+  int max = *std::max_element(allSymbolsWarehouse.begin(), allSymbolsWarehouse.end());
   return max;
 }
 
@@ -672,6 +738,45 @@ void MainWindow::readHist() {
   }
 
   ui->tableH->setSortingEnabled(true);
+}
+
+
+/** Reads the invoices from the directory passed in the input.
+ *  @param QString - directory from where the invoices should be read
+ */
+
+void MainWindow::readWarehouses() {
+
+  QVector<WarehouseData> wareVec;
+  wareVec =
+      dl->warehouseSelectAllData(ui->warehouseFromDate->date(), ui->warehouseToDate->date());
+  allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
+  ui->tableM->setSortingEnabled(false);
+
+  for (int i = 0; i < wareVec.size(); ++i) {
+
+    insertRow(ui->tableM, ui->tableM->rowCount());
+    QString text = wareVec.at(i).id;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 0)->setText(text);
+    qDebug("Added ID of file");
+    text = wareVec.at(i).invNr;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(text);
+    qDebug("Added file name");
+    ui->tableM->setItem(ui->tableM->rowCount() - 1, 2,
+                        new DateWidgetItem(wareVec.at(i).sellingDate));
+    qDebug("Added file date");
+    text = wareVec.at(i).type;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(text);
+    qDebug("Added file type");
+    text = wareVec.at(i).custName;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(text);
+    qDebug("Added buyer's name");
+    text = wareVec.at(i).custTic;
+    ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(text);
+    qDebug("Added file NIP");
+  }
+
+  ui->tableM->setSortingEnabled(true);
 }
 
 /** Reads customers from the XML
@@ -767,11 +872,17 @@ void MainWindow::setupDir() {
 
     dir.mkdir(workingDir);
     dir.mkdir(workingDir + sett().getDataDir());
+    dir.mkdir(workingDir + sett().getWarehouseDir());
   }
 
   if (!dir.exists(workingDir + sett().getDataDir())) {
 
     dir.mkdir(workingDir + sett().getDataDir());
+  }
+
+  if (!dir.exists(workingDir + sett().getWarehouseDir())) {
+
+     dir.mkdir(workingDir + sett().getWarehouseDir());
   }
 }
 
@@ -917,6 +1028,21 @@ void MainWindow::showTableMenuK(QPoint p) {
   delete menuTable;
 }
 
+
+void MainWindow::showTableMenuM(QPoint p) {
+
+  // qDebug() << __FUNCTION__ << __LINE__;
+  QMenu *menuTable = new QMenu(ui->tableM);
+  menuTable->addAction(ui->WZAction);
+  menuTable->addAction(ui->RWAction);
+  menuTable->addAction(ui->warehouseEdAction);
+  menuTable->addAction(ui->warehouseDelAction);
+  menuTable->exec(ui->tableM->mapToGlobal(p));
+
+  menuTable = 0;
+  delete menuTable;
+}
+
 /** Slot
  *  Show context menu
  */
@@ -979,14 +1105,10 @@ void MainWindow::tabChanged() {
     ui->invoiceEdAction->setEnabled(true);
     ui->invoiceDelAction->setEnabled(true);
 
-    if (ui->tableK->rowCount() != 0) ui->sendEmailAction->setEnabled(true);
-    else ui->sendEmailAction->setDisabled(true);
-
   } else {
 
     ui->invoiceEdAction->setDisabled(true);
     ui->invoiceDelAction->setDisabled(true);
-    ui->sendEmailAction->setDisabled(true);
   }
 
   // buyers
@@ -994,17 +1116,11 @@ void MainWindow::tabChanged() {
 
     ui->editBuyersAction->setEnabled(true);
     ui->delBuyersAction->setEnabled(true);
-    ui->actionPrintBuyer->setEnabled(true);
-
-    if (ui->tableH->rowCount() != 0) ui->sendEmailAction->setEnabled(true);
-    else ui->sendEmailAction->setDisabled(true);
 
   } else {
 
     ui->editBuyersAction->setDisabled(true);
     ui->delBuyersAction->setDisabled(true);
-    ui->actionPrintBuyer->setDisabled(true);
-    ui->sendEmailAction->setDisabled(true);
   }
 
   // goods
@@ -1040,6 +1156,26 @@ void MainWindow::rereadHist(bool) {
   }
 }
 
+/** Slot used to read the invoices, calls readHist.
+ */
+void MainWindow::rereadWarehouses(bool) {
+
+  //  qDebug( __FUNCTION__ );
+
+  if (ui->warehouseFromDate->date() > ui->warehouseToDate->date()) {
+
+    QMessageBox::information(
+        this, trUtf8("Filtr dat"),
+        trUtf8("Data początkowa nie może być większa od daty końcowej"));
+
+  } else {
+
+    tableClear(ui->tableM);
+    ui->tableM->setSortingEnabled(false);
+    readWarehouses();
+  }
+}
+
 /** Slot used to display information about QFaktury
  */
 
@@ -1051,11 +1187,14 @@ void MainWindow::aboutProg() {
           sett().getVersion(qAppName()) + trUtf8("<br/>Wymagane Qt >= 5.0.0") +
           trUtf8("<br/>Kompilowane z Qt ") + QT_VERSION_STR +
           trUtf8("<br/>Twoja aktualna wersja - Qt ") + qVersion() +
-          trUtf8("</p><p>Koordynator projektu: Grzegorz Rękawek</p>  "
-                 "<p>Programiści: Tomasz Pielech, Rafał Rusin "
+          trUtf8("</p><p>Dawny koordynator projektu: Grzegorz Rękawek</p>  "
+                 "<p>Aktualny koordynator projektu: Jagoda \"juliagoda\" Górska</p>"
+                 "<p>Dawni programiści: Tomasz Pielech, Rafał Rusin "
                  "http://people.apache.org/~rr/, Sławomir Patyk, Jagoda "
-                 "Górska</p>") +
-          trUtf8("<p>Ikony: Dariusz Arciszewski </p><p>Portowanie na Qt5: "
+                 "Górska</p>"
+                 "<p>Aktualni programiści: Jagoda \"juliagoda\" Górska</p>") +
+          trUtf8("<p>Ikony: Dariusz Arciszewski, Jagoda \"juliagoda\" Górska </p>"
+                 "<p>Portowanie na Qt5: "
                  "Jagoda \"juliagoda\" Górska</p><br/>") +
           trUtf8("<p>Testy w środowisku Arch Linux: Piotr \"sir_lucjan\" "
                  "Górski && Paweł \"pavbaranov\" Baranowski</p>") +
@@ -1121,13 +1260,23 @@ void MainWindow::editFHist() {
     corWindow->correctionInit(true);
     corWindow->readCorrData(ui->tableH->item(row, 0)->text());
 
-    if (corWindow->exec() == QDialog::Accepted) {
+    if (shouldHidden) {
 
-      rereadHist(true);
+      QSizePolicy sp_retain = corWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      corWindow->setSizePolicy(sp_retain);
+      corWindow->hide();
+      corWindow->makeInvoice();
+    } else {
+
+      if (corWindow->exec() == QDialog::Accepted) {
+
+        rereadHist(true);
+      }
+
+      if (corWindow->getKAdded())
+        readBuyer();
     }
-
-    if (corWindow->getKAdded())
-      readBuyer();
 
     corWindow = 0;
     delete corWindow;
@@ -1141,13 +1290,23 @@ void MainWindow::editFHist() {
     billWindow->billInit();
     billWindow->setWindowTitle(trUtf8("Edytuje Rachunek"));
 
-    if (billWindow->exec() == QDialog::Accepted) {
+    if (shouldHidden) {
 
-      rereadHist(true);
+      QSizePolicy sp_retain = billWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      billWindow->setSizePolicy(sp_retain);
+      billWindow->hide();
+      billWindow->makeInvoice();
+    } else {
+
+      if (billWindow->exec() == QDialog::Accepted) {
+
+        rereadHist(true);
+      }
+
+      if (billWindow->getKAdded())
+        readBuyer();
     }
-
-    if (billWindow->getKAdded())
-      readBuyer();
 
     billWindow = 0;
     delete billWindow;
@@ -1160,13 +1319,23 @@ void MainWindow::editFHist() {
     invWindow->readData(ui->tableH->item(row, 0)->text());
     invWindow->setfName(ui->tableH->item(row, 0)->text());
 
-    if (invWindow->exec() == QDialog::Accepted) {
+    if (shouldHidden) {
 
-      rereadHist(true);
+      QSizePolicy sp_retain = invWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      invWindow->setSizePolicy(sp_retain);
+      invWindow->hide();
+      invWindow->makeInvoice();
+    } else {
+
+      if (invWindow->exec() == QDialog::Accepted) {
+
+        rereadHist(true);
+      }
+
+      if (invWindow->getKAdded())
+        readBuyer();
     }
-
-    if (invWindow->getKAdded())
-      readBuyer();
 
     invWindow = 0;
     delete invWindow;
@@ -1180,13 +1349,23 @@ void MainWindow::editFHist() {
     invWindow->readData(ui->tableH->item(row, 0)->text());
     invWindow->setfName(ui->tableH->item(row, 0)->text());
 
-    if (invWindow->exec() == QDialog::Accepted) {
+    if (shouldHidden) {
 
-      rereadHist(true);
+      QSizePolicy sp_retain = invWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      invWindow->setSizePolicy(sp_retain);
+      invWindow->hide();
+      invWindow->makeInvoice();
+    } else {
+
+      if (invWindow->exec() == QDialog::Accepted) {
+
+        rereadHist(true);
+      }
+
+      if (invWindow->getKAdded())
+        readBuyer();
     }
-
-    if (invWindow->getKAdded())
-      readBuyer();
 
     invWindow = 0;
     delete invWindow;
@@ -1198,13 +1377,23 @@ void MainWindow::editFHist() {
 
     invWindow->readData(ui->tableH->item(row, 0)->text());
     invWindow->setfName(ui->tableH->item(row, 0)->text());
-    if (invWindow->exec() == QDialog::Accepted) {
 
-      rereadHist(true);
+    if (shouldHidden) {
+
+      QSizePolicy sp_retain = invWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      invWindow->setSizePolicy(sp_retain);
+      invWindow->hide();
+      invWindow->makeInvoice();
+    } else {
+      if (invWindow->exec() == QDialog::Accepted) {
+
+        rereadHist(true);
+      }
+
+      if (invWindow->getKAdded())
+        readBuyer();
     }
-
-    if (invWindow->getKAdded())
-      readBuyer();
 
     invWindow = 0;
     delete invWindow;
@@ -1216,13 +1405,23 @@ void MainWindow::editFHist() {
 
     invWindow->readData(ui->tableH->item(row, 0)->text());
     invWindow->setfName(ui->tableH->item(row, 0)->text());
-    if (invWindow->exec() == QDialog::Accepted) {
 
-      rereadHist(true);
+    if (shouldHidden) {
+
+      QSizePolicy sp_retain = invWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      invWindow->setSizePolicy(sp_retain);
+      invWindow->hide();
+      invWindow->makeInvoice();
+    } else {
+      if (invWindow->exec() == QDialog::Accepted) {
+
+        rereadHist(true);
+      }
+
+      if (invWindow->getKAdded())
+        readBuyer();
     }
-
-    if (invWindow->getKAdded())
-      readBuyer();
 
     invWindow = 0;
     delete invWindow;
@@ -1237,13 +1436,23 @@ void MainWindow::editFHist() {
     dupWindow->setIsEditAllowed(false);
     dupWindow->setfName(ui->tableH->item(row, 0)->text());
 
-    if (dupWindow->exec() == QDialog::Accepted) {
+    if (shouldHidden) {
 
-      rereadHist(true);
+      QSizePolicy sp_retain = dupWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      dupWindow->setSizePolicy(sp_retain);
+      dupWindow->hide();
+      dupWindow->makeInvoice();
+    } else {
+
+      if (dupWindow->exec() == QDialog::Accepted) {
+
+        rereadHist(true);
+      }
+
+      if (dupWindow->getKAdded())
+        readBuyer();
     }
-
-    if (dupWindow->getKAdded())
-      readBuyer();
 
     dupWindow = 0;
     delete dupWindow;
@@ -1251,28 +1460,132 @@ void MainWindow::editFHist() {
 
   ui->tableH->setSortingEnabled(true);
 }
-/** Slot used to delete invoices
- */
+
+
+void MainWindow::warehouseEdit() {
+
+  if (ui->tableM->selectedItems().count() <= 0) {
+
+    QMessageBox::information(this, trUtf8("QFaktury"),
+                             trUtf8("Dokument magazynu nie został wybrany. Nie można edytować."),
+                             trUtf8("Ok"), 0, 0, 1);
+    return;
+  }
+
+  ui->tableM->setSortingEnabled(false);
+
+  int row = 0;
+  row = ui->tableM->selectedItems().at(0)->row();
+
+  if (ui->tableM->item(row, 3)->text() == trUtf8("WZ")) {
+
+    DeliveryNote *delivNoteWindow = new DeliveryNote(this, dl, s_WZ);
+    delivNoteWindow->readWarehouseData(ui->tableM->item(row, 0)->text());
+    delivNoteWindow->setfName(ui->tableM->item(row, 0)->text());
+
+    if (shouldHidden) {
+
+      QSizePolicy sp_retain = delivNoteWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      delivNoteWindow->setSizePolicy(sp_retain);
+      delivNoteWindow->hide();
+      delivNoteWindow->makeInvoice();
+
+    } else {
+
+    if (delivNoteWindow->exec() == QDialog::Accepted) {
+
+      rereadWarehouses(true);
+      rereadHist(true);
+    }
+
+    if (delivNoteWindow->getKAdded())
+      readBuyer();
+
+    }
+
+    delivNoteWindow = 0;
+    delete delivNoteWindow;
+  }
+
+
+  if (ui->tableM->item(row, 3)->text() == trUtf8("RW")) {
+
+    GoodsIssuedNotes *goodsNoteWindow = new GoodsIssuedNotes(this, dl, s_RW);
+    goodsNoteWindow->readWarehouseData(ui->tableM->item(row, 0)->text());
+    goodsNoteWindow->setfName(ui->tableM->item(row, 0)->text());
+
+    if (shouldHidden) {
+
+      QSizePolicy sp_retain = goodsNoteWindow->sizePolicy();
+      sp_retain.setRetainSizeWhenHidden(true);
+      goodsNoteWindow->setSizePolicy(sp_retain);
+      goodsNoteWindow->hide();
+      goodsNoteWindow->makeInvoice();
+
+    } else {
+
+    if (goodsNoteWindow->exec() == QDialog::Accepted) {
+
+      rereadWarehouses(true);
+    }
+
+    if (goodsNoteWindow->getKAdded())
+      readBuyer();
+
+    }
+
+    goodsNoteWindow = 0;
+    delete goodsNoteWindow;
+  }
+
+  ui->tableM->setSortingEnabled(true);
+
+}
+
 
 void MainWindow::delFHist() {
 
   if (ui->tableH->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Faktura nie wybrana. Nie mozna usuwać."),
+                             trUtf8("Faktura nie została wybrana. Nie można usuwać."),
                              trUtf8("Ok"), 0, 0, 1);
     return;
   }
 
   if (QMessageBox::warning(
           this, sett().getVersion(qAppName()),
-          trUtf8("Czy napewno chcesz usnąć tą fakturę z historii?"),
+          trUtf8("Czy napewno chcesz usunąć tą fakturę z historii?"),
           trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
 
     QString name = ui->tableH->item(ui->tableH->currentRow(), 0)->text();
     dl->invoiceDeleteData(name);
     ui->tableH->removeRow(ui->tableH->currentRow());
     allSymbols = dl->getAllSymbols();
+  }
+}
+
+
+void MainWindow::delMHist() {
+
+  if (ui->tableM->selectedItems().count() <= 0) {
+
+    QMessageBox::information(this, trUtf8("QFaktury"),
+                             trUtf8("Dokument magazynu nie został wybrany. Nie można usuwać."),
+                             trUtf8("Ok"), 0, 0, 1);
+    return;
+  }
+
+  if (QMessageBox::warning(
+          this, sett().getVersion(qAppName()),
+          trUtf8("Czy napewno chcesz usunąć ten dokument magazynu z historii?"),
+          trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
+
+    QString name = ui->tableM->item(ui->tableM->currentRow(), 0)->text();
+    dl->warehouseDeleteData(name);
+    ui->tableM->removeRow(ui->tableM->currentRow());
+    allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
   }
 }
 
@@ -1340,7 +1653,7 @@ void MainWindow::buyerDel() {
 
     QMessageBox::information(
         this, trUtf8("QFaktury"),
-        trUtf8("Kontrahent nie wybrany. Nie mozna usuwac."), trUtf8("Ok"), 0, 0,
+        trUtf8("Kontrahent nie został wybrany. Nie można usuwac."), trUtf8("Ok"), 0, 0,
         1);
     return;
   }
@@ -1365,7 +1678,7 @@ void MainWindow::buyerEd() {
   if (ui->tableK->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Kontrahent nie wybrany."), trUtf8("Ok"), 0,
+                             trUtf8("Kontrahent nie został wybrany."), trUtf8("Ok"), 0,
                              0, 1);
     return;
   }
@@ -1718,7 +2031,7 @@ void MainWindow::newCor() {
   if (ui->tableH->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Faktura nie wybrana. Wybierz fakurę, do "
+                             trUtf8("Faktura nie została wybrana. Wybierz fakurę, do "
                                     "której chcesz wystawić korektę."),
                              trUtf8("Ok"), 0, 0, 1);
     return;
@@ -1887,7 +2200,7 @@ void MainWindow::goodsDel() {
   if (ui->tableT->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Towar nie wybrany. Nie mozna usuwac."),
+                             trUtf8("Towar nie został wybrany. Nie można usuwać."),
                              trUtf8("Ok"), 0, 0, 1);
     return;
   }
@@ -1913,7 +2226,7 @@ void MainWindow::goodsEdit() {
   if (ui->tableT->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Towar nie wybrany. Nie można edytować."),
+                             trUtf8("Towar nie został wybrany. Nie można edytować."),
                              trUtf8("Ok"), 0, 0, 1);
     return;
   }
@@ -2031,7 +2344,7 @@ void MainWindow::cancelTaskWidget() {
   windowTask->hide();
 
   foreach (QWidget *w, windowTask->findChildren<QWidget *>()) {
-    if (!w->windowFlags() & Qt::Window)
+    if (!w->windowFlags() && Qt::Window)
       delete w;
   }
 
@@ -2122,7 +2435,7 @@ void MainWindow::addTaskToList() {
 
       QMessageBox::critical(
           this, trUtf8("Dodawanie zadania"),
-          trUtf8("Zadanie nie mogło zostac dodane. Sprawdź, czy istnieje "
+          trUtf8("Zadanie nie mogło zostać dodane. Sprawdź, czy istnieje "
                  "ścieżka: ") +
               planDir +
               trUtf8(" . Jeśli istnieje to sprawdź, czy masz uprawnienia do "
@@ -2197,7 +2510,7 @@ void MainWindow::addNextTask() {
 
           QMessageBox::critical(
               this, trUtf8("Dopisywanie kolejnego zadania"),
-              trUtf8("Dodatkowe zadanie nie mogło zostac dodane. Sprawdź, czy "
+              trUtf8("Dodatkowe zadanie nie mogło zostać dodane. Sprawdź, czy "
                      "istnieje ścieżka: ") +
                   planDir +
                   trUtf8(" . Jeśli istnieje to sprawdź, czy masz uprawnienia "
@@ -2242,6 +2555,182 @@ bool MainWindow::close() {
   }
 }
 
+void MainWindow::createFirstWinBackup() {
+
+  QPushButton *browseButton =
+      new QPushButton(trUtf8("&Szukaj katalogu..."), this);
+  connect(browseButton, &QAbstractButton::clicked, this,
+          &MainWindow::choosePathBackup);
+
+  QPushButton *okButton = new QPushButton(trUtf8("&Zatwierdź"), this);
+  connect(okButton, &QAbstractButton::clicked, this, &MainWindow::createBackup);
+
+  QPushButton *cancButton = new QPushButton(trUtf8("&Zakończ"), this);
+  connect(cancButton, &QAbstractButton::clicked, this, [=]() {
+    foreach (QWidget *w, windBack->findChildren<QWidget *>()) {
+      if (!w->windowFlags() && Qt::Window)
+        w->deleteLater();
+    }
+
+    windBack->close();
+    if (windBack != 0)
+      windBack = 0;
+    windBack->deleteLater();
+  });
+
+  fileComboBox = new QLineEdit();
+
+  directoryComboBox =
+      new QLineEdit(QDir::toNativeSeparators(QDir::currentPath()));
+
+  QGridLayout *mainLayout = new QGridLayout(this);
+  mainLayout->addWidget(new QLabel(trUtf8("Twoja nazwa archiwum:")), 0, 0);
+  mainLayout->addWidget(fileComboBox, 0, 1, 1, 2);
+  mainLayout->addWidget(new QLabel(trUtf8("Podaj ścieżkę docelową:")), 2, 0);
+  mainLayout->addWidget(directoryComboBox, 2, 1);
+  mainLayout->addWidget(browseButton, 2, 2);
+  mainLayout->addWidget(okButton, 4, 2);
+  mainLayout->addWidget(cancButton, 4, 3);
+
+  windBack = new QWidget();
+  windBack->setLayout(mainLayout);
+
+  windBack->setWindowTitle(trUtf8("Podaj miejsce dla kopii zapasowej"));
+  const QRect screenGeometry = QApplication::desktop()->screenGeometry(this);
+  windBack->resize(screenGeometry.width() / 2, screenGeometry.height() / 3);
+
+  windBack->show();
+
+  qDebug() << sett().fileName();
+}
+
+void MainWindow::choosePathBackup() {
+
+  QString directory =
+      QDir::toNativeSeparators(QFileDialog::getExistingDirectory(
+          this, tr("Find Files"), QDir::currentPath()));
+
+  if (!directory.isEmpty()) {
+    directoryComboBox->setText(directory);
+  }
+}
+
+void MainWindow::createBackup() {
+
+  QStringList listConf = QStringList()
+                         << sett().fileName()
+                         << sett().fileName().left(
+                                sett().fileName().lastIndexOf("/")) +
+                                "/user.conf";
+
+  QMessageBox::warning(this, "", listConf.at(1));
+
+  if (fileComboBox->text().isEmpty() || directoryComboBox->text().isEmpty()) {
+
+    QMessageBox::warning(windBack, trUtf8("Brakująca ścieżka"),
+                         trUtf8("Nazwa dla archiwum oraz ścieżka dla "
+                                "tworzonego archiwum nie może być pominięta"));
+
+  } else {
+
+    if (JlCompress::compressDir(directoryComboBox->text() + QString("/") +
+                                    fileComboBox->text() + QString(".zip"),
+                                sett().getWorkingDir(), true, QDir::AllDirs) &&
+        JlCompress::compressFiles(directoryComboBox->text() + QString("/") +
+                                      fileComboBox->text() +
+                                      QString("-configs.zip"),
+                                  listConf)) {
+      qDebug() << "Created archive";
+      QMessageBox::information(
+          windBack, trUtf8("Tworzenie kopii zapasowej"),
+          trUtf8("Stworzenie kopii zapasowej zakończyło się sukcesem!"));
+
+    } else {
+
+      qDebug() << "Archive had not been created";
+      QMessageBox::warning(windBack, trUtf8("Tworzenie kopii zapasowej"),
+                           trUtf8("Stworzenie kopii zapasowej zakończyło "
+                                  "się niepowodzeniem. Sprawdź, czy masz uprawnienia "
+                                  "do odczytu i zapisu w wybranym folderze."));
+    }
+
+    qDebug() << directoryComboBox->text() + QString("/") +
+                    fileComboBox->text() + QString(".zip");
+
+    foreach (QWidget *w, windBack->findChildren<QWidget *>()) {
+      if (!w->windowFlags() && Qt::Window)
+        delete w;
+    }
+
+    windBack->close();
+    if (windBack != 0)
+      windBack = 0;
+    delete windBack;
+  }
+}
+
+void MainWindow::loadBackup() {
+
+  QMessageBox msgBox;
+  msgBox.setText(
+      trUtf8("Wczytywanie kopii zapasowej nadpisze obecny stan. Wpierw musisz "
+             "wybrać katalog, następnie pojawi się okno z jego zawartością."));
+  msgBox.setInformativeText(trUtf8("Chcesz kontynuować?"));
+  msgBox.setIcon(QMessageBox::Information);
+  msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+  msgBox.setDefaultButton(QMessageBox::Ok);
+  int ret = msgBox.exec();
+
+  switch (ret) {
+  case QMessageBox::Ok:
+
+    QString fileName = QFileDialog::getOpenFileName(
+        this, trUtf8("Wybierz kopię zapasową"),
+        QFileDialog::getExistingDirectory(this, trUtf8("Znajdź"),
+                                          QDir::currentPath()),
+        trUtf8("pliki archiwalne (*.zip)"));
+
+    if (fileName.endsWith("-configs.zip")) {
+
+      QStringList configsList = QStringList() << "qfaktury.conf"
+                                              << "user.conf";
+      QStringList confList = JlCompress::extractFiles(
+          fileName, configsList,
+          sett().fileName().left(sett().fileName().lastIndexOf("/")));
+
+      if (confList.count() > 0)
+        QMessageBox::information(
+            this, trUtf8("Kopia zapasowa plików konfiguracyjnych"),
+            trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));
+      else
+        QMessageBox::warning(
+            this, trUtf8("Kopia zapasowa plików konfiguracyjnych"),
+            trUtf8("W archiwum brakuje plików konfiguracyjnych dla QFaktury. "
+                   "Jesteś pewien, że wybrałeś plik z przyrostkiem "
+                   "\"-configs.zip ?\""));
+
+    } else {
+
+      QStringList listEl =
+          JlCompress::extractDir(fileName, sett().getWorkingDir());
+
+      if (listEl.contains("customers.xml") && listEl.contains("products.xml")) {
+        QMessageBox::information(
+            this, trUtf8("Kopia zapasowa głównego katalogu"),
+            trUtf8("Wczytywanie kopii zapasowej zakończyło się sukcesem!"));
+      } else {
+        QMessageBox::information(
+            this, trUtf8("Kopia zapasowa głównego katalogu"),
+            trUtf8("Wczytywanie kopii zapasowej zakończyło się niepowodzeniem! "
+                   "Kopia zapasowa powinna zawierać co najmniej listę "
+                   "produktów i kontrahentów."));
+      }
+    }
+
+    break;
+  }
+}
+
 /** Slot for sending email to buyers
  */
 
@@ -2254,5 +2743,79 @@ void MainWindow::sendEmailToBuyer() {
   sendEmailWidget->show();
 }
 
+/*
+ *  Slot for delivery note creation (WZ)
+ */
+
+void MainWindow::on_WZAction_triggered()
+{
+    DeliveryNote *noteWindow = new DeliveryNote(this, dl, s_WZ);
+    noteWindow->setWindowTitle(trUtf8("WZ"));
+    noteWindow->backBtnClick();
+
+    if (noteWindow->exec() == QDialog::Accepted) {
+
+      ui->tableM->setSortingEnabled(false);
+      insertRow(ui->tableM, ui->tableM->rowCount());
+      QStringList row = noteWindow->getRetWarehouse().split("|");
+      ui->tableM->item(ui->tableM->rowCount() - 1, 0)
+          ->setText(row[0]); // file name
+      ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(row[1]); // symbol
+      ui->tableM->item(ui->tableM->rowCount() - 1, 2)->setText(row[2]); // date
+      ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(row[3]); // type
+      ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(row[4]); // buyer
+      ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(row[5]); // NIP
+      ui->tableM->setSortingEnabled(true);
+
+      rereadWarehouses(true);
+      rereadHist(true);
+
+    } else {
+
+      rereadWarehouses(true);
+      rereadHist(true);
+    }
+
+    dl->checkAllSymbWareInFiles();
+    allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
+    noteWindow = 0;
+    delete noteWindow;
+}
+
+
 // ----------------------------------------  SLOTS
 // ---------------------------------//
+
+
+void MainWindow::on_RWAction_triggered()
+{
+    GoodsIssuedNotes *noteWindow = new GoodsIssuedNotes(this, dl, s_RW);
+    noteWindow->setWindowTitle(trUtf8("RW"));
+    noteWindow->backBtnClick();
+
+    if (noteWindow->exec() == QDialog::Accepted) {
+
+      ui->tableM->setSortingEnabled(false);
+      insertRow(ui->tableM, ui->tableM->rowCount());
+      QStringList row = noteWindow->getRetWarehouse().split("|");
+      ui->tableM->item(ui->tableM->rowCount() - 1, 0)
+          ->setText(row[0]); // file name
+      ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(row[1]); // symbol
+      ui->tableM->item(ui->tableM->rowCount() - 1, 2)->setText(row[2]); // date
+      ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(row[3]); // type
+      ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(row[4]); // buyer
+      ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(row[5]); // NIP
+      ui->tableM->setSortingEnabled(true);
+
+      rereadWarehouses(true);
+
+    } else {
+
+      rereadWarehouses(true);
+    }
+
+    dl->checkAllSymbWareInFiles();
+    allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
+    noteWindow = 0;
+    delete noteWindow;
+}

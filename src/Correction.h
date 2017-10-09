@@ -12,6 +12,8 @@ class QComboBox;
 class InvoiceData;
 class QLabel;
 
+// class for creation correction document with GUI, using invoice class as
+// parent
 class Correction : public Invoice {
 
   Q_OBJECT
@@ -20,8 +22,8 @@ public:
   Correction(QWidget *parent, IDataLayer *dl, QString in_form = QString(),
              bool edMode = false);
   virtual ~Correction();
-  const bool getMode();
-  const bool getFirstRun();
+  bool getMode() const;
+  bool getFirstRun() const;
   QString const getRet();
   void schemaCalcSum();
   virtual void correctionInit(bool mode);

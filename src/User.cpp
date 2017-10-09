@@ -585,16 +585,18 @@ void User::delcurrSel() {
       isLess = true;
 
     int delIndex = sellersList->currentIndex();
+
     sellersWidgets.removeAt(sellersList->currentIndex());
     sellersList->removeTab(sellersList->currentIndex());
     sellersList->setCurrentIndex(0);
 
+    int countedSellers = sellersList->count();
     settings.setValue("sellerCount", sellersWidgets.count());
 
     if (isLess) {
 
       for (int i = delIndex, j = delIndex + 1;
-           i < sellersList->count(), j <= sellersList->count(); ++i, ++j) {
+           j <= countedSellers; ++i, ++j) {
         settings.beginGroup("seller" + QString::number(j));
         QSettings settings2("elinux", "user");
         settings2.beginGroup("seller" + QString::number(i));
@@ -757,12 +759,12 @@ void User::on_addEmail_clicked() {
       emailsCombo->addItem(emailEdit->text().trimmed());
       emailEdit->clear();
     } else
-      QMessageBox::warning(this, "Istniejacy adres",
-                           "Taki adres znajduje sie juz na Twojej liscie ");
+      QMessageBox::warning(this, "Istniejący adres",
+                           "Taki adres znajduje się już na Twojej liście ");
   } else
     QMessageBox::warning(this, "Pusta rubryka dla adresu email",
-                         "Nie ma wpisanego adresu email w rubryce, ktory "
-                         "moglbys dodac do listy. Wprowadz wpierw adres. ");
+                         "Nie ma wpisanego adresu email w rubryce, który "
+                         "mógłbyś dodać do listy. Wprowadż w pierwszej kolejności adres. ");
 }
 
 // removes current option in QComboBox for emails. Changes in user.conf will be

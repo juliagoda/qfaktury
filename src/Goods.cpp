@@ -33,8 +33,8 @@ void Goods::init() {
   connect(cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 
   /** Slot
-        *  Nett value changed
-        */
+   *  Nett value changed
+   */
 
   connect(
       netEdit, static_cast<void (QDoubleSpinBox::*)(double)>(
@@ -42,7 +42,7 @@ void Goods::init() {
       [this](double) { net[spinBox2->value() - 1] = netEdit->cleanText(); });
 
   /** Slot
-  *  spinBox with list of prices changed
+   *  spinBox with list of prices changed
    */
 
   connect(spinBox2,
@@ -52,7 +52,6 @@ void Goods::init() {
   /** Slot
    *  Finds PKWIU code on the net
    */
-
   connect(pkwiuBtn, &QToolButton::clicked, [this]() {
     QDesktopServices::openUrl(QUrl(tr(
         "http://www.vat.pl/pkwiu/index.php?rodzajKlasyfikacji=pkwiuvat&kod")));
@@ -69,17 +68,14 @@ const QString Goods::getRetGoods() { return ret; }
 
 void Goods::okClick() {
 
-  if (sett().value("validation").toBool()) {
+  if (Validations::instance()->isEmptyField(nameEdit->text(),
+                                            textLabel3->text()))
+    return;
 
-    if (Validations::instance()->isEmptyField(nameEdit->text(),
-                                              textLabel3->text()))
+  if (!pkwiuEdit->text().isEmpty()) {
+
+    if (!Validations::instance()->validatePkwiu(pkwiuEdit->text()))
       return;
-
-    if (!pkwiuEdit->text().isEmpty()) {
-
-      if (!Validations::instance()->validatePkwiu(pkwiuEdit->text()))
-        return;
-    }
   }
 
   QStringList listRet =

@@ -28,11 +28,11 @@ Correction::~Correction() {
   invData = NULL;
 }
 
-const bool Correction::getMode() { return editMode; }
+bool Correction::getMode() const { return editMode; }
 
-bool const Correction::getFirstRun() { return firstRunned; }
+bool Correction::getFirstRun() const { return firstRunned; }
 
-QString const Correction::getRet() { return ret; }
+const QString Correction::getRet() { return ret; }
 
 /* Init
  */
@@ -73,6 +73,7 @@ void Correction::correctionInit(bool mode) {
             saveBtn->setEnabled(true);
             canClose = false;
           });
+
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
            << "EXIT";
 }
@@ -499,7 +500,7 @@ void Correction::canQuit() {
 
     if (QMessageBox::warning(
             this, "QFaktury",
-            trUtf8("Dane zostały zmienione czy chcesz zapisać?"), trUtf8("Tak"),
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"), trUtf8("Tak"),
             trUtf8("Nie"), 0, 0, 1) == 1) {
 
       saveColumnsWidth();

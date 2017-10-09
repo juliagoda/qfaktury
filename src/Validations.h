@@ -5,10 +5,13 @@
 #ifndef VALIDATIONS_H
 #define VALIDATIONS_H
 
-#include <QLineEdit>
+#include <QHash>
 #include <QObject>
-#include <QRegExp>
+#include <QVector>
 
+class QLineEdit;
+
+// class for data validation, putted into widgets
 class Validations : public QObject {
   Q_OBJECT
 

@@ -19,7 +19,7 @@
      <item>
       <widget class="QPushButton" name="nextSeller">
        <property name="text">
-        <string>Kolejny sprzedawca/odział</string>
+        <string>Kolejny sprzedawca/oddział</string>
        </property>
       </widget>
      </item>
@@ -58,7 +58,7 @@
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="text">
-        <string>Can&amp;cel</string>
+        <string>Anuluj</string>
        </property>
        <property name="shortcut">
         <string>Alt+C</string>
@@ -370,7 +370,7 @@
                     </size>
                    </property>
                    <property name="text">
-                    <string>Usun</string>
+                    <string>Usuń</string>
                    </property>
                   </widget>
                  </item>
@@ -506,7 +506,7 @@
                     </size>
                    </property>
                    <property name="text">
-                    <string>Usun</string>
+                    <string>Usuń</string>
                    </property>
                   </widget>
                  </item>
@@ -586,7 +586,7 @@
                     </size>
                    </property>
                    <property name="text">
-                    <string>Usun</string>
+                    <string>Usuń</string>
                    </property>
                   </widget>
                  </item>
@@ -666,7 +666,7 @@
                     </size>
                    </property>
                    <property name="text">
-                    <string>Usun</string>
+                    <string>Usuń</string>
                    </property>
                   </widget>
                  </item>
@@ -680,7 +680,6 @@
             </layout>
            </item>
           </layout>
-          <zorder></zorder>
          </widget>
         </widget>
        </item>

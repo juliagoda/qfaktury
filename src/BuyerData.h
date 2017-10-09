@@ -4,6 +4,7 @@
  *  Created on: Apr 18, 2009
  *      Author: moux
  */
+
 #include "detector.h"
 #if _pragma_once_support
 #pragma once
@@ -13,6 +14,7 @@
 
 #include <QString>
 
+// class for holding buyers data. One instance -> One buyer
 class BuyerData {
 
 public:

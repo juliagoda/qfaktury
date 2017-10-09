@@ -14,12 +14,17 @@
 #include <QtXml/qdom.h>
 
 #include "IDataLayer.h"
+#include "DocumentData.h"
+#include "WarehouseData.h"
 
+// class for creating, updating and removing xml files with goods/services,
+// invoices, warehouse documents and buyers informations
 class XmlDataLayer : public IDataLayer {
 
 public:
   XmlDataLayer();
   virtual ~XmlDataLayer();
+
   // methods used for accessing customers
   virtual BuyerData buyersSelectData(QString name, int type);
   virtual QVector<BuyerData> buyersSelectAllData();
@@ -36,14 +41,23 @@ public:
   virtual bool productsDeleteData(QString name);
 
   virtual InvoiceData invoiceSelectData(QString name, int type);
+  virtual WarehouseData warehouseSelectData(QString name, int type);
   virtual QVector<InvoiceData> invoiceSelectAllData(QDate start, QDate end);
+  virtual QVector<WarehouseData> warehouseSelectAllData(QDate start, QDate end);
   virtual bool invoiceInsertData(InvoiceData &invData, int type);
+  virtual bool warehouseInsertData(WarehouseData &invData, int type);
   virtual bool invoiceUpdateData(InvoiceData &invData, int type, QString name);
+  virtual bool warehouseUpdateData(WarehouseData &invData, int type,
+                                   QString name);
   virtual bool invoiceDeleteData(QString name);
+  virtual bool warehouseDeleteData(QString name);
 
   virtual QString const getRet() const;
+  virtual QString getRetWarehouse() const;
   virtual void checkAllSymbInFiles();
+  virtual void checkAllSymbWareInFiles();
   virtual QList<int> const getAllSymbols();
+  virtual QList<int> const getAllSymbolsWarehouse();
   virtual bool ifThereOldInvoice();
   virtual void separateOldInvoices();
 
@@ -57,20 +71,25 @@ private:
   void productsElemToData(ProductData &o_prodData, QDomElement i_element);
   void productsDataToElem(ProductData &i_prodData, QDomElement &o_element);
 
-  void invoiceSellerDataToElem(InvoiceData &i_invData, QDomElement &o_element);
+  void invoiceSellerDataToElem(DocumentData &i_invData, QDomElement &o_element);
   void invoiceSellerElemToData(InvoiceData &o_invData, QDomElement i_element);
-  void invoiceBuyerDataToElem(InvoiceData &i_invData, QDomElement &o_element);
+  void invoiceBuyerDataToElem(DocumentData &i_invData, QDomElement &o_element);
   void invoiceBuyerElemToData(InvoiceData &o_invData, QDomElement i_element);
   void invoiceProdDataToElem(const ProductData &i_prodData,
                              QDomElement &o_element, int currentRow);
+  void warehouseProdDataToElem(const ProductData &i_prodData,
+                               QDomElement &o_element, int type);
   void invoiceProdElemToData(InvoiceData &o_invData, QDomElement i_element);
+
+  bool nameFilter(QString nameToCheck, QDate start, QDate end, QString docName,
+                  QString path);
   bool ifPersonNodeExists(QDomElement root);
   void addSectionPerson(bool checkedRoot);
 
-  bool nameFilter(QString nameToCheck, QDate start, QDate end);
-
   QString ret;
+  QString retWarehouse;
   QList<int> allSymbols;
+  QList<int> allSymbolsWarehouse;
   QStringList yearsList;
   QMultiHash<QString, QString> categorizedFiles;
 };

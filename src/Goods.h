@@ -10,6 +10,7 @@
 
 class IDataLayer;
 
+// class for saving good or service data with GUI
 class Goods : public QDialog, public Ui::Goods {
 
   Q_OBJECT

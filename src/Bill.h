@@ -4,6 +4,7 @@
  *  Created on: Apr 2, 2009
  *      Author: moux
  */
+
 #include "detector.h"
 #if _pragma_once_support
 #pragma once
@@ -13,12 +14,14 @@
 
 #include "Invoice.h"
 
+// class for creating bills, using invoice class form
 class Bill : public Invoice {
 
   Q_OBJECT
 
 public:
   Bill(QWidget *parent, IDataLayer *dl, QString in_form = QString());
+  ~Bill();
 
 public slots:
 

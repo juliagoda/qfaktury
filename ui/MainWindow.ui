@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>653</width>
-    <height>443</height>
+    <width>655</width>
+    <height>445</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -91,19 +91,31 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
-      <widget class="QWidget" name="tab1">
+      <widget class="QWidget" name="invoiceTab">
        <attribute name="title">
-        <string>Historia</string>
+        <string>Historia faktur</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QLabel" name="textLabel1">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>85</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="text">
-             <string>Wyświetlaj dokumenty od:</string>
+             <string>Wyświetl od:</string>
             </property>
             <property name="wordWrap">
              <bool>false</bool>
@@ -209,22 +221,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::MinimumExpanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>180</width>
-              <height>0</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </item>
         <item row="1" column="0">
@@ -293,7 +289,109 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab2">
+      <widget class="QWidget" name="warehouseTab">
+       <attribute name="title">
+        <string>Historia magazynu</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>85</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Wyświetl od: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="warehouseFromDate"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>do: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="warehouseToDate"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="findWarehouses">
+            <property name="text">
+             <string>Zastosuj</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableM">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <column>
+           <property name="text">
+            <string>Nazwa pliku</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Symbol</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Data</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Typ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Nabywca</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>NIP</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="buyerTab">
        <attribute name="title">
         <string>Kontrahenci</string>
        </attribute>
@@ -363,7 +461,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="TabPage">
+      <widget class="QWidget" name="goodsTab">
        <attribute name="title">
         <string>Towary/Usługi</string>
        </attribute>
@@ -474,8 +572,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>653</width>
-     <height>27</height>
+     <width>655</width>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct">
@@ -493,6 +591,8 @@
     <addaction name="fileExport_XMLAction"/>
     <addaction name="fileImport_EDIAction"/>
     <addaction name="fileImport_XMLAction"/>
+    <addaction name="actionCreateBackup"/>
+    <addaction name="actionLoadBackup"/>
     <addaction name="fileEndAction"/>
    </widget>
    <widget class="QMenu" name="fakturyAct">
@@ -559,8 +659,19 @@
      <string>Dodatk&amp;i</string>
     </property>
    </widget>
+   <widget class="QMenu" name="warehouseMenu">
+    <property name="title">
+     <string>Ma&amp;gazyn</string>
+    </property>
+    <addaction name="WZAction"/>
+    <addaction name="RWAction"/>
+    <addaction name="separator"/>
+    <addaction name="warehouseEdAction"/>
+    <addaction name="warehouseDelAction"/>
+   </widget>
    <addaction name="plikAct"/>
    <addaction name="fakturyAct"/>
+   <addaction name="warehouseMenu"/>
    <addaction name="buyersAct"/>
    <addaction name="goodsAct"/>
    <addaction name="menuPlugins"/>
@@ -1139,11 +1250,19 @@
    </property>
   </action>
   <action name="actionCreateBackup">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/importuj_qfaktury.png</normaloff>:/res/icons/importuj_qfaktury.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Stwórz kopię zapasową</string>
    </property>
   </action>
   <action name="actionLoadBackup">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/eksportuj_qfaktury.png</normaloff>:/res/icons/eksportuj_qfaktury.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Wczytaj kopię zapasową</string>
    </property>
@@ -1154,7 +1273,43 @@
      <normaloff>:/res/icons/wyslij_fakture.png</normaloff>:/res/icons/wyslij_fakture.png</iconset>
    </property>
    <property name="text">
-    <string>Wyślij</string>
+    <string>&amp;Wyślij</string>
+   </property>
+  </action>
+  <action name="WZAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/delivery_note.png</normaloff>:/res/icons/delivery_note.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;WZ</string>
+   </property>
+  </action>
+  <action name="warehouseEdAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/edytuj_magazyn.png</normaloff>:/res/icons/edytuj_magazyn.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Edytuj</string>
+   </property>
+  </action>
+  <action name="warehouseDelAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/usun_magazyn.png</normaloff>:/res/icons/usun_magazyn.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Usuń</string>
+   </property>
+  </action>
+  <action name="RWAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/good_issue_note.png</normaloff>:/res/icons/good_issue_note.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;RW</string>
    </property>
   </action>
  </widget>

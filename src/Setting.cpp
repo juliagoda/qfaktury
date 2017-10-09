@@ -146,7 +146,7 @@ void Setting::setDefaultClick() {
 
   if (QMessageBox::question(
           this, "QFaktury GPL",
-          trUtf8("Czy napewno chcesz przywrócic ustawienia domyślne?"),
+          trUtf8("Czy napewno chcesz przywrócić ustawienia domyślne?"),
           QMessageBox::Yes, QMessageBox::No) == QMessageBox::No)
     return;
 
@@ -240,7 +240,7 @@ void Setting::currAddBtnClick() {
 
 void Setting::currDelBtnClick() {
 
-  helpFuncDelNr(currlBox, trUtf8("Musisz coś zaznaczyś, żeby usuwać."));
+  helpFuncDelNr(currlBox, trUtf8("Musisz coś zaznaczyć, żeby usuwać."));
 }
 
 /** Slot korekty reason add
@@ -257,7 +257,7 @@ void Setting::corAddBtnClick() {
 
 void Setting::corDelBtnClick() {
 
-  helpFuncDelNr(correctsBox, trUtf8("Musisz coś zaznaczyś, żeby usuwać."));
+  helpFuncDelNr(correctsBox, trUtf8("Musisz coś zaznaczyć, żeby usuwać."));
 }
 
 /** Slot predefined VAT value add
@@ -295,7 +295,7 @@ void Setting::currencyDelBtnClick() {
  */
 void Setting::paymDelBtnClick() {
 
-  helpFuncDelNr(paymlBox, trUtf8("Musisz coś zaznaczyś, żeby usuwać."));
+  helpFuncDelNr(paymlBox, trUtf8("Musisz coś zaznaczyć, żeby usuwać."));
 }
 
 /** Slot add payment type click
@@ -314,7 +314,7 @@ void Setting::helpFuncAp(QListWidget *listWg) {
   if (selNr == 0) {
     QMessageBox::information(
         this, trUtf8("Uwaga!!"),
-        trUtf8("Nie można przenieść w górę, już jest najwyżej."),
+        trUtf8("Element znajduje się już na pierwszym miejscu na liście."),
         QMessageBox::Ok);
     return;
   }
@@ -346,7 +346,7 @@ void Setting::helpFuncDown(QListWidget *listWg) {
 
     QMessageBox::information(
         this, trUtf8("Uwaga!!"),
-        trUtf8("Nie można przenieść w dół, już jest najniżej."),
+        trUtf8("Element znajduje się już na ostatnim miejscu na liście."),
         QMessageBox::Ok);
     return;
   }
@@ -613,7 +613,6 @@ void Setting::readSettings() {
   userinfotel->setChecked(sett().value("userphone").toBool());
   userinfomail->setChecked(sett().value("usermail").toBool());
   userinfowww->setChecked(sett().value("userwww").toBool());
-  userinfowww->setChecked(sett().value("userwww").toBool());
   userinfobank->setChecked(sett().value("userbank").toBool());
   userinfokrs->setChecked(sett().value("userkrs").toBool());
   userinfofax->setChecked(sett().value("userfax").toBool());
@@ -671,32 +670,3 @@ QStringList Setting::getTemplates() {
 }
 
 QStringList Setting::getStyles() { return QStyleFactory::keys(); }
-
-// returns list of translations
-QStringList Setting::getTranslations() {
-
-  QStringList translations = QStringList();
-  QString path = QDir::currentPath() + "/translations/";
-
-  qDebug() << path;
-  QFile f(path);
-
-  if (!f.exists()) {
-
-    path = sett().getAppDirs() + "translations/";
-    qDebug() << "Path translations: " << path;
-  }
-
-  qDebug() << path;
-  QDir allFiles;
-  allFiles.setPath(path);
-  allFiles.setFilter(QDir::Files);
-  QStringList filters = QStringList() << "*.qm";
-  allFiles.setNameFilters(filters);
-  QStringList tmp = allFiles.entryList();
-  tmp = tmp.replaceInStrings("qfaktury_", "");
-  tmp = tmp.replaceInStrings(".qm", "");
-  translations = tmp;
-
-  return translations;
-}

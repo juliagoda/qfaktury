@@ -4,6 +4,7 @@
  *  Created on: Mar 31, 2009
  *      Author: moux
  */
+
 #include "detector.h"
 #if _pragma_once_support
 #pragma once
@@ -13,6 +14,7 @@
 
 #include "Invoice.h"
 
+// class for cretaing duplicate documents from invoices
 class Duplicate : public Invoice {
 
   Q_OBJECT

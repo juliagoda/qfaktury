@@ -4,6 +4,7 @@
  *  Created on: Apr 4, 2009
  *      Author: moux
  */
+
 #include "detector.h"
 #if _pragma_once_support
 #pragma once
@@ -15,6 +16,7 @@
 
 class CustomPaymData;
 
+// class for splitting cost sum with GUI, when prepayment method is checked
 class CustomPayment : public QDialog, public Ui::CustomPaymentDialog {
 
   Q_OBJECT

@@ -17,6 +17,8 @@
 
 #include "config.h"
 
+// class for settings and holding directory paths
+
 // #define trUtf8(x) QObject::aaa(x)
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -32,10 +34,10 @@ public:
 #ifdef Q_OS_LINUX
   QString appPath = "/usr/share/qfaktury";
 #endif
-// Probably
-// QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1)
-// returns different values on different distributions, for me that was
-// /usr/share/<APPNAME>
+  // Probably
+  // QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).at(1)
+  // returns different values on different distributions, for me that was
+  // /usr/share/<APPNAME>
 
 #ifdef Q_OS_WIN32
   QString appPath = QDir::homePath() + "/AppData/Roaming/qfaktury";
@@ -58,6 +60,20 @@ public:
 
   // returns date format used while saving the file
   QString getFnameDateFormat() { return fileNameDateFormat; }
+
+  // returns a translator
+  QTranslator *getTranslation() {
+
+    translator = new QTranslator();
+    QString lang = value("lang", "pl").toString();
+    // The easiest way
+    // On windows and during testing files have to be in executable dir
+
+    if (!translator->load(QString("qfaktury_") + lang))
+      translator->load(QString("qfaktury_") + lang, appPath + "/translations");
+    qDebug() << "Translations files are in: " << appPath + "/translations";
+    return translator;
+  }
 
   /**
    * validate the settings and set them to default values if required.
@@ -92,6 +108,11 @@ public:
       setValue("filtrEnd", QDate::currentDate().toString(Qt::ISODate));
     if (value("filtrStart").toString().compare("") == 0)
       setValue("filtrStart", QDate::currentDate().toString(Qt::ISODate));
+    if (value("filtrEndWarehouse").toString().compare("") == 0)
+      setValue("filtrEndWarehouse", QDate::currentDate().toString(Qt::ISODate));
+    if (value("filtrStartWarehouse").toString().compare("") == 0)
+      setValue("filtrStartWarehouse",
+               QDate::currentDate().toString(Qt::ISODate));
     if (value("firstrun").toString().compare("") == 0)
       setValue("firstrun", false);
     if (value("units").toString().compare("") == 0)
@@ -388,6 +409,8 @@ public:
     setValue("editSymbol", "true");
     setValue("numberOfCopies", 1);
     setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
+    setValue("filtrStartWarehouse",
+             QDate::currentDate().toString(getDateFormat()));
     setValue("firstrun", false);
     setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|"
                          "filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|kWh|"
@@ -583,12 +606,12 @@ public:
     return ret;
   }
 
-  QString getPdfDir() { return QString(getWorkingDir() + "/pdf-invoices"); }
-
   QString getEmergTemplate() {
 
     return (QDir::homePath() + "/.local/share/data/elinux/template/black.css");
   }
+
+  QString getPdfDir() { return QString(getWorkingDir() + "/pdf-invoices"); }
 
   // return invoices dir
   QString getDataDir() {
@@ -598,9 +621,21 @@ public:
     return QString("/invoices");
   }
 
+  QString getWarehouseDir() {
+
+    // Changed name of the folder to avoid overwriting the files.
+    // This may require conversion script.
+    return QString("/warehouse");
+  }
+
   // return invoices dir
   QString getInvoicesDir() {
     return QString(getWorkingDir() + getDataDir() + "/");
+  }
+
+  // return warehouse dir
+  QString getWarehouseFullDir() {
+    return QString(getWorkingDir() + getWarehouseDir() + "/");
   }
 
   // return customers xml
@@ -613,8 +648,11 @@ public:
     return QString(getWorkingDir() + "/products.xml");
   }
 
-  // returns inoice doc name stored as a DOCTYPE
+  // returns invoice doc name stored as a DOCTYPE
   QString getInoiveDocName() { return QString("invoice"); }
+
+  // returns warehouse doc name stored as a DOCTYPE
+  QString getWarehouseDocName() { return QString("warehouse"); }
 
   // returns correction doc name stored as a DOCTYPE
   QString getCorrDocName() { return QString("correction"); }
@@ -707,6 +745,7 @@ private:
   QString dateFormat;
   QString fileNameDateFormat;
   QLocale *locale;
+  QTranslator *translator;
 
   // constr
   Settings() : QSettings("elinux", "qfaktury") {

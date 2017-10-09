@@ -13,6 +13,7 @@
 
 #include "Invoice.h"
 
+// class for creating and updating gross invoice
 class InvoiceGross : public Invoice {
 
   Q_OBJECT

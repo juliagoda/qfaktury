@@ -13,10 +13,16 @@
 
 #include "CustomPaymData.h"
 #include "ProductData.h"
+#include "DocumentData.h"
 
-class InvoiceData {
+// class for holding data about invoices. One instance -> one invoice.
+class InvoiceData : public DocumentData {
 
 public:
+    InvoiceData(){}
+    virtual ~InvoiceData(){}
+
+  QString getCustomer() {return customer;}
   QString customer; // buyer
   QMap<int, ProductData> products;
   QDate liabDate;
@@ -38,6 +44,7 @@ public:
   QString type;
   QString id; // in case of xml, here goes filename
   bool ifpVAT;
+  bool ifInvForDelNote;
 
   QString custStreet;
   QString custTic;
@@ -80,6 +87,12 @@ public:
       break;
     case 8:
       ret = QObject::trUtf8("RR");
+      break;
+    case 9:
+      ret = QObject::trUtf8("FVAT");
+      break;
+    case 10:
+      ret = QObject::trUtf8("RW");
       break;
     default:
       ret = QObject::trUtf8("FVAT");

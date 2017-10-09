@@ -33,30 +33,34 @@ Invoice::Invoice(QWidget *parent, IDataLayer *dl, QString Inv)
   kAdded = false;
   konvEUR->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvPLN->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvUSD->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvCHF->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvGBP->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvRUB->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
 
   init();
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 
 /** Destructor
  */
 
 Invoice::~Invoice() {
+
+  qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
 
   m_instance = nullptr;
   delete reply;
@@ -85,11 +89,16 @@ Invoice::~Invoice() {
   if (sendKindInfo != 0)
     sendKindInfo = 0;
   delete sendKindInfo;
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 
 Invoice *Invoice::instance() { return m_instance; }
 
 QString const Invoice::getRet() { return ret; }
+
+QString const Invoice::getRetWarehouse() { return retWarehouse; }
 
 QString const Invoice::getfName() { return fName; }
 
@@ -97,7 +106,7 @@ void Invoice::setfName(QString text) { fName = text; }
 
 QString const Invoice::getInvForm() { return inv_form; }
 
-bool const Invoice::getKAdded() { return kAdded; }
+bool Invoice::getKAdded() const { return kAdded; }
 
 /** Init method
  */
@@ -133,6 +142,8 @@ void Invoice::init() {
   whatTypeFromTitle(s_DUPLICATE, false, true, DUP, 7);
   whatTypeFromTitle(s_WIN_DUPLICATE_LOOK, false, true, DUP, 7);
   whatTypeFromTitle(s_RR, false, false, RR, 8);
+  whatTypeFromTitle(s_WZ, false, false, WZ, 9);
+  whatTypeFromTitle(s_RW, false, false, RW, 10);
 
   if (sett().value("editSymbol").toBool())
     invNr->setEnabled(false);
@@ -248,10 +259,16 @@ void Invoice::init() {
   discountVal->setEnabled(false);
 
   canClose = true;
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 
 void Invoice::whatTypeFromTitle(QString title, bool ifForm, bool kadded,
                                 InvoiceType invTyp, int numbType) {
+
+  qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+
   if (inv_form == title) {
 
     pforma = ifForm;
@@ -259,6 +276,9 @@ void Invoice::whatTypeFromTitle(QString title, bool ifForm, bool kadded,
     invType = invTyp;
     type = numbType;
   }
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }
 
 /**
@@ -286,6 +306,12 @@ QString Invoice::getInvoiceTypeAndSaveNr() {
   } else if (inv_form == s_RR) {
     ret = trUtf8("rr");
     sett().setValue("rr", invNr->text());
+  } else if (inv_form == s_WZ) {
+    ret = trUtf8("wz");
+    sett().setValue("wz", invNr->text());
+  } else if (inv_form == s_RW) {
+      ret = trUtf8("rw");
+      sett().setValue("rw", invNr->text());
   }
 
   return ret;
@@ -610,6 +636,7 @@ bool Invoice::ifUpdated() {
   }
 
   file.close();
+  return true;
 }
 
 QString Invoice::checkInvCurr() { return currCombo->currentText().trimmed(); }
@@ -624,7 +651,7 @@ bool Invoice::convWarn() {
     msgBox.setText(trUtf8("Aby zmienić walutę, powinieneś dodać co najmniej "
                           "jeden towar lub usługę"));
     msgBox.setInformativeText(
-        trUtf8("Chcesz dodać towar lub usługę czy wrócić do głównego okna?"));
+        trUtf8("Chcesz dodać towar lub usługę, czy wrócić do głównego okna?"));
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Ok);
@@ -1066,29 +1093,32 @@ void Invoice::backBtnClick() {
 
   QString prefix, suffix;
   prefix = sett().value("prefix").toString();
-
   int nr = MainWindow::instance()->getMaxSymbol() + 1;
-  lastInvoice =
-      prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
 
-  if (sett().value("day").toBool())
-    lastInvoice += "/" + QDate::currentDate().toString("dd");
 
-  if (sett().value("month").toBool())
-    lastInvoice += "/" + QDate::currentDate().toString("MM");
+      lastInvoice =
+          prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
 
-  if (sett().value("year").toBool()) {
-    if (!sett().value("shortYear").toBool())
-      lastInvoice += "/" + QDate::currentDate().toString("yy");
-    else
-      lastInvoice += "/" + QDate::currentDate().toString("yyyy");
-  }
+      if (sett().value("day").toBool())
+        lastInvoice += "/" + QDate::currentDate().toString("dd");
 
-  suffix = sett().value("sufix").toString();
-  lastInvoice += suffix;
-  invNr->setText(lastInvoice);
+      if (sett().value("month").toBool())
+        lastInvoice += "/" + QDate::currentDate().toString("MM");
+
+      if (sett().value("year").toBool()) {
+        if (!sett().value("shortYear").toBool())
+          lastInvoice += "/" + QDate::currentDate().toString("yy");
+        else
+          lastInvoice += "/" + QDate::currentDate().toString("yyyy");
+      }
+
+      suffix = sett().value("sufix").toString();
+      lastInvoice += suffix;
+      invNr->setText(lastInvoice);
+
   saveBtn->setEnabled(true);
 }
+
 
 /** Slot
  *  Validate close and save if requested
@@ -1110,7 +1140,7 @@ void Invoice::canQuit() {
 
     if (QMessageBox::warning(
             this, "QFaktury",
-            trUtf8("Dane zostały zmienione czy chcesz zapisać?"), trUtf8("Tak"),
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"), trUtf8("Tak"),
             trUtf8("Nie"), 0, 0, 1) == 1) {
       saveColumnsWidth();
       reject();
@@ -1307,7 +1337,7 @@ void Invoice::dateChanged(QDate) {
     QMessageBox::information(
         this, trUtf8("Błędne ustawienie daty"),
         trUtf8("Data wystawienia faktury nie może być wcześniejsza od daty "
-               "sprzedaży towaru lub wykonania usługi"));
+               "sprzedaży towaru lub wykonania usługi."));
     productDate->setDate(sellingDate->date());
 
   } else {
@@ -1628,11 +1658,14 @@ bool Invoice::saveInvoice() {
 
   result = dataLayer->invoiceInsertData(invData, type);
   ret = dataLayer->getRet();
+  MainWindow::instance()->shouldHidden = true;
+  makeInvoice();
+  MainWindow::instance()->shouldHidden = false;
 
   if (!result) {
     QMessageBox::warning(
         this, trUtf8("Zapis faktury"),
-        trUtf8("Zapis faktury zakończył się niepowodzeniem. Sprawdź czy masz "
+        trUtf8("Zapis faktury zakończył się niepowodzeniem. Sprawdź, czy masz "
                "uprawnienia do zapisu lub odczytu w ścieżce ") +
             sett().getInvoicesDir() + trUtf8(" oraz czy ścieżka istnieje."));
   }
@@ -1752,6 +1785,20 @@ void Invoice::printSlot(QPrinter *printer) {
 
   doc.setHtml(s);
   doc.print(printer);
+
+  QTextDocument docPdf(invoiceType);
+  docPdf.setHtml(s);
+
+  QPrinter printerPdf(QPrinter::HighResolution);
+  printerPdf.setOutputFormat(QPrinter::PdfFormat);
+
+  QStringList buyer = buyerName->text().split(",");
+  printerPdf.setOutputFileName(
+      sett().getPdfDir() + "/" + invoiceType + "-" + buyer.at(0) + "-" +
+      sellingDate->date().toString("dd.MM.yy") + "-" + invNr->text() + ".pdf");
+
+  docPdf.print(&printerPdf);
+  printerPdf.newPage();
 }
 
 /** Slot
@@ -1763,22 +1810,27 @@ void Invoice::print() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QPrinter printer(QPrinter::HighResolution);
-  QPrintPreviewDialog preview(&printer, this);
-  preview.setWindowFlags(Qt::Window);
-  preview.setWindowTitle(invoiceType + s_WIN_PRINTPREVIEW);
+  if (!MainWindow::instance()->shouldHidden) {
+    QPrintPreviewDialog preview(&printer, this);
+    preview.setWindowFlags(Qt::Window);
+    preview.setWindowTitle(invoiceType + s_WIN_PRINTPREVIEW);
 
-  connect(&preview, SIGNAL(paintRequested(QPrinter *)), this,
-          SLOT(printSlot(QPrinter *)));
-  if (preview.exec() == 1) {
+    connect(&preview, SIGNAL(paintRequested(QPrinter *)), this,
+            SLOT(printSlot(QPrinter *)));
+    if (preview.exec() == 1) {
 
-    QMessageBox::warning(
-        this, trUtf8("Drukowanie"),
-        trUtf8("Prawdopobnie nie masz skonfigurowanej drukarki. Wykrywana "
-               "nazwa domyślnej drukarki to: ") +
-            printer.printerName() +
-            trUtf8(". Status domyślnej drukarki (poprawny o ile drukarka ma "
-                   "możliwość raportowania statusu do systemu): ") +
-            printer.printerState());
+      QMessageBox::warning(
+          this, trUtf8("Drukowanie"),
+          trUtf8("Prawdopobnie nie masz skonfigurowanej lub podłączonej "
+                 "drukarki. Wykrywana nazwa domyślnej drukarki to: ") +
+              printer.printerName() +
+              trUtf8(". Status domyślnej drukarki (poprawny, o ile drukarka ma "
+                     "możliwość raportowania statusu do systemu): ") +
+              printer.printerState());
+    }
+  } else {
+
+    printSlot(&printer);
   }
 }
 
@@ -1797,10 +1849,10 @@ bool Invoice::validateForm() {
 
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Aby zapisać fakturę, powinieneś dodać co najmniej "
-                          "jednego kontrahenta"));
+                          "jednego kontrahenta."));
     msgBox.setInformativeText(
-        trUtf8("Jeśli chcesz dodać kontrahenta, wciśnij - OK. Jeśli chcesz "
-               "wrócić do głównego okna, wciśnij - Anuluj"));
+        trUtf8("Jeśli chcesz dodać kontrahenta, wybierz - OK. Jeśli chcesz "
+               "wrócić do głównego okna, wybierz - Anuluj."));
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Ok);
@@ -1824,10 +1876,10 @@ bool Invoice::validateForm() {
 
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Aby zapisać fakturę, powinieneś dodać co najmniej "
-                          "jeden towar lub usługę"));
+                          "jeden towar lub usługę."));
     msgBox.setInformativeText(
-        trUtf8("Jeśli chcesz dodać towar lub usługę, wciśnij - OK. Jeśli "
-               "chcesz wrócić do głównego okna, wciśnij - Anuluj"));
+        trUtf8("Jeśli chcesz dodać towar lub usługę, wybierz - OK. Jeśli "
+               "chcesz wrócić do głównego okna, wybierz - Anuluj."));
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Ok);
@@ -1926,12 +1978,11 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
   invStrList += "<tr>";
   invStrList += "<td width=\"60%\" align=\"center\" valign=\"bottom\">";
   invStrList += "<span class=\"stamp\">";
-
   QString logo = sett().value("logo").toString();
 
   if (logo != "") {
     invStrList +=
-        "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\">";
+        "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
   } else {
     invStrList += "";
   }
@@ -2159,7 +2210,7 @@ void Invoice::makeInvoiceProductsHeadar() {
   sett().beginGroup("invoices_positions");
 
   if (sett().value("Lp").toBool()) {
-    currentPercent += 4;
+    currentPercent += 3;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(3) +
                   "%\">" + trUtf8("Lp.") + "</td>";
   }
@@ -2177,7 +2228,7 @@ void Invoice::makeInvoiceProductsHeadar() {
   }
 
   if (sett().value("pkwiu").toBool()) {
-    currentPercent += 8;
+    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("PKWiU") + "</td>";
   }
@@ -2189,7 +2240,7 @@ void Invoice::makeInvoiceProductsHeadar() {
   }
 
   if (sett().value("unit").toBool()) {
-    currentPercent += 4;
+    currentPercent += 3;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(3) +
                   "%\">" + trUtf8("jm.") + "</td>";
   }
@@ -2201,7 +2252,7 @@ void Invoice::makeInvoiceProductsHeadar() {
   }
 
   if (sett().value("netvalue").toBool()) {
-    currentPercent += 9;
+    currentPercent += 8;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(8) +
                   "%\">" + trUtf8("Wartość Netto") + "</td>";
   }
@@ -2219,25 +2270,25 @@ void Invoice::makeInvoiceProductsHeadar() {
   }
 
   if (sett().value("netafter").toBool()) {
-    currentPercent += 8;
+    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("Netto po rabacie") + "</td>";
   }
 
   if (sett().value("vatval").toBool()) {
-    currentPercent += 8;
+    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("Stawka VAT") + "</td>";
   }
 
   if (sett().value("vatprice").toBool()) {
-    currentPercent += 8;
+    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("Kwota Vat") + "</td>";
   }
 
   if (sett().value("grossval").toBool()) {
-    currentPercent += 9;
+    currentPercent += 8;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(8) +
                   "%\">" + trUtf8("Wartość Brutto") + "</td>";
   }
@@ -2449,7 +2500,7 @@ void Invoice::makeInvoiceSummAll() {
 
   if (stempel != "") {
     invStrList +=
-        "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\">";
+        "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\"+ >";
   } else {
     invStrList += trUtf8("Pieczęć wystawcy");
   }
@@ -2709,16 +2760,15 @@ void Invoice::calculateSum() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  double net = 0, price = 0, gross = 0;
+  double net = 0;
   double discountValue = 0;
+  double gross = 0;
 
   nettTotal = 0;
   discountTotal = 0;
   grossTotal = 0;
 
   for (int i = 0; i < tableGoods->rowCount(); ++i) {
-
-    price = sett().stringToDouble(tableGoods->item(i, 7)->text());
 
     double decimalPointsNetto =
         tableGoods->item(i, 8)->text().right(2).toInt() * 0.01;
@@ -2754,6 +2804,8 @@ void Invoice::calculateSum() {
 QString Invoice::numbersCount(int in, int x) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "nr: " << in;
+  qDebug() << "sett().value(\"chars_in_symbol\")" << x;
 
   QString tmp2, tmp = sett().numberToString(in);
   tmp2 = "";
@@ -2761,6 +2813,11 @@ QString Invoice::numbersCount(int in, int x) {
 
   for (int i = 0; i < incr; ++i)
     tmp2 += "0";
+
+
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 
   return tmp2 + tmp;
 }
@@ -2779,4 +2836,7 @@ void Invoice::saveColumnsWidth() {
                     tableGoods->columnWidth(i));
 
   sett().endGroup();
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
+           << "EXIT";
 }

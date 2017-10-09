@@ -4,6 +4,7 @@
  *  Created on: Mar 16, 2009
  *      Author: tpielech
  */
+
 #include "detector.h"
 #if _pragma_once_support
 #pragma once
@@ -13,6 +14,7 @@
 
 #include <QString>
 
+// class for converting number values to in words
 class ConvertAmount {
 
 public:

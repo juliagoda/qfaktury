@@ -1,3 +1,4 @@
+
 #include "detector.h"
 #if _pragma_once_support
 #pragma once
@@ -9,6 +10,7 @@
 
 #include <QtXml/qdom.h>
 
+// class for choosing buyer with GUI, when a document is created
 class BuyersList : public QDialog, public Ui::BuyersList {
 
   Q_OBJECT

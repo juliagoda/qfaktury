@@ -21,8 +21,9 @@ class QComboBox;
 class QKeyEvent;
 class IDataLayer;
 
-enum InvoiceType { FVat, FPro, EFVat, EFPro, KBR, BILL, DUP, RR };
+enum InvoiceType { FVat, FPro, EFVat, EFPro, KBR, BILL, DUP, RR, WZ, RW };
 
+// class for creating and updating invoice with GUI
 class Invoice : public QDialog, public Ui::Invoice {
 
   Q_OBJECT
@@ -33,7 +34,7 @@ public:
 
   static Invoice *instance();
   void init();
-  void readData(QString fraFile);
+  virtual void readData(QString fraFile);
   void setfName(QString text);
   void keyPressEvent(QKeyEvent *event);
   void connectedWebsite(const QUrl &);
@@ -42,10 +43,11 @@ public:
   void whatTypeFromTitle(const QString title, bool ifForm, bool kadded,
                          InvoiceType invTyp, int numbType);
   const QString getRet();
+  const QString getRetWarehouse();
   const QString getfName();
   const QString getInvForm();
   const QString pressedTxt();
-  const bool getKAdded();
+  bool getKAdded() const;
   bool convWarn();
   bool ifUpdated();
   virtual void setIsEditAllowed(bool isAllowed);
@@ -55,6 +57,7 @@ public:
   QMap<QString, double> getActualCurList();
   QMap<QString, double> tableOfValues();
   QString checkInvCurr();
+  QString invoiceType;
 
 public slots:
 
@@ -67,8 +70,8 @@ public slots:
   virtual void payTextChanged(QString someStr);
   virtual void discountConstChange(); // Overwritten in GrossInvoice
   void getCustomer();
-  void delGoods();
-  void editGoods();
+  virtual void delGoods();
+  virtual void editGoods();
   void tableActivated(QTableWidgetItem *item);
   void textChanged(QString someStr);
   void dateChanged(QDate someDate);
@@ -81,7 +84,8 @@ public slots:
 protected:
   QDate dupDate;
   QString prepayFile;
-  QString lastInvoice, invoiceType;
+  QString lastInvoice;
+  QString lastWarehouse;
   QComboBox *ratesCombo;
   QLabel *labelRate;
   QLabel *rateLabel;
@@ -102,11 +106,12 @@ protected:
   int type;
   QString fName;
   bool ifCSS;
+  QString ret, retWarehouse;
 
   QString getGroupedSums();
   QString numbersCount(int in, int x);
   void saveColumnsWidth();
-  void makeInvoiceFooter();
+  virtual void makeInvoiceFooter();
   virtual void calculateDiscount();
   virtual void calculateSum();
   virtual void makeInvoiceHeadar(bool sellDate, bool brakePage, bool original);
@@ -132,7 +137,7 @@ private:
   QFile file;
   QNetworkReply *reply;
   QString pressedText;
-  QString ret, inv_form;
+  QString inv_form;
   QDomDocument doc;
   bool pforma, kAdded;
 };

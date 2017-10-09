@@ -8,6 +8,10 @@
 #include "ProductData.h"
 #include "ui_GoodsList.h"
 
+class QSpinBox;
+class QLabel;
+
+// class for choosing goods/services with GUI, when a document is created
 class GoodsList : public QDialog, public Ui::GoodsList {
 
   Q_OBJECT
@@ -21,6 +25,8 @@ public:
   const QString getSelItem();
   const QString getGoodsId();
   static GoodsList *instance();
+  void lockWidgetsDelNotes();
+  void unlockWidgetsDelNotes();
 
 public slots:
 
@@ -45,6 +51,12 @@ private:
   QString id;
   QMap<QString, QString> nets;
   QMap<QString, int> vats;
+  QList<int> amounts;
   static GoodsList *m_instance;
+  bool ifGoodIssueNote;
+  QLabel* lab1;
+  QLabel* lab2;
+  QSpinBox* amountWant;
+  QSpinBox* amountOut;
 };
 #endif
