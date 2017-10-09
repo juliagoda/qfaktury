@@ -721,7 +721,7 @@ bool GoodsIssuedNotes::saveInvoice() {
         if (!result) {
           QMessageBox::warning(
               this, trUtf8("Zapis dokumentu RW"),
-              trUtf8("Zapis dokumentu RW zakończył się niepowodzeniem. Sprawdź czy masz "
+              trUtf8("Zapis dokumentu RW zakończył się niepowodzeniem. Sprawdź, czy masz "
                      "uprawnienia do zapisu lub odczytu w ścieżce ") +
                   sett().getWarehouseFullDir() + trUtf8(" oraz czy ścieżka istnieje."));
         }
@@ -989,9 +989,9 @@ void GoodsIssuedNotes::editGoods() {
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Nie ma na liście żadnych towarów, które można by "
                           "było edytować. Kliknij na przycisk \"Dodaj\" i "
-                          "wybierz towar lub usługę z listy"));
+                          "wybierz towar lub usługę z listy."));
     msgBox.setInformativeText(
-        trUtf8("Chcesz potwierdzić by dokonać zmiany, czy anulować, by wyjść "
+        trUtf8("Chcesz potwierdzić, by dokonać zmiany? Czy anulować, by wyjść "
                "do głównego okna?"));
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
@@ -1012,7 +1012,7 @@ void GoodsIssuedNotes::editGoods() {
 
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Musisz zaznaczyć towar, który chcesz edytować, "
-                          "klikając na określony rząd w tabeli"));
+                          "klikając na określony rząd w tabeli."));
     msgBox.setIcon(QMessageBox::Information);
     int re = msgBox.exec();
 

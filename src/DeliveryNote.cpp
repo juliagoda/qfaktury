@@ -239,7 +239,7 @@ void DeliveryNote::makeInvoiceProductsHeadar() {
 
       int res = 100 - sumPercents;
       invStrList += "<td align=\"center\" width=\"" + sett().numberToString(res) +
-                    "%\">" + trUtf8("Nazwa towaru/usługi") + "</td>";
+                    "%\">" + trUtf8("Nazwa towaru/materiału") + "</td>";
 
 
       currentPercent += 9;
@@ -397,8 +397,8 @@ bool DeliveryNote::saveInvoice() {
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Czy chcesz od razu do tworzonego dokumentu WZ wygenerować fakturę?"));
     msgBox.setInformativeText(
-        trUtf8("Jeśli chcesz dodać dodatkowo fakturę do listy faktur, wciśnij - OK. Jeśli "
-               "chcesz zapisać tylko dokument WZ, wciśnij - Anuluj. Pamiętaj, że fakturę do"
+        trUtf8("Jeśli chcesz dodać dodatkowo fakturę do listy faktur, wybierz - OK. Jeśli "
+               "chcesz zapisać tylko dokument WZ, wybierz - Anuluj. Pamiętaj, że fakturę do"
                "każdego dokumentu WZ należy wystawić w nieprzekraczalnym terminie 7 dni"));
     msgBox.setIcon(QMessageBox::Information);
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
@@ -425,7 +425,7 @@ bool DeliveryNote::saveInvoice() {
         if (!result) {
           QMessageBox::warning(
               this, trUtf8("Zapis faktury"),
-              trUtf8("Zapis faktury zakończył się niepowodzeniem. Sprawdź czy masz "
+              trUtf8("Zapis faktury zakończył się niepowodzeniem. Sprawdź, czy masz "
                      "uprawnienia do zapisu lub odczytu w ścieżce ") +
                   sett().getInvoicesDir() + trUtf8(" oraz czy ścieżka istnieje."));
         }
@@ -439,7 +439,7 @@ bool DeliveryNote::saveInvoice() {
         if (!result) {
           QMessageBox::warning(
               this, trUtf8("Zapis dokumentu WZ"),
-              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź czy masz "
+              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź, czy masz "
                      "uprawnienia do zapisu lub odczytu w ścieżce ") +
                   sett().getWarehouseFullDir() + trUtf8(" oraz czy ścieżka istnieje."));
         }
@@ -477,7 +477,7 @@ bool DeliveryNote::saveInvoice() {
         if (!result) {
           QMessageBox::warning(
               this, trUtf8("Zapis dokumentu WZ"),
-              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź czy masz "
+              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź, czy masz "
                      "uprawnienia do zapisu lub odczytu w ścieżce ") +
                   sett().getWarehouseFullDir() + trUtf8(" oraz czy ścieżka istnieje."));
         }
@@ -715,9 +715,9 @@ void DeliveryNote::editGoods() {
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Nie ma na liście żadnych towarów, które można by "
                           "było edytować. Kliknij na przycisk \"Dodaj\" i "
-                          "wybierz towar lub usługę z listy"));
+                          "wybierz towar lub usługę z listy."));
     msgBox.setInformativeText(
-        trUtf8("Chcesz potwierdzić by dokonać zmiany, czy anulować, by wyjść "
+        trUtf8("Chcesz potwierdzić, by dokonać zmiany? Czy anulować, by wyjść "
                "do głównego okna?"));
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
@@ -738,7 +738,7 @@ void DeliveryNote::editGoods() {
 
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Musisz zaznaczyć towar, który chcesz edytować, "
-                          "klikając na określony rząd w tabeli"));
+                          "klikając na określony rząd w tabeli."));
     msgBox.setIcon(QMessageBox::Information);
     int re = msgBox.exec();
 

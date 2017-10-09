@@ -202,7 +202,7 @@ bool Warehouse::saveInvoice() {
         if (!result) {
           QMessageBox::warning(
               this, trUtf8("Zapis dokumentu WZ"),
-              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź czy masz "
+              trUtf8("Zapis dokumentu WZ zakończył się niepowodzeniem. Sprawdź, czy masz "
                      "uprawnienia do zapisu lub odczytu w ścieżce ") +
                   sett().getWarehouseFullDir() + trUtf8(" oraz czy ścieżka istnieje."));
         }
@@ -310,7 +310,7 @@ void Warehouse::canQuit() {
 
     if (QMessageBox::warning(
             this, "QFaktury",
-            trUtf8("Dane zostały zmienione czy chcesz zapisać?"), trUtf8("Tak"),
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"), trUtf8("Tak"),
             trUtf8("Nie"), 0, 0, 1) == 1) {
       saveColumnsWidth();
       reject();

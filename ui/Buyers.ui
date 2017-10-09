@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>447</width>
-    <height>422</height>
+    <height>441</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -246,7 +246,7 @@
      <item>
       <widget class="QPushButton" name="cancelButton">
        <property name="text">
-        <string>Can&amp;cel</string>
+        <string>Anuluj</string>
        </property>
        <property name="shortcut">
         <string>Alt+C</string>

@@ -33,22 +33,22 @@ Invoice::Invoice(QWidget *parent, IDataLayer *dl, QString Inv)
   kAdded = false;
   konvEUR->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvPLN->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvUSD->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvCHF->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvGBP->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
   konvRUB->setToolTip(trUtf8("Zamienia wartości liczbowe na fakturze na "
                              "zaznaczone według aktualnego kursu walut, o ile "
-                             "się różni wyboru waluty z listy obok."));
+                             "się różni wybór waluty z listy obok."));
 
   init();
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
@@ -651,7 +651,7 @@ bool Invoice::convWarn() {
     msgBox.setText(trUtf8("Aby zmienić walutę, powinieneś dodać co najmniej "
                           "jeden towar lub usługę"));
     msgBox.setInformativeText(
-        trUtf8("Chcesz dodać towar lub usługę czy wrócić do głównego okna?"));
+        trUtf8("Chcesz dodać towar lub usługę, czy wrócić do głównego okna?"));
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Ok);
@@ -1140,7 +1140,7 @@ void Invoice::canQuit() {
 
     if (QMessageBox::warning(
             this, "QFaktury",
-            trUtf8("Dane zostały zmienione czy chcesz zapisać?"), trUtf8("Tak"),
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"), trUtf8("Tak"),
             trUtf8("Nie"), 0, 0, 1) == 1) {
       saveColumnsWidth();
       reject();
@@ -1337,7 +1337,7 @@ void Invoice::dateChanged(QDate) {
     QMessageBox::information(
         this, trUtf8("Błędne ustawienie daty"),
         trUtf8("Data wystawienia faktury nie może być wcześniejsza od daty "
-               "sprzedaży towaru lub wykonania usługi"));
+               "sprzedaży towaru lub wykonania usługi."));
     productDate->setDate(sellingDate->date());
 
   } else {
@@ -1665,7 +1665,7 @@ bool Invoice::saveInvoice() {
   if (!result) {
     QMessageBox::warning(
         this, trUtf8("Zapis faktury"),
-        trUtf8("Zapis faktury zakończył się niepowodzeniem. Sprawdź czy masz "
+        trUtf8("Zapis faktury zakończył się niepowodzeniem. Sprawdź, czy masz "
                "uprawnienia do zapisu lub odczytu w ścieżce ") +
             sett().getInvoicesDir() + trUtf8(" oraz czy ścieżka istnieje."));
   }
@@ -1824,7 +1824,7 @@ void Invoice::print() {
           trUtf8("Prawdopobnie nie masz skonfigurowanej lub podłączonej "
                  "drukarki. Wykrywana nazwa domyślnej drukarki to: ") +
               printer.printerName() +
-              trUtf8(". Status domyślnej drukarki (poprawny o ile drukarka ma "
+              trUtf8(". Status domyślnej drukarki (poprawny, o ile drukarka ma "
                      "możliwość raportowania statusu do systemu): ") +
               printer.printerState());
     }
@@ -1849,10 +1849,10 @@ bool Invoice::validateForm() {
 
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Aby zapisać fakturę, powinieneś dodać co najmniej "
-                          "jednego kontrahenta"));
+                          "jednego kontrahenta."));
     msgBox.setInformativeText(
-        trUtf8("Jeśli chcesz dodać kontrahenta, wciśnij - OK. Jeśli chcesz "
-               "wrócić do głównego okna, wciśnij - Anuluj"));
+        trUtf8("Jeśli chcesz dodać kontrahenta, wybierz - OK. Jeśli chcesz "
+               "wrócić do głównego okna, wybierz - Anuluj."));
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Ok);
@@ -1876,10 +1876,10 @@ bool Invoice::validateForm() {
 
     QMessageBox msgBox;
     msgBox.setText(trUtf8("Aby zapisać fakturę, powinieneś dodać co najmniej "
-                          "jeden towar lub usługę"));
+                          "jeden towar lub usługę."));
     msgBox.setInformativeText(
-        trUtf8("Jeśli chcesz dodać towar lub usługę, wciśnij - OK. Jeśli "
-               "chcesz wrócić do głównego okna, wciśnij - Anuluj"));
+        trUtf8("Jeśli chcesz dodać towar lub usługę, wybierz - OK. Jeśli "
+               "chcesz wrócić do głównego okna, wybierz - Anuluj."));
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Ok);

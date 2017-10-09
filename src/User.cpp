@@ -759,12 +759,12 @@ void User::on_addEmail_clicked() {
       emailsCombo->addItem(emailEdit->text().trimmed());
       emailEdit->clear();
     } else
-      QMessageBox::warning(this, "Istniejacy adres",
-                           "Taki adres znajduje sie juz na Twojej liscie ");
+      QMessageBox::warning(this, "Istniejący adres",
+                           "Taki adres znajduje się już na Twojej liście ");
   } else
     QMessageBox::warning(this, "Pusta rubryka dla adresu email",
-                         "Nie ma wpisanego adresu email w rubryce, ktory "
-                         "moglbys dodac do listy. Wprowadz wpierw adres. ");
+                         "Nie ma wpisanego adresu email w rubryce, który "
+                         "mógłbyś dodać do listy. Wprowadż w pierwszej kolejności adres. ");
 }
 
 // removes current option in QComboBox for emails. Changes in user.conf will be

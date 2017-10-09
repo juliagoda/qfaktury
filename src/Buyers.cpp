@@ -224,7 +224,7 @@ bool Buyers::validate() {
   if (allNames.indexOf(QRegExp(nameEdit->text(), Qt::CaseSensitive,
                                QRegExp::FixedString)) != -1) {
     QMessageBox::critical(0, "QFaktury",
-                          trUtf8("Kontrahent nie moze zostać dodany ponieważ "
+                          trUtf8("Kontrahent nie moze zostać dodany, ponieważ "
                                  "istnieje już kontrahent o tej nazwie."));
     return false;
   }

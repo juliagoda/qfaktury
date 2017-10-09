@@ -500,7 +500,7 @@ void Correction::canQuit() {
 
     if (QMessageBox::warning(
             this, "QFaktury",
-            trUtf8("Dane zostały zmienione czy chcesz zapisać?"), trUtf8("Tak"),
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"), trUtf8("Tak"),
             trUtf8("Nie"), 0, 0, 1) == 1) {
 
       saveColumnsWidth();

@@ -94,10 +94,10 @@ bool Validations::validateEmail(QString text) {
         0, "QFaktury",
         trUtf8("Źle podany adres email. Dozwolone są duże litery, małe litery, "
                "cyfry, specjalne znaki !#$%&'*+-/=?^_`{|}~, znak . (pod "
-               "warunkiem że nie znajduje się na początku lub na końcu, a jak "
-               "już to w znakach \"\"), znak - (o ile nie znajduje się na "
+               "warunkiem, że nie znajduje się na początku lub na końcu, a jak "
+               "już, to w znakach \"\"), znak - (o ile nie znajduje się na "
                "początku lub końcu) oraz znaki specjalne jak "
-               "spacja,\"(),:;<>@[\\] (pod warunkiem że znajdują się w znakach "
+               "spacja,\"(),:;<>@[\\] (pod warunkiem, że znajdują się w znakach "
                "\"\")"));
 
     return false;

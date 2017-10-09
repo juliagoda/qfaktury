@@ -108,7 +108,7 @@ void MainWindow::init() {
                "do internetu oraz poprawnie ustawiony czas systemowy."));
     QMessageBox::information(
         this, "QFaktury",
-        trUtf8("W przypadku zmiany lokalizacji systemu sposób formatowania "
+        trUtf8("W przypadku zmiany lokalizacji systemu, sposób formatowania "
                "liczb może się zmienić. Efekt ten może być widoczny po "
                "restarcie programu."));
 
@@ -1187,11 +1187,14 @@ void MainWindow::aboutProg() {
           sett().getVersion(qAppName()) + trUtf8("<br/>Wymagane Qt >= 5.0.0") +
           trUtf8("<br/>Kompilowane z Qt ") + QT_VERSION_STR +
           trUtf8("<br/>Twoja aktualna wersja - Qt ") + qVersion() +
-          trUtf8("</p><p>Koordynator projektu: Grzegorz Rękawek</p>  "
-                 "<p>Programiści: Tomasz Pielech, Rafał Rusin "
+          trUtf8("</p><p>Dawny koordynator projektu: Grzegorz Rękawek</p>  "
+                 "<p>Aktualny koordynator projektu: Jagoda \"juliagoda\" Górska</p>"
+                 "<p>Dawni programiści: Tomasz Pielech, Rafał Rusin "
                  "http://people.apache.org/~rr/, Sławomir Patyk, Jagoda "
-                 "Górska</p>") +
-          trUtf8("<p>Ikony: Dariusz Arciszewski </p><p>Portowanie na Qt5: "
+                 "Górska</p>"
+                 "<p>Aktualni programiści: Jagoda \"juliagoda\" Górska</p>") +
+          trUtf8("<p>Ikony: Dariusz Arciszewski, Jagoda \"juliagoda\" Górska </p>"
+                 "<p>Portowanie na Qt5: "
                  "Jagoda \"juliagoda\" Górska</p><br/>") +
           trUtf8("<p>Testy w środowisku Arch Linux: Piotr \"sir_lucjan\" "
                  "Górski && Paweł \"pavbaranov\" Baranowski</p>") +
@@ -1546,14 +1549,14 @@ void MainWindow::delFHist() {
   if (ui->tableH->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Faktura nie wybrana. Nie mozna usuwać."),
+                             trUtf8("Faktura nie została wybrana. Nie można usuwać."),
                              trUtf8("Ok"), 0, 0, 1);
     return;
   }
 
   if (QMessageBox::warning(
           this, sett().getVersion(qAppName()),
-          trUtf8("Czy napewno chcesz usnąć tą fakturę z historii?"),
+          trUtf8("Czy napewno chcesz usunąć tą fakturę z historii?"),
           trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
 
     QString name = ui->tableH->item(ui->tableH->currentRow(), 0)->text();
@@ -1576,7 +1579,7 @@ void MainWindow::delMHist() {
 
   if (QMessageBox::warning(
           this, sett().getVersion(qAppName()),
-          trUtf8("Czy napewno chcesz usunąć tą dokument magazynu z historii?"),
+          trUtf8("Czy napewno chcesz usunąć ten dokument magazynu z historii?"),
           trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
 
     QString name = ui->tableM->item(ui->tableM->currentRow(), 0)->text();
@@ -1650,7 +1653,7 @@ void MainWindow::buyerDel() {
 
     QMessageBox::information(
         this, trUtf8("QFaktury"),
-        trUtf8("Kontrahent nie wybrany. Nie mozna usuwac."), trUtf8("Ok"), 0, 0,
+        trUtf8("Kontrahent nie został wybrany. Nie można usuwac."), trUtf8("Ok"), 0, 0,
         1);
     return;
   }
@@ -1675,7 +1678,7 @@ void MainWindow::buyerEd() {
   if (ui->tableK->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Kontrahent nie wybrany."), trUtf8("Ok"), 0,
+                             trUtf8("Kontrahent nie został wybrany."), trUtf8("Ok"), 0,
                              0, 1);
     return;
   }
@@ -2028,7 +2031,7 @@ void MainWindow::newCor() {
   if (ui->tableH->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Faktura nie wybrana. Wybierz fakurę, do "
+                             trUtf8("Faktura nie została wybrana. Wybierz fakurę, do "
                                     "której chcesz wystawić korektę."),
                              trUtf8("Ok"), 0, 0, 1);
     return;
@@ -2197,7 +2200,7 @@ void MainWindow::goodsDel() {
   if (ui->tableT->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Towar nie wybrany. Nie mozna usuwac."),
+                             trUtf8("Towar nie został wybrany. Nie można usuwać."),
                              trUtf8("Ok"), 0, 0, 1);
     return;
   }
@@ -2223,7 +2226,7 @@ void MainWindow::goodsEdit() {
   if (ui->tableT->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Towar nie wybrany. Nie można edytować."),
+                             trUtf8("Towar nie został wybrany. Nie można edytować."),
                              trUtf8("Ok"), 0, 0, 1);
     return;
   }
@@ -2432,7 +2435,7 @@ void MainWindow::addTaskToList() {
 
       QMessageBox::critical(
           this, trUtf8("Dodawanie zadania"),
-          trUtf8("Zadanie nie mogło zostac dodane. Sprawdź, czy istnieje "
+          trUtf8("Zadanie nie mogło zostać dodane. Sprawdź, czy istnieje "
                  "ścieżka: ") +
               planDir +
               trUtf8(" . Jeśli istnieje to sprawdź, czy masz uprawnienia do "
@@ -2507,7 +2510,7 @@ void MainWindow::addNextTask() {
 
           QMessageBox::critical(
               this, trUtf8("Dopisywanie kolejnego zadania"),
-              trUtf8("Dodatkowe zadanie nie mogło zostac dodane. Sprawdź, czy "
+              trUtf8("Dodatkowe zadanie nie mogło zostać dodane. Sprawdź, czy "
                      "istnieje ścieżka: ") +
                   planDir +
                   trUtf8(" . Jeśli istnieje to sprawdź, czy masz uprawnienia "
@@ -2555,7 +2558,7 @@ bool MainWindow::close() {
 void MainWindow::createFirstWinBackup() {
 
   QPushButton *browseButton =
-      new QPushButton(trUtf8("&Szukaj katalog..."), this);
+      new QPushButton(trUtf8("&Szukaj katalogu..."), this);
   connect(browseButton, &QAbstractButton::clicked, this,
           &MainWindow::choosePathBackup);
 
@@ -2640,14 +2643,14 @@ void MainWindow::createBackup() {
       qDebug() << "Created archive";
       QMessageBox::information(
           windBack, trUtf8("Tworzenie kopii zapasowej"),
-          trUtf8("Stworzenie kopii zapasowej zakończyła się sukcesem!"));
+          trUtf8("Stworzenie kopii zapasowej zakończyło się sukcesem!"));
 
     } else {
 
       qDebug() << "Archive had not been created";
       QMessageBox::warning(windBack, trUtf8("Tworzenie kopii zapasowej"),
-                           trUtf8("Stworzenie kopii zapasowej nie zakończyło "
-                                  "się sukcesem. Sprawdź, czy masz uprawnienia "
+                           trUtf8("Stworzenie kopii zapasowej zakończyło "
+                                  "się niepowodzeniem. Sprawdź, czy masz uprawnienia "
                                   "do odczytu i zapisu w wybranym folderze."));
     }
 
@@ -2718,7 +2721,7 @@ void MainWindow::loadBackup() {
       } else {
         QMessageBox::information(
             this, trUtf8("Kopia zapasowa głównego katalogu"),
-            trUtf8("Wczytywanie kopii zapasowej nie zakończyło się sukcesem! "
+            trUtf8("Wczytywanie kopii zapasowej zakończyło się niepowodzeniem! "
                    "Kopia zapasowa powinna zawierać co najmniej listę "
                    "produktów i kontrahentów."));
       }

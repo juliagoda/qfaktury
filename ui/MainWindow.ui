@@ -1309,7 +1309,7 @@
      <normaloff>:/res/icons/good_issue_note.png</normaloff>:/res/icons/good_issue_note.png</iconset>
    </property>
    <property name="text">
-    <string>RW</string>
+    <string>&amp;RW</string>
    </property>
   </action>
  </widget>
