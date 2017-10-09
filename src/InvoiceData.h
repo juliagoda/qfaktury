@@ -13,7 +13,7 @@
 
 #include "CustomPaymData.h"
 #include "ProductData.h"
-#include "documentdata.h"
+#include "DocumentData.h"
 
 // class for holding data about invoices. One instance -> one invoice.
 class InvoiceData : public DocumentData {

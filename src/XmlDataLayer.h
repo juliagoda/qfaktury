@@ -14,8 +14,8 @@
 #include <QtXml/qdom.h>
 
 #include "IDataLayer.h"
-#include "documentdata.h"
-#include "warehousedata.h"
+#include "DocumentData.h"
+#include "WarehouseData.h"
 
 // class for creating, updating and removing xml files with goods/services,
 // invoices, warehouse documents and buyers informations

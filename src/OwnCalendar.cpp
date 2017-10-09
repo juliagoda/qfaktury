@@ -2,7 +2,7 @@
 #include <QDir>
 #include <QPainter>
 
-#include "owncalendar.h"
+#include "OwnCalendar.h"
 
 ownCalendarWidget::ownCalendarWidget(QWidget *parent)
     : QCalendarWidget(parent) {}

@@ -14,7 +14,7 @@
 #include "BuyerData.h"
 #include "InvoiceData.h"
 #include "ProductData.h"
-#include "warehousedata.h"
+#include "WarehouseData.h"
 
 // class as bridge between XmlDataLayer class and others
 class IDataLayer {

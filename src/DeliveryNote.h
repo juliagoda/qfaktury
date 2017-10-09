@@ -6,7 +6,7 @@
 #define DELIVERYNOTE_H
 
 #include "Warehouse.h"
-#include "warehousedata.h"
+#include "WarehouseData.h"
 
 // class for creating delivery note document, that belongs to warehouse
 // documents

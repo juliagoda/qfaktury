@@ -28,7 +28,7 @@
 #include "Setting.h"
 #include "User.h"
 #include "XmlDataLayer.h"
-#include "owncalendar.h"
+#include "OwnCalendar.h"
 #include "quazipdir.h"
 
 MainWindow *MainWindow::m_instance = nullptr;

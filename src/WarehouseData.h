@@ -5,7 +5,7 @@
 #define WAREHOUSEDATA_H
 
 #include "ProductData.h"
-#include "documentdata.h"
+#include "DocumentData.h"
 
 // class for holding informations about warehouse documents. One instance -> one
 // document

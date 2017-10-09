@@ -6,7 +6,7 @@
 #define WAREHOUSE_H
 
 #include "Invoice.h"
-#include "warehousedata.h"
+#include "WarehouseData.h"
 
 // base class for created/updated warehouse documents. Form is used from invoice
 // class

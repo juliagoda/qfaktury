@@ -6,7 +6,7 @@
 #define GOODSISSUEDNOTES_H
 
 #include "Warehouse.h"
-#include "warehousedata.h"
+#include "WarehouseData.h"
 
 class QFormLayout;
 class QLineEdit;

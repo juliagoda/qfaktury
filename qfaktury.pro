@@ -74,7 +74,7 @@ SOURCES += $$PWD/src/XmlDataLayer.cpp \
     $${QUAZIPCODEDIR}/*.c \
     $${SMTPCODEDIR}/*.cpp \
     $$PWD/src/Send.cpp \
-    $$PWD/src/owncalendar.cpp \
+    $$PWD/src/OwnCalendar.cpp \
     $$PWD/src/Warehouse.cpp \
     $$PWD/src/DeliveryNote.cpp \
     $$PWD/src/GoodsIssuedNotes.cpp

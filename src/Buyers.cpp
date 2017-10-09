@@ -8,6 +8,8 @@
 
 Buyers::Buyers(QWidget *parent, int mode, IDataLayer *dl) : QDialog(parent) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   workingMode = mode;
   dataLayer = dl;
   setupUi(this);
@@ -19,6 +21,8 @@ Buyers::Buyers(QWidget *parent, int mode, IDataLayer *dl) : QDialog(parent) {
 
 void Buyers::init() {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   allNames = dataLayer->buyersGetFirmList();
 
   // connects
@@ -28,7 +32,10 @@ void Buyers::init() {
           SLOT(requiredTic(int)));
 }
 
-const QString Buyers::getRetBuyer() { return ret; }
+const QString Buyers::getRetBuyer() {
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+    return ret;
+}
 
 // --------- SLOTS START --
 /** Slot - ok & save
