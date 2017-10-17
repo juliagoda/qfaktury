@@ -6,6 +6,7 @@
  */
 
 #include "BuyerData.h"
+
 #include <QDebug>
 
 BuyerData::BuyerData() {

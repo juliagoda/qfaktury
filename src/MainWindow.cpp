@@ -1,15 +1,4 @@
-﻿
-#include <QDesktopServices>
-#include <QDesktopWidget>
-#include <QFileDialog>
-#include <QInputDialog>
-#include <QPdfWriter>
-#include <QPrintPreviewDialog>
-#include <QPrinter>
-#include <QProcess>
-#include <QTimer>
-
-
+﻿#include "MainWindow.h"
 #include "DeliveryNote.h"
 #include "GoodsIssuedNotes.h"
 #include "Bill.h"
@@ -22,14 +11,25 @@
 #include "Invoice.h"
 #include "InvoiceGross.h"
 #include "InvoiceRR.h"
-#include "JlCompress.h"
-#include "MainWindow.h"
 #include "Send.h"
 #include "Setting.h"
 #include "User.h"
 #include "XmlDataLayer.h"
 #include "OwnCalendar.h"
+
+#include "JlCompress.h"
 #include "quazipdir.h"
+
+#include <QDesktopServices>
+#include <QDesktopWidget>
+#include <QFileDialog>
+#include <QInputDialog>
+#include <QPdfWriter>
+#include <QPrintPreviewDialog>
+#include <QPrinter>
+#include <QProcess>
+#include <QTimer>
+
 
 MainWindow *MainWindow::m_instance = nullptr;
 bool MainWindow::shouldHidden = false;

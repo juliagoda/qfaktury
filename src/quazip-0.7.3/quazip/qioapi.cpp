@@ -8,14 +8,17 @@
    Modified by Sergey A. Tachenov to integrate with Qt.
 */
 
+#include "ioapi.h"
+#include "quazip_global.h"
+#include "zlib.h"
+
+#include <QIODevice>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "ioapi.h"
-#include "quazip_global.h"
-#include "zlib.h"
-#include <QIODevice>
+
 #if (QT_VERSION >= 0x050100)
 #define QUAZIP_QSAVEFILE_BUG_WORKAROUND
 #endif

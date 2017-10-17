@@ -1,9 +1,10 @@
+#include "Setting.h"
+#include "Settings.h"
 
 #include <QFileDialog>
 #include <QSignalMapper>
 
-#include "Setting.h"
-#include "Settings.h"
+
 
 Setting::Setting(QWidget *parent) : QDialog(parent) {
 

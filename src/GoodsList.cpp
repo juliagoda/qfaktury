@@ -1,12 +1,14 @@
 
+#include "GoodsList.h"
+#include "Settings.h"
+
 #include <QtXml/qdom.h>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QList>
 
-#include "GoodsList.h"
-#include "Settings.h"
+
 
 /** Constructor
  */

@@ -1,11 +1,12 @@
+#include "User.h"
+#include "Settings.h"
+#include "Validations.h"
+
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLineEdit>
 #include <QScrollArea>
 
-#include "Settings.h"
-#include "User.h"
-#include "Validations.h"
 
 User::User(QWidget *parent) : QDialog(parent) {
 

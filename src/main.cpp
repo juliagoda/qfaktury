@@ -1,3 +1,6 @@
+#include "MainWindow.h"
+#include "Settings.h"
+
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QResource>
@@ -5,8 +8,6 @@
 #include <QStyle>
 #include <QTimer>
 
-#include "MainWindow.h"
-#include "Settings.h"
 
 int main(int argc, char **argv) {
 

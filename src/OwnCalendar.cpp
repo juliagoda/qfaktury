@@ -1,9 +1,10 @@
+#include "OwnCalendar.h"
+
 #include <QCalendarWidget>
 #include <QDir>
 #include <QPainter>
 #include <QDebug>
 
-#include "OwnCalendar.h"
 
 ownCalendarWidget::ownCalendarWidget(QWidget *parent)
     : QCalendarWidget(parent) {}

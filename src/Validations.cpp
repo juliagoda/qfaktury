@@ -1,3 +1,5 @@
+#include "Validations.h"
+
 #include <QChar>
 #include <QDebug>
 #include <QLineEdit>
@@ -6,7 +8,7 @@
 #include <QMessageBox>
 #include <QRegExp>
 
-#include "Validations.h"
+
 
 Validations *Validations::m_instance = nullptr;
 

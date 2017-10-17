@@ -1,10 +1,4 @@
-
-#include <QKeyEvent>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QPrintPreviewDialog>
-#include <QPrinter>
-
+#include "Invoice.h"
 #include "Buyers.h"
 #include "BuyersList.h"
 #include "ChangeAmount.h"
@@ -13,8 +7,15 @@
 #include "CustomPayment.h"
 #include "GoodsList.h"
 #include "IDataLayer.h"
-#include "Invoice.h"
 #include "MainWindow.h"
+
+#include <QKeyEvent>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QPrintPreviewDialog>
+#include <QPrinter>
+
+
 
 short invType;
 Invoice *Invoice::m_instance = nullptr;

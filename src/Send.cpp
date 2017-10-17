@@ -1,3 +1,11 @@
+#include "Send.h"
+#include "Buyers.h"
+#include "Const.h"
+#include "ConvertAmount.h"
+#include "IDataLayer.h"
+#include "Invoice.h"
+#include "InvoiceData.h"
+
 #include <QCheckBox>
 #include <QDomDocument>
 #include <QFile>
@@ -14,13 +22,8 @@
 #include <QWizard>
 #include <QWizardPage>
 
-#include "Buyers.h"
-#include "Const.h"
-#include "ConvertAmount.h"
-#include "IDataLayer.h"
-#include "Invoice.h"
-#include "InvoiceData.h"
-#include "Send.h"
+
+
 
 Send::Send(QVector<BuyerData> buyersList, QVector<InvoiceData> invList,
            QWidget *parent)
