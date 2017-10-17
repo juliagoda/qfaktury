@@ -10,6 +10,7 @@
 
 class IDataLayer;
 class BuyerData;
+class QJsonValue;
 
 // class for setting your data as company with GUI
 class Buyers : public QDialog, public Ui::Buyers {
@@ -31,6 +32,9 @@ public slots:
   void okClick();
   void requiredTic(int);
 
+private slots:
+  void on_gusBtn_clicked();
+
 private:
   QStringList allNames;
   QString ret;
@@ -43,5 +47,9 @@ private:
   void setData(BuyerData &buyerData);
   bool validate();
   bool validateUpdated();
+  bool connectGUS();
+  bool checkGusPath();
+  void setDataFromGUS();
+
 };
 #endif

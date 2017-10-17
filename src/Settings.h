@@ -638,6 +638,12 @@ public:
     return QString(getWorkingDir() + getWarehouseDir() + "/");
   }
 
+  // return gus dir
+  QString getGUSDir() {
+    return QString(getWorkingDir() + "/gus");
+  }
+
+
   // return customers xml
   QString getCustomersXml() {
     return QString(getWorkingDir() + "/customers.xml");

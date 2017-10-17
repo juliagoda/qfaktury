@@ -1,0 +1,25 @@
+{
+  "name": "gusapi/gusapi",
+  "description": "Gus Api Library for PHP",
+  "type" : "library",
+  "license": "LGPL-2.1",
+  "keywords":["nip","regon","krs","api", "soap", "library", "GUS", "CEGID"],
+  "authors": [
+    {
+      "name": "Janusz Żukowicz",
+      "email": "john_zuk@wp.pl"
+    }
+  ],
+  "require": {
+    "php" : ">=5.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.6.6"
+  },
+  "autoload":{
+
+    "psr-4": {
+      "GusApi\\": "/usr/share/qfaktury/src/GusApi/src/GusApi/"
+    }
+  }
+}

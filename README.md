@@ -27,6 +27,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - stworzenie i wczytywanie kopii zapasowej plików konfiguracyjnych oraz głównego katalogu
 - dodanie kolejnych sprzedawców/oddziałów
 - wysłanie e-mail do kontrahentów wraz z załącznikami z możliwością korzystania z gotowych szablonów
+- korzystanie z danych Głównego Urzędu Statystycznego z podaniem numeru NIP
 
 
 <br/>
@@ -40,6 +41,8 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - paczki qt5-base qt5-webengine (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
 - zlib w wersji wyższej lub równej 1.2.11
 - quazip w wersji wyższej lub równej 0.7.3
+- php w wersji 7.1 lub wyższej
+- gksu w wersji 2.0.2 lub wyższej
 - połączenie z internetem (opcjonalne)
 - aktualny czas systemowy (opcjonalne)
 
@@ -79,6 +82,8 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 2. Osoby posiadające faktury z wcześniejszych commit'ów w razie jakichkolwiek niepoprawnych wyników mogą spróbować ponownie zapisać istniejąca fakturę, edytując ją, ponieważ możliwe, że dotychczasowe commit'y uwzględniają zauważone błędy i uzupełnią także pliki XML dodatkowymi danymi, które pozwolą korzystać z pełnej funkcjonalności programu. Zalecane jest także trzymać kopię zapasową plików w innym miejscu.
 
 3. Aktualizacja aktualnego kursu walut następuje co pół godziny, pod warunkiem połączenia z internetem oraz poprawnego ustawienia czasu systemowego
+
+4. Jeżeli jeszcze nie istnieje katalog "gus" w ścieżce "~/.local/share/data/elinux", zostaniesz poproszony o autoryzację wykonania skryptu, który przygotowuje plik php.ini do korzystania z klienta SOAP oraz pobiera zależności dla podprojektu bazującego na PHP do prawidłowego uruchomienia aplikacji w celu połączenia z Głównym Urzędem Statystycznym"
 
 
 <br/>

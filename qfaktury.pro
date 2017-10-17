@@ -7,13 +7,13 @@ TARGET = qfaktury
 LIBDIR = /usr/lib
 QUAZIPCODEDIR = $$PWD/src/quazip-0.7.3/quazip
 SMTPCODEDIR = $$PWD/src/SimpleSmtp_SSL_QT5/smtp_attachements
+GUSCODEDIR = $$PWD/src/GusApi
 
 QT += gui core widgets printsupport xml webenginewidgets network
 CONFIG += debug
 QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
 QT_MINOR_VERSION = 5.0.0
-
 
 exists( /usr/lib/libquazip5.so ) {
 unix:LIBS += -L$${LIBDIR} -lquazip5
@@ -36,7 +36,8 @@ win32:LIBS += -L$${LIBDIR} -lzdll
 INCLUDEPATH += . \
             $${QUAZIPCODEDIR} \
             $${SMTPCODEDIR} \
-            $${LIBDIR}
+            $${LIBDIR} \
+            $${GUSCODEDIR}
 
 # Input
 HEADERS += $$files($$PWD/src/*.h) \
