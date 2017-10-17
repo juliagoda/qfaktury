@@ -11,6 +11,7 @@
 
 CustomPayment::CustomPayment(QWidget *parent) : QDialog(parent) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
   setupUi(this);
   // TODO Auto-generated constructor stub
   init();
@@ -18,12 +19,16 @@ CustomPayment::CustomPayment(QWidget *parent) : QDialog(parent) {
 
 CustomPayment::~CustomPayment() {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   if (custPaymData != 0)
     custPaymData = 0;
   delete custPaymData;
 }
 
 void CustomPayment::init() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   connect(okButton, SIGNAL(clicked()), this, SLOT(okClicked()));
   connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
@@ -45,6 +50,8 @@ void CustomPayment::init() {
 
 void CustomPayment::setInvoiceAmount(double a) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   invoiceAmount = a;
   amount1->setValue(invoiceAmount);
   amount1->setMaximum(invoiceAmount);
@@ -53,6 +60,8 @@ void CustomPayment::setInvoiceAmount(double a) {
 }
 
 bool CustomPayment::validateForm() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if ((amount1->value() == 0) || (amount2->value() == 0)) {
 
@@ -77,7 +86,8 @@ bool CustomPayment::validateForm() {
 
 void CustomPayment::amount1Changed(double) {
 
-  qDebug() << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   disconnect(amount2, SIGNAL(valueChanged(double)), this,
              SLOT(amount2Changed(double)));
   amount2->setValue(invoiceAmount - amount1->value());
@@ -87,7 +97,8 @@ void CustomPayment::amount1Changed(double) {
 
 void CustomPayment::amount2Changed(double) {
 
-  qDebug() << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   disconnect(amount1, SIGNAL(valueChanged(double)), this,
              SLOT(amount1Changed(double)));
   amount1->setValue(invoiceAmount - amount2->value());
@@ -96,6 +107,8 @@ void CustomPayment::amount2Changed(double) {
 }
 
 void CustomPayment::okClicked() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (validateForm()) {
 

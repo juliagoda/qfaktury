@@ -11,14 +11,19 @@
 Validations *Validations::m_instance = nullptr;
 
 Validations::Validations(QObject *parent) : QObject(parent) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
   m_instance = this;
 }
 
-Validations::~Validations() { m_instance = nullptr; }
+Validations::~Validations() { qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__; m_instance = nullptr; }
 
-Validations *Validations::instance() { return m_instance; }
+Validations *Validations::instance() { qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__; return m_instance; }
 
 bool Validations::validateAccount(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QRegExp masks("^([A-Z]{2})?[0-9]{2}(\\s|-)?([0-9]{4}(\\s|-)?){5}[0-9]{4}$");
 
   if (!masks.exactMatch(text)) {
@@ -37,6 +42,9 @@ bool Validations::validateAccount(QString text) {
 }
 
 bool Validations::validateEmail(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   // uppercase and lowercase Latin letters A to Z and a to z;
   // digits 0 to 9;
   // special characters !#$%&'*+-/=?^_`{|}~;
@@ -107,6 +115,9 @@ bool Validations::validateEmail(QString text) {
 }
 
 bool Validations::validateIDCard(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QRegExp masks("^([A-Z]{3}[0-9]{6})$");
 
   if (!masks.exactMatch(text)) {
@@ -123,6 +134,9 @@ bool Validations::validateIDCard(QString text) {
 }
 
 bool Validations::validateNIP(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QRegExp masks("^(([0-9]{3})-([0-9]{2})-([0-9]{2})-([0-9]{3}))|(([0-9]{3})-(["
                 "0-9]{3})-([0-9]{2})-([0-9]{2}))$");
 
@@ -140,6 +154,9 @@ bool Validations::validateNIP(QString text) {
 }
 
 bool Validations::validatePass(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QRegExp masks("^([A-Z]{2}[0-9]{7})$");
 
   if (!masks.exactMatch(text)) {
@@ -156,6 +173,9 @@ bool Validations::validatePass(QString text) {
 }
 
 bool Validations::validatePESEL(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QRegExp masks("^([0-9]{11})$");
 
   if (!masks.exactMatch(text)) {
@@ -171,6 +191,9 @@ bool Validations::validatePESEL(QString text) {
 }
 
 bool Validations::validatePkwiu(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QRegExp masks("^([0-9]{2}){1}(\\.([0-9]{1,2}){1})?(\\.([0-9]{1,2}){1})?(\\.(["
                 "0-9]{1}){1})?$");
 
@@ -189,6 +212,9 @@ bool Validations::validatePkwiu(QString text) {
 }
 
 bool Validations::validateRegon(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QRegExp masks("^(([0-9]{7})|([0-9]{9}))$");
 
   if (!masks.exactMatch(text)) {
@@ -204,6 +230,8 @@ bool Validations::validateRegon(QString text) {
 }
 
 bool Validations::validateTel(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QRegExp masks("^((\\+([0-9]{2}))|(0)){1}([0-9]{5,20})$");
 
@@ -221,6 +249,9 @@ bool Validations::validateTel(QString text) {
 }
 
 bool Validations::validateWebsite(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   // from http://www.faqs.org/rfcs/rfc1738.html
 
   // The characters ";", "/", "?", ":", "@", "=" and "&" are the characters
@@ -253,6 +284,9 @@ bool Validations::validateWebsite(QString text) {
 }
 
 bool Validations::validateZip(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QRegExp masks("^([0-9]{2})-([0-9]{3})$");
 
   if (!masks.exactMatch(text)) {
@@ -268,6 +302,9 @@ bool Validations::validateZip(QString text) {
 }
 
 bool Validations::checkSumNIP(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QString removedHyph = text.remove("-");
   QVector<int> list;
   QVector<int> numbersCheck = validateNumb(6, 5, 7, 2, 3, 4, 5, 6, 7);
@@ -296,6 +333,9 @@ bool Validations::checkSumNIP(QString text) {
 }
 
 bool Validations::checkSumREGON(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QVector<int> list;
   QVector<int> numbersCheck;
 
@@ -331,6 +371,9 @@ bool Validations::checkSumREGON(QString text) {
 }
 
 bool Validations::checkSumPESEL(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QVector<int> list;
   QVector<int> numbersCheck = validateNumb(9, 7, 3, 1, 9, 7, 3, 1, 9, 7, 1);
 
@@ -358,6 +401,8 @@ bool Validations::checkSumPESEL(QString text) {
 }
 
 bool Validations::checkSumAccount(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (symbols().contains(text.at(0)) && symbols().contains(text.at(1))) {
 
@@ -425,6 +470,8 @@ bool Validations::checkSumAccount(QString text) {
 
 bool Validations::checkSumIDCard(QString text) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QVector<int> numbersCheck = validateNumb(7, 3, 1, 7, 3, 1, 7, 3);
 
   QString transferedText = text;
@@ -470,6 +517,8 @@ bool Validations::checkSumIDCard(QString text) {
 
 bool Validations::checkSumPass(QString text) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QVector<int> numbersCheck = validateNumb(7, 3, 9, 1, 7, 3, 1, 7, 3);
 
   QString transferedText = text;
@@ -507,6 +556,9 @@ bool Validations::checkSumPass(QString text) {
 }
 
 bool Validations::isEmptyField(QLineEdit *field, QString title) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   if (field->text().isEmpty()) {
     QMessageBox::warning(0, "QFaktury",
                          trUtf8("Firma nie może zostać zapisana, pownieważ "
@@ -519,6 +571,9 @@ bool Validations::isEmptyField(QLineEdit *field, QString title) {
 }
 
 bool Validations::isEmptyField(QString input, QString title) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   if (input.isEmpty()) {
     QMessageBox::warning(0, "QFaktury",
                          trUtf8("Firma nie może zostać zapisana, pownieważ "

@@ -2,17 +2,23 @@
 #include "ChangeAmount.h"
 
 #include <QWidget>
+#include <QDebug>
 
 
 ChangeAmount *ChangeAmount::m_instance = nullptr;
 
 ChangeAmount::ChangeAmount(QWidget *parent) : QDialog(parent) {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   setupUi(this);
   init();
 }
 
 
 void ChangeAmount::init() { 
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
     
     if (m_instance == nullptr) m_instance = this;
     
@@ -42,6 +48,9 @@ if (this->parent()->objectName() == "GoodsIssuedNotes") {
                           
 
 ChangeAmount::~ChangeAmount() { 
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
     if (this->parent()->objectName() == "GoodsIssuedNotes") {
    textLabel2->show();
    spinAmount->show();
@@ -57,4 +66,4 @@ if (m_instance != nullptr) m_instance = nullptr;
     
 }
 
-ChangeAmount *ChangeAmount::instance() { return m_instance; }
+ChangeAmount *ChangeAmount::instance() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return m_instance; }

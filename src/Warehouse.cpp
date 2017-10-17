@@ -11,7 +11,7 @@
  */
 
 Warehouse::Warehouse(QWidget *parent, IDataLayer *dl, QString in_form)
-    : Invoice(parent, dl, in_form) {}
+    : Invoice(parent, dl, in_form) { qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__; }
 
 /** Destructor
  */

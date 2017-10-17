@@ -14,7 +14,10 @@
 GoodsList *GoodsList::m_instance = nullptr;
 
 GoodsList::GoodsList(QWidget *parent) : QDialog(parent) {
-  setupUi(this);
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+    setupUi(this);
   if (parent->objectName() == "GoodsIssuedNotes") ifGoodIssueNote = true;
   else ifGoodIssueNote = false;
   if (parent->objectName() == "DeliveryNote") lockWidgetsDelNotes();
@@ -23,6 +26,8 @@ GoodsList::GoodsList(QWidget *parent) : QDialog(parent) {
 }
 
 GoodsList::~GoodsList() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
     
     if (ifGoodIssueNote) {
 
@@ -48,6 +53,8 @@ GoodsList::~GoodsList() {
  */
 
 void GoodsList::init() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
     if (ifGoodIssueNote) {
 
@@ -111,15 +118,15 @@ void GoodsList::init() {
           SLOT(calcNet()));
 }
 
-GoodsList *GoodsList::instance() { return m_instance; }
+GoodsList *GoodsList::instance() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return m_instance; }
 
-const QString GoodsList::getGoodsId() { return id; }
+const QString GoodsList::getGoodsId() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return id; }
 
-const QString GoodsList::getSelItem() { return selectedItem; }
+const QString GoodsList::getSelItem() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return selectedItem; }
 
-const QMap<QString, int> GoodsList::getVatsVal() { return vats; }
+const QMap<QString, int> GoodsList::getVatsVal() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return vats; }
 
-const QString GoodsList::getRetVal() { return ret; }
+const QString GoodsList::getRetVal() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return ret; }
 
 // ***************************** SLOTS START
 // *****************************************
@@ -130,7 +137,7 @@ const QString GoodsList::getRetVal() { return ret; }
 
 void GoodsList::spinChanged(int a) {
 
-  // qDebug () << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (listWidget->selectedItems().size() == 1) {
 
@@ -145,6 +152,8 @@ void GoodsList::spinChanged(int a) {
  *  Accept and close
  */
 void GoodsList::doAccept() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (countSpinBox->text() == "" || countSpinBox->value() < 0.001) {
     QMessageBox::information(this, "QFaktury", trUtf8("Podaj ilość"),
@@ -232,6 +241,8 @@ void GoodsList::doAccept() {
 
 void GoodsList::lv1selChanged() {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   if (listWidget->selectedItems().size() == 1) {
 
     QListWidgetItem *item = listWidget->selectedItems().at(0);
@@ -248,6 +259,8 @@ void GoodsList::lv1selChanged() {
  */
 
 void GoodsList::calcNet() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (listWidget->selectedItems().size() == 1) {
 
@@ -266,6 +279,8 @@ void GoodsList::calcNet() {
  */
 
 void GoodsList::readGoods() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QDomDocument doc(sett().getProdutcsDocName());
   QDomElement root;
@@ -361,6 +376,8 @@ void GoodsList::readGoods() {
 
 void GoodsList::displayData(int x) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   listWidget->clear();
   
   if (ifGoodIssueNote) {
@@ -393,6 +410,8 @@ void GoodsList::displayData(int x) {
 
 void GoodsList::displayNet(QString index) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   priceBoxEdit->setValue(nets[index].split("|")[0].toDouble());
   spinBox2->setValue(1);
 }
@@ -401,6 +420,8 @@ void GoodsList::displayNet(QString index) {
  */
 
 QString GoodsList::trimZeros(QString in) {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   // code to remove unncessery zeros
   QStringList quan = in.split(sett().getDecimalPointStr());
@@ -415,6 +436,8 @@ QString GoodsList::trimZeros(QString in) {
 
 void GoodsList::lockWidgetsDelNotes() {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
 textLabel1_8->hide();
 discountSpin->hide();
 textLabel3_3->hide();
@@ -425,6 +448,8 @@ grossLabel->hide();
 }
 
 void GoodsList::unlockWidgetsDelNotes() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
 textLabel1_8->show();
 discountSpin->show();

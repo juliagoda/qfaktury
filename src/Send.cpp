@@ -25,6 +25,9 @@
 Send::Send(QVector<BuyerData> buyersList, QVector<InvoiceData> invList,
            QWidget *parent)
     : QWizard(parent) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   bList = buyersList;
   iList = invList;
   addPage(new IntroPage);
@@ -40,6 +43,9 @@ void Send::accept() { QDialog::accept(); }
 
 // First page of QWizard with Intro
 IntroPage::IntroPage(QWidget *parent) : QWizardPage(parent) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   setTitle(trUtf8("Wprowadzenie"));
 
   label =
@@ -59,6 +65,9 @@ ClassInvoicePage::ClassInvoicePage(QVector<BuyerData> buyList,
                                    QVector<InvoiceData> invList,
                                    QWidget *parent)
     : QWizardPage(parent) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   setTitle(tr("Wybieranie danych"));
   setSubTitle(tr("Wybierz jednego z kontrahentów oraz fakturę jako załącznik"));
   bList = buyList;
@@ -103,6 +112,8 @@ ClassInvoicePage::ClassInvoicePage(QVector<BuyerData> buyList,
 // otherwise, the current page stays up." From
 // http://doc.qt.io/qt-5/qwizardpage.html#validatePage
 bool ClassInvoicePage::validatePage() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   // extra for registerField. See table on
   // http://doc.qt.io/qt-5/qwizardpage.html#registerField
@@ -234,6 +245,9 @@ bool ClassInvoicePage::validatePage() {
 
 // transform short types to normal text for email message
 QString ClassInvoicePage::transformType(QString text) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   if (text == "FVAT")
     return s_INVOICE;
   if (text == "FPro")
@@ -256,6 +270,9 @@ QString ClassInvoicePage::transformType(QString text) {
 
 // Third page for helping choice of host and protocol for email account
 EmailPage::EmailPage(QWidget *parent) : QWizardPage(parent) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   setTitle(tr("Generowanie host"));
   setSubTitle(tr(
       "Wybierz swój host po lewej stronie poniżej, do którego należy twoja "
@@ -393,6 +410,8 @@ EmailPage::EmailPage(QWidget *parent) : QWizardPage(parent) {
 // what's going on before page is shown
 void EmailPage::initializePage() {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   checkedMailButton = false;
   protocol = QString();
   checkedMail = QString();
@@ -402,6 +421,8 @@ void EmailPage::initializePage() {
 // what's going on when QRadioButtons (with host names and protocols) are
 // checked
 void EmailPage::setHostPort(QString checked, QString protocol) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (checked == "Gmail") {
     edit1->setText("smtp.gmail.com");
@@ -560,6 +581,8 @@ void EmailPage::setHostPort(QString checked, QString protocol) {
 
 void EmailPage::setSSL(bool) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   if (!checkedMailButton)
     QMessageBox::warning(
         this, "Zaznaczenie skrzynki pocztowej",
@@ -571,6 +594,8 @@ void EmailPage::setSSL(bool) {
 }
 
 void EmailPage::setTCP(bool) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (!checkedMailButton)
     QMessageBox::warning(
@@ -584,6 +609,8 @@ void EmailPage::setTCP(bool) {
 
 void EmailPage::setTLS(bool) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   if (!checkedMailButton)
     QMessageBox::warning(
         this, "Zaznaczenie skrzynki pocztowej",
@@ -596,6 +623,8 @@ void EmailPage::setTLS(bool) {
 
 void EmailPage::setGmail(bool) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   checkedMailButton = true;
   checkedMail = "Gmail";
   if (checkedPortButton)
@@ -603,6 +632,8 @@ void EmailPage::setGmail(bool) {
 }
 
 void EmailPage::setOnet(bool) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   checkedMailButton = true;
   checkedMail = "Onet";
@@ -612,6 +643,8 @@ void EmailPage::setOnet(bool) {
 
 void EmailPage::seto2(bool) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   checkedMailButton = true;
   checkedMail = "o2";
   if (checkedPortButton)
@@ -619,6 +652,8 @@ void EmailPage::seto2(bool) {
 }
 
 void EmailPage::setInteria(bool) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   checkedMailButton = true;
   checkedMail = "Interia";
@@ -628,6 +663,8 @@ void EmailPage::setInteria(bool) {
 
 void EmailPage::setWP(bool) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   checkedMailButton = true;
   checkedMail = "WP";
   if (checkedPortButton)
@@ -635,6 +672,8 @@ void EmailPage::setWP(bool) {
 }
 
 void EmailPage::setYahoo(bool) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   checkedMailButton = true;
   checkedMail = "Yahoo";
@@ -644,6 +683,8 @@ void EmailPage::setYahoo(bool) {
 
 void EmailPage::setHotMail(bool) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   checkedMailButton = true;
   checkedMail = "HotMail (stare serwery)";
   if (checkedPortButton)
@@ -651,6 +692,8 @@ void EmailPage::setHotMail(bool) {
 }
 
 void EmailPage::setGazeta(bool) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   checkedMailButton = true;
   checkedMail = "Gazeta";
@@ -660,6 +703,8 @@ void EmailPage::setGazeta(bool) {
 
 void EmailPage::setAol(bool) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   checkedMailButton = true;
   checkedMail = "Aol";
   if (checkedPortButton)
@@ -667,6 +712,8 @@ void EmailPage::setAol(bool) {
 }
 
 void EmailPage::setFoxMail(bool) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   checkedMailButton = true;
   checkedMail = "Foxmail / QQMail";
@@ -676,6 +723,8 @@ void EmailPage::setFoxMail(bool) {
 
 void EmailPage::setOutlook(bool) {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   checkedMailButton = true;
   checkedMail = "Outlook";
   if (checkedPortButton)
@@ -684,6 +733,8 @@ void EmailPage::setOutlook(bool) {
 
 // Last page with email form, where some informations are ready in QLineEdits
 ConclusionPage::ConclusionPage(QWidget *parent) : QWizardPage(parent) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   setTitle(tr("Wprowadzanie danych"));
   setSubTitle(tr("Wybierz jeden z szablonów do wygenerowania"
@@ -708,6 +759,8 @@ ConclusionPage::ConclusionPage(QWidget *parent) : QWizardPage(parent) {
 // what's going on before last page is shown. Preparing...
 void ConclusionPage::initializePage() {
 
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   emailWindow->setServerName(field("host").toString());
   emailWindow->setPortNumber(field("port").toString());
   emailWindow->setRecipMail(field("emailData").toString());
@@ -722,6 +775,9 @@ void ConclusionPage::initializePage() {
 }
 
 void ConclusionPage::getTemplateOne(bool) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QDir allFiles;
   allFiles.setPath(sett().getPdfDir());
   allFiles.setFilter(QDir::Files);
@@ -757,6 +813,9 @@ void ConclusionPage::getTemplateOne(bool) {
 }
 
 void ConclusionPage::getTemplateTwo(bool) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QDir allFiles;
   allFiles.setPath(sett().getPdfDir());
   allFiles.setFilter(QDir::Files);
@@ -796,6 +855,8 @@ void ConclusionPage::getTemplateTwo(bool) {
 }
 
 void ConclusionPage::getTemplateThree(bool) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QDir allFiles;
   allFiles.setPath(sett().getPdfDir());

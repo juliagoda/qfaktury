@@ -19,6 +19,8 @@ GoodsIssuedNotes::GoodsIssuedNotes(QWidget *parent, IDataLayer *dl,
                                    QString in_form)
     : Warehouse(parent, dl, in_form) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   tableGoods->setHorizontalHeaderItem(9, new QTableWidgetItem("Ilość żądana"));
   tableGoods->setHorizontalHeaderItem(10, new QTableWidgetItem("Ilość wydana"));
 
@@ -98,6 +100,8 @@ GoodsIssuedNotes::GoodsIssuedNotes(QWidget *parent, IDataLayer *dl,
  */
 
 GoodsIssuedNotes::~GoodsIssuedNotes() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   disconnect(lineEdit1, SIGNAL(textEdited(const QString &)), this,
              SLOT(emitChange(const QString &)));
@@ -316,6 +320,8 @@ void GoodsIssuedNotes::readWarehouseData(QString invFile) {
 
 void GoodsIssuedNotes::makeInvoiceHeadar(bool, bool breakPage, bool original) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   QString breakPageStr = "class=\"page_break\"";
   if (breakPage == false)
     breakPageStr = "";
@@ -399,6 +405,8 @@ void GoodsIssuedNotes::makeInvoiceHeadar(bool, bool breakPage, bool original) {
 }
 
 void GoodsIssuedNotes::makeInvoiceBody() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invStrList += "<tr width=\"100%\"><td width=\"100%\">";
   invStrList += "<table width=\"100%\" border=\"0\">";
@@ -486,6 +494,8 @@ void GoodsIssuedNotes::makeInvoiceBody() {
 
 void GoodsIssuedNotes::makeInvoiceProductsHeadar() {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   invStrList += "<tr align=\"center\" valign=\"middle\" "
                 "class=\"productsHeader\" width=\"100%\" >"; // TUTAJ
 
@@ -520,6 +530,8 @@ void GoodsIssuedNotes::makeInvoiceProductsHeadar() {
 }
 
 void GoodsIssuedNotes::makeInvoiceProducts() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invStrList += "<tr width=\"100%\"><td width=\"100%\">";
 
@@ -559,6 +571,8 @@ void GoodsIssuedNotes::makeInvoiceProducts() {
 }
 
 void GoodsIssuedNotes::makeInvoiceSumm() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invStrList += "<tr width=\"100%\"><td width=\"100%\">";
   if (sett().value("css").toString() == "tables.css") {
@@ -609,6 +623,8 @@ void GoodsIssuedNotes::makeInvoiceSumm() {
 
 void GoodsIssuedNotes::makeInvoiceSummAll() {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   invStrList += "<table width=\"100%\" border=\"0\">";
 
   invStrList += "<tr class=\"summary\">";
@@ -638,6 +654,8 @@ void GoodsIssuedNotes::makeInvoiceSummAll() {
 }
 
 void GoodsIssuedNotes::makeInvoiceFooter() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
   invStrList += "<br><br><br><br>";
@@ -838,6 +856,7 @@ void GoodsIssuedNotes::setData(InvoiceData &invData) {
 void GoodsIssuedNotes::readData(QString fraFile) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   prepayFile = fraFile;
   qDebug() << "prepayFile w readData: " << prepayFile;
   backBtn->setEnabled(false);

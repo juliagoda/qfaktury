@@ -9,6 +9,9 @@
 #include "Settings.h"
 
 int main(int argc, char **argv) {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QApplication *a = new QApplication(argc, argv);
 
   // sets language from file chosen in "translations" directory

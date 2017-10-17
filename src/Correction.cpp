@@ -24,15 +24,17 @@ Correction::Correction(QWidget *parent, IDataLayer *dl, QString in_form,
 
 Correction::~Correction() {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   delete invData;
   invData = NULL;
 }
 
-bool Correction::getMode() const { return editMode; }
+bool Correction::getMode() const { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return editMode; }
 
-bool Correction::getFirstRun() const { return firstRunned; }
+bool Correction::getFirstRun() const { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return firstRunned; }
 
-const QString Correction::getRet() { return ret; }
+const QString Correction::getRet() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return ret; }
 
 /* Init
  */

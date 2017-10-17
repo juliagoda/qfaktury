@@ -18,6 +18,8 @@ CorrectGross::CorrectGross(QWidget *parent, IDataLayer *dl, QString in_form,
 
 QString CorrectGross::getInvoiceTypeAndSaveNr() {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   sett().setValue("korNr", invNr->text());
   return "kbrutto";
 }
@@ -27,7 +29,8 @@ QString CorrectGross::getInvoiceTypeAndSaveNr() {
 
 void CorrectGross::calculateOneDiscount(int i) {
 
-  // qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   double quantity = 0, vat = 0, gross = 0;
   double net = 0, price = 0;
   double discountValue = 0, discount;
@@ -63,6 +66,8 @@ void CorrectGross::calculateOneDiscount(int i) {
  */
 
 void CorrectGross::addGoods() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   GoodsGrossList *goodsWindow = new GoodsGrossList(this);
 

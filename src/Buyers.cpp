@@ -40,6 +40,7 @@ void Buyers::init() {
 }
 
 const QString Buyers::getRetBuyer() {
+
     qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
     return ret;
 }
@@ -49,6 +50,8 @@ const QString Buyers::getRetBuyer() {
  */
 
 void Buyers::okClick() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QStringList list = QStringList()
                      << nameEdit->text() << typeCombo->currentText()
@@ -78,6 +81,9 @@ void Buyers::okClick() {
 }
 
 void Buyers::requiredTic(int type) {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   if (type == 2)
     textLabel2_2->setText(trUtf8("NIP:"));
   else
@@ -92,6 +98,8 @@ void Buyers::requiredTic(int type) {
 // load data modification mode
 
 void Buyers::selectData(QString name, int type) {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   setWindowTitle(trUtf8("Edytuj kontrahenta"));
   getData(dataLayer->buyersSelectData(name, type));
@@ -110,6 +118,8 @@ void Buyers::selectData(QString name, int type) {
 // new customer insert data
 bool Buyers::insertData() {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   bool result = false;
   BuyerData buyerData;
 
@@ -125,6 +135,8 @@ bool Buyers::insertData() {
 
 // update existing
 bool Buyers::updateData() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   bool result = false;
   BuyerData buyerData;
@@ -161,6 +173,8 @@ bool Buyers::updateData() {
  */
 
 bool Buyers::validate() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (Validations::instance()->isEmptyField(nameEdit->text(),
                                             textLabel1->text()))
@@ -247,6 +261,9 @@ bool Buyers::validate() {
 }
 
 bool Buyers::validateUpdated() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   if (Validations::instance()->isEmptyField(nameEdit->text(),
                                             textLabel1->text()))
     return false;
@@ -309,6 +326,8 @@ bool Buyers::validateUpdated() {
 
 void Buyers::setData(BuyerData &buyerData) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   buyerData.name = nameEdit->text();
   buyerData.place = placeEdit->text();
   buyerData.code = codeEdit->text();
@@ -326,6 +345,8 @@ void Buyers::setData(BuyerData &buyerData) {
 
 void Buyers::getData(BuyerData buyerData) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   nameEdit->setText(buyerData.name);
   placeEdit->setText(buyerData.place);
   codeEdit->setText(buyerData.code);
@@ -341,6 +362,8 @@ void Buyers::getData(BuyerData buyerData) {
 // executes shell script for preparation before connection to GUS
 bool Buyers::checkGusPath()
 {
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
     const char *homedir;
 
     if ((homedir = getenv("HOME")) == NULL) {
@@ -369,6 +392,9 @@ bool Buyers::checkGusPath()
 // connects to GUS data thanks to PHP scripts, that saves result into json file
 bool Buyers::connectGUS()
 {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
     const char* firstPart = "php -f /usr/share/qfaktury/src/GusApi/getFromNip.php ";
     const char* secondPart = nipEdit->text().remove(QChar('-')).toStdString().c_str();
 
@@ -384,6 +410,8 @@ bool Buyers::connectGUS()
 
 // sets data into QLineEdits from JSON file, which has informations about last buyer taken from GUS
 void Buyers::setDataFromGUS() {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
           QFile file;
           file.setFileName(QDir::homePath() + "/.local/share/data/elinux/gus/result.json");
@@ -457,6 +485,8 @@ void Buyers::setDataFromGUS() {
 
 QString Buyers::isEmpty(QString in) {
 
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
   if (in == "")
     return "-";
   return in;
@@ -465,6 +495,9 @@ QString Buyers::isEmpty(QString in) {
 // signal for connection to GUS and update data in QLineEdits
 void Buyers::on_gusBtn_clicked()
 {
+
+    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
     if (nipEdit->text().isEmpty() || nipEdit->text().isNull()) QMessageBox::warning(this, "NIP", "Aby skorzystać z funkcji, powinieneś najpierw podać numer NIP");
     else {
     if (!QDir(QDir::homePath() + "/.local/share/data/elinux/gus").exists() || QDir(QDir::homePath() + "/.local/share/data/elinux/gus").isEmpty()) {

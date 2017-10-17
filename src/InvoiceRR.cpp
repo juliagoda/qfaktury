@@ -1,9 +1,12 @@
 #include "InvoiceRR.h"
 
 InvoiceRR::InvoiceRR(QWidget *parent, IDataLayer *dl, QString in_form)
-    : Invoice(parent, dl, in_form) {}
+    : Invoice(parent, dl, in_form) {qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;}
 
 InvoiceRR::~InvoiceRR() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   additEdit->clear();
   additEdit->setDisabled(false);
   ifpaysVAT->deleteLater();
@@ -11,6 +14,9 @@ InvoiceRR::~InvoiceRR() {
 }
 
 void InvoiceRR::invoiceRRInit() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   additEdit->setText(trUtf8("Oświadczam, że jestem rolnikiem ryczałtowym "
                             "zwolnionym od podatku od towarów"
                             " i usług na podstawie art. 43 ust. 1 pkt 3 ustawy "
@@ -23,12 +29,16 @@ void InvoiceRR::invoiceRRInit() {
 }
 
 QString InvoiceRR::getInvoiceTypeAndSaveNr() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   QString itype = "RR";
   sett().setValue("rr", invNr->text());
   return itype;
 }
 
 void InvoiceRR::makeInvoice() {
+
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (!ifpaysVAT->isChecked()) {
