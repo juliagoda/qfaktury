@@ -39,9 +39,11 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - dowolna dystrybucja Linux
 - biblioteka Qt w wersji wyższej lub równej 5.0.0
 - paczki qt5-base qt5-webengine (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
-- zlib w wersji wyższej lub równej 1.2.11
+- zlib w wersji wyższej lub równej 1.2
+- quazip w wersji 0.7.3 lub wyższej
+- cmake w wersji 3.9 lub wyższej
 - php w wersji 7.1 lub wyższej
-- gksu w wersji 2.0.2 lub wyższej
+- gksu w wersji 2.0 lub wyższej
 - połączenie z internetem (opcjonalne)
 - aktualny czas systemowy (opcjonalne)
 
@@ -56,7 +58,9 @@ Wykonujemy pobranie katalogu z plikami w wybranej przez siebie ścieżce i wpisu
 ```
 git clone -b testing https://github.com/juliagoda/qfaktury.git
 cd qfaktury
-qmake
+mkdir zbudowane
+cd zbudowane
+cmake ..
 make
 sudo make install
 ```

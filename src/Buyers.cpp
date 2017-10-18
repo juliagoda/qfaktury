@@ -5,6 +5,7 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMovie>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -372,20 +373,27 @@ bool Buyers::checkGusPath()
     }
 
     QDir dir;
-    if (!QDir(QDir::homePath() + "/.local/share/data/elinux/gus").exists()) dir.mkpath(QDir::homePath() + "/.local/share/data/elinux/gus");
+    dir.mkpath(sett().getGUSDir());
 
-    const char* sys = "gksudo /usr/share/qfaktury/src/GusApi/dependencies.sh \"";
-    const char* ss = "\"";
 
-    char * RutaFinal = new char[strlen(sys) + strlen(homedir) + strlen(ss) + 1];
-    strcpy(RutaFinal, sys);
-    strcat(RutaFinal, homedir);
-    strcat(RutaFinal, ss);
 
-    printf(RutaFinal);
+    const char* addGusPath1 = "sh /usr/share/qfaktury/src/GusApi/php-dependencies.sh \"";
+    const char* br = "\"";
 
-    if (system(RutaFinal) == 0) return true;
+    char * RutaFinal1 = new char[strlen(addGusPath1) + strlen(homedir) + strlen(br) + 1];
+    strcpy(RutaFinal1, addGusPath1);
+    strcat(RutaFinal1, homedir);
+    strcat(RutaFinal1, br);
 
+    printf(RutaFinal1);
+
+    int x = system(RutaFinal1);
+
+    // daj wybor
+    system("gksudo /usr/share/qfaktury/src/GusApi/soap-php.sh");
+
+
+    if (x == 0) return true;
     return false;
 
 }
@@ -513,28 +521,30 @@ QString Buyers::isEmpty(QString in) {
 void Buyers::on_gusBtn_clicked()
 {
 
+    QLabel *lbl = new QLabel;
+    QMovie *movie = new QMovie(":/res/icons/waitForResp.gif");
+    lbl->setMovie(movie);
+
+
     qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
     if (nipEdit->text().isEmpty() || nipEdit->text().isNull()) QMessageBox::warning(this, "NIP", "Aby skorzystać z funkcji, powinieneś najpierw podać numer NIP");
     else {
-    if (!QDir(QDir::homePath() + "/.local/share/data/elinux/gus").exists() || QDir(QDir::homePath() + "/.local/share/data/elinux/gus").isEmpty()) {
+
         if (checkGusPath()) {
-            QFile(QDir::homePath() + "/.local/share/data/elinux/gus").setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+            lbl->show();
+            movie->start();
             if (connectGUS()) {
                 setDataFromGUS();
             } else {
                 QMessageBox::warning(this, "II etap", "Program nie mógł pobrać danych z Głównego Urzędu Statystycznego. Prawdopdobnie nie masz zainstalowanej paczki php lub brakuje plików w ścieżce /usr/share/qfaktury/src/GusApi");
             }
+            lbl->deleteLater();
+            movie->stop();
+            movie->deleteLater();
         } else {
             QMessageBox::warning(this, "I etap", "Program nie mógł przygotować się do skorzystania z danych Głównego Urzędu Statystycznego. Prawdopdobnie nie masz zainstalowanej paczki gksu, podałeś złe hasło autoryzacyjne lub odmówiłeś podania hasła");
         }
-    }
-    else {
-        if (connectGUS()) {
-            setDataFromGUS();
-        } else {
-            QMessageBox::warning(this, "II etap", "Program nie mógł pobrać danych z Głównego Urzędu Statystycznego. Prawdopdobnie nie masz zainstalowanej paczki php lub brakuje plików w ścieżce /usr/share/qfaktury/src/GusApi");
-        }
-    }
+
     }
 }
