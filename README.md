@@ -40,7 +40,6 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - biblioteka Qt w wersji wyższej lub równej 5.0.0
 - paczki qt5-base qt5-webengine (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
 - zlib w wersji wyższej lub równej 1.2.11
-- quazip w wersji wyższej lub równej 0.7.3
 - php w wersji 7.1 lub wyższej
 - gksu w wersji 2.0.2 lub wyższej
 - połączenie z internetem (opcjonalne)

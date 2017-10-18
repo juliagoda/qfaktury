@@ -15,21 +15,6 @@ QT_MESSAGE_PATTERN="[%{type}] %{appname} (%{file}:%{line}) - %{message}"
 
 QT_MINOR_VERSION = 5.0.0
 
-exists( /usr/lib/libquazip5.so ) {
-unix:LIBS += -L$${LIBDIR} -lquazip5
-win32:LIBS += -L$${LIBDIR} -lquazip5dll
-}
-
-exists( /usr/lib/libquazip.so ) {
-unix:LIBS += -L$${LIBDIR} -lquazip
-win32:LIBS += -L$${LIBDIR} -lquazipdll
-}
-
-exists( /usr/lib/libsmtp.so ) {
-unix:LIBS += -L$${LIBDIR} -lsmtp
-win32:LIBS += -L$${LIBDIR} -lsmtpdll
-}
-
 unix:LIBS += -L$${LIBDIR} -lz
 win32:LIBS += -L$${LIBDIR} -lzdll
 

@@ -8,6 +8,8 @@
 
 #include "ui_Buyers.h"
 
+#include <QStringList>
+
 class IDataLayer;
 class BuyerData;
 class QJsonValue;
@@ -50,6 +52,7 @@ private:
   bool connectGUS();
   bool checkGusPath();
   void setDataFromGUS();
+  void RaportTypesContainer(QStringList&, QJsonObject&);
 
 };
 #endif

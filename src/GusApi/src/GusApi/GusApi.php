@@ -144,6 +144,7 @@ class GusApi
      * @return SearchReport[] search subject information object
      * @throws NotFoundException
      */
+     
     public function getByNip($sid, $nip)
     {
         return $this->search($sid, [

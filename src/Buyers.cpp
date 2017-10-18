@@ -393,6 +393,7 @@ bool Buyers::checkGusPath()
 // connects to GUS data thanks to PHP scripts, that saves result into json file
 bool Buyers::connectGUS()
 {
+    if (QFile(sett().getGUSDir() + "/result.json").exists()) QFile::resize(sett().getGUSDir() + "/result.json",0);
 
     qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
@@ -409,6 +410,50 @@ bool Buyers::connectGUS()
 
 }
 
+
+void Buyers::RaportTypesContainer(QStringList& listJsonNodes, QJsonObject& item) {
+
+    qDebug() << QString("QJsonObject[dane] of value ") << listJsonNodes.at(0) << QString(": ") << item[listJsonNodes.at(0)];
+    QJsonValue name = item[listJsonNodes.at(0)];
+    QString reformed = QString();
+
+    Q_FOREACH(QString ref, name.toString().toLower().split(" ")) {
+        if (ref.length() > 1) {
+            ref[0] = ref.at(0).toTitleCase();
+            reformed +=  " " + ref;
+        }
+        else reformed += " " + ref;
+    }
+
+    nameEdit->setText(reformed.trimmed());
+
+    /* in case of array get array and convert into string*/
+    qDebug() << QString("QJsonObject[dane] of value ") << listJsonNodes.at(1) << QString(": ") << item[listJsonNodes.at(1)];
+    QJsonValue city = item[listJsonNodes.at(1)];
+    placeEdit->setText(city.toString().trimmed());
+
+    qDebug() << QString("QJsonObject[dane] of value ") << listJsonNodes.at(2) << QString(" and ") << listJsonNodes.at(3) << QString(": ") << item[listJsonNodes.at(2)];
+    QJsonValue address = item[listJsonNodes.at(2)];
+    QJsonValue companyNumber = item[listJsonNodes.at(3)];
+    addressEdit->setText(address.toString().trimmed() + " " + companyNumber.toString().trimmed());
+
+    qDebug() << QString("QJsonObject[dane] of value ") << listJsonNodes.at(4) << QString(": ") << item[listJsonNodes.at(4)];
+    QJsonValue postalCode = item[listJsonNodes.at(4)];
+    codeEdit->setText(postalCode.toString().insert(2,'-').trimmed());
+
+    qDebug() << QString("QJsonObject[dane] of value ") << listJsonNodes.at(5) << QString(": ") << item[listJsonNodes.at(5)];
+    QJsonValue tel = item[listJsonNodes.at(5)];
+    telefonEdit->setText("+48" + tel.toString().trimmed());
+
+    qDebug() << QString("QJsonObject[dane] of value ") << listJsonNodes.at(6) << QString(": ") << item[listJsonNodes.at(6)];
+    QJsonValue email = item[listJsonNodes.at(6)];
+    emailEdit->setText(email.toString().toLower().trimmed());
+
+    qDebug() << QString("QJsonObject[dane] of value ") << listJsonNodes.at(7) << QString(": ") << item[listJsonNodes.at(7)];
+    QJsonValue site = item[listJsonNodes.at(7)];
+    wwwEdit->setText(site.toString().toLower().trimmed());
+}
+
 // sets data into QLineEdits from JSON file, which has informations about last buyer taken from GUS
 void Buyers::setDataFromGUS() {
 
@@ -420,63 +465,34 @@ void Buyers::setDataFromGUS() {
           QString val = file.readAll();
           file.close();
 
-          qWarning() << val;
-
           QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
           QJsonObject sett2 = d.object();
           QJsonValue value = sett2.value(QString("dane"));
-          qWarning() << value;
           QJsonObject item = value.toObject();
 
-          qWarning() << tr("QJsonObject of description: ") << item;
 
-          /* in case of string value get value and convert into string*/
-          qWarning() << tr("QJsonObject[dane] of description: ") << item["praw_nazwa"];
-          QJsonValue name = item["praw_nazwa"];
-          qWarning() << name.toString();
-          QString reformed = QString();
+          QStringList depNodes = QStringList() << "praw_nazwa" << "praw_adSiedzMiejscowosc_Nazwa" << "praw_adSiedzUlica_Nazwa"
+                                                 << "praw_adSiedzNumerNieruchomosci" << "praw_adSiedzKodPocztowy" << "praw_numerTelefonu"
+                                                 << "praw_adresEmail" << "praw_adresStronyinternetowej";
 
-          Q_FOREACH(QString ref, name.toString().toLower().split(" ")) {
-              if (ref.length() > 1) {
-                  ref[0] = ref.at(0).toTitleCase();
-                  reformed +=  " " + ref;
-              }
-              else reformed += " " + ref;
+          QStringList persNodes = QStringList() << "fiz_nazwa" << "fiz_adSiedzMiejscowosc_Nazwa" << "fiz_adSiedzUlica_Nazwa"
+                                                 << "fiz_adSiedzNumerNieruchomosci" << "fiz_adSiedzKodPocztowy" << "fiz_numerTelefonu"
+                                                 << "fiz_adresEmail" << "fiz_adresStronyinternetowej";
+
+
+
+          if ( item["praw_nazwa"].isString()) {
+
+            RaportTypesContainer(depNodes, item);
+
+          } else if (item["fiz_nazwa"].isString()) {
+
+            RaportTypesContainer(persNodes, item);
+
+          } else {
+
+              QMessageBox::warning(this, "Informacje z GUS", "Nie było możliwe pobranie danych z Głównego Urzędu Statystycznego. Sprawdź, czy podany numer NIP jest poprawny.");
           }
-
-          nameEdit->setText(reformed.trimmed());
-
-          /* in case of array get array and convert into string*/
-          qWarning() << tr("QJsonObject[dane] of value: ") << item["praw_adSiedzMiejscowosc_Nazwa"];
-          QJsonValue city = item["praw_adSiedzMiejscowosc_Nazwa"];
-          qWarning() << city.toString();
-          placeEdit->setText(city.toString().trimmed());
-
-          qWarning() << tr("QJsonObject[dane] of value: ") << item["praw_adSiedzUlica_Nazwa"];
-          QJsonValue address = item["praw_adSiedzUlica_Nazwa"];
-          QJsonValue companyNumber = item["praw_adSiedzNumerNieruchomosci"];
-          qWarning() << address.toString();
-          addressEdit->setText(address.toString().trimmed() + " " + companyNumber.toString().trimmed());
-
-          qWarning() << tr("QJsonObject[dane] of value: ") << item["praw_adSiedzKodPocztowy"];
-          QJsonValue postalCode = item["praw_adSiedzKodPocztowy"];
-          qWarning() << postalCode.toString();
-          codeEdit->setText(postalCode.toString().insert(2,'-').trimmed());
-
-          qWarning() << tr("QJsonObject[dane] of value: ") << item["praw_numerTelefonu"];
-          QJsonValue tel = item["praw_numerTelefonu"];
-          qWarning() << tel.toString();
-          telefonEdit->setText("+48" + tel.toString().trimmed());
-
-          qWarning() << tr("QJsonObject[dane] of value: ") << item["praw_adresEmail"];
-          QJsonValue email = item["praw_adresEmail"];
-          qWarning() << email.toString();
-          emailEdit->setText(email.toString().toLower().trimmed());
-
-          qWarning() << tr("QJsonObject[dane] of value: ") << item["praw_adresStronyinternetowej"];
-          QJsonValue site = item["praw_adresStronyinternetowej"];
-          qWarning() << site.toString();
-          wwwEdit->setText(site.toString().toLower().trimmed());
 }
 
 
