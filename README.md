@@ -50,6 +50,35 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 <br/>
 <br/>
 
+## Instalacja zależności
+
+# Arch Linux
+
+``
+
+# Ubuntu
+
+``
+
+# Debian
+
+``
+
+# Fedora
+
+``
+
+# OpenSUSE
+
+``
+
+# Linux Mint
+
+``
+
+<br/>
+<br/>
+
 
 ## Instalacja
 
@@ -67,6 +96,8 @@ sudo make install
 
 <br/>
 <br/>
+
+
 
 
 ## Rozwój

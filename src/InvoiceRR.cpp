@@ -1,11 +1,13 @@
 #include "InvoiceRR.h"
 
 InvoiceRR::InvoiceRR(QWidget *parent, IDataLayer *dl, QString in_form)
-    : Invoice(parent, dl, in_form) {qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;}
+    : Invoice(parent, dl, in_form) {
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+}
 
 InvoiceRR::~InvoiceRR() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   additEdit->clear();
   additEdit->setDisabled(false);
@@ -15,7 +17,7 @@ InvoiceRR::~InvoiceRR() {
 
 void InvoiceRR::invoiceRRInit() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   additEdit->setText(trUtf8("Oświadczam, że jestem rolnikiem ryczałtowym "
                             "zwolnionym od podatku od towarów"
@@ -30,7 +32,7 @@ void InvoiceRR::invoiceRRInit() {
 
 QString InvoiceRR::getInvoiceTypeAndSaveNr() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QString itype = "RR";
   sett().setValue("rr", invNr->text());

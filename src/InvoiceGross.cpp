@@ -11,7 +11,9 @@
 
 // constructor
 InvoiceGross::InvoiceGross(QWidget *parent, IDataLayer *dl, QString in_form)
-    : Invoice(parent, dl, in_form) {qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;}
+    : Invoice(parent, dl, in_form) {
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+}
 
 void InvoiceGross::invoiceGrossInit() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
@@ -19,7 +21,7 @@ void InvoiceGross::invoiceGrossInit() {
 
 QString InvoiceGross::getInvoiceTypeAndSaveNr() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QString itype = "FBrutto";
   sett().setValue("fvat", invNr->text());
@@ -74,7 +76,7 @@ void InvoiceGross::calculateOneDiscount(int i) {
 
 void InvoiceGross::addGoods() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   GoodsGrossList *goodsWindow = new GoodsGrossList(this);
 

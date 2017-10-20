@@ -8,10 +8,9 @@
 #include <QStyle>
 #include <QTimer>
 
-
 int main(int argc, char **argv) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QApplication *a = new QApplication(argc, argv);
 

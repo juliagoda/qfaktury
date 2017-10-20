@@ -10,11 +10,13 @@
 // constructor
 Duplicate::Duplicate(QWidget *parent, IDataLayer *dl, QString in_form,
                      bool ifEdited)
-    : Invoice(parent, dl, in_form), editMode(ifEdited) {qDebug() << __FILE__ << __LINE__ << __FUNCTION__;}
+    : Invoice(parent, dl, in_form), editMode(ifEdited) {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+}
 
 Duplicate::~Duplicate() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (labelDupDate != 0)
     labelDupDate = 0;
@@ -25,10 +27,9 @@ Duplicate::~Duplicate() {
   delete duplicateDate;
 }
 
-
 void Duplicate::duplicateInit() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   labelDupDate = new QLabel(this);
   labelDupDate->setText(trUtf8("Data duplikatu:"));
@@ -58,10 +59,9 @@ void Duplicate::duplicateInit() {
   connect(closeBtn, &QPushButton::clicked, [this]() { reject(); });
 }
 
-
 void Duplicate::setData(InvoiceData &invData) {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invData.id = getfName();
   invData.customer = buyerName->text();
@@ -140,7 +140,7 @@ void Duplicate::setData(InvoiceData &invData) {
 void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage,
                                   bool original) {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QString breakPageStr = "class=\"page_break\"";
 
@@ -202,7 +202,7 @@ void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage,
 
 void Duplicate::canQuit() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (canClose) {
 
@@ -213,8 +213,8 @@ void Duplicate::canQuit() {
 
     if (QMessageBox::warning(
             this, "QFaktury",
-            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"), trUtf8("Tak"),
-            trUtf8("Nie"), 0, 0, 1) == 1) {
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"),
+            trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 1) {
 
       saveColumnsWidth();
       reject();

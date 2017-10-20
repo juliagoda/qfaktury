@@ -247,21 +247,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QFrame" name="frame">
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>10</height>
-      </size>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::HLine</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QGridLayout" name="gridLayout"/>
-    </widget>
+    <layout class="QVBoxLayout" name="gusLayout"/>
    </item>
    <item>
     <layout class="QHBoxLayout">

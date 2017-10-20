@@ -1,26 +1,24 @@
 ﻿#include "MainWindow.h"
-#include "DeliveryNote.h"
-#include "GoodsIssuedNotes.h"
 #include "Bill.h"
 #include "Buyers.h"
 #include "Const.h"
 #include "CorrectGross.h"
 #include "DateWidgetItem.h"
+#include "DeliveryNote.h"
 #include "Duplicate.h"
 #include "Goods.h"
+#include "GoodsIssuedNotes.h"
 #include "Invoice.h"
 #include "InvoiceGross.h"
 #include "InvoiceRR.h"
+#include "OwnCalendar.h"
 #include "Send.h"
 #include "Setting.h"
 #include "User.h"
 #include "XmlDataLayer.h"
-#include "OwnCalendar.h"
-
 
 #include "JlCompress.h"
 #include "quazipdir.h"
-
 
 #include <QDesktopServices>
 #include <QDesktopWidget>
@@ -32,7 +30,6 @@
 #include <QProcess>
 #include <QTimer>
 
-
 MainWindow *MainWindow::m_instance = nullptr;
 bool MainWindow::shouldHidden = false;
 
@@ -42,21 +39,24 @@ bool MainWindow::shouldHidden = false;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   ui->setupUi(this);
   m_instance = this;
   init();
 }
 
-MainWindow *MainWindow::instance() { qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__; return m_instance; }
+MainWindow *MainWindow::instance() {
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  return m_instance;
+}
 
 /** Destructor
  */
 
 MainWindow::~MainWindow() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   saveAllSett();
 
@@ -91,7 +91,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::init() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   // first run
   if (firstRun()) {
@@ -122,9 +122,10 @@ void MainWindow::init() {
                "restarcie programu."));
 
     if (QMessageBox::information(
-            this, "QFaktury", trUtf8("Czy chcesz skonfigurować firmę? Opcja ta "
-                                     "przy starcie programu będzie widoczna "
-                                     "tylko przy pierwszym uruchomieniu."),
+            this, "QFaktury",
+            trUtf8("Czy chcesz skonfigurować firmę? Opcja ta "
+                   "przy starcie programu będzie widoczna "
+                   "tylko przy pierwszym uruchomieniu."),
             trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
       userDataClick();
     }
@@ -137,7 +138,8 @@ void MainWindow::init() {
     ui->filtrEnd->setDate(sett().getValueAsDate("filtrEnd"));
 
     ui->warehouseFromDate->setDisplayFormat(sett().getDateFormat());
-    ui->warehouseFromDate->setDate(sett().getValueAsDate("filtrStartWarehouse"));
+    ui->warehouseFromDate->setDate(
+        sett().getValueAsDate("filtrStartWarehouse"));
     ui->warehouseToDate->setDisplayFormat(sett().getDateFormat());
     ui->warehouseToDate->setDate(sett().getValueAsDate("filtrEndWarehouse"));
   }
@@ -152,8 +154,10 @@ void MainWindow::init() {
     ui->invoiceEdAction->setEnabled(true);
     ui->invoiceDelAction->setEnabled(true);
 
-    if (ui->tableK->rowCount() != 0) ui->sendEmailAction->setEnabled(true);
-    else ui->sendEmailAction->setDisabled(true);
+    if (ui->tableK->rowCount() != 0)
+      ui->sendEmailAction->setEnabled(true);
+    else
+      ui->sendEmailAction->setDisabled(true);
 
   } else {
 
@@ -168,9 +172,11 @@ void MainWindow::init() {
     ui->delBuyersAction->setEnabled(true);
     ui->actionPrintBuyer->setEnabled(true);
 
-    if (ui->tableH->rowCount() != 0) { ui->sendEmailAction->setEnabled(true); }
-    else { ui->sendEmailAction->setDisabled(true); }
-    
+    if (ui->tableH->rowCount() != 0) {
+      ui->sendEmailAction->setEnabled(true);
+    } else {
+      ui->sendEmailAction->setDisabled(true);
+    }
 
   } else {
 
@@ -178,7 +184,6 @@ void MainWindow::init() {
     ui->delBuyersAction->setDisabled(true);
     ui->actionPrintBuyer->setDisabled(true);
     ui->sendEmailAction->setDisabled(true);
-
   }
 
   if (ui->tableT->rowCount() != 0) {
@@ -190,7 +195,6 @@ void MainWindow::init() {
 
     ui->editGoodsAction->setDisabled(true);
     ui->delGoodsAction->setDisabled(true);
-
   }
 
   // choose data access mode
@@ -284,7 +288,8 @@ void MainWindow::init() {
   connect(ui->invoiceDelAction, SIGNAL(triggered()), this, SLOT(delFHist()));
   connect(ui->warehouseDelAction, SIGNAL(triggered()), this, SLOT(delMHist()));
   connect(ui->invoiceEdAction, SIGNAL(triggered()), this, SLOT(editFHist()));
-  connect(ui->warehouseEdAction, SIGNAL(triggered()), this, SLOT(warehouseEdit()));
+  connect(ui->warehouseEdAction, SIGNAL(triggered()), this,
+          SLOT(warehouseEdit()));
   connect(ui->invoiceDuplAction, SIGNAL(triggered()), this,
           SLOT(newDuplicate()));
   connect(ui->invoiceGrossAction, SIGNAL(triggered()), this,
@@ -384,7 +389,7 @@ void MainWindow::init() {
 
 bool MainWindow::ifpdfDirExists() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QDir mainPath(sett().getPdfDir());
 
@@ -399,7 +404,7 @@ bool MainWindow::ifpdfDirExists() {
 
 void MainWindow::createPdfDir() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QDir mainPath;
   mainPath.mkpath(sett().getPdfDir());
@@ -408,7 +413,7 @@ void MainWindow::createPdfDir() {
 
 void MainWindow::generatePdfFromList() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   shouldHidden = true;
 
@@ -427,7 +432,7 @@ void MainWindow::generatePdfFromList() {
 
 bool MainWindow::ifEmergTemplateExists() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QFileInfo fileInfo(sett().getEmergTemplate());
 
@@ -439,7 +444,7 @@ bool MainWindow::ifEmergTemplateExists() {
 
 void MainWindow::createEmergTemplate() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QDir mainPath(QDir::homePath() + "/.local/share/data/elinux/template");
 
@@ -469,7 +474,7 @@ void MainWindow::createEmergTemplate() {
 
 void MainWindow::loadPlugins() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QDir allFiles;
   QString path = QString();
@@ -524,7 +529,7 @@ void MainWindow::loadPlugins() {
 
 bool MainWindow::firstRun() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   bool ok = sett().value("firstrun", true).toBool();
 
@@ -546,7 +551,7 @@ bool MainWindow::firstRun() {
 
 void MainWindow::categorizeYears() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (dl->ifThereOldInvoice())
     dl->separateOldInvoices();
@@ -554,7 +559,7 @@ void MainWindow::categorizeYears() {
 
 void MainWindow::checkTodayTask(QString whatToDo) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QString today = QDate::currentDate().toString();
   qDebug() << "TODAY IS " << today;
@@ -625,7 +630,7 @@ void MainWindow::checkTodayTask(QString whatToDo) {
 
 void MainWindow::openWebTableK(int row, int column) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (column == 6) {
     if ((!ui->tableK->item(row, column)->text().isEmpty()) &&
@@ -644,7 +649,7 @@ void MainWindow::openWebTableK(int row, int column) {
 
 void MainWindow::saveColumnWidth() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   // width of the columns in the towary "goods" tab
   sett().setValue("towCol0", ui->tableT->columnWidth(0));
@@ -682,20 +687,22 @@ void MainWindow::saveColumnWidth() {
   sett().setValue("wareCol3", ui->tableM->columnWidth(3));
   sett().setValue("wareCol4", ui->tableM->columnWidth(4));
   sett().setValue("wareCol5", ui->tableM->columnWidth(5));
-
 }
 
 /** Saves all sett() as default - first run
  */
 
-void MainWindow::saveAllSettAsDefault() { qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__; sett().resetSettings(); }
+void MainWindow::saveAllSettAsDefault() {
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  sett().resetSettings();
+}
 
 /** Saves all sett()
  */
 
 void MainWindow::saveAllSett() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   // saves filtr
   sett().setValue("filtrStart", ui->filtrStart->text());
@@ -714,14 +721,17 @@ void MainWindow::saveAllSett() {
  *  @param QTableWidget
  */
 
-void MainWindow::tableClear(QTableWidget *tab) { qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__; tab->setRowCount(0); }
+void MainWindow::tableClear(QTableWidget *tab) {
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  tab->setRowCount(0);
+}
 
 /** Used while adding new row
  */
 
 void MainWindow::insertRow(QTableWidget *t, int row) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   t->insertRow(row);
 
@@ -733,7 +743,7 @@ void MainWindow::insertRow(QTableWidget *t, int row) {
 
 int MainWindow::getMaxSymbol() const {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   int max = *std::max_element(allSymbols.begin(), allSymbols.end());
   return max;
@@ -741,9 +751,10 @@ int MainWindow::getMaxSymbol() const {
 
 int MainWindow::getMaxSymbolWarehouse() const {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  int max = *std::max_element(allSymbolsWarehouse.begin(), allSymbolsWarehouse.end());
+  int max =
+      *std::max_element(allSymbolsWarehouse.begin(), allSymbolsWarehouse.end());
   return max;
 }
 
@@ -753,7 +764,7 @@ int MainWindow::getMaxSymbolWarehouse() const {
 
 void MainWindow::readHist() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QVector<InvoiceData> invoicesVec;
   invoicesVec =
@@ -787,18 +798,17 @@ void MainWindow::readHist() {
   ui->tableH->setSortingEnabled(true);
 }
 
-
 /** Reads the invoices from the directory passed in the input.
  *  @param QString - directory from where the invoices should be read
  */
 
 void MainWindow::readWarehouses() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QVector<WarehouseData> wareVec;
-  wareVec =
-      dl->warehouseSelectAllData(ui->warehouseFromDate->date(), ui->warehouseToDate->date());
+  wareVec = dl->warehouseSelectAllData(ui->warehouseFromDate->date(),
+                                       ui->warehouseToDate->date());
   allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
   ui->tableM->setSortingEnabled(false);
 
@@ -833,7 +843,7 @@ void MainWindow::readWarehouses() {
 
 void MainWindow::readBuyer() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   tableClear(ui->tableK);
   ui->tableK->setSortingEnabled(false);
@@ -870,7 +880,7 @@ void MainWindow::readBuyer() {
 
 void MainWindow::readGoods() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   tableClear(ui->tableT);
   QVector<ProductData> prodVec = dl->productsSelectAllData();
@@ -912,7 +922,7 @@ void MainWindow::readGoods() {
 
 void MainWindow::setupDir() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   workingDir = sett().getWorkingDir();
   QDir dir(workingDir);
@@ -937,7 +947,7 @@ void MainWindow::setupDir() {
 
   if (!dir.exists(workingDir + sett().getWarehouseDir())) {
 
-     dir.mkdir(workingDir + sett().getWarehouseDir());
+    dir.mkdir(workingDir + sett().getWarehouseDir());
   }
 }
 
@@ -946,7 +956,7 @@ void MainWindow::setupDir() {
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (event->key() == Qt::Key_F5) {
 
@@ -1007,7 +1017,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 
 void MainWindow::pluginInfoSlot() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QMessageBox::information(
       this, trUtf8("QFaktury"),
@@ -1023,7 +1033,7 @@ void MainWindow::pluginInfoSlot() {
 
 void MainWindow::pluginSlot() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QString program = QString("python");
 
@@ -1091,7 +1101,6 @@ void MainWindow::showTableMenuK(QPoint p) {
   delete menuTable;
 }
 
-
 void MainWindow::showTableMenuM(QPoint p) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
@@ -1142,7 +1151,7 @@ void MainWindow::mainUpdateStatus(QTableWidgetItem *item) {
   // QMainWindow and UiMainWindow are the same... I guess there is a way to
   // avoid it.
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QStatusBar *stat = qobject_cast<QMainWindow *>(this)->statusBar();
 
@@ -1249,7 +1258,7 @@ void MainWindow::rereadWarehouses(bool) {
 
 void MainWindow::aboutProg() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QMessageBox::about(
       this, trUtf8("O programie"),
@@ -1258,14 +1267,16 @@ void MainWindow::aboutProg() {
           trUtf8("<br/>Kompilowane z Qt ") + QT_VERSION_STR +
           trUtf8("<br/>Twoja aktualna wersja - Qt ") + qVersion() +
           trUtf8("</p><p>Dawny koordynator projektu: Grzegorz Rękawek</p>  "
-                 "<p>Aktualny koordynator projektu: Jagoda \"juliagoda\" Górska</p>"
+                 "<p>Aktualny koordynator projektu: Jagoda \"juliagoda\" "
+                 "Górska</p>"
                  "<p>Dawni programiści: Tomasz Pielech, Rafał Rusin "
                  "http://people.apache.org/~rr/, Sławomir Patyk, Jagoda "
                  "Górska</p>"
                  "<p>Aktualni programiści: Jagoda \"juliagoda\" Górska</p>") +
-          trUtf8("<p>Ikony: Dariusz Arciszewski, Jagoda \"juliagoda\" Górska </p>"
-                 "<p>Portowanie na Qt5: "
-                 "Jagoda \"juliagoda\" Górska</p><br/>") +
+          trUtf8(
+              "<p>Ikony: Dariusz Arciszewski, Jagoda \"juliagoda\" Górska </p>"
+              "<p>Portowanie na Qt5: "
+              "Jagoda \"juliagoda\" Górska</p><br/>") +
           trUtf8("<p>Testy w środowisku Arch Linux: Piotr \"sir_lucjan\" "
                  "Górski && Paweł \"pavbaranov\" Baranowski</p>") +
           trUtf8("<h2><center>UWAGA!!!</center></h2>") +
@@ -1288,7 +1299,7 @@ void MainWindow::aboutProg() {
 
 void MainWindow::editFHist() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableH->selectedItems().count() <= 0) {
 
@@ -1533,16 +1544,16 @@ void MainWindow::editFHist() {
   ui->tableH->setSortingEnabled(true);
 }
 
-
 void MainWindow::warehouseEdit() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableM->selectedItems().count() <= 0) {
 
-    QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Dokument magazynu nie został wybrany. Nie można edytować."),
-                             trUtf8("Ok"), 0, 0, 1);
+    QMessageBox::information(
+        this, trUtf8("QFaktury"),
+        trUtf8("Dokument magazynu nie został wybrany. Nie można edytować."),
+        trUtf8("Ok"), 0, 0, 1);
     return;
   }
 
@@ -1567,21 +1578,19 @@ void MainWindow::warehouseEdit() {
 
     } else {
 
-    if (delivNoteWindow->exec() == QDialog::Accepted) {
+      if (delivNoteWindow->exec() == QDialog::Accepted) {
 
-      rereadWarehouses(true);
-      rereadHist(true);
-    }
+        rereadWarehouses(true);
+        rereadHist(true);
+      }
 
-    if (delivNoteWindow->getKAdded())
-      readBuyer();
-
+      if (delivNoteWindow->getKAdded())
+        readBuyer();
     }
 
     delivNoteWindow = 0;
     delete delivNoteWindow;
   }
-
 
   if (ui->tableM->item(row, 3)->text() == trUtf8("RW")) {
 
@@ -1599,14 +1608,13 @@ void MainWindow::warehouseEdit() {
 
     } else {
 
-    if (goodsNoteWindow->exec() == QDialog::Accepted) {
+      if (goodsNoteWindow->exec() == QDialog::Accepted) {
 
-      rereadWarehouses(true);
-    }
+        rereadWarehouses(true);
+      }
 
-    if (goodsNoteWindow->getKAdded())
-      readBuyer();
-
+      if (goodsNoteWindow->getKAdded())
+        readBuyer();
     }
 
     goodsNoteWindow = 0;
@@ -1614,19 +1622,18 @@ void MainWindow::warehouseEdit() {
   }
 
   ui->tableM->setSortingEnabled(true);
-
 }
-
 
 void MainWindow::delFHist() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableH->selectedItems().count() <= 0) {
 
-    QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Faktura nie została wybrana. Nie można usuwać."),
-                             trUtf8("Ok"), 0, 0, 1);
+    QMessageBox::information(
+        this, trUtf8("QFaktury"),
+        trUtf8("Faktura nie została wybrana. Nie można usuwać."), trUtf8("Ok"),
+        0, 0, 1);
     return;
   }
 
@@ -1642,16 +1649,16 @@ void MainWindow::delFHist() {
   }
 }
 
-
 void MainWindow::delMHist() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableM->selectedItems().count() <= 0) {
 
-    QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Dokument magazynu nie został wybrany. Nie można usuwać."),
-                             trUtf8("Ok"), 0, 0, 1);
+    QMessageBox::information(
+        this, trUtf8("QFaktury"),
+        trUtf8("Dokument magazynu nie został wybrany. Nie można usuwać."),
+        trUtf8("Ok"), 0, 0, 1);
     return;
   }
 
@@ -1700,7 +1707,7 @@ void MainWindow::settClick() {
 
 void MainWindow::buyerClick() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   Buyers *buyersWindow;
   buyersWindow = new Buyers(this, 0, dl);
@@ -1730,14 +1737,14 @@ void MainWindow::buyerClick() {
 
 void MainWindow::buyerDel() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableK->selectedItems().count() <= 0) {
 
     QMessageBox::information(
         this, trUtf8("QFaktury"),
-        trUtf8("Kontrahent nie został wybrany. Nie można usuwac."), trUtf8("Ok"), 0, 0,
-        1);
+        trUtf8("Kontrahent nie został wybrany. Nie można usuwac."),
+        trUtf8("Ok"), 0, 0, 1);
     return;
   }
 
@@ -1758,13 +1765,13 @@ void MainWindow::buyerDel() {
 
 void MainWindow::buyerEd() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableK->selectedItems().count() <= 0) {
 
     QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Kontrahent nie został wybrany."), trUtf8("Ok"), 0,
-                             0, 1);
+                             trUtf8("Kontrahent nie został wybrany."),
+                             trUtf8("Ok"), 0, 0, 1);
     return;
   }
 
@@ -1925,7 +1932,7 @@ void MainWindow::printList(QPrinter *printer) {
 
 QString MainWindow::changeIfEmpty(QString text) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QString result = QString();
 
@@ -1943,7 +1950,7 @@ QString MainWindow::changeIfEmpty(QString text) {
 
 void MainWindow::newInv() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   Invoice *invWindow = new Invoice(this, dl, s_INVOICE);
 
@@ -1977,7 +1984,7 @@ void MainWindow::newInv() {
 
 void MainWindow::newInvRR() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   InvoiceRR *invWindow = new InvoiceRR(this, dl, s_RR);
   invWindow->invoiceRRInit();
@@ -2010,12 +2017,11 @@ void MainWindow::newInvRR() {
   delete invWindow;
 }
 
-
 /** Slot used for creating new invoices
  */
 void MainWindow::newInvBill() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   Bill *billWindow = new Bill(this, dl, s_BILL);
 
@@ -2053,7 +2059,7 @@ void MainWindow::newInvBill() {
  */
 void MainWindow::newInvGross() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   InvoiceGross *invWindow = new InvoiceGross(this, dl, s_FBRUTTO);
   invWindow->setWindowTitle(trUtf8("Faktura VAT Brutto"));
@@ -2090,7 +2096,7 @@ void MainWindow::newInvGross() {
 
 void MainWindow::newPForm() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   Invoice *invWindow = new Invoice(this, dl, s_PROFORMA);
   invWindow->setWindowTitle(trUtf8("Faktura Pro Forma"));
@@ -2128,14 +2134,15 @@ void MainWindow::newPForm() {
 
 void MainWindow::newCor() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableH->selectedItems().count() <= 0) {
 
-    QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Faktura nie została wybrana. Wybierz fakurę, do "
-                                    "której chcesz wystawić korektę."),
-                             trUtf8("Ok"), 0, 0, 1);
+    QMessageBox::information(
+        this, trUtf8("QFaktury"),
+        trUtf8("Faktura nie została wybrana. Wybierz fakurę, do "
+               "której chcesz wystawić korektę."),
+        trUtf8("Ok"), 0, 0, 1);
     return;
   }
 
@@ -2205,7 +2212,7 @@ void MainWindow::newCor() {
 
 void MainWindow::newDuplicate() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableH->selectedItems().count() <= 0) {
 
@@ -2271,7 +2278,7 @@ void MainWindow::newDuplicate() {
 
 void MainWindow::goodsAdd() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   Goods *goodsWindow = new Goods(this, 0, dl);
 
@@ -2303,13 +2310,14 @@ void MainWindow::goodsAdd() {
  */
 void MainWindow::goodsDel() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableT->selectedItems().count() <= 0) {
 
-    QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Towar nie został wybrany. Nie można usuwać."),
-                             trUtf8("Ok"), 0, 0, 1);
+    QMessageBox::information(
+        this, trUtf8("QFaktury"),
+        trUtf8("Towar nie został wybrany. Nie można usuwać."), trUtf8("Ok"), 0,
+        0, 1);
     return;
   }
 
@@ -2331,13 +2339,14 @@ void MainWindow::goodsDel() {
 
 void MainWindow::goodsEdit() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->tableT->selectedItems().count() <= 0) {
 
-    QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Towar nie został wybrany. Nie można edytować."),
-                             trUtf8("Ok"), 0, 0, 1);
+    QMessageBox::information(
+        this, trUtf8("QFaktury"),
+        trUtf8("Towar nie został wybrany. Nie można edytować."), trUtf8("Ok"),
+        0, 0, 1);
     return;
   }
 
@@ -2373,7 +2382,7 @@ void MainWindow::goodsEdit() {
 
 void MainWindow::noteDownTask(const QDate &taskDate) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   windowTask = new QWidget;
 
@@ -2453,7 +2462,7 @@ void MainWindow::noteDownTask(const QDate &taskDate) {
 
 void MainWindow::cancelTaskWidget() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   windowTask->hide();
 
@@ -2469,7 +2478,7 @@ void MainWindow::cancelTaskWidget() {
 
 void MainWindow::delTasksFromDay() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QFile file(QDir::homePath() + "/.local/share/data/elinux/plans/" +
              markedDate.toString() + ".txt");
@@ -2515,7 +2524,7 @@ void MainWindow::delTasksFromDay() {
 
 void MainWindow::addTaskToList() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QString planDir = QDir::homePath() + "/.local/share/data/elinux/plans";
 
@@ -2576,7 +2585,7 @@ void MainWindow::addTaskToList() {
 
 void MainWindow::addNextTask() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QString planDir = QDir::homePath() + "/.local/share/data/elinux/plans";
 
@@ -2644,7 +2653,7 @@ void MainWindow::addNextTask() {
 
 void MainWindow::openHideOrganizer() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (ui->organizer->isHidden()) {
 
@@ -2663,7 +2672,7 @@ void MainWindow::openHideOrganizer() {
 
 bool MainWindow::close() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (QMessageBox::question(this, trUtf8("Potwierdź"),
                             trUtf8("Czy chcesz wyjść z programu?"),
@@ -2681,7 +2690,7 @@ bool MainWindow::close() {
 
 void MainWindow::createFirstWinBackup() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QPushButton *browseButton =
       new QPushButton(trUtf8("&Szukaj katalogu..."), this);
@@ -2732,7 +2741,7 @@ void MainWindow::createFirstWinBackup() {
 
 void MainWindow::choosePathBackup() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QString directory =
       QDir::toNativeSeparators(QFileDialog::getExistingDirectory(
@@ -2745,7 +2754,7 @@ void MainWindow::choosePathBackup() {
 
 void MainWindow::createBackup() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QStringList listConf = QStringList()
                          << sett().fileName()
@@ -2778,10 +2787,11 @@ void MainWindow::createBackup() {
     } else {
 
       qDebug() << "Archive had not been created";
-      QMessageBox::warning(windBack, trUtf8("Tworzenie kopii zapasowej"),
-                           trUtf8("Stworzenie kopii zapasowej zakończyło "
-                                  "się niepowodzeniem. Sprawdź, czy masz uprawnienia "
-                                  "do odczytu i zapisu w wybranym folderze."));
+      QMessageBox::warning(
+          windBack, trUtf8("Tworzenie kopii zapasowej"),
+          trUtf8("Stworzenie kopii zapasowej zakończyło "
+                 "się niepowodzeniem. Sprawdź, czy masz uprawnienia "
+                 "do odczytu i zapisu w wybranym folderze."));
     }
 
     qDebug() << directoryComboBox->text() + QString("/") +
@@ -2801,7 +2811,7 @@ void MainWindow::createBackup() {
 
 void MainWindow::loadBackup() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QMessageBox msgBox;
   msgBox.setText(
@@ -2868,7 +2878,7 @@ void MainWindow::loadBackup() {
 
 void MainWindow::sendEmailToBuyer() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   Send *sendEmailWidget = new Send(
       dl->buyersSelectAllData(),
@@ -2881,81 +2891,77 @@ void MainWindow::sendEmailToBuyer() {
  *  Slot for delivery note creation (WZ)
  */
 
-void MainWindow::on_WZAction_triggered()
-{
+void MainWindow::on_WZAction_triggered() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-    DeliveryNote *noteWindow = new DeliveryNote(this, dl, s_WZ);
-    noteWindow->setWindowTitle(trUtf8("WZ"));
-    noteWindow->backBtnClick();
+  DeliveryNote *noteWindow = new DeliveryNote(this, dl, s_WZ);
+  noteWindow->setWindowTitle(trUtf8("WZ"));
+  noteWindow->backBtnClick();
 
-    if (noteWindow->exec() == QDialog::Accepted) {
+  if (noteWindow->exec() == QDialog::Accepted) {
 
-      ui->tableM->setSortingEnabled(false);
-      insertRow(ui->tableM, ui->tableM->rowCount());
-      QStringList row = noteWindow->getRetWarehouse().split("|");
-      ui->tableM->item(ui->tableM->rowCount() - 1, 0)
-          ->setText(row[0]); // file name
-      ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(row[1]); // symbol
-      ui->tableM->item(ui->tableM->rowCount() - 1, 2)->setText(row[2]); // date
-      ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(row[3]); // type
-      ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(row[4]); // buyer
-      ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(row[5]); // NIP
-      ui->tableM->setSortingEnabled(true);
+    ui->tableM->setSortingEnabled(false);
+    insertRow(ui->tableM, ui->tableM->rowCount());
+    QStringList row = noteWindow->getRetWarehouse().split("|");
+    ui->tableM->item(ui->tableM->rowCount() - 1, 0)
+        ->setText(row[0]); // file name
+    ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(row[1]); // symbol
+    ui->tableM->item(ui->tableM->rowCount() - 1, 2)->setText(row[2]); // date
+    ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(row[3]); // type
+    ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(row[4]); // buyer
+    ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(row[5]); // NIP
+    ui->tableM->setSortingEnabled(true);
 
-      rereadWarehouses(true);
-      rereadHist(true);
+    rereadWarehouses(true);
+    rereadHist(true);
 
-    } else {
+  } else {
 
-      rereadWarehouses(true);
-      rereadHist(true);
-    }
+    rereadWarehouses(true);
+    rereadHist(true);
+  }
 
-    dl->checkAllSymbWareInFiles();
-    allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
-    noteWindow = 0;
-    delete noteWindow;
+  dl->checkAllSymbWareInFiles();
+  allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
+  noteWindow = 0;
+  delete noteWindow;
 }
-
 
 // ----------------------------------------  SLOTS
 // ---------------------------------//
 
+void MainWindow::on_RWAction_triggered() {
 
-void MainWindow::on_RWAction_triggered()
-{
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  GoodsIssuedNotes *noteWindow = new GoodsIssuedNotes(this, dl, s_RW);
+  noteWindow->setWindowTitle(trUtf8("RW"));
+  noteWindow->backBtnClick();
 
-    GoodsIssuedNotes *noteWindow = new GoodsIssuedNotes(this, dl, s_RW);
-    noteWindow->setWindowTitle(trUtf8("RW"));
-    noteWindow->backBtnClick();
+  if (noteWindow->exec() == QDialog::Accepted) {
 
-    if (noteWindow->exec() == QDialog::Accepted) {
+    ui->tableM->setSortingEnabled(false);
+    insertRow(ui->tableM, ui->tableM->rowCount());
+    QStringList row = noteWindow->getRetWarehouse().split("|");
+    ui->tableM->item(ui->tableM->rowCount() - 1, 0)
+        ->setText(row[0]); // file name
+    ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(row[1]); // symbol
+    ui->tableM->item(ui->tableM->rowCount() - 1, 2)->setText(row[2]); // date
+    ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(row[3]); // type
+    ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(row[4]); // buyer
+    ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(row[5]); // NIP
+    ui->tableM->setSortingEnabled(true);
 
-      ui->tableM->setSortingEnabled(false);
-      insertRow(ui->tableM, ui->tableM->rowCount());
-      QStringList row = noteWindow->getRetWarehouse().split("|");
-      ui->tableM->item(ui->tableM->rowCount() - 1, 0)
-          ->setText(row[0]); // file name
-      ui->tableM->item(ui->tableM->rowCount() - 1, 1)->setText(row[1]); // symbol
-      ui->tableM->item(ui->tableM->rowCount() - 1, 2)->setText(row[2]); // date
-      ui->tableM->item(ui->tableM->rowCount() - 1, 3)->setText(row[3]); // type
-      ui->tableM->item(ui->tableM->rowCount() - 1, 4)->setText(row[4]); // buyer
-      ui->tableM->item(ui->tableM->rowCount() - 1, 5)->setText(row[5]); // NIP
-      ui->tableM->setSortingEnabled(true);
+    rereadWarehouses(true);
 
-      rereadWarehouses(true);
+  } else {
 
-    } else {
+    rereadWarehouses(true);
+  }
 
-      rereadWarehouses(true);
-    }
-
-    dl->checkAllSymbWareInFiles();
-    allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
-    noteWindow = 0;
-    delete noteWindow;
+  dl->checkAllSymbWareInFiles();
+  allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
+  noteWindow = 0;
+  delete noteWindow;
 }

@@ -6,7 +6,7 @@
  */
 BuyersList::BuyersList(QWidget *parent) : QDialog(parent) {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   setupUi(this);
   init();
@@ -44,7 +44,10 @@ void BuyersList::init() {
           SLOT(updateDetails(QListWidgetItem *)));
 }
 
-const QString BuyersList::getRetBuyerList() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return ret; }
+const QString BuyersList::getRetBuyerList() {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  return ret;
+}
 
 // *************************** SLOTS START *************************************
 
@@ -54,7 +57,7 @@ const QString BuyersList::getRetBuyerList() { qDebug() << __FILE__ << __LINE__ <
 
 void BuyersList::doAccept() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (!listBox1->selectedItems().isEmpty()) {
 
@@ -74,7 +77,7 @@ void BuyersList::doAccept() {
 
 void BuyersList::comboBox1Changed() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   listBox1->clear();
   clearDetails();
@@ -107,7 +110,7 @@ void BuyersList::comboBox1Changed() {
 
 void BuyersList::updateDetails(QListWidgetItem *item) {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QStringList custDetails = QStringList();
   QString customer = QString();
@@ -151,7 +154,7 @@ void BuyersList::updateDetails(QListWidgetItem *item) {
  */
 void BuyersList::readBuyer() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QDomDocument doc(sett().getCustomersDocName());
   QDomElement root;
@@ -238,7 +241,7 @@ void BuyersList::readBuyer() {
 
 QString BuyersList::xmlDataToString(QDomNode n) {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QString text = QString();
   text = n.toElement().attribute("name") + "|";     // 0
@@ -262,7 +265,7 @@ QString BuyersList::xmlDataToString(QDomNode n) {
 
 void BuyersList::displayDetails(QStringList custDetails) {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   labelNameE->setText(custDetails[0]);
   labelAddressE->setText(custDetails[1]);
@@ -281,7 +284,7 @@ void BuyersList::displayDetails(QStringList custDetails) {
 
 void BuyersList::clearDetails() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   labelNameE->setText("");
   labelAddressE->setText("");
@@ -298,7 +301,7 @@ void BuyersList::clearDetails() {
 
 QString BuyersList::detailsToString() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QString ret = labelNameE->text();
 

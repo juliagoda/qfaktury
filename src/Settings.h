@@ -115,6 +115,8 @@ public:
                QDate::currentDate().toString(Qt::ISODate));
     if (value("firstrun").toString().compare("") == 0)
       setValue("firstrun", false);
+    if (value("firstRunGUS").toString().compare("") == 0)
+      setValue("firstRunGUS", false);
     if (value("units").toString().compare("") == 0)
       setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|"
                            "filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|"
@@ -412,6 +414,7 @@ public:
     setValue("filtrStartWarehouse",
              QDate::currentDate().toString(getDateFormat()));
     setValue("firstrun", false);
+    setValue("firstRunGUS", false);
     setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|"
                          "filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|kWh|"
                          "l|mb|msc|mila|mtg|MWh|m2|m3|opak|puszka|rolka|"

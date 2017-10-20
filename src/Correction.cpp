@@ -24,17 +24,26 @@ Correction::Correction(QWidget *parent, IDataLayer *dl, QString in_form,
 
 Correction::~Correction() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   delete invData;
   invData = NULL;
 }
 
-bool Correction::getMode() const { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return editMode; }
+bool Correction::getMode() const {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  return editMode;
+}
 
-bool Correction::getFirstRun() const { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return firstRunned; }
+bool Correction::getFirstRun() const {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  return firstRunned;
+}
 
-const QString Correction::getRet() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return ret; }
+const QString Correction::getRet() {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  return ret;
+}
 
 /* Init
  */
@@ -69,8 +78,9 @@ void Correction::correctionInit(bool mode) {
   qDebug() << "Do zapłaty w korekcie: " << sett().stringToDouble(sum3->text());
 
   // connects
-  connect(reasonCombo, static_cast<void (QComboBox::*)(const QString &)>(
-                           &QComboBox::currentIndexChanged),
+  connect(reasonCombo,
+          static_cast<void (QComboBox::*)(const QString &)>(
+              &QComboBox::currentIndexChanged),
           [this](const QString &) {
             saveBtn->setEnabled(true);
             canClose = false;
@@ -222,9 +232,8 @@ bool Correction::saveInvoice() {
   buyer.setAttribute(
       "tic", kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"), ""));
   ret += kht[3].replace(" ", "").replace(trUtf8("NIP:"), "");
-  buyer.setAttribute(
-      "account",
-      kht[4].replace(" ", "").replace(QObject::trUtf8("Konto:"), ""));
+  buyer.setAttribute("account", kht[4].replace(" ", "").replace(
+                                    QObject::trUtf8("Konto:"), ""));
   buyer.setAttribute(
       "phone", kht[5].replace(" ", "").replace(QObject::trUtf8("Tel:"), ""));
   buyer.setAttribute(
@@ -502,8 +511,8 @@ void Correction::canQuit() {
 
     if (QMessageBox::warning(
             this, "QFaktury",
-            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"), trUtf8("Tak"),
-            trUtf8("Nie"), 0, 0, 1) == 1) {
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"),
+            trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 1) {
 
       saveColumnsWidth();
       reject();

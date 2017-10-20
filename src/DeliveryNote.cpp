@@ -17,7 +17,7 @@
 DeliveryNote::DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form)
     : Warehouse(parent, dl, in_form) {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invoiceType = s_WZ;
   setObjectName("DeliveryNote");
@@ -47,7 +47,7 @@ DeliveryNote::DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form)
 
 DeliveryNote::~DeliveryNote() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   textLabelSum1->show();
   textLabelSum2->show();
@@ -222,7 +222,7 @@ void DeliveryNote::readWarehouseData(QString invFile) {
 
 void DeliveryNote::makeInvoiceProductsHeadar() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invStrList += "<tr align=\"center\" valign=\"middle\" "
                 "class=\"productsHeader\" width=\"100%\" >"; // TUTAJ
@@ -255,7 +255,7 @@ void DeliveryNote::makeInvoiceProductsHeadar() {
 
 void DeliveryNote::makeInvoiceProducts() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invStrList += "<tr width=\"100%\"><td width=\"100%\">";
 
@@ -289,11 +289,14 @@ void DeliveryNote::makeInvoiceProducts() {
   invStrList += "</tr>";
 }
 
-void DeliveryNote::makeInvoiceSumm() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; invStrList += "<br/><br/>"; }
+void DeliveryNote::makeInvoiceSumm() {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  invStrList += "<br/><br/>";
+}
 
 void DeliveryNote::makeInvoiceSummAll() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invStrList += "<table width=\"100%\" border=\"0\">";
 
@@ -325,7 +328,7 @@ void DeliveryNote::makeInvoiceSummAll() {
 
 void DeliveryNote::makeInvoiceFooter() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   invStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
   invStrList += "<br><br><br><br>";

@@ -7,10 +7,9 @@
 #include <QLineEdit>
 #include <QScrollArea>
 
-
 User::User(QWidget *parent) : QDialog(parent) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   setupUi(this);
   sellersWidgets.append(mainSeller);
@@ -26,7 +25,7 @@ User::User(QWidget *parent) : QDialog(parent) {
 
 void User::init() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QSettings settings("elinux", "user");
   nameEdit->setText(settings.value("name").toString());
@@ -140,7 +139,7 @@ void User::init() {
 
 bool User::checkAll() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   foreach (QWidget *widg, sellersWidgets) {
     if (Validations::instance()->isEmptyField(
@@ -294,7 +293,7 @@ bool User::checkAll() {
 
 void User::okClick() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   bool ifOtherSeller = false;
 
@@ -487,7 +486,7 @@ void User::okClick() {
 
 void User::on_nextSeller_clicked() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QWidget *nextSel = new QWidget();
 
@@ -584,12 +583,12 @@ void User::on_nextSeller_clicked() {
 }
 
 /*
-* Removes current tab with seller in QTabWidget
-*/
+ * Removes current tab with seller in QTabWidget
+ */
 
 void User::delcurrSel() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (QMessageBox::warning(this, trUtf8("Usuwanie danych oddziału"),
                            trUtf8("Usunąć dane kolejnego sprzedawcy/oddziału?"),
@@ -612,8 +611,7 @@ void User::delcurrSel() {
 
     if (isLess) {
 
-      for (int i = delIndex, j = delIndex + 1;
-           j <= countedSellers; ++i, ++j) {
+      for (int i = delIndex, j = delIndex + 1; j <= countedSellers; ++i, ++j) {
         settings.beginGroup("seller" + QString::number(j));
         QSettings settings2("elinux", "user");
         settings2.beginGroup("seller" + QString::number(i));
@@ -635,7 +633,7 @@ void User::delcurrSel() {
 // | bank name | bank swift/bic"
 void User::on_addAcc_clicked() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (!accountEdit->text().isEmpty()) {
     if (!accountEdit->text().isEmpty() && !bankNameEdit->text().isEmpty() &&
@@ -660,7 +658,7 @@ void User::on_addAcc_clicked() {
 // will be added automatically after "OK" pressing
 void User::on_remAcc_clicked() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (accountsCombo->currentIndex() != -1)
     accountsCombo->removeItem(accountsCombo->currentIndex());
@@ -670,7 +668,7 @@ void User::on_remAcc_clicked() {
 // updated
 void User::on_accountsCombo_currentTextChanged(const QString &arg1) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   int accParts = 0;
   QStringList listOfAcc = arg1.split(" | ");
@@ -715,7 +713,7 @@ void User::on_accountsCombo_currentTextChanged(const QString &arg1) {
 // adds phone number from QLineEdit to QComboBox list
 void User::on_addTel_clicked() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (!phonEdit->text().isEmpty()) {
     if (telsCombo->findText(phonEdit->text().trimmed()) == -1) {
@@ -734,7 +732,7 @@ void User::on_addTel_clicked() {
 // will be added automatically after "OK" pressing
 void User::on_remTel_clicked() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (telsCombo->currentIndex() != -1)
     telsCombo->removeItem(telsCombo->currentIndex());
@@ -745,7 +743,7 @@ void User::on_remTel_clicked() {
 // execute "setCurrentIndex"
 void User::on_telsCombo_currentTextChanged(const QString &arg1) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   int index = telsCombo->findText(arg1);
   QString tempFirst = telsCombo->itemText(0);
@@ -757,7 +755,7 @@ void User::on_telsCombo_currentTextChanged(const QString &arg1) {
 // adds fax from QLineEdit to QComboBox list
 void User::on_addFax_clicked() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (!faxEdit->text().isEmpty()) {
     if (faxesCombo->findText(faxEdit->text().trimmed()) == -1) {
@@ -776,7 +774,7 @@ void User::on_addFax_clicked() {
 // added automatically after "OK" pressing
 void User::on_remFax_clicked() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (faxesCombo->currentIndex() != -1)
     faxesCombo->removeItem(faxesCombo->currentIndex());
@@ -787,7 +785,7 @@ void User::on_remFax_clicked() {
 // execute "setCurrentIndex"
 void User::on_faxesCombo_currentTextChanged(const QString &arg1) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   int index = faxesCombo->findText(arg1);
   QString tempFirst = faxesCombo->itemText(0);
@@ -799,7 +797,7 @@ void User::on_faxesCombo_currentTextChanged(const QString &arg1) {
 // adds email from QLineEdit to QComboBox list
 void User::on_addEmail_clicked() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (!emailEdit->text().isEmpty()) {
     if (emailsCombo->findText(emailEdit->text().trimmed()) == -1) {
@@ -809,16 +807,17 @@ void User::on_addEmail_clicked() {
       QMessageBox::warning(this, "Istniejący adres",
                            "Taki adres znajduje się już na Twojej liście ");
   } else
-    QMessageBox::warning(this, "Pusta rubryka dla adresu email",
-                         "Nie ma wpisanego adresu email w rubryce, który "
-                         "mógłbyś dodać do listy. Wprowadż w pierwszej kolejności adres. ");
+    QMessageBox::warning(
+        this, "Pusta rubryka dla adresu email",
+        "Nie ma wpisanego adresu email w rubryce, który "
+        "mógłbyś dodać do listy. Wprowadż w pierwszej kolejności adres. ");
 }
 
 // removes current option in QComboBox for emails. Changes in user.conf will be
 // added automatically after "OK" pressing
 void User::on_remEmail_clicked() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (emailsCombo->currentIndex() != -1)
     emailsCombo->removeItem(emailsCombo->currentIndex());
@@ -829,7 +828,7 @@ void User::on_remEmail_clicked() {
 // execute "setCurrentIndex"
 void User::on_emailsCombo_currentTextChanged(const QString &arg1) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   int index = emailsCombo->findText(arg1);
   QString tempFirst = emailsCombo->itemText(0);
@@ -842,7 +841,7 @@ void User::on_emailsCombo_currentTextChanged(const QString &arg1) {
 // are needed for multiple choice
 bool User::cameFromOldVersion() {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QSettings settings("elinux", "user");
   if (settings.contains("accountsCount") || settings.contains("telsCount") ||
@@ -856,7 +855,7 @@ bool User::cameFromOldVersion() {
 // to QQComboBoxes and writes changes in user.conf
 void User::prepareFor_0_7_1(bool cameFromOlder) {
 
-    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   if (cameFromOlder) {
 

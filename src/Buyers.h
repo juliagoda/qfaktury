@@ -53,6 +53,7 @@ private:
   bool checkGusPath();
   void setDataFromGUS();
   void RaportTypesContainer(QStringList&, QJsonObject&);
+  void createComposerJson(QString,QString);
 
 };
 #endif

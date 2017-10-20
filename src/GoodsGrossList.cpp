@@ -8,20 +8,27 @@
 #include "GoodsGrossList.h"
 #include "Settings.h"
 
-GoodsGrossList::GoodsGrossList(QWidget *parent) : GoodsList(parent) {qDebug() << __FILE__ << __LINE__ << __FUNCTION__;}
+GoodsGrossList::GoodsGrossList(QWidget *parent) : GoodsList(parent) {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+}
 
-GoodsGrossList::~GoodsGrossList() {qDebug() << __FILE__ << __LINE__ << __FUNCTION__;}
+GoodsGrossList::~GoodsGrossList() {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+}
 
 QString GoodsGrossList::getPriceOfCurrent() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   double price =
       sett().stringToDouble(grossLabel->text()) / countSpinBox->value();
   return sett().numberToString(price, 'f', 2);
 }
 
-QString const GoodsGrossList::getRetValGoodsBr() { qDebug() << __FILE__ << __LINE__ << __FUNCTION__; return ret; }
+QString const GoodsGrossList::getRetValGoodsBr() {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  return ret;
+}
 
 /** Slot
  *  Accepts and closes
@@ -29,7 +36,7 @@ QString const GoodsGrossList::getRetValGoodsBr() { qDebug() << __FILE__ << __LIN
 
 void GoodsGrossList::doAccept() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (countSpinBox->text() == "" || countSpinBox->value() < 0.001) {
     QMessageBox::information(this, "QFaktury", trUtf8("Podaj ilość"),
@@ -78,7 +85,7 @@ void GoodsGrossList::doAccept() {
 
 void GoodsGrossList::calcNet() {
 
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (listWidget->selectedItems().size() == 1) {
     double price =
