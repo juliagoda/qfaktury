@@ -94,6 +94,14 @@ make
 sudo make install
 ```
 
+Jeśli posiadamy system Arch Linux (bądź pokrewny) wykonujemy następujące czynności:
+
+```
+git clone https://github.com/archlinux-lucjan/archlinux-poland
+cd qfaktury-qt5-git
+makepkg -srci
+```
+
 <br/>
 <br/>
 
