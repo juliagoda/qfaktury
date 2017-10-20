@@ -44,6 +44,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - zlib w wersji wyższej lub równej 1.2
 - quazip w wersji 0.7.3 lub wyższej
 - cmake w wersji 3.9 lub wyższej
+- extra-cmake-modules w wersji 1.7.0 lub nowszej
 - php w wersji 7.1 lub wyższej
 - gksu w wersji 2.0 lub wyższej
 - połączenie z internetem (opcjonalne)
