@@ -44,6 +44,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - zlib w wersji wyższej lub równej 1.2
 - quazip w wersji 0.7.3 lub wyższej
 - cmake w wersji 3.9 lub wyższej
+- extra-cmake-modules w wersji 1.7.0 lub nowszej
 - php w wersji 7.1 lub wyższej
 - gksu w wersji 2.0 lub wyższej
 - połączenie z internetem (opcjonalne)
@@ -56,18 +57,9 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 
 # Arch Linux
 
-`sudo pacman -S zlib gksu php cmake quazip qt5-base qt5-webengine`
-
-lub
-
 ```
-git clone https://github.com/archlinux-lucjan/archlinux-poland.git
-cd qfaktury-qt5-git
-makepkg -sric
+sudo pacman -S zlib gksu php cmake quazip qt5-base qt5-webengine extra-cmake-modules
 ```
-
-dla drugiego sposobu można od razu pominąć kroki dla instalacji zależności i instalacji samego programu
-
 
 # Ubuntu
 
@@ -96,7 +88,9 @@ sudo apt get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-
 
 # Debian Sid
 
-`sudo apt get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev`
+```
+sudo apt get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev
+```
 
 # Fedora
 
@@ -110,7 +104,9 @@ sudo dnf install zlib-devel cmake beesu quazip qt5-qtbase-devel qt5-qtwebengine-
 
 # OpenSUSE
 
-`sudo zypper in php7 php7-devel libz1 zlib-devel cmake gksu libgksu libquazip-qt5 libqt5-qtbase libqt5-qtwebengine`
+```
+sudo zypper in php7 php7-devel libz1 zlib-devel cmake gksu libgksu libquazip-qt5 libqt5-qtbase libqt5-qtwebengine
+```
 
 # Linux Mint
 
@@ -140,6 +136,13 @@ make
 sudo make install
 ```
 
+Jeśli posiadasz Arch Linux bądź pokrewny system (Manjaro) możesz wykonać poniższe kroki:
+
+```
+git clone https://github.com/archlinux-lucjan/archlinux-poland.git
+cd qfaktury-qt5-git
+makepkg -sric
+```
 
 ## Usuwanie
 
@@ -149,7 +152,7 @@ W zbudowanym katalogu:
 
 lub (w Arch Linux), jeśli instalacja nastąpiła z PKGBUILD:
 
-`sudo pacman -R qfaktury-qt5-git`
+`sudo pacman -Rns qfaktury-qt5-git`
 
 <br/>
 <br/>
