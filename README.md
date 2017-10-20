@@ -2,11 +2,13 @@
 
 
 1. [Opis](#opis)  
-2. [Wymagania](#wymagania)
-3. [Instalacja](#instalacja)  
-4. [Rozwój](#rozwój)  
-5. [Uwagi](#uwagi)  
-6. [Zgłaszanie błędów](#zgłaszanie-błędów)  
+2. [Wymagania](#wymagania)  
+3. [Instalacja zależności](#instalacja-zależności)  
+4. [Instalacja](#instalacja)  
+5. [Usuwanie](#usuwanie)  
+6. [Rozwój](#rozwój)  
+7. [Uwagi](#uwagi)  
+8. [Zgłaszanie błędów](#zgłaszanie-błędów)  
 
 <br/>
 <br/>
@@ -63,6 +65,8 @@ git clone https://github.com/archlinux-lucjan/archlinux-poland.git
 cd qfaktury-qt5-git
 makepkg -sric
 ```
+
+dla drugiego sposobu można od razu pominąć kroki dla instalacji zależności i instalacji samego programu
 
 
 # Ubuntu
