@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 #include <QCalendarWidget>
 #include <QDir>
 #include <QPainter>
 
 #include "OwnCalendar.h"
 
+=======
+#include "OwnCalendar.h"
+
+#include <QCalendarWidget>
+#include <QDebug>
+#include <QDir>
+#include <QPainter>
+
+>>>>>>> testing
 ownCalendarWidget::ownCalendarWidget(QWidget *parent)
     : QCalendarWidget(parent) {}
 
@@ -30,6 +40,12 @@ bool ownCalendarWidget::event(QEvent *) { return true; }
 
 void ownCalendarWidget::paintCell(QPainter *painter, const QRect &rect,
                                   const QDate &date) const {
+<<<<<<< HEAD
+=======
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+>>>>>>> testing
   QDir allFiles;
   QList<QDate> dateList;
 

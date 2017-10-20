@@ -8,6 +8,7 @@
 
 #include "ui_Buyers.h"
 
+<<<<<<< HEAD
 class IDataLayer;
 class BuyerData;
 
@@ -16,6 +17,19 @@ class Buyers : public QDialog, public Ui::Buyers {
 
   Q_OBJECT
 
+=======
+#include <QStringList>
+
+class IDataLayer;
+class BuyerData;
+class QJsonValue;
+
+// class for setting your data as company with GUI
+class Buyers : public QDialog, public Ui::Buyers {
+
+  Q_OBJECT
+
+>>>>>>> testing
 public:
   Buyers(QWidget *parent, int mode, IDataLayer *dl);
   void selectData(QString name,
@@ -30,6 +44,12 @@ public slots:
 
   void okClick();
   void requiredTic(int);
+<<<<<<< HEAD
+=======
+
+private slots:
+  void on_gusBtn_clicked();
+>>>>>>> testing
 
 private:
   QStringList allNames;
@@ -43,5 +63,14 @@ private:
   void setData(BuyerData &buyerData);
   bool validate();
   bool validateUpdated();
+<<<<<<< HEAD
+=======
+  bool connectGUS();
+  bool checkGusPath();
+  void setDataFromGUS();
+  void RaportTypesContainer(QStringList&, QJsonObject&);
+  void createComposerJson(QString,QString);
+
+>>>>>>> testing
 };
 #endif

@@ -1,3 +1,9 @@
+0.7.1
+    - Możliwość dodania większej ilości adresów email, numerów telefonu, numerów faks oraz kont bankowych dla użytkownika głównego
+    - Tworzenie, aktualizowanie i usuwanie dokumentu WZ i RW
+    - Podstawianie danych w wierszach dla kontrahenta, korzystając z informacji pobieranych z Głównego Urzędu Statystycznego
+    - przeportowanie qmake do cmake
+
 0.7.0
 	- Przeportowanie na Qt5
 	- Dodanie walidacji oraz obliczanie sum kontrolnych dla rubryk formularzy
@@ -5,7 +11,7 @@
 	- Dodanie możliwości przekształcania waluty według aktualnego kursu walut. Zmiana wartości co pół godziny
 	- Uzupełnienie opcji płatności "zaliczki" o podgląd kwoty rat oraz sposobu płatności pod podsumowaniem w oknie faktury
 	- Dodanie w ustawieniach możliwość wyboru danych kontrahenta, jakie mają znaleźć się na fakturze
-	- Przyciski "Dodaj" i "Usuń" kolejno dla faktur, kontrahentów i towarów są nieczynne dopóki nie pojawi się przynajmniej    	jeden wpis. Zmiany są na bieżąco wykrywane
+	- Przyciski "Dodaj" i "Usuń" kolejno dla faktur, kontrahentów i towarów są nieczynne dopóki nie pojawi się przynajmniej jeden wpis. Zmiany są na bieżąco wykrywane
 	- Filtr dat dla listy faktur działa według dat w drugiej rubryce zamiast nazwy pliku, zawierającej datę stworzenia pliku
 	- Poprawa rozmiaru czcionki dla elementów tabelki na fakturze
 	- Komunikat w przypadku wybraniu daty wcześniejszej w polu daty końcowej niż wskazuje data początkowa w filtrze.  Komunikat występuje także w przypadku próby wybrania daty wcześniejszej dla wystawienia faktury niż data sprzedaży towaru oraz przy próbie wybrania daty wcześniejszej dla drugiej raty niż data pierwszej zapłaty. Dodatkowo w przypadku zaliczki obie daty nie mogą być sobie równe
@@ -22,6 +28,8 @@
 	- Wprowadzenie zabezpieczenia na wypadek zmiany lokalizacji w systemie oraz wynikających z tego brak formatowania liczb double odczytywanych z plików xml
 	- Dodanie wartości milionowych i miliardowych do zapisu słownego na fakturze
 	- Zmiana ścieżki folderu z ~/elinux na ~/.local/share/data/elinux
+	- Wysyłanie email z załącznikami do kontrahentów
+	- Dodanie kalendarza z możliwością tworzenia notatek
 
 0.6.5
 	- Skróty klawiszowe na zmianę zakładek w oknie głównym

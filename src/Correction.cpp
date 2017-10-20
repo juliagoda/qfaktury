@@ -24,6 +24,7 @@ Correction::Correction(QWidget *parent, IDataLayer *dl, QString in_form,
 
 Correction::~Correction() {
 
+<<<<<<< HEAD
   delete invData;
   invData = NULL;
 }
@@ -33,6 +34,28 @@ bool Correction::getMode() const { return editMode; }
 bool Correction::getFirstRun() const { return firstRunned; }
 
 const QString Correction::getRet() { return ret; }
+=======
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+  delete invData;
+  invData = NULL;
+}
+
+bool Correction::getMode() const {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  return editMode;
+}
+
+bool Correction::getFirstRun() const {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  return firstRunned;
+}
+
+const QString Correction::getRet() {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  return ret;
+}
+>>>>>>> testing
 
 /* Init
  */
@@ -67,8 +90,14 @@ void Correction::correctionInit(bool mode) {
   qDebug() << "Do zapłaty w korekcie: " << sett().stringToDouble(sum3->text());
 
   // connects
+<<<<<<< HEAD
   connect(reasonCombo, static_cast<void (QComboBox::*)(const QString &)>(
                            &QComboBox::currentIndexChanged),
+=======
+  connect(reasonCombo,
+          static_cast<void (QComboBox::*)(const QString &)>(
+              &QComboBox::currentIndexChanged),
+>>>>>>> testing
           [this](const QString &) {
             saveBtn->setEnabled(true);
             canClose = false;
@@ -86,6 +115,7 @@ void Correction::correctionInit(bool mode) {
  */
 
 void Correction::backBtnClick() {
+<<<<<<< HEAD
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -106,6 +136,28 @@ void Correction::backBtnClick() {
   if (sett().value("month").toBool())
     lastInvoice += "/" + QDate::currentDate().toString("MM");
 
+=======
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+  QString tmp = sett().value("korNr").toString();
+  QString prefix, suffix;
+
+  prefix = sett().value("prefix").toString();
+  QStringList one1 = tmp.split("/");
+  one1[0] = one1[0].remove(prefix);
+
+  int nr = MainWindow::instance()->getMaxSymbol() + 1;
+  lastInvoice =
+      prefix + numbersCount(nr, sett().value("chars_in_symbol").toInt());
+
+  if (sett().value("day").toBool())
+    lastInvoice += "/" + QDate::currentDate().toString("dd");
+
+  if (sett().value("month").toBool())
+    lastInvoice += "/" + QDate::currentDate().toString("MM");
+
+>>>>>>> testing
   if (sett().value("year").toBool()) {
     if (!sett().value("shortYear").toBool())
       lastInvoice += "/" + QDate::currentDate().toString("yy");
@@ -134,6 +186,7 @@ bool Correction::saveInvoice() {
 
   QDomDocument doc(sett().getCorrDocName());
   QDomElement root;
+<<<<<<< HEAD
 
   if (!editMode && (fName == ""))
     fName = "NULL";
@@ -155,6 +208,29 @@ bool Correction::saveInvoice() {
 
     while (file.exists()) {
 
+=======
+
+  if (!editMode && (fName == ""))
+    fName = "NULL";
+
+  qDebug() << fName;
+
+  QFile file;
+
+  if (fName == "NULL") {
+
+    fName = QDate::currentDate().toString(sett().getFnameDateFormat());
+
+    int pNumber = 0;
+    QString fname = "k" + fName + "_" + sett().numberToString(pNumber) + ".xml";
+    file.setFileName(sett().getInvoicesDir() + fname);
+
+    ret = fname + "|";
+    pNumber += 1;
+
+    while (file.exists()) {
+
+>>>>>>> testing
       fname = "k" + fName + "_" + sett().numberToString(pNumber) + ".xml";
       file.setFileName(sett().getInvoicesDir() + fname);
       ret = fname + "|";
@@ -220,9 +296,14 @@ bool Correction::saveInvoice() {
   buyer.setAttribute(
       "tic", kht[3].replace(" ", "").replace(QObject::trUtf8("NIP:"), ""));
   ret += kht[3].replace(" ", "").replace(trUtf8("NIP:"), "");
+<<<<<<< HEAD
   buyer.setAttribute(
       "account",
       kht[4].replace(" ", "").replace(QObject::trUtf8("Konto:"), ""));
+=======
+  buyer.setAttribute("account", kht[4].replace(" ", "").replace(
+                                    QObject::trUtf8("Konto:"), ""));
+>>>>>>> testing
   buyer.setAttribute(
       "phone", kht[5].replace(" ", "").replace(QObject::trUtf8("Tel:"), ""));
   buyer.setAttribute(
@@ -488,9 +569,15 @@ void Correction::canQuit() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
            << ": canClose " << canClose;
+<<<<<<< HEAD
 
   if (canClose) {
 
+=======
+
+  if (canClose) {
+
+>>>>>>> testing
     if (ret.isNull())
       reject();
     else
@@ -500,8 +587,13 @@ void Correction::canQuit() {
 
     if (QMessageBox::warning(
             this, "QFaktury",
+<<<<<<< HEAD
             trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"), trUtf8("Tak"),
             trUtf8("Nie"), 0, 0, 1) == 1) {
+=======
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"),
+            trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 1) {
+>>>>>>> testing
 
       saveColumnsWidth();
       reject();
@@ -818,6 +910,7 @@ void Correction::setIsEditAllowed(bool isAllowed) {
   buyerListGet->setEnabled(false); // don't allow to change kontrahent
   currCombo->setEnabled(isAllowed);
   saveBtn->setEnabled(isAllowed);
+<<<<<<< HEAD
 
   if (!isAllowed && discountVal->value() == 0) {
 
@@ -837,6 +930,27 @@ void Correction::setIsEditAllowed(bool isAllowed) {
 
   reasonCombo->setEnabled(isAllowed);
 
+=======
+
+  if (!isAllowed && discountVal->value() == 0) {
+
+    constRab->setChecked(false);
+    discountVal->setEnabled(false);
+
+  } else {
+
+    constRab->setChecked(true);
+    discountVal->setEnabled(true);
+  }
+
+  if (isAllowed && (paysCombo->currentText() != trUtf8("zaliczka")))
+    liabDate->setEnabled(true);
+  else
+    liabDate->setEnabled(false);
+
+  reasonCombo->setEnabled(isAllowed);
+
+>>>>>>> testing
   if (invData == NULL)
     invData = createOriginalInv();
 
@@ -904,6 +1018,7 @@ void Correction::schemaCalcSum() {
   double quantity = 0;
   double gross = 0;
   double discountValue = 0;
+<<<<<<< HEAD
 
   qDebug() << "paysCombo->currentText(): " << paysCombo->currentText();
   qDebug() << "origGrossTotal na początku funkcji: " << origGrossTotal;
@@ -915,6 +1030,19 @@ void Correction::schemaCalcSum() {
 
   if (firstRunned) {
 
+=======
+
+  qDebug() << "paysCombo->currentText(): " << paysCombo->currentText();
+  qDebug() << "origGrossTotal na początku funkcji: " << origGrossTotal;
+
+  // set to 0
+  nettTotal = 0;
+  discountTotal = 0;
+  grossTotal = 0;
+
+  if (firstRunned) {
+
+>>>>>>> testing
     if (paysCombo->currentText() == trUtf8("zaliczka")) {
 
       if (!editMode) {
@@ -930,6 +1058,7 @@ void Correction::schemaCalcSum() {
   }
 
   qDebug() << "origGrossTotal na początku funkcji 2: " << origGrossTotal;
+<<<<<<< HEAD
 
   // origGrossTotal = -1;
   origDiscTotal = 0;
@@ -939,6 +1068,17 @@ void Correction::schemaCalcSum() {
   // sum of after correction invoice
   for (int i = 0; i < tableGoods->rowCount(); ++i) {
 
+=======
+
+  // origGrossTotal = -1;
+  origDiscTotal = 0;
+  origNettTotal = 0;
+  diffTotal = 0;
+
+  // sum of after correction invoice
+  for (int i = 0; i < tableGoods->rowCount(); ++i) {
+
+>>>>>>> testing
     price = sett().stringToDouble(tableGoods->item(i, 7)->text());
     quantity = tableGoods->item(i, 4)->text().toInt();
     net = sett().stringToDouble(tableGoods->item(i, 8)->text());
@@ -1033,10 +1173,17 @@ void Correction::schemaCalcSum() {
  */
 
 void Correction::calculateSum() {
+<<<<<<< HEAD
 
   if (editMode) {
     if ((invData != NULL) && (invData->products.count() > 0)) {
 
+=======
+
+  if (editMode) {
+    if ((invData != NULL) && (invData->products.count() > 0)) {
+
+>>>>>>> testing
       schemaCalcSum();
     }
 
@@ -1049,6 +1196,7 @@ void Correction::calculateSum() {
 void Correction::calculateOneDiscount(int i) {
 
   qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+<<<<<<< HEAD
 
   double quantity = 0;
   double vat = 0;
@@ -1065,6 +1213,24 @@ void Correction::calculateOneDiscount(int i) {
   else
     discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
 
+=======
+
+  double quantity = 0;
+  double vat = 0;
+  double gross = 0;
+  double net = 0;
+  double price = 0;
+  double discountValue = 0;
+  double discount = 0;
+
+  price = sett().stringToDouble(tableGoods->item(i, 7)->text());
+
+  if (constRab->isChecked())
+    discount = discountVal->value() * 0.01;
+  else
+    discount = (tableGoods->item(i, 6)->text()).toInt() * 0.01;
+
+>>>>>>> testing
   quantity = tableGoods->item(i, 4)->text().toInt();
   net = (price * quantity);
   discountValue = net * discount;

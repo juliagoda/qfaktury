@@ -10,6 +10,7 @@
 // constructor
 Duplicate::Duplicate(QWidget *parent, IDataLayer *dl, QString in_form,
                      bool ifEdited)
+<<<<<<< HEAD
     : Invoice(parent, dl, in_form), editMode(ifEdited) {}
 
 Duplicate::~Duplicate() {
@@ -54,6 +55,61 @@ void Duplicate::duplicateInit() {
 
 void Duplicate::setData(InvoiceData &invData) {
 
+=======
+    : Invoice(parent, dl, in_form), editMode(ifEdited) {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+}
+
+Duplicate::~Duplicate() {
+
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+  if (labelDupDate != 0)
+    labelDupDate = 0;
+  delete labelDupDate;
+
+  if (duplicateDate != 0)
+    duplicateDate = 0;
+  delete duplicateDate;
+}
+
+void Duplicate::duplicateInit() {
+
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+  labelDupDate = new QLabel(this);
+  labelDupDate->setText(trUtf8("Data duplikatu:"));
+  labelDupDate->setAlignment(Qt::AlignRight);
+  addDataLabels->addWidget(labelDupDate);
+
+  duplicateDate = new QDateEdit(this);
+  duplicateDate->setObjectName(QString::fromUtf8("duplicateDate"));
+  duplicateDate->setCalendarPopup(true);
+  duplicateDate->setDisplayFormat(sett().getDateFormat());
+
+  if (!editMode) {
+
+    duplicateDate->setDate(QDate::currentDate());
+
+  } else {
+
+    duplicateDate->setDate(dupDate);
+    duplicateDate->setEnabled(false);
+  }
+
+  addData->addWidget(duplicateDate);
+
+  setIsEditAllowed(false); // since it's a duplicate
+  saveBtn->setEnabled(true);
+
+  connect(closeBtn, &QPushButton::clicked, [this]() { reject(); });
+}
+
+void Duplicate::setData(InvoiceData &invData) {
+
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+>>>>>>> testing
   invData.id = getfName();
   invData.customer = buyerName->text();
   invData.invNr = invNr->text();
@@ -131,6 +187,11 @@ void Duplicate::setData(InvoiceData &invData) {
 void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage,
                                   bool original) {
 
+<<<<<<< HEAD
+=======
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+>>>>>>> testing
   QString breakPageStr = "class=\"page_break\"";
 
   if (breakPage == false)
@@ -191,6 +252,7 @@ void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage,
 
 void Duplicate::canQuit() {
 
+<<<<<<< HEAD
   if (canClose) {
 
     qDebug("if canClose true");
@@ -210,6 +272,29 @@ void Duplicate::canQuit() {
 
       saveInvoice();
 
+=======
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+  if (canClose) {
+
+    qDebug("if canClose true");
+    accept();
+
+  } else {
+
+    if (QMessageBox::warning(
+            this, "QFaktury",
+            trUtf8("Dane zostały zmienione. Czy chcesz zapisać?"),
+            trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 1) {
+
+      saveColumnsWidth();
+      reject();
+
+    } else {
+
+      saveInvoice();
+
+>>>>>>> testing
       if (saveFailed) {
         return;
       }

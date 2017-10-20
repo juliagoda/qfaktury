@@ -11,14 +11,28 @@
 
 // constructor
 InvoiceGross::InvoiceGross(QWidget *parent, IDataLayer *dl, QString in_form)
+<<<<<<< HEAD
     : Invoice(parent, dl, in_form) {}
 
 void InvoiceGross::invoiceGrossInit() {
   // invoiceType = "FB"
+=======
+    : Invoice(parent, dl, in_form) {
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+}
+
+void InvoiceGross::invoiceGrossInit() {
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+>>>>>>> testing
 }
 
 QString InvoiceGross::getInvoiceTypeAndSaveNr() {
 
+<<<<<<< HEAD
+=======
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+>>>>>>> testing
   QString itype = "FBrutto";
   sett().setValue("fvat", invNr->text());
   return itype;
@@ -29,7 +43,11 @@ QString InvoiceGross::getInvoiceTypeAndSaveNr() {
 
 void InvoiceGross::calculateOneDiscount(int i) {
 
+<<<<<<< HEAD
   // qDebug() << __FUNCTION__ << __LINE__ << __FILE__;
+=======
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+>>>>>>> testing
 
   double quantity = 0, vat = 0, gross = 0;
   double net = 0, price = 0;
@@ -72,6 +90,11 @@ void InvoiceGross::calculateOneDiscount(int i) {
 
 void InvoiceGross::addGoods() {
 
+<<<<<<< HEAD
+=======
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+>>>>>>> testing
   GoodsGrossList *goodsWindow = new GoodsGrossList(this);
 
   if (goodsWindow->exec() == QDialog::Accepted) {

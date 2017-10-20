@@ -8,24 +8,81 @@
 #include "GoodsGrossList.h"
 #include "Settings.h"
 
+<<<<<<< HEAD
 GoodsGrossList::GoodsGrossList(QWidget *parent) : GoodsList(parent) {}
 
 GoodsGrossList::~GoodsGrossList() {}
 
 QString GoodsGrossList::getPriceOfCurrent() {
 
+=======
+GoodsGrossList::GoodsGrossList(QWidget *parent) : GoodsList(parent) {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+}
+
+GoodsGrossList::~GoodsGrossList() {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+}
+
+QString GoodsGrossList::getPriceOfCurrent() {
+
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+>>>>>>> testing
   double price =
       sett().stringToDouble(grossLabel->text()) / countSpinBox->value();
   return sett().numberToString(price, 'f', 2);
 }
 
+<<<<<<< HEAD
 QString const GoodsGrossList::getRetValGoodsBr() { return ret; }
+=======
+QString const GoodsGrossList::getRetValGoodsBr() {
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+  return ret;
+}
+>>>>>>> testing
 
 /** Slot
  *  Accepts and closes
  */
 
 void GoodsGrossList::doAccept() {
+
+<<<<<<< HEAD
+  if (countSpinBox->text() == "" || countSpinBox->value() < 0.001) {
+    QMessageBox::information(this, "QFaktury", trUtf8("Podaj ilość"),
+                             QMessageBox::Ok);
+    return;
+  }
+
+  selectedItem = nameEdit->text();
+
+  QVector<ProductDataList> listProducts;
+  listProducts.append(goodsList2);
+  listProducts.append(servicesList2);
+
+  if (selectedItem != "") {
+
+    for (int i = 0; i < 2; i++) {
+
+      if (comboBox1->currentIndex() == i) {
+
+        QStringList listRest =
+            QStringList() << selectedItem
+                          << listProducts[i][getGoodsId()]->getCode()
+                          << listProducts[i][getGoodsId()]->getPkwiu()
+                          << trimZeros(countSpinBox->cleanText())
+                          << listProducts[i][getGoodsId()]->getQuantityType()
+                          << discountSpin->cleanText() << getPriceOfCurrent()
+                          << netLabel->text()
+                          << sett().numberToString(getVatsVal()[selectedItem])
+                          << grossLabel->text();
+
+        for (int j = 0; j < listRest.count(); j++) {
+
+=======
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   if (countSpinBox->text() == "" || countSpinBox->value() < 0.001) {
     QMessageBox::information(this, "QFaktury", trUtf8("Podaj ilość"),
@@ -58,6 +115,7 @@ void GoodsGrossList::doAccept() {
 
         for (int j = 0; j < listRest.count(); j++) {
 
+>>>>>>> testing
           ret += listRest[j] + "|";
         }
       }
@@ -74,6 +132,11 @@ void GoodsGrossList::doAccept() {
 
 void GoodsGrossList::calcNet() {
 
+<<<<<<< HEAD
+=======
+  qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
+
+>>>>>>> testing
   if (listWidget->selectedItems().size() == 1) {
     double price =
         (countSpinBox->value() * priceBoxEdit->value()); // price * quantity

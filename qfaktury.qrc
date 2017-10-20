@@ -43,5 +43,10 @@
         <file>icons/usun_magazyn.png</file>
         <file>icons/edytuj_magazyn.png</file>
         <file>icons/good_issue_note.png</file>
+<<<<<<< HEAD
+=======
+        <file>icons/waitForResp.gif</file>
+>>>>>>> testing
     </qresource>
+    <qresource prefix="/animations"/>
 </RCC>
