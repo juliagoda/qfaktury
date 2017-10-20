@@ -115,11 +115,8 @@ public:
                QDate::currentDate().toString(Qt::ISODate));
     if (value("firstrun").toString().compare("") == 0)
       setValue("firstrun", false);
-<<<<<<< HEAD
-=======
     if (value("firstRunGUS").toString().compare("") == 0)
       setValue("firstRunGUS", false);
->>>>>>> testing
     if (value("units").toString().compare("") == 0)
       setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|"
                            "filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|"
@@ -417,10 +414,7 @@ public:
     setValue("filtrStartWarehouse",
              QDate::currentDate().toString(getDateFormat()));
     setValue("firstrun", false);
-<<<<<<< HEAD
-=======
     setValue("firstRunGUS", false);
->>>>>>> testing
     setValue("units", tr("szt|kg|g|m|km|godz|ar|bochenek|btl|cal|doba|egz|"
                          "filiżanka|fracht|GJ|hektar|karton|kpl|kopia|kurs|kWh|"
                          "l|mb|msc|mila|mtg|MWh|m2|m3|opak|puszka|rolka|"
@@ -629,51 +623,6 @@ public:
     // This may require conversion script.
     return QString("/invoices");
   }
-<<<<<<< HEAD
-
-  QString getWarehouseDir() {
-
-    // Changed name of the folder to avoid overwriting the files.
-    // This may require conversion script.
-    return QString("/warehouse");
-  }
-
-  // return invoices dir
-  QString getInvoicesDir() {
-    return QString(getWorkingDir() + getDataDir() + "/");
-  }
-
-  // return warehouse dir
-  QString getWarehouseFullDir() {
-    return QString(getWorkingDir() + getWarehouseDir() + "/");
-  }
-
-  // return customers xml
-  QString getCustomersXml() {
-    return QString(getWorkingDir() + "/customers.xml");
-  }
-
-  // return customers xml
-  QString getProductsXml() {
-    return QString(getWorkingDir() + "/products.xml");
-  }
-
-  // returns invoice doc name stored as a DOCTYPE
-  QString getInoiveDocName() { return QString("invoice"); }
-
-  // returns warehouse doc name stored as a DOCTYPE
-  QString getWarehouseDocName() { return QString("warehouse"); }
-
-  // returns correction doc name stored as a DOCTYPE
-  QString getCorrDocName() { return QString("correction"); }
-
-  // returns customers doc name stored as a DOCTYPE
-  QString getCustomersDocName() { return QString("customers"); }
-
-  // returns products doc name stored as a DOCTYPE
-  QString getProdutcsDocName() { return QString("products"); }
-
-=======
 
   QString getWarehouseDir() {
 
@@ -723,7 +672,6 @@ public:
   // returns products doc name stored as a DOCTYPE
   QString getProdutcsDocName() { return QString("products"); }
 
->>>>>>> testing
   // @TODO enforce that translation won't affect this funcionality
   // converts customer type into int value
   int getCustomerType(QString custType) {
@@ -735,7 +683,6 @@ public:
       return 1;
     } else {
       return 2;
-<<<<<<< HEAD
     }
   }
 
@@ -748,20 +695,6 @@ public:
       return 1;
     }
   }
-=======
-    }
-  }
-
-  // converts product type into int value
-  int getProductType(QString prodName) {
-    if (prodName.compare(trUtf8("Towar")) == 0 ||
-        prodName.compare(trUtf8("towar")) == 0) {
-      return 0;
-    } else {
-      return 1;
-    }
-  }
->>>>>>> testing
 
   QString getCompanyName() { return QString("company"); }
 
@@ -774,7 +707,6 @@ public:
   QString getOfficeNameTr() { return trUtf8("Urząd"); }
 
   QString getProductName() { return QString("product"); }
-<<<<<<< HEAD
 
   QString getServiceName() { return QString("service"); }
 
@@ -807,40 +739,6 @@ public:
     QList<QLocale> allLocales = QLocale::matchingLocales(
         QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyCountry);
 
-=======
-
-  QString getServiceName() { return QString("service"); }
-
-  // Adds Data to input string
-  QString getNameWithData(QString in) { return in + trUtf8("DATA"); }
-
-  QByteArray getCodecName() { return QByteArray("UTF-8"); }
-
-  QString getDecimalPointStr() {
-    QChar decimalPoint = locale->decimalPoint();
-    return QString(decimalPoint);
-  }
-
-  QString getTPointStr() {
-    QChar tPoint = locale->groupSeparator();
-    return QString(tPoint);
-  }
-
-  QString numberToString(double i, char f = 'f', int prec = 2) {
-    return locale->toString(i, f, prec);
-  }
-
-  QString numberToString(int i) { return locale->toString(i); }
-
-  double stringToDouble(QString s) {
-
-    bool ok = false;
-    int countNumb = 1;
-
-    QList<QLocale> allLocales = QLocale::matchingLocales(
-        QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyCountry);
-
->>>>>>> testing
     for (const QLocale &locale : allLocales) {
       QLocale whatCountry(locale.language(), locale.country());
       if (whatCountry.toDouble(s, &ok)) {

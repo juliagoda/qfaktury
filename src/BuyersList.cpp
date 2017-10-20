@@ -5,12 +5,9 @@
 /** Constructor
  */
 BuyersList::BuyersList(QWidget *parent) : QDialog(parent) {
-<<<<<<< HEAD
-=======
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   setupUi(this);
   init();
 }
@@ -20,11 +17,7 @@ BuyersList::BuyersList(QWidget *parent) : QDialog(parent) {
 
 void BuyersList::init() {
 
-<<<<<<< HEAD
-  // qDebug () << __FUNCTION__;
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
->>>>>>> testing
 
   companiesList.clear();
   officesList.clear();
@@ -51,14 +44,10 @@ void BuyersList::init() {
           SLOT(updateDetails(QListWidgetItem *)));
 }
 
-<<<<<<< HEAD
-const QString BuyersList::getRetBuyerList() { return ret; }
-=======
 const QString BuyersList::getRetBuyerList() {
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
   return ret;
 }
->>>>>>> testing
 
 // *************************** SLOTS START *************************************
 
@@ -68,11 +57,8 @@ const QString BuyersList::getRetBuyerList() {
 
 void BuyersList::doAccept() {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   if (!listBox1->selectedItems().isEmpty()) {
 
     ret = detailsToString();
@@ -91,28 +77,6 @@ void BuyersList::doAccept() {
 
 void BuyersList::comboBox1Changed() {
 
-<<<<<<< HEAD
-  // qDebug (__FUNCTION__);
-  listBox1->clear();
-  clearDetails();
-  QString customer;
-
-  switch (comboBox1->currentIndex()) {
-  case 0:
-
-    foreach (customer, companiesList)
-      listBox1->addItem(customer.split("|")[0]);
-    break;
-
-  case 1:
-
-    foreach (customer, officesList)
-      listBox1->addItem(customer.split("|")[0]);
-    break;
-
-  default:
-
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   listBox1->clear();
@@ -134,7 +98,6 @@ void BuyersList::comboBox1Changed() {
 
   default:
 
->>>>>>> testing
     foreach (customer, personsList)
       listBox1->addItem(customer.split("|")[0]);
     break;
@@ -147,11 +110,8 @@ void BuyersList::comboBox1Changed() {
 
 void BuyersList::updateDetails(QListWidgetItem *item) {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   QStringList custDetails = QStringList();
   QString customer = QString();
 
@@ -194,11 +154,8 @@ void BuyersList::updateDetails(QListWidgetItem *item) {
  */
 void BuyersList::readBuyer() {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   QDomDocument doc(sett().getCustomersDocName());
   QDomElement root;
   QDomElement office;
@@ -284,11 +241,8 @@ void BuyersList::readBuyer() {
 
 QString BuyersList::xmlDataToString(QDomNode n) {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   QString text = QString();
   text = n.toElement().attribute("name") + "|";     // 0
   text += n.toElement().attribute("address") + "|"; // 1
@@ -311,11 +265,8 @@ QString BuyersList::xmlDataToString(QDomNode n) {
 
 void BuyersList::displayDetails(QStringList custDetails) {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   labelNameE->setText(custDetails[0]);
   labelAddressE->setText(custDetails[1]);
   labelCityE->setText(custDetails[2]);
@@ -333,11 +284,8 @@ void BuyersList::displayDetails(QStringList custDetails) {
 
 void BuyersList::clearDetails() {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   labelNameE->setText("");
   labelAddressE->setText("");
   labelCityE->setText("");
@@ -353,45 +301,6 @@ void BuyersList::clearDetails() {
 
 QString BuyersList::detailsToString() {
 
-<<<<<<< HEAD
-  QString ret = labelNameE->text();
-
-  if (!labelAddressE->text().isEmpty())
-    ret += "," + labelAddressE->text();
-  else
-    ret += ",-";
-
-  if (!labelCityE->text().isEmpty())
-    ret += "," + labelCityE->text();
-  else
-    ret += ",-";
-
-  if (!labelTicE->text().isEmpty())
-    ret += "," + trUtf8("NIP: ") + labelTicE->text();
-  else
-    ret += "," + trUtf8("NIP: ") + "-";
-
-  if (!labelAccountE->text().isEmpty())
-    ret += ", " + trUtf8("Konto: ") + labelAccountE->text();
-  else
-    ret += "," + trUtf8("Konto: ") + "-";
-
-  if (!labelPhoneE->text().isEmpty())
-    ret += ", " + trUtf8("Tel: ") + labelPhoneE->text();
-  else
-    ret += "," + trUtf8("Tel: ") + "-";
-
-  if (!labelEmailE->text().isEmpty())
-    ret += ", " + trUtf8("Email: ") + labelEmailE->text();
-  else
-    ret += "," + trUtf8("Email: ") + "-";
-
-  if (!labelWWWE->text().isEmpty())
-    ret += ", " + trUtf8("Strona: ") + labelWWWE->text();
-  else
-    ret += "," + trUtf8("Strona: ") + "-";
-
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QString ret = labelNameE->text();
@@ -431,6 +340,5 @@ QString BuyersList::detailsToString() {
   else
     ret += "," + trUtf8("Strona: ") + "-";
 
->>>>>>> testing
   return ret;
 }

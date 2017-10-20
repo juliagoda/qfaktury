@@ -1,164 +1,6 @@
 #include "InvoiceRR.h"
 
 InvoiceRR::InvoiceRR(QWidget *parent, IDataLayer *dl, QString in_form)
-<<<<<<< HEAD
-    : Invoice(parent, dl, in_form) {}
-
-InvoiceRR::~InvoiceRR() {
-  additEdit->clear();
-  additEdit->setDisabled(false);
-  ifpaysVAT->deleteLater();
-  ifpaysVAT = 0;
-}
-
-void InvoiceRR::invoiceRRInit() {
-  additEdit->setText(trUtf8("Oświadczam, że jestem rolnikiem ryczałtowym "
-                            "zwolnionym od podatku od towarów"
-                            " i usług na podstawie art. 43 ust. 1 pkt 3 ustawy "
-                            "o podatku od towarów i usług."));
-  additEdit->setDisabled(true);
-
-  ifpaysVAT = new QCheckBox;
-  ifpaysVAT->setText(trUtf8("Jest płatnikiem VAT"));
-  horizontalLayout_4->addWidget(ifpaysVAT);
-}
-
-QString InvoiceRR::getInvoiceTypeAndSaveNr() {
-  QString itype = "RR";
-  sett().setValue("rr", invNr->text());
-  return itype;
-}
-
-void InvoiceRR::makeInvoice() {
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  if (!ifpaysVAT->isChecked()) {
-    QMessageBox::information(this, "QFaktury",
-                             trUtf8("Zaznacz opcję \"jest płatnikiem VAT\" dla "
-                                    "wybranego przedsiębiorcy"),
-                             QMessageBox::Ok);
-    return;
-  }
-
-  if (buyerName->text() == "") {
-
-    QMessageBox::information(this, "QFaktury", trUtf8("Wybierz kontrahenta"),
-                             QMessageBox::Ok);
-    return;
-  }
-
-  if (tableGoods->rowCount() == 0) {
-
-    QMessageBox::information(this, "QFaktury", trUtf8("Nie ma towarów"),
-                             QMessageBox::Ok);
-    return;
-  }
-
-  invStrList.clear();
-  makeInvoiceHeadarHTML();
-
-  if (ifCSS) {
-
-    makeInvoiceHeadar(true, false, true);
-    makeInvoiceBody();
-    makeInvoiceProducts();
-    makeInvoiceSumm();
-    makeInvoiceSummAll();
-    makeInvoiceFooter();
-
-    int numberOfCopies = sett().value("numberOfCopies", 2).toInt();
-
-    for (int i = 1; i <= numberOfCopies; i++) {
-
-      makeInvoiceHeadar(true, true, false);
-      makeInvoiceBody();
-      makeInvoiceProducts();
-      makeInvoiceSumm();
-      makeInvoiceSummAll();
-      makeInvoiceFooter();
-    }
-
-    makeInvoiceFooterHtml();
-
-    print();
-
-    saveBtn->setFocus();
-  }
-}
-
-void InvoiceRR::setData(InvoiceData &invData) {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  invData.id = fName;
-  invData.customer = buyerName->text();
-  if (ifpaysVAT->isChecked())
-    invData.ifpVAT = true;
-  else
-    invData.ifpVAT = false;
-  qDebug() << "buyerName->text() in setData(InvoiceData&):"
-           << buyerName->text();
-  invData.invNr = invNr->text();
-  invData.sellingDate = sellingDate->date();
-  invData.issueDate = productDate->date();
-
-  if (constRab->isChecked())
-    invData.discount = discountVal->value();
-  else
-    invData.discount = 0;
-
-  // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
-  for (int i = 0; i < tableGoods->rowCount(); ++i) {
-    ProductData product; //  = new ProductData();
-
-    product.setId(tableGoods->item(i, 0)->text());
-    product.setName(tableGoods->item(i, 1)->text());
-    product.setCode(tableGoods->item(i, 2)->text());
-    product.setPkwiu(tableGoods->item(i, 3)->text());
-    product.setQuantity(tableGoods->item(i, 4)->text());
-    product.setQuanType(tableGoods->item(i, 5)->text());
-    product.setDiscount(tableGoods->item(i, 6)->text());
-    double help = sett().stringToDouble(tableGoods->item(i, 7)->text());
-    product.setPrice(sett().numberToString(help, 'f', 2));
-    product.setNett(tableGoods->item(i, 8)->text());
-    product.setVat(tableGoods->item(i, 9)->text());
-    product.setGross(tableGoods->item(i, 10)->text());
-    invData.products[i] = product;
-  }
-
-  invData.additText = additEdit->text();
-  invData.paymentType = paysCombo->currentText();
-
-  if (invData.paymentType == trUtf8("zaliczka")) {
-
-    if (rComboWasChanged) {
-
-      invData.custPaym.payment1 = custPaymData->payment1;
-      invData.custPaym.date1 = custPaymData->date1;
-      invData.custPaym.amount1 = custPaymData->amount1;
-
-      invData.custPaym.payment2 = custPaymData->payment2;
-      invData.custPaym.date2 = custPaymData->date2;
-      invData.custPaym.amount2 = custPaymData->amount2;
-
-    } else {
-
-      QLocale locale;
-
-      ratesCombo->setCurrentIndex(0);
-
-      invData.custPaym.payment1 = sendKindInfo->text();
-      invData.custPaym.date1 =
-          locale.toDate(ratesCombo->itemText(0), sett().getDateFormat());
-      invData.custPaym.amount1 = sett().stringToDouble(rateLabelInfo->text());
-      invData.custPaym.date2 =
-          locale.toDate(ratesCombo->itemText(1), sett().getDateFormat());
-
-      invData.custPaym.amount2 = sett().stringToDouble(restLabelInfo->text());
-
-      ratesCombo->setCurrentIndex(1);
-      invData.custPaym.payment2 = sendKindInfo->text();
-=======
     : Invoice(parent, dl, in_form) {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 }
@@ -245,19 +87,8 @@ void InvoiceRR::makeInvoice() {
       makeInvoiceSumm();
       makeInvoiceSummAll();
       makeInvoiceFooter();
->>>>>>> testing
     }
-  }
 
-<<<<<<< HEAD
-  invData.liabDate = liabDate->date();
-  invData.currencyType = currCombo->currentText();
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
-           << "EXIT";
-}
-
-=======
     makeInvoiceFooterHtml();
 
     print();
@@ -348,7 +179,6 @@ void InvoiceRR::setData(InvoiceData &invData) {
            << "EXIT";
 }
 
->>>>>>> testing
 void InvoiceRR::getData(InvoiceData invData) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;

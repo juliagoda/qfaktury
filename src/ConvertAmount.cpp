@@ -9,20 +9,14 @@
 #include "Settings.h"
 
 ConvertAmount::ConvertAmount() {
-<<<<<<< HEAD
-=======
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
->>>>>>> testing
   // TODO Auto-generated constructor stub
 }
 
 ConvertAmount::~ConvertAmount() {
-<<<<<<< HEAD
-=======
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
->>>>>>> testing
   // TODO Auto-generated destructor stub
 }
 
@@ -30,11 +24,8 @@ QString &ConvertAmount::descAmount(QString &countMoney, QString partMoney,
                                    QString ifOne, QString ifMore,
                                    QString ifBetween) {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   while (partMoney.length() < 3)
     partMoney = QObject::trUtf8("0") + partMoney;
 
@@ -194,34 +185,6 @@ QString &ConvertAmount::descAmount(QString &countMoney, QString partMoney,
 
 const QStringList ConvertAmount::hundsList() {
 
-<<<<<<< HEAD
-  QStringList hundredsPL = QStringList();
-  hundredsPL << QObject::trUtf8("sto") << QObject::trUtf8("dwieście")
-             << QObject::trUtf8("trzysta") << QObject::trUtf8("czterysta")
-             << QObject::trUtf8("pięćset") << QObject::trUtf8("sześćset")
-             << QObject::trUtf8("siedemset") << QObject::trUtf8("osiemset")
-             << QObject::trUtf8("dziewięćset");
-
-  return hundredsPL;
-}
-
-const QStringList ConvertAmount::endsHundList() {
-
-  QStringList hundEndsPL = QStringList();
-  hundEndsPL << QObject::trUtf8("dwadzieścia") << QObject::trUtf8("trzydzieści")
-             << QObject::trUtf8("czterdzieści")
-             << QObject::trUtf8("pięćdziesiąt")
-             << QObject::trUtf8("sześćdziesiąt")
-             << QObject::trUtf8("siedemdziesiąt")
-             << QObject::trUtf8("osiemdziesiąt")
-             << QObject::trUtf8("dziewięćdziesiąt");
-
-  return hundEndsPL;
-}
-
-const QStringList ConvertAmount::endsTensList() {
-
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QStringList hundredsPL = QStringList();
@@ -254,7 +217,6 @@ const QStringList ConvertAmount::endsTensList() {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   QStringList tenEndsPL = QStringList();
   tenEndsPL << QObject::trUtf8("jedenaście") << QObject::trUtf8("dwanaście")
             << QObject::trUtf8("trzynaście") << QObject::trUtf8("czternaście")
@@ -267,11 +229,8 @@ const QStringList ConvertAmount::endsTensList() {
 
 const QStringList ConvertAmount::simpleNumbList() {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   QStringList nineNumbs = QStringList();
   nineNumbs << QObject::trUtf8("jeden") << QObject::trUtf8("dwa")
             << QObject::trUtf8("trzy") << QObject::trUtf8("cztery")
@@ -284,41 +243,6 @@ const QStringList ConvertAmount::simpleNumbList() {
 
 QString ConvertAmount::convertPL(QString input, QString currency) {
 
-<<<<<<< HEAD
-  QString in = input.remove(sett().getTPointStr());
-  qDebug() << "in: " << in;
-
-  QString tmp = in.remove(in.indexOf(sett().getDecimalPointStr()), 3);
-  qDebug() << "temp: " << tmp;
-
-  QString hundreds = tmp.right(3);
-  QString thousands = QString();
-  QString millions = QString();
-  QString billions = QString();
-
-  switch (tmp.length()) {
-  case 4:
-
-    thousands = tmp.left(1);
-    millions = QObject::trUtf8("");
-    billions = QObject::trUtf8("");
-    break;
-
-  case 5:
-
-    thousands = tmp.left(2);
-    millions = QObject::trUtf8("");
-    billions = QObject::trUtf8("");
-    break;
-
-  case 6:
-
-    thousands = tmp.left(3);
-    millions = QObject::trUtf8("");
-    billions = QObject::trUtf8("");
-    break;
-
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QString in = input.remove(sett().getTPointStr());
@@ -354,7 +278,6 @@ QString ConvertAmount::convertPL(QString input, QString currency) {
     billions = QObject::trUtf8("");
     break;
 
->>>>>>> testing
   case 7:
 
     millions = tmp.left(1);

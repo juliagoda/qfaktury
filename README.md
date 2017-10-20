@@ -27,11 +27,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - stworzenie i wczytywanie kopii zapasowej plików konfiguracyjnych oraz głównego katalogu
 - dodanie kolejnych sprzedawców/oddziałów
 - wysłanie e-mail do kontrahentów wraz z załącznikami z możliwością korzystania z gotowych szablonów
-<<<<<<< HEAD
-- tworzenie plików RW, WZ
-=======
 - korzystanie z danych Głównego Urzędu Statystycznego z podaniem numeru NIP
->>>>>>> testing
 
 
 <br/>
@@ -121,11 +117,8 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 
 3. Aktualizacja aktualnego kursu walut następuje co pół godziny, pod warunkiem połączenia z internetem oraz poprawnego ustawienia czasu systemowego
 
-<<<<<<< HEAD
-=======
 4. Jeżeli jeszcze nie istnieje katalog "gus" w ścieżce "~/.local/share/data/elinux", zostaniesz poproszony o autoryzację wykonania skryptu, który przygotowuje plik php.ini do korzystania z klienta SOAP oraz pobiera zależności dla podprojektu bazującego na PHP do prawidłowego uruchomienia aplikacji w celu połączenia z Głównym Urzędem Statystycznym"
 
->>>>>>> testing
 
 <br/>
 <br/>

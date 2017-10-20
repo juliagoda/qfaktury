@@ -2,8 +2,6 @@
 #include "Buyers.h"
 #include "IDataLayer.h"
 #include "Validations.h"
-<<<<<<< HEAD
-=======
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -14,21 +12,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
->>>>>>> testing
 
 /** Constructor
  */
 
 Buyers::Buyers(QWidget *parent, int mode, IDataLayer *dl) : QDialog(parent) {
-<<<<<<< HEAD
-
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
-
-=======
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   workingMode = mode;
   dataLayer = dl;
   setupUi(this);
@@ -40,11 +31,7 @@ Buyers::Buyers(QWidget *parent, int mode, IDataLayer *dl) : QDialog(parent) {
 
 void Buyers::init() {
 
-<<<<<<< HEAD
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
->>>>>>> testing
 
   allNames = dataLayer->buyersGetFirmList();
 
@@ -56,14 +43,9 @@ void Buyers::init() {
 }
 
 const QString Buyers::getRetBuyer() {
-<<<<<<< HEAD
-    qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
-    return ret;
-=======
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
   return ret;
->>>>>>> testing
 }
 
 // --------- SLOTS START --
@@ -72,15 +54,6 @@ const QString Buyers::getRetBuyer() {
 
 void Buyers::okClick() {
 
-<<<<<<< HEAD
-  QStringList list = QStringList()
-                     << nameEdit->text() << typeCombo->currentText()
-                     << placeEdit->text() << addressEdit->text()
-                     << telefonEdit->text() << nipEdit->text()
-                     << codeEdit->text() << accountEdit->text()
-                     << emailEdit->text() << wwwEdit->text();
-
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QStringList list = QStringList()
@@ -90,30 +63,11 @@ void Buyers::okClick() {
                      << codeEdit->text() << accountEdit->text()
                      << emailEdit->text() << wwwEdit->text();
 
->>>>>>> testing
   if (workingMode == 1) {
 
     if (updateData()) {
 
       foreach (QString listEl, list) { ret += isEmpty(listEl) + "|"; }
-<<<<<<< HEAD
-
-      accept();
-    }
-
-  } else {
-
-    if (insertData()) {
-
-      foreach (QString listEl, list) { ret += isEmpty(listEl) + "|"; }
-
-      accept();
-    }
-  }
-}
-
-void Buyers::requiredTic(int type) {
-=======
 
       accept();
     }
@@ -133,7 +87,6 @@ void Buyers::requiredTic(int type) {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   if (type == 2)
     textLabel2_2->setText(trUtf8("NIP:"));
   else
@@ -149,11 +102,8 @@ void Buyers::requiredTic(int type) {
 
 void Buyers::selectData(QString name, int type) {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   setWindowTitle(trUtf8("Edytuj kontrahenta"));
   getData(dataLayer->buyersSelectData(name, type));
   typeCombo->setCurrentIndex(type);
@@ -171,18 +121,6 @@ void Buyers::selectData(QString name, int type) {
 // new customer insert data
 bool Buyers::insertData() {
 
-<<<<<<< HEAD
-  bool result = false;
-  BuyerData buyerData;
-
-  if ((sett().value("validation").toBool() && validate()) ||
-      sett().value("validation").toBool() == false) {
-
-    setData(buyerData);
-    result = dataLayer->buyersInsertData(buyerData, typeCombo->currentIndex());
-  }
-
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   bool result = false;
@@ -195,35 +133,12 @@ bool Buyers::insertData() {
     result = dataLayer->buyersInsertData(buyerData, typeCombo->currentIndex());
   }
 
->>>>>>> testing
   return result;
 }
 
 // update existing
 bool Buyers::updateData() {
 
-<<<<<<< HEAD
-  bool result = false;
-  BuyerData buyerData;
-
-  if ((sett().value("validation").toBool() && validateUpdated()) ||
-      sett().value("validation").toBool() == false) {
-
-    setData(buyerData);
-
-    result = dataLayer->buyersUpdateData(buyerData, typeCombo->currentIndex(),
-                                         nameEdit->text());
-  }
-
-  if (typeCombo->currentIndex() == 2) {
-    textLabel2_2->setText(trUtf8("NIP:"));
-  } else {
-    textLabel2_2->setText(trUtf8("NIP*:"));
-  }
-
-  this->update();
-
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   bool result = false;
@@ -246,7 +161,6 @@ bool Buyers::updateData() {
 
   this->update();
 
->>>>>>> testing
   return result;
 }
 //***** DATA access END ****
@@ -263,11 +177,8 @@ bool Buyers::updateData() {
 
 bool Buyers::validate() {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   if (Validations::instance()->isEmptyField(nameEdit->text(),
                                             textLabel1->text()))
     return false;
@@ -353,12 +264,9 @@ bool Buyers::validate() {
 }
 
 bool Buyers::validateUpdated() {
-<<<<<<< HEAD
-=======
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   if (Validations::instance()->isEmptyField(nameEdit->text(),
                                             textLabel1->text()))
     return false;
@@ -421,11 +329,8 @@ bool Buyers::validateUpdated() {
 
 void Buyers::setData(BuyerData &buyerData) {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   buyerData.name = nameEdit->text();
   buyerData.place = placeEdit->text();
   buyerData.code = codeEdit->text();
@@ -442,11 +347,8 @@ void Buyers::setData(BuyerData &buyerData) {
 
 void Buyers::getData(BuyerData buyerData) {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   nameEdit->setText(buyerData.name);
   placeEdit->setText(buyerData.place);
   codeEdit->setText(buyerData.code);
@@ -673,17 +575,12 @@ void Buyers::createComposerJson(QString path, QString filename) {
 
 QString Buyers::isEmpty(QString in) {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   if (in == "")
     return "-";
   return in;
 }
-<<<<<<< HEAD
-=======
 
 // signal for connection to GUS and update data in QLineEdits
 void Buyers::on_gusBtn_clicked() {
@@ -766,4 +663,3 @@ void Buyers::on_gusBtn_clicked() {
     lbl->deleteLater();
   }
 }
->>>>>>> testing

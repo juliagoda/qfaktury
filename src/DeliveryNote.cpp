@@ -17,11 +17,8 @@
 DeliveryNote::DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form)
     : Warehouse(parent, dl, in_form) {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   invoiceType = s_WZ;
   setObjectName("DeliveryNote");
 
@@ -50,11 +47,8 @@ DeliveryNote::DeliveryNote(QWidget *parent, IDataLayer *dl, QString in_form)
 
 DeliveryNote::~DeliveryNote() {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   textLabelSum1->show();
   textLabelSum2->show();
   textLabelSum3->show();
@@ -228,11 +222,8 @@ void DeliveryNote::readWarehouseData(QString invFile) {
 
 void DeliveryNote::makeInvoiceProductsHeadar() {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   invStrList += "<tr align=\"center\" valign=\"middle\" "
                 "class=\"productsHeader\" width=\"100%\" >"; // TUTAJ
 
@@ -264,11 +255,8 @@ void DeliveryNote::makeInvoiceProductsHeadar() {
 
 void DeliveryNote::makeInvoiceProducts() {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   invStrList += "<tr width=\"100%\"><td width=\"100%\">";
 
   invStrList += "<table border=\"2\" align=\"right\" cellspacing=\"0\" "
@@ -301,12 +289,6 @@ void DeliveryNote::makeInvoiceProducts() {
   invStrList += "</tr>";
 }
 
-<<<<<<< HEAD
-void DeliveryNote::makeInvoiceSumm() { invStrList += "<br/><br/>"; }
-
-void DeliveryNote::makeInvoiceSummAll() {
-
-=======
 void DeliveryNote::makeInvoiceSumm() {
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
   invStrList += "<br/><br/>";
@@ -316,7 +298,6 @@ void DeliveryNote::makeInvoiceSummAll() {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   invStrList += "<table width=\"100%\" border=\"0\">";
 
   invStrList += "<tr class=\"summary\">";
@@ -347,11 +328,8 @@ void DeliveryNote::makeInvoiceSummAll() {
 
 void DeliveryNote::makeInvoiceFooter() {
 
-<<<<<<< HEAD
-=======
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
->>>>>>> testing
   invStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
   invStrList += "<br><br><br><br>";
   invStrList += "<table width=\"80%\" border=\"0\">";
@@ -625,10 +603,7 @@ void DeliveryNote::setData(InvoiceData &invData) {
 void DeliveryNote::readData(QString fraFile) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-<<<<<<< HEAD
-=======
 
->>>>>>> testing
   prepayFile = fraFile;
   qDebug() << "prepayFile w readData: " << prepayFile;
   backBtn->setEnabled(false);
