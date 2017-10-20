@@ -3,7 +3,6 @@
 #include "IDataLayer.h"
 #include "Validations.h"
 
-#include <QDesktopWidget>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -588,32 +587,32 @@ void Buyers::on_gusBtn_clicked() {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
+  QLabel *lbl = new QLabel;
+  QMovie *movie = new QMovie(":/res/icons/waitForResp.gif");
+  lbl->setMovie(movie);
+  lbl->resize(300, 30);
+  lbl->show();
+  movie->start();
+  gusLayout->addWidget(lbl);
+
+
   if (nipEdit->text().isEmpty() || nipEdit->text().isNull())
     QMessageBox::warning(
         this, "NIP",
         "Aby skorzystać z funkcji, powinieneś najpierw podać numer NIP");
   else {
 
-    QLabel *lbl = new QLabel;
-    QMovie *movie = new QMovie(":/res/icons/waitForResp.gif");
-    lbl->setMovie(movie);
-    gusLayout->addWidget(lbl);
-
-    lbl->show();
-    lbl->update();
-
-    movie->start();
-
     bool firstRunGUS = false;
 
-    if (!QFile(sett().getGUSDir()).exists()) {
+    if (!QDir(sett().getGUSDir()).exists()) {
       QDir dir;
       dir.mkpath(sett().getGUSDir());
       firstRunGUS = true;
-      QMessageBox::information(this, "Przygotowanie",
-                               "Poczekaj chwilę, aż program pobierze i "
-                               "przygotuje zależności dla korzystania z danych "
-                               "GUS po raz pierwszy");
+      QMessageBox::information(
+          this, "Przygotowanie",
+          "Poczekaj chwilę, aż program pobierze i "
+          "przygotuje zależności dla korzystania z danych "
+          "GUS po raz pierwszy. Może to potrwać do minuty");
     }
 
     if (!QFile(QDir::homePath() + "/.local/share/data/elinux/gus/composer.json")
@@ -632,13 +631,10 @@ void Buyers::on_gusBtn_clicked() {
                                trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
 
         system("gksudo sh /usr/share/qfaktury/src/GusApi/soap-php.sh");
-        movie->stop();
-        lbl->show();
-        lbl->update();
-        update();
-        movie->start();
       }
     }
+
+
 
     if (!QDir(sett().getGUSDir() + "/vendor").exists() ||
         QDir(sett().getGUSDir() + "/vendor").isEmpty())
