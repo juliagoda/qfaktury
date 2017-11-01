@@ -1922,8 +1922,8 @@ void Invoice::makeInvoiceHeadarHTML() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   invStrList += "<html><head>";
-  invStrList += "<meta http-equiv=\"Content-Type\" content=\"text/html; "
-                "charset=utf-8\" />"; //@TODO
+  invStrList += "<meta http-equiv=\"Content-Type\" content=\"text/html\""
+                "charset=\"utf-8\" />";
   invStrList += "<meta name=\"creator\" "
                 "value=\"https://github.com/juliagoda/qfaktury\" />";
   invStrList += "</head>";
@@ -1988,6 +1988,8 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
   if (breakPage == false)
     breakPageStr = "";
 
+  invStrList += "<table width=\"100%\" border=\"0\">";
+  invStrList += "<tr><td>";
   invStrList +=
       "<table comment=\"headar table\" width=\"100%\" " + breakPageStr + ">";
   invStrList += "<tr>";
@@ -1997,7 +1999,7 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 
   if (logo != "") {
     invStrList +=
-        "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\"+ >";
+        "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\" />";
   } else {
     invStrList += "";
   }
@@ -2041,12 +2043,13 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
     invStrList += "<tr>";
     invStrList += "<td id=\"invFirstLine\" style=\"font-size:12pt\">";
     invStrList += invoiceType + "<br/>";
-    invStrList += trUtf8("Nr: ") + invNr->text() + "<br></td>";
+    invStrList += trUtf8("Nr: ") + invNr->text() + "<br/></td>";
     invStrList += "</tr>";
     invStrList += "<tr>";
     invStrList += "<td>" + trUtf8("Data wystawienia: ") +
                   productDate->date().toString(sett().getDateFormat());
 
+    invStrList += "</td>";
     invStrList += "</tr>";
     invStrList += "<tr><td>";
 
@@ -2062,7 +2065,7 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
   invStrList += "</tr>";
   invStrList += "<tr>";
   invStrList += "<td class=\"origcopy\" colspan=\"2\" align=\"right\" "
-                "valign=\"top\"><br>";
+                "valign=\"top\"><br/>";
 
   if (original) {
     invStrList += trUtf8("ORYGINAŁ");
@@ -2221,95 +2224,97 @@ void Invoice::makeInvoiceProductsHeadar() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   invStrList += "<tr align=\"center\" valign=\"middle\" "
-                "class=\"productsHeader\" width=\"100%\" >"; // TUTAJ
+                "class=\"productsHeader\" width=\"100%\" >";
 
-  int currentPercent;
-  int &sumPercents = currentPercent;
+  int currentPercent = 0;
 
   sett().beginGroup("invoices_positions");
+  if (sett().value("Lp").toBool()) currentPercent += 3;
+  if (sett().value("Code").toBool()) currentPercent += 7;
+  if (sett().value("pkwiu").toBool()) currentPercent += 7;
+  if (sett().value("amount").toBool()) currentPercent += 9;
+  if (sett().value("unit").toBool()) currentPercent += 3;
+  if (sett().value("unitprice").toBool()) currentPercent += 7;
+  if (sett().value("netvalue").toBool()) currentPercent += 8;
+  if (sett().value("discountperc").toBool()) currentPercent += 3;
+  if (sett().value("discountval").toBool()) currentPercent += 11;
+  if (sett().value("netafter").toBool()) currentPercent += 7;
+  if (sett().value("vatval").toBool()) currentPercent += 7;
+  if (sett().value("vatprice").toBool()) currentPercent += 7;
+  if (sett().value("grossval").toBool()) currentPercent += 8;
+
+
 
   if (sett().value("Lp").toBool()) {
-    currentPercent += 3;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(3) +
                   "%\">" + trUtf8("Lp.") + "</td>";
   }
 
   if (sett().value("Name").toBool()) {
-    int res = 100 - sumPercents;
+    int res = 100 - currentPercent;
+    qDebug() << "100 - sumPercents = " << res;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(res) +
                   "%\">" + trUtf8("Nazwa") + "</td>";
   }
 
   if (sett().value("Code").toBool()) {
-    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("Kod") + "</td>";
   }
 
   if (sett().value("pkwiu").toBool()) {
-    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("PKWiU") + "</td>";
   }
 
   if (sett().value("amount").toBool()) {
-    currentPercent += 9;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(9) +
                   "%\">" + trUtf8("Ilość") + "</td>";
   }
 
   if (sett().value("unit").toBool()) {
-    currentPercent += 3;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(3) +
                   "%\">" + trUtf8("jm.") + "</td>";
   }
 
   if (sett().value("unitprice").toBool()) {
-    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("Cena jdn.") + "</td>";
   }
 
   if (sett().value("netvalue").toBool()) {
-    currentPercent += 8;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(8) +
-                  "%\">" + trUtf8("Wartość Netto") + "</td>";
+                  "%\">" + trUtf8("Netto") + "</td>";
   }
 
   if (sett().value("discountperc").toBool()) {
-    currentPercent += 3;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(3) +
                   "%\">" + trUtf8("Rabat %") + "</td>";
   }
 
   if (sett().value("discountval").toBool()) {
-    currentPercent += 11;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(11) +
-                  "%\">" + trUtf8("Rabat Wartość") + "</td>";
+                  "%\">" + trUtf8("Rabat") + "</td>";
   }
 
   if (sett().value("netafter").toBool()) {
-    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("Netto po rabacie") + "</td>";
   }
 
   if (sett().value("vatval").toBool()) {
-    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
-                  "%\">" + trUtf8("Stawka VAT") + "</td>";
+                  "%\">" + trUtf8("VAT") + "</td>";
   }
 
   if (sett().value("vatprice").toBool()) {
-    currentPercent += 7;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("Kwota Vat") + "</td>";
   }
 
   if (sett().value("grossval").toBool()) {
-    currentPercent += 8;
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(8) +
-                  "%\">" + trUtf8("Wartość Brutto") + "</td>";
+                  "%\">" + trUtf8("Brutto") + "</td>";
   }
 
   sett().endGroup();
@@ -2329,7 +2334,7 @@ void Invoice::makeInvoiceProducts() {
 
   for (int i = 0; i < tableGoods->rowCount(); ++i) {
 
-    invStrList += "<tr class=\"products\">"; // TUTAJ
+    invStrList += "<tr class=\"products\">";
     // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat,
     // gross
 
@@ -2365,10 +2370,10 @@ void Invoice::makeInvoiceProducts() {
         sett().stringToDouble(tableGoods->item(i, 8)->text()) - discountVal;
 
     if (sett().value("netvalue").toBool())
-      invStrList += "<td>" + tableGoods->item(i, 8)->text() + "</td>"; // netto
+      invStrList += "<td>" + tableGoods->item(i, 8)->text() + "</td>"; // net
 
     if (sett().value("discountperc").toBool())
-      invStrList += "<td>" + tableGoods->item(i, 6)->text() + "%</td>"; // rabat
+      invStrList += "<td>" + tableGoods->item(i, 6)->text() + "%</td>"; // discount
 
     if (sett().value("discountval").toBool())
       invStrList += "<td align=\"center\" >" +
@@ -2383,7 +2388,7 @@ void Invoice::makeInvoiceProducts() {
 
     double vatPrice =
         sett().stringToDouble(tableGoods->item(i, 10)->text()) -
-        sett().stringToDouble(tableGoods->item(i, 8)->text()); // brutt-nett :)
+        sett().stringToDouble(tableGoods->item(i, 8)->text()); // brutt-net
 
     if (sett().value("vatprice").toBool())
       invStrList += "<td>" + sett().numberToString(vatPrice, 'f', 2) + "</td>";
@@ -2408,17 +2413,17 @@ void Invoice::makeInvoiceSumm() {
       sett().stringToDouble(sum3->text()) - sett().stringToDouble(sum1->text());
   invStrList += "<tr width=\"100%\"><td width=\"100%\">";
   if (sett().value("css").toString() == "tables.css") {
-    invStrList += "<br><table align=\"right\" width=\"100%\" border=\"2\" "
+    invStrList += "<br/><table align=\"right\" width=\"100%\" border=\"2\" "
                   "cellspacing=\"0\" cellpadding=\"5\">";
 
   } else {
-    invStrList += "<br><table align=\"right\" width=\"100%\" border=\"0\" "
+    invStrList += "<br/><table align=\"right\" width=\"100%\" border=\"0\" "
                   "cellpadding=\"5\">";
   }
   invStrList +=
       "<tr class=\"productsSumHeader\" valign=\"middle\" width=\"100%\">";
   invStrList +=
-      "<td id=\"notNec\" width=\"10%\" align=\"center\">&nbsp;</td>"; // TUTAJ
+      "<td id=\"notNec\" width=\"10%\" align=\"center\">&nbsp;</td>";
   invStrList += "<td width=\"11%\" align=\"center\">" +
                 trUtf8("Wartość Netto") + "</td>"; // net
   invStrList += "<td width=\"11%\" align=\"center\">" + trUtf8("Kwota VAT") +
@@ -2432,7 +2437,7 @@ void Invoice::makeInvoiceSumm() {
                 sett().numberToString(vatPrice, 'f', 2) + "</td>"; // vat
   invStrList += "<td align=\"center\">" + sum3->text() + "</td>";  // brutto
   invStrList += "</tr>";
-  invStrList += "</table><br><br>";
+  invStrList += "</table><br/><br/>";
 }
 
 void Invoice::makeInvoiceSummAll() {
@@ -2445,21 +2450,22 @@ void Invoice::makeInvoiceSummAll() {
   invStrList += "<tr class=\"summary\">";
   invStrList += "<td width=\"3%\">&nbsp;</td>";
   invStrList += "<td width=\"48%\">";
+  invStrList += "<span>";
   invStrList += trUtf8("Do zapłaty: ") + sum3->text() + " "
 
-                + currCombo->currentText() + "</span><br>";
+                + currCombo->currentText() + "</span><br/>";
   ConvertAmount *conv = new ConvertAmount();
   invStrList += trUtf8("słownie:") + "<b>" +
                 conv->convertPL(sum3->text(), currCombo->currentText()) +
-                "</b><br>";
+                "</b><br/>";
   delete conv;
 
   if (paysCombo->currentText() == trUtf8("gotówka")) {
 
     invStrList += "<span class=\"toPay\">";
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br>";
-    invStrList += trUtf8("Zapłacono gotówką") + "<br>";
+        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br/>";
+    invStrList += trUtf8("Zapłacono gotówką") + "<br/>";
     invStrList += "</span>";
 
   } else if (paysCombo->currentText() == trUtf8("zaliczka")) {
@@ -2494,27 +2500,27 @@ void Invoice::makeInvoiceSummAll() {
 
     invStrList += "<span class=\"toPay\">";
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br>";
-    invStrList += trUtf8("Zapłacono przelewem") + "<br>";
+        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br/>";
+    invStrList += trUtf8("Zapłacono przelewem") + "<br/>";
     invStrList += "</span>";
     invStrList += "<span class=\"payDate\">";
     invStrList += trUtf8("termin płatności: ") +
-                  liabDate->date().toString(sett().getDateFormat()) + "<br>";
+                  liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
 
   } else {
 
     invStrList += "<span class=\"toPay\">";
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br>";
+        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br/>";
     invStrList += "</span>";
     invStrList += "<span class=\"payDate\">";
     invStrList += trUtf8("termin płatności: ") +
-                  liabDate->date().toString(sett().getDateFormat()) + "<br>";
+                  liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
   }
 
-  invStrList += "<br><br>";
+  invStrList += "<br/><br/>";
   invStrList +=
       "<span class=\"additionalText\">" + additEdit->text() + "</span>";
   invStrList += "</td>";
@@ -2525,7 +2531,7 @@ void Invoice::makeInvoiceSummAll() {
 
   if (stempel != "") {
     invStrList +=
-        "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\"+ >";
+        "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\" />";
   } else {
     invStrList += trUtf8("Pieczęć wystawcy");
   }
@@ -2540,7 +2546,7 @@ void Invoice::makeInvoiceFooter() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   invStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
-  invStrList += "<br><br><br><br>";
+  invStrList += "<br/><br/><br/><br/>";
   invStrList += "<table width=\"80%\" border=\"0\">";
   invStrList += "<tr>";
   invStrList += "<td width=\"3%\">&nbsp;</td>";
@@ -2556,13 +2562,13 @@ void Invoice::makeInvoiceFooter() {
   invStrList += "<tr class=\"signature\">";
   invStrList += "<td width=\"3%\">&nbsp;</td>";
   invStrList += "<td width=\"43%\" align=\"center\"> ";
-  invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br>" +
+  invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
                 trUtf8(" do wystawienia faktury VAT");
   invStrList += "</td>";
   invStrList += "<td width=\"7%\">&nbsp;</td>";
   invStrList += "<td width=\"3%\">&nbsp;</td>";
   invStrList += "<td width=\"43%\" align=\"center\">";
-  invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br>" +
+  invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
                 trUtf8(" do odbioru faktury VAT");
   invStrList += "</td>";
   invStrList += "</tr>";
