@@ -140,6 +140,9 @@ make
 sudo make install
 ```
 
+<br/>
+<br/>
+
 
 ## Usuwanie
 
@@ -153,8 +156,6 @@ lub (w Arch Linux), jeśli instalacja nastąpiła z PKGBUILD:
 
 <br/>
 <br/>
-
-
 
 
 ## Rozwój
@@ -175,6 +176,8 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 3. Aktualizacja aktualnego kursu walut następuje co pół godziny, pod warunkiem połączenia z internetem oraz poprawnego ustawienia czasu systemowego
 
 4. Jeżeli jeszcze nie istnieje katalog "gus" w ścieżce "~/.local/share/data/elinux", zostaniesz poproszony o autoryzację wykonania skryptu, który przygotowuje plik php.ini do korzystania z klienta SOAP oraz pobiera zależności dla podprojektu bazującego na PHP do prawidłowego uruchomienia aplikacji w celu połączenia z Głównym Urzędem Statystycznym. Pierwsze połączenie trwa wiele dłużej z powodu generowania zależności i katalogów na przyszłe wykorzystanie.
+
+5. Jeśli nie chcesz używać danych z Głównego Urzędu Statystycznego, nie musisz instalować paczek gksu, beesu (Fedora) oraz php, ponieważ nie są one obligatoryjne do działania programu.
 
 
 <br/>
