@@ -277,11 +277,26 @@ void GoodsList::calcNet() {
 
   if (listWidget->selectedItems().size() == 1) {
 
-    double price =
-        (amountOut->value() * priceBoxEdit->value()); // price * quantity
+    if (ifGoodIssueNote) {
 
-    // qDebug() << price;
-    netLabel->setText(sett().numberToString(price, 'f', 2));
+      double price =
+          (amountOut->value() * priceBoxEdit->value()); // price * quantity
+      netLabel->setText(sett().numberToString(price, 'f', 2));
+
+    } else {
+
+      QListWidgetItem *item = listWidget->selectedItems().at(0);
+      double price =
+          (countSpinBox->value() * priceBoxEdit->value()); // price * quantity
+      double discount = price * (discountSpin->value() * 0.01);
+      double net2 = price - discount;
+      int vat = vats[item->text()];
+      double gross2 = net2 * ((vat * 0.01) + 1);
+
+      // qDebug() << price << discount << net2 << gross2 << vat;
+      grossLabel->setText(sett().numberToString(gross2, 'f', 2));
+      netLabel->setText(sett().numberToString(net2, 'f', 2));
+    }
   }
 }
 
