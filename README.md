@@ -181,6 +181,8 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 
 5. Jeśli nie chcesz używać danych z Głównego Urzędu Statystycznego, nie musisz instalować paczek gksu, beesu (Fedora) oraz php, ponieważ nie są one obligatoryjne do działania programu.
 
+6. Ze względu na planowane prace modernizacyjne ze strony urzędu, Usługa BIR1 (Dostęp do danych Głównego Urzędu Statystycznegi) nie będzie dostępna w dniu 08.11.2017 (środa) w godz. 16:00 - 18:00
+
 
 <br/>
 <br/>
