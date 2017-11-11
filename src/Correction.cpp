@@ -1270,7 +1270,7 @@ void Correction::makeInvoiceSummAll() {
   ConvertAmount *conv = new ConvertAmount();
 
   invStrList +=
-      trUtf8("słownie:") +
+      trUtf8("Słownie:") +
       conv->convertPL(sum3->text().remove(0, 1), currCombo->currentText()) +
       "<br/>";
 
@@ -1279,8 +1279,7 @@ void Correction::makeInvoiceSummAll() {
   if (paysCombo->currentText() == trUtf8("gotówka")) {
 
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br><b>";
-    invStrList += trUtf8("Zapłacono gotówką") + "<br>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/><b>";
 
   } else if (paysCombo->currentText() == trUtf8("zaliczka")) {
 
@@ -1307,7 +1306,7 @@ void Correction::makeInvoiceSummAll() {
     invStrList +=
         QString(trUtf8("Zapłacono ") + whatMethod_one + ": " +
                 rateLabelInfo->text() + " " + currCombo->currentText() + " " +
-                ratesCombo->itemText(0) + "<br>");
+                ratesCombo->itemText(0) + "<br/>");
 
     invStrList += QString(
         trUtf8("Zaległości ") + whatMethod_two + ": " + restLabelInfo->text() +
@@ -1318,25 +1317,24 @@ void Correction::makeInvoiceSummAll() {
   } else if (paysCombo->currentText() == trUtf8("przelew")) {
 
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br><b>";
-    invStrList += trUtf8("Zapłacono przelewem") + "<br>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/><b>";
     invStrList += "<span style=\"payDate\">";
-    invStrList += trUtf8("termin płatności: ") +
-                  liabDate->date().toString(sett().getDateFormat()) + "<br>";
+    invStrList += trUtf8("Termin płatności: ") +
+                  liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
 
   } else {
 
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br><b>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/><b>";
     invStrList += "<span style=\"payDate\">";
-    invStrList += trUtf8("termin płatności: ") +
-                  liabDate->date().toString(sett().getDateFormat()) + "<br>";
+    invStrList += trUtf8("Termin płatności: ") +
+                  liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
   }
 
   invStrList +=
-      trUtf8("przyczyna korekty: ") + reasonCombo->currentText() + "<br/>";
+      trUtf8("Przyczyna korekty: ") + reasonCombo->currentText() + "<br/>";
   invStrList +=
       "<span class=\"additionalText\">" + additEdit->text() + "</span>";
   invStrList += "</td>";

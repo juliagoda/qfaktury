@@ -91,6 +91,7 @@ table {
     text-align: center;
     background-attachment:fixed;
     background-color: #bcb7a0; 
+    word-wrap: break-word;
 }
 
 .products td {
@@ -103,6 +104,7 @@ table {
     font-weight: 400;
     text-align: center;
     vertical-align: middle;
+    word-wrap: break-word;
 }
 
 .productsSumHeader {

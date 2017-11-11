@@ -2464,8 +2464,7 @@ void Invoice::makeInvoiceSummAll() {
 
     invStrList += "<span class=\"toPay\">";
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br/>";
-    invStrList += trUtf8("Zapłacono gotówką") + "<br/>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
     invStrList += "</span>";
 
   } else if (paysCombo->currentText() == trUtf8("zaliczka")) {
@@ -2490,7 +2489,7 @@ void Invoice::makeInvoiceSummAll() {
     invStrList +=
         QString(trUtf8("Zapłacono ") + whatMethod_one + ": " +
                 rateLabelInfo->text() + " " + currCombo->currentText() + " " +
-                ratesCombo->itemText(0) + "<br>");
+                ratesCombo->itemText(0) + "<br/>");
     invStrList += QString(
         trUtf8("Zaległości ") + whatMethod_two + ": " + restLabelInfo->text() +
         " " + currCombo->currentText() + " " + ratesCombo->itemText(1));
@@ -2500,11 +2499,10 @@ void Invoice::makeInvoiceSummAll() {
 
     invStrList += "<span class=\"toPay\">";
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br/>";
-    invStrList += trUtf8("Zapłacono przelewem") + "<br/>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
     invStrList += "</span>";
     invStrList += "<span class=\"payDate\">";
-    invStrList += trUtf8("termin płatności: ") +
+    invStrList += trUtf8("Termin płatności: ") +
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
 
@@ -2512,10 +2510,10 @@ void Invoice::makeInvoiceSummAll() {
 
     invStrList += "<span class=\"toPay\">";
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br/>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
     invStrList += "</span>";
     invStrList += "<span class=\"payDate\">";
-    invStrList += trUtf8("termin płatności: ") +
+    invStrList += trUtf8("Termin płatności: ") +
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
   }
