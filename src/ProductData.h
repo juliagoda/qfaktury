@@ -102,11 +102,11 @@ public:
 
   void setPkwiu(QString inPkwiu) { pkwiu = inPkwiu; }
 
-  void setQuantity(QString quan) { quantity = sett().stringToDouble(quan); }
+  void setQuantity(QString quan) { quantity = quan.toInt(); }
 
   void setQuanType(QString qType) { quanType = qType; }
 
-  void setDiscount(QString disc) { discount = sett().stringToDouble(disc); }
+  void setDiscount(QString disc) { discount = disc.toInt(); }
 
   void setPrice(QString prc) { price = sett().stringToDouble(prc); }
 

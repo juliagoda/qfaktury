@@ -978,6 +978,7 @@ void Correction::schemaCalcSum() {
   // initially origGrossTotal is -1
   // if it's -1 will set to to 0 and go through whole calculation
 
+  if (origNettTotal == 0) origGrossTotal = -1;
   if (origGrossTotal < 0) {
     origGrossTotal = 0;
     qDebug() << "origGrossTotal less than zero: " << origGrossTotal;
@@ -991,6 +992,8 @@ void Correction::schemaCalcSum() {
         origGrossTotal = -1;
       }
     }
+
+
 
     qDebug() << "products before loop: " << invData->products.count();
 
@@ -1013,7 +1016,7 @@ void Correction::schemaCalcSum() {
     }
 
     qDebug() << "origGrossTotal in loop of QMap: " << origGrossTotal;
-  }
+}
 
   diffTotal = grossTotal - origGrossTotal;
 
@@ -1120,6 +1123,8 @@ void Correction::makeInvoceProductsTitle(short a) {
   if (a == 0) {
     invStrList += trUtf8("Pozycje na fakturze przed korektą:");
   }
+
+  invStrList += "<br/>";
 }
 
 void Correction::makeBeforeCorrProducts() {
@@ -1142,44 +1147,64 @@ void Correction::makeBeforeCorrProducts() {
     qDebug() << "nettMinusDisc: " << nettMinusDisc;
     qDebug() << "vatPrice: " << vatPrice;
 
-    QHash<QString, QString> settValues;
-    settValues.insert("invoices_positions/Lp",
-                      sett().numberToString(iter.key() + 1));
-    settValues.insert("invoices_positions/Name", iter.value().getName());
-    settValues.insert("invoices_positions/Code", iter.value().getCode());
-    settValues.insert("invoices_positions/pkwiu", iter.value().getPkwiu());
-    settValues.insert("invoices_positions/amount",
-                      sett().numberToString(iter.value().getQuantity()));
-    settValues.insert("invoices_positions/unit",
-                      iter.value().getQuantityType());
-    settValues.insert("invoices_positions/unitprice",
-                      sett().numberToString(iter.value().getPrice()));
-    settValues.insert("invoices_positions/netvalue",
-                      sett().numberToString(iter.value().getNett()));
-    settValues.insert("invoices_positions/discountperc",
-                      sett().numberToString(iter.value().getDiscount()));
-    settValues.insert("invoices_positions/discountval",
-                      sett().numberToString(discountVal, 'f', 2));
-    settValues.insert("invoices_positions/netafter",
-                      sett().numberToString(nettMinusDisc, 'f', 2));
-    settValues.insert("invoices_positions/vatval",
-                      sett().numberToString(iter.value().getVat()) + "%");
-    settValues.insert("invoices_positions/vatprice",
-                      sett().numberToString(vatPrice, 'f', 2));
-    settValues.insert("invoices_positions/grossval",
-                      sett().numberToString(iter.value().getGross()));
 
-    // qDebug() << iter.value()->toString();
-    invStrList += "<tr valign=\"middle\" align=\"center\" class=\"products\">";
+    sett().beginGroup("invoices_positions");
 
-    for (QHash<QString, QString>::const_iterator iterDepth = settValues.begin();
-         iterDepth != settValues.end(); ++iterDepth) {
 
-      if (sett().value(iterDepth.key()).toBool())
-        invStrList += "<td align=\"center\">" + iterDepth.value() + "</td>";
-    }
+          invStrList += "<tr class=\"products\">";
+          // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat,
+          // gross
+
+          if (sett().value("Lp").toBool())
+            invStrList += "<td>" + sett().numberToString(iter.key() + 1) + "</td>";
+
+          if (sett().value("Name").toBool())
+            invStrList +=
+                "<td align=\"left\">" + iter.value().getName() + "</td>";
+
+          if (sett().value("Code").toBool())
+            invStrList += "<td>" + iter.value().getCode() + "</td>";
+
+          if (sett().value("pkwiu").toBool())
+            invStrList += "<td>" + iter.value().getPkwiu() + "</td>";
+
+          if (sett().value("amount").toBool())
+            invStrList += "<td>" + sett().numberToString(iter.value().getQuantity(),'f',0) + "</td>";
+
+          if (sett().value("unit").toBool())
+            invStrList += "<td>" + iter.value().getQuantityType() + "</td>";
+
+          if (sett().value("unitprice").toBool())
+            invStrList += "<td>" + sett().numberToString(iter.value().getPrice()) + "</td>";
+
+          if (sett().value("netvalue").toBool())
+            invStrList += "<td>" + sett().numberToString(iter.value().getNett()) + "</td>"; // net
+
+          if (sett().value("discountperc").toBool())
+            invStrList += "<td>" + sett().numberToString(iter.value().getDiscount(),'f',0) + "%</td>"; // discount
+
+          if (sett().value("discountval").toBool())
+            invStrList += "<td align=\"center\" >" +
+                          sett().numberToString(discountVal, 'f', 2) + "</td>";
+
+          if (sett().value("netafter").toBool())
+            invStrList +=
+                "<td>" + sett().numberToString(nettMinusDisc, 'f', 2) + "</td>";
+
+          if (sett().value("vatval").toBool())
+            invStrList += "<td>" + sett().numberToString(iter.value().getVat()) + "%</td>";
+
+          if (sett().value("vatprice").toBool())
+            invStrList += "<td>" + sett().numberToString(vatPrice, 'f', 2) + "</td>";
+
+          if (sett().value("grossval").toBool())
+            invStrList += "<td>" + sett().numberToString(iter.value().getGross()) + "</td>";
+
 
     invStrList += "</tr>";
+
+
+    sett().endGroup();
   }
 
   invStrList += "</table>";
@@ -1269,18 +1294,21 @@ void Correction::makeInvoiceSummAll() {
 
   ConvertAmount *conv = new ConvertAmount();
 
+  QString sumCorrected = QString();
+  if(sum3->text().at(0) == '-')
+  sumCorrected = conv->convertPL(sum3->text().remove(0, 1), currCombo->currentText());
+  else
+  sumCorrected = conv->convertPL(sum3->text(), currCombo->currentText());
+
   invStrList +=
-      trUtf8("słownie:") +
-      conv->convertPL(sum3->text().remove(0, 1), currCombo->currentText()) +
-      "<br/>";
+      trUtf8("Słownie: ") + sumCorrected + "<br/>";
 
   delete conv;
 
   if (paysCombo->currentText() == trUtf8("gotówka")) {
 
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br><b>";
-    invStrList += trUtf8("Zapłacono gotówką") + "<br>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/><b>";
 
   } else if (paysCombo->currentText() == trUtf8("zaliczka")) {
 
@@ -1307,7 +1335,7 @@ void Correction::makeInvoiceSummAll() {
     invStrList +=
         QString(trUtf8("Zapłacono ") + whatMethod_one + ": " +
                 rateLabelInfo->text() + " " + currCombo->currentText() + " " +
-                ratesCombo->itemText(0) + "<br>");
+                ratesCombo->itemText(0) + "<br/>");
 
     invStrList += QString(
         trUtf8("Zaległości ") + whatMethod_two + ": " + restLabelInfo->text() +
@@ -1318,25 +1346,24 @@ void Correction::makeInvoiceSummAll() {
   } else if (paysCombo->currentText() == trUtf8("przelew")) {
 
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br><b>";
-    invStrList += trUtf8("Zapłacono przelewem") + "<br>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/><b>";
     invStrList += "<span style=\"payDate\">";
-    invStrList += trUtf8("termin płatności: ") +
-                  liabDate->date().toString(sett().getDateFormat()) + "<br>";
+    invStrList += trUtf8("Termin płatności: ") +
+                  liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
 
   } else {
 
     invStrList +=
-        trUtf8("forma płatności: ") + paysCombo->currentText() + "<br><b>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/><b>";
     invStrList += "<span style=\"payDate\">";
-    invStrList += trUtf8("termin płatności: ") +
-                  liabDate->date().toString(sett().getDateFormat()) + "<br>";
+    invStrList += trUtf8("Termin płatności: ") +
+                  liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
   }
 
   invStrList +=
-      trUtf8("przyczyna korekty: ") + reasonCombo->currentText() + "<br/>";
+      trUtf8("Przyczyna korekty: ") + reasonCombo->currentText() + "<br/>";
   invStrList +=
       "<span class=\"additionalText\">" + additEdit->text() + "</span>";
   invStrList += "</td>";
