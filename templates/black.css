@@ -67,8 +67,12 @@ h4 {
  font-size: 8pt; 
  font-weight: 600;
  color: #000000; 
-  text-align: center;
-  word-wrap: break-word;
+ text-align: center;
+ white-space: pre-wrap; /* css-3 */
+ white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+ white-space: -pre-wrap; /* Opera 4-6 */
+ white-space: -o-pre-wrap; /* Opera 7 */
+ word-wrap: break-word; /* Internet Explorer 5.5+ */ 
 }
 
 .products td {
@@ -80,7 +84,11 @@ h4 {
  font-weight: 400;
  text-align: center;
  vertical-align: middle;
- word-wrap: break-word;
+ white-space: pre-wrap; /* css-3 */
+ white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+ white-space: -pre-wrap; /* Opera 4-6 */
+ white-space: -o-pre-wrap; /* Opera 7 */
+ word-wrap: break-word; /* Internet Explorer 5.5+ */ 
 }
 
 .productsSumHeader {

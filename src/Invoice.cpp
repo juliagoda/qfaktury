@@ -2227,33 +2227,37 @@ void Invoice::makeInvoiceProductsHeadar() {
                 "class=\"productsHeader\" width=\"100%\" >";
 
   int currentPercent = 0;
+  int howMany = 0;
 
   sett().beginGroup("invoices_positions");
-  if (sett().value("Lp").toBool()) currentPercent += 3;
-  if (sett().value("Code").toBool()) currentPercent += 7;
-  if (sett().value("pkwiu").toBool()) currentPercent += 7;
-  if (sett().value("amount").toBool()) currentPercent += 9;
-  if (sett().value("unit").toBool()) currentPercent += 3;
-  if (sett().value("unitprice").toBool()) currentPercent += 7;
-  if (sett().value("netvalue").toBool()) currentPercent += 8;
-  if (sett().value("discountperc").toBool()) currentPercent += 3;
-  if (sett().value("discountval").toBool()) currentPercent += 11;
-  if (sett().value("netafter").toBool()) currentPercent += 7;
-  if (sett().value("vatval").toBool()) currentPercent += 7;
-  if (sett().value("vatprice").toBool()) currentPercent += 7;
-  if (sett().value("grossval").toBool()) currentPercent += 8;
+  if (sett().value("Lp").toBool()) currentPercent += 3; howMany++;
+  if (sett().value("Code").toBool()) currentPercent += 7; howMany++;
+  if (sett().value("pkwiu").toBool()) currentPercent += 9; howMany++;
+  if (sett().value("amount").toBool()) currentPercent += 7; howMany++;
+  if (sett().value("unit").toBool()) currentPercent += 3; howMany++;
+  if (sett().value("unitprice").toBool()) currentPercent += 7; howMany++;
+  if (sett().value("netvalue").toBool()) currentPercent += 8; howMany++;
+  if (sett().value("discountperc").toBool()) currentPercent += 8; howMany++;
+  if (sett().value("discountval").toBool()) currentPercent += 8; howMany++;
+  if (sett().value("netafter").toBool()) currentPercent += 7; howMany++;
+  if (sett().value("vatval").toBool()) currentPercent += 7; howMany++;
+  if (sett().value("vatprice").toBool()) currentPercent += 8; howMany++;
+  if (sett().value("grossval").toBool()) currentPercent += 9; howMany++;
+  if (sett().value("Name").toBool()) howMany++;
 
 
 
   if (sett().value("Lp").toBool()) {
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(3) +
-                  "%\">" + trUtf8("Lp.") + "</td>";
+                  "%\">" + trUtf8("Lp") + "</td>";
   }
 
   if (sett().value("Name").toBool()) {
-    int res = 100 - currentPercent;
-    qDebug() << "100 - sumPercents = " << res;
-    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(res) +
+      int res = 0;
+      if (howMany == 14) res = 100 - currentPercent + 4;
+      else res = 100 - currentPercent;
+      qDebug() << "100 - sumPercents = " << res;
+      invStrList += "<td align=\"center\" width=\"" + sett().numberToString(res) +
                   "%\">" + trUtf8("Nazwa") + "</td>";
   }
 
@@ -2263,18 +2267,18 @@ void Invoice::makeInvoiceProductsHeadar() {
   }
 
   if (sett().value("pkwiu").toBool()) {
-    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
+    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(9) +
                   "%\">" + trUtf8("PKWiU") + "</td>";
   }
 
   if (sett().value("amount").toBool()) {
-    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(9) +
+    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                   "%\">" + trUtf8("Ilość") + "</td>";
   }
 
   if (sett().value("unit").toBool()) {
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(3) +
-                  "%\">" + trUtf8("jm.") + "</td>";
+                  "%\">" + trUtf8("Jm.") + "</td>";
   }
 
   if (sett().value("unitprice").toBool()) {
@@ -2287,20 +2291,38 @@ void Invoice::makeInvoiceProductsHeadar() {
                   "%\">" + trUtf8("Netto") + "</td>";
   }
 
-  if (sett().value("discountperc").toBool()) {
-    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(3) +
-                  "%\">" + trUtf8("Rabat %") + "</td>";
+  if (howMany == 14) {
+    if (sett().value("discountperc").toBool()) {
+        invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
+                  "%\">" + trUtf8("Rab. %") + "</td>"; //8
+    }
+
+    if (sett().value("discountval").toBool()) {
+        invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
+                  "%\">" + trUtf8("Rab.") + "</td>"; // 8
+    }
+
+    if (sett().value("netafter").toBool()) {
+        invStrList += "<td align=\"center\" width=\"" + sett().numberToString(5) +
+                  "%\">" + trUtf8("Netto po rab.") + "</td>"; // 7
+    }
+  } else {
+      if (sett().value("discountperc").toBool()) {
+        invStrList += "<td align=\"center\" width=\"" + sett().numberToString(8) +
+                      "%\">" + trUtf8("Rabat %") + "</td>";
+      }
+
+      if (sett().value("discountval").toBool()) {
+        invStrList += "<td align=\"center\" width=\"" + sett().numberToString(8) +
+                      "%\">" + trUtf8("Rabat") + "</td>";
+      }
+
+      if (sett().value("netafter").toBool()) {
+        invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
+                      "%\">" + trUtf8("Netto po rabacie") + "</td>";
+      }
   }
 
-  if (sett().value("discountval").toBool()) {
-    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(11) +
-                  "%\">" + trUtf8("Rabat") + "</td>";
-  }
-
-  if (sett().value("netafter").toBool()) {
-    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
-                  "%\">" + trUtf8("Netto po rabacie") + "</td>";
-  }
 
   if (sett().value("vatval").toBool()) {
     invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
@@ -2308,12 +2330,12 @@ void Invoice::makeInvoiceProductsHeadar() {
   }
 
   if (sett().value("vatprice").toBool()) {
-    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
+    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(8) +
                   "%\">" + trUtf8("Kwota Vat") + "</td>";
   }
 
   if (sett().value("grossval").toBool()) {
-    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(8) +
+    invStrList += "<td align=\"center\" width=\"" + sett().numberToString(9) +
                   "%\">" + trUtf8("Brutto") + "</td>";
   }
 
@@ -2362,9 +2384,13 @@ void Invoice::makeInvoiceProducts() {
     if (sett().value("unitprice").toBool())
       invStrList += "<td>" + tableGoods->item(i, 7)->text() + "</td>";
 
-    double discountVal =
-        sett().stringToDouble(tableGoods->item(i, 8)->text()) *
+
+    double discountVal = 0;
+
+    if(tableGoods->item(i, 6)->text() != "0" && !tableGoods->item(i, 6)->text().isEmpty()) {
+        discountVal = sett().stringToDouble(tableGoods->item(i, 8)->text()) *
         (sett().stringToDouble(tableGoods->item(i, 6)->text()) * 0.01);
+    }
 
     double nettMinusDisc =
         sett().stringToDouble(tableGoods->item(i, 8)->text()) - discountVal;
@@ -2557,7 +2583,7 @@ void Invoice::makeInvoiceFooter() {
   invStrList += "<hr width=\"100%\" noshade=\"noshade\" color=\"black\" />";
   invStrList += "</td>";
   invStrList += "</tr>";
-  invStrList += "<tr class=\"signature\">";
+  invStrList += "<p><tr class=\"signature\">";
   invStrList += "<td width=\"3%\">&nbsp;</td>";
   invStrList += "<td width=\"43%\" align=\"center\"> ";
   invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
@@ -2569,7 +2595,7 @@ void Invoice::makeInvoiceFooter() {
   invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
                 trUtf8(" do odbioru faktury VAT");
   invStrList += "</td>";
-  invStrList += "</tr>";
+  invStrList += "</tr></p>";
   invStrList += "</table>";
   invStrList += "</td></tr>";
   invStrList += "</table>";
