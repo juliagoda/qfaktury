@@ -2291,6 +2291,7 @@ void Invoice::makeInvoiceProductsHeadar() {
                   "%\">" + trUtf8("Netto") + "</td>";
   }
 
+
   if (howMany == 14) {
     if (sett().value("discountperc").toBool()) {
         invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
@@ -2321,6 +2322,7 @@ void Invoice::makeInvoiceProductsHeadar() {
         invStrList += "<td align=\"center\" width=\"" + sett().numberToString(7) +
                       "%\">" + trUtf8("Netto po rabacie") + "</td>";
       }
+
   }
 
 
@@ -2529,6 +2531,7 @@ void Invoice::makeInvoiceSummAll() {
     invStrList += "</span>";
     invStrList += "<span class=\"payDate\">";
     invStrList += trUtf8("Termin płatności: ") +
+
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
 
@@ -2540,6 +2543,7 @@ void Invoice::makeInvoiceSummAll() {
     invStrList += "</span>";
     invStrList += "<span class=\"payDate\">";
     invStrList += trUtf8("Termin płatności: ") +
+
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
   }

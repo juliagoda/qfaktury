@@ -41,11 +41,12 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - dowolna dystrybucja Linux
 - biblioteka Qt w wersji wyższej lub równej 5.0.0
 - paczki qt5-base qt5-webengine (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
-- zlib w wersji wyższej lub równej 1.2
-- quazip w wersji 0.7.3 lub wyższej
-- cmake w wersji 3.9 lub wyższej
-- php w wersji 7.1 lub wyższej
-- gksu w wersji 2.0 lub wyższej
+- zlib w wersji wyższej lub równej 1.2 (wymagane dla paczki quazip)
+- quazip w wersji 0.7.3 lub wyższej (wymagane dla tworzenia kopii zapasowych)
+- cmake w wersji 3.9 lub wyższej (wymagane dla kompilacji)
+- extra-cmake-modules w wersji 1.7.0 lub nowszej (wymagane dla kompilacji)
+- php w wersji 7.1 lub wyższej (opcjonalne dla korzystania z danych GUS)
+- gksu w wersji 2.0 lub wyższej (opcjonalne dla konfiguracji PHP)
 - połączenie z internetem (opcjonalne)
 - aktualny czas systemowy (opcjonalne)
 
@@ -56,32 +57,24 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 
 # Arch Linux
 
-`sudo pacman -S zlib gksu php cmake quazip qt5-base qt5-webengine`
-
-lub
-
 ```
-git clone https://github.com/archlinux-lucjan/archlinux-poland.git
-cd qfaktury-qt5-git
-makepkg -sric
+sudo pacman -S zlib gksu php cmake quazip qt5-base qt5-webengine extra-cmake-modules
 ```
-
-dla drugiego sposobu można od razu pominąć kroki dla instalacji zależności i instalacji samego programu
-
 
 # Ubuntu
 
 ```
-sudo add-apt-repository ppa:ondrej/php
+sudo apt-get install -y language-pack-en-base
+sudo LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
 sudo apt-get update
-sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake gksu qtbase5-dev qtwebengine5-dev libquazip-qt5-dev
+sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake gksu qtbase5-dev qtwebengine5-dev libquazip-qt5-dev extra-cmake-modules
 ```
 
 lub 
 
 ```
 sudo apt-get install software-properties-common python-software-properties
-sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake gksu qtbase5-dev qtwebengine5-dev libquazip-qt5-dev
+sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake gksu qtbase5-dev qtwebengine5-dev libquazip-qt5-dev extra-cmake-modules
 ```
 
 # Debian Jessie
@@ -90,13 +83,15 @@ sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake gksu qtbase5-d
 sudo apt-get install apt-transport-https lsb-release ca-certificates
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
-apt-get update
-sudo apt get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev
+sudo apt-get update
+sudo apt get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev extra-cmake-modules
 ```
 
 # Debian Sid
 
-`sudo apt get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev`
+```
+sudo apt get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev extra-cmake-modules
+```
 
 # Fedora
 
@@ -105,21 +100,22 @@ wget http://rpms.remirepo.net/fedora/remi-release-25.rpm
 sudo dnf install remi-release-25.rpm
 sudo dnf install dnf-plugins-core
 sudo dnf config-manager --set-enabled remi-php71
-sudo dnf install zlib-devel cmake beesu quazip qt5-qtbase-devel qt5-qtwebengine-devel
+sudo dnf install zlib-devel cmake beesu quazip qt5-qtbase-devel qt5-qtwebengine-devel extra-cmake-modules
 ```
 
 # OpenSUSE
 
-`sudo zypper in php7 php7-devel libz1 zlib-devel cmake gksu libgksu libquazip-qt5 libqt5-qtbase libqt5-qtwebengine`
+```
+sudo zypper in php7 php7-devel libz1 zlib-devel cmake gksu libgksu libquazip-qt5 libqt5-qtbase libqt5-qtwebengine extra-cmake-modules
+```
 
 # Linux Mint
 
 ```
-sudo add-apt-repository ppa:ondrej/php
 sudo apt-get install -y language-pack-en-base
 sudo LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
 sudo apt-get update
-sudo apt-get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev
+sudo apt-get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev extra-cmake-modules
 ```
 
 <br/>
@@ -152,7 +148,7 @@ W zbudowanym katalogu:
 
 lub (w Arch Linux), jeśli instalacja nastąpiła z PKGBUILD:
 
-`sudo pacman -R qfaktury-qt5-git`
+`sudo pacman -Rns qfaktury-qt5-git`
 
 <br/>
 <br/>
@@ -175,7 +171,11 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 
 3. Aktualizacja aktualnego kursu walut następuje co pół godziny, pod warunkiem połączenia z internetem oraz poprawnego ustawienia czasu systemowego
 
-4. Jeżeli jeszcze nie istnieje katalog "gus" w ścieżce "~/.local/share/data/elinux", zostaniesz poproszony o autoryzację wykonania skryptu, który przygotowuje plik php.ini do korzystania z klienta SOAP oraz pobiera zależności dla podprojektu bazującego na PHP do prawidłowego uruchomienia aplikacji w celu połączenia z Głównym Urzędem Statystycznym. Pierwsze połączenie trwa wiele dłużej z powodu generowania zależności i katalogów na przyszłe wykorzystanie.
+4. Jeżeli jeszcze nie istnieje katalog "gus" w ścieżce "~/.local/share/data/elinux", zostaniesz poproszony o autoryzację wykonania skryptu, który przygotowuje plik php.ini do korzystania z klienta SOAP oraz pobiera zależności dla podprojektu bazującego na PHP do prawidłowego uruchomienia aplikacji w celu połączenia z Głównym Urzędem Statystycznym. Jeśli chcesz przygotować plik php.ini ręcznie, nie musisz instalować paczki gksu (tylko pamiętaj, by anulować prośbę o wykonanie konfiguracji PHP). Pierwsze połączenie trwa wiele dłużej z powodu generowania zależności i katalogów na przyszłe wykorzystanie.
+
+5. Jeśli nie chcesz używać danych z Głównego Urzędu Statystycznego, nie musisz instalować paczek gksu, beesu (Fedora) oraz php, ponieważ nie są one obligatoryjne do działania programu.
+
+6. Ze względu na planowane prace modernizacyjne ze strony urzędu, Usługa BIR1 (Dostęp do danych Głównego Urzędu Statystycznegi) nie będzie dostępna w dniu 08.11.2017 (środa) w godz. 16:00 - 18:00
 
 5. Jeśli nie chcesz używać danych z Głównego Urzędu Statystycznego, nie musisz instalować paczek gksu, beesu (Fedora) oraz php, ponieważ nie są one obligatoryjne do działania programu.
 
