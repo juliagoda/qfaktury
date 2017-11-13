@@ -47,7 +47,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabPage1">
       <attribute name="title">
@@ -387,7 +387,7 @@
            <item>
             <widget class="QSpinBox" name="spbNumCopies">
              <property name="minimum">
-              <number>1</number>
+              <number>0</number>
              </property>
              <property name="maximum">
               <number>6</number>
@@ -465,8 +465,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>485</width>
-            <height>347</height>
+            <width>273</width>
+            <height>292</height>
            </rect>
           </property>
           <attribute name="label">

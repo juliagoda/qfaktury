@@ -66,7 +66,7 @@ public slots:
   virtual void backBtnClick();
   virtual void canQuit();
   virtual bool saveInvoice();
-  virtual void makeInvoice();
+  virtual void makeInvoice(bool to_print = true);
   virtual void payTextChanged(QString someStr);
   virtual void discountConstChange(); // Overwritten in GrossInvoice
   void getCustomer();

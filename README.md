@@ -137,6 +137,16 @@ sudo make install
 ```
 
 <br/>
+
+Jeśli posiadasz Arch Linux bądź pokrewny system (Manjaro) możesz wykonać poniższe kroki:
+
+```
+git clone https://github.com/archlinux-lucjan/archlinux-poland.git
+cd qfaktury-qt5-git
+makepkg -sric
+```
+
+<br/>
 <br/>
 
 
@@ -152,6 +162,7 @@ lub (w Arch Linux), jeśli instalacja nastąpiła z PKGBUILD:
 
 <br/>
 <br/>
+
 
 
 ## Rozwój
@@ -175,9 +186,6 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 
 5. Jeśli nie chcesz używać danych z Głównego Urzędu Statystycznego, nie musisz instalować paczek gksu, beesu (Fedora) oraz php, ponieważ nie są one obligatoryjne do działania programu.
 
-6. Ze względu na planowane prace modernizacyjne ze strony urzędu, Usługa BIR1 (Dostęp do danych Głównego Urzędu Statystycznegi) nie będzie dostępna w dniu 08.11.2017 (środa) w godz. 16:00 - 18:00
-
-5. Jeśli nie chcesz używać danych z Głównego Urzędu Statystycznego, nie musisz instalować paczek gksu, beesu (Fedora) oraz php, ponieważ nie są one obligatoryjne do działania programu.
 
 
 <br/>

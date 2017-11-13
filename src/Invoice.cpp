@@ -1670,7 +1670,7 @@ bool Invoice::saveInvoice() {
   result = dataLayer->invoiceInsertData(invData, type);
   ret = dataLayer->getRet();
   MainWindow::instance()->shouldHidden = true;
-  makeInvoice();
+  makeInvoice(false);
   MainWindow::instance()->shouldHidden = false;
 
   if (!result) {
@@ -1695,7 +1695,7 @@ bool Invoice::saveInvoice() {
  *  Generate html with invoice and show Print Preview dialog
  */
 
-void Invoice::makeInvoice() {
+void Invoice::makeInvoice(bool to_print) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -1739,9 +1739,8 @@ void Invoice::makeInvoice() {
 
     makeInvoiceFooterHtml();
 
-    print();
+    if (to_print) print();
 
-    saveBtn->setFocus();
   }
 }
 
@@ -2067,7 +2066,9 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
   invStrList += "<td class=\"origcopy\" colspan=\"2\" align=\"right\" "
                 "valign=\"top\"><br/>";
 
-  if (original) {
+  int numberOfCopies = sett().value("numberOfCopies", 2).toInt();
+
+  if (original && (numberOfCopies > 0)) {
     invStrList += trUtf8("ORYGINAŁ");
   } else {
     invStrList += trUtf8("KOPIA");

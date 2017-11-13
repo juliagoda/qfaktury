@@ -390,7 +390,9 @@ void GoodsIssuedNotes::makeInvoiceHeadar(bool, bool breakPage, bool original) {
   invStrList += "<td class=\"origcopy\" colspan=\"2\" align=\"right\" "
                 "valign=\"top\"><br>";
 
-  if (original) {
+  int numberOfCopies = sett().value("numberOfCopies", 2).toInt();
+
+  if (original && (numberOfCopies > 0)) {
     invStrList += trUtf8("ORYGINAŁ");
   } else {
     invStrList += trUtf8("KOPIA");
@@ -710,7 +712,7 @@ bool GoodsIssuedNotes::saveInvoice() {
   result = dataLayer->warehouseInsertData(wareData, type);
   retWarehouse = dataLayer->getRetWarehouse();
   MainWindow::instance()->shouldHidden = true;
-  makeInvoice();
+  makeInvoice(false);
   MainWindow::instance()->shouldHidden = false;
 
   if (!result) {

@@ -304,6 +304,7 @@ void MainWindow::init() {
           SLOT(printBuyerList()));
   connect(ui->editGoodsAction, SIGNAL(triggered()), this, SLOT(goodsEdit()));
   connect(ui->delGoodsAction, SIGNAL(triggered()), this, SLOT(goodsDel()));
+  connect(ui->findInvoiceAction, SIGNAL(triggered()), this, SLOT(findInvoicePdf()));
 
   /** Slot used to display aboutQt informations.
    */
@@ -1349,7 +1350,7 @@ void MainWindow::editFHist() {
       sp_retain.setRetainSizeWhenHidden(true);
       corWindow->setSizePolicy(sp_retain);
       corWindow->hide();
-      corWindow->makeInvoice();
+      corWindow->makeInvoice(false);
     } else {
 
       if (corWindow->exec() == QDialog::Accepted) {
@@ -1379,7 +1380,7 @@ void MainWindow::editFHist() {
       sp_retain.setRetainSizeWhenHidden(true);
       billWindow->setSizePolicy(sp_retain);
       billWindow->hide();
-      billWindow->makeInvoice();
+      billWindow->makeInvoice(false);
     } else {
 
       if (billWindow->exec() == QDialog::Accepted) {
@@ -1408,7 +1409,7 @@ void MainWindow::editFHist() {
       sp_retain.setRetainSizeWhenHidden(true);
       invWindow->setSizePolicy(sp_retain);
       invWindow->hide();
-      invWindow->makeInvoice();
+      invWindow->makeInvoice(false);
     } else {
 
       if (invWindow->exec() == QDialog::Accepted) {
@@ -1438,7 +1439,7 @@ void MainWindow::editFHist() {
       sp_retain.setRetainSizeWhenHidden(true);
       invWindow->setSizePolicy(sp_retain);
       invWindow->hide();
-      invWindow->makeInvoice();
+      invWindow->makeInvoice(false);
     } else {
 
       if (invWindow->exec() == QDialog::Accepted) {
@@ -1467,7 +1468,7 @@ void MainWindow::editFHist() {
       sp_retain.setRetainSizeWhenHidden(true);
       invWindow->setSizePolicy(sp_retain);
       invWindow->hide();
-      invWindow->makeInvoice();
+      invWindow->makeInvoice(false);
     } else {
       if (invWindow->exec() == QDialog::Accepted) {
 
@@ -1495,7 +1496,7 @@ void MainWindow::editFHist() {
       sp_retain.setRetainSizeWhenHidden(true);
       invWindow->setSizePolicy(sp_retain);
       invWindow->hide();
-      invWindow->makeInvoice();
+      invWindow->makeInvoice(false);
     } else {
       if (invWindow->exec() == QDialog::Accepted) {
 
@@ -1525,7 +1526,7 @@ void MainWindow::editFHist() {
       sp_retain.setRetainSizeWhenHidden(true);
       dupWindow->setSizePolicy(sp_retain);
       dupWindow->hide();
-      dupWindow->makeInvoice();
+      dupWindow->makeInvoice(false);
     } else {
 
       if (dupWindow->exec() == QDialog::Accepted) {
@@ -1574,7 +1575,7 @@ void MainWindow::warehouseEdit() {
       sp_retain.setRetainSizeWhenHidden(true);
       delivNoteWindow->setSizePolicy(sp_retain);
       delivNoteWindow->hide();
-      delivNoteWindow->makeInvoice();
+      delivNoteWindow->makeInvoice(false);
 
     } else {
 
@@ -1604,7 +1605,7 @@ void MainWindow::warehouseEdit() {
       sp_retain.setRetainSizeWhenHidden(true);
       goodsNoteWindow->setSizePolicy(sp_retain);
       goodsNoteWindow->hide();
-      goodsNoteWindow->makeInvoice();
+      goodsNoteWindow->makeInvoice(false);
 
     } else {
 
@@ -2378,6 +2379,14 @@ void MainWindow::goodsEdit() {
 
   goodsWindow = 0;
   delete goodsWindow;
+}
+
+
+void MainWindow::findInvoicePdf() {
+
+    QDesktopServices::openUrl(QUrl(sett().getPdfDir(), QUrl::TolerantMode));
+  //  QString fileName = QFileDialog::getOpenFileName(this,
+  //  tr("Wybierz fakturę / dokument magazynu"), sett().getPdfDir(), tr("Image Files (*.pdf)"));
 }
 
 void MainWindow::noteDownTask(const QDate &taskDate) {
