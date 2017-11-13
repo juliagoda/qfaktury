@@ -34,7 +34,7 @@ public slots:
   // have to be overwritten in child class
   virtual bool saveInvoice();
   virtual void backBtnClick();
-  virtual void makeInvoice();
+  virtual void makeInvoice(bool to_print = true);
   virtual void canQuit();
 
 protected:

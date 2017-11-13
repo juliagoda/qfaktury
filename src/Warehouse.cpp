@@ -187,7 +187,7 @@ bool Warehouse::saveInvoice() {
   result = dataLayer->warehouseInsertData(wareData, type);
   retWarehouse = dataLayer->getRetWarehouse();
   MainWindow::instance()->shouldHidden = true;
-  makeInvoice();
+  makeInvoice(false);
   MainWindow::instance()->shouldHidden = false;
 
   if (!result) {

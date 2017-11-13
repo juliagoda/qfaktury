@@ -76,6 +76,7 @@ public slots:
   void goodsAdd();
   void goodsDel();
   void goodsEdit();
+  void findInvoicePdf();
   void mainUpdateStatus(QTableWidgetItem *item);
   void showTableMenuT(QPoint p);
   void showTableMenuK(QPoint p);

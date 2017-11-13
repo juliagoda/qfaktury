@@ -39,7 +39,7 @@ QString InvoiceRR::getInvoiceTypeAndSaveNr() {
   return itype;
 }
 
-void InvoiceRR::makeInvoice() {
+void InvoiceRR::makeInvoice(bool to_print) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -91,9 +91,8 @@ void InvoiceRR::makeInvoice() {
 
     makeInvoiceFooterHtml();
 
-    print();
+    if (to_print) print();
 
-    saveBtn->setFocus();
   }
 }
 

@@ -15,7 +15,7 @@ public:
 
 public slots:
   void invoiceRRInit();
-  void makeInvoice();
+  void makeInvoice(bool to_print = true);
 
 protected:
   QString getInvoiceTypeAndSaveNr();

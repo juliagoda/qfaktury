@@ -408,7 +408,7 @@ bool DeliveryNote::saveInvoice() {
       result = dataLayer->invoiceInsertData(invData, type);
       ret = dataLayer->getRet();
       MainWindow::instance()->shouldHidden = true;
-      Invoice::instance()->makeInvoice();
+      Invoice::instance()->makeInvoice(false);
       MainWindow::instance()->shouldHidden = false;
 
       if (!result) {
@@ -424,7 +424,7 @@ bool DeliveryNote::saveInvoice() {
       result = dataLayer->warehouseInsertData(wareData, type);
       retWarehouse = dataLayer->getRetWarehouse();
       MainWindow::instance()->shouldHidden = true;
-      makeInvoice();
+      makeInvoice(false);
       MainWindow::instance()->shouldHidden = false;
 
       if (!result) {
@@ -444,7 +444,7 @@ bool DeliveryNote::saveInvoice() {
       result = dataLayer->warehouseInsertData(wareData, type);
       retWarehouse = dataLayer->getRetWarehouse();
       MainWindow::instance()->shouldHidden = true;
-      makeInvoice();
+      makeInvoice(false);
       MainWindow::instance()->shouldHidden = false;
 
       if (!result) {
@@ -465,7 +465,7 @@ bool DeliveryNote::saveInvoice() {
     result = dataLayer->warehouseInsertData(wareData, type);
     retWarehouse = dataLayer->getRetWarehouse();
     MainWindow::instance()->shouldHidden = true;
-    makeInvoice();
+    makeInvoice(false);
     MainWindow::instance()->shouldHidden = false;
 
     if (!result) {

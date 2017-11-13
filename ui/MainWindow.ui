@@ -573,7 +573,7 @@
      <x>0</x>
      <y>0</y>
      <width>655</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct">
@@ -585,6 +585,7 @@
     </property>
     <addaction name="fileData_companyAction"/>
     <addaction name="fileSettingsAction"/>
+    <addaction name="findInvoiceAction"/>
     <addaction name="separator"/>
     <addaction name="fileExportEDIAction"/>
     <addaction name="fileExport_pdfAction"/>
@@ -1312,6 +1313,15 @@
     <string>&amp;RW</string>
    </property>
   </action>
+  <action name="findInvoiceAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/openPdfDir.png</normaloff>:/res/icons/openPdfDir.png</iconset>
+   </property>
+   <property name="text">
+    <string>Otwórz folder z dokumentami</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="4" margin="9"/>
  <tabstops>
@@ -1324,6 +1334,7 @@
   <tabstop>tableT</tabstop>
  </tabstops>
  <resources>
+  <include location="../qfaktury.qrc"/>
   <include location="../qfaktury.qrc"/>
  </resources>
  <connections/>

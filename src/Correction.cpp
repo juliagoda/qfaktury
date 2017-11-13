@@ -447,7 +447,7 @@ bool Correction::saveInvoice() {
  *  Generates invoice and shows preview
  */
 
-void Correction::makeInvoice() {
+void Correction::makeInvoice(bool to_print) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -485,7 +485,7 @@ void Correction::makeInvoice() {
 
   makeInvoiceFooterHtml();
 
-  print();
+  if (to_print) print();
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__
            << "EXIT";
