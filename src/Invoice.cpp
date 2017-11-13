@@ -1920,12 +1920,10 @@ void Invoice::makeInvoiceHeadarHTML() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  invStrList += "<html><head>";
-  invStrList += "<meta http-equiv=\"Content-Type\" content=\"text/html\""
-                "charset=\"utf-8\" />";
+  invStrList += "<!DOCTYPE html><head>";
+  invStrList += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />";
   invStrList += "<meta name=\"creator\" "
                 "value=\"https://github.com/juliagoda/qfaktury\" />";
-  invStrList += "</head>";
   invStrList += "<title>" + invoiceType + "</title>";
   invStrList += "<style type=\"text/css\"> ";
 
@@ -1976,6 +1974,8 @@ void Invoice::makeInvoiceHeadarHTML() {
   }
 
   invStrList += "</style>";
+  invStrList += "</head>";
+
   invStrList += "<body>";
 }
 
@@ -1998,7 +1998,7 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 
   if (logo != "") {
     invStrList +=
-        "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\" />";
+        "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\" alt=\"Logo firmy\" />";
   } else {
     invStrList += "";
   }
@@ -2169,8 +2169,8 @@ void Invoice::makeInvoiceBody() {
   invStrList += "<td width=\"1%\">&nbsp;</td>";
   invStrList += "<td class=\"buyerSeller\" width=\"48%\">";
   invStrList +=
-      "<p id=\"seller\">" + trUtf8("Nabywca:") +
-      "</p><br/>"; //+ buyerName->text().replace(",", "<br>") + "<br>";
+      "<p id=\"buyer\">" + trUtf8("Nabywca:") +
+      "</p><br/>";
 
   QStringList lista = buyerName->text().split(",");
 
@@ -2178,40 +2178,40 @@ void Invoice::makeInvoiceBody() {
 
   QString el1 = lista.at(0);
   if (sett().value("buyername").toBool() && (el1.trimmed() != "-"))
-    invStrList += el1 + "<br>";
+    invStrList += el1 + "<br/>";
 
   QString el2 = lista.at(1);
   if (sett().value("buyercity").toBool() && (el2.trimmed() != "-"))
-    invStrList += el2 + "<br>";
+    invStrList += el2 + "<br/>";
 
   QString el3 = lista.at(2);
   if (sett().value("buyeraddress").toBool() && (el3.trimmed() != "-"))
-    invStrList += el3 + "<br>";
+    invStrList += el3 + "<br/>";
 
   QString el4 = lista.at(3);
   if (sett().value("buyernip").toBool() &&
       (el4.replace(" ", "").replace(QObject::trUtf8("NIP:"), "") != "-"))
-    invStrList += trUtf8("NIP: ") + el4 + "<br>";
+    invStrList += trUtf8("NIP: ") + el4 + "<br/>";
 
   QString el5 = lista.at(4);
   if (sett().value("buyeraccount").toBool() &&
       (el5.replace(" ", "").replace(QObject::trUtf8("Konto:"), "") != "-"))
-    invStrList += trUtf8("Nr konta: ") + el5 + "<br>";
+    invStrList += trUtf8("Nr konta: ") + el5 + "<br/>";
 
   QString el6 = lista.at(5);
   if (sett().value("buyerphone").toBool() &&
       (el6.replace(" ", "").replace(QObject::trUtf8("Tel:"), "") != "-"))
-    invStrList += trUtf8("Telefon: ") + el6 + "<br>";
+    invStrList += trUtf8("Telefon: ") + el6 + "<br/>";
 
   QString el7 = lista.at(6);
   if (sett().value("buyermail").toBool() &&
       (el7.replace(" ", "").replace(QObject::trUtf8("Email:"), "") != "-"))
-    invStrList += trUtf8("Email: ") + el7 + "<br>";
+    invStrList += trUtf8("Email: ") + el7 + "<br/>";
 
   QString el8 = lista.at(7);
   if (sett().value("buyerwww").toBool() &&
       (el8.replace(" ", "").replace(QObject::trUtf8("Strona:"), "") != ""))
-    invStrList += trUtf8("Strona www: ") + el8 + "<br>";
+    invStrList += trUtf8("Strona www: ") + el8 + "<br/>";
 
   sett().endGroup();
 
@@ -2468,6 +2468,7 @@ void Invoice::makeInvoiceSumm() {
 
   double vatPrice =
       sett().stringToDouble(sum3->text()) - sett().stringToDouble(sum1->text());
+
   invStrList += "<tr width=\"100%\"><td width=\"100%\">";
   if (sett().value("css").toString() == "tables.css") {
     invStrList += "<br/><table align=\"right\" width=\"100%\" border=\"2\" "
@@ -2587,7 +2588,7 @@ void Invoice::makeInvoiceSummAll() {
 
   if (stempel != "") {
     invStrList +=
-        "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\" />";
+        "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\" alt=\"Firmowy stempel\" />";
   } else {
     invStrList += trUtf8("Pieczęć wystawcy");
   }
@@ -2600,9 +2601,10 @@ void Invoice::makeInvoiceSummAll() {
 void Invoice::makeInvoiceFooter() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  invStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
+  invStrList += "<tr>";
   invStrList += "<br/><br/><br/><br/>";
+  invStrList += "</tr>";
+  invStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
   invStrList += "<table width=\"80%\" border=\"0\">";
   invStrList += "<tr>";
   invStrList += "<td width=\"3%\">&nbsp;</td>";
@@ -2615,8 +2617,8 @@ void Invoice::makeInvoiceFooter() {
   invStrList += "<hr width=\"100%\" noshade=\"noshade\" color=\"black\" />";
   invStrList += "</td>";
   invStrList += "</tr>";
-  invStrList += "<p><tr class=\"signature\">";
-  invStrList += "<td width=\"3%\">&nbsp;</td>";
+  invStrList += "<tr class=\"signature\">";
+  invStrList += "<td width=\"3%\"><p></p></td>";
   invStrList += "<td width=\"43%\" align=\"center\"> ";
   invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
                 trUtf8(" do wystawienia faktury VAT");
@@ -2627,7 +2629,7 @@ void Invoice::makeInvoiceFooter() {
   invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
                 trUtf8(" do odbioru faktury VAT");
   invStrList += "</td>";
-  invStrList += "</tr></p>";
+  invStrList += "</tr>";
   invStrList += "</table>";
   invStrList += "</td></tr>";
   invStrList += "</table>";
