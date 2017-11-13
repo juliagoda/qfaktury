@@ -392,10 +392,12 @@ void GoodsIssuedNotes::makeInvoiceHeadar(bool, bool breakPage, bool original) {
 
   int numberOfCopies = sett().value("numberOfCopies", 2).toInt();
 
-  if (original && (numberOfCopies > 0)) {
-    invStrList += trUtf8("ORYGINAŁ");
-  } else {
-    invStrList += trUtf8("KOPIA");
+  if (numberOfCopies > 0) {
+    if (original) {
+        invStrList += trUtf8("ORYGINAŁ");
+    } else {
+        invStrList += trUtf8("KOPIA");
+    }
   }
 
   invStrList += "<hr/><br/>";

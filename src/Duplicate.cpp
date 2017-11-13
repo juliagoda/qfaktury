@@ -186,10 +186,13 @@ void Duplicate::makeInvoiceHeadar(bool sellDate, bool breakPage,
 
   int numberOfCopies = sett().value("numberOfCopies", 2).toInt();
 
-  if (original && (numberOfCopies > 0))
-    invStrList += trUtf8("ORYGINAŁ");
-  else
-    invStrList += trUtf8("KOPIA");
+  if (numberOfCopies > 0) {
+    if (original) {
+        invStrList += trUtf8("ORYGINAŁ");
+    } else {
+        invStrList += trUtf8("KOPIA");
+    }
+  }
 
   invStrList += "<br></td><td width=\"3%\">&nbsp;</td>";
   invStrList += "</tr>";
