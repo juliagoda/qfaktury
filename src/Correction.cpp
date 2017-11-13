@@ -1213,11 +1213,12 @@ void Correction::makeBeforeCorrProducts() {
 void Correction::makeBeforeCorrSumm() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-  invStrList += "<br/><table width=\"100%\" border=\"0\" cellpadding=\"5\">";
+  invStrList += "<table width=\"100%\" border=\"0\" cellpadding=\"5\">";
 
   double vatPrice = origGrossTotal - origNettTotal;
 
   invStrList += "<tr class=\"productsSumHeader\" valign=\"middle\">";
+  invStrList += "<br/>";
   invStrList += "<td width=\"67%\" align=\"right\">&nbsp;</td>";
   invStrList += "<td width=\"11%\" align=\"center\">" +
                 trUtf8("Wartość Netto") + "</td>"; // net
@@ -1237,18 +1238,19 @@ void Correction::makeBeforeCorrSumm() {
                 "</td>"; // gross
   invStrList += "</tr>";
   invStrList += "</table>";
-  invStrList += "<hr class=\"hrdiv1\">";
+  invStrList += "<hr class=\"hrdiv1\" />";
 }
 
 void Correction::makeInvoiceSumm() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  invStrList += "<br/><table width=\"100%\" border=\"0\" cellpadding=\"5\">";
+  invStrList += "<table width=\"100%\" border=\"0\" cellpadding=\"5\">";
 
   double vatPrice = grossTotal - nettTotal;
 
   invStrList += "<tr class=\"productsSumHeader\" valign=\"middle\">";
+  invStrList += "<br/>";
   invStrList += "<td width=\"67%\" align=\"right\">&nbsp;</td>";
   invStrList += "<td width=\"11%\" align=\"center\">" +
                 trUtf8("Wartość Netto") + "</td>"; // net
@@ -1266,13 +1268,14 @@ void Correction::makeInvoiceSumm() {
                 sett().numberToString(grossTotal, 'f', 2) + "</td>"; // gross
   invStrList += "</tr>";
   invStrList += "</table>";
+  invStrList += "<hr class=\"hrdiv1\" />";
 }
 
 void Correction::makeInvoiceSummAll() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  invStrList += "<table width=\"100%\" border=\"0\" cellpadding=\"7\">";
+  invStrList += "<table class=\"page_break\" width=\"100%\" border=\"0\" cellpadding=\"7\">";
   invStrList += "<tr class=\"summary\">";
   invStrList += "<td width=\"48%\">";
   invStrList += trUtf8("Wartość faktury: ") +
@@ -1308,7 +1311,7 @@ void Correction::makeInvoiceSummAll() {
   if (paysCombo->currentText() == trUtf8("gotówka")) {
 
     invStrList +=
-        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/><b>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
 
   } else if (paysCombo->currentText() == trUtf8("zaliczka")) {
 
@@ -1346,7 +1349,7 @@ void Correction::makeInvoiceSummAll() {
   } else if (paysCombo->currentText() == trUtf8("przelew")) {
 
     invStrList +=
-        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/><b>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
     invStrList += "<span style=\"payDate\">";
     invStrList += trUtf8("Termin płatności: ") +
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
@@ -1355,7 +1358,7 @@ void Correction::makeInvoiceSummAll() {
   } else {
 
     invStrList +=
-        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/><b>";
+        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
     invStrList += "<span style=\"payDate\">";
     invStrList += trUtf8("Termin płatności: ") +
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
