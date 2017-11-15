@@ -29,6 +29,8 @@
 #include <QPrinter>
 #include <QProcess>
 #include <QTimer>
+#include <QDateEdit>
+
 
 MainWindow *MainWindow::m_instance = nullptr;
 bool MainWindow::shouldHidden = false;
@@ -305,7 +307,8 @@ void MainWindow::init() {
   connect(ui->editGoodsAction, SIGNAL(triggered()), this, SLOT(goodsEdit()));
   connect(ui->delGoodsAction, SIGNAL(triggered()), this, SLOT(goodsDel()));
   connect(ui->findInvoiceAction, SIGNAL(triggered()), this, SLOT(findInvoicePdf()));
-
+  connect(ui->filtrEnd, SIGNAL(dateChanged(const QDate &)), this, SLOT(checkDateRange(const QDate &)));
+  connect(ui->warehouseToDate, SIGNAL(dateChanged(const QDate &)), this, SLOT(checkDateRange(const QDate &)));
   /** Slot used to display aboutQt informations.
    */
 
@@ -554,8 +557,12 @@ void MainWindow::categorizeYears() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  if (dl->ifThereOldInvoice())
-    dl->separateOldInvoices();
+  if (dl->ifThereOldDocuments(sett().getInoiveDocName(), sett().getInvoicesDir(), QStringList("h*.xml"
+                                                                                              "k*.xml")))
+    dl->separateOldDocuments(sett().getInvoicesDir());
+
+  if (dl->ifThereOldDocuments(sett().getWarehouseDocName(), sett().getWarehouseFullDir(), QStringList("m*.xml")))
+    dl->separateOldDocuments(sett().getWarehouseFullDir());
 }
 
 void MainWindow::checkTodayTask(QString whatToDo) {
@@ -2388,6 +2395,23 @@ void MainWindow::findInvoicePdf() {
   //  QString fileName = QFileDialog::getOpenFileName(this,
   //  tr("Wybierz fakturę / dokument magazynu"), sett().getPdfDir(), tr("Image Files (*.pdf)"));
 }
+
+
+void MainWindow::checkDateRange(const QDate &date) {
+
+   if (date.year() > QDate::currentDate().year()) {
+
+       QMessageBox::information(this,"Filtr faktur","Rok dla wyszukiwanej faktury nie powinien być większy niż aktualny.");
+
+          // e.g. casting to the class you know its connected with
+          QDateEdit* dateEd = qobject_cast<QDateEdit*>(sender());
+          if( dateEd != NULL )
+          {
+             dateEd->setDate(QDate::currentDate());
+          }
+   }
+}
+
 
 void MainWindow::noteDownTask(const QDate &taskDate) {
 

@@ -58,8 +58,8 @@ public:
   virtual void checkAllSymbWareInFiles();
   virtual QList<int> const getAllSymbols();
   virtual QList<int> const getAllSymbolsWarehouse();
-  virtual bool ifThereOldInvoice();
-  virtual void separateOldInvoices();
+  virtual bool ifThereOldDocuments(QString docname, QString docdir, QStringList filters);
+  virtual void separateOldDocuments(QString path);
 
   virtual void saveInvoiceData(){};
   virtual void readInvoiceData(){};
