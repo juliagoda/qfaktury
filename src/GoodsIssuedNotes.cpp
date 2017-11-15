@@ -152,10 +152,10 @@ void GoodsIssuedNotes::readWarehouseData(QString invFile) {
 
   setWindowTitle(s_WIN_RW_EDIT);
 
-  qDebug("invFile file");
+  qDebug("warehouse file");
   qDebug() << invFile;
 
-  QDomDocument doc(sett().getWarehouseFullDir());
+  QDomDocument doc(sett().getWarehouseDocName());
   QDomElement root;
   QDomElement buyer;
   QDomElement product;
@@ -163,7 +163,7 @@ void GoodsIssuedNotes::readWarehouseData(QString invFile) {
   // fName = invFile;
   // prepayFile = invFile;
 
-  QFile file(sett().getWarehouseFullDir() + invFile);
+  QFile file("warehouses:" + invFile);
   QTextStream stream(&file);
 
   if (!file.open(QIODevice::ReadOnly) || !doc.setContent(stream.readAll())) {

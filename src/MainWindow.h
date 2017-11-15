@@ -77,6 +77,7 @@ public slots:
   void goodsDel();
   void goodsEdit();
   void findInvoicePdf();
+  void checkDateRange(const QDate &date);
   void mainUpdateStatus(QTableWidgetItem *item);
   void showTableMenuT(QPoint p);
   void showTableMenuK(QPoint p);

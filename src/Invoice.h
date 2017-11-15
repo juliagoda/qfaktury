@@ -131,6 +131,8 @@ protected:
 private:
   void algorithmCurrencies(QString, QStringList, QMap<QString, double> &);
   void convertCurrShort(QString);
+  bool ifCurrCanConvert();
+  void compareCurrToConv(bool);
 
   static Invoice *m_instance;
   QNetworkAccessManager *manager;

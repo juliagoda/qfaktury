@@ -9,6 +9,8 @@
 #include "Invoice.h"
 #include "Settings.h"
 
+#include <QDirIterator>
+
 XmlDataLayer::XmlDataLayer() : IDataLayer() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 }
@@ -1404,7 +1406,7 @@ bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end,
 
   QDomDocument doc(docName);
   QDomElement root;
-  QFile file(path + nameToCheck);
+  QFile file(path + "/" + nameToCheck);
 
   if (!file.open(QIODevice::ReadOnly)) {
 
@@ -1457,7 +1459,7 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
   QDomElement product;
   QString fName = name;
 
-  QFile file(sett().getInvoicesDir() + fName);
+  QFile file("invoices:" + fName);
 
   if (!file.open(QIODevice::ReadOnly)) {
 
@@ -1608,7 +1610,7 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
   QDomElement product;
   QString fName = name;
 
-  QFile file(sett().getWarehouseFullDir() + fName);
+  QFile file("warehouses:" + fName);
 
   if (!file.open(QIODevice::ReadOnly)) {
 
@@ -1737,19 +1739,45 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
   allSymbols.clear();
   QVector<InvoiceData> o_invDataVec;
 
+
   QDir allFiles;
 
   QDomDocument doc(sett().getInoiveDocName());
   QDomElement root;
 
-  allFiles.setPath(sett().getInvoicesDir());
-  allFiles.setFilter(QDir::Files);
-  QStringList filters;
-  filters << "h*.xml"
-          << "k*.xml";
+  QStringList searchAllDirs = QStringList();
 
-  allFiles.setNameFilters(filters);
-  QStringList files = allFiles.entryList();
+  // finds invoices between years with difference more than 1. It's better to look in directories between searched years than in all in main directory
+  if ((end.year() - start.year()) >= 1) {
+      for(int i = 0; i < (end.year() - start.year()); i++) {
+        searchAllDirs.append(sett().getInvoicesDir() + QString::number(start.year()+i));
+      }
+  }
+
+ // if (start.year() != end.year()) {
+
+      if (QDate::currentDate().year() != end.year()) searchAllDirs.append(sett().getInvoicesDir() + QString::number(end.year()));
+      else searchAllDirs.append(sett().getInvoicesDir());
+ // }
+
+  allFiles.setSearchPaths("invoices", searchAllDirs);
+
+  QStringList files = QStringList();
+
+  Q_FOREACH(QString onePath, allFiles.searchPaths("invoices")) {
+
+      QDir oneP;
+      oneP.setPath(onePath);
+      oneP.setFilter(QDir::Files);
+
+      QStringList filters;
+      filters << "h*.xml"
+              << "k*.xml";
+
+      oneP.setNameFilters(filters);
+      files.append(oneP.entryList());
+  }
+
   qDebug("pliki: ");
   qDebug() << files;
   int i, max = files.count();
@@ -1757,7 +1785,7 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
 
     InvoiceData invDt;
     qDebug() << files[i];
-    QFile file(sett().getInvoicesDir() + files[i]);
+    QFile file("invoices:" + files[i]);
 
     if (!file.open(QIODevice::ReadOnly)) {
 
@@ -1777,8 +1805,9 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
       }
     }
 
+
     if (nameFilter(files[i], start, end, sett().getInoiveDocName(),
-                   sett().getInvoicesDir())) {
+                   QFileInfo(file).absolutePath())) {
 
       invDt.id = files[i];
       root = doc.documentElement();
@@ -1846,13 +1875,38 @@ QVector<WarehouseData> XmlDataLayer::warehouseSelectAllData(QDate start,
   QDomDocument doc(sett().getWarehouseDocName());
   QDomElement root;
 
-  allFiles.setPath(sett().getWarehouseFullDir());
-  allFiles.setFilter(QDir::Files);
-  QStringList filters;
-  filters << "m*.xml";
+  QStringList searchAllDirs = QStringList();
 
-  allFiles.setNameFilters(filters);
-  QStringList files = allFiles.entryList();
+  // finds invoices between years with difference more than 1. It's better to look in directories between searched years than in all in main directory
+  if ((end.year() - start.year()) >= 1) {
+      for(int i = 0; i < (end.year() - start.year()); i++) {
+        searchAllDirs.append(sett().getWarehouseFullDir() + QString::number(start.year()+i));
+      }
+  }
+
+ // if (start.year() != end.year()) {
+
+      if (QDate::currentDate().year() != end.year()) searchAllDirs.append(sett().getWarehouseFullDir() + QString::number(end.year()));
+      else searchAllDirs.append(sett().getWarehouseFullDir());
+ // }
+
+  allFiles.setSearchPaths("warehouses", searchAllDirs);
+
+  QStringList files = QStringList();
+
+  Q_FOREACH(QString onePath, allFiles.searchPaths("warehouses")) {
+
+      QDir oneP;
+      oneP.setPath(onePath);
+      oneP.setFilter(QDir::Files);
+
+      QStringList filters;
+      filters << "m*.xml";
+
+      oneP.setNameFilters(filters);
+      files.append(oneP.entryList());
+  }
+
   qDebug("pliki: ");
   qDebug() << files;
   int i, max = files.count();
@@ -1860,7 +1914,7 @@ QVector<WarehouseData> XmlDataLayer::warehouseSelectAllData(QDate start,
 
     WarehouseData invDt;
     qDebug() << files[i];
-    QFile file(sett().getWarehouseFullDir() + files[i]);
+    QFile file("warehouses:" + files[i]);
 
     if (!file.open(QIODevice::ReadOnly)) {
 
@@ -1881,7 +1935,7 @@ QVector<WarehouseData> XmlDataLayer::warehouseSelectAllData(QDate start,
     }
 
     if (nameFilter(files[i], start, end, sett().getWarehouseDocName(),
-                   sett().getWarehouseFullDir())) {
+                   QFileInfo(file).absolutePath())) {
 
       invDt.id = files[i];
       root = doc.documentElement();
@@ -2356,21 +2410,20 @@ bool XmlDataLayer::warehouseInsertData(WarehouseData &oi_invData, int type) {
   return true;
 }
 
-bool XmlDataLayer::ifThereOldInvoice() {
+bool XmlDataLayer::ifThereOldDocuments(QString docname, QString docdir, QStringList filters) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
+  yearsList.clear();
+  categorizedFiles.clear();
   QDir allFiles;
-  bool oldInvoice = false;
+  bool oldDoc= false;
 
-  QDomDocument doc(sett().getInoiveDocName());
+  QDomDocument doc(docname);
   QDomElement root;
 
-  allFiles.setPath(sett().getInvoicesDir());
+  allFiles.setPath(docdir);
   allFiles.setFilter(QDir::Files);
-  QStringList filters;
-  filters << "h*.xml"
-          << "k*.xml";
 
   allFiles.setNameFilters(filters);
   QStringList files = allFiles.entryList();
@@ -2379,7 +2432,7 @@ bool XmlDataLayer::ifThereOldInvoice() {
   int i, max = files.count();
   for (i = 0; i < max; ++i) {
 
-    QFile file(sett().getInvoicesDir() + files[i]);
+    QFile file(docdir + files[i]);
 
     if (!file.open(QIODevice::ReadOnly)) {
 
@@ -2411,7 +2464,7 @@ bool XmlDataLayer::ifThereOldInvoice() {
 
     if (tmpDate.year() != QDate::currentDate().year()) {
 
-      oldInvoice = true;
+      oldDoc = true;
       yearsList.append(year);
       categorizedFiles.insert(year, files[i]);
       qDebug() << "categorizedFiles.insert( " + year + "," + " " + files[i] +
@@ -2423,10 +2476,10 @@ bool XmlDataLayer::ifThereOldInvoice() {
 
   qDebug() << "categorizedFiles count first: " << categorizedFiles.count();
 
-  return oldInvoice;
+  return oldDoc;
 }
 
-void XmlDataLayer::separateOldInvoices() {
+void XmlDataLayer::separateOldDocuments(QString path) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -2441,12 +2494,12 @@ void XmlDataLayer::separateOldInvoices() {
 
     qDebug() << "OLDER YEARS: " << (*constIterator).toLocal8Bit().constData();
 
-    QDir dir(sett().getWorkingDir() + sett().getDataDir() + "/" +
+    QDir dir(path +
              (*constIterator).toLocal8Bit().constData());
 
     if (!dir.exists()) {
 
-      dir.mkdir(sett().getWorkingDir() + sett().getDataDir() + "/" +
+      dir.mkdir(path +
                 (*constIterator).toLocal8Bit().constData());
     }
 
@@ -2454,17 +2507,18 @@ void XmlDataLayer::separateOldInvoices() {
     while (i != categorizedFiles.constEnd()) {
       if (i.key() == (*constIterator).toLocal8Bit().constData()) {
 
-        qDebug() << sett().getInvoicesDir() + i.value();
-        qDebug() << sett().getInvoicesDir() + i.key() + "/" + i.value();
-        QFile::copy(sett().getInvoicesDir() + i.value(),
-                    sett().getInvoicesDir() + i.key() + "/" + i.value());
-        QFile::remove(sett().getInvoicesDir() + i.value());
+        qDebug() << path + i.value();
+        qDebug() << path + i.key() + "/" + i.value();
+        QFile::copy(path + i.value(),
+                    path + i.key() + "/" + i.value());
+        QFile::remove(path + i.value());
       }
 
       i++;
     }
   }
 }
+
 
 bool XmlDataLayer::invoiceUpdateData(InvoiceData &, int, QString) {
 

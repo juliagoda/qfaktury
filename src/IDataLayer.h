@@ -77,8 +77,8 @@ public:
   virtual bool invoiceDeleteData(QString) { return true; };
   virtual bool warehouseDeleteData(QString) { return true; };
 
-  virtual bool ifThereOldInvoice() { return true; };
-  virtual void separateOldInvoices(){};
+  virtual bool ifThereOldDocuments(QString, QString, QStringList) { return true; };
+  virtual void separateOldDocuments(QString) {};
 };
 
 #endif /* IDATALAYER_H_ */
