@@ -14,6 +14,8 @@
 #include <QNetworkReply>
 #include <QPrintPreviewDialog>
 #include <QPrinter>
+#include <QPushButton>
+#include <QComboBox>
 
 short invType;
 Invoice *Invoice::m_instance = nullptr;
@@ -713,7 +715,10 @@ void Invoice::convertCurrShort(QString btnText) {
         list = getActualCurList();
         table = tableOfValues();
 
+
         if (checkInvCurr() != pressedTxt()) {
+
+          compareCurrToConv(ifCurrCanConvert());
 
           QMap<QString, double>::const_iterator i = table.constBegin();
           while (i != table.constEnd()) {
@@ -742,6 +747,35 @@ void Invoice::convertCurrShort(QString btnText) {
     QApplication::restoreOverrideCursor();
   }
 }
+
+// Determines, if chosen currency from QComboBox is on buttons from left side
+bool Invoice::ifCurrCanConvert() {
+
+    QStringList currAvailList = QStringList();
+    for (int i = 0; i < konverters->count(); ++i)
+    {
+      QWidget *widgetKonv = konverters->itemAt(i)->widget();
+      if (widgetKonv != nullptr)
+      {
+          if (QPushButton *pb = qobject_cast<QPushButton*>(widgetKonv)) {
+            currAvailList.append(pb->text().trimmed().remove('&'));
+          }
+      }
+    }
+
+    bool ifCanConvert = false;
+
+    ifCanConvert = currAvailList.contains(currCombo->currentText().trimmed());
+
+    return ifCanConvert;
+}
+
+// shows message, when chosen currency is not on buttons from left side
+void Invoice::compareCurrToConv(bool ifCanConv) {
+
+    if(!ifCanConv) QMessageBox::information(this, "Konwersja", "Nie można dokonać konwersji na wybraną przez Ciebie walutę, ponieważ nie ma jej uwzględnionej podczas pobierania informacji z internetu.");
+}
+
 
 // ---- SLOTS START
 // --//////////////////////////////////////////////////////////////////////////////////
