@@ -19,6 +19,13 @@ set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 set(QFAKTURY_PATH "/usr/share/qfaktury")
 
+set(FEDORA 0)
+
+include(FindFedora.cmake)
+
+add_definitions ( -D_IF_FEDORA=FEDORA )
+
+
 
 message(STATUS "${CMAKE_MODULE_PATH}")
 

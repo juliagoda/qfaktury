@@ -13,6 +13,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+
+#ifdef _IF_FEDORA
+    #define DISTRO_FEDORA true
+#else
+    #define DISTRO_FEDORA false
+#endif
+
 /** Constructor
  */
 
@@ -630,7 +637,8 @@ void Buyers::on_gusBtn_clicked() {
                                       ";extension=soap.so i usunąć średnik. "),
                                trUtf8("Tak"), trUtf8("Nie"), 0, 0, 1) == 0) {
 
-        system("gksudo sh /usr/share/qfaktury/src/GusApi/soap-php.sh");
+          if (DISTRO_FEDORA) system("beesu -l /usr/share/qfaktury/src/GusApi/soap-php.sh");
+          else system("gksudo sh /usr/share/qfaktury/src/GusApi/soap-php.sh");
       }
     }
 
@@ -640,12 +648,22 @@ void Buyers::on_gusBtn_clicked() {
         QDir(sett().getGUSDir() + "/vendor").isEmpty())
 
       if (!checkGusPath()) {
-        QMessageBox::warning(this, "I etap",
-                             "Program nie mógł przygotować się do skorzystania "
-                             "z danych Głównego Urzędu Statystycznego. "
-                             "Prawdopdobnie nie masz zainstalowanej paczki "
-                             "gksu, podałeś złe hasło autoryzacyjne lub "
-                             "odmówiłeś podania hasła dla konfiguracji PHP");
+          if (DISTRO_FEDORA) {
+              QMessageBox::warning(this, "I etap",
+                                   "Program nie mógł przygotować się do skorzystania "
+                                   "z danych Głównego Urzędu Statystycznego. "
+                                   "Prawdopdobnie nie masz zainstalowanej paczki "
+                                   "beesu, podałeś złe hasło autoryzacyjne lub "
+                                   "odmówiłeś podania hasła dla konfiguracji PHP");
+          } else {
+              QMessageBox::warning(this, "I etap",
+                                   "Program nie mógł przygotować się do skorzystania "
+                                   "z danych Głównego Urzędu Statystycznego. "
+                                   "Prawdopdobnie nie masz zainstalowanej paczki "
+                                   "gksu, podałeś złe hasło autoryzacyjne lub "
+                                   "odmówiłeś podania hasła dla konfiguracji PHP");
+          }
+
       }
 
     if (connectGUS()) {
