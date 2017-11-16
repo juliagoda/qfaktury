@@ -839,6 +839,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="closeBtn">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>&amp;Zamknij</string>
        </property>
@@ -868,6 +871,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="saveBtn">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>Zapisz</string>
        </property>
@@ -897,6 +903,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="printBtn">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>Drukuj</string>
        </property>

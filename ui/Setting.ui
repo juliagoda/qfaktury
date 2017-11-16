@@ -97,6 +97,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="addLogoBtn">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="text">
                <string>...</string>
               </property>
@@ -130,6 +133,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="addStempelBtn">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="text">
                <string>...</string>
               </property>
@@ -204,6 +210,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="workingDirBtn">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="text">
                <string>...</string>
               </property>
@@ -458,7 +467,7 @@
        <item row="0" column="0">
         <widget class="QToolBox" name="toolBox">
          <property name="currentIndex">
-          <number>1</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="page_6">
           <property name="geometry">
@@ -801,8 +810,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>304</width>
-            <height>154</height>
+            <width>485</width>
+            <height>347</height>
            </rect>
           </property>
           <attribute name="label">
@@ -929,8 +938,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>274</width>
-            <height>154</height>
+            <width>485</width>
+            <height>347</height>
            </rect>
           </property>
           <attribute name="label">
@@ -1065,8 +1074,8 @@ korekt:</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>280</width>
-            <height>154</height>
+            <width>485</width>
+            <height>347</height>
            </rect>
           </property>
           <attribute name="label">
