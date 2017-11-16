@@ -1,7 +1,7 @@
-set(OS_RELEASE_DISTRO_REGEX "{s/.*"\(.*\)".*/\\1/;}")
+set(OS_RELEASE_DISTRO_REGEX "{s/.*\(.*\).*/\\1/;}")
 set(DISTRO_RELEASE_REGEX "{s/.*=\(.*\)$/\\1/;q;}")
 set(LSB_RELEASE_REGEX "s/.*:\(.*\)$/\\1/")
-set(TRIM_VARIABLE_REGEX "{s/^[ \t\r]*//;s/[ \t\r\\r(\\l)(\\m) ]*$//;q;}")
+set(TRIM_VARIABLE_REGEX "{s/^[ \"\t\r]*//;s/[ \"\t\r\\r(\\l)(\\m) ]*$//;q;}")
 set(REMOVE_NOT_MATCHED_OS "/^NAME[ ]*=[ ]*/!d")
 set(REMOVE_NOT_MATCHED_LSB "/^Distributor[ ]*ID:[ ]*/!d")
 
