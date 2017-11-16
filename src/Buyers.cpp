@@ -49,6 +49,7 @@ void Buyers::init() {
           SLOT(requiredTic(int)));
 }
 
+
 const QString Buyers::getRetBuyer() {
 
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
@@ -595,12 +596,16 @@ void Buyers::on_gusBtn_clicked() {
   qDebug() << __FILE__ << __LINE__ << __FUNCTION__;
 
   QLabel *lbl = new QLabel;
-  QMovie *movie = new QMovie(":/res/icons/waitForResp.gif");
+  QMovie *movie = new QMovie(lbl);
+  movie->setFileName(":/res/icons/waitForResp.gif");
   lbl->setMovie(movie);
-  lbl->resize(300, 30);
   lbl->show();
   movie->start();
+
   gusLayout->addWidget(lbl);
+  QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+  update();
+
 
 
   if (nipEdit->text().isEmpty() || nipEdit->text().isNull())
@@ -643,7 +648,6 @@ void Buyers::on_gusBtn_clicked() {
     }
 
 
-
     if (!QDir(sett().getGUSDir() + "/vendor").exists() ||
         QDir(sett().getGUSDir() + "/vendor").isEmpty())
 
@@ -680,4 +684,6 @@ void Buyers::on_gusBtn_clicked() {
     movie->deleteLater();
     lbl->deleteLater();
   }
+
+  setCursor(QCursor(Qt::ArrowCursor));
 }

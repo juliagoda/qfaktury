@@ -26,7 +26,6 @@ include(FindFedora.cmake)
 add_definitions ( -D_IF_FEDORA=FEDORA )
 
 
-
 message(STATUS "${CMAKE_MODULE_PATH}")
 
 

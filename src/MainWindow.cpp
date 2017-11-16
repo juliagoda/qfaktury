@@ -1287,6 +1287,8 @@ void MainWindow::aboutProg() {
               "Jagoda \"juliagoda\" Górska</p><br/>") +
           trUtf8("<p>Testy w środowisku Arch Linux: Piotr \"sir_lucjan\" "
                  "Górski && Paweł \"pavbaranov\" Baranowski</p>") +
+              trUtf8("<p>Tworzenie plików PKGBUILD: Piotr \"sir_lucjan\" "
+                     "Górski</p>") +
           trUtf8("<h2><center>UWAGA!!!</center></h2>") +
           trUtf8("<p align=\"justify\">Ten program komputerowy dostarczany "
                  "jest przez autora w formie \"takiej, jaki jest\". ") +

@@ -109,6 +109,9 @@
              <bold>true</bold>
             </font>
            </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="text">
             <string>GUS</string>
            </property>
@@ -247,7 +250,23 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="gusLayout"/>
+    <layout class="QVBoxLayout" name="gusLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMaximumSize</enum>
+     </property>
+     <property name="leftMargin">
+      <number>3</number>
+     </property>
+     <property name="topMargin">
+      <number>3</number>
+     </property>
+     <property name="rightMargin">
+      <number>3</number>
+     </property>
+     <property name="bottomMargin">
+      <number>3</number>
+     </property>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout">
@@ -269,6 +288,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="okButton">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>O&amp;K</string>
        </property>
@@ -279,6 +301,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="cancelButton">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string>Anuluj</string>
        </property>
