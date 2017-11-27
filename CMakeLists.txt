@@ -1,6 +1,10 @@
+cmake_minimum_required(VERSION 3.6)
 project(qfaktury)
 
-cmake_minimum_required(VERSION 2.8.12)
+if(POLICY CMP0071)
+  cmake_policy(SET CMP0071 NEW)
+endif()
+
 set(QT_MIN_VERSION "5.0.0")
 
 # Set project version
