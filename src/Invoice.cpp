@@ -2032,7 +2032,7 @@ void Invoice::makeInvoiceHeadar(bool sellDate, bool breakPage, bool original) {
 
   if (logo != "") {
     invStrList +=
-        "<img src=\"" + logo + "\" width=\"100\" " + " height=\"100\" alt=\"Logo firmy\" />";
+        "<img src=\"" + logo + "\" width=\"200\" " + " height=\"200\" alt=\"Logo firmy\" />";
   } else {
     invStrList += "";
   }
