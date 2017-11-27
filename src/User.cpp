@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QScrollArea>
 
+
 User::User(QWidget *parent) : QDialog(parent) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;

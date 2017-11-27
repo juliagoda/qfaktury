@@ -8,6 +8,7 @@
 #include "Bill.h"
 #include "Const.h"
 
+
 // constructor
 Bill::Bill(QWidget *parent, IDataLayer *dl, QString in_form)
     : Invoice(parent, dl, in_form) {
