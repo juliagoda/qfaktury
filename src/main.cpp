@@ -14,15 +14,9 @@ int main(int argc, char **argv) {
 
   QApplication *a = new QApplication(argc, argv);
 
-  // sets language from file chosen in "translations" directory
-  a->installTranslator(sett().getTranslation());
-
   QResource::registerResource(
       "qfaktury.rcc"); // using the rcc file so it's more portable
   // Q_INIT_RESOURCE(qfaktury);
-
-  // gets geometry of the screen
-  QRect screen = QApplication::desktop()->screenGeometry();
 
   // sets start window during application load
   QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
@@ -30,8 +24,9 @@ int main(int argc, char **argv) {
   // creates instance of main window and move it in according to the screen
   // geometry
   MainWindow *w = new MainWindow();
-  w->move(screen.center() - QPoint(w->width() / 2, w->height() / 2));
 
+  //w->move(screen.center() - QPoint(w->width() / 2, w->height() / 2));
+    w->setWindowState(Qt::WindowMaximized);
   QTimer *showSplash = new QTimer();
   QTimer *closeSplash = new QTimer();
 

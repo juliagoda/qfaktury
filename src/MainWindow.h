@@ -39,7 +39,10 @@ public:
 private slots:
 
   void createFirstWinBackup();
+  void createFirstWinCsv();
   void choosePathBackup();
+  void choosePathCsv();
+  void createCsvFiles();
   void createBackup();
   void loadBackup();
   void sendEmailToBuyer();
@@ -136,6 +139,10 @@ private:
   bool ifEmergTemplateExists();
   bool applyFiltr(QString);
   bool firstRun();
+  void createBuyersCsvFiles();
+  void createProductsCsvFiles();
+  void createInvoicesCsvFiles(QDate from, QDate to);
+  void createWareCsvFiles(QDate from, QDate to);
 
   inline void calendarNoteJustify(QString text) {
 

@@ -386,6 +386,21 @@ public:
 
     endGroup();
 
+    beginGroup("csv_settings");
+    if (value("csv_format").toString() == "none" ||
+        value("csv_format").toString() == "")
+      setValue("csv_format", "EU");
+    if (value("export_goods").toBool() == false &&
+        value("export_buyers").toBool() == false &&
+        value("export_invoices").toBool() == false &&
+        value("export_warehouses").toBool() == false) {
+      setValue("export_goods", true);
+      setValue("export_buyers", true);
+      setValue("export_invoices", true);
+      setValue("export_warehouses", true);
+    }
+    endGroup();
+
     sync();
   }
 
@@ -561,6 +576,24 @@ public:
     setValue("col13", "12");
     setValue("col14", "12");
     endGroup();
+
+    beginGroup("csv_settings");
+    setValue("csv_format", "EU");
+    setValue("export_goods", "true");
+    setValue("export_buyers", "true");
+    setValue("export_invoices", "true");
+    setValue("export_warehouses", "true");
+    setValue("no_ask_csv_path", "false");
+    setValue("csv_path", "");
+    endGroup();
+
+    beginGroup("backup_settings");
+    setValue("no_ask_backup_path", "false");
+    setValue("backup_path", "");
+    setValue("regular_backup", "false");
+    setValue("backup_every_time", "false");
+    setValue("backup_interval", "none");
+    endGroup();
   }
 
   // Compiles version with appName ready for display
@@ -575,6 +608,8 @@ public:
   QString getWorkingDir() {
     return QString(QDir::homePath() + "/.local/share/data/elinux");
   }
+
+  QString getCSVDir() { return QString(getWorkingDir() + "/csv"); }
 
   QString getStyle() {
 
@@ -642,10 +677,7 @@ public:
   }
 
   // return gus dir
-  QString getGUSDir() {
-    return QString(getWorkingDir() + "/gus");
-  }
-
+  QString getGUSDir() { return QString(getWorkingDir() + "/gus"); }
 
   // return customers xml
   QString getCustomersXml() {

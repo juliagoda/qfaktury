@@ -645,6 +645,7 @@
     <addaction name="fileData_companyAction"/>
     <addaction name="fileSettingsAction"/>
     <addaction name="findInvoiceAction"/>
+    <addaction name="fileExportCSVAction"/>
     <addaction name="separator"/>
     <addaction name="fileExportEDIAction"/>
     <addaction name="fileExport_pdfAction"/>
@@ -1379,6 +1380,11 @@
    </property>
    <property name="text">
     <string>Otwórz &amp;folder z dokumentami</string>
+   </property>
+  </action>
+  <action name="fileExportCSVAction">
+   <property name="text">
+    <string>Eksportuj dane do formatu CSV</string>
    </property>
   </action>
  </widget>

@@ -801,9 +801,9 @@ void XmlDataLayer::productsDataToElem(ProductData &i_prodData,
   o_element.setAttribute("pkwiu", i_prodData.pkwiu);
   o_element.setAttribute("quanType", i_prodData.quanType);
   o_element.setAttribute("netto1", i_prodData.prices[0]);
-  o_element.setAttribute("netto2", i_prodData.prices[0]);
-  o_element.setAttribute("netto3", i_prodData.prices[0]);
-  o_element.setAttribute("netto4", i_prodData.prices[0]);
+  o_element.setAttribute("netto2", i_prodData.prices[1]);
+  o_element.setAttribute("netto3", i_prodData.prices[2]);
+  o_element.setAttribute("netto4", i_prodData.prices[3]);
   o_element.setAttribute("vat", i_prodData.vat);
 }
 
