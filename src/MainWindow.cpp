@@ -653,6 +653,31 @@ void MainWindow::openWebTableK(int row, int column) {
   }
 }
 
+
+int MainWindow::getInvoiceTypeFullName(QString invoiceType) {
+
+  if (invoiceType == "FVAT")
+    return 1;
+  else if (invoiceType == "FPro")
+    return 2;
+  else if (invoiceType == "korekta")
+    return 3;
+  else if (invoiceType == "FBrutto")
+    return 4;
+  else if (invoiceType == "kbrutto")
+    return 5;
+  else if (invoiceType == "rachunek")
+    return 6;
+  else if (invoiceType == "duplikat")
+    return 7;
+  else if (invoiceType == "RR")
+    return 8;
+  else if (invoiceType == "RW")
+    return 10;
+  else
+    return 1;
+}
+
 /** save sett() before quit
  * save column width
  */
@@ -2828,12 +2853,14 @@ void MainWindow::createCsvFiles() {
       qDebug() << "If export_goods in qfaktury.conf is set: " << sett().value("export_goods").toBool();
       qDebug() << "If export_invoices in qfaktury.conf is set: " << sett().value("export_invoices").toBool();
       qDebug() << "If export_warehouses in qfaktury.conf is set: " << sett().value("export_warehouses").toBool();
-      //if (sett().value("export_buyers").toBool())
-          createBuyersCsvFiles();
-      //if (sett().value("export_goods").toBool())
-          createProductsCsvFiles();
+
+      sett().beginGroup("csv_settings");
+      createSellersCsvFiles();
+      if (sett().value("export_buyers").toBool()) createBuyersCsvFiles();
+      if (sett().value("export_goods").toBool()) createProductsCsvFiles();
       if (sett().value("export_invoices").toBool()) createInvoicesCsvFiles(QDate(QDate::currentDate().year(),1,1), QDate(QDate::currentDate().year(),12,31));
       if (sett().value("export_warehouses").toBool()) createWareCsvFiles(QDate(QDate::currentDate().year(),1,1), QDate(QDate::currentDate().year(),12,31));
+    sett().endGroup();
 
     foreach (QWidget *w, windBack->findChildren<QWidget *>()) {
       if (!w->windowFlags() && Qt::Window)
@@ -2851,6 +2878,8 @@ void MainWindow::createCsvFiles() {
 void MainWindow::createBuyersCsvFiles() {
 
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+    if (!idCvsBuyer.isEmpty()) idCvsBuyer.clear();
 
     QString checkSlashPath = directoryComboBox->text();
     if (!checkSlashPath.endsWith('/')) checkSlashPath += '/';
@@ -2890,6 +2919,8 @@ void MainWindow::createBuyersCsvFiles() {
 
         QString next_row = QString();
 
+        idCvsBuyer.insert(buyersXml.at(i).tic, QString::number(i+1)); // according to the tic, because the number is always unique
+
         if (sett().value("csv_format").toString() == "EU")
         next_row = QString::number(i+1) + "," + type + "," + name + "," + address + "," + city + "," + code + "," + tel + "," + email + "," + fax + "," + tic + "," + bankname + "," + account_nr + "," + swift_bic + "," + krs + "," + www;
         else
@@ -2908,6 +2939,8 @@ void MainWindow::createProductsCsvFiles() {
 
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
+    if (!idCvsProducts.isEmpty()) idCvsProducts.clear();
+
     QString checkSlashPath = directoryComboBox->text();
     if (!checkSlashPath.endsWith('/')) checkSlashPath += '/';
     QFile csv(checkSlashPath + "/produkty_goods.csv");
@@ -2919,7 +2952,7 @@ void MainWindow::createProductsCsvFiles() {
 
     QString row = QString();
     if (sett().value("csv_format").toString() == "EU")
-    row = "id_produkt,typ,nazwa,vat,opis,kod,pkwiu,ilosc,jednostka,cena,waluta,netto1,netto2,netto3,netto4";
+    row = "id_produkt,typ,nazwa,vat,opis,kod,pkwiu,jednostka,netto1,netto2,netto3,netto4";
     else
     row = "id_produkt;typ;nazwa;vat;opis;kod;pkwiu;jednostka;netto1;netto2;netto3;netto4";
 
@@ -2928,10 +2961,6 @@ void MainWindow::createProductsCsvFiles() {
     QVector<ProductData> productsXml = dl->productsSelectAllData();
 
     for (int i = 0; i < productsXml.size(); ++i) {
-
-        qDebug() << "productsXml.at(i).price: " << productsXml.at(i).price;
-        qDebug() << "productsXml.at(i).prices.key(0): " << productsXml.at(i).prices.key(0);
-
 
         QString type = (productsXml.at(i).type != "") ? productsXml.at(i).type : "null";
         QString name = (productsXml.at(i).name != "") ? productsXml.at(i).name : "null";
@@ -2944,6 +2973,16 @@ void MainWindow::createProductsCsvFiles() {
         QString net2 = (sett().numberToString(productsXml.at(i).prices[1], 'f', 2) != "") ? sett().numberToString(productsXml.at(i).prices[1], 'f', 2) : "null";
         QString net3 = (sett().numberToString(productsXml.at(i).prices[2], 'f', 2) != "") ? sett().numberToString(productsXml.at(i).prices[2], 'f', 2) : "null";
         QString net4 = (sett().numberToString(productsXml.at(i).prices[3], 'f', 2) != "") ? sett().numberToString(productsXml.at(i).prices[3], 'f', 2) : "null";
+
+        if (!productsXml.at(i).code.isEmpty() && !productsXml.at(i).code.isNull()) {
+        idCvsProducts.insert(productsXml.at(i).code, QString::number(i+1));
+        qDebug() << "productsXml.at(i).code: " << productsXml.at(i).code;
+        qDebug() << "idCvsProducts.count(): " << idCvsProducts.count();
+        } else {
+        idCvsProducts.insert(productsXml.at(i).name, QString::number(i+1)); // sometimes there is no code given for some product
+        qDebug() << "productsXml.at(i).name: " << productsXml.at(i).name;
+        qDebug() << "idCvsProducts.count(): " << idCvsProducts.count();
+        }
 
         QString next_row = QString();
 
@@ -2960,11 +2999,101 @@ void MainWindow::createProductsCsvFiles() {
 }
 
 
+void MainWindow::createSellersCsvFiles() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+    if (!idCvsSeller.isEmpty()) idCvsSeller.clear();
+
+    QString checkSlashPath = directoryComboBox->text();
+    if (!checkSlashPath.endsWith('/')) checkSlashPath += '/';
+    QFile csv(checkSlashPath + "/sprzedawcy_sellers.csv");
+    qDebug() << "Sellers csv path: " << csv.fileName();
+    csv.open(QFile::WriteOnly | QFile::Text);
+    csv.resize(0);
+
+    QTextStream in(&csv);
+
+    QString row = QString();
+    if (sett().value("csv_format").toString() == "EU")
+    row = "id_sprzedawca,nazwa,adres,miejscowosc,kod_pocztowy,oddzial,NIP,REGON,KRS,nazwa_banku,nr_konta,SWIFT_BIC,tel,fax,email,www";
+    else
+    row = "id_sprzedawca;nazwa;adres;miejscowosc;kod_pocztowy;oddzial;NIP;REGON;KRS;nazwa_banku;nr_konta;SWIFT_BIC;tel;fax;email;www";
+
+    in << row << endl;
+
+    QString next_row = QString();
+
+    QSettings settings("elinux", "user");
+
+    QString name = (settings.value("name").toString() != "") ? settings.value("name").toString() : "null";
+    QString address = (settings.value("address").toString() != "") ? settings.value("address").toString() : "null";
+    QString city = (settings.value("city").toString() != "") ? settings.value("city").toString() : "null";
+    QString zip = (settings.value("zip").toString() != "") ? settings.value("zip").toString() : "null";
+    QString tic = (settings.value("tic").toString() != "") ? settings.value("tic").toString() : "null";
+    QString regon = (settings.value("regon").toString() != "") ? settings.value("regon").toString() : "null";
+    QString krs = (settings.value("krs").toString() != "") ? settings.value("krs").toString() : "null";
+    QString bankname = (settings.value("bank").toString() != "") ? settings.value("bank").toString() : "null";
+    QString account = (settings.value("account").toString() != "") ? settings.value("account").toString() : "null";
+    QString swift_bic = (settings.value("swift").toString() != "") ? settings.value("swift").toString() : "null";
+    QString tel = (settings.value("phone").toString() != "") ? settings.value("phone").toString() : "null";
+    QString fax = (settings.value("fax").toString() != "") ? settings.value("fax").toString() : "null";
+    QString email = (settings.value("email").toString() != "") ? settings.value("email").toString() : "null";
+    QString www = (settings.value("website").toString() != "") ? settings.value("website").toString() : "null";
+
+    idCvsSeller.insert(address, QString::number(1)); // address is the best choice, if there are other branches
+
+    if (sett().value("csv_format").toString() == "EU")
+    next_row = QString::number(1) + "," + name + "," + address + "," + city + "," + zip + ",glowny," + tic + "," + regon + "," + krs + "," + bankname + "," + account + "," + swift_bic + "," + tel + "," + fax + "," + email + "," + www;
+    else
+    next_row = QString::number(1) + ";" + name + ";" + address + ";" + city + ";" + zip + ";glowny;" + tic + ";" + regon + ";" + krs + ";" + bankname + ";" + account + ";" + swift_bic + ";" + tel + ";" + fax + ";" + email + ";" + www;
+
+    in << next_row << endl;
+
+    for (int i = 1; i < settings.value("sellerCount").toInt(); ++i) {
+
+        QSettings setts("elinux", "user");
+        setts.beginGroup("seller" + QString::number(i));
+
+        QString name = (setts.value("name").toString() != "") ? setts.value("name").toString() : "null";
+        QString address = (setts.value("address").toString() != "") ? setts.value("address").toString() : "null";
+        QString city = (setts.value("city").toString() != "") ? setts.value("city").toString() : "null";
+        QString zip = (setts.value("zip").toString() != "") ? setts.value("zip").toString() : "null";
+        QString tic = (setts.value("tic").toString() != "") ? setts.value("tic").toString() : "null";
+        QString regon = (setts.value("regon").toString() != "") ? setts.value("regon").toString() : "null";
+        QString krs = (setts.value("krs").toString() != "") ? setts.value("krs").toString() : "null";
+        QString bankname = (setts.value("bank").toString() != "") ? setts.value("bank").toString() : "null";
+        QString account = (setts.value("account").toString() != "") ? setts.value("account").toString() : "null";
+        QString swift_bic = (setts.value("swift").toString() != "") ? setts.value("swift").toString() : "null";
+        QString tel = (setts.value("phone").toString() != "") ? setts.value("phone").toString() : "null";
+        QString fax = (setts.value("fax").toString() != "") ? setts.value("fax").toString() : "null";
+        QString email = (setts.value("email").toString() != "") ? setts.value("email").toString() : "null";
+        QString www = (setts.value("website").toString() != "") ? setts.value("website").toString() : "null";
+
+        idCvsSeller.insert(address, QString::number(i+1)); // address is the best choice, if there are other branches (unique value is needed)
+
+        if (sett().value("csv_format").toString() == "EU")
+        next_row = QString::number(i+1) + "," + name + "," + address + "," + city + "," + zip + ",poboczny," + tic + "," + regon + "," + krs + "," + bankname + "," + account + "," + swift_bic + "," + tel + "," + fax + "," + email + "," + www;
+        else
+        next_row = QString::number(i+1) + ";" + name + ";" + address + ";" + city + ";" + zip + ";poboczny;" + tic + ";" + regon + ";" + krs + ";" + bankname + ";" + account + ";" + swift_bic + ";" + tel + ";" + fax + ";" + email + ";" + www;
+
+        in << next_row << endl;
+        setts.endGroup();
+    }
+
+    settings.endGroup();
+    csv.close();
+
+}
+
+
 void MainWindow::createInvoicesCsvFiles(QDate from, QDate to) {
 
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
- /*   QString checkSlashPath = directoryComboBox->text();
+    if (!idCvsInvoices.isEmpty()) idCvsInvoices.clear();
+
+    QString checkSlashPath = directoryComboBox->text();
     if (!checkSlashPath.endsWith('/')) checkSlashPath += '/';
     QFile csv(checkSlashPath + "/faktury_invoices.csv");
     csv.open(QFile::WriteOnly | QFile::Text);
@@ -2974,43 +3103,98 @@ void MainWindow::createInvoicesCsvFiles(QDate from, QDate to) {
 
     QString row = QString();
     if (sett().value("csv_format").toString() == "EU")
-    row = "id_faktura,typ,nazwa,vat,opis,kod,pkwiu,ilosc,jednostka,cena,waluta,netto1,netto2,netto3,netto4";
+    row = "id_faktura,typ,data_sprzedazy,data_duplikatu,data_wystawienia,data_zaplaty,id_klient,id_sprzedawca,id_produkt1,id_produkt2,id_produkt3,id_produkt4,ilosc1,netto1,brutto1,ilosc2,netto2,brutto2,ilosc3,netto3,brutto3,ilosc4,netto4,brutto4,sposob_platnosci,waluta";
     else
-    row = "id_faktura;typ;nazwa;vat;opis;kod;pkwiu;ilosc;jednostka;cena;waluta;netto1;netto2;netto3;netto4";
+    row = "id_faktura;typ;data_sprzedazy;data_duplikatu,data_wystawienia;data_zaplaty;id_klient;id_sprzedawca;id_produkt1;id_produkt2;id_produkt4;id_produkt4;ilosc1;netto1;brutto1;ilosc2;netto2;brutto2;ilosc3;netto3;brutto3;ilosc4;netto4;brutto4;sposob_platnosci;waluta";
 
     in << row << endl;
 
-    QVector<InvoiceData> invoicesXml = dl->invoiceSelectAllData(from, to);
+
+   QVector<InvoiceData> invoicesXml = dl->invoiceSelectAllData(from, to);
 
     for (int i = 0; i < invoicesXml.size(); ++i) {
-
+        InvoiceData invData = dl->invoiceSelectData(invoicesXml.at(i).id, getInvoiceTypeFullName(invoicesXml.at(i).type), true);
         QString type = (invoicesXml.at(i).type != "") ? invoicesXml.at(i).type : "null";
-        QString name = (invoicesXml.at(i).name != "") ? invoicesXml.at(i).name : "null";
-        QString vat = (QString::number(productsXml.at(i).vat) != "") ? QString::number(productsXml.at(i).vat) : "null";
-        QString desc = (productsXml.at(i).desc != "") ? productsXml.at(i).desc : "null";
-        QString code = (productsXml.at(i).code != "") ? productsXml.at(i).code : "null";
-        QString pkwiu = (productsXml.at(i).pkwiu != "") ? productsXml.at(i).pkwiu : "null";
-        QString quantity = (sett().numberToString(productsXml.at(i).quantity, 'f', 2) != "") ? sett().numberToString(productsXml.at(i).quantity, 'f', 2) : "null";
-        QString quantity_type = (productsXml.at(i).quanType != "") ? productsXml.at(i).quanType : "null";
-        QString price = (sett().numberToString(productsXml.at(i).price, 'f', 2) != "") ? sett().numberToString(productsXml.at(i).price, 'f', 2) : "null";
-        QString currency = (productsXml.at(i).curr != "") ? productsXml.at(i).curr : "null";
-        QString net1 = (sett().numberToString(productsXml.at(i).prices.key(0), 'f', 2) != "") ? sett().numberToString(productsXml.at(i).prices.key(0), 'f', 2) : "null";
-        QString net2 = (sett().numberToString(productsXml.at(i).prices.key(1), 'f', 2) != "") ? sett().numberToString(productsXml.at(i).prices.key(1), 'f', 2) : "null";
-        QString net3 = (sett().numberToString(productsXml.at(i).prices.key(2), 'f', 2) != "") ? sett().numberToString(productsXml.at(i).prices.key(2), 'f', 2) : "null";
-        QString net4 = (sett().numberToString(productsXml.at(i).prices.key(3), 'f', 2) != "") ? sett().numberToString(productsXml.at(i).prices.key(3), 'f', 2) : "null";
+        QString sellDate = (invData.sellingDate.toString(sett().getDateFormat()) != "") ? invData.sellingDate.toString(sett().getDateFormat()) : "null";
+        QString prodDate = (invData.productDate.toString(sett().getDateFormat()) != "") ? invData.productDate.toString(sett().getDateFormat()) : "null";
+        QString duplDate = (invData.duplDate.toString(sett().getDateFormat()) != "") ? invData.duplDate.toString(sett().getDateFormat()) : "null";
+        QString payDate = (invData.liabDate.toString(sett().getDateFormat()) != "") ? invData.liabDate.toString(sett().getDateFormat()) : "null";
+
+        QString id_customer = (invData.buyerTic != "") ? idCvsBuyer[invData.buyerTic] : "null";
+
+      //  QSettings userSettings("elinux", "user");
+
+      //  userSettings.beginGroup("choosenSeller"); // temporary method for id_seller, because xml files with invoices could have various sellers theoretically. For example as solution QVector<InvoiceData> could has QVector<SellerData> inside or use "customer" variable which has "|" characters
+        QString id_seller = (invData.custStreet != "") ? idCvsSeller[invData.custStreet] : "null";
+      //  userSettings.endGroup();
+
+
+        QStringList id_products = QStringList();
+        QString quantity1 = QString();
+        QString nett1 = QString();
+        QString gross1 = QString();
+        QString quantity2 = QString();
+        QString nett2 = QString();
+        QString gross2 = QString();
+        QString quantity3 = QString();
+        QString nett3 = QString();
+        QString gross3 = QString();
+        QString quantity4 = QString();
+        QString nett4 = QString();
+        QString gross4 = QString();
+
+        qDebug() << "invData.products.count(): " << QString::number(invData.products.count());
+        for (int k = 0; k < invData.products.count(); k++) {
+            qDebug() << "idCvsProducts[invData.products[k].code]: " << idCvsProducts[invData.products[k].code];
+            qDebug() << "idCvsProducts[invData.products[k].name]: " << idCvsProducts[invData.products[k].name];
+            qDebug() << "invData.products[k].code: " << invData.products[k].code;
+            qDebug() << "invData.products[k].name: " << invData.products[k].name;
+            if (idCvsProducts[invData.products[k].code] != "") {
+                qDebug() << "id_products for code: " << idCvsProducts[invData.products[k].code];
+                id_products << ((idCvsProducts[invData.products[k].code] != "") ? idCvsProducts[invData.products[k].code] : "null");
+            } else {
+                qDebug() << "id_products for name: " << idCvsProducts[invData.products[k].name];
+                id_products << ((idCvsProducts[invData.products[k].name] != "") ? idCvsProducts[invData.products[k].name] : "null");
+            }
+
+
+        if (k == 0) {quantity1 = sett().numberToString(invData.products[k].quantity, 'f', 2); nett1 = sett().numberToString(invData.products[k].nett, 'f', 2); gross1 = sett().numberToString(invData.products[k].gross, 'f', 2);}
+        if (k == 1) {quantity2 = sett().numberToString(invData.products[k].quantity, 'f', 2); nett2 = sett().numberToString(invData.products[k].nett, 'f', 2); gross2 = sett().numberToString(invData.products[k].gross, 'f', 2);}
+        if (k == 2) {quantity3 = sett().numberToString(invData.products[k].quantity, 'f', 2); nett3 = sett().numberToString(invData.products[k].nett, 'f', 2); gross3 = sett().numberToString(invData.products[k].gross, 'f', 2);}
+        if (k == 3) {quantity4 = sett().numberToString(invData.products[k].quantity, 'f', 2); nett4 = sett().numberToString(invData.products[k].nett, 'f', 2); gross4 = sett().numberToString(invData.products[k].gross, 'f', 2);}
+
+        if (k == invData.products.count()-1) { // if we are at the end of loop
+            if (k < 3) { // if number of last transaction was less than 3
+                for (int j = 4 - (3 - k);j < 4; j++) { // we want fill values with "null", only if there aren't 4 transaction until now
+                   id_products << "null"; // we have now empty values for values taken from last transaction number to number 4
+                   qDebug() << "id_products for null: null";
+                }
+            }
+        }
+        }
+
+        if (quantity1.isEmpty() && nett1.isEmpty() && gross1.isEmpty()) {quantity1 = "null"; nett1 = "null"; gross1 = "null";}
+        if (quantity2.isEmpty() && nett2.isEmpty() && gross2.isEmpty()) {quantity2 = "null"; nett2 = "null"; gross2 = "null";}
+        if (quantity3.isEmpty() && nett3.isEmpty() && gross3.isEmpty()) {quantity3 = "null"; nett3 = "null"; gross3 = "null";}
+        if (quantity4.isEmpty() && nett4.isEmpty() && gross4.isEmpty()) {quantity4 = "null"; nett4 = "null"; gross4 = "null";}
+
+        QString paymentMethod = (invData.paymentType != "") ? invData.paymentType : "null";
+        QString currency = (invData.currencyType != "") ? invData.currencyType : "null";
+
+        idCvsInvoices.insert(invoicesXml.at(i).id, QString::number(i+1)); // because name of filename is always unique
 
         QString next_row = QString();
 
         if (sett().value("csv_format").toString() == "EU")
-        next_row = QString::number(i+1) + "," + type + "," + name + "," + vat + "," + desc + "," + code + "," + pkwiu + "," + quantity + "," + quantity_type + "," + price + "," + currency + "," + net1 + "," + net2 + "," + net3 + "," + net4;
+        next_row = QString::number(i+1) + "," + type + "," + sellDate + "," + duplDate + "," + prodDate + "," + payDate + "," + id_customer + "," + id_seller + "," + id_products.at(0) + "," + id_products.at(1) + "," + id_products.at(2) + "," + id_products.at(3) + "," + quantity1 + "," + nett1 + "," + gross1 + "," + quantity2 + "," + nett2 + "," + gross2 + "," + quantity3 + "," + nett3 + "," + gross3 + "," + quantity4 + "," + nett4 + "," + gross4 + "," + paymentMethod + "," + currency;
         else
-        next_row = QString::number(i+1) + ";" + type + ";" + name + ";" + vat + ";" + desc + ";" + code + ";" + pkwiu + ";" + quantity + ";" + quantity_type + ";" + price + ";" + currency + ";" + net1 + ";" + net2 + ";" + net3 + ";" + net4;
+        next_row = QString::number(i+1) + ";" + type + ";" + sellDate + ";" + duplDate + ";" + prodDate + ";" + payDate + ";" + id_customer + ";" + id_seller + ";" + id_products.at(0) + ";" + id_products.at(1) + ";" + id_products.at(2) + ";" + id_products.at(3) + ";" + quantity1 + ";" + nett1 + ";" + gross1 + ";" + quantity2 + ";" + nett2 + ";" + gross2 + ";" + quantity3 + ";" + nett3 + ";" + gross3 + ";" + quantity4 + ";" + nett4 + ";" + gross4 + "," + paymentMethod + ";" + currency;
 
         in << next_row << endl;
 
     }
 
-    csv.file();*/
+    csv.close();
 
 }
 
@@ -3029,6 +3213,8 @@ void MainWindow::createWareCsvFiles(QDate from, QDate to) {
       // np. buyersXml.at(i).id... id dla biezacego klienta
 
     }*/
+
+
 }
 
 void MainWindow::createFirstWinBackup() {

@@ -14,6 +14,7 @@
 #include "CustomPaymData.h"
 #include "ProductData.h"
 #include "DocumentData.h"
+#include "Const.h"
 
 // class for holding data about invoices. One instance -> one invoice.
 class InvoiceData : public DocumentData {
@@ -50,6 +51,7 @@ public:
   QString custTic;
   QString custCity;
   QString custName;
+  QString buyerTic;
   int currencyTypeId;
   int discount;
   CustomPaymData custPaym;

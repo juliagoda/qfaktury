@@ -112,6 +112,10 @@ private:
   QLineEdit *directoryComboBox;
 
   QVector<QAction *> plugActions;
+  QHash<QString, QString> idCvsSeller;
+  QHash<QString, QString> idCvsBuyer;
+  QHash<QString, QString> idCvsInvoices;
+  QHash<QString, QString> idCvsProducts;
   QString workingDir;
   QMap<int, QString> customActions;
   QTimer *timer;
@@ -124,6 +128,7 @@ private:
   ownCalendarWidget *calendar;
   static MainWindow *m_instance;
 
+  int getInvoiceTypeFullName(QString invoiceType);
   void saveColumnWidth();
   void init();
   void saveAllSett();
@@ -141,6 +146,7 @@ private:
   bool firstRun();
   void createBuyersCsvFiles();
   void createProductsCsvFiles();
+  void createSellersCsvFiles();
   void createInvoicesCsvFiles(QDate from, QDate to);
   void createWareCsvFiles(QDate from, QDate to);
 

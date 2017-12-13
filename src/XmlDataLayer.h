@@ -40,7 +40,7 @@ public:
                                   QString name);
   virtual bool productsDeleteData(QString name);
 
-  virtual InvoiceData invoiceSelectData(QString name, int type);
+  virtual InvoiceData invoiceSelectData(QString name, int type, bool onlyCheck = false);
   virtual WarehouseData warehouseSelectData(QString name, int type);
   virtual QVector<InvoiceData> invoiceSelectAllData(QDate start, QDate end);
   virtual QVector<WarehouseData> warehouseSelectAllData(QDate start, QDate end);

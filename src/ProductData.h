@@ -64,6 +64,7 @@ public:
     curr = inCurr;
     requiredAmount = reqAmount;
     givedOutAmount = givAmount;
+
   }
 
   //*************************************************** getters

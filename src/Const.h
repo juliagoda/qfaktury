@@ -22,6 +22,7 @@ static const QString s_WZ = QObject::trUtf8("WZ");
 static const QString s_RW = QObject::trUtf8("RW");
 
 static const QString s_FBRUTTO = QObject::trUtf8("Faktura VAT Brutto");
+static const QString s_KBRUTTO = QObject::trUtf8("Faktura korygująca VAT brutto");
 static const QString s_DUPLICATE = QObject::trUtf8("Nowy Duplikat");
 static const QString s_CORRECT_TITLE = QObject::trUtf8("Nowa Korekta");
 static const QString s_CORRECT_BRUTTO = QObject::trUtf8("Nowa Korekta Brutto");

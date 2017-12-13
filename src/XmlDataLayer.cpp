@@ -1447,15 +1447,18 @@ bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end,
   return true;
 }
 
-InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
+InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type, bool onlyCheck) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "filename: " << name;
+  qDebug() << "type number: " << QString::number(type);
 
   InvoiceData o_invData;
 
   QDomDocument doc(sett().getInoiveDocName());
   QDomElement root;
   QDomElement purchaser;
+  QDomElement buyer;
   QDomElement product;
   QString fName = name;
 
@@ -1494,7 +1497,9 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
   }
 
   QDomNode tmp;
-  tmp = root.firstChild();
+  tmp = root.firstChild(); // buyer
+  buyer = tmp.toElement();
+  o_invData.buyerTic = buyer.attribute("tic");
   tmp = tmp.toElement().nextSibling(); // purchaser
   purchaser = tmp.toElement();
 
@@ -1507,6 +1512,7 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
       purchaser.attribute("email") + ", " + QObject::trUtf8("Strona: ") +
       purchaser.attribute("website");
 
+  if (!onlyCheck)
   Invoice::instance()->buyerName->setCursorPosition(1);
 
   tmp = tmp.toElement().nextSibling(); // product
@@ -1528,6 +1534,7 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 
   // "net",
   // "vatBucket", "gross"
+  if (!onlyCheck) {
   qDebug() << Invoice::instance()->tableGoods->columnCount();
 
   Invoice::instance()->tableGoods->setRowCount(goodsCount);
@@ -1545,6 +1552,31 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
       good = good.nextSibling().toElement();
     else
       break;
+  }
+  } else {
+      for (i = 0; i < goodsCount; ++i) {
+          ProductData product;
+
+            product.id = good.attribute(goodsColumns[0]).toInt();
+            product.name = good.attribute(goodsColumns[1]);
+            product.code = good.attribute(goodsColumns[2]);
+            product.pkwiu = good.attribute(goodsColumns[3]);
+            product.quantity = sett().stringToDouble(good.attribute(goodsColumns[4]));
+            product.quanType = good.attribute(goodsColumns[5]);
+            product.discount = sett().stringToDouble(good.attribute(goodsColumns[6]));
+            product.price = sett().stringToDouble(good.attribute(goodsColumns[7]));
+            product.nett = sett().stringToDouble(good.attribute(goodsColumns[8]));
+            product.vat = good.attribute(goodsColumns[9]).toInt();
+            product.gross = sett().stringToDouble(good.attribute(goodsColumns[10]));
+
+            o_invData.products[i] = product;
+
+
+        if (good.nextSibling().toElement().tagName() == "product")
+          good = good.nextSibling().toElement();
+        else
+          break;
+      }
   }
 
   tmp = tmp.toElement().nextSibling();
