@@ -1209,7 +1209,6 @@ void MainWindow::mainUpdateStatus(QTableWidgetItem *item) {
 
 void MainWindow::tabChanged() {
 
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   // history
   if (ui->tableH->rowCount() != 0) {
@@ -2919,7 +2918,10 @@ void MainWindow::createBuyersCsvFiles() {
 
         QString next_row = QString();
 
-        idCvsBuyer.insert(buyersXml.at(i).tic, QString::number(i+1)); // according to the tic, because the number is always unique
+        qDebug() << "insert tic to idCvsBuyer: " << buyersXml.at(i).tic;
+        QString buyTic = buyersXml.at(i).tic;
+        idCvsBuyer.insert(buyTic.remove(QChar('-')), QString::number(i+1)); // according to the tic, because the number is always unique
+        // invData.custTic.remove('-'), because of validation choice option. When validation on data is unchecked, users can put tic into app without '-' characters
 
         if (sett().value("csv_format").toString() == "EU")
         next_row = QString::number(i+1) + "," + type + "," + name + "," + address + "," + city + "," + code + "," + tel + "," + email + "," + fax + "," + tic + "," + bankname + "," + account_nr + "," + swift_bic + "," + krs + "," + www;
@@ -3120,16 +3122,14 @@ void MainWindow::createInvoicesCsvFiles(QDate from, QDate to) {
         QString duplDate = (invData.duplDate.toString(sett().getDateFormat()) != "") ? invData.duplDate.toString(sett().getDateFormat()) : "null";
         QString payDate = (invData.liabDate.toString(sett().getDateFormat()) != "") ? invData.liabDate.toString(sett().getDateFormat()) : "null";
 
-        QString id_customer = (invData.buyerTic != "") ? idCvsBuyer[invData.buyerTic] : "null";
+        QString id_customer = (invData.custTic.remove('-') != "") ? idCvsBuyer[invData.custTic.remove('-')] : "null";
+        // invData.custTic.remove('-'), because of validation choice option. When validation on data is unchecked, users can put tic into app without '-' characters
 
-      //  QSettings userSettings("elinux", "user");
-
-      //  userSettings.beginGroup("choosenSeller"); // temporary method for id_seller, because xml files with invoices could have various sellers theoretically. For example as solution QVector<InvoiceData> could has QVector<SellerData> inside or use "customer" variable which has "|" characters
-        QString id_seller = (invData.custStreet != "") ? idCvsSeller[invData.custStreet] : "null";
-      //  userSettings.endGroup();
-
-
+        qDebug() << "invData.custTic: " << invData.custTic;
+        qDebug() << "invData.sellerAddress: " << invData.sellerAddress;
+        QString id_seller = (invData.sellerAddress != "") ? idCvsSeller[invData.sellerAddress] : "null";
         QStringList id_products = QStringList();
+
         QString quantity1 = QString();
         QString nett1 = QString();
         QString gross1 = QString();
@@ -3178,8 +3178,8 @@ void MainWindow::createInvoicesCsvFiles(QDate from, QDate to) {
         if (quantity3.isEmpty() && nett3.isEmpty() && gross3.isEmpty()) {quantity3 = "null"; nett3 = "null"; gross3 = "null";}
         if (quantity4.isEmpty() && nett4.isEmpty() && gross4.isEmpty()) {quantity4 = "null"; nett4 = "null"; gross4 = "null";}
 
-        QString paymentMethod = (invData.paymentType != "") ? invData.paymentType : "null";
-        QString currency = (invData.currencyType != "") ? invData.currencyType : "null";
+        QString paymentMethod = (!invData.paymentType.isEmpty() && !invData.paymentType.isNull()) ? invData.paymentType : "null";
+        QString currency = (!invData.currencyType.isEmpty() && !invData.currencyType.isNull()) ? invData.currencyType : "null";
 
         idCvsInvoices.insert(invoicesXml.at(i).id, QString::number(i+1)); // because name of filename is always unique
 
@@ -3203,19 +3203,123 @@ void MainWindow::createWareCsvFiles(QDate from, QDate to) {
 
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
- /*   QVector<WarehouseData> wareXml = dl->warehouseSelectAllData(from, to);
-    QStringList elements;
+
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+    if (!idCvsWarehouses.isEmpty()) idCvsWarehouses.clear();
+
+    QString checkSlashPath = directoryComboBox->text();
+    if (!checkSlashPath.endsWith('/')) checkSlashPath += '/';
+    QFile csv(checkSlashPath + "/magazyny_warehouses.csv");
+    csv.open(QFile::WriteOnly | QFile::Text);
+    csv.resize(0);
+
+    QTextStream in(&csv);
+
+    QString row = QString();
+    if (sett().value("csv_format").toString() == "EU")
+    row = "id_magazyn,typ,data_sprzedazy,data_duplikatu,data_wydania_towaru,data_przyjecia_towaru,miejsce_odbioru_towaru,miejsce_wydania_towaru,dzial_kosztu,id_klient,id_sprzedawca,id_produkt1,id_produkt2,id_produkt3,id_produkt4,ilosc1,netto1,wydana_ilosc1,wymagana_ilosc1,ilosc2,netto2,wydana_ilosc2,wymagana_ilosc2,ilosc3,netto3,wydana_ilosc3,wymagana_ilosc3,ilosc4,netto4,wydana_ilosc4,wymagana_ilosc4,sposob_platnosci";
+    else
+    row = "id_magazyn;typ;data_sprzedazy;data_duplikatu;data_wydania_towaru;data_przyjecia_towaru;miejsce_odbioru_towaru;miejsce_wydania_towaru;dzial_kosztu;id_klient;id_sprzedawca;id_produkt1;id_produkt2;id_produkt3;id_produkt4;ilosc1;netto1;wydana_ilosc1;wymagana_ilosc1;ilosc2;netto2;wydana_ilosc2;wymagana_ilosc2;ilosc3;netto3;wydana_ilosc3;wymagana_ilosc3;ilosc4;netto4;wydana_ilosc4;wymagana_ilosc4;sposob_platnosci";
+
+    in << row << endl;
+
+
+   QVector<WarehouseData> wareXml = dl->warehouseSelectAllData(from, to);
 
     for (int i = 0; i < wareXml.size(); ++i) {
+        WarehouseData invData = dl->warehouseSelectData(wareXml.at(i).id, getInvoiceTypeFullName(wareXml.at(i).type), true);
+        QString type = (wareXml.at(i).type != "") ? wareXml.at(i).type : "null";
+        QString sellDate = (invData.sellingDate.toString(sett().getDateFormat()) != "") ? invData.sellingDate.toString(sett().getDateFormat()) : "null";
+        QString prodDate = (invData.productDate.toString(sett().getDateFormat()) != "") ? invData.productDate.toString(sett().getDateFormat()) : "null";
+        QString duplDate = (invData.duplDate.toString(sett().getDateFormat()) != "") ? invData.duplDate.toString(sett().getDateFormat()) : "null";
+        QString giveDate = (invData.goodFromDate.toString(sett().getDateFormat()) != "") ? invData.goodFromDate.toString(sett().getDateFormat()) : "null";
+        QString takeDate = (invData.goodToDate.toString(sett().getDateFormat()) != "") ? invData.goodToDate.toString(sett().getDateFormat()) : "null";
+        QString givePlace = (invData.goodFromPlace != "") ? invData.goodFromPlace : "null";
+        QString takePlace = (invData.goodToPlace != "") ? invData.goodToPlace : "null";
+        QString departCost = (invData.departmentCost != "") ? invData.departmentCost : "null";
 
-        elements <<
+        QString id_customer = (invData.custTic.remove('-') != "") ? idCvsBuyer[invData.custTic.remove('-')] : "null";
+        // invData.custTic.remove('-'), because of validation choice option. When validation on data is unchecked, users can put tic into app without '-' characters
 
-      // np. buyersXml.at(i).id... id dla biezacego klienta
+        qDebug() << "invData.custTic: " << invData.custTic;
+        qDebug() << "invData.sellerAddress: " << invData.sellerAddress;
+        QString id_seller = (invData.sellerAddress != "") ? idCvsSeller[invData.sellerAddress] : "null";
+        QStringList id_products = QStringList();
 
-    }*/
+        QString quantity1 = QString();
+        QString nett1 = QString();
+        QString givAm1 = QString();
+        QString reqAm1 = QString();
+        QString quantity2 = QString();
+        QString nett2 = QString();
+        QString givAm2 = QString();
+        QString reqAm2 = QString();
+        QString quantity3 = QString();
+        QString nett3 = QString();
+        QString givAm3 = QString();
+        QString reqAm3 = QString();
+        QString quantity4 = QString();
+        QString nett4 = QString();
+        QString givAm4 = QString();
+        QString reqAm4 = QString();
 
+        qDebug() << "invData.products.count(): " << QString::number(invData.products.count());
+        for (int k = 0; k < invData.products.count(); k++) {
+            qDebug() << "idCvsProducts[invData.products[k].code]: " << idCvsProducts[invData.products[k].code];
+            qDebug() << "idCvsProducts[invData.products[k].name]: " << idCvsProducts[invData.products[k].name];
+            qDebug() << "invData.products[k].code: " << invData.products[k].code;
+            qDebug() << "invData.products[k].name: " << invData.products[k].name;
+            if (idCvsProducts[invData.products[k].code] != "") {
+                qDebug() << "id_products for code: " << idCvsProducts[invData.products[k].code];
+                id_products << ((idCvsProducts[invData.products[k].code] != "") ? idCvsProducts[invData.products[k].code] : "null");
+            } else {
+                qDebug() << "id_products for name: " << idCvsProducts[invData.products[k].name];
+                id_products << ((idCvsProducts[invData.products[k].name] != "") ? idCvsProducts[invData.products[k].name] : "null");
+            }
+
+
+        if (k == 0) {quantity1 = sett().numberToString(invData.products[k].quantity, 'f', 2); nett1 = sett().numberToString(invData.products[k].nett, 'f', 2); givAm1 = sett().numberToString(invData.products[k].givedOutAmount, 'f', 2); reqAm1 = sett().numberToString(invData.products[k].requiredAmount, 'f', 2);}
+        if (k == 1) {quantity2 = sett().numberToString(invData.products[k].quantity, 'f', 2); nett2 = sett().numberToString(invData.products[k].nett, 'f', 2); givAm2 = sett().numberToString(invData.products[k].givedOutAmount, 'f', 2); reqAm2 = sett().numberToString(invData.products[k].requiredAmount, 'f', 2);}
+        if (k == 2) {quantity3 = sett().numberToString(invData.products[k].quantity, 'f', 2); nett3 = sett().numberToString(invData.products[k].nett, 'f', 2); givAm3 = sett().numberToString(invData.products[k].givedOutAmount, 'f', 2); reqAm3 = sett().numberToString(invData.products[k].requiredAmount, 'f', 2);}
+        if (k == 3) {quantity4 = sett().numberToString(invData.products[k].quantity, 'f', 2); nett4 = sett().numberToString(invData.products[k].nett, 'f', 2); givAm4 = sett().numberToString(invData.products[k].givedOutAmount, 'f', 2); reqAm4 = sett().numberToString(invData.products[k].requiredAmount, 'f', 2);}
+
+        if (k == invData.products.count()-1) { // if we are at the end of loop
+            if (k < 3) { // if number of last transaction was less than 3
+                for (int j = 4 - (3 - k);j < 4; j++) { // we want fill values with "null", only if there aren't 4 transaction until now
+                   id_products << "null"; // we have now empty values for values taken from last transaction number to number 4
+                   qDebug() << "id_products for null: null";
+                }
+            }
+        }
+        }
+
+        if (quantity1.isEmpty() && nett1.isEmpty() && givAm1.isEmpty() && reqAm1.isEmpty()) {quantity1 = "null"; nett1 = "null"; givAm1 = "null"; reqAm1 = "null";}
+        if (quantity2.isEmpty() && nett2.isEmpty() && givAm2.isEmpty() && reqAm2.isEmpty()) {quantity2 = "null"; nett2 = "null"; givAm2 = "null"; reqAm2 = "null";}
+        if (quantity3.isEmpty() && nett3.isEmpty() && givAm3.isEmpty() && reqAm3.isEmpty()) {quantity3 = "null"; nett3 = "null"; givAm3 = "null"; reqAm3 = "null";}
+        if (quantity4.isEmpty() && nett4.isEmpty() && givAm4.isEmpty() && reqAm4.isEmpty()) {quantity4 = "null"; nett4 = "null"; givAm4 = "null"; reqAm4 = "null";}
+
+        QString paymentMethod = (invData.paymentType != "") ? invData.paymentType : "null";
+      //  QString currency = (invData.currencyType != "") ? invData.currencyType : "null";
+
+        idCvsWarehouses.insert(wareXml.at(i).id, QString::number(i+1)); // because name of filename is always unique
+
+        QString next_row = QString();
+
+        if (sett().value("csv_format").toString() == "EU")
+        next_row = QString::number(i+1) + "," + type + "," + sellDate + "," + duplDate + "," + prodDate + "," + giveDate + "," + takeDate + "," + givePlace + "," + takePlace + "," + departCost + "," + id_customer + "," + id_seller + "," + id_products.at(0) + "," + id_products.at(1) + "," + id_products.at(2) + "," + id_products.at(3) + "," + quantity1 + "," + nett1 + "," + givAm1 + "," + reqAm1 + "," + quantity2 + "," + nett2 + "," + givAm2 + "," + reqAm2 + "," + quantity3 + "," + nett3 + "," + givAm3 + "," + reqAm3 + "," + quantity4 + "," + nett4 + "," + givAm4 + "," + reqAm4 + "," + paymentMethod;
+        else
+        next_row = QString::number(i+1) + ";" + type + ";" + sellDate + ";" + duplDate + ";" + prodDate + ";" + giveDate + ";" + takeDate + ";" + givePlace + ";" + takePlace + ";" + departCost + ";" + id_customer + ";" + id_seller + ";" + id_products.at(0) + ";" + id_products.at(1) + ";" + id_products.at(2) + ";" + id_products.at(3) + ";" + quantity1 + ";" + nett1 + ";" + givAm1 + ";" + reqAm1 + ";" + quantity2 + ";" + nett2 + ";" + givAm2 + ";" + reqAm2 + ";" + quantity3 + ";" + nett3 + ";" + givAm3 + ";" + reqAm3 + ";" + quantity4 + ";" + nett4 + ";" + givAm4 + ";" + reqAm4 + ";" + paymentMethod;
+
+        in << next_row << endl;
+
+    }
+
+    csv.close();
 
 }
+
 
 void MainWindow::createFirstWinBackup() {
 

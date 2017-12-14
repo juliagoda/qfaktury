@@ -115,6 +115,7 @@ private:
   QHash<QString, QString> idCvsSeller;
   QHash<QString, QString> idCvsBuyer;
   QHash<QString, QString> idCvsInvoices;
+  QHash<QString, QString> idCvsWarehouses;
   QHash<QString, QString> idCvsProducts;
   QString workingDir;
   QMap<int, QString> customActions;

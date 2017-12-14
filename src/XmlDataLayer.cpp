@@ -1447,7 +1447,8 @@ bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end,
   return true;
 }
 
-InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type, bool onlyCheck) {
+InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
+                                            bool onlyCheck) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
   qDebug() << "filename: " << name;
@@ -1458,7 +1459,7 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type, bool onlyChe
   QDomDocument doc(sett().getInoiveDocName());
   QDomElement root;
   QDomElement purchaser;
-  QDomElement buyer;
+  QDomElement seller;
   QDomElement product;
   QString fName = name;
 
@@ -1498,10 +1499,12 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type, bool onlyChe
 
   QDomNode tmp;
   tmp = root.firstChild(); // buyer
-  buyer = tmp.toElement();
-  o_invData.buyerTic = buyer.attribute("tic");
-  tmp = tmp.toElement().nextSibling(); // purchaser
+  seller = tmp.toElement();
+  o_invData.sellerAddress = seller.attribute("street");
+  tmp = tmp.toElement().nextSibling(); // buyer
   purchaser = tmp.toElement();
+
+  o_invData.custTic = purchaser.attribute("tic");
 
   o_invData.customer =
       purchaser.attribute("name") + "," + purchaser.attribute("city") + "," +
@@ -1513,7 +1516,7 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type, bool onlyChe
       purchaser.attribute("website");
 
   if (!onlyCheck)
-  Invoice::instance()->buyerName->setCursorPosition(1);
+    Invoice::instance()->buyerName->setCursorPosition(1);
 
   tmp = tmp.toElement().nextSibling(); // product
   product = tmp.toElement();
@@ -1535,48 +1538,47 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type, bool onlyChe
   // "net",
   // "vatBucket", "gross"
   if (!onlyCheck) {
-  qDebug() << Invoice::instance()->tableGoods->columnCount();
+    qDebug() << Invoice::instance()->tableGoods->columnCount();
 
-  Invoice::instance()->tableGoods->setRowCount(goodsCount);
-  for (i = 0; i < goodsCount; ++i) {
-    for (int j = 0; j < int(sizeof(goodsColumns) / sizeof(*goodsColumns));
-         j++) {
-      Invoice::instance()->tableGoods->setItem(
-          i, j, new QTableWidgetItem(good.attribute(goodsColumns[j])));
-      qDebug() << "LOOP :" << goodsColumns[j]
-               << good.attribute(goodsColumns[j]);
-      qDebug() << "COLUMNS :"
-               << Invoice::instance()->tableGoods->item(i, j)->text();
-    }
-    if (good.nextSibling().toElement().tagName() == "product")
-      good = good.nextSibling().toElement();
-    else
-      break;
-  }
-  } else {
-      for (i = 0; i < goodsCount; ++i) {
-          ProductData product;
-
-            product.id = good.attribute(goodsColumns[0]).toInt();
-            product.name = good.attribute(goodsColumns[1]);
-            product.code = good.attribute(goodsColumns[2]);
-            product.pkwiu = good.attribute(goodsColumns[3]);
-            product.quantity = sett().stringToDouble(good.attribute(goodsColumns[4]));
-            product.quanType = good.attribute(goodsColumns[5]);
-            product.discount = sett().stringToDouble(good.attribute(goodsColumns[6]));
-            product.price = sett().stringToDouble(good.attribute(goodsColumns[7]));
-            product.nett = sett().stringToDouble(good.attribute(goodsColumns[8]));
-            product.vat = good.attribute(goodsColumns[9]).toInt();
-            product.gross = sett().stringToDouble(good.attribute(goodsColumns[10]));
-
-            o_invData.products[i] = product;
-
-
-        if (good.nextSibling().toElement().tagName() == "product")
-          good = good.nextSibling().toElement();
-        else
-          break;
+    Invoice::instance()->tableGoods->setRowCount(goodsCount);
+    for (i = 0; i < goodsCount; ++i) {
+      for (int j = 0; j < int(sizeof(goodsColumns) / sizeof(*goodsColumns));
+           j++) {
+        Invoice::instance()->tableGoods->setItem(
+            i, j, new QTableWidgetItem(good.attribute(goodsColumns[j])));
+        qDebug() << "LOOP :" << goodsColumns[j]
+                 << good.attribute(goodsColumns[j]);
+        qDebug() << "COLUMNS :"
+                 << Invoice::instance()->tableGoods->item(i, j)->text();
       }
+      if (good.nextSibling().toElement().tagName() == "product")
+        good = good.nextSibling().toElement();
+      else
+        break;
+    }
+  } else {
+    for (i = 0; i < goodsCount; ++i) {
+      ProductData product;
+
+      product.id = good.attribute(goodsColumns[0]).toInt();
+      product.name = good.attribute(goodsColumns[1]);
+      product.code = good.attribute(goodsColumns[2]);
+      product.pkwiu = good.attribute(goodsColumns[3]);
+      product.quantity = sett().stringToDouble(good.attribute(goodsColumns[4]));
+      product.quanType = good.attribute(goodsColumns[5]);
+      product.discount = sett().stringToDouble(good.attribute(goodsColumns[6]));
+      product.price = sett().stringToDouble(good.attribute(goodsColumns[7]));
+      product.nett = sett().stringToDouble(good.attribute(goodsColumns[8]));
+      product.vat = good.attribute(goodsColumns[9]).toInt();
+      product.gross = sett().stringToDouble(good.attribute(goodsColumns[10]));
+
+      o_invData.products[i] = product;
+
+      if (good.nextSibling().toElement().tagName() == "product")
+        good = good.nextSibling().toElement();
+      else
+        break;
+    }
   }
 
   tmp = tmp.toElement().nextSibling();
@@ -1630,7 +1632,8 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type, bool onlyChe
   return o_invData;
 }
 
-WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
+WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type,
+                                                bool onlyCheck) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -1639,6 +1642,7 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
   QDomDocument doc(sett().getWarehouseDocName());
   QDomElement root;
   QDomElement purchaser;
+  QDomElement seller;
   QDomElement product;
   QString fName = name;
 
@@ -1682,8 +1686,12 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
 
   QDomNode tmp;
   tmp = root.firstChild();
+  seller = tmp.toElement();
+  o_invData.sellerAddress = seller.attribute("street");
   tmp = tmp.toElement().nextSibling(); // purchaser
   purchaser = tmp.toElement();
+
+  o_invData.custTic = purchaser.attribute("tic");
 
   o_invData.customer =
       purchaser.attribute("name") + "," + purchaser.attribute("city") + "," +
@@ -1694,7 +1702,8 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
       purchaser.attribute("email") + ", " + QObject::trUtf8("Strona: ") +
       purchaser.attribute("website");
 
-  Invoice::instance()->buyerName->setCursorPosition(1);
+  if (!onlyCheck)
+    Invoice::instance()->buyerName->setCursorPosition(1);
 
   tmp = tmp.toElement().nextSibling(); // product
   product = tmp.toElement();
@@ -1712,36 +1721,57 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
       "id",    "name", "quantity",       "quantityType",
       "price", "nett", "requiredAmount", "givedOutAmount"};
 
-  // "net",
-  // "vatBucket", "gross"
-  qDebug() << Invoice::instance()->tableGoods->columnCount();
+  if (!onlyCheck) {
+    qDebug() << Invoice::instance()->tableGoods->columnCount();
 
-  Invoice::instance()->tableGoods->setRowCount(goodsCount);
-  for (i = 0; i < goodsCount; ++i) {
-    Invoice::instance()->tableGoods->setItem(
-        i, 0, new QTableWidgetItem(good.attribute(goodsColumns[0])));
-    Invoice::instance()->tableGoods->setItem(
-        i, 1, new QTableWidgetItem(good.attribute(goodsColumns[1])));
-    Invoice::instance()->tableGoods->setItem(
-        i, 4, new QTableWidgetItem(good.attribute(goodsColumns[2])));
-    Invoice::instance()->tableGoods->setItem(
-        i, 5, new QTableWidgetItem(good.attribute(goodsColumns[3])));
+    Invoice::instance()->tableGoods->setRowCount(goodsCount);
+    for (i = 0; i < goodsCount; ++i) {
+      Invoice::instance()->tableGoods->setItem(
+          i, 0, new QTableWidgetItem(good.attribute(goodsColumns[0])));
+      Invoice::instance()->tableGoods->setItem(
+          i, 1, new QTableWidgetItem(good.attribute(goodsColumns[1])));
+      Invoice::instance()->tableGoods->setItem(
+          i, 4, new QTableWidgetItem(good.attribute(goodsColumns[2])));
+      Invoice::instance()->tableGoods->setItem(
+          i, 5, new QTableWidgetItem(good.attribute(goodsColumns[3])));
 
-    if (type == 10) {
-      Invoice::instance()->tableGoods->setItem(
-          i, 7, new QTableWidgetItem(good.attribute(goodsColumns[4])));
-      Invoice::instance()->tableGoods->setItem(
-          i, 8, new QTableWidgetItem(good.attribute(goodsColumns[5])));
-      Invoice::instance()->tableGoods->setItem(
-          i, 9, new QTableWidgetItem(good.attribute(goodsColumns[6])));
-      Invoice::instance()->tableGoods->setItem(
-          i, 10, new QTableWidgetItem(good.attribute(goodsColumns[7])));
+      if (type == 10) {
+        Invoice::instance()->tableGoods->setItem(
+            i, 7, new QTableWidgetItem(good.attribute(goodsColumns[4])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 8, new QTableWidgetItem(good.attribute(goodsColumns[5])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 9, new QTableWidgetItem(good.attribute(goodsColumns[6])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 10, new QTableWidgetItem(good.attribute(goodsColumns[7])));
+      }
+
+      if (good.nextSibling().toElement().tagName() == "product")
+        good = good.nextSibling().toElement();
+      else
+        break;
     }
 
-    if (good.nextSibling().toElement().tagName() == "product")
-      good = good.nextSibling().toElement();
-    else
-      break;
+  } else {
+    for (i = 0; i < goodsCount; ++i) {
+      ProductData product;
+
+      product.id = good.attribute(goodsColumns[0]).toInt();
+      product.name = good.attribute(goodsColumns[1]);
+      product.quantity = sett().stringToDouble(good.attribute(goodsColumns[2]));
+      product.quanType = good.attribute(goodsColumns[3]);
+      product.price = sett().stringToDouble(good.attribute(goodsColumns[4]));
+      product.nett = sett().stringToDouble(good.attribute(goodsColumns[5]));
+      product.requiredAmount = good.attribute(goodsColumns[6]).toInt();
+      product.givedOutAmount = good.attribute(goodsColumns[7]).toInt();
+
+      o_invData.products[i] = product;
+
+      if (good.nextSibling().toElement().tagName() == "product")
+        good = good.nextSibling().toElement();
+      else
+        break;
+    }
   }
 
   tmp = tmp.toElement().nextSibling();
@@ -1771,7 +1801,6 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
   allSymbols.clear();
   QVector<InvoiceData> o_invDataVec;
 
-
   QDir allFiles;
 
   QDomDocument doc(sett().getInoiveDocName());
@@ -1779,35 +1808,39 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
 
   QStringList searchAllDirs = QStringList();
 
-  // finds invoices between years with difference more than 1. It's better to look in directories between searched years than in all in main directory
+  // finds invoices between years with difference more than 1. It's better to
+  // look in directories between searched years than in all in main directory
   if ((end.year() - start.year()) >= 1) {
-      for(int i = 0; i < (end.year() - start.year()); i++) {
-        searchAllDirs.append(sett().getInvoicesDir() + QString::number(start.year()+i));
-      }
+    for (int i = 0; i < (end.year() - start.year()); i++) {
+      searchAllDirs.append(sett().getInvoicesDir() +
+                           QString::number(start.year() + i));
+    }
   }
 
- // if (start.year() != end.year()) {
+  // if (start.year() != end.year()) {
 
-      if (QDate::currentDate().year() != end.year()) searchAllDirs.append(sett().getInvoicesDir() + QString::number(end.year()));
-      else searchAllDirs.append(sett().getInvoicesDir());
- // }
+  if (QDate::currentDate().year() != end.year())
+    searchAllDirs.append(sett().getInvoicesDir() + QString::number(end.year()));
+  else
+    searchAllDirs.append(sett().getInvoicesDir());
+  // }
 
   allFiles.setSearchPaths("invoices", searchAllDirs);
 
   QStringList files = QStringList();
 
-  Q_FOREACH(QString onePath, allFiles.searchPaths("invoices")) {
+  Q_FOREACH (QString onePath, allFiles.searchPaths("invoices")) {
 
-      QDir oneP;
-      oneP.setPath(onePath);
-      oneP.setFilter(QDir::Files);
+    QDir oneP;
+    oneP.setPath(onePath);
+    oneP.setFilter(QDir::Files);
 
-      QStringList filters;
-      filters << "h*.xml"
-              << "k*.xml";
+    QStringList filters;
+    filters << "h*.xml"
+            << "k*.xml";
 
-      oneP.setNameFilters(filters);
-      files.append(oneP.entryList());
+    oneP.setNameFilters(filters);
+    files.append(oneP.entryList());
   }
 
   qDebug("pliki: ");
@@ -1836,7 +1869,6 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
         continue;
       }
     }
-
 
     if (nameFilter(files[i], start, end, sett().getInoiveDocName(),
                    QFileInfo(file).absolutePath())) {
@@ -1909,34 +1941,39 @@ QVector<WarehouseData> XmlDataLayer::warehouseSelectAllData(QDate start,
 
   QStringList searchAllDirs = QStringList();
 
-  // finds invoices between years with difference more than 1. It's better to look in directories between searched years than in all in main directory
+  // finds invoices between years with difference more than 1. It's better to
+  // look in directories between searched years than in all in main directory
   if ((end.year() - start.year()) >= 1) {
-      for(int i = 0; i < (end.year() - start.year()); i++) {
-        searchAllDirs.append(sett().getWarehouseFullDir() + QString::number(start.year()+i));
-      }
+    for (int i = 0; i < (end.year() - start.year()); i++) {
+      searchAllDirs.append(sett().getWarehouseFullDir() +
+                           QString::number(start.year() + i));
+    }
   }
 
- // if (start.year() != end.year()) {
+  // if (start.year() != end.year()) {
 
-      if (QDate::currentDate().year() != end.year()) searchAllDirs.append(sett().getWarehouseFullDir() + QString::number(end.year()));
-      else searchAllDirs.append(sett().getWarehouseFullDir());
- // }
+  if (QDate::currentDate().year() != end.year())
+    searchAllDirs.append(sett().getWarehouseFullDir() +
+                         QString::number(end.year()));
+  else
+    searchAllDirs.append(sett().getWarehouseFullDir());
+  // }
 
   allFiles.setSearchPaths("warehouses", searchAllDirs);
 
   QStringList files = QStringList();
 
-  Q_FOREACH(QString onePath, allFiles.searchPaths("warehouses")) {
+  Q_FOREACH (QString onePath, allFiles.searchPaths("warehouses")) {
 
-      QDir oneP;
-      oneP.setPath(onePath);
-      oneP.setFilter(QDir::Files);
+    QDir oneP;
+    oneP.setPath(onePath);
+    oneP.setFilter(QDir::Files);
 
-      QStringList filters;
-      filters << "m*.xml";
+    QStringList filters;
+    filters << "m*.xml";
 
-      oneP.setNameFilters(filters);
-      files.append(oneP.entryList());
+    oneP.setNameFilters(filters);
+    files.append(oneP.entryList());
   }
 
   qDebug("pliki: ");
@@ -2442,14 +2479,15 @@ bool XmlDataLayer::warehouseInsertData(WarehouseData &oi_invData, int type) {
   return true;
 }
 
-bool XmlDataLayer::ifThereOldDocuments(QString docname, QString docdir, QStringList filters) {
+bool XmlDataLayer::ifThereOldDocuments(QString docname, QString docdir,
+                                       QStringList filters) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   yearsList.clear();
   categorizedFiles.clear();
   QDir allFiles;
-  bool oldDoc= false;
+  bool oldDoc = false;
 
   QDomDocument doc(docname);
   QDomElement root;
@@ -2526,13 +2564,11 @@ void XmlDataLayer::separateOldDocuments(QString path) {
 
     qDebug() << "OLDER YEARS: " << (*constIterator).toLocal8Bit().constData();
 
-    QDir dir(path +
-             (*constIterator).toLocal8Bit().constData());
+    QDir dir(path + (*constIterator).toLocal8Bit().constData());
 
     if (!dir.exists()) {
 
-      dir.mkdir(path +
-                (*constIterator).toLocal8Bit().constData());
+      dir.mkdir(path + (*constIterator).toLocal8Bit().constData());
     }
 
     QHash<QString, QString>::const_iterator i = categorizedFiles.constBegin();
@@ -2541,8 +2577,7 @@ void XmlDataLayer::separateOldDocuments(QString path) {
 
         qDebug() << path + i.value();
         qDebug() << path + i.key() + "/" + i.value();
-        QFile::copy(path + i.value(),
-                    path + i.key() + "/" + i.value());
+        QFile::copy(path + i.value(), path + i.key() + "/" + i.value());
         QFile::remove(path + i.value());
       }
 
@@ -2550,7 +2585,6 @@ void XmlDataLayer::separateOldDocuments(QString path) {
     }
   }
 }
-
 
 bool XmlDataLayer::invoiceUpdateData(InvoiceData &, int, QString) {
 
