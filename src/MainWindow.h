@@ -20,6 +20,7 @@ class QWidget;
 class QTimer;
 class QAction;
 class Invoice;
+class QTimer;
 
 // class for creating main window with menu, toolbar, calendar and table widget
 class MainWindow : public QMainWindow {
@@ -35,6 +36,7 @@ public:
   int getMaxSymbolWarehouse() const;
   static MainWindow *instance();
   static bool shouldHidden;
+  QString whichBackupPath();
 
 private slots:
 
@@ -100,6 +102,7 @@ public slots:
   bool ifpdfDirExists();
   void createPdfDir();
   void generatePdfFromList();
+  void intervalBackup();
 
 protected:
   virtual void loadPlugins();
@@ -110,7 +113,7 @@ private:
   QWidget *windBack;
   QLineEdit *fileComboBox;
   QLineEdit *directoryComboBox;
-
+  QTimer* backupTimerOften;
   QVector<QAction *> plugActions;
   QHash<QString, QString> idCvsSeller;
   QHash<QString, QString> idCvsBuyer;
@@ -150,6 +153,7 @@ private:
   void createSellersCsvFiles();
   void createInvoicesCsvFiles(QDate from, QDate to);
   void createWareCsvFiles(QDate from, QDate to);
+  void createBackupWithoutGUI();
 
   inline void calendarNoteJustify(QString text) {
 

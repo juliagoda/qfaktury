@@ -593,6 +593,7 @@ public:
     setValue("regular_backup", "false");
     setValue("backup_every_time", "false");
     setValue("backup_interval", "none");
+    setValue("lastBackupDate", "");
     endGroup();
   }
 

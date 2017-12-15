@@ -22,26 +22,24 @@ void Setting::init() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QList<QAbstractButton *> settBoxes =
-      QList<QAbstractButton *>() << cbMonth << cbYear << shortYear << cbEdit
-                           << cbSmbEdit << cbSmbEdit_2 << cbValOn
-                           << userinfoswift << userinfobank << userinfowww
-                           << userinfoadress << userinfocity << userinfonip
-                           << userinfomail << buyerinfowww << buyerinfocity
-                           << buyerinfoaddress << buyerinfoaccount
-                           << buyerinfomail << buyerinfotel << buyerinfotic
-                           << buyerinfoname << userinfotel << userinfoaccount
-                           << userinfoname << userinfofax << userinfokrs << cb1
-                           << cb2 << cb3 << cb4 << cb5 << cb6 << cb7 << cb8
-                           << cb9 << cb10 << cb11 << cb12 << cb13 << cb14
-                           << cbDay << exportGoodsBtn << exportBuyersBtn
-                           << exportInvBtn << exportWareBtn << noAskCSVPath
-                           << noAskBackupPath << regularBackupBtn
-                           << backupEveryTimeBtn << backupOnceDay << backupOnceWeek
-                           << backupOnceMonth << backupEveryHour << backupEveryMin;
+      QList<QAbstractButton *>()
+      << cbMonth << cbYear << shortYear << cbEdit << cbSmbEdit << cbSmbEdit_2
+      << cbValOn << userinfoswift << userinfobank << userinfowww
+      << userinfoadress << userinfocity << userinfonip << userinfomail
+      << buyerinfowww << buyerinfocity << buyerinfoaddress << buyerinfoaccount
+      << buyerinfomail << buyerinfotel << buyerinfotic << buyerinfoname
+      << userinfotel << userinfoaccount << userinfoname << userinfofax
+      << userinfokrs << cb1 << cb2 << cb3 << cb4 << cb5 << cb6 << cb7 << cb8
+      << cb9 << cb10 << cb11 << cb12 << cb13 << cb14 << cbDay << exportGoodsBtn
+      << exportBuyersBtn << exportInvBtn << exportWareBtn << noAskCSVPath
+      << noAskBackupPath << regularBackupBtn << backupEveryTimeBtn
+      << backupOnceDay << backupOnceWeek << backupOnceMonth << backupEveryHour
+      << backupEveryMin << CSVUSAFormat << CSVEURFormat;
 
-  QList<QRadioButton *> settBackupRadios =
-      QList<QRadioButton *>() << backupOnceDay << backupOnceWeek << backupOnceMonth
-                              << backupEveryHour << backupEveryMin;
+  QList<QRadioButton *> settBackupRadios = QList<QRadioButton *>()
+                                           << backupOnceDay << backupOnceWeek
+                                           << backupOnceMonth << backupEveryHour
+                                           << backupEveryMin;
 
   // static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
   QSignalMapper *signalMapper = new QSignalMapper(this);
@@ -49,10 +47,9 @@ void Setting::init() {
           static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
           [this](int) { saveButton->setEnabled(true); });
 
-
-
   QSignalMapper *signalMapperRadios = new QSignalMapper(this);
-  connect(signalMapperRadios, SIGNAL(mapped(bool)), this, SIGNAL(checkOnlyOneInterval(bool)));
+  connect(signalMapperRadios, SIGNAL(mapped(bool)), this,
+          SIGNAL(checkOnlyOneInterval(bool)));
 
   int j = 0;
   QList<QAbstractButton *>::iterator i;
@@ -73,7 +70,6 @@ void Setting::init() {
   }
 
   x = 0;
-
 
   // connect all slots
   connect(saveButton, SIGNAL(clicked()), this, SLOT(apply()));
@@ -132,7 +128,8 @@ void Setting::init() {
           SLOT(blockBackupCheckboxPath(int)));
   connect(regularBackupBtn, SIGNAL(stateChanged(int)), this,
           SLOT(blockBackupCheckbox(int)));
-
+  connect(setCSVPathBtn, SIGNAL(clicked(bool)), this, SLOT(fillPath(bool)));
+  connect(setBackupPathBtn, SIGNAL(clicked(bool)), this, SLOT(fillPath(bool)));
 
   cssList->clear();
   cssList->insertItems(0, getTemplates());
@@ -162,23 +159,38 @@ void Setting::apply() {
   bool check3 = backupEveryHour->isChecked() && howManyHours->value() == 0;
   bool check4 = backupEveryMin->isChecked() && howManyMin->value() == 0;
 
-  if (check1) QMessageBox::warning(this, "Niezgodność dla ustawień CSV", "Jeśli zaznaczasz opcję dla zapamiętania ścieżki zapisu dla csv, nie powinieneś pozostawiać pustego miejsca na ścieżkę");
-  if (check2) QMessageBox::warning(this, "Niezgodność dla ustawień backup", "Jeśli zaznaczasz opcję dla zapamiętania ścieżki zapisu dla backup, nie powinieneś pozostawiać pustego miejsca na ścieżkę");
-  if (check3) QMessageBox::warning(this, "Niezgodność dla ustawień backup", "Jeśli zaznaczasz cykl godzinowy dla tworzonej kopii zapasowej, powinieneś obok dodać wartość wiekszą od 0");
-  if (check4) QMessageBox::warning(this, "Niezgodność dla ustawień backup", "Jeśli zaznaczasz cykl minutowy dla tworzonej kopii zapasowej, powinieneś obok dodać wartość wiekszą od 0");
+  if (check1)
+    QMessageBox::warning(this, "Niezgodność dla ustawień CSV",
+                         "Jeśli zaznaczasz opcję dla zapamiętania ścieżki "
+                         "zapisu dla csv, nie powinieneś pozostawiać pustego "
+                         "miejsca na ścieżkę");
+  if (check2)
+    QMessageBox::warning(this, "Niezgodność dla ustawień backup",
+                         "Jeśli zaznaczasz opcję dla zapamiętania ścieżki "
+                         "zapisu dla backup, nie powinieneś pozostawiać "
+                         "pustego miejsca na ścieżkę");
+  if (check3)
+    QMessageBox::warning(this, "Niezgodność dla ustawień backup",
+                         "Jeśli zaznaczasz cykl godzinowy dla tworzonej kopii "
+                         "zapasowej, powinieneś obok dodać wartość wiekszą od "
+                         "0");
+  if (check4)
+    QMessageBox::warning(this, "Niezgodność dla ustawień backup",
+                         "Jeśli zaznaczasz cykl minutowy dla tworzonej kopii "
+                         "zapasowej, powinieneś obok dodać wartość wiekszą od "
+                         "0");
 
   QList<bool> checks;
   checks << check1 << check2 << check3 << check4;
 
   if (checks.count(true) == 0) {
-  saveSettings();
-  saveButton->setEnabled(false);
+    saveSettings();
+    saveButton->setEnabled(false);
 
-
-  QMessageBox::information(
-      this, trUtf8("Zapisywanie zmian"),
-      trUtf8("Zmiany zostaną wprowadzone po zrestartowaniu programu"),
-      QMessageBox::Ok);
+    QMessageBox::information(
+        this, trUtf8("Zapisywanie zmian"),
+        trUtf8("Zmiany zostaną wprowadzone po zrestartowaniu programu"),
+        QMessageBox::Ok);
   }
 }
 
@@ -412,97 +424,155 @@ void Setting::paymAddBtnClick() {
                 trUtf8("Nie można dodać. Pole jest puste."));
 }
 
-
 void Setting::checkCurrCsvFormat(bool checked) {
 
-    QRadioButton* radio = qobject_cast<QRadioButton *>(QObject::sender());
+  if (QObject::sender() != nullptr) {
+    QRadioButton *radio = qobject_cast<QRadioButton *>(QObject::sender());
 
     if (checked) {
-        if (radio->objectName() == "CSVEURFormat") {
-            CSVUSAFormat->setAutoExclusive(false);
-            CSVUSAFormat->setChecked(false);
-            CSVUSAFormat->setAutoExclusive(true);
-        } else {
-            CSVEURFormat->setAutoExclusive(false);
-            CSVEURFormat->setChecked(false);
-            CSVEURFormat->setAutoExclusive(true);
-        }
+      if (radio->objectName() == "CSVEURFormat") {
+        CSVUSAFormat->setAutoExclusive(false);
+        CSVUSAFormat->setChecked(false);
+        CSVUSAFormat->setAutoExclusive(true);
+      } else {
+        CSVEURFormat->setAutoExclusive(false);
+        CSVEURFormat->setChecked(false);
+        CSVEURFormat->setAutoExclusive(true);
+      }
     }
+  } else {
+    if (CSVEURFormat->isChecked()) {
+      CSVUSAFormat->setAutoExclusive(false);
+      CSVUSAFormat->setChecked(false);
+      CSVUSAFormat->setAutoExclusive(true);
+    } else {
+      CSVEURFormat->setAutoExclusive(false);
+      CSVEURFormat->setChecked(false);
+      CSVEURFormat->setAutoExclusive(true);
+    }
+  }
 }
-
 
 void Setting::blockCsvCheckboxPath(int checked) {
 
-    if (checked == 0) { // Qt::Unchecked
-        csvPathLabel->setEnabled(false);
-        csvLinePath->clear();
-        csvLinePath->setEnabled(false);
-        setCSVPathBtn->setEnabled(false);
-    } else if (checked == 2) { // Qt::Checked
-        csvPathLabel->setEnabled(true);
-        csvLinePath->setEnabled(true);
-        setCSVPathBtn->setEnabled(true);
-    }
+  if (checked == 0) { // Qt::Unchecked
+    csvPathLabel->setEnabled(false);
+    csvLinePath->clear();
+    csvLinePath->setEnabled(false);
+    setCSVPathBtn->setEnabled(false);
+  } else if (checked == 2) { // Qt::Checked
+    csvPathLabel->setEnabled(true);
+    csvLinePath->setEnabled(true);
+    setCSVPathBtn->setEnabled(true);
+  }
 }
-
 
 void Setting::blockBackupCheckboxPath(int checked) {
 
-    if (checked == 0) { // Qt::Unchecked
-        backupPathLabel->setEnabled(false);
-        backupLinePath->clear();
-        backupLinePath->setEnabled(false);
-        setBackupPathBtn->setEnabled(false);
-    } else if (checked == 2) { // Qt::Checked
-        backupPathLabel->setEnabled(true);
-        backupLinePath->setEnabled(true);
-        setBackupPathBtn->setEnabled(true);
-    }
+  if (checked == 0) { // Qt::Unchecked
+    backupPathLabel->setEnabled(false);
+    backupLinePath->clear();
+    backupLinePath->setEnabled(false);
+    setBackupPathBtn->setEnabled(false);
+  } else if (checked == 2) { // Qt::Checked
+    backupPathLabel->setEnabled(true);
+    backupLinePath->setEnabled(true);
+    setBackupPathBtn->setEnabled(true);
+  }
 }
-
 
 void Setting::blockBackupCheckbox(int checked) {
 
-    if (checked == 0) { // Qt::Unchecked
-        backupEveryTimeBtn->setChecked(false);
-        backupEveryTimeBtn->setEnabled(false);
-        uncheckRadio(backupOnceDay);
-        uncheckRadio(backupOnceWeek);
-        uncheckRadio(backupOnceMonth);
-        uncheckRadio(backupEveryHour);
-        uncheckRadio(backupEveryMin);
-    } else if (checked == 2) { // Qt::Checked
-        backupEveryTimeBtn->setEnabled(true);
-        backupOnceDay->setEnabled(true);
-        backupOnceWeek->setEnabled(true);
-        backupOnceMonth->setEnabled(true);
-        backupEveryHour->setEnabled(true);
-        backupEveryMin->setEnabled(true);
-    }
-}
+  if (checked == 0) { // Qt::Unchecked
+    backupEveryTimeBtn->setChecked(false);
+    backupEveryTimeBtn->setEnabled(false);
+    uncheckRadio(backupOnceDay);
+    uncheckRadio(backupOnceWeek);
+    uncheckRadio(backupOnceMonth);
+    uncheckRadio(backupEveryHour);
+    uncheckRadio(backupEveryMin);
+    howManyHours->setEnabled(false);
+    hoursLabel->setEnabled(false);
+    howManyMin->setEnabled(false);
+    minLabel->setEnabled(false);
 
+  } else if (checked == 2) { // Qt::Checked
+    backupEveryTimeBtn->setEnabled(true);
+    backupOnceDay->setEnabled(true);
+    backupOnceWeek->setEnabled(true);
+    backupOnceMonth->setEnabled(true);
+    backupEveryHour->setEnabled(true);
+    backupEveryMin->setEnabled(true);
+    howManyHours->setEnabled(true);
+    hoursLabel->setEnabled(true);
+    howManyMin->setEnabled(true);
+    minLabel->setEnabled(true);
+  }
+}
 
 void Setting::checkOnlyOneInterval(bool checked) {
 
-    if (checked) {
-    QRadioButton* radio = qobject_cast<QRadioButton *>(QObject::sender());
+  if (checked) {
 
-    QList<QRadioButton*> radios;
-    radios << backupOnceDay << backupOnceWeek
-                                     << backupOnceMonth << backupEveryHour
-                                     << backupEveryMin;
+    QList<QRadioButton *> radios;
+    radios << backupOnceDay << backupOnceWeek << backupOnceMonth
+           << backupEveryHour << backupEveryMin;
 
-      QList<QRadioButton*>::iterator i;
+    if (QObject::sender() != nullptr) {
+      QRadioButton *radio = qobject_cast<QRadioButton *>(QObject::sender());
+
+      QList<QRadioButton *>::iterator i;
       for (i = radios.begin(); i != radios.end(); ++i) {
-          if (radio->objectName() != (*i)->objectName()) {
-              (*i)->setAutoExclusive(false);
-              (*i)->setChecked(false);
-              (*i)->setAutoExclusive(true);
-          }
+        if (radio->objectName() != (*i)->objectName()) {
+          (*i)->setAutoExclusive(false);
+          (*i)->setChecked(false);
+          (*i)->setAutoExclusive(true);
+        }
+      }
+    } else {
+
+      std::map<char, std::string> helpFindRadio = {
+          {'D', backupOnceDay->objectName().toStdString()},
+          {'W', backupOnceWeek->objectName().toStdString()},
+          {'M', backupOnceMonth->objectName().toStdString()},
+          {'h', backupEveryHour->objectName().toStdString()},
+          {'m', backupEveryMin->objectName().toStdString()}};
+
+      QList<QRadioButton *>::iterator i;
+      for (i = radios.begin(); i != radios.end(); ++i) {
+        if (helpFindRadio[sett()
+                              .value("backup_interval")
+                              .toString()
+                              .back()
+                              .toLatin1()] !=
+            (*i)->objectName().toStdString()) {
+          (*i)->setAutoExclusive(false);
+          (*i)->setChecked(false);
+          (*i)->setAutoExclusive(true);
+        }
       }
     }
+  }
 }
 
+void Setting::fillPath(bool) {
+
+  if (QObject::sender() != nullptr) {
+
+    QString directory =
+        QDir::toNativeSeparators(QFileDialog::getExistingDirectory(
+            this, tr("Find Files"), sett().getCSVDir()));
+
+    if (QObject::sender()->objectName() == "setCSVPathBtn") {
+
+      csvLinePath->setText(directory);
+
+    } else if (QObject::sender()->objectName() == "setBackupPathBtn") {
+
+      backupLinePath->setText(directory);
+    }
+  }
+}
 
 //----------------------- List box Slots END ---
 
@@ -775,7 +845,6 @@ void Setting::saveSettings() {
   sett().endGroup();
 }
 
-
 /** Read all sett()
  */
 
@@ -875,16 +944,19 @@ void Setting::readSettings() {
   buyerinfowww->setChecked(sett().value("buyerwww").toBool());
   sett().endGroup();
 
-
   sett().beginGroup("csv_settings");
-  if (sett().value("csv_format").toString() == "US") CSVUSAFormat->setChecked(true);
-  else if (sett().value("csv_format").toString() == "EU") CSVEURFormat->setChecked(true);
+  if (sett().value("csv_format").toString() == "US")
+    CSVUSAFormat->setChecked(true);
+  else if (sett().value("csv_format").toString() == "EU")
+    CSVEURFormat->setChecked(true);
   exportGoodsBtn->setChecked(sett().value("export_goods").toBool());
   exportBuyersBtn->setChecked(sett().value("export_buyers").toBool());
   exportInvBtn->setChecked(sett().value("export_invoices").toBool());
   exportWareBtn->setChecked(sett().value("export_warehouses").toBool());
   noAskCSVPath->setChecked(sett().value("no_ask_csv_path").toBool());
   csvLinePath->setText(sett().value("csv_path").toString());
+  checkCurrCsvFormat(sett().value("csv_format").toString() != "none");
+  blockCsvCheckboxPath(sett().value("no_ask_csv_path").toBool());
   sett().endGroup();
 
   sett().beginGroup("backup_settings");
@@ -893,6 +965,15 @@ void Setting::readSettings() {
   regularBackupBtn->setChecked(sett().value("regular_backup").toBool());
   backupEveryTimeBtn->setChecked(sett().value("backup_every_time").toBool());
   settReadBackup(sett().value("backup_interval").toString());
+  blockBackupCheckboxPath(sett().value("no_ask_backup_path").toBool());
+  blockBackupCheckbox(sett().value("regular_backup").toBool());
+  checkOnlyOneInterval(sett().value("backup_interval").toString() == "1D");
+  checkOnlyOneInterval(sett().value("backup_interval").toString() == "1W");
+  checkOnlyOneInterval(sett().value("backup_interval").toString() == "1M");
+  checkOnlyOneInterval(sett().value("backup_interval").toString().back() ==
+                       'h');
+  checkOnlyOneInterval(sett().value("backup_interval").toString().back() ==
+                       'm');
   sett().endGroup();
 
   prefixEdit->setText(sett().value("prefix").toString());
@@ -905,16 +986,6 @@ void Setting::readSettings() {
   cbSmbEdit->setChecked(sett().value("editSymbol").toBool());
   cbValOn->setChecked(sett().value("validation").toBool());
   spbNumb->setValue(sett().value("chars_in_symbol").toInt());
-
-  emit(checkCurrCsvFormat(CSVUSAFormat->isChecked()));
-  emit(blockCsvCheckboxPath(noAskCSVPath->checkState()));
-  emit(blockBackupCheckboxPath(noAskBackupPath->checkState()));
-  emit(blockBackupCheckbox(regularBackupBtn->checkState()));
-  emit(checkOnlyOneInterval(backupOnceDay->isChecked()));
-  emit(checkOnlyOneInterval(backupOnceWeek->isChecked()));
-  emit(checkOnlyOneInterval(backupOnceMonth->isChecked()));
-  emit(checkOnlyOneInterval(backupEveryHour->isChecked()));
-  emit(checkOnlyOneInterval(backupEveryMin->isChecked()));
 
   read = true;
 }

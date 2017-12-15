@@ -48,6 +48,7 @@ private slots:
   void blockBackupCheckboxPath(int);
   void blockBackupCheckbox(int);
   void checkOnlyOneInterval(bool);
+  void fillPath(bool);
 
 
 private:
@@ -84,8 +85,8 @@ private:
           if (settValue == "1D") backupOnceDay->setChecked(true);
           else if (settValue == "1W") backupOnceWeek->setChecked(true);
           else if (settValue == "1M") backupOnceMonth->setChecked(true);
-          else if (settValue.at(1) == "h") { backupEveryHour->setChecked(true); howManyHours->setValue(settValue.at(0).unicode()); }
-          else if (settValue.at(1) == "m") { backupEveryMin->setChecked(true); howManyMin->setValue(settValue.at(0).unicode()); }
+          else if (settValue.back() == 'h') { backupEveryHour->setChecked(true); settValue.chop(1); howManyHours->setValue(settValue.toInt()); }
+          else if (settValue.back() == 'm') { backupEveryMin->setChecked(true); settValue.chop(1); howManyMin->setValue(settValue.toInt()); }
       }
   }
 
