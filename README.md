@@ -9,6 +9,7 @@
 6. [Rozwój](#rozwój)  
 7. [Uwagi](#uwagi)  
 8. [Zgłaszanie błędów](#zgłaszanie-błędów)  
+9. [Zmiany w 2018 roku](#zmiany-w-2018-roku)  
 
 <br/>
 <br/>
@@ -196,3 +197,10 @@ Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania
 ## Zgłaszanie błędów
 
 W razie zauważonych błędów lub poważnych braków, można stworzyć wątek [w tym dziale](https://github.com/juliagoda/qfaktury/issues), klikając w zielony przycisk "New issue" po prawej stronie, a następnie wprowadzając tytuł i treść.
+
+<br/>
+<br/>
+
+## Zmiany w 2018 roku
+
+Jako, że w 2018 roku wchodzą zmiany w wystawianiu faktur, program jest w trakcie przepisywania tak, żeby kod był czytelniejszy, poukładany i nie zawierał wielu zbędnych i nieużywanych danych. Planowana jest także nowa gałąź "Debug", która może okazać się przydatna przy późniejszym wykrywaniu błędów krytycznych ale i logicznych z pomocą np. testów jednostkowych lub/i innych metod.
