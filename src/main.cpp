@@ -2,10 +2,10 @@
 #include "Settings.h"
 
 #include <QApplication>
+#include <QCommandLineParser>
 #include <QResource>
 #include <QSplashScreen>
 #include <QStyle>
-#include <QCommandLineParser>
 
 int main(int argc, char **argv) {
 
@@ -23,41 +23,44 @@ int main(int argc, char **argv) {
   MainWindow w;
   w.setWindowState(Qt::WindowMaximized);
 
-  QCommandLineParser* parser = new QCommandLineParser;
+  QCommandLineParser *parser = new QCommandLineParser;
   parser->addHelpOption();
   parser->addVersionOption();
   parser->setApplicationDescription("QFaktury");
-  QCommandLineOption noSplashOption("nosplash", QCoreApplication::translate("nosplash", "Blokuje widok splash przy starcie programu"));
-  parser->addOptions({
-                        noSplashOption
-          });
+  QCommandLineOption noSplashOption(
+      "nosplash",
+      QCoreApplication::translate(
+          "nosplash", "Blokuje widok splash przy starcie programu"));
+  parser->addOptions({noSplashOption});
 
-  parser->process( a );
-
+  parser->process(a);
 
   // if argument for app in commandd line is --nosplash, uses no start window
   if (parser->isSet(noSplashOption)) {
 
-      // sets start window during application load
-      QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
+    // sets start window during application load
+    QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
 
     // else uses start window
     splash.show();
 
-    if (!splash.isVisible()) qDebug() << "QSplash hadn't been visible";
-    if (splash.isHidden()) splash.show();
+    if (!splash.isVisible())
+      qDebug() << "QSplash hadn't been visible";
+    if (splash.isHidden())
+      splash.show();
 
     a.processEvents();
 
     splash.showMessage("Ładowanie danych", Qt::AlignBaseline, Qt::white);
 
-    bool registered = QResource::registerResource(
-    "qfaktury.rcc");
+    bool registered = QResource::registerResource("qfaktury.rcc");
 
     if (!registered) {
-        QResource resource("qfaktury.rcc");
-        if (!resource.isValid()) qDebug() << "resources file " << resource.fileName() << " is not valid";
-        if (resource.size() == 0) qDebug() << "resources file " << resource.fileName() << " is empty";
+      QResource resource("qfaktury.rcc");
+      if (!resource.isValid())
+        qDebug() << "resources file " << resource.fileName() << " is not valid";
+      if (resource.size() == 0)
+        qDebug() << "resources file " << resource.fileName() << " is empty";
     }
 
     splash.showMessage("Ładowanie zasobów", Qt::AlignBaseline, Qt::white);
@@ -65,11 +68,12 @@ int main(int argc, char **argv) {
     splash.finish(&w);
 
     w.show();
-    if (w.isActiveWindow()) a.setActiveWindow(&w);
-    if (!w.hasFocus()) w.setFocus();
+    if (w.isActiveWindow())
+      a.setActiveWindow(&w);
+    if (!w.hasFocus())
+      w.setFocus();
 
-    a.alert(&w,0);
-
+    a.alert(&w, 0);
   }
 
   // if last window is close, closes down application
@@ -85,8 +89,8 @@ int main(int argc, char **argv) {
   a.setApplicationVersion(sett().getVersion(qAppName()));
   a.setStyle(sett().getStyle());
 
-  if( parser->isSet("lang") ) {
-      QLocale::setDefault( QLocale( parser->value("lang") ) );
+  if (parser->isSet("lang")) {
+    QLocale::setDefault(QLocale(parser->value("lang")));
   }
 
   return a.exec();
