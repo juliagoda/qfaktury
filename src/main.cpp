@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 
 
   // if argument for app in commandd line is --nosplash, uses no start window
-  if (!parser->isSet(noSplashOption)) {
+  if (parser->isSet(noSplashOption)) {
 
       // sets start window during application load
       QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
