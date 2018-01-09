@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
   init();
 }
 
+
 MainWindow *MainWindow::instance() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
   return m_instance;

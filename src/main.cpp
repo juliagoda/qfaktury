@@ -1,11 +1,11 @@
 #include "MainWindow.h"
 #include "Settings.h"
 
-#include <QApplication>
-#include <QCommandLineParser>
-#include <QResource>
-#include <QSplashScreen>
-#include <QStyle>
+#include <QtWidgets/QApplication>
+#include <QtCore/QCommandLineParser>
+#include <QtCore/QResource>
+#include <QtWidgets/QSplashScreen>
+#include <QtWidgets/QStyle>
 
 int main(int argc, char **argv) {
 
@@ -13,30 +13,30 @@ int main(int argc, char **argv) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  QApplication a(argc, argv);
+  QApplication application(argc, argv);
 
   // sets language from file chosen in "translations" directory
-  a.installTranslator(sett().getTranslation());
+  application.installTranslator(sett().getTranslation());
 
   // creates instance of main window and move it in according to the screen
   // geometry
-  MainWindow w;
-  w.setWindowState(Qt::WindowMaximized);
+  MainWindow mainWindow;
+  mainWindow.setWindowState(Qt::WindowMaximized);
 
-  QCommandLineParser *parser = new QCommandLineParser;
-  parser->addHelpOption();
-  parser->addVersionOption();
-  parser->setApplicationDescription("QFaktury");
+  QCommandLineParser parser;
+  parser.addHelpOption();
+  parser.addVersionOption();
+  parser.setApplicationDescription("QFaktury");
   QCommandLineOption noSplashOption(
       "nosplash",
       QCoreApplication::translate(
           "nosplash", "Blokuje widok splash przy starcie programu"));
-  parser->addOptions({noSplashOption});
+  parser.addOptions({noSplashOption});
 
-  parser->process(a);
+  parser.process(application);
 
   // if argument for app in commandd line is --nosplash, uses no start window
-  if (parser->isSet(noSplashOption)) {
+  if (!parser.isSet(noSplashOption)) {
 
     // sets start window during application load
     QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
     if (splash.isHidden())
       splash.show();
 
-    a.processEvents();
+    application.processEvents();
 
     splash.showMessage("Ładowanie danych", Qt::AlignBaseline, Qt::white);
 
@@ -65,33 +65,33 @@ int main(int argc, char **argv) {
 
     splash.showMessage("Ładowanie zasobów", Qt::AlignBaseline, Qt::white);
 
-    splash.finish(&w);
+    splash.finish(&mainWindow);
 
-    w.show();
-    if (w.isActiveWindow())
-      a.setActiveWindow(&w);
-    if (!w.hasFocus())
-      w.setFocus();
-
-    a.alert(&w, 0);
   }
 
   // if last window is close, closes down application
-  a.connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
-  w.connect(&w, &MainWindow::destroyed, &a, &QApplication::closeAllWindows);
+  application.connect(&application, SIGNAL(lastWindowClosed()), &application, SLOT(quit()));
+  mainWindow.connect(&mainWindow, &MainWindow::destroyed, &application, &QApplication::closeAllWindows);
   // sets icon, application name, organization name and style for app
   QIcon icon;
   icon.addPixmap(QPixmap(":/res/icons/qfaktury_48.png"), QIcon::Normal,
                  QIcon::Off);
-  a.setWindowIcon(icon);
-  a.setApplicationName("QFaktury");
-  a.setOrganizationName("https://github.com/juliagoda/qfaktury");
-  a.setApplicationVersion(sett().getVersion(qAppName()));
-  a.setStyle(sett().getStyle());
+  application.setWindowIcon(icon);
+  application.setApplicationName("QFaktury");
+  application.setOrganizationName("https://github.com/juliagoda/qfaktury");
+  application.setApplicationVersion(sett().getVersion(qAppName()));
+  application.setStyle(sett().getStyle());
 
-  if (parser->isSet("lang")) {
-    QLocale::setDefault(QLocale(parser->value("lang")));
-  }
+  if (parser.isSet("lang"))
+    QLocale::setDefault(QLocale(parser.value("lang")));
 
-  return a.exec();
+  mainWindow.show();
+  if (mainWindow.isActiveWindow())
+    application.setActiveWindow(&mainWindow);
+  if (!mainWindow.hasFocus())
+    mainWindow.setFocus();
+
+  application.alert(&mainWindow, 0);
+
+  return application.exec();
 }
