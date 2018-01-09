@@ -15,11 +15,8 @@ int main(int argc, char **argv) {
 
   QApplication application(argc, argv);
 
-  // sets language from file chosen in "translations" directory
-  application.installTranslator(sett().getTranslation());
 
-  // creates instance of main window and move it in according to the screen
-  // geometry
+  // creates instance of main window and move it in according to the max screen
   MainWindow mainWindow;
   mainWindow.setWindowState(Qt::WindowMaximized);
 
@@ -41,7 +38,6 @@ int main(int argc, char **argv) {
     // sets start window during application load
     QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
 
-    // else uses start window
     splash.show();
 
     if (!splash.isVisible())
@@ -53,6 +49,7 @@ int main(int argc, char **argv) {
 
     splash.showMessage("Ładowanie danych", Qt::AlignBaseline, Qt::white);
 
+    // loads resources
     bool registered = QResource::registerResource("qfaktury.rcc");
 
     if (!registered) {
@@ -72,6 +69,7 @@ int main(int argc, char **argv) {
   // if last window is close, closes down application
   application.connect(&application, SIGNAL(lastWindowClosed()), &application, SLOT(quit()));
   mainWindow.connect(&mainWindow, &MainWindow::destroyed, &application, &QApplication::closeAllWindows);
+
   // sets icon, application name, organization name and style for app
   QIcon icon;
   icon.addPixmap(QPixmap(":/res/icons/qfaktury_48.png"), QIcon::Normal,
@@ -91,6 +89,7 @@ int main(int argc, char **argv) {
   if (!mainWindow.hasFocus())
     mainWindow.setFocus();
 
+  // shows alert when main window is not shown properly
   application.alert(&mainWindow, 0);
 
   return application.exec();
