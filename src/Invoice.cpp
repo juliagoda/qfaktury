@@ -796,17 +796,17 @@ void Invoice::calcAll(const double &currVal) {
   double res3 = 0;
 
   if (sum1->text() != sett().numberToString(0, 'f', 2)) {
-    res1 = sett().stringToDouble(sum1->text()) * currVal;
+    res1 = (sett().stringToDouble(sum1->text())) * currVal;
     qDebug() << "res1 for discount in calcAll(): " << res1;
   }
 
   if (sum2->text() != sett().numberToString(0, 'f', 2)) {
-    res2 = sett().stringToDouble(sum2->text()) * currVal;
+    res2 = (sett().stringToDouble(sum2->text())) * currVal;
     qDebug() << "res2 for discount in calcAll(): " << res2;
   }
 
   if (sum3->text() != sett().numberToString(0, 'f', 2)) {
-    res3 = sett().stringToDouble(sum3->text()) * currVal;
+    res3 = (sett().stringToDouble(sum3->text())) * currVal;
     qDebug() << "res3 for discount in calcAll(): " << res3;
   }
 
@@ -2477,9 +2477,15 @@ void Invoice::makeInvoiceProducts() {
     if (sett().value("vatval").toBool())
       invStrList += "<td>" + tableGoods->item(i, 9)->text() + "%</td>";
 
+
     double vatPrice =
-        sett().stringToDouble(tableGoods->item(i, 10)->text()) -
-        sett().stringToDouble(tableGoods->item(i, 8)->text()); // brutt-net
+        (sett().stringToDouble(tableGoods->item(i, 10)->text())) -
+        (sett().stringToDouble(tableGoods->item(i, 8)->text())); // brutt-net
+
+    qDebug() << "tableGoods->item(i, 10)->text() brutto: " << tableGoods->item(i, 10)->text();
+    qDebug() << "tableGoods->item(i, 8)->text() net: " << tableGoods->item(i, 8)->text();
+    qDebug() << "VATPRICE TO DOUBLE: " << vatPrice;
+    qDebug() << "VATPRICE TO STRING: " << sett().numberToString(vatPrice, 'f', 2);
 
     if (sett().value("vatprice").toBool())
       invStrList += "<td>" + sett().numberToString(vatPrice, 'f', 2) + "</td>";
@@ -2501,7 +2507,7 @@ void Invoice::makeInvoiceSumm() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   double vatPrice =
-      sett().stringToDouble(sum3->text()) - sett().stringToDouble(sum1->text());
+      (sett().stringToDouble(sum3->text())) - (sett().stringToDouble(sum1->text()));
 
   invStrList += "<tr width=\"100%\"><td width=\"100%\">";
   if (sett().value("css").toString() == "tables.css") {
@@ -2898,17 +2904,10 @@ void Invoice::calculateSum() {
 
   for (int i = 0; i < tableGoods->rowCount(); ++i) {
 
-    double decimalPointsNetto =
-        tableGoods->item(i, 8)->text().right(2).toInt() * 0.01;
-    qDebug() << "decimalPointsNetto << " << decimalPointsNetto;
-    double decimalPointsGross =
-        tableGoods->item(i, 10)->text().right(2).toInt() * 0.01;
-    qDebug() << "decimalPointsGross << " << decimalPointsGross;
-
     net = sett().stringToDouble(tableGoods->item(i, 8)->text());
-    net += decimalPointsNetto;
+   // net += decimalPointsNetto;
     gross = sett().stringToDouble(tableGoods->item(i, 10)->text());
-    gross += decimalPointsGross;
+  //  gross += decimalPointsGross;
     discountValue += tableGoods->item(i, 6)->text().toInt();
 
     nettTotal += net;
