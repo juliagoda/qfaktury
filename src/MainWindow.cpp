@@ -31,6 +31,7 @@
 #include <QProcess>
 #include <QTimer>
 #include <QDateEdit>
+#include <QPointer>
 
 
 MainWindow *MainWindow::m_instance = nullptr;
@@ -2350,9 +2351,12 @@ void MainWindow::noteDownTask(const QDate &date) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  Organizer* organizer = new Organizer(ui->todayExercise, date);
+  //is automatically set to 0 when the referenced object is destroyed
+  QPointer<Organizer> organizer = new Organizer(ui->todayExercise, date);
 
-  //QScopedPointer<Organizer> organizer(new Organizer(ui->todayExercise, date));
+  if (organizer.isNull())
+      delete organizer;
+
 }
 
 
