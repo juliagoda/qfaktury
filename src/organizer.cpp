@@ -71,6 +71,10 @@ bool Organizer::checkMainDirExist(QString planDir) {
 Organizer::~Organizer()
 {
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+    if (tasksWindowToday.isNull())
+        delete tasksWindowToday;
+
     delete ui;
 
 }

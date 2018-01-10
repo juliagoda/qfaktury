@@ -7,6 +7,7 @@
 
 #include <QWidget>
 #include <QDate>
+#include <QPointer>
 
 class QTabWidget;
 class QFile;
@@ -52,7 +53,7 @@ private:
 
     Ui::Organizer *ui;
     QDate calendarDate;
-    QTextEdit* tasksWindowToday;
+    QPointer<QTextEdit> tasksWindowToday;
 
 
 private slots:
