@@ -146,6 +146,7 @@ set( SOURCES
      src/Warehouse.cpp 
      src/DeliveryNote.cpp 
      src/GoodsIssuedNotes.cpp
+     src/organizer.cpp
 )
 
 include_directories(
@@ -186,6 +187,7 @@ qt5_wrap_ui( UIS_HDRS
     ui/ChangeAmount.ui
     ui/Buyers.ui
     ui/BuyersList.ui
+    ui/organizer.ui
     src/SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.ui
 )
 

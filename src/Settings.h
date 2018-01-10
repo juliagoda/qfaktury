@@ -58,6 +58,10 @@ public:
     return dateFormat;
   }
 
+  const QString getPlansDir() {
+      return getWorkingDir() + "/plans";
+  }
+
   // returns date format used while saving the file
   QString getFnameDateFormat() { return fileNameDateFormat; }
 

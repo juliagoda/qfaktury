@@ -16,6 +16,7 @@
 #include "Setting.h"
 #include "User.h"
 #include "XmlDataLayer.h"
+#include "organizer.h"
 
 #include "JlCompress.h"
 #include "quazipdir.h"
@@ -370,7 +371,6 @@ void MainWindow::init() {
   readWarehouses();
   readGoods();
   categorizeYears();
-  checkTodayTask();
   loadPlugins();
 
   if (!ifpdfDirExists()) {
@@ -566,76 +566,6 @@ void MainWindow::categorizeYears() {
     dl->separateOldDocuments(sett().getWarehouseFullDir());
 }
 
-void MainWindow::checkTodayTask(QString whatToDo) {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  QString today = QDate::currentDate().toString();
-  qDebug() << "TODAY IS " << today;
-
-  QString planDir =
-      QDir::homePath() + "/.local/share/data/elinux/plans/" + today + ".txt";
-
-  QFile filename(planDir);
-
-  QTextStream in(&filename);
-
-  ui->todayExercise->setStyleSheet("QTextEdit"
-                                   "{padding-left: 10px;"
-                                   "padding-right: 10px;"
-                                   "padding-top: 30px;"
-                                   "padding-bottom: 30px;"
-                                   "background-color: white;}");
-
-  ui->todayExercise->clear();
-
-  if (whatToDo != "remove") {
-
-    if (filename.exists()) {
-
-      if (!filename.open(QIODevice::ReadOnly | QIODevice::Text)) {
-
-        QFileInfo check_file(filename.fileName());
-
-        if (check_file.exists() && check_file.isFile()) {
-
-          QFile(filename.fileName())
-              .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
-        }
-      }
-
-      while (!in.atEnd()) {
-
-        QString line = in.readLine();
-
-        if (line.isNull()) {
-          ui->todayExercise->append("<br>");
-        }
-
-        calendarNoteJustify(line);
-      }
-
-      ui->todayExercise->setStyleSheet("QTextEdit"
-                                       "{padding-left: 10px;"
-                                       "padding-right: 10px;"
-                                       "padding-top: 30px;"
-                                       "padding-bottom: 30px;"
-                                       "background-color: white;"
-                                       "color: #e51919;"
-                                       "font-weight: bold;}");
-
-      filename.close();
-
-    } else {
-
-      calendarNoteJustify(trUtf8("Dziś nie masz nic do zrobienia"));
-    }
-
-  } else {
-
-    calendarNoteJustify(trUtf8("Dziś nie masz nic do zrobienia"));
-  }
-}
 
 void MainWindow::openWebTableK(int row, int column) {
 
@@ -2416,276 +2346,15 @@ void MainWindow::checkDateRange(const QDate &date) {
 }
 
 
-void MainWindow::noteDownTask(const QDate &taskDate) {
+void MainWindow::noteDownTask(const QDate &date) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  windowTask = new QWidget;
+  Organizer* organizer = new Organizer(ui->todayExercise, date);
 
-  addTaskBtn = new QPushButton;
-  addTaskBtn->setObjectName("addTaskButton");
-
-  QPushButton *addNextTask = new QPushButton;
-  addNextTask->setText(trUtf8("Dodaj kolejne"));
-
-  QPushButton *delTasks = new QPushButton;
-  delTasks->setText(trUtf8("Usuń zadania"));
-
-  QString planDir = QDir::homePath() + "/.local/share/data/elinux/plans/" +
-                    taskDate.toString() + ".txt";
-  QFile filename(planDir);
-
-  if (filename.exists())
-    addTaskBtn->setText(trUtf8("Zastąp zadanie"));
-  else
-    addTaskBtn->setText(trUtf8("Dodaj zadanie"));
-
-  cancelTaskBtn = new QPushButton;
-  cancelTaskBtn->setText(trUtf8("Anuluj zadanie"));
-
-  QHBoxLayout *buttons = new QHBoxLayout;
-  buttons->addWidget(addTaskBtn);
-  if (filename.exists())
-    buttons->addWidget(addNextTask);
-  buttons->addWidget(cancelTaskBtn);
-  if (filename.exists())
-    buttons->addWidget(delTasks);
-
-  QTextEdit *taskDescription = new QTextEdit;
-
-  QFileInfo check_file(filename.fileName());
-
-  if (check_file.exists() && check_file.isFile()) {
-
-    if (!filename.open(QIODevice::ReadOnly | QIODevice::Text)) {
-
-      QFile(filename.fileName())
-          .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
-    }
-
-    QTextStream in(&filename);
-
-    while (!in.atEnd()) {
-
-      QString line = in.readLine();
-
-      if (line.isNull()) {
-        taskDescription->insertPlainText("\n");
-      }
-
-      taskDescription->insertPlainText(line);
-      taskDescription->insertPlainText("\n");
-      taskDescription->moveCursor(QTextCursor::End);
-    }
-
-    filename.close();
-  }
-
-  QVBoxLayout *mainElements = new QVBoxLayout;
-  mainElements->addWidget(taskDescription);
-  mainElements->addLayout(buttons);
-
-  windowTask->setLayout(mainElements);
-  windowTask->show();
-
-  markedDate = taskDate;
-
-  connect(addTaskBtn, SIGNAL(clicked()), this, SLOT(addTaskToList()));
-  connect(addNextTask, SIGNAL(clicked()), this, SLOT(addNextTask()));
-  connect(delTasks, SIGNAL(clicked()), this, SLOT(delTasksFromDay()));
-  connect(cancelTaskBtn, SIGNAL(clicked()), this, SLOT(cancelTaskWidget()));
+  //QScopedPointer<Organizer> organizer(new Organizer(ui->todayExercise, date));
 }
 
-void MainWindow::cancelTaskWidget() {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  windowTask->hide();
-
-  foreach (QWidget *w, windowTask->findChildren<QWidget *>()) {
-    if (!w->windowFlags() && Qt::Window)
-      delete w;
-  }
-
-  if (windowTask != 0)
-    windowTask = 0;
-  delete windowTask;
-}
-
-void MainWindow::delTasksFromDay() {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  QFile file(QDir::homePath() + "/.local/share/data/elinux/plans/" +
-             markedDate.toString() + ".txt");
-  bool removed = false;
-
-  if (file.exists())
-    removed = file.remove();
-
-  if (removed) {
-
-    QMessageBox::information(
-        this, trUtf8("Usuwanie zadań"),
-        trUtf8("Zadania z wybranego dnia zostały pomyślnie usunięte"),
-        QMessageBox::Ok);
-
-  } else {
-
-    file.setPermissions(QFileDevice::ReadOther | QFileDevice::WriteOther);
-    removed = file.remove();
-
-    if (removed) {
-
-      QMessageBox::information(
-          this, trUtf8("Usuwanie zadań"),
-          trUtf8("Zadania z wybranego dnia zostały pomyślnie usunięte"),
-          QMessageBox::Ok);
-
-    } else {
-
-      QMessageBox::critical(
-          this, trUtf8("Usuwanie zadań"),
-          trUtf8("Zadania z wybranego dnia nie mogły zostać pomyślnie "
-                 "usunięte. Zrestartuj program, by wyeliminować ewentualny "
-                 "brak aktualnych danych o plikach."),
-          QMessageBox::Ok);
-    }
-  }
-
-  cancelTaskWidget();
-
-  checkTodayTask("remove");
-}
-
-void MainWindow::addTaskToList() {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  QString planDir = QDir::homePath() + "/.local/share/data/elinux/plans";
-
-  QDir mainPath(planDir);
-
-  if (!mainPath.exists()) {
-
-    mainPath.mkdir(planDir);
-  }
-
-  QString filename = planDir + "/" + markedDate.toString(Qt::TextDate) + ".txt";
-
-  QTextEdit *button = windowTask->findChild<QTextEdit *>();
-
-  QFile file(filename);
-
-  if (file.open(QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text)) {
-    QTextStream stream(&file);
-    stream << button->toPlainText() << endl;
-
-    if (stream.status() == QTextStream::Ok) {
-
-      QMessageBox::information(this, trUtf8("Dodawanie zadania"),
-                               trUtf8("Zadanie zostało pomyślnie stworzone"),
-                               QMessageBox::Ok);
-
-      cancelTaskWidget();
-
-      checkTodayTask(QString("insert"));
-
-    } else {
-
-      QFile(file.fileName())
-          .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
-
-      QMessageBox::critical(
-          this, trUtf8("Dodawanie zadania"),
-          trUtf8("Zadanie nie mogło zostać dodane. Sprawdź, czy istnieje "
-                 "ścieżka: ") +
-              planDir +
-              trUtf8(" . Jeśli istnieje to sprawdź, czy masz uprawnienia do "
-                     "zapisu i odczytu w podanej ścieżce."),
-          QMessageBox::Ok);
-    }
-  } else {
-
-    QFileInfo check_file(file.fileName());
-
-    if (check_file.exists() && check_file.isFile()) {
-
-      QFile(file.fileName())
-          .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
-
-      addTaskToList();
-    }
-  }
-}
-
-void MainWindow::addNextTask() {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  QString planDir = QDir::homePath() + "/.local/share/data/elinux/plans";
-
-  QString filename = planDir + "/" + markedDate.toString(Qt::TextDate) + ".txt";
-
-  QTextEdit *button = windowTask->findChild<QTextEdit *>();
-
-  QFile file(filename);
-  if (file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
-
-    QTextStream stream(&file);
-    stream << "\n" << endl;
-    stream << button->toPlainText() << endl;
-
-    if (stream.status() == QTextStream::Ok) {
-
-      QMessageBox::information(
-          this, trUtf8("Dopisywanie kolejnego zadania"),
-          trUtf8("Dodatkowe zadanie zostało pomyślnie dodane."),
-          QMessageBox::Ok);
-
-      cancelTaskWidget();
-
-      checkTodayTask();
-
-    } else {
-
-      QFileInfo check_file(file.fileName());
-
-      if (check_file.exists() && check_file.isFile()) {
-
-        QFile(file.fileName())
-            .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
-
-        QTextStream stream(&file);
-        stream << "\n" << endl;
-        stream << button->toPlainText() << endl;
-
-        if (stream.status() == QTextStream::Ok) {
-
-          QMessageBox::information(
-              this, trUtf8("Dopisywanie kolejnego zadania"),
-              trUtf8("Dodatkowe zadanie zostało pomyślnie dodane."),
-              QMessageBox::Ok);
-
-          cancelTaskWidget();
-
-          checkTodayTask();
-
-        } else {
-
-          QMessageBox::critical(
-              this, trUtf8("Dopisywanie kolejnego zadania"),
-              trUtf8("Dodatkowe zadanie nie mogło zostać dodane. Sprawdź, czy "
-                     "istnieje ścieżka: ") +
-                  planDir +
-                  trUtf8(" . Jeśli istnieje to sprawdź, czy masz uprawnienia "
-                         "do zapisu i odczytu w podanej ścieżce."),
-              QMessageBox::Ok);
-        }
-      }
-    }
-  }
-}
 
 void MainWindow::openHideOrganizer() {
 

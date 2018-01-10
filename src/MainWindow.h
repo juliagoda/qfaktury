@@ -38,11 +38,12 @@ public:
 
 private slots:
 
-  void createFirstWinBackup();
-  void choosePathBackup();
-  void createBackup();
-  void loadBackup();
-  void sendEmailToBuyer();
+
+  void createFirstWinBackup(); // Backup
+  void choosePathBackup(); // Backup
+  void createBackup(); // Backup
+  void loadBackup(); // Backup
+  void sendEmailToBuyer(); // Email
   void on_WZAction_triggered();
   void on_RWAction_triggered();
 
@@ -71,54 +72,46 @@ public slots:
   void newInvGross();
   void newInvBill();
   bool close();
-  void openHideOrganizer();
-  void noteDownTask(const QDate &);
+  void openHideOrganizer();  // Organizer
+  void noteDownTask(const QDate &); // Organizer
   void goodsAdd();
   void goodsDel();
   void goodsEdit();
-  void findInvoicePdf();
-  void checkDateRange(const QDate &date);
+  void findInvoicePdf(); // Pdf
+  void checkDateRange(const QDate &date); // Debug
   void mainUpdateStatus(QTableWidgetItem *item);
   void showTableMenuT(QPoint p);
   void showTableMenuK(QPoint p);
   void showTableMenuH(QPoint p);
   void showTableMenuM(QPoint p);
-  void pluginSlot();
-  void pluginInfoSlot();
+  void pluginSlot(); // Plugin
+  void pluginInfoSlot(); // Plugin
   void keyPressEvent(QKeyEvent *event);
   void openWebTableK(int, int);
-  void printBuyerList();
-  void printList(QPrinter *);
-  void cancelTaskWidget();
-  void addTaskToList();
-  void addNextTask();
-  void delTasksFromDay();
-  QString changeIfEmpty(QString);
-  bool ifpdfDirExists();
-  void createPdfDir();
-  void generatePdfFromList();
+  void printBuyerList(); // ContactsList
+  void printList(QPrinter *); // ContactsList
+  QString changeIfEmpty(QString); // Templates
+  bool ifpdfDirExists(); // Pdf
+  void createPdfDir(); // Pdf
+  void generatePdfFromList(); // Pdf
 
 protected:
-  virtual void loadPlugins();
+  virtual void loadPlugins(); // Plugin
 
 private:
   IDataLayer *dl;
   Ui::MainWindow *ui;
-  QWidget *windBack;
-  QLineEdit *fileComboBox;
-  QLineEdit *directoryComboBox;
+  QWidget *windBack; // Backup
+  QLineEdit *fileComboBox; // Backup
+  QLineEdit *directoryComboBox; // Backup
 
-  QVector<QAction *> plugActions;
+  QVector<QAction *> plugActions; // Plugin
   QString workingDir;
-  QMap<int, QString> customActions;
+  QMap<int, QString> customActions; // Plugin
   QTimer *timer;
   QList<int> allSymbols;
   QList<int> allSymbolsWarehouse;
-  QWidget *windowTask;
-  QPushButton *cancelTaskBtn;
-  QPushButton *addTaskBtn;
-  QDate markedDate;
-  ownCalendarWidget *calendar;
+  ownCalendarWidget *calendar; // Organizer
   static MainWindow *m_instance;
 
   void saveColumnWidth();
@@ -131,21 +124,8 @@ private:
   void readBuyer();
   void readGoods();
   void categorizeYears();
-  void checkTodayTask(QString whatToDo = QString("append"));
   void createEmergTemplate();
   bool ifEmergTemplateExists();
-  bool applyFiltr(QString);
   bool firstRun();
-
-  inline void calendarNoteJustify(QString text) {
-
-    ui->todayExercise->append(text);
-
-    QTextCursor cursor = ui->todayExercise->textCursor();
-    QTextBlockFormat textBlockFormat = cursor.blockFormat();
-    textBlockFormat.setAlignment(Qt::AlignHCenter);
-    cursor.mergeBlockFormat(textBlockFormat);
-    ui->todayExercise->setTextCursor(cursor);
-  }
 };
 #endif
