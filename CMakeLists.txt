@@ -177,16 +177,16 @@ include_directories(
 endif()
 
 qt5_wrap_ui( UIS_HDRS
-    ui/Setting.ui
-    ui/User.ui
-    ui/MainWindow.ui
-    ui/Invoice.ui
-    ui/GoodsList.ui
-    ui/Goods.ui
-    ui/CustomPaymentDialog.ui
-    ui/ChangeAmount.ui
-    ui/Buyers.ui
-    ui/BuyersList.ui
+    ui/setting.ui
+    ui/user.ui
+    ui/mainwindow.ui
+    ui/invoice.ui
+    ui/goodslist.ui
+    ui/goods.ui
+    ui/custompaymentdialog.ui
+    ui/changeamount.ui
+    ui/buyers.ui
+    ui/buyerslist.ui
     ui/organizer.ui
     src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.ui
 )

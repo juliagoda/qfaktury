@@ -6,7 +6,7 @@
 #define CORRECTION_H
 
 #include "invoice.h"
-#include "ui_Invoice.h"
+#include "ui_invoice.h"
 
 class QComboBox;
 class InvoiceData;

@@ -5,7 +5,7 @@
 #ifndef CHANGEAMOUNT_H
 #define CHANGEAMOUNT_H
 
-#include "ui_ChangeAmount.h"
+#include "ui_changeamount.h"
 
 class QLabel;
 class QSpinBox;

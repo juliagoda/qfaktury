@@ -6,7 +6,7 @@
 #ifndef BUYERSLIST_H
 #define BUYERSLIST_H
 
-#include "ui_BuyersList.h"
+#include "ui_buyerslist.h"
 
 #include <QtXml/qdom.h>
 

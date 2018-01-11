@@ -12,7 +12,7 @@
 #ifndef CUSTOMPAYMENT_H_
 #define CUSTOMPAYMENT_H_
 
-#include "ui_CustomPaymentDialog.h"
+#include "ui_custompaymentdialog.h"
 
 class CustomPaymData;
 

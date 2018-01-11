@@ -6,7 +6,7 @@
 #ifndef BUYERS_H
 #define BUYERS_H
 
-#include "ui_Buyers.h"
+#include "ui_buyers.h"
 
 #include <QStringList>
 

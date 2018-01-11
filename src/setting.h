@@ -5,7 +5,7 @@
 #ifndef SETTING_H
 #define SETTING_H
 
-#include "ui_Setting.h"
+#include "ui_setting.h"
 
 class QTextCodec;
 

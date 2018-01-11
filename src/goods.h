@@ -6,7 +6,7 @@
 #define GOODS_H
 
 #include "productdata.h"
-#include "ui_Goods.h"
+#include "ui_goods.h"
 
 class IDataLayer;
 

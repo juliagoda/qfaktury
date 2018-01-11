@@ -7,7 +7,7 @@
 
 #include <QMainWindow>
 
-#include "ui_MainWindow.h"
+#include "ui_mainwindow.h"
 
 class QKeyEvent;
 class QPrinter;

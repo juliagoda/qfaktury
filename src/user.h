@@ -5,7 +5,7 @@
 #ifndef USER_H
 #define USER_H
 
-#include "ui_User.h"
+#include "ui_user.h"
 
 // class for creating, saving and updating user account with GUI
 class User : public QDialog, public Ui::User {

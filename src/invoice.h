@@ -10,7 +10,7 @@
 
 #include "convertamount.h"
 #include "invoicedata.h"
-#include "ui_Invoice.h"
+#include "ui_invoice.h"
 
 class QPrinter;
 class QNetworkAccessManager;

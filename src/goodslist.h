@@ -6,7 +6,7 @@
 #define GOODSLIST_H
 
 #include "productdata.h"
-#include "ui_GoodsList.h"
+#include "ui_goodslist.h"
 
 class QSpinBox;
 class QLabel;
