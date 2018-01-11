@@ -1,5 +1,5 @@
-#include "MainWindow.h"
-#include "Settings.h"
+#include "mainwindow.h"
+#include "settings.h"
 
 #include <QtWidgets/QApplication>
 #include <QtCore/QCommandLineParser>

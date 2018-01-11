@@ -1,6 +1,6 @@
-﻿#include "organizer.h"
-#include "ui_organizer.h"
-#include "Settings.h"
+﻿#include "ui_organizer.h"
+#include "organizer.h"
+#include "settings.h"
 
 #include <QTabWidget>
 #include <QPushButton>

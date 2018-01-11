@@ -116,36 +116,36 @@ find_package( Qt5 REQUIRED COMPONENTS Gui Core Widgets PrintSupport Xml WebEngin
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
 set( SOURCES    
-     src/XmlDataLayer.cpp 
-     src/BuyerData.cpp 
-     src/CustomPaymData.cpp 
-     src/CustomPayment.cpp 
-     src/CorrectGross.cpp 
-     src/GoodsGrossList.cpp 
-     src/Bill.cpp 
-     src/InvoiceGross.cpp 
-     src/Duplicate.cpp 
-     src/ConvertAmount.cpp 
-     src/Invoice.cpp 
-     src/Buyers.cpp 
-     src/BuyersList.cpp 
-     src/Correction.cpp 
+     src/xmldatalayer.cpp
+     src/buyerdata.cpp
+     src/custompaymdata.cpp
+     src/custompayment.cpp
+     src/correctgross.cpp
+     src/goodsgrosslist.cpp
+     src/bill.cpp
+     src/invoicegross.cpp
+     src/duplicate.cpp
+     src/convertamount.cpp
+     src/invoice.cpp
+     src/buyers.cpp
+     src/buyerslist.cpp
+     src/correction.cpp
      src/main.cpp 
-     src/MainWindow.cpp 
-     src/Goods.cpp 
-     src/GoodsList.cpp 
-     src/Setting.cpp 
-     src/User.cpp 
-     src/ChangeAmount.cpp 
-     src/Validations.cpp 
-     src/InvoiceRR.cpp 
-    src/SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.cpp
+     src/mainwindow.cpp
+     src/goods.cpp
+     src/goodslist.cpp
+     src/setting.cpp
+     src/user.cpp
+     src/changeamount.cpp
+     src/validations.cpp
+     src/invoicerr.cpp
+    src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.cpp
     src/SimpleSmtp_SSL_QT5/smtp_attachements/smtp.cpp
-     src/Send.cpp 
-     src/OwnCalendar.cpp 
-     src/Warehouse.cpp 
-     src/DeliveryNote.cpp 
-     src/GoodsIssuedNotes.cpp
+     src/send.cpp
+     src/owncalendar.cpp
+     src/warehouse.cpp
+     src/deliverynote.cpp
+     src/goodsissuednotes.cpp
      src/organizer.cpp
 )
 
@@ -188,7 +188,7 @@ qt5_wrap_ui( UIS_HDRS
     ui/Buyers.ui
     ui/BuyersList.ui
     ui/organizer.ui
-    src/SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.ui
+    src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.ui
 )
 
 
