@@ -40,7 +40,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 ## Wymagania
 
 - dowolna dystrybucja Linux
-- biblioteka Qt w wersji wyższej lub równej 5.0.0
+- biblioteka Qt w wersji wyższej lub równej 5.10.0
 - paczki qt5-base qt5-webengine (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
 - zlib w wersji wyższej lub równej 1.2 (wymagane dla paczki quazip)
 - quazip w wersji 0.7.3 lub wyższej (wymagane dla tworzenia kopii zapasowych)
@@ -65,16 +65,6 @@ sudo pacman -S zlib gksu php cmake quazip qt5-base qt5-webengine extra-cmake-mod
 # Ubuntu
 
 ```
-sudo apt-get install -y language-pack-en-base
-sudo LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
-sudo apt-get update
-sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake gksu qtbase5-dev qtwebengine5-dev libquazip-qt5-dev extra-cmake-modules
-```
-
-lub 
-
-```
-sudo apt-get install software-properties-common python-software-properties
 sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake gksu qtbase5-dev qtwebengine5-dev libquazip-qt5-dev extra-cmake-modules
 ```
 
@@ -113,9 +103,6 @@ sudo zypper in php7 php7-devel libz1 zlib-devel cmake gksu libgksu libquazip-qt5
 # Linux Mint
 
 ```
-sudo apt-get install -y language-pack-en-base
-sudo LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
-sudo apt-get update
 sudo apt-get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev extra-cmake-modules
 ```
 
