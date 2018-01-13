@@ -39,17 +39,21 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 
 ## Wymagania
 
+
 - dowolna dystrybucja Linux
 - biblioteka Qt w wersji wyższej lub równej 5.10.0
-- paczki qt5-base qt5-webengine (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
+- paczki qt5-base qt5-webengine (lub qtbase5-dev qtwebengine5-dev) (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
 - zlib w wersji wyższej lub równej 1.2 (wymagane dla paczki quazip)
 - quazip w wersji 0.7.3 lub wyższej (wymagane dla tworzenia kopii zapasowych)
 - cmake w wersji 3.9 lub wyższej (wymagane dla kompilacji)
 - extra-cmake-modules w wersji 1.7.0 lub nowszej (wymagane dla kompilacji)
 - php w wersji 7.1 lub wyższej (opcjonalne dla korzystania z danych GUS)
 - gksu w wersji 2.0 lub wyższej (opcjonalne dla konfiguracji PHP)
+- C++ w wersji 11 (kod używa rozwiązań wprowadzonych właśnie w tej wersji jak np. lambda)
 - połączenie z internetem (opcjonalne)
 - aktualny czas systemowy (opcjonalne)
+
+Poniżej znajdują się jednak zależności dla konkretnych dystrybucji.
 
 <br/>
 <br/>
