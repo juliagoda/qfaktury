@@ -119,7 +119,7 @@ sudo apt-get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-
 Wykonujemy pobranie katalogu z plikami w wybranej przez siebie ścieżce i wpisujemy polecenia:
 
 ```
-git clone -b testing https://github.com/juliagoda/qfaktury.git
+git clone https://github.com/juliagoda/qfaktury.git
 cd qfaktury
 mkdir zbudowane
 cd zbudowane
