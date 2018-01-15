@@ -388,8 +388,6 @@ bool Buyers::checkGusPath() {
   strcat(RutaFinal1, homedir);
   strcat(RutaFinal1, br);
 
-  printf(RutaFinal1);
-
   if (system(RutaFinal1) == 0)
     return true;
 
