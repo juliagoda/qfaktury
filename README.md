@@ -39,7 +39,6 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 
 ## Wymagania
 
-
 - dowolna dystrybucja Linux
 - biblioteka Qt w wersji wyższej lub równej 5.10.0
 - paczki qt5-base qt5-webengine (lub qtbase5-dev qtwebengine5-dev) (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
@@ -66,11 +65,48 @@ Poniżej znajdują się jednak zależności dla konkretnych dystrybucji.
 sudo pacman -S zlib gksu php cmake quazip qt5-base qt5-webengine extra-cmake-modules
 ```
 
-# Ubuntu
+# Ubuntu / Linux Mint
+
+Żeby skompilować i zainstalować qfaktury na ubuntu 16.4 i jego pochodnych np. linuxmint 18.3 trzeba:
+
+dodać dodatkowe repozytoria:
 
 ```
-sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake gksu qtbase5-dev qtwebengine5-dev libquazip-qt5-dev extra-cmake-modules
+sudo add-apt-repository ppa:beineri/opt-qt-5.10.0-xenial
+sudo add-apt-repository ppa:aroth/ppa
+sudo add-apt-repository ppa:nschloe/cmake-nightly
+sudo add-apt-repository ppa:ondrej/php 
+
+sudo apt-get update
 ```
+następnie zainstalować:
+
+```
+sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake libquazip5-dev qt510-meta-full libgl-dev extra-cmake-modules build-essential
+```
+
+następnie po kompilacji i instalacji by program się uruchamiał bez problemów
+trzeba usunąć główny pakiet qtbase5-dev w wersji 5.5.1 (bez jego usunięcia 
+nie można utworzyć linku symbolicznego, do nowszej wersji qt 5.10 zlokalizowanej w katalogu /opt (system mówi że nie można utworzyć, bo taki już ustnieje)
+
+```
+sudo apt-get --purge remove qtbase5-dev
+```
+
+na końcu wpisujemy:
+
+```
+sudo updatedb
+```
+
+i robimy link symboliczny do qt 5.10
+
+```
+sudo ln -s /opt/qt510/lib/* /usr/lib/x86_64-linux-gnu/
+```
+<i>Autorem powyższego poradnika jest [etammable](https://github.com/etammable)</i>
+
+<br/>
 
 # Debian Jessie
 
@@ -102,12 +138,6 @@ sudo dnf install zlib-devel cmake beesu quazip qt5-qtbase-devel qt5-qtwebengine-
 
 ```
 sudo zypper in php7 php7-devel libz1 zlib-devel cmake gksu libgksu libquazip-qt5 libqt5-qtbase libqt5-qtwebengine extra-cmake-modules
-```
-
-# Linux Mint
-
-```
-sudo apt-get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev extra-cmake-modules
 ```
 
 <br/>
