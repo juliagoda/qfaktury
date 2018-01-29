@@ -2628,7 +2628,7 @@ void Invoice::makeInvoiceSummAll() {
 
   if (stempel != "") {
     invStrList +=
-        "<img src=\"" + stempel + "\" width=\"100\" " + " height=\"100\" alt=\"Firmowy stempel\" />";
+        "<img src=\"" + stempel + "\" width=\"200\" " + " height=\"150\" alt=\"Firmowy stempel\" />";
   } else {
     invStrList += trUtf8("Pieczęć wystawcy");
   }
