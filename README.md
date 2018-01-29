@@ -161,6 +161,8 @@ lub (w Arch Linux), jeśli instalacja nastąpiła z PKGBUILD:
 
 Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania i zadania w trakcie testów znajdują się [na tej stronie](https://github.com/juliagoda/qfaktury/projects/1).
 
+Z racji tego, że ostatnio pojawia się coraz więcej niedziałających "pull request", została stworzona nowa gałąź o nazwie "merged", gdzie wszystkie nadesłane zmiany będą trafiać i przechodzić testy.
+
 
 <br/>
 <br/>
