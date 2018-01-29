@@ -2483,7 +2483,7 @@ void MainWindow::createBackup() {
 
     if (JlCompress::compressDir(directoryComboBox->text() + QString("/") +
                                     fileComboBox->text() + QString(".zip"),
-                                sett().getWorkingDir(), QDir::AllDirs) &&
+                                sett().getWorkingDir(), true, QDir::AllDirs) &&
         JlCompress::compressFiles(directoryComboBox->text() + QString("/") +
                                       fileComboBox->text() +
                                       QString("-configs.zip"),
