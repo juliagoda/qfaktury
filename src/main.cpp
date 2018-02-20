@@ -1,85 +1,96 @@
-#include "MainWindow.h"
-#include "Settings.h"
+#include "mainwindow.h"
+#include "settings.h"
 
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QResource>
-#include <QSplashScreen>
-#include <QStyle>
-#include <QTimer>
+#include <QtWidgets/QApplication>
+#include <QtCore/QCommandLineParser>
+#include <QtCore/QResource>
+#include <QtWidgets/QSplashScreen>
+#include <QtWidgets/QStyle>
 
 int main(int argc, char **argv) {
 
+  QT_REQUIRE_VERSION(argc, argv, "5.10.0");
+
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  QApplication *a = new QApplication(argc, argv);
+  QApplication application(argc, argv);
 
-  QResource::registerResource(
-      "qfaktury.rcc"); // using the rcc file so it's more portable
-  // Q_INIT_RESOURCE(qfaktury);
 
-  // sets start window during application load
-  QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
+  // creates instance of main window and move it in according to the max screen
+  MainWindow mainWindow;
+  mainWindow.setWindowState(Qt::WindowMaximized);
 
-  // creates instance of main window and move it in according to the screen
-  // geometry
-  MainWindow *w = new MainWindow();
+  QCommandLineParser parser;
+  parser.addHelpOption();
+  parser.addVersionOption();
+  parser.setApplicationDescription("QFaktury");
+  QCommandLineOption noSplashOption(
+      "nosplash",
+      QCoreApplication::translate(
+          "nosplash", "Blokuje widok splash przy starcie programu"));
+  parser.addOptions({noSplashOption});
 
-  //w->move(screen.center() - QPoint(w->width() / 2, w->height() / 2));
-    w->setWindowState(Qt::WindowMaximized);
-  QTimer *showSplash = new QTimer();
-  QTimer *closeSplash = new QTimer();
+  parser.process(application);
 
   // if argument for app in commandd line is --nosplash, uses no start window
-  if (a->arguments().contains("--nosplash")) {
-    w->show();
-  } else {
+  if (!parser.isSet(noSplashOption)) {
 
-    // else uses start window
+    // sets start window during application load
+    QSplashScreen splash(QPixmap(":/res/icons/splash.png"));
+
     splash.show();
 
-    a->processEvents();
+    if (!splash.isVisible())
+      qDebug() << "QSplash hadn't been visible";
+    if (splash.isHidden())
+      splash.show();
 
-    // when start window should to start
-    a->connect(showSplash, SIGNAL(timeout()), w, SLOT(show()));
+    application.processEvents();
 
-    // when start window should to be closed
-    a->connect(closeSplash, SIGNAL(timeout()), &splash, SLOT(close()));
+    splash.showMessage("Ładowanie danych", Qt::AlignBaseline, Qt::white);
 
-    // start of signals
-    showSplash->start(5000);
-    closeSplash->start(4960);
+    // loads resources
+    bool registered = QResource::registerResource("qfaktury.rcc");
+
+    if (!registered) {
+      QResource resource("qfaktury.rcc");
+      if (!resource.isValid())
+        qDebug() << "resources file " << resource.fileName() << " is not valid";
+      if (resource.size() == 0)
+        qDebug() << "resources file " << resource.fileName() << " is empty";
+    }
+
+    splash.showMessage("Ładowanie zasobów", Qt::AlignBaseline, Qt::white);
+
+    splash.finish(&mainWindow);
+
   }
 
   // if last window is close, closes down application
-  a->connect(a, SIGNAL(lastWindowClosed()), a, SLOT(quit()));
+  application.connect(&application, SIGNAL(lastWindowClosed()), &application, SLOT(quit()));
+  mainWindow.connect(&mainWindow, &MainWindow::destroyed, &application, &QApplication::closeAllWindows);
 
   // sets icon, application name, organization name and style for app
   QIcon icon;
   icon.addPixmap(QPixmap(":/res/icons/qfaktury_48.png"), QIcon::Normal,
                  QIcon::Off);
-  a->setWindowIcon(icon);
-  a->setApplicationName("QFaktury");
-  a->setOrganizationName("https://github.com/juliagoda/qfaktury");
-  a->setApplicationVersion(sett().getVersion(qAppName()));
-  a->setStyle(sett().getStyle());
+  application.setWindowIcon(icon);
+  application.setApplicationName("QFaktury");
+  application.setOrganizationName("https://github.com/juliagoda/qfaktury");
+  application.setApplicationVersion(sett().getVersion(qAppName()));
+  application.setStyle(sett().getStyle());
 
-  int ret = a->exec();
+  if (parser.isSet("lang"))
+    QLocale::setDefault(QLocale(parser.value("lang")));
 
-  delete w;
-  delete a;
-  delete showSplash;
-  delete closeSplash;
+  mainWindow.show();
+  if (mainWindow.isActiveWindow())
+    application.setActiveWindow(&mainWindow);
+  if (!mainWindow.hasFocus())
+    mainWindow.setFocus();
 
-  return ret;
+  // shows alert when main window is not shown properly
+  application.alert(&mainWindow, 0);
+
+  return application.exec();
 }
-
-#ifdef WIN32
-#if CMAKE_BUILD_TYPE == Release
-#include <windows.h>
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-                   LPSTR lpCmdLine, int nCmdShow) {
-  main(0, 0);
-}
-#endif
-#endif

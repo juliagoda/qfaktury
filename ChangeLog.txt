@@ -2,9 +2,7 @@
     - Możliwość dodania większej ilości adresów email, numerów telefonu, numerów faks oraz kont bankowych dla użytkownika głównego
     - Tworzenie, aktualizowanie i usuwanie dokumentu WZ i RW
     - Podstawianie danych w wierszach dla kontrahenta, korzystając z informacji pobieranych z Głównego Urzędu Statystycznego
-    - Przeportowanie qmake do cmake
-    - Tworzenie cyklicznie kopii zapasowej w dowolnym odstępie czasu
-    - Eksport wybranych grup danych do plików CSV
+    - przeportowanie qmake do cmake
 
 0.7.0
 	- Przeportowanie na Qt5

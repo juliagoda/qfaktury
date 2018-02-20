@@ -5,7 +5,7 @@ if(POLICY CMP0071)
   cmake_policy(SET CMP0071 NEW)
 endif()
 
-set(QT_MIN_VERSION "5.0.0")
+set(QT_MIN_VERSION "5.10.0")
 
 # Set project version
 set (QFAKTURY_VERSION_MAJOR "0")
@@ -18,8 +18,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SO
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++0x")
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden -Werror -Wall -Wextra -Wno-unused-parameter -pedantic -std=c++0x")
 
 set(QFAKTURY_PATH "/usr/share/qfaktury")
 
@@ -116,36 +115,37 @@ find_package( Qt5 REQUIRED COMPONENTS Gui Core Widgets PrintSupport Xml WebEngin
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
 set( SOURCES    
-     src/XmlDataLayer.cpp 
-     src/BuyerData.cpp 
-     src/CustomPaymData.cpp 
-     src/CustomPayment.cpp 
-     src/CorrectGross.cpp 
-     src/GoodsGrossList.cpp 
-     src/Bill.cpp 
-     src/InvoiceGross.cpp 
-     src/Duplicate.cpp 
-     src/ConvertAmount.cpp 
-     src/Invoice.cpp 
-     src/Buyers.cpp 
-     src/BuyersList.cpp 
-     src/Correction.cpp 
+     src/xmldatalayer.cpp
+     src/buyerdata.cpp
+     src/custompaymdata.cpp
+     src/custompayment.cpp
+     src/correctgross.cpp
+     src/goodsgrosslist.cpp
+     src/bill.cpp
+     src/invoicegross.cpp
+     src/duplicate.cpp
+     src/convertamount.cpp
+     src/invoice.cpp
+     src/buyers.cpp
+     src/buyerslist.cpp
+     src/correction.cpp
      src/main.cpp 
-     src/MainWindow.cpp 
-     src/Goods.cpp 
-     src/GoodsList.cpp 
-     src/Setting.cpp 
-     src/User.cpp 
-     src/ChangeAmount.cpp 
-     src/Validations.cpp 
-     src/InvoiceRR.cpp 
-    src/SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.cpp
+     src/mainwindow.cpp
+     src/goods.cpp
+     src/goodslist.cpp
+     src/setting.cpp
+     src/user.cpp
+     src/changeamount.cpp
+     src/validations.cpp
+     src/invoicerr.cpp
+    src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.cpp
     src/SimpleSmtp_SSL_QT5/smtp_attachements/smtp.cpp
-     src/Send.cpp 
-     src/OwnCalendar.cpp 
-     src/Warehouse.cpp 
-     src/DeliveryNote.cpp 
-     src/GoodsIssuedNotes.cpp
+     src/send.cpp
+     src/owncalendar.cpp
+     src/warehouse.cpp
+     src/deliverynote.cpp
+     src/goodsissuednotes.cpp
+     src/organizer.cpp
 )
 
 include_directories(
@@ -176,17 +176,18 @@ include_directories(
 endif()
 
 qt5_wrap_ui( UIS_HDRS
-    ui/Setting.ui
-    ui/User.ui
-    ui/MainWindow.ui
-    ui/Invoice.ui
-    ui/GoodsList.ui
-    ui/Goods.ui
-    ui/CustomPaymentDialog.ui
-    ui/ChangeAmount.ui
-    ui/Buyers.ui
-    ui/BuyersList.ui
-    src/SimpleSmtp_SSL_QT5/smtp_attachements/mainwindow.ui
+    ui/setting.ui
+    ui/user.ui
+    ui/mainwindow.ui
+    ui/invoice.ui
+    ui/goodslist.ui
+    ui/goods.ui
+    ui/custompaymentdialog.ui
+    ui/changeamount.ui
+    ui/buyers.ui
+    ui/buyerslist.ui
+    ui/organizer.ui
+    src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.ui
 )
 
 

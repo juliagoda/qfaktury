@@ -45,6 +45,7 @@
         <file>icons/good_issue_note.png</file>
         <file>icons/waitForResp.gif</file>
         <file>icons/openPdfDir.png</file>
+        <file>icons/eksportuj_csv24.png</file>
     </qresource>
     <qresource prefix="/animations"/>
 </RCC>
