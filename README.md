@@ -31,6 +31,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - dodanie kolejnych sprzedawców/oddziałów
 - wysłanie e-mail do kontrahentów wraz z załącznikami z możliwością korzystania z gotowych szablonów
 - korzystanie z danych Głównego Urzędu Statystycznego z podaniem numeru NIP
+- eksport danych do plików CSV
 
 
 <br/>

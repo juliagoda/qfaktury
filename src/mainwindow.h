@@ -35,10 +35,14 @@ public:
   int getMaxSymbolWarehouse() const;
   static MainWindow *instance();
   static bool shouldHidden;
+  QString whichBackupPath();
 
 private slots:
 
 
+  void createFirstWinCsv();
+  void choosePathCsv();
+  void createCsvFiles();
   void createFirstWinBackup(); // Backup
   void choosePathBackup(); // Backup
   void createBackup(); // Backup
@@ -94,6 +98,7 @@ public slots:
   bool ifpdfDirExists(); // Pdf
   void createPdfDir(); // Pdf
   void generatePdfFromList(); // Pdf
+  void intervalBackup();
 
 protected:
   virtual void loadPlugins(); // Plugin
@@ -101,6 +106,12 @@ protected:
 private:
   IDataLayer *dl;
   Ui::MainWindow *ui;
+  QHash<QString, QString> idCvsSeller;
+  QHash<QString, QString> idCvsBuyer;
+  QHash<QString, QString> idCvsInvoices;
+  QHash<QString, QString> idCvsWarehouses;
+  QHash<QString, QString> idCvsProducts;
+  QTimer* backupTimerOften;
   QWidget *windBack; // Backup
   QLineEdit *fileComboBox; // Backup
   QLineEdit *directoryComboBox; // Backup
@@ -114,6 +125,7 @@ private:
   ownCalendarWidget *calendar; // Organizer
   static MainWindow *m_instance;
 
+  int getInvoiceTypeFullName(QString invoiceType);
   void saveColumnWidth();
   void init();
   void saveAllSett();
@@ -127,5 +139,13 @@ private:
   void createEmergTemplate();
   bool ifEmergTemplateExists();
   bool firstRun();
+  void createBuyersCsvFiles();
+  void createProductsCsvFiles();
+  void createSellersCsvFiles();
+  void createInvoicesCsvFiles(QDate from, QDate to);
+  void createWareCsvFiles(QDate from, QDate to);
+  void createBackupWithoutGUI();
+  void checkIntervalsForBackup();
 };
+
 #endif

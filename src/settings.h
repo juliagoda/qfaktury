@@ -580,6 +580,8 @@ public:
     return QString(QDir::homePath() + "/.local/share/data/elinux");
   }
 
+  QString getCSVDir() { return QString(getWorkingDir() + "/csv"); }
+
   QString getStyle() {
 
     QString style = value("style").toString();

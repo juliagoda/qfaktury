@@ -1447,15 +1447,19 @@ bool XmlDataLayer::nameFilter(QString nameToCheck, QDate start, QDate end,
   return true;
 }
 
-InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
+InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
+                                            bool onlyCheck) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+  qDebug() << "filename: " << name;
+  qDebug() << "type number: " << QString::number(type);
 
   InvoiceData o_invData;
 
   QDomDocument doc(sett().getInoiveDocName());
   QDomElement root;
   QDomElement purchaser;
+  QDomElement seller;
   QDomElement product;
   QString fName = name;
 
@@ -1494,9 +1498,13 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
   }
 
   QDomNode tmp;
-  tmp = root.firstChild();
-  tmp = tmp.toElement().nextSibling(); // purchaser
+  tmp = root.firstChild(); // buyer
+  seller = tmp.toElement();
+  o_invData.sellerAddress = seller.attribute("street");
+  tmp = tmp.toElement().nextSibling(); // buyer
   purchaser = tmp.toElement();
+
+  o_invData.custTic = purchaser.attribute("tic");
 
   o_invData.customer =
       purchaser.attribute("name") + "," + purchaser.attribute("city") + "," +
@@ -1507,7 +1515,8 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
       purchaser.attribute("email") + ", " + QObject::trUtf8("Strona: ") +
       purchaser.attribute("website");
 
-  Invoice::instance()->buyerName->setCursorPosition(1);
+  if (!onlyCheck)
+    Invoice::instance()->buyerName->setCursorPosition(1);
 
   tmp = tmp.toElement().nextSibling(); // product
   product = tmp.toElement();
@@ -1528,23 +1537,48 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
 
   // "net",
   // "vatBucket", "gross"
-  qDebug() << Invoice::instance()->tableGoods->columnCount();
+  if (!onlyCheck) {
+    qDebug() << Invoice::instance()->tableGoods->columnCount();
 
-  Invoice::instance()->tableGoods->setRowCount(goodsCount);
-  for (i = 0; i < goodsCount; ++i) {
-    for (int j = 0; j < int(sizeof(goodsColumns) / sizeof(*goodsColumns));
-         j++) {
-      Invoice::instance()->tableGoods->setItem(
-          i, j, new QTableWidgetItem(good.attribute(goodsColumns[j])));
-      qDebug() << "LOOP :" << goodsColumns[j]
-               << good.attribute(goodsColumns[j]);
-      qDebug() << "COLUMNS :"
-               << Invoice::instance()->tableGoods->item(i, j)->text();
+    Invoice::instance()->tableGoods->setRowCount(goodsCount);
+    for (i = 0; i < goodsCount; ++i) {
+      for (int j = 0; j < int(sizeof(goodsColumns) / sizeof(*goodsColumns));
+           j++) {
+        Invoice::instance()->tableGoods->setItem(
+            i, j, new QTableWidgetItem(good.attribute(goodsColumns[j])));
+        qDebug() << "LOOP :" << goodsColumns[j]
+                 << good.attribute(goodsColumns[j]);
+        qDebug() << "COLUMNS :"
+                 << Invoice::instance()->tableGoods->item(i, j)->text();
+      }
+      if (good.nextSibling().toElement().tagName() == "product")
+        good = good.nextSibling().toElement();
+      else
+        break;
     }
-    if (good.nextSibling().toElement().tagName() == "product")
-      good = good.nextSibling().toElement();
-    else
-      break;
+  } else {
+    for (i = 0; i < goodsCount; ++i) {
+      ProductData product;
+
+      product.id = good.attribute(goodsColumns[0]).toInt();
+      product.name = good.attribute(goodsColumns[1]);
+      product.code = good.attribute(goodsColumns[2]);
+      product.pkwiu = good.attribute(goodsColumns[3]);
+      product.quantity = sett().stringToDouble(good.attribute(goodsColumns[4]));
+      product.quanType = good.attribute(goodsColumns[5]);
+      product.discount = sett().stringToDouble(good.attribute(goodsColumns[6]));
+      product.price = sett().stringToDouble(good.attribute(goodsColumns[7]));
+      product.nett = sett().stringToDouble(good.attribute(goodsColumns[8]));
+      product.vat = good.attribute(goodsColumns[9]).toInt();
+      product.gross = sett().stringToDouble(good.attribute(goodsColumns[10]));
+
+      o_invData.products[i] = product;
+
+      if (good.nextSibling().toElement().tagName() == "product")
+        good = good.nextSibling().toElement();
+      else
+        break;
+    }
   }
 
   tmp = tmp.toElement().nextSibling();
@@ -1598,7 +1632,8 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type) {
   return o_invData;
 }
 
-WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
+WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type,
+                                                bool onlyCheck) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -1607,6 +1642,7 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
   QDomDocument doc(sett().getWarehouseDocName());
   QDomElement root;
   QDomElement purchaser;
+  QDomElement seller;
   QDomElement product;
   QString fName = name;
 
@@ -1650,8 +1686,12 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
 
   QDomNode tmp;
   tmp = root.firstChild();
+  seller = tmp.toElement();
+  o_invData.sellerAddress = seller.attribute("street");
   tmp = tmp.toElement().nextSibling(); // purchaser
   purchaser = tmp.toElement();
+
+  o_invData.custTic = purchaser.attribute("tic");
 
   o_invData.customer =
       purchaser.attribute("name") + "," + purchaser.attribute("city") + "," +
@@ -1662,7 +1702,8 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
       purchaser.attribute("email") + ", " + QObject::trUtf8("Strona: ") +
       purchaser.attribute("website");
 
-  Invoice::instance()->buyerName->setCursorPosition(1);
+  if (!onlyCheck)
+    Invoice::instance()->buyerName->setCursorPosition(1);
 
   tmp = tmp.toElement().nextSibling(); // product
   product = tmp.toElement();
@@ -1680,36 +1721,57 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type) {
       "id",    "name", "quantity",       "quantityType",
       "price", "nett", "requiredAmount", "givedOutAmount"};
 
-  // "net",
-  // "vatBucket", "gross"
-  qDebug() << Invoice::instance()->tableGoods->columnCount();
+  if (!onlyCheck) {
+    qDebug() << Invoice::instance()->tableGoods->columnCount();
 
-  Invoice::instance()->tableGoods->setRowCount(goodsCount);
-  for (i = 0; i < goodsCount; ++i) {
-    Invoice::instance()->tableGoods->setItem(
-        i, 0, new QTableWidgetItem(good.attribute(goodsColumns[0])));
-    Invoice::instance()->tableGoods->setItem(
-        i, 1, new QTableWidgetItem(good.attribute(goodsColumns[1])));
-    Invoice::instance()->tableGoods->setItem(
-        i, 4, new QTableWidgetItem(good.attribute(goodsColumns[2])));
-    Invoice::instance()->tableGoods->setItem(
-        i, 5, new QTableWidgetItem(good.attribute(goodsColumns[3])));
+    Invoice::instance()->tableGoods->setRowCount(goodsCount);
+    for (i = 0; i < goodsCount; ++i) {
+      Invoice::instance()->tableGoods->setItem(
+          i, 0, new QTableWidgetItem(good.attribute(goodsColumns[0])));
+      Invoice::instance()->tableGoods->setItem(
+          i, 1, new QTableWidgetItem(good.attribute(goodsColumns[1])));
+      Invoice::instance()->tableGoods->setItem(
+          i, 4, new QTableWidgetItem(good.attribute(goodsColumns[2])));
+      Invoice::instance()->tableGoods->setItem(
+          i, 5, new QTableWidgetItem(good.attribute(goodsColumns[3])));
 
-    if (type == 10) {
-      Invoice::instance()->tableGoods->setItem(
-          i, 7, new QTableWidgetItem(good.attribute(goodsColumns[4])));
-      Invoice::instance()->tableGoods->setItem(
-          i, 8, new QTableWidgetItem(good.attribute(goodsColumns[5])));
-      Invoice::instance()->tableGoods->setItem(
-          i, 9, new QTableWidgetItem(good.attribute(goodsColumns[6])));
-      Invoice::instance()->tableGoods->setItem(
-          i, 10, new QTableWidgetItem(good.attribute(goodsColumns[7])));
+      if (type == 10) {
+        Invoice::instance()->tableGoods->setItem(
+            i, 7, new QTableWidgetItem(good.attribute(goodsColumns[4])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 8, new QTableWidgetItem(good.attribute(goodsColumns[5])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 9, new QTableWidgetItem(good.attribute(goodsColumns[6])));
+        Invoice::instance()->tableGoods->setItem(
+            i, 10, new QTableWidgetItem(good.attribute(goodsColumns[7])));
+      }
+
+      if (good.nextSibling().toElement().tagName() == "product")
+        good = good.nextSibling().toElement();
+      else
+        break;
     }
 
-    if (good.nextSibling().toElement().tagName() == "product")
-      good = good.nextSibling().toElement();
-    else
-      break;
+  } else {
+    for (i = 0; i < goodsCount; ++i) {
+      ProductData product;
+
+      product.id = good.attribute(goodsColumns[0]).toInt();
+      product.name = good.attribute(goodsColumns[1]);
+      product.quantity = sett().stringToDouble(good.attribute(goodsColumns[2]));
+      product.quanType = good.attribute(goodsColumns[3]);
+      product.price = sett().stringToDouble(good.attribute(goodsColumns[4]));
+      product.nett = sett().stringToDouble(good.attribute(goodsColumns[5]));
+      product.requiredAmount = good.attribute(goodsColumns[6]).toInt();
+      product.givedOutAmount = good.attribute(goodsColumns[7]).toInt();
+
+      o_invData.products[i] = product;
+
+      if (good.nextSibling().toElement().tagName() == "product")
+        good = good.nextSibling().toElement();
+      else
+        break;
+    }
   }
 
   tmp = tmp.toElement().nextSibling();

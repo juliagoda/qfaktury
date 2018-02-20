@@ -50,6 +50,7 @@ public:
   QString custTic;
   QString custCity;
   QString custName;
+  QString sellerAddress;
   int currencyTypeId;
   int discount;
   CustomPaymData custPaym;

@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>655</width>
+    <width>751</width>
     <height>445</height>
    </rect>
   </property>
@@ -91,7 +91,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="invoiceTab">
        <attribute name="title">
@@ -631,7 +631,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>655</width>
+     <width>751</width>
      <height>30</height>
     </rect>
    </property>
@@ -645,6 +645,7 @@
     <addaction name="fileData_companyAction"/>
     <addaction name="fileSettingsAction"/>
     <addaction name="findInvoiceAction"/>
+    <addaction name="fileExportCSVAction"/>
     <addaction name="separator"/>
     <addaction name="fileExportEDIAction"/>
     <addaction name="fileExport_pdfAction"/>
@@ -1381,6 +1382,15 @@
     <string>Otwórz &amp;folder z dokumentami</string>
    </property>
   </action>
+  <action name="fileExportCSVAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/eksportuj_csv24.png</normaloff>:/res/icons/eksportuj_csv24.png</iconset>
+   </property>
+   <property name="text">
+    <string>Eksportuj dane do formatu &amp;CSV</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="4" margin="9"/>
  <tabstops>
@@ -1393,7 +1403,6 @@
   <tabstop>tableT</tabstop>
  </tabstops>
  <resources>
-  <include location="../qfaktury.qrc"/>
   <include location="../qfaktury.qrc"/>
  </resources>
  <connections/>

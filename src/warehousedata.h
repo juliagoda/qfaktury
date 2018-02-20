@@ -19,6 +19,7 @@ public:
   QDate sellingDate;
   QDate productDate;
   QDate duplDate;
+  QString sellerAddress;
   QString invNr;
   QString paymentType;
   QString additText;
