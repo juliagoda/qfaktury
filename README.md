@@ -1,4 +1,4 @@
-# QFaktury 0.7.1
+# QFaktury 0.7.2
 
 
 1. [Opis](#opis)  
