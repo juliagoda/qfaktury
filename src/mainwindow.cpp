@@ -17,6 +17,7 @@
 #include "user.h"
 #include "xmldatalayer.h"
 #include "organizer.h"
+#include "saftfile.h"
 
 #include "JlCompress.h"
 #include "quazipdir.h"
@@ -335,6 +336,7 @@ void MainWindow::init() {
     QDesktopServices::openUrl(QUrl("https://github.com/juliagoda/qfaktury"));
   });
 
+  connect(ui->generateJPKbtn, SIGNAL(clicked(bool)), this, SLOT(openJPKGenerator()));
   connect(ui->fileExportCSVAction, SIGNAL(triggered()), this,
           SLOT(createFirstWinCsv()));
   connect(ui->actionCreateBackup, SIGNAL(triggered()), this,
@@ -2882,6 +2884,18 @@ void MainWindow::on_RWAction_triggered() {
   allSymbolsWarehouse = dl->getAllSymbolsWarehouse();
   noteWindow = 0;
   delete noteWindow;
+}
+
+
+void MainWindow::openJPKGenerator() {
+
+    qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+    //is automatically set to 0 when the referenced object is destroyed
+    QPointer<Saftfile> saftfileWindow = new Saftfile();
+
+    if (saftfileWindow.isNull())
+        delete saftfileWindow;
 }
 
 // methods that will put into new class

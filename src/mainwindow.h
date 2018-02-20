@@ -39,7 +39,7 @@ public:
 
 private slots:
 
-
+  void openJPKGenerator();
   void createFirstWinCsv();
   void choosePathCsv();
   void createCsvFiles();

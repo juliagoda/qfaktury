@@ -10,7 +10,7 @@ set(QT_MIN_VERSION "5.10.0")
 # Set project version
 set (QFAKTURY_VERSION_MAJOR "0")
 set (QFAKTURY_VERSION_MINOR "7")
-set (QFAKTURY_VERSION_MICRO "1")
+set (QFAKTURY_VERSION_MICRO "2")
 set (QFAKTURY_APPLICATIONS_VERSION "${QFAKTURY_VERSION_MAJOR}.${QFAKTURY_VERSION_MINOR}.${QFAKTURY_VERSION_MICRO}")
 
 find_package(ECM 1.7.0 REQUIRED CONFIG)
@@ -146,6 +146,7 @@ set( SOURCES
      src/deliverynote.cpp
      src/goodsissuednotes.cpp
      src/organizer.cpp
+     src/saftfile.cpp
 )
 
 include_directories(
@@ -187,6 +188,7 @@ qt5_wrap_ui( UIS_HDRS
     ui/buyers.ui
     ui/buyerslist.ui
     ui/organizer.ui
+    ui/saftfile.ui
     src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.ui
 )
 
