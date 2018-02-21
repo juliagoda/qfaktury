@@ -3,6 +3,9 @@
  <author>moux</author>
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,6 +19,9 @@
     <width>600</width>
     <height>256</height>
    </size>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
    <string>QFaktury</string>

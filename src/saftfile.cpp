@@ -105,7 +105,7 @@ void Saftfile::putIntoTable(QVector<InvoiceData> invoices) {
       ui->saftInvoicesTable->item(ui->saftInvoicesTable->rowCount() - 1, 2)->setText(QString::number(gross));
       ui->saftInvoicesTable->item(ui->saftInvoicesTable->rowCount() - 1, 3)->setText(invoices.at(i).sellingDate.toString(sett().getDateFormat()));
       QComboBox* jpkFields = new QComboBox();
-      jpkFields->addItem("według stawki VAT");
+      jpkFields->addItem("na podstawie stawki VAT");
       ui->saftInvoicesTable->setCellWidget(ui->saftInvoicesTable->rowCount() - 1,4,jpkFields);
 
       ui->saftInvoicesTable->item(ui->saftInvoicesTable->rowCount() - 1,0)->setTextAlignment(Qt::AlignCenter);
