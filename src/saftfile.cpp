@@ -1,5 +1,6 @@
 #include "saftfile.h"
 #include "ui_saftfile.h"
+#include "saftfileoutput.h"
 
 #include "idatalayer.h"
 #include "xmldatalayer.h"
@@ -7,6 +8,7 @@
 #include <QMessageBox>
 #include <QTableWidgetItem>
 #include <QComboBox>
+#include <QPointer>
 
 
 Saftfile::Saftfile(QWidget *parent) :
@@ -19,8 +21,10 @@ Saftfile::Saftfile(QWidget *parent) :
     show();
 
     dlSaftfile = new XmlDataLayer;
-    connect(ui->showSAFTinvBtn, SIGNAL(clicked(bool)), this, SLOT(initInvoicesRange()));
-    connect(ui->returnBtn, SIGNAL(clicked(bool)), this, SLOT(close()));
+
+    putBtnToGroup();
+    showConnections();
+
 }
 
 
@@ -33,8 +37,9 @@ Saftfile::Saftfile(IDataLayer* dl, QWidget* parent) :
     setWindowModality(Qt::WindowModal);
     show();
 
-    connect(ui->showSAFTinvBtn, SIGNAL(clicked(bool)), this, SLOT(initInvoicesRange()));
-    connect(ui->returnBtn, SIGNAL(clicked(bool)), this, SLOT(close()));
+    putBtnToGroup();
+    showConnections();
+
 }
 
 
@@ -42,7 +47,59 @@ Saftfile::~Saftfile()
 {
     if (dlSaftfile != 0) dlSaftfile = 0;
     delete dlSaftfile;
+
+    if (groupAppPurp != 0 || groupArtFiles != 0) {
+        groupAppPurp = 0;
+        groupArtFiles = 0;
+    }
+
+    delete groupAppPurp;
+    delete groupArtFiles;
     delete ui;
+}
+
+
+void Saftfile::showConnections() {
+
+    connect(ui->showSAFTinvBtn, SIGNAL(clicked(bool)), this, SLOT(initInvoicesRange()));
+    connect(ui->generationBtn, SIGNAL(clicked(bool)), this, SLOT(prepareNextStep()));
+    connect(ui->returnBtn, SIGNAL(clicked(bool)), this, SLOT(close()));
+}
+
+
+void Saftfile::putBtnToGroup() {
+
+    groupAppPurp = new QButtonGroup();
+    groupAppPurp->addButton(ui->correctionAppBtn);
+    groupAppPurp->addButton(ui->standardAppBtn);
+
+    groupArtFiles = new QButtonGroup();
+    groupArtFiles->addButton(ui->saftJPKVATbtn);
+    groupArtFiles->addButton(ui->saftJPKFAbtn);
+}
+
+
+const QString Saftfile::getFromDateJPK() {
+
+    return ui->jpksFromDate->date().toString("yyyy-MM-dd");
+}
+
+
+const QString Saftfile::getToDateJPK() {
+
+    return ui->jpksToDate->date().toString("yyyy-MM-dd");
+}
+
+
+const QString Saftfile::getApplicationPurpose() {
+
+    return groupAppPurp->checkedButton()->text();
+}
+
+
+const QString Saftfile::getJpkFileArt() {
+
+    return groupArtFiles->checkedButton()->text();
 }
 
 
@@ -124,9 +181,38 @@ void Saftfile::putIntoTable(QVector<InvoiceData> invoices) {
 
 }
 
+
+QVector<InvoiceData> Saftfile::addSAFTFieldsToList(QVector<InvoiceData> invoices) {
+
+
+
+    for (int i = 0; i < invoices.size(); ++i) {
+
+        if (invoices.at(i).invNr == ui->saftInvoicesTable->item(i, 1)->text()) {
+
+            QString textSAFT = qobject_cast<QComboBox*>(ui->saftInvoicesTable->cellWidget(i,4))->currentText();
+
+          //  invoices.at(i).jpkFieldText = textSAFT;
+        }
+    }
+
+    return invoices;
+}
+
 // SLOTS //
 
 void Saftfile::initInvoicesRange() {
 
-    putIntoTable(getInvFromRange());
+    invs = getInvFromRange();
+    putIntoTable(invs);
+}
+
+
+void Saftfile::prepareNextStep() {
+
+    //is automatically set to 0 when the referenced object is destroyed
+    QPointer<SaftfileOutput> saftfileoutput = new SaftfileOutput(addSAFTFieldsToList(invs));
+
+    if (saftfileoutput.isNull())
+        delete saftfileoutput;
 }

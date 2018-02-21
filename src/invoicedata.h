@@ -57,6 +57,8 @@ public:
   QDate issueDate;
   int invoiceType; // 1 - FVAT, 2 - FPro, 3 - corr, 4 - FBrutto
 
+  QString jpkFieldText;
+
   /**
    *  Return invoice type
    */

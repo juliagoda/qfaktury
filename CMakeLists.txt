@@ -147,6 +147,7 @@ set( SOURCES
      src/goodsissuednotes.cpp
      src/organizer.cpp
      src/saftfile.cpp
+     src/saftfileoutput.cpp
 )
 
 include_directories(
