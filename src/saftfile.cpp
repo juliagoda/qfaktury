@@ -15,10 +15,12 @@ Saftfile::Saftfile(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Generowanie JPK");
+    setWindowModality(Qt::WindowModal);
     show();
 
     dlSaftfile = new XmlDataLayer;
     connect(ui->showSAFTinvBtn, SIGNAL(clicked(bool)), this, SLOT(initInvoicesRange()));
+    connect(ui->returnBtn, SIGNAL(clicked(bool)), this, SLOT(close()));
 }
 
 
@@ -28,9 +30,11 @@ Saftfile::Saftfile(IDataLayer* dl, QWidget* parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Generowanie JPK");
+    setWindowModality(Qt::WindowModal);
     show();
 
     connect(ui->showSAFTinvBtn, SIGNAL(clicked(bool)), this, SLOT(initInvoicesRange()));
+    connect(ui->returnBtn, SIGNAL(clicked(bool)), this, SLOT(close()));
 }
 
 
