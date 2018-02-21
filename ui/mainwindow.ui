@@ -332,7 +332,7 @@
           <item>
            <widget class="QPushButton" name="generateJPKbtn">
             <property name="text">
-             <string>Generate JPK</string>
+             <string>Generuj plik JPK</string>
             </property>
            </widget>
           </item>

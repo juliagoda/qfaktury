@@ -2892,7 +2892,7 @@ void MainWindow::openJPKGenerator() {
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
     //is automatically set to 0 when the referenced object is destroyed
-    QPointer<Saftfile> saftfileWindow = new Saftfile();
+    QPointer<Saftfile> saftfileWindow = new Saftfile(dl);
 
     if (saftfileWindow.isNull())
         delete saftfileWindow;

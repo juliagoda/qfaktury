@@ -82,6 +82,16 @@
                <pointsize>10</pointsize>
               </font>
              </property>
+             <property name="dateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2018</year>
+               <month>1</month>
+               <day>1</day>
+              </datetime>
+             </property>
             </widget>
            </item>
           </layout>
@@ -112,6 +122,16 @@
               <font>
                <pointsize>10</pointsize>
               </font>
+             </property>
+             <property name="dateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2018</year>
+               <month>1</month>
+               <day>1</day>
+              </datetime>
              </property>
             </widget>
            </item>
@@ -178,19 +198,6 @@
            </item>
           </layout>
          </item>
-         <item>
-          <spacer name="verticalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
         </layout>
        </item>
        <item>
@@ -235,6 +242,9 @@
               <property name="text">
                <string>Standardowe</string>
               </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -254,19 +264,6 @@
                <string>&amp;Korekta</string>
               </property>
              </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
           </widget>
@@ -301,6 +298,9 @@
               <property name="text">
                <string>&amp;JPK_VAT</string>
               </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -320,7 +320,7 @@
                <string>Jednolity plik kontrolny dla faktur VAT</string>
               </property>
               <property name="text">
-               <string>JPK_FA</string>
+               <string>JPK_&amp;FA</string>
               </property>
              </widget>
             </item>
@@ -345,9 +345,25 @@
       </layout>
      </item>
      <item>
+      <spacer name="verticalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QTableWidget" name="saftInvoicesTable">
        <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>130</number>
+        <number>140</number>
        </attribute>
        <column>
         <property name="text">

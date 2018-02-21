@@ -1794,7 +1794,7 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type,
 }
 
 QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
-                                                        QDate end) {
+                                                        QDate end, bool onlyCheck) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -1871,6 +1871,7 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
     if (nameFilter(files[i], start, end, sett().getInoiveDocName(),
                    QFileInfo(file).absolutePath())) {
 
+        if (!onlyCheck) {
       invDt.id = files[i];
       root = doc.documentElement();
       invDt.invNr = root.attribute("no");
@@ -1890,7 +1891,13 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
       invDt.custName = nab.toElement().attribute("name", "NULL");
 
       o_invDataVec.push_back(invDt);
-    }
+
+        } else {
+
+      o_invDataVec.push_back(invoiceSelectData(files[i], 1, true));
+
+        }
+        }
 
     root = doc.documentElement();
     QString tmp = root.attribute("sellingDate");

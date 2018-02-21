@@ -8,6 +8,8 @@
 #include <QDate>
 #include <QTableWidgetItem>
 
+#include "settings.h"
+
 
 // class for creating QTableWidgetItem, including inherited virtual methods for extra functionality
 class DateWidgetItem : public QTableWidgetItem {

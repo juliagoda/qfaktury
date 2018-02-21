@@ -22,7 +22,7 @@ public:
     InvoiceData(){}
     virtual ~InvoiceData(){}
 
-  QString getCustomer() {return customer;}
+  QString getCustomer() { return customer; }
   QString customer; // buyer
   QMap<int, ProductData> products;
   QDate liabDate;
@@ -102,6 +102,25 @@ public:
 
     return ret;
   }
+
+  int getInvoiceNameReturnType(QString invoiceType) {
+
+    if (invoiceType == QObject::trUtf8("FVAT")) return 1;
+    else if (invoiceType == QObject::trUtf8("FPro")) return 2;
+    else if (invoiceType == QObject::trUtf8("korekta")) return 3;
+    else if (invoiceType == QObject::trUtf8("FBrutto")) return 4;
+    else if (invoiceType == QObject::trUtf8("kbrutto")) return 5;
+    else if (invoiceType == QObject::trUtf8("rachunek")) return 6;
+    else if (invoiceType == QObject::trUtf8("duplikat")) return 7;
+    else if (invoiceType == QObject::trUtf8("RR")) return 8;
+    else if (invoiceType == QObject::trUtf8("FVAT")) return 9;
+    else if (invoiceType == QObject::trUtf8("RW")) return 10;
+    else return 1;
+
+    return 1;
+
+}
+
 };
 
 #endif
