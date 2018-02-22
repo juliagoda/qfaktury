@@ -109,7 +109,7 @@ else()
 endif()
 
 
-find_package( Qt5 REQUIRED COMPONENTS Gui Core Widgets PrintSupport Xml WebEngineWidgets Network )
+find_package( Qt5 REQUIRED COMPONENTS Gui Core Widgets PrintSupport Xml XmlPatterns WebEngineWidgets Network )
 
 
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
@@ -206,6 +206,7 @@ target_link_libraries (qfaktury
     Qt5::Widgets
     Qt5::PrintSupport
     Qt5::Xml
+    Qt5::XmlPatterns
     Qt5::WebEngineWidgets
     Qt5::Network 
     quazip5
@@ -218,6 +219,7 @@ target_link_libraries (qfaktury
     Qt5::Widgets
     Qt5::PrintSupport
     Qt5::Xml
+    Qt5::XmlPatterns
     Qt5::WebEngineWidgets
     Qt5::Network 
     quazip

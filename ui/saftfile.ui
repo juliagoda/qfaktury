@@ -265,6 +265,30 @@
               </property>
              </widget>
             </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <widget class="QLabel" name="corrNrLabel">
+                <property name="text">
+                 <string>Nr korekty</string>
+                </property>
+                <property name="buddy">
+                 <cstring>correctionJpkNr</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="correctionJpkNr">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>9</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
            </layout>
           </widget>
          </item>
@@ -296,7 +320,7 @@
                <string>Jednolity plik kontrolny dla ewidencji zakupu i sprzedaży VAT</string>
               </property>
               <property name="text">
-               <string>&amp;JPK_VAT</string>
+               <string>&amp;JPK_VAT (3)</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -320,7 +344,7 @@
                <string>Jednolity plik kontrolny dla faktur VAT</string>
               </property>
               <property name="text">
-               <string>JPK_&amp;FA</string>
+               <string>JPK_FA (&amp;1)</string>
               </property>
              </widget>
             </item>

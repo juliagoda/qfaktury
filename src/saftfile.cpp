@@ -63,7 +63,22 @@ void Saftfile::showConnections() {
 
     connect(ui->showSAFTinvBtn, SIGNAL(clicked(bool)), this, SLOT(initInvoicesRange()));
     connect(ui->generationBtn, SIGNAL(clicked(bool)), this, SLOT(prepareNextStep()));
+    connect(groupAppPurp, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonPressed),
+        [=](QAbstractButton *button){
+        QString btnText = button->text();
+        btnText = btnText.remove('&');
+        if (button->text() == "Korekta") {
+            ui->corrNrLabel->show();
+            ui->corrNrLabel->buddy()->show();
+        } else {
+            ui->corrNrLabel->hide();
+            ui->corrNrLabel->buddy()->hide();
+        }
+        update();
+    });
     connect(ui->returnBtn, SIGNAL(clicked(bool)), this, SLOT(close()));
+
+
 }
 
 
@@ -93,13 +108,28 @@ const QString Saftfile::getToDateJPK() {
 
 const QString Saftfile::getApplicationPurpose() {
 
-    return groupAppPurp->checkedButton()->text();
+    QString text = groupAppPurp->checkedButton()->text();
+    return text.remove('&');
+}
+
+
+const QString Saftfile::getJpkFileArtWithVersion() {
+
+    QString text = groupArtFiles->checkedButton()->text();
+    return text.remove('&');
 }
 
 
 const QString Saftfile::getJpkFileArt() {
 
-    return groupArtFiles->checkedButton()->text();
+    QString text = groupArtFiles->checkedButton()->text();
+    text = text.remove('&');
+    return text.left(text.indexOf(' '));
+}
+
+const QString Saftfile::getCorrectionNr() {
+
+    return ui->correctionJpkNr->text();
 }
 
 
@@ -117,6 +147,11 @@ QVector<InvoiceData> Saftfile::getInvFromRange() {
     if (toDateisLower()) {
         QMessageBox::information(this, "Błąd przedziału czasu", "Data końcowa nie może być wcześniejsza od daty początkowej");
         ui->jpksToDate->setDate(ui->jpksFromDate->date());
+    }
+
+    if (ui->jpksFromDate->date().year() < 2018) {
+        QMessageBox::information(this, "Błąd przedziału czasu", "Data początkowa nie może sięgać daty wcześniejszej niż 1 stycznia 2018 roku. Jest to spowodowane tym, że program używa generatora dla JPK_VAT w wersji 3, ważnej od 2018 roku.");
+        ui->jpksFromDate->setDate(QDate(2018,1,1));
     }
 
     QVector<InvoiceData> invoicesVec;
