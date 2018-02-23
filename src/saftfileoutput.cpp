@@ -1,8 +1,9 @@
 #include "saftfileoutput.h"
 
-#include <QXmlSchema>
-#include <QXmlStreamWriter>
 #include <QRegularExpressionMatchIterator>
+#include <QStringList>
+#include <QList>
+
 
 SaftfileOutput::SaftfileOutput(QVector<InvoiceData> invs) :
     invoices(invs)
@@ -24,12 +25,7 @@ QString SaftfileOutput::prepareContent() {
 
 QXmlSchema SaftfileOutput::getXsdSchemaFromWebsite(QString fileArt) {
 
-    QUrl url;
-
-    if (fileArt == "JPK_VAT")
-    url("http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd");
-    else if (fileArt == "JPK_FA")
-    url("http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2011/06/21/eD/DefinicjeTypy/ElementarneTypyDanych_v3-0E.xsd");
+    QUrl url(prepareSchema(fileArt));
 
     QXmlSchema schema;
     if (schema.load(url) == true)
@@ -76,18 +72,86 @@ void SaftfileOutput::saveXmlFile() {
     xmlWriter.writeAttribute("xmlns:tns","http://jpk.mf.gov.pl/wzor/2017/11/13/1113/");
     xmlWriter.writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
     xmlWriter.writeAttribute("xmlns:kck", "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyCECHKRAJOW/");
-    xmlWriter.writeAttribute("xsi:schemaLocation","http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd");
+    xmlWriter.writeAttribute("xsi:schemaLocation",prepareSchema(getJpkFileArt()).toString());
     xmlWriter.writeAttribute("xml:lang", "pl");
+    xmlWriter.writeEndElement();
 
     xmlWriter.writeStartElement("tns:Naglowek");
     xmlWriter.writeTextElement("tns:KodFormularza", getJpkFileArt() );
     xmlWriter.writeAttribute("kodSystemowy", getJpkFileArtWithVersion());
-    xmlWriter.writeAttribute("wersjaSchemy", prepareSchema(getJpkFileArt()));
+    xmlWriter.writeAttribute("wersjaSchemy", prepareSchemaVersion(getJpkFileArt()));
     xmlWriter.writeTextElement("tns:WariantFormularza", prepareFileVarriant(getJpkFileArtWithVersion() );
     xmlWriter.writeTextElement("tns:CelZlozenia", prepareAppPurposeNr(getJpkFileArt(), getApplicationPurpose()) );
     xmlWriter.writeTextElement("tns:DataWytworzeniaJPK", QDateTime::currentDateTime() );
     xmlWriter.writeTextElement("tns:DataOd", getFromDateJPK() );
     xmlWriter.writeTextElement("tns:DataDo", getToDateJPK() );
+
+    switch (qRegisterMetaType<JPKType>()) {
+    case 0:
+
+        saveXmlFileJKP_VAT(xmlWriter);
+        break;
+    case 1:
+        saveXmlFileJKP_FA(xmlWriter);
+        break;
+    default:
+
+        break;
+    }
+
+
+
+    file.close();
+}
+
+
+QString SaftfileOutput::prepareSchemaVersion(QString fileArt) {
+
+    if (fileArt == "JPK_VAT") return QString("1-1");
+    else if (fileArt == "JPK_FA") return QString("1-0");
+
+    return "1-1";
+}
+
+
+QString SaftfileOutput::prepareAppPurposeNr(QString fileArt, QString filePurpose) {
+
+    if (fileArt == "JPK_FA" && filePurpose == "Standardowe") return "1";
+    else if (fileArt == "JPK_FA" && filePurpose == "Korekta") return getCorrectionNr();
+    else if (fileArt == "JPK_VAT" && filePurpose == "Standardowe") return "0";
+    else if (fileArt == "JPK_VAT" && filePurpose == "Korekta") return getCorrectionNr(); // in range 1 - 9
+
+}
+
+QString SaftfileOutput::prepareFileVarriant(QString fileArtWithVersion) {
+
+    QString number{"1"};
+    QRegularExpression rx("[0-9]+");
+    QRegularExpressionMatchIterator matches = rx.globalMatch(fileArtWithVersion);
+    while (matches.hasNext()) {
+        QRegularExpressionMatch match = matches.next();
+        qDebug() << match.captured(0);
+        number = match.captured(0);
+    }
+
+    return number;
+}
+
+QUrl SaftfileOutput::prepareSchema(QString fileArt) {
+
+    QUrl url;
+
+    if (fileArt == "JPK_VAT")
+    url("http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd");
+    else if (fileArt == "JPK_FA")
+    url("http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2011/06/21/eD/DefinicjeTypy/ElementarneTypyDanych_v3-0E.xsd");
+
+    return url;
+}
+
+
+void SaftfileOutput::saveXmlFileJKP_VAT(QXmlStreamWriter& xmlWriter) {
+
     xmlWriter.writeTextElement("tns:NazwaSystemu", "QFaktury" );
     xmlWriter.writeEndElement();
 
@@ -163,38 +227,182 @@ void SaftfileOutput::saveXmlFile() {
     xmlWriter.writeTextElement("tns:LiczbaWierszyZakupow", "0" );
     xmlWriter.writeTextElement("tns:PodatekNalezny", "0.00" );
     xmlWriter.writeEndElement();
-
-        file.close();
 }
 
 
-QString SaftfileOutput::prepareSchema(QString fileArt) {
+void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
 
-    if (fileArt == "JPK_VAT") return QString("1-1");
-    else if (fileArt == "JPK_FA") return QString("1-0");
-}
+    xmlWriter.writeTextElement("tns:DomyslnyKodWaluty", checkCurrenciesInList(invoices) );
+    xmlWriter.writeTextElement("tns:KodUrzedu", getTaxOfficeNr() );
+    xmlWriter.writeEndElement();
+
+    xmlWriter.writeStartElement("tns:Podmiot1");
+        xmlWriter.writeStartElement("tns:IdentyfikatorPodmiotu");
+            QSettings settings("elinux", "user");
+            settings.beginGroup("choosenSeller");
+            xmlWriter.writeTextElement("etd:NIP", settings.value("tic").toString().remove('-') );
+            xmlWriter.writeTextElement("etd:PelnaNazwa", settings.value("name").toString() );
+            xmlWriter.writeTextElement("etd:REGON", settings.value("regon").toString() );
+            settings.endGroup();
+        xmlWriter.writeEndElement();
+        xmlWriter.writeStartElement("tns:AdresPodmiotu");
+        // TODO
+        // Add more places for user account
+            xmlWriter.writeTextElement("etd:KodKraju", settings.value("regon").toString();
+            xmlWriter.writeTextElement("etd:Wojewodztwo", settings.value("regon").toString();
+            xmlWriter.writeTextElement("etd:Powiat", settings.value("regon").toString();
+            xmlWriter.writeTextElement("etd:Gmina", settings.value("regon").toString();
+            xmlWriter.writeTextElement("etd:Ulica", settings.value("regon").toString();
+            xmlWriter.writeTextElement("etd:NrDomu", settings.value("regon").toString();
+            xmlWriter.writeTextElement("etd:NrLokalu", settings.value("regon").toString();
+            xmlWriter.writeTextElement("etd:Miejscowosc", settings.value("regon").toString();
+            xmlWriter.writeTextElement("etd:KodPocztowy", settings.value("regon").toString();
+            xmlWriter.writeTextElement("etd:Poczta", settings.value("regon").toString();
+        xmlWriter.writeEndElement();
+    xmlWriter.writeEndElement();
+
+    int sellCounts = 0;
+    double invSum = 0.00;
+    double gross = 0;
+
+    for (int i = 0; i < invoices.size(); ++i) {
+
+        sellCounts++;
+
+        xmlWriter.writeStartElement("tns:Faktura");
+        xmlWriter.writeAttribute("typ", "G");
+            xmlWriter.writeTextElement("tns:P_1", );
+            xmlWriter.writeTextElement("tns:P_2A", );
+            xmlWriter.writeTextElement("tns:P_3A", );
+            xmlWriter.writeTextElement("tns:P_3B", );
+            xmlWriter.writeTextElement("tns:P_3C", );
+            xmlWriter.writeTextElement("tns:P_3D", );
+            xmlWriter.writeTextElement("tns:P_4B", );
+            xmlWriter.writeTextElement("tns:P_5B", );
+            xmlWriter.writeTextElement("tns:P_6", );
+            xmlWriter.writeTextElement("tns:P_13_1", );
+            xmlWriter.writeTextElement("tns:P_14_1", );
 
 
-QString SaftfileOutput::prepareAppPurposeNr(QString fileArt, QString filePurpose) {
+            QList<ProductData> products1 = invoices.at(i).products.values();
 
-    if (fileArt == "JPK_FA" && filePurpose == "Standardowe") return "1";
-    else if (fileArt == "JPK_FA" && filePurpose == "Korekta") return getCorrectionNr();
-    else if (fileArt == "JPK_VAT" && filePurpose == "Standardowe") return "0";
-    else if (fileArt == "JPK_VAT" && filePurpose == "Korekta") return getCorrectionNr(); // in range 1 - 9
+            for (int j = 0; j < products1.count(); j++) {
+              gross += products1.at(j).gross;
+            }
 
-}
+            invSum += gross;
 
-QString SaftfileOutput::prepareFileVarriant(QString fileArtWithVersion) {
+            xmlWriter.writeTextElement("tns:P_15", QString("%1").arg(gross));
+            xmlWriter.writeTextElement("tns:P_16", );
+            xmlWriter.writeTextElement("tns:P_17", );
+            xmlWriter.writeTextElement("tns:P_18", );
+            xmlWriter.writeTextElement("tns:P_19", );
+            xmlWriter.writeTextElement("tns:P_20", );
+            xmlWriter.writeTextElement("tns:P_21", );
+            xmlWriter.writeTextElement("tns:P_22", );
+            xmlWriter.writeTextElement("tns:P_23", );
+            xmlWriter.writeTextElement("tns:P_106E_2", );
+            xmlWriter.writeTextElement("tns:P_106E_3", );
+            xmlWriter.writeTextElement("tns:RodzajFaktury", );
+        xmlWriter.writeEndElement();
 
-    QString number{"1"};
-    QRegularExpression rx("[0-9]+");
-    QRegularExpressionMatchIterator matches = rx.globalMatch(fileArtWithVersion);
-    while (matches.hasNext()) {
-        QRegularExpressionMatch match = matches.next();
-        qDebug() << match.captured(0);
-        number = match.captured(0);
+     }
+
+    xmlWriter.writeStartElement("tns:FakturaCtrl");
+        xmlWriter.writeTextElement("tns:LiczbaFaktur", QString::number(sellCounts));
+        xmlWriter.writeTextElement("tns:WartoscFaktur", QString("%1").arg(invSum));
+    xmlWriter.writeEndElement();
+
+    xmlWriter.writeStartElement("tns:StawkiPodatku");
+
+    QStringList sortedVats = getSortedVats(invoices);
+    int limit = sortedVats.count() > 5 ? 5 : sortedVats.count();
+
+    for (int k = 0; k < limit; k++) {
+
+        xmlWriter.writeTextElement(QString("tns:Stawka%1").arg(k+1), sortedVats.at(k));
+
+        if (k == (limit-1)) {
+            for (int l = (k+1); l < (5 - l); l++) {
+                xmlWriter.writeTextElement(QString("tns:Stawka%1").arg(l+1), sortedVats.at(l));
+            }
+        }
     }
 
-    return number;
+        xmlWriter.writeEndElement();
+
+        int invProdCounts = 0;
+        int nettSum = 0.00;
+
+        for (int i = 0; i < invoices.size(); ++i) {
+
+            QList<ProductData> products1 = invoices.at(i).products.values();
+
+            for (int j = 0; j < products1.count(); j++) {
+                  invProdCounts++;
+                  xmlWriter.writeStartElement("tns:FakturaWiersz");
+                  xmlWriter.writeAttribute("typ", "G");
+                    xmlWriter.writeTextElement("tns:P_2B", );
+                    xmlWriter.writeTextElement("tns:P_7", );
+                    xmlWriter.writeTextElement("tns:P_8B", );
+                    xmlWriter.writeTextElement("tns:P_9A", );
+                    xmlWriter.writeTextElement("tns:P_9B", );
+
+                    nettSum += products1.at(i).nett;
+                    xmlWriter.writeTextElement("tns:P_11", QString("%1").arg(products1.at(i).nett));
+                    xmlWriter.writeTextElement("tns:P_11A", );
+                    xmlWriter.writeTextElement("tns:P_12", );
+                  xmlWriter.writeEndElement();
+            }
+        }
+
+        xmlWriter.writeStartElement("tns:FakturaWierszCtrl");
+            xmlWriter.writeTextElement("tns:LiczbaWierszyFaktur", QString::number(invProdCounts));
+            xmlWriter.writeTextElement("tns:WartoscWierszyFaktur", QString("%1").arg(nettSum));
+        xmlWriter.writeEndElement();
+
 }
 
+
+QString SaftfileOutput::checkCurrenciesInList(QVector<InvoiceData> inv) {
+
+    bool allTheSame = true;
+
+    for (int x = 0; x < inv.size(); x++) {
+
+        if (inv.at(x).currencyType != getDefaultCur()) {
+            // TODO
+            // get bureau sum from website
+            // for this InvoiceData multiple all needed value to default sums
+            // change text of this currency to default
+            allTheSame = false;
+        }
+
+    }
+
+    if (allTheSame) return getDefaultCur();
+
+    return "PLN";
+}
+
+
+QStringList SaftfileOutput::getSortedVats(QVector<InvoiceData> inv) {
+
+    QStringList vats = QStringList();
+
+    for (int i = 0; i < inv.size(); ++i) {
+
+            QList<ProductData> products1 = inv.at(i).products.values();
+
+            for (int j = 0; j < products1.count(); j++) {
+              QString vat = QString("%1").arg(products1.at(j).vat/100);
+
+              if (!vats.contains(vat)) vats.append(vat);
+
+    }
+            // sorts from greater value to less
+            qSort(vats.begin(), vats.end(), qGreater<QString>());
+
+        return vats;
+
+}

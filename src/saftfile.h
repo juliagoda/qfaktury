@@ -33,6 +33,10 @@ protected:
     const QString getToDateJPK();
     const QString getApplicationPurpose();
     const QString getJpkFileArt();
+    const QString getJpkFileArtWithVersion();
+    const QString getDefaultCur();
+    const QString getTaxOfficeNr();
+    const QString getCorrectionNr();
 
 private:
     IDataLayer* dlSaftfile;

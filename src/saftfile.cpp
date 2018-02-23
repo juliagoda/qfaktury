@@ -127,6 +127,20 @@ const QString Saftfile::getJpkFileArt() {
     return text.left(text.indexOf(' '));
 }
 
+
+const QString Saftfile::getDefaultCur() {
+
+    QString text = ui->currCombo->currentText();
+    text = text.remove('&');
+    return text;
+}
+
+
+const QString Saftfile::getTaxOfficeNr() {
+
+    return ui->codeTaxOffice->text();
+}
+
 const QString Saftfile::getCorrectionNr() {
 
     return ui->correctionJpkNr->text();
