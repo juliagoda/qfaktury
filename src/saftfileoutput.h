@@ -17,7 +17,7 @@ public:
     bool jpkDirExist();
     void createJpkDir(bool existsDir);
     QUrl prepareSchema(QString fileArt);
-    QStringList SaftfileOutput(QVector<InvoiceData> inv);
+    QStringList getSortedVats(QVector<InvoiceData> inv);
 
     enum JPKType { JPK_VAT, JPK_FA };
     Q_ENUM(JPKType)

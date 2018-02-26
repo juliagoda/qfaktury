@@ -33,6 +33,11 @@ void User::init() {
   placeEdit->setText(settings.value("city").toString());
   codeEdit->setText(settings.value("zip").toString());
   addressEdit->setText(settings.value("address").toString());
+  districtEdit->setText(settings.value("district").toString());
+  municipalityEdit->setText(settings.value("municipality").toString());
+  postEdit->setText(settings.value("post").toString());
+  provinceEdit->setText(settings.value("province").toString());
+  codeLandEdit->setText(settings.value("codeLand").toString());
   accountEdit->setText(settings.value("account").toString());
 
   if (!settings.value("secIdType").isNull()) {
@@ -87,6 +92,21 @@ void User::init() {
     sellersWidgets.at(i)
         ->findChild<QLineEdit *>("addressEdit")
         ->setText(settings.value("address").toString());
+    sellersWidgets.at(i)
+        ->findChild<QLineEdit *>("districtEdit")
+        ->setText(settings.value("district").toString());
+    sellersWidgets.at(i)
+        ->findChild<QLineEdit *>("municipalityEdit")
+        ->setText(settings.value("municipality").toString());
+    sellersWidgets.at(i)
+        ->findChild<QLineEdit *>("postEdit")
+        ->setText(settings.value("post").toString());
+    sellersWidgets.at(i)
+        ->findChild<QLineEdit *>("provinceEdit")
+        ->setText(settings.value("province").toString());
+    sellersWidgets.at(i)
+        ->findChild<QLineEdit *>("codeLandEdit")
+        ->setText(settings.value("codeLand").toString());
     sellersWidgets.at(i)
         ->findChild<QLineEdit *>("accountEdit")
         ->setText(settings.value("account").toString());
@@ -334,6 +354,11 @@ void User::okClick() {
         settings.setValue("city", placeEdit->text());
         settings.setValue("zip", codeEdit->text());
         settings.setValue("address", addressEdit->text());
+        settings.setValue("district", districtEdit->text());
+        settings.setValue("municipality", municipalityEdit->text());
+        settings.setValue("post", postEdit->text());
+        settings.setValue("province", provinceEdit->text());
+        settings.setValue("codeLand", codeLandEdit->text());
         settings.setValue("tic", nipEdit->text());
         settings.setValue("secIdType", secIdType->currentText());
         settings.setValue("regon", regonEdit->text());
@@ -381,6 +406,16 @@ void User::okClick() {
                           widg->findChild<QLineEdit *>("codeEdit")->text());
         settings.setValue("address",
                           widg->findChild<QLineEdit *>("addressEdit")->text());
+        settings.setValue("district",
+                          widg->findChild<QLineEdit *>("districtEdit")->text());
+        settings.setValue("municipality",
+                          widg->findChild<QLineEdit *>("municipalityEdit")->text());
+        settings.setValue("post",
+                          widg->findChild<QLineEdit *>("postEdit")->text());
+        settings.setValue("province",
+                          widg->findChild<QLineEdit *>("provinceEdit")->text());
+        settings.setValue("codeLand",
+                          widg->findChild<QLineEdit *>("codeLandEdit")->text());
         settings.setValue("account",
                           widg->findChild<QLineEdit *>("accountEdit")->text());
         settings.setValue("tic",
@@ -423,6 +458,16 @@ void User::okClick() {
                             widg->findChild<QLineEdit *>("codeEdit")->text());
           settings.setValue(
               "address", widg->findChild<QLineEdit *>("addressEdit")->text());
+          settings.setValue("district",
+                            widg->findChild<QLineEdit *>("districtEdit")->text());
+          settings.setValue("municipality",
+                            widg->findChild<QLineEdit *>("municipalityEdit")->text());
+          settings.setValue("post",
+                            widg->findChild<QLineEdit *>("postEdit")->text());
+          settings.setValue("province",
+                            widg->findChild<QLineEdit *>("provinceEdit")->text());
+          settings.setValue("codeLand",
+                            widg->findChild<QLineEdit *>("codeLandEdit")->text());
           settings.setValue(
               "account", widg->findChild<QLineEdit *>("accountEdit")->text());
           settings.setValue("tic",
@@ -499,6 +544,11 @@ void User::on_nextSeller_clicked() {
                                         << "Miejscowość*:"
                                         << "Kod*:"
                                         << "Adres*:"
+                                        << "Powiat"
+                                        << "Gmina"
+                                        << "Poczta"
+                                        << "Województwo"
+                                        << "Kod Kraju"
                                         << "Nr konta*:"
                                         << "Nazwa banku:"
                                         << "Nr SWIFT/BIC:"
@@ -515,6 +565,11 @@ void User::on_nextSeller_clicked() {
                                           << "placeEdit"
                                           << "codeEdit"
                                           << "addressEdit"
+                                          << "districtEdit"
+                                          << "municipalityEdit"
+                                          << "postEdit"
+                                          << "provinceEdit"
+                                          << "codeLandEdit"
                                           << "accountEdit"
                                           << "bankNameEdit"
                                           << "bicSwiftEdit"

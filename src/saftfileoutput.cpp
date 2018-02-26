@@ -20,6 +20,7 @@ SaftfileOutput::~SaftfileOutput() {
 
 QString SaftfileOutput::prepareContent() {
 
+    return QString();
 }
 
 
@@ -52,7 +53,8 @@ bool SaftfileOutput::jpkDirExist() {
 
 void SaftfileOutput::createJpkDir(bool existsDir) {
 
-    if (!existsDir) QDir::mkpath(sett().getJPKDir());
+    QDir JPKdir;
+    if (!existsDir) JPKdir.mkpath(sett().getJPKDir());
 
 }
 
@@ -80,9 +82,9 @@ void SaftfileOutput::saveXmlFile() {
     xmlWriter.writeTextElement("tns:KodFormularza", getJpkFileArt() );
     xmlWriter.writeAttribute("kodSystemowy", getJpkFileArtWithVersion());
     xmlWriter.writeAttribute("wersjaSchemy", prepareSchemaVersion(getJpkFileArt()));
-    xmlWriter.writeTextElement("tns:WariantFormularza", prepareFileVarriant(getJpkFileArtWithVersion() );
+    xmlWriter.writeTextElement("tns:WariantFormularza", prepareFileVarriant(getJpkFileArtWithVersion()) );
     xmlWriter.writeTextElement("tns:CelZlozenia", prepareAppPurposeNr(getJpkFileArt(), getApplicationPurpose()) );
-    xmlWriter.writeTextElement("tns:DataWytworzeniaJPK", QDateTime::currentDateTime() );
+    xmlWriter.writeTextElement("tns:DataWytworzeniaJPK", QDateTime::currentDateTime().toString() );
     xmlWriter.writeTextElement("tns:DataOd", getFromDateJPK() );
     xmlWriter.writeTextElement("tns:DataDo", getToDateJPK() );
 
@@ -139,13 +141,14 @@ QString SaftfileOutput::prepareFileVarriant(QString fileArtWithVersion) {
 
 QUrl SaftfileOutput::prepareSchema(QString fileArt) {
 
-    QUrl url;
+    QString textUrl = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd";
 
     if (fileArt == "JPK_VAT")
-    url("http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd");
+    textUrl = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd";
     else if (fileArt == "JPK_FA")
-    url("http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2011/06/21/eD/DefinicjeTypy/ElementarneTypyDanych_v3-0E.xsd");
+    textUrl = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2011/06/21/eD/DefinicjeTypy/ElementarneTypyDanych_v3-0E.xsd";
 
+    QUrl url(textUrl);
     return url;
 }
 
