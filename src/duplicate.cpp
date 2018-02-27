@@ -68,6 +68,7 @@ void Duplicate::setData(InvoiceData &invData) {
   invData.invNr = invNr->text();
   invData.sellingDate = sellingDate->date();
   invData.issueDate = productDate->date();
+  invData.endTransDate = endTransactionDate->date();
 
   if (constRab->isChecked())
     invData.discount = discountVal->value();

@@ -1,14 +1,27 @@
 #include "saftfileoutput.h"
+#include "messagehandler.h"
 
 #include <QRegularExpressionMatchIterator>
+#include <QClipboard>
+#include <QGuiApplication>
+//#include <QXmlSchemaValidator>
+#include <QPlainTextEdit>
 #include <QStringList>
 #include <QList>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QMetaEnum>
 
 
-SaftfileOutput::SaftfileOutput(QVector<InvoiceData> invs) :
-    invoices(invs)
+SaftfileOutput::SaftfileOutput(QVector<InvoiceData> invs, QHash<QString, QString> data) :
+    invoices(invs), allData(data)
 {
-
+    this->hide();
+    createJpkDir(jpkDirExist());
+    saveXmlFile();
+    findErrors(allData.value("jpkFileArt"), getContentFromFileJPK(sett().getJPKDir() + "/" + QDate::currentDate().toString("yyyyMMdd") + allData.value("jpkFileArt")));
 }
 
 
@@ -26,15 +39,20 @@ QString SaftfileOutput::prepareContent() {
 
 QXmlSchema SaftfileOutput::getXsdSchemaFromWebsite(QString fileArt) {
 
-    QUrl url(prepareSchema(fileArt));
-
+    QFile schemaData(prepareSchema(fileArt));
     QXmlSchema schema;
-    if (schema.load(url) == true)
-        qDebug() << "schema from " << url.toString() << "  is valid";
-    else
-        qDebug() << "schema from " << url.toString() << " is invalid";
+    if (!schemaData.open(QIODevice::ReadOnly)) {
+            qDebug() << "Cannot read file: " << schemaData.fileName();
+    }
 
+    if (schema.load(schemaData.readAll()))
+        qDebug() << "schema from " << schemaData.fileName() << "  is valid: ";
+    else
+        qDebug() << "schema from " << schemaData.fileName() << " is invalid: ";
+
+    schemaData.close();
     return schema;
+
 }
 
 
@@ -61,7 +79,7 @@ void SaftfileOutput::createJpkDir(bool existsDir) {
 
 void SaftfileOutput::saveXmlFile() {
 
-    QFile file(sett().getJPKDir() + "/" + QDate::currentDate().toString("yyyyMMdd") + "JPKVAT");
+    QFile file(sett().getJPKDir() + "/" + QDate::currentDate().toString("yyyyMMdd") + allData.value("jpkFileArt"));
     file.open(QIODevice::WriteOnly);
 
     QXmlStreamWriter xmlWriter(&file);
@@ -70,25 +88,34 @@ void SaftfileOutput::saveXmlFile() {
     xmlWriter.writeStartDocument();
 
     xmlWriter.writeStartElement("tns:JPK");
-    xmlWriter.writeAttribute("xmlns:etd","http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/");
-    xmlWriter.writeAttribute("xmlns:tns","http://jpk.mf.gov.pl/wzor/2017/11/13/1113/");
-    xmlWriter.writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+    xmlWriter.writeAttribute("xmlns:etd", "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/");
+    xmlWriter.writeAttribute("xmlns:tns", "http://jpk.mf.gov.pl/wzor/2016/03/09/03095/");
+    xmlWriter.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
     xmlWriter.writeAttribute("xmlns:kck", "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyCECHKRAJOW/");
-    xmlWriter.writeAttribute("xsi:schemaLocation",prepareSchema(getJpkFileArt()).toString());
-    xmlWriter.writeAttribute("xml:lang", "pl");
-    xmlWriter.writeEndElement();
+    //xmlWriter.writeAttribute("xsi:schemaLocation", prepareSchema(allData.value("jpkFileArt")).toString());
+
 
     xmlWriter.writeStartElement("tns:Naglowek");
-    xmlWriter.writeTextElement("tns:KodFormularza", getJpkFileArt() );
-    xmlWriter.writeAttribute("kodSystemowy", getJpkFileArtWithVersion());
-    xmlWriter.writeAttribute("wersjaSchemy", prepareSchemaVersion(getJpkFileArt()));
-    xmlWriter.writeTextElement("tns:WariantFormularza", prepareFileVarriant(getJpkFileArtWithVersion()) );
-    xmlWriter.writeTextElement("tns:CelZlozenia", prepareAppPurposeNr(getJpkFileArt(), getApplicationPurpose()) );
-    xmlWriter.writeTextElement("tns:DataWytworzeniaJPK", QDateTime::currentDateTime().toString() );
-    xmlWriter.writeTextElement("tns:DataOd", getFromDateJPK() );
-    xmlWriter.writeTextElement("tns:DataDo", getToDateJPK() );
+    xmlWriter.writeStartElement("tns:KodFormularza" );
+    xmlWriter.writeAttribute("kodSystemowy", allData.value("jpkFileArtWithVersion")) ;
+    xmlWriter.writeAttribute("wersjaSchemy", prepareSchemaVersion(allData.value("jpkFileArt")));
+    xmlWriter.writeCharacters(allData.value("jpkFileArt"));
+    xmlWriter.writeEndElement();
+    xmlWriter.writeTextElement("tns:WariantFormularza", prepareFileVarriant(allData.value("jpkFileArtWithVersion")) );
+    xmlWriter.writeTextElement("tns:CelZlozenia", prepareAppPurposeNr(allData.value("jpkFileArt"), allData.value("applicationPurpose")) );
+    xmlWriter.writeTextElement("tns:DataWytworzeniaJPK", QDateTime::currentDateTime().toString("yyyy-MM-ddTHH:mm:ss") );
+    xmlWriter.writeTextElement("tns:DataOd", allData.value("jpkFromDate") );
+    xmlWriter.writeTextElement("tns:DataDo", allData.value("jpkToDate") );
 
-    switch (qRegisterMetaType<JPKType>()) {
+    QMetaEnum metaEnum = QMetaEnum::fromType<SaftfileOutput::JPKType>();
+    QString get = allData.value("jpkFileArt");
+    QByteArray ba = get.toLatin1();
+    const char *c_str2 = ba.data();
+
+    qDebug() << get << " <- JPK File Art";
+    qDebug() << metaEnum.keyToValue(c_str2) << " <- metaEnum Number";
+
+    switch (metaEnum.keyToValue(c_str2)) {
     case 0:
 
         saveXmlFileJKP_VAT(xmlWriter);
@@ -119,11 +146,13 @@ QString SaftfileOutput::prepareSchemaVersion(QString fileArt) {
 QString SaftfileOutput::prepareAppPurposeNr(QString fileArt, QString filePurpose) {
 
     if (fileArt == "JPK_FA" && filePurpose == "Standardowe") return "1";
-    else if (fileArt == "JPK_FA" && filePurpose == "Korekta") return getCorrectionNr();
+    else if (fileArt == "JPK_FA" && filePurpose == "Korekta") return allData.value("correctionNr");
     else if (fileArt == "JPK_VAT" && filePurpose == "Standardowe") return "0";
-    else if (fileArt == "JPK_VAT" && filePurpose == "Korekta") return getCorrectionNr(); // in range 1 - 9
+    else if (fileArt == "JPK_VAT" && filePurpose == "Korekta") return allData.value("correctionNr"); // in range 1 - 9
 
+    return "0";
 }
+
 
 QString SaftfileOutput::prepareFileVarriant(QString fileArtWithVersion) {
 
@@ -139,17 +168,18 @@ QString SaftfileOutput::prepareFileVarriant(QString fileArtWithVersion) {
     return number;
 }
 
-QUrl SaftfileOutput::prepareSchema(QString fileArt) {
+QString SaftfileOutput::prepareSchema(QString fileArt) {
 
-    QString textUrl = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd";
+    QString textUrl = QString();
 
     if (fileArt == "JPK_VAT")
-    textUrl = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd";
+    textUrl = ":/documents/schemas/Schemat_JPK_VAT3_v1-1.xsd";
     else if (fileArt == "JPK_FA")
-    textUrl = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2011/06/21/eD/DefinicjeTypy/ElementarneTypyDanych_v3-0E.xsd";
+    textUrl = ":/documents/schemas/Schemat_JPK_FA_v1-0.xsd";
 
-    QUrl url(textUrl);
-    return url;
+    qDebug() << "Chosen xsd file: " << textUrl;
+
+    return textUrl;
 }
 
 
@@ -176,7 +206,8 @@ void SaftfileOutput::saveXmlFileJKP_VAT(QXmlStreamWriter& xmlWriter) {
 
         xmlWriter.writeStartElement("tns:SprzedazWiersz");
         xmlWriter.writeTextElement("tns:LpSprzedazy", QString::number(i+1) );
-        xmlWriter.writeTextElement("tns:NrKontrahenta", invoices.at(i).custTic.remove('-') );
+        QString custTic = invoices.at(i).custTic;
+        xmlWriter.writeTextElement("tns:NrKontrahenta", custTic.remove('-') );
         xmlWriter.writeTextElement("tns:NazwaKontrahenta", invoices.at(i).custName );
         xmlWriter.writeTextElement("tns:AdresKontrahenta", invoices.at(i).custStreet );
         xmlWriter.writeTextElement("tns:DowodSprzedazy", invoices.at(i).invNr );
@@ -186,7 +217,7 @@ void SaftfileOutput::saveXmlFileJKP_VAT(QXmlStreamWriter& xmlWriter) {
         for (int j = 10; j < 40; j++) {
 
             switch (j) {
-            case 19:
+            case 19: {
 
                 double nett = 0;
                 QList<ProductData> products1 = invoices.at(i).products.values();
@@ -196,9 +227,9 @@ void SaftfileOutput::saveXmlFileJKP_VAT(QXmlStreamWriter& xmlWriter) {
                 }
 
                 xmlWriter.writeTextElement("tns:K_19", QString("%1").arg(nett) );
-
+            }
                 break;
-            case 20:
+            case 20: {
 
                 double vatPrice = 0;
                 QList<ProductData> products2 = invoices.at(i).products.values();
@@ -209,11 +240,13 @@ void SaftfileOutput::saveXmlFileJKP_VAT(QXmlStreamWriter& xmlWriter) {
 
                 vatPriceSum += vatPrice;
                 xmlWriter.writeTextElement("tns:K_20", QString("%1").arg(vatPrice) );
-
+            }
                 break;
-            default:
+            default: {
 
                 xmlWriter.writeTextElement(QString("tns:K_%1").arg(j), "0.00" );
+
+            }
                 break;
             }
         }
@@ -230,43 +263,50 @@ void SaftfileOutput::saveXmlFileJKP_VAT(QXmlStreamWriter& xmlWriter) {
     xmlWriter.writeTextElement("tns:LiczbaWierszyZakupow", "0" );
     xmlWriter.writeTextElement("tns:PodatekNalezny", "0.00" );
     xmlWriter.writeEndElement();
+
+    xmlWriter.writeEndElement(); // end of tns:JPK
 }
 
 
 void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
 
-    xmlWriter.writeTextElement("tns:DomyslnyKodWaluty", checkCurrenciesInList(invoices) );
-    xmlWriter.writeTextElement("tns:KodUrzedu", getTaxOfficeNr() );
+ // xmlWriter.writeTextElement("tns:DomyslnyKodWaluty", checkCurrenciesInList(invoices) );
+    xmlWriter.writeTextElement("tns:DomyslnyKodWaluty", allData.value("defaultCurrency") );
+    xmlWriter.writeTextElement("tns:KodUrzedu", allData.value("codeTaxOffice") );
     xmlWriter.writeEndElement();
 
     xmlWriter.writeStartElement("tns:Podmiot1");
         xmlWriter.writeStartElement("tns:IdentyfikatorPodmiotu");
-            QSettings settings("elinux", "user");
-            settings.beginGroup("choosenSeller");
-            xmlWriter.writeTextElement("etd:NIP", settings.value("tic").toString().remove('-') );
-            xmlWriter.writeTextElement("etd:PelnaNazwa", settings.value("name").toString() );
-            xmlWriter.writeTextElement("etd:REGON", settings.value("regon").toString() );
-            settings.endGroup();
+            QSettings settingsf("elinux", "user");
+            settingsf.beginGroup("choosenSeller");
+            xmlWriter.writeTextElement("etd:NIP", settingsf.value("tic").toString().remove('-') );
+            xmlWriter.writeTextElement("etd:PelnaNazwa", settingsf.value("name").toString() );
+            xmlWriter.writeTextElement("etd:REGON", settingsf.value("regon").toString() );
+            settingsf.endGroup();
         xmlWriter.writeEndElement();
         xmlWriter.writeStartElement("tns:AdresPodmiotu");
-        // TODO
-        // Add more places for user account
-            xmlWriter.writeTextElement("etd:KodKraju", settings.value("regon").toString();
-            xmlWriter.writeTextElement("etd:Wojewodztwo", settings.value("regon").toString();
-            xmlWriter.writeTextElement("etd:Powiat", settings.value("regon").toString();
-            xmlWriter.writeTextElement("etd:Gmina", settings.value("regon").toString();
-            xmlWriter.writeTextElement("etd:Ulica", settings.value("regon").toString();
-            xmlWriter.writeTextElement("etd:NrDomu", settings.value("regon").toString();
-            xmlWriter.writeTextElement("etd:NrLokalu", settings.value("regon").toString();
-            xmlWriter.writeTextElement("etd:Miejscowosc", settings.value("regon").toString();
-            xmlWriter.writeTextElement("etd:KodPocztowy", settings.value("regon").toString();
-            xmlWriter.writeTextElement("etd:Poczta", settings.value("regon").toString();
+            QSettings settings("elinux", "user");
+            settings.beginGroup("choosenSeller");
+            QString addressText = settings.value("address").toString();
+            xmlWriter.writeTextElement("etd:KodKraju", settings.value("codeLand").toString());
+            xmlWriter.writeTextElement("etd:Wojewodztwo", settings.value("province").toString());
+            xmlWriter.writeTextElement("etd:Powiat", settings.value("district").toString());
+            xmlWriter.writeTextElement("etd:Gmina", settings.value("municipality").toString());
+            xmlWriter.writeTextElement("etd:Ulica", getStreetName(addressText));
+            xmlWriter.writeTextElement("etd:NrDomu", getHouseNumer(addressText));
+            xmlWriter.writeTextElement("etd:NrLokalu", getDoorNumer(addressText));
+            xmlWriter.writeTextElement("etd:Miejscowosc", settings.value("city").toString());
+            xmlWriter.writeTextElement("etd:KodPocztowy", settings.value("zip").toString());
+            xmlWriter.writeTextElement("etd:Poczta", settings.value("post").toString());
+            settings.endGroup();
         xmlWriter.writeEndElement();
     xmlWriter.writeEndElement();
 
     int sellCounts = 0;
     double invSum = 0.00;
     double gross = 0;
+    double sumBasicNet = 0.00; // now is 23% or 22% VAT as basic; sum of basic net sums, which have 23 %
+    double sumBasicVatPrice = 0.00;
 
     for (int i = 0; i < invoices.size(); ++i) {
 
@@ -274,39 +314,45 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
 
         xmlWriter.writeStartElement("tns:Faktura");
         xmlWriter.writeAttribute("typ", "G");
-            xmlWriter.writeTextElement("tns:P_1", );
-            xmlWriter.writeTextElement("tns:P_2A", );
-            xmlWriter.writeTextElement("tns:P_3A", );
-            xmlWriter.writeTextElement("tns:P_3B", );
-            xmlWriter.writeTextElement("tns:P_3C", );
-            xmlWriter.writeTextElement("tns:P_3D", );
-            xmlWriter.writeTextElement("tns:P_4B", );
-            xmlWriter.writeTextElement("tns:P_5B", );
-            xmlWriter.writeTextElement("tns:P_6", );
-            xmlWriter.writeTextElement("tns:P_13_1", );
-            xmlWriter.writeTextElement("tns:P_14_1", );
-
+            xmlWriter.writeTextElement("tns:P_1", invoices.at(i).issueDate.toString("yyyy-MM-DD"));
+            xmlWriter.writeTextElement("tns:P_2A", invoices.at(i).invNr);
+            xmlWriter.writeTextElement("tns:P_3A", invoices.at(i).custName);
+            xmlWriter.writeTextElement("tns:P_3B", invoices.at(i).custStreet);
+            xmlWriter.writeTextElement("tns:P_3C", invoices.at(i).sellerName);
+            xmlWriter.writeTextElement("tns:P_3D", invoices.at(i).sellerAddress);
+            QString sellerTic = invoices.at(i).sellerTic;
+            xmlWriter.writeTextElement("tns:P_4B", sellerTic.remove('-'));
+            QString custTic = invoices.at(i).custTic;
+            xmlWriter.writeTextElement("tns:P_5B", custTic.remove('-'));
+            xmlWriter.writeTextElement("tns:P_6", invoices.at(i).endTransDate.toString("yyyy-MM-DD"));
 
             QList<ProductData> products1 = invoices.at(i).products.values();
 
+
             for (int j = 0; j < products1.count(); j++) {
               gross += products1.at(j).gross;
+
+              if (products1.at(j).getVat() == 23) {
+                  sumBasicNet += products1.at(j).nett;
+                  sumBasicVatPrice += products1.at(j).nett * (static_cast<float>(products1.at(j).vat) / 100);
+              }
             }
 
             invSum += gross;
 
+            xmlWriter.writeTextElement("tns:P_13_1", QString("%1").arg(sumBasicNet));
+            xmlWriter.writeTextElement("tns:P_14_1", QString::number(sumBasicVatPrice, 'f', 2));
             xmlWriter.writeTextElement("tns:P_15", QString("%1").arg(gross));
-            xmlWriter.writeTextElement("tns:P_16", );
-            xmlWriter.writeTextElement("tns:P_17", );
-            xmlWriter.writeTextElement("tns:P_18", );
-            xmlWriter.writeTextElement("tns:P_19", );
-            xmlWriter.writeTextElement("tns:P_20", );
-            xmlWriter.writeTextElement("tns:P_21", );
-            xmlWriter.writeTextElement("tns:P_22", );
-            xmlWriter.writeTextElement("tns:P_23", );
-            xmlWriter.writeTextElement("tns:P_106E_2", );
-            xmlWriter.writeTextElement("tns:P_106E_3", );
-            xmlWriter.writeTextElement("tns:RodzajFaktury", );
+            xmlWriter.writeTextElement("tns:P_16", "false");
+            xmlWriter.writeTextElement("tns:P_17", "false");
+            xmlWriter.writeTextElement("tns:P_18", "false");
+            xmlWriter.writeTextElement("tns:P_19", "false");
+            xmlWriter.writeTextElement("tns:P_20", "false");
+            xmlWriter.writeTextElement("tns:P_21", "false");
+            xmlWriter.writeTextElement("tns:P_23", "false");
+            xmlWriter.writeTextElement("tns:P_106E_2", "false");
+            xmlWriter.writeTextElement("tns:P_106E_3", "false");
+            xmlWriter.writeTextElement("tns:RodzajFaktury", getInvTypeForJPKFA(invoices.at(i).type, invoices.at(i).paymentType));
         xmlWriter.writeEndElement();
 
      }
@@ -319,15 +365,16 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
     xmlWriter.writeStartElement("tns:StawkiPodatku");
 
     QStringList sortedVats = getSortedVats(invoices);
+    qDebug() << sortedVats.count() << " sortedVats";
     int limit = sortedVats.count() > 5 ? 5 : sortedVats.count();
-
+    int limit2 = limit < 5 ? (5 - limit) : 5;
     for (int k = 0; k < limit; k++) {
 
         xmlWriter.writeTextElement(QString("tns:Stawka%1").arg(k+1), sortedVats.at(k));
 
         if (k == (limit-1)) {
-            for (int l = (k+1); l < (5 - l); l++) {
-                xmlWriter.writeTextElement(QString("tns:Stawka%1").arg(l+1), sortedVats.at(l));
+            for (int l = k; l < limit2; l++) {
+                xmlWriter.writeTextElement(QString("tns:Stawka%1").arg(l+2), "0.00");
             }
         }
     }
@@ -345,16 +392,16 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
                   invProdCounts++;
                   xmlWriter.writeStartElement("tns:FakturaWiersz");
                   xmlWriter.writeAttribute("typ", "G");
-                    xmlWriter.writeTextElement("tns:P_2B", );
-                    xmlWriter.writeTextElement("tns:P_7", );
-                    xmlWriter.writeTextElement("tns:P_8B", );
-                    xmlWriter.writeTextElement("tns:P_9A", );
-                    xmlWriter.writeTextElement("tns:P_9B", );
+                    xmlWriter.writeTextElement("tns:P_2B", invoices.at(i).invNr);
+                    xmlWriter.writeTextElement("tns:P_7", products1.at(j).name);
+                    xmlWriter.writeTextElement("tns:P_8B", QString("%1").arg(products1.at(j).quantity));
+                    xmlWriter.writeTextElement("tns:P_9A", QString("%1").arg(products1.at(j).nett * (products1.at(j).discount / 100)));
+                    xmlWriter.writeTextElement("tns:P_9B", QString("%1").arg(products1.at(j).price + (products1.at(j).price * (static_cast<float>(products1.at(j).vat) / 100))));
 
                     nettSum += products1.at(i).nett;
                     xmlWriter.writeTextElement("tns:P_11", QString("%1").arg(products1.at(i).nett));
-                    xmlWriter.writeTextElement("tns:P_11A", );
-                    xmlWriter.writeTextElement("tns:P_12", );
+                    xmlWriter.writeTextElement("tns:P_11A", QString("%1").arg(products1.at(j).gross));
+                    xmlWriter.writeTextElement("tns:P_12", QString("%1").arg(products1.at(j).vat));
                   xmlWriter.writeEndElement();
             }
         }
@@ -363,6 +410,8 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
             xmlWriter.writeTextElement("tns:LiczbaWierszyFaktur", QString::number(invProdCounts));
             xmlWriter.writeTextElement("tns:WartoscWierszyFaktur", QString("%1").arg(nettSum));
         xmlWriter.writeEndElement();
+
+    xmlWriter.writeEndElement(); // end of tns:JPK
 
 }
 
@@ -374,10 +423,13 @@ QString SaftfileOutput::checkCurrenciesInList(QVector<InvoiceData> inv) {
     for (int x = 0; x < inv.size(); x++) {
 
         if (inv.at(x).currencyType != getDefaultCur()) {
+           // inv.at(x).currencyType // convert this
+           // getDefaultCur() // to this
             // TODO
             // get bureau sum from website
             // for this InvoiceData multiple all needed value to default sums
             // change text of this currency to default
+            // allowed only after splitting bureau to other class from invoice
             allTheSame = false;
         }
 
@@ -398,14 +450,325 @@ QStringList SaftfileOutput::getSortedVats(QVector<InvoiceData> inv) {
             QList<ProductData> products1 = inv.at(i).products.values();
 
             for (int j = 0; j < products1.count(); j++) {
-              QString vat = QString("%1").arg(products1.at(j).vat/100);
+
+              QString vat = QString("%1").arg(static_cast<float>(products1.at(j).vat)/100);
 
               if (!vats.contains(vat)) vats.append(vat);
 
+            }
     }
-            // sorts from greater value to less
-            qSort(vats.begin(), vats.end(), qGreater<QString>());
 
-        return vats;
+    // sorts from greater value to less
+    qSort(vats.begin(), vats.end(), qGreater<QString>());
 
+return vats;
+
+
+}
+
+
+const QString SaftfileOutput::getStreetName(QString fullAddress) {
+
+    int indexOfSpace = fullAddress.indexOf(QRegularExpression("\\d+"), 0) - 1;
+    QString street{fullAddress.left(indexOfSpace)};
+    return street;
+}
+
+
+const QString SaftfileOutput::getHouseNumer(QString fullAddress) {
+
+    int indexOfFirstNum = fullAddress.indexOf(QRegularExpression("\\d+"), 0);
+
+    if (fullAddress.contains('/')) {
+
+        int indexOfLastNum = fullAddress.indexOf(QRegularExpression("/"), 0) - 1;
+        int howManyElem = indexOfLastNum - indexOfFirstNum;
+
+        QString house{fullAddress.mid(indexOfFirstNum,howManyElem)};
+
+        return house;
+
+    } else {
+
+        QString house{fullAddress.mid(indexOfFirstNum)};
+        return house;
+
+    }
+}
+
+
+const QString SaftfileOutput::getDoorNumer(QString fullAddress) {
+
+    if (fullAddress.contains('/')) {
+
+        int indexOfFirstNumAfter = fullAddress.indexOf(QRegularExpression("/"), 0) + 1;
+        QString door{fullAddress.mid(indexOfFirstNumAfter)};
+
+        return door;
+
+    }
+
+    return QString();
+}
+
+
+const QString SaftfileOutput::getInvTypeForJPKFA(QString abbrInv, QString paymentType) {
+
+    if (abbrInv == "korekta") return "KOREKTA";
+    else if (paymentType == "zaliczka") return "ZAL";
+    else if (abbrInv == "FVAT") return "VAT";
+    else return "POZ";
+
+    return "VAT";
+}
+
+
+const QString SaftfileOutput::getContentFromFileJPK(QString filepath) {
+
+    QFile file(filepath);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << " Could not open the file for reading";
+        return QString();
+    }
+
+    QTextStream in(&file);
+    QString contentJPK = in.readAll();
+    //qDebug() << myText;
+
+    file.close();
+
+    return contentJPK;
+}
+
+
+void SaftfileOutput::findErrors(QString fileArt, const QString content) {
+
+    QFile schemaData(prepareSchema(fileArt));
+    //QXmlSchema schema;
+    if (!schemaData.open(QFile::ReadOnly | QFile::Text)) {
+            qDebug() << "Cannot read file: " << schemaData.fileName();
+    }
+
+    QPointer<QClipboard> clipboard = QGuiApplication::clipboard();
+
+    const QByteArray schemaContentByte = schemaData.readAll();
+
+    // qDebug() << "Schema content: " << schemaContentByte;
+
+
+     //   MessageHandler messageHandler;
+     //   schema.setMessageHandler(&messageHandler);
+
+     //   if (schema.load(schemaContent))
+     //       qDebug() << "schema from " << schemaData.fileName() << "  is valid: ";
+     //   else
+     //       qDebug() << "schema from " << schemaData.fileName() << " is invalid: ";
+
+       // QByteArray contentByte = content.toUtf8();
+
+       // bool errorOccurred = false;
+       // if (!schema.isValid()) {
+       //     errorOccurred = true;
+       // } else {
+       //     QXmlSchemaValidator validator(schema);
+       //     if (!validator.validate(contentByte))
+        //        errorOccurred = true;
+       // }
+
+        /*    QXmlStreamReader xml(messageHandler.statusMessage());
+            QString statusMessage = QString();
+            while (!xml.atEnd()) {
+                if ( xml.readNext() == QXmlStreamReader::Characters ) {
+                    statusMessage += xml.text();
+                }
+            } */
+
+        //if (errorOccurred) {
+            QMessageBox msgBox;
+           // msgBox.setText(QString("Napotkano błędy w generowanym pliku o treści:\n linia: %1, kolumna %2  %3").arg(messageHandler.line()).arg(messageHandler.column()).arg(statusMessage));
+            msgBox.setText(QString("Dopóki błędy związane ze stosowaniem validatora plików xsd nie zostaną ostatecznie naprawione w bibliotece Qt5, walidacja w programie nie będzie ujęta. Zaleca się użycie walidatora na jednej ze stron internetowych, jak: \n https://www.freeformatter.com/xml-validator-xsd.html"));
+            //msgBox.setInformativeText("Co chcesz zrobić? Anulować? Zapisać plik z treścią błędów do katalogu plików JPK? Poprawić treść?");
+            msgBox.setInformativeText("Co chcesz zrobić? Anulować? Skopiować treść schematu xsd do schowka? Skopiować treść pliku JPK do schowka? Poprawić treść? Wybór kopiowania nie zamyka okna.");
+
+            QPushButton *cancelButton = msgBox.addButton(QMessageBox::Cancel);
+            cancelButton->setObjectName("cancelBtn");
+           // QPushButton *saveButton = msgBox.addButton(QMessageBox::Save);
+            QPushButton *repairButton = msgBox.addButton(tr("Napraw"), QMessageBox::ActionRole);
+            repairButton->setObjectName("repairBtn");
+            QPushButton *xsdButton = msgBox.addButton(tr("Kopiuj xsd"), QMessageBox::HelpRole);
+            xsdButton->setObjectName("xsdBtn");
+            QPushButton *xmlButton = msgBox.addButton(tr("Kopiuj xml"), QMessageBox::HelpRole);
+            xmlButton->setObjectName("xmlBtn");
+            msgBox.setDefaultButton(repairButton);
+            msgBox.exec();
+
+
+            if (msgBox.clickedButton() == cancelButton) {
+
+                msgBox.close();
+
+            } else if (msgBox.clickedButton() == repairButton) {
+
+                createNoteJPKWindow();
+
+            } else if (msgBox.clickedButton() == xsdButton) {
+
+                QTextCodec *codec2 = QTextCodec::codecForName("UTF-8");
+                clipboard.data()->setText(codec2->toUnicode(schemaContentByte));
+
+            } else if (msgBox.clickedButton() == xmlButton) {
+
+                clipboard.data()->setText(content);
+
+            }// else if (msgBox.clickedButton() == saveButton) {
+             //   saveErrors(&messageHandler);
+            //}
+
+
+
+
+            msgBox.removeButton(cancelButton);
+         //   msgBox.removeButton(saveButton);
+            msgBox.removeButton(repairButton);
+            msgBox.removeButton(xsdButton);
+            msgBox.removeButton(xmlButton);
+
+            delete cancelButton;
+         //   delete saveButton;
+            delete repairButton;
+            delete xsdButton;
+            delete xmlButton;
+        //}
+
+        schemaData.close();
+}
+
+
+void SaftfileOutput::saveErrors(MessageHandler* messageHandler) {
+
+    QFile outfile;
+    outfile.setFileName(sett().getJPKDir() + "/" + QDate::currentDate().toString("yyyyMMdd") + allData.value("jpkFileArt") + "-Errors");
+    outfile.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&outfile);
+    out << messageHandler->statusMessage() << endl;
+    outfile.close();
+}
+
+
+void SaftfileOutput::createNoteJPKWindow(MessageHandler* messageHandler) {
+
+    QPointer<QWidget> jpkWindow = new QWidget;
+    statusText = new QLabel();
+    statusText.data()->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+    statusText.data()->show();
+    QSize size(600, 700);
+    jpkWindow.data()->setMinimumSize(size);
+    jpkContent = new QPlainTextEdit;
+    jpkContent.data()->show();
+    QPointer<QPushButton> cancelBtn = new QPushButton("Wyjdź");
+    overwriteBtn = new QPushButton("Nadpisz");
+    overwriteBtn.data()->show();
+
+    QPointer<QHBoxLayout> hboxLay = new QHBoxLayout;
+
+    hboxLay.data()->addWidget(cancelBtn.data());
+    hboxLay.data()->addWidget(statusText);
+    hboxLay.data()->addWidget(overwriteBtn.data());
+
+    QPointer<QVBoxLayout> vboxLay = new QVBoxLayout;
+
+    vboxLay.data()->addWidget(jpkContent);
+    vboxLay.data()->addLayout(hboxLay.data());
+
+    jpkWindow.data()->setLayout(vboxLay.data());
+
+    jpkWindow.data()->show();
+    jpkWindow.data()->update();
+
+    connect(overwriteBtn.data(), SIGNAL(clicked(bool)), this, SLOT(overwriteFile()));
+    connect(cancelBtn.data(), SIGNAL(clicked(bool)), jpkWindow.data(), SLOT(close()));
+   // connect(jpkContent.data(), SIGNAL(textChanged()), SLOT(textChanged()));
+
+    inputTextFile(getContentFromFileJPK(sett().getJPKDir() + "/" + QDate::currentDate().toString("yyyyMMdd") + allData.value("jpkFileArt")));
+    if (messageHandler != 0) statusText.data()->setText(messageHandler->statusMessage());
+    if (messageHandler != 0) moveCursor(messageHandler->line(), messageHandler->column());
+
+    if (statusText.isNull()) {
+        delete statusText;
+        statusText = nullptr;
+    }
+
+    if (cancelBtn.isNull()) {
+        delete cancelBtn;
+        cancelBtn = nullptr;
+    }
+
+    if (overwriteBtn.isNull()) {
+        delete overwriteBtn;
+        overwriteBtn = nullptr;
+    }
+
+    if (jpkContent.isNull()) {
+        delete jpkContent;
+        jpkContent = nullptr;
+    }
+
+    if (jpkWindow.isNull())
+        delete jpkWindow;
+
+}
+
+
+void SaftfileOutput::inputTextFile(const QString content) {
+
+   jpkContent.data()->setPlainText(content);
+
+}
+
+
+void SaftfileOutput::overwriteFile() {
+
+    QFile outfile;
+    outfile.setFileName(sett().getJPKDir() + "/" + QDate::currentDate().toString("yyyyMMdd") + allData.value("jpkFileArt"));
+    outfile.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&outfile);
+    out << jpkContent->toPlainText() << endl;
+
+    if (out.atEnd()) QMessageBox::information(this, "Nadpisywanie", "Operacja zakończona sukcesem");
+
+    outfile.close();
+
+
+}
+
+
+void SaftfileOutput::textChanged()
+{
+    jpkContent.data()->setExtraSelections(QList<QTextEdit::ExtraSelection>());
+}
+
+
+void SaftfileOutput::moveCursor(int line, int column)
+{
+    jpkContent.data()->moveCursor(QTextCursor::Start);
+    for (int i = 1; i < line; ++i)
+        jpkContent.data()->moveCursor(QTextCursor::Down);
+
+    for (int i = 1; i < column; ++i)
+        jpkContent.data()->moveCursor(QTextCursor::Right);
+
+    QList<QTextEdit::ExtraSelection> extraSelections;
+    QTextEdit::ExtraSelection selection;
+
+    const QColor lineColor = QColor(Qt::red).lighter(160);
+    selection.format.setBackground(lineColor);
+    selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+    selection.cursor = jpkContent.data()->textCursor();
+    selection.cursor.clearSelection();
+    extraSelections.append(selection);
+
+    jpkContent.data()->setExtraSelections(extraSelections);
+
+    jpkContent.data()->setFocus();
 }

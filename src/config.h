@@ -1,4 +1,4 @@
-#define QFAKTURY_VERSION 0.7.1
+#define QFAKTURY_VERSION 0.7.2
 #include <QStringList>
 
 const QStringList blackEmergTemplate =

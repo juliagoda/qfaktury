@@ -124,6 +124,8 @@ void DeliveryNote::readWarehouseData(QString invFile) {
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
   productDate->setDate(
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat()));
+  endTransactionDate->setDate(
+      QDate::fromString(root.attribute("endTransDate"), sett().getDateFormat()));
 
   wareData = new WarehouseData();
   wareData->invNr = invNr->text();
@@ -187,6 +189,7 @@ void DeliveryNote::readWarehouseData(QString invFile) {
   wareData->customer = buyerName->text();
   wareData->sellingDate = sellingDate->date();
   wareData->productDate = productDate->date();
+  wareData->endTransDate = endTransactionDate->date();
 
   for (i = 0; i < goodsCount; ++i) {
 
@@ -500,6 +503,7 @@ void DeliveryNote::setData(WarehouseData &invData) {
   invData.invNr = invNr->text();
   invData.sellingDate = sellingDate->date();
   invData.issueDate = productDate->date();
+  invData.endTransDate = endTransactionDate->date();
   invData.ifInvForDelNote = ifcreateInv;
 
   // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
@@ -533,6 +537,7 @@ void DeliveryNote::setData(InvoiceData &invData) {
   invData.invNr = lastInvoice;
   invData.sellingDate = sellingDate->date();
   invData.issueDate = productDate->date();
+  invData.endTransDate = endTransactionDate->date();
 
   if (constRab->isChecked())
     invData.discount = discountVal->value();
@@ -628,6 +633,7 @@ void DeliveryNote::getData(WarehouseData invData) {
   invNr->setText(invData.invNr);
   sellingDate->setDate(invData.sellingDate);
   productDate->setDate(invData.issueDate);
+  endTransactionDate->setDate(invData.endTransDate);
 
   if (!invData.duplDate.isNull() && invData.duplDate.isValid())
     dupDate = invData.duplDate;
@@ -772,6 +778,7 @@ void DeliveryNote::setIsEditAllowed(bool isAllowed) {
   backBtn->setEnabled(isAllowed);
   sellingDate->setEnabled(isAllowed);
   productDate->setEnabled(isAllowed);
+  endTransactionDate->setEnabled(isAllowed);
   textLabelSum1->hide();
   textLabelSum2->hide();
   textLabelSum3->hide();

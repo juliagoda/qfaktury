@@ -11,6 +11,7 @@
 #include <QPointer>
 
 
+
 Saftfile::Saftfile(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Saftfile)
@@ -24,6 +25,12 @@ Saftfile::Saftfile(QWidget *parent) :
 
     putBtnToGroup();
     showConnections();
+
+    ui->labelComboCurr->hide(); // temporarily
+    ui->currCombo->hide();
+
+    ui->corrNrLabel->hide();
+    ui->corrNrLabel->buddy()->hide();
 
 }
 
@@ -39,6 +46,12 @@ Saftfile::Saftfile(IDataLayer* dl, QWidget* parent) :
 
     putBtnToGroup();
     showConnections();
+
+    ui->labelComboCurr->hide(); // temporarily
+    ui->currCombo->hide();
+
+    ui->corrNrLabel->hide();
+    ui->corrNrLabel->buddy()->hide();
 
 }
 
@@ -63,21 +76,34 @@ void Saftfile::showConnections() {
 
     connect(ui->showSAFTinvBtn, SIGNAL(clicked(bool)), this, SLOT(initInvoicesRange()));
     connect(ui->generationBtn, SIGNAL(clicked(bool)), this, SLOT(prepareNextStep()));
+   /* connect(groupArtFiles, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonPressed),
+        [=](QAbstractButton *button) {
+        QString text = button->text();
+        text = text.remove('&');
+        qDebug() << "Text of pressed button " << text;
+        fileArtVarVersion = text;
+        fileArtVar = text.left(text.indexOf(' '));
+
+    });*/
+
     connect(groupAppPurp, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonPressed),
         [=](QAbstractButton *button){
         QString btnText = button->text();
         btnText = btnText.remove('&');
-        if (button->text() == "Korekta") {
+        qDebug() << "BTNTEXT " << btnText;
+        if (btnText == "Korekta") {
             ui->corrNrLabel->show();
             ui->corrNrLabel->buddy()->show();
+            update();
         } else {
             ui->corrNrLabel->hide();
             ui->corrNrLabel->buddy()->hide();
+            update();
         }
-        update();
-    });
-    connect(ui->returnBtn, SIGNAL(clicked(bool)), this, SLOT(close()));
 
+    });
+
+    connect(ui->returnBtn, SIGNAL(clicked(bool)), this, SLOT(close()));
 
 }
 
@@ -96,13 +122,17 @@ void Saftfile::putBtnToGroup() {
 
 const QString Saftfile::getFromDateJPK() {
 
-    return ui->jpksFromDate->date().toString("yyyy-MM-dd");
+    QString date = ui->jpksFromDate->date().toString("yyyy-MM-dd");
+    qDebug() << date << " getFromDateJPK in Saftfile";
+    return date;
 }
 
 
 const QString Saftfile::getToDateJPK() {
 
-    return ui->jpksToDate->date().toString("yyyy-MM-dd");
+    QString date = ui->jpksToDate->date().toString("yyyy-MM-dd");
+    qDebug() << date << " getToDateJPK in Saftfile";
+    return date;
 }
 
 
@@ -116,7 +146,10 @@ const QString Saftfile::getApplicationPurpose() {
 const QString Saftfile::getJpkFileArtWithVersion() {
 
     QString text = groupArtFiles->checkedButton()->text();
-    return text.remove('&');
+    text = text.remove('&');
+    qDebug() << "Text of pressed button " << text;
+
+    return text;
 }
 
 
@@ -124,6 +157,8 @@ const QString Saftfile::getJpkFileArt() {
 
     QString text = groupArtFiles->checkedButton()->text();
     text = text.remove('&');
+    qDebug() << "Text of pressed button " << text;
+
     return text.left(text.indexOf(' '));
 }
 
@@ -233,8 +268,6 @@ void Saftfile::putIntoTable(QVector<InvoiceData> invoices) {
 
 QVector<InvoiceData> Saftfile::addSAFTFieldsToList(QVector<InvoiceData> invoices) {
 
-
-
     for (int i = 0; i < invoices.size(); ++i) {
 
         if (invoices.at(i).invNr == ui->saftInvoicesTable->item(i, 1)->text()) {
@@ -260,7 +293,17 @@ void Saftfile::initInvoicesRange() {
 void Saftfile::prepareNextStep() {
 
     //is automatically set to 0 when the referenced object is destroyed
-    QPointer<SaftfileOutput> saftfileoutput = new SaftfileOutput(addSAFTFieldsToList(invs));
+    qDebug() << getTaxOfficeNr() << " getTaxOfficeNr";
+    data.insert("jpkFromDate", getFromDateJPK());
+    data.insert("jpkToDate", getToDateJPK());
+    data.insert("applicationPurpose", getApplicationPurpose());
+    data.insert("correctionNr", getCorrectionNr());
+    data.insert("jpkFileArt", getJpkFileArt());
+    data.insert("jpkFileArtWithVersion", getJpkFileArtWithVersion());
+    data.insert("codeTaxOffice", getTaxOfficeNr());
+    data.insert("defaultCurrency", getDefaultCur());
+
+    QPointer<SaftfileOutput> saftfileoutput = new SaftfileOutput(addSAFTFieldsToList(invs), data);
 
     if (saftfileoutput.isNull())
         delete saftfileoutput;

@@ -22,13 +22,14 @@ public:
     Saftfile(IDataLayer* dl, QWidget* parent = 0);
     ~Saftfile();
 
+
+
 private slots:
     void initInvoicesRange();
     void prepareNextStep();
 
 protected:
     QVector<InvoiceData> getInvFromRange();
-
     const QString getFromDateJPK();
     const QString getToDateJPK();
     const QString getApplicationPurpose();
@@ -39,11 +40,12 @@ protected:
     const QString getCorrectionNr();
 
 private:
+    Ui::Saftfile *ui;
+    QVector<InvoiceData> invs;
+    QHash<QString, QString> data;
     IDataLayer* dlSaftfile;
     QButtonGroup* groupAppPurp;
     QButtonGroup* groupArtFiles;
-    QVector<InvoiceData> invs;
-    Ui::Saftfile *ui;
 
     bool toDateisLower();
     void putIntoTable(QVector<InvoiceData> invoices);

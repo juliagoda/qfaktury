@@ -13,7 +13,7 @@ set (QFAKTURY_VERSION_MINOR "7")
 set (QFAKTURY_VERSION_MICRO "2")
 set (QFAKTURY_APPLICATIONS_VERSION "${QFAKTURY_VERSION_MAJOR}.${QFAKTURY_VERSION_MINOR}.${QFAKTURY_VERSION_MICRO}")
 
-find_package(ECM 1.7.0 REQUIRED CONFIG)
+find_package(ECM 1.7.0 REQUIRED CONFIG) # zmienic na nowszy ecm
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -109,7 +109,7 @@ else()
 endif()
 
 
-find_package( Qt5 REQUIRED COMPONENTS Gui Core Widgets PrintSupport Xml XmlPatterns WebEngineWidgets Network )
+find_package( Qt5 REQUIRED COMPONENTS Gui Core Widgets PrintSupport Xml XmlPatterns  Network )
 
 
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
@@ -207,7 +207,7 @@ target_link_libraries (qfaktury
     Qt5::PrintSupport
     Qt5::Xml
     Qt5::XmlPatterns
-    Qt5::WebEngineWidgets
+  #  Qt5::WebEngineWidgets
     Qt5::Network 
     quazip5
     )
@@ -220,7 +220,7 @@ target_link_libraries (qfaktury
     Qt5::PrintSupport
     Qt5::Xml
     Qt5::XmlPatterns
-    Qt5::WebEngineWidgets
+   # Qt5::WebEngineWidgets
     Qt5::Network 
     quazip
     )

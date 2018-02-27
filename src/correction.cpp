@@ -588,6 +588,8 @@ void Correction::readCorrData(QString invFile) {
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
   productDate->setDate(
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat()));
+  endTransactionDate->setDate(
+      QDate::fromString(root.attribute("endTransDate"), sett().getDateFormat()));
   origGrossBureau = sett().stringToDouble(root.attribute("invValue"));
 
   invData = new InvoiceData();
@@ -650,6 +652,7 @@ void Correction::readCorrData(QString invFile) {
   invData->customer = buyerName->text();
   invData->sellingDate = sellingDate->date();
   invData->productDate = productDate->date();
+  invData->endTransDate = endTransactionDate->date();
 
   for (i = 0; i < goodsCount; ++i) {
 
@@ -816,6 +819,7 @@ void Correction::setIsEditAllowed(bool isAllowed) {
   backBtn->setEnabled(isAllowed);
   sellingDate->setEnabled(isAllowed);
   productDate->setEnabled(isAllowed);
+  endTransactionDate->setEnabled(isAllowed);
   tableGoods->setEnabled(isAllowed);
   discountVal->setEnabled(false);   // don't allow for now
   discountLabel->setEnabled(false); // don't allow for now
@@ -888,6 +892,7 @@ InvoiceData *Correction::createOriginalInv() {
   invData->liabDate = liabDate->date();
   invData->sellingDate = sellingDate->date();
   invData->productDate = productDate->date();
+  invData->endTransDate = endTransactionDate->date();
   invData->invNr = invNr->text();
   invData->paymentType = paysCombo->currentText();
   invData->currencyType = currCombo->currentText();

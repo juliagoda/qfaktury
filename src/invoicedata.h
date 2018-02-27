@@ -28,6 +28,7 @@ public:
   QDate liabDate;
   QDate sellingDate;
   QDate productDate;
+  QDate endTransDate;
   QDate duplDate;
   QString invNr;
   QString paymentType;
@@ -51,6 +52,10 @@ public:
   QString custCity;
   QString custName;
   QString sellerAddress;
+  QString sellerName;
+  QString sellerTic;
+  QString sellerCity;
+
   int currencyTypeId;
   int discount;
   CustomPaymData custPaym;

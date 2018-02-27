@@ -111,6 +111,7 @@ void InvoiceRR::setData(InvoiceData &invData) {
   invData.invNr = invNr->text();
   invData.sellingDate = sellingDate->date();
   invData.issueDate = productDate->date();
+  invData.endTransDate = endTransactionDate->date();
 
   if (constRab->isChecked())
     invData.discount = discountVal->value();
@@ -187,6 +188,7 @@ void InvoiceRR::getData(InvoiceData invData) {
   ifpaysVAT->setChecked(invData.ifpVAT);
   sellingDate->setDate(invData.sellingDate);
   productDate->setDate(invData.issueDate);
+  endTransactionDate->setDate(invData.endTransDate);
 
   if (!invData.duplDate.isNull() && invData.duplDate.isValid())
     dupDate = invData.duplDate;

@@ -1487,6 +1487,8 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
   o_invData.productDate =
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
+  o_invData.endTransDate =
+      QDate::fromString(root.attribute("endTransDate"), sett().getDateFormat());
   if (type == 7)
     o_invData.duplDate =
         QDate::fromString(root.attribute("duplDate"), sett().getDateFormat());
@@ -1498,13 +1500,20 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
   }
 
   QDomNode tmp;
-  tmp = root.firstChild(); // buyer
+  tmp = root.firstChild(); // seller
   seller = tmp.toElement();
   o_invData.sellerAddress = seller.attribute("street");
+  o_invData.sellerName = seller.attribute("name");
+  o_invData.sellerTic = seller.attribute("zip");
+  o_invData.sellerCity = seller.attribute("city");
   tmp = tmp.toElement().nextSibling(); // buyer
   purchaser = tmp.toElement();
 
   o_invData.custTic = purchaser.attribute("tic");
+  o_invData.custStreet = purchaser.attribute("street", "NULL");
+  o_invData.custTic = purchaser.attribute("tic", "NULL");
+  o_invData.custCity = purchaser.attribute("city", "NULL");
+  o_invData.custName = purchaser.attribute("name", "NULL");
 
   o_invData.customer =
       purchaser.attribute("name") + "," + purchaser.attribute("city") + "," +
@@ -1670,6 +1679,8 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type,
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
   o_invData.productDate =
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
+  o_invData.endTransDate =
+      QDate::fromString(root.attribute("endTransDate"), sett().getDateFormat());
   if (type == 7)
     o_invData.duplDate =
         QDate::fromString(root.attribute("duplDate"), sett().getDateFormat());
@@ -1879,6 +1890,8 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
                                             sett().getDateFormat());
       invDt.productDate = QDate::fromString(root.attribute("issueDate"),
                                             sett().getDateFormat());
+      invDt.endTransDate = QDate::fromString(root.attribute("endTransDate"),
+                                            sett().getDateFormat());
       invDt.type = root.attribute("type");
 
       QDomNode nab;
@@ -2012,6 +2025,8 @@ QVector<WarehouseData> XmlDataLayer::warehouseSelectAllData(QDate start,
       invDt.sellingDate = QDate::fromString(root.attribute("sellingDate"),
                                             sett().getDateFormat());
       invDt.productDate = QDate::fromString(root.attribute("issueDate"),
+                                            sett().getDateFormat());
+      invDt.endTransDate = QDate::fromString(root.attribute("endTransDate"),
                                             sett().getDateFormat());
       invDt.type = root.attribute("type");
 
