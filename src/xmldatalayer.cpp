@@ -1263,7 +1263,7 @@ void XmlDataLayer::invoiceSellerDataToElem(DocumentData &,
   o_element.setAttribute("name", userSettings.value("name").toString());
   o_element.setAttribute("zip", userSettings.value("zip").toString());
   o_element.setAttribute("city", userSettings.value("city").toString());
-  o_element.setAttribute("street", userSettings.value("street").toString());
+  o_element.setAttribute("street", userSettings.value("address").toString());
   o_element.setAttribute(
       "tic",
       userSettings.value("tic").toString()); // NIP = Taxing Identification Code
@@ -1456,7 +1456,10 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
 
   InvoiceData o_invData;
 
-  QDomDocument doc(sett().getInoiveDocName());
+  QString forOnlyCheck = name.at(0) == 'k' ? sett().getCorrDocName() : sett().getInoiveDocName();
+  QString domName = onlyCheck ? forOnlyCheck : sett().getInoiveDocName();
+
+  QDomDocument doc(domName);
   QDomElement root;
   QDomElement purchaser;
   QDomElement seller;
@@ -1482,7 +1485,10 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
   }
 
   root = doc.documentElement();
+  if (onlyCheck && (domName == sett().getCorrDocName())) o_invData.origInvNr = root.attribute("originalInvoiceNo");
+  o_invData.id = name;
   o_invData.invNr = root.attribute("no");
+  o_invData.type = root.attribute("type");
   o_invData.sellingDate =
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
   o_invData.productDate =
@@ -1592,6 +1598,7 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
 
   tmp = tmp.toElement().nextSibling();
   QDomElement additional = tmp.toElement();
+  if (onlyCheck && (domName == sett().getCorrDocName())) o_invData.reason = additional.attribute("reason");
   o_invData.additText = additional.attribute("text");
   o_invData.paymentType = additional.attribute("paymentType");
 
@@ -2288,6 +2295,8 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData &oi_invData, int type) {
                     oi_invData.issueDate.toString(sett().getDateFormat()));
   root.setAttribute("sellingDate",
                     oi_invData.sellingDate.toString(sett().getDateFormat()));
+  root.setAttribute("endTransDate",
+                    oi_invData.endTransDate.toString(sett().getDateFormat()));
   if (type == 8) {
     if (oi_invData.ifpVAT)
       root.setAttribute("ifpaysVAT", "1");

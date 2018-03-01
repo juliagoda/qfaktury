@@ -195,6 +195,9 @@ bool Correction::saveInvoice() {
   root.setAttribute("sellingDate",
                     sellingDate->date().toString(sett().getDateFormat()));
 
+  root.setAttribute("endTransDate",
+                    endTransactionDate->date().toString(sett().getDateFormat()));
+
   root.setAttribute("invValue", sum2->text());
 
   QString invType = getInvoiceTypeAndSaveNr();
@@ -208,7 +211,7 @@ bool Correction::saveInvoice() {
   seller.setAttribute("name", userSettings.value("name").toString());
   seller.setAttribute("zip", userSettings.value("zip").toString());
   seller.setAttribute("city", userSettings.value("city").toString());
-  seller.setAttribute("street", userSettings.value("street").toString());
+  seller.setAttribute("street", userSettings.value("address").toString());
   seller.setAttribute("tic", userSettings.value("tic").toString());
   seller.setAttribute(
       "account", userSettings.value("account").toString().replace(" ", "-"));
@@ -584,6 +587,7 @@ void Correction::readCorrData(QString invFile) {
 
   root = doc.documentElement();
   invNr->setText(root.attribute("no"));
+
   sellingDate->setDate(
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
   productDate->setDate(
@@ -594,6 +598,7 @@ void Correction::readCorrData(QString invFile) {
 
   invData = new InvoiceData();
   invData->invNr = root.attribute("originalInvoiceNo");
+  invData->type = root.attribute("type");
 
   QDomNode tmp;
   tmp = root.firstChild();

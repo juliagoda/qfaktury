@@ -31,12 +31,6 @@ SaftfileOutput::~SaftfileOutput() {
 }
 
 
-QString SaftfileOutput::prepareContent() {
-
-    return QString();
-}
-
-
 QXmlSchema SaftfileOutput::getXsdSchemaFromWebsite(QString fileArt) {
 
     QFile schemaData(prepareSchema(fileArt));
@@ -89,7 +83,7 @@ void SaftfileOutput::saveXmlFile() {
 
     xmlWriter.writeStartElement("tns:JPK");
     xmlWriter.writeAttribute("xmlns:etd", "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/");
-    xmlWriter.writeAttribute("xmlns:tns", "http://jpk.mf.gov.pl/wzor/2016/03/09/03095/");
+    xmlWriter.writeAttribute("xmlns:tns", prepareTns(allData.value("jpkFileArt")));
     xmlWriter.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
     xmlWriter.writeAttribute("xmlns:kck", "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyCECHKRAJOW/");
     //xmlWriter.writeAttribute("xsi:schemaLocation", prepareSchema(allData.value("jpkFileArt")).toString());
@@ -129,8 +123,16 @@ void SaftfileOutput::saveXmlFile() {
     }
 
 
-
     file.close();
+}
+
+
+QString SaftfileOutput::prepareTns(QString fileArt) {
+
+    if (fileArt == "JPK_VAT") return QString("http://jpk.mf.gov.pl/wzor/2017/11/13/1113/");
+    else if (fileArt == "JPK_FA") return QString("http://jpk.mf.gov.pl/wzor/2016/03/09/03095/");
+
+    return QString("http://jpk.mf.gov.pl/wzor/2017/11/13/1113/");
 }
 
 
@@ -211,7 +213,7 @@ void SaftfileOutput::saveXmlFileJKP_VAT(QXmlStreamWriter& xmlWriter) {
         xmlWriter.writeTextElement("tns:NazwaKontrahenta", invoices.at(i).custName );
         xmlWriter.writeTextElement("tns:AdresKontrahenta", invoices.at(i).custStreet );
         xmlWriter.writeTextElement("tns:DowodSprzedazy", invoices.at(i).invNr );
-        xmlWriter.writeTextElement("tns:DataWystawienia", invoices.at(i).issueDate.toString("yyyy-MM-dd") );
+        xmlWriter.writeTextElement("tns:DataWystawienia", invoices.at(i).productDate.toString("yyyy-MM-dd") );
         xmlWriter.writeTextElement("tns:DataSprzedazy", invoices.at(i).sellingDate.toString("yyyy-MM-dd") );
 
         for (int j = 10; j < 40; j++) {
@@ -256,12 +258,7 @@ void SaftfileOutput::saveXmlFileJKP_VAT(QXmlStreamWriter& xmlWriter) {
 
     xmlWriter.writeStartElement("tns:SprzedazCtrl");
     xmlWriter.writeTextElement("tns:LiczbaWierszySprzedazy", QString::number(sellCounts) );
-    xmlWriter.writeTextElement("tns:PodatekNalezny", sett().numberToString(vatPriceSum) );
-    xmlWriter.writeEndElement();
-
-    xmlWriter.writeStartElement("tns:ZakupCtrl");
-    xmlWriter.writeTextElement("tns:LiczbaWierszyZakupow", "0" );
-    xmlWriter.writeTextElement("tns:PodatekNalezny", "0.00" );
+    xmlWriter.writeTextElement("tns:PodatekNalezny", sett().numberToString(vatPriceSum).remove(',') );
     xmlWriter.writeEndElement();
 
     xmlWriter.writeEndElement(); // end of tns:JPK
@@ -305,8 +302,18 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
     int sellCounts = 0;
     double invSum = 0.00;
     double gross = 0;
-    double sumBasicNet = 0.00; // now is 23% or 22% VAT as basic; sum of basic net sums, which have 23 %
-    double sumBasicVatPrice = 0.00;
+    double sumBasicNet1 = 0.00; // now is 23% or 22% VAT as basic; sum of basic net sums, which have 23 %
+    double sumBasicVatPrice1 = 0.00;
+    double sumBasicNet2 = 0.00;
+    double sumBasicVatPrice2 = 0.00;
+    double sumBasicNet3 = 0.00;
+    double sumBasicVatPrice3 = 0.00;
+    double sumBasicNet4 = 0.00;
+    double sumBasicVatPrice4 = 0.00;
+    double sumBasicNet5 = 0.00;
+    double sumBasicVatPrice5 = 0.00;
+
+    QStringList sortedVats = getSortedVats(invoices);
 
     for (int i = 0; i < invoices.size(); ++i) {
 
@@ -314,7 +321,7 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
 
         xmlWriter.writeStartElement("tns:Faktura");
         xmlWriter.writeAttribute("typ", "G");
-            xmlWriter.writeTextElement("tns:P_1", invoices.at(i).issueDate.toString("yyyy-MM-DD"));
+            xmlWriter.writeTextElement("tns:P_1", invoices.at(i).productDate.toString("yyyy-MM-dd"));
             xmlWriter.writeTextElement("tns:P_2A", invoices.at(i).invNr);
             xmlWriter.writeTextElement("tns:P_3A", invoices.at(i).custName);
             xmlWriter.writeTextElement("tns:P_3B", invoices.at(i).custStreet);
@@ -324,25 +331,75 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
             xmlWriter.writeTextElement("tns:P_4B", sellerTic.remove('-'));
             QString custTic = invoices.at(i).custTic;
             xmlWriter.writeTextElement("tns:P_5B", custTic.remove('-'));
-            xmlWriter.writeTextElement("tns:P_6", invoices.at(i).endTransDate.toString("yyyy-MM-DD"));
+            xmlWriter.writeTextElement("tns:P_6", invoices.at(i).endTransDate.toString("yyyy-MM-dd"));
 
             QList<ProductData> products1 = invoices.at(i).products.values();
-
 
             for (int j = 0; j < products1.count(); j++) {
               gross += products1.at(j).gross;
 
               if (products1.at(j).getVat() == 23) {
-                  sumBasicNet += products1.at(j).nett;
-                  sumBasicVatPrice += products1.at(j).nett * (static_cast<float>(products1.at(j).vat) / 100);
+
+                  sumBasicNet1 += products1.at(j).nett;
+                  sumBasicVatPrice1 += products1.at(j).nett * (static_cast<float>(products1.at(j).vat) / 100);
+
+              } else if (products1.at(j).getVat() == 8 || products1.at(j).getVat() == 7) {
+
+                  if ((sortedVats.contains("0.07") && !sortedVats.contains("0.08")) || sortedVats.contains("0.08")) {
+
+                        sumBasicNet2 += products1.at(j).nett;
+                        sumBasicVatPrice2 += products1.at(j).nett * (static_cast<float>(products1.at(j).vat) / 100);
+                  }
+              } else if (products1.at(j).getVat() == 5) {
+
+                  sumBasicNet3 += products1.at(j).nett;
+                  sumBasicVatPrice3 += products1.at(j).nett * (static_cast<float>(products1.at(j).vat) / 100);
               }
+
+              if (products1.at(j).getVat() == 7) {
+
+                  if (sortedVats.contains("0.07") && sortedVats.contains("0.08")) {
+
+                        sumBasicNet4 += products1.at(j).nett;
+                        sumBasicVatPrice4 += products1.at(j).nett * (static_cast<float>(products1.at(j).vat) / 100);
+                }
+              } else if (products1.at(j).getVat() == 4) {
+                  if (sortedVats.contains("0.07") && sortedVats.contains("0.08")) {
+
+                      sumBasicNet5 += products1.at(j).nett;
+                      sumBasicVatPrice5 += products1.at(j).nett * (static_cast<float>(products1.at(j).vat) / 100);
+
+                  } else {
+
+                      sumBasicNet4 += products1.at(j).nett;
+                      sumBasicVatPrice4 += products1.at(j).nett * (static_cast<float>(products1.at(j).vat) / 100);
+                  }
+              } else if (products1.at(j).getVat() == 0) {
+
+                  if ((sortedVats.contains("0.07") && sortedVats.contains("0.08")) ^ sortedVats.contains("0.04")) {
+                      sumBasicNet5 += products1.at(j).nett;
+                  } else {
+                      sumBasicNet4 += products1.at(j).nett;
+                  }
             }
 
-            invSum += gross;
+            }
 
-            xmlWriter.writeTextElement("tns:P_13_1", QString("%1").arg(sumBasicNet));
-            xmlWriter.writeTextElement("tns:P_14_1", QString::number(sumBasicVatPrice, 'f', 2));
-            xmlWriter.writeTextElement("tns:P_15", QString("%1").arg(gross));
+
+            invSum += gross;
+            QString invTypeJPK = getInvTypeForJPKFA(invoices.at(i).type, invoices.at(i).paymentType, invoices.at(i).id.at(0));
+
+            xmlWriter.writeTextElement("tns:P_13_1", QString::number(sumBasicNet1,'f',2).remove(','));
+            xmlWriter.writeTextElement("tns:P_14_1", QString::number(sumBasicVatPrice1, 'f', 2).remove(','));
+            xmlWriter.writeTextElement("tns:P_13_2", QString::number(sumBasicNet2,'f',2).remove(','));
+            xmlWriter.writeTextElement("tns:P_14_2", QString::number(sumBasicVatPrice2, 'f', 2).remove(','));
+            xmlWriter.writeTextElement("tns:P_13_3", QString::number(sumBasicNet3,'f',2).remove(','));
+            xmlWriter.writeTextElement("tns:P_14_3", QString::number(sumBasicVatPrice3, 'f', 2).remove(','));
+            xmlWriter.writeTextElement("tns:P_13_4", QString::number(sumBasicNet4,'f',2).remove(','));
+            xmlWriter.writeTextElement("tns:P_14_4", QString::number(sumBasicVatPrice4, 'f', 2).remove(','));
+            xmlWriter.writeTextElement("tns:P_13_5", QString::number(sumBasicNet5,'f',2).remove(','));
+            xmlWriter.writeTextElement("tns:P_14_5", QString::number(sumBasicVatPrice5, 'f', 2).remove(','));
+            xmlWriter.writeTextElement("tns:P_15", QString::number(gross,'f',2).remove(','));
             xmlWriter.writeTextElement("tns:P_16", "false");
             xmlWriter.writeTextElement("tns:P_17", "false");
             xmlWriter.writeTextElement("tns:P_18", "false");
@@ -352,7 +409,24 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
             xmlWriter.writeTextElement("tns:P_23", "false");
             xmlWriter.writeTextElement("tns:P_106E_2", "false");
             xmlWriter.writeTextElement("tns:P_106E_3", "false");
-            xmlWriter.writeTextElement("tns:RodzajFaktury", getInvTypeForJPKFA(invoices.at(i).type, invoices.at(i).paymentType));
+            xmlWriter.writeTextElement("tns:RodzajFaktury", invTypeJPK);
+
+            if (invTypeJPK == "KOREKTA") {
+
+                xmlWriter.writeTextElement("tns:PrzyczynaKorekty", invoices.at(i).reason);
+                xmlWriter.writeTextElement("tns:NrFaKorygowanej", invoices.at(i).origInvNr);
+                xmlWriter.writeTextElement("tns:OkresFaKorygowanej", invoices.at(i).productDate.toString("yyyy-MM-dd"));
+
+            } else if (invTypeJPK == "ZAL") {
+
+                double givenSum = 0.00;
+                double vatSum = static_cast<float>(invoices.at(i).products.value(0).vat);
+                if (invoices.at(i).custPaym.date1 < QDate::currentDate()) givenSum += invoices.at(i).custPaym.amount1;
+                if (invoices.at(i).custPaym.date2 < QDate::currentDate()) givenSum += invoices.at(i).custPaym.amount2;
+                xmlWriter.writeTextElement("tns:ZALZaplata", QString::number(givenSum, 'f', 2).remove(','));
+                xmlWriter.writeTextElement("tns:ZALPodatek", QString::number((givenSum*vatSum)/(100+vatSum),'f',2).remove(','));
+            }
+
         xmlWriter.writeEndElement();
 
      }
@@ -363,23 +437,24 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
     xmlWriter.writeEndElement();
 
     xmlWriter.writeStartElement("tns:StawkiPodatku");
+        xmlWriter.writeTextElement(QString("tns:Stawka1"), QString("0.23"));
 
-    QStringList sortedVats = getSortedVats(invoices);
-    qDebug() << sortedVats.count() << " sortedVats";
-    int limit = sortedVats.count() > 5 ? 5 : sortedVats.count();
-    int limit2 = limit < 5 ? (5 - limit) : 5;
-    for (int k = 0; k < limit; k++) {
+        if (sortedVats.contains("0.08")) xmlWriter.writeTextElement(QString("tns:Stawka2"), QString("0.08"));
+        else if (sortedVats.contains("0.07")) xmlWriter.writeTextElement(QString("tns:Stawka2"), QString("0.07"));
+        else xmlWriter.writeTextElement(QString("tns:Stawka2"), QString("0.08"));
 
-        xmlWriter.writeTextElement(QString("tns:Stawka%1").arg(k+1), sortedVats.at(k));
+        xmlWriter.writeTextElement(QString("tns:Stawka3"), QString("0.05"));
 
-        if (k == (limit-1)) {
-            for (int l = k; l < limit2; l++) {
-                xmlWriter.writeTextElement(QString("tns:Stawka%1").arg(l+2), "0.00");
-            }
-        }
-    }
+        if (sortedVats.contains("0.07") && sortedVats.contains("0.08")) xmlWriter.writeTextElement(QString("tns:Stawka4"), QString("0.07"));
+        else if (sortedVats.contains("0.04")) xmlWriter.writeTextElement(QString("tns:Stawka4"), QString("0.04"));
+        else xmlWriter.writeTextElement(QString("tns:Stawka4"), QString("0.00"));
 
-        xmlWriter.writeEndElement();
+        if ((sortedVats.contains("0.07") && sortedVats.contains("0.08")) && sortedVats.contains("0.04")) xmlWriter.writeTextElement(QString("tns:Stawka5"), QString("0.04"));
+        else xmlWriter.writeTextElement(QString("tns:Stawka5"), QString("0.00"));
+    xmlWriter.writeEndElement();
+
+    qDebug() << sortedVats.count() << " additional sortedVats";
+
 
         int invProdCounts = 0;
         int nettSum = 0.00;
@@ -398,8 +473,8 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
                     xmlWriter.writeTextElement("tns:P_9A", QString("%1").arg(products1.at(j).nett * (products1.at(j).discount / 100)));
                     xmlWriter.writeTextElement("tns:P_9B", QString("%1").arg(products1.at(j).price + (products1.at(j).price * (static_cast<float>(products1.at(j).vat) / 100))));
 
-                    nettSum += products1.at(i).nett;
-                    xmlWriter.writeTextElement("tns:P_11", QString("%1").arg(products1.at(i).nett));
+                    nettSum += products1.at(j).nett;
+                    xmlWriter.writeTextElement("tns:P_11", QString("%1").arg(products1.at(j).nett));
                     xmlWriter.writeTextElement("tns:P_11A", QString("%1").arg(products1.at(j).gross));
                     xmlWriter.writeTextElement("tns:P_12", QString("%1").arg(products1.at(j).vat));
                   xmlWriter.writeEndElement();
@@ -451,9 +526,12 @@ QStringList SaftfileOutput::getSortedVats(QVector<InvoiceData> inv) {
 
             for (int j = 0; j < products1.count(); j++) {
 
+
               QString vat = QString("%1").arg(static_cast<float>(products1.at(j).vat)/100);
 
-              if (!vats.contains(vat)) vats.append(vat);
+              if (vat != "0.23" || vat != "0.05" ) {
+                if (!vats.contains(vat)) vats.append(vat);
+              }
 
             }
     }
@@ -481,7 +559,7 @@ const QString SaftfileOutput::getHouseNumer(QString fullAddress) {
 
     if (fullAddress.contains('/')) {
 
-        int indexOfLastNum = fullAddress.indexOf(QRegularExpression("/"), 0) - 1;
+        int indexOfLastNum = fullAddress.indexOf(QRegularExpression("/"), 0);
         int howManyElem = indexOfLastNum - indexOfFirstNum;
 
         QString house{fullAddress.mid(indexOfFirstNum,howManyElem)};
@@ -512,9 +590,10 @@ const QString SaftfileOutput::getDoorNumer(QString fullAddress) {
 }
 
 
-const QString SaftfileOutput::getInvTypeForJPKFA(QString abbrInv, QString paymentType) {
+const QString SaftfileOutput::getInvTypeForJPKFA(QString abbrInv, QString paymentType, QChar beginFilename) {
 
-    if (abbrInv == "korekta") return "KOREKTA";
+    qDebug() << "Abbreviation of invoice is: " << beginFilename;
+    if ((abbrInv == "korekta") || (beginFilename == 'k')) return "KOREKTA";
     else if (paymentType == "zaliczka") return "ZAL";
     else if (abbrInv == "FVAT") return "VAT";
     else return "POZ";
@@ -534,7 +613,6 @@ const QString SaftfileOutput::getContentFromFileJPK(QString filepath) {
 
     QTextStream in(&file);
     QString contentJPK = in.readAll();
-    //qDebug() << myText;
 
     file.close();
 
@@ -587,7 +665,7 @@ void SaftfileOutput::findErrors(QString fileArt, const QString content) {
         //if (errorOccurred) {
             QMessageBox msgBox;
            // msgBox.setText(QString("Napotkano błędy w generowanym pliku o treści:\n linia: %1, kolumna %2  %3").arg(messageHandler.line()).arg(messageHandler.column()).arg(statusMessage));
-            msgBox.setText(QString("Dopóki błędy związane ze stosowaniem validatora plików xsd nie zostaną ostatecznie naprawione w bibliotece Qt5, walidacja w programie nie będzie ujęta. Zaleca się użycie walidatora na jednej ze stron internetowych, jak: \n https://www.freeformatter.com/xml-validator-xsd.html"));
+            msgBox.setText(QString("Dopóki błędy związane ze stosowaniem validatora plików xsd nie zostaną ostatecznie naprawione w bibliotece Qt5, walidacja w programie nie będzie ujęta. Zaleca się użycie walidatora na jednej ze stron internetowych, jak: \n https://www.freeformatter.com/xml-validator-xsd.html \n Zaleca się także dodatkowe sprawdzenie dokumentów z pomocą osób specjalizujących się w księgowości przed wysłaniem dokumentu"));
             //msgBox.setInformativeText("Co chcesz zrobić? Anulować? Zapisać plik z treścią błędów do katalogu plików JPK? Poprawić treść?");
             msgBox.setInformativeText("Co chcesz zrobić? Anulować? Skopiować treść schematu xsd do schowka? Skopiować treść pliku JPK do schowka? Poprawić treść? Wybór kopiowania nie zamyka okna.");
 

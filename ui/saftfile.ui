@@ -561,16 +561,6 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="validationBtn">
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Waliduj</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="generationBtn">
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>

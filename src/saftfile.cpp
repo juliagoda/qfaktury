@@ -12,6 +12,7 @@
 
 
 
+
 Saftfile::Saftfile(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Saftfile)
@@ -22,12 +23,10 @@ Saftfile::Saftfile(QWidget *parent) :
     show();
 
     dlSaftfile = new XmlDataLayer;
+    ui->generationBtn->setDisabled(true);
 
     putBtnToGroup();
     showConnections();
-
-    ui->labelComboCurr->hide(); // temporarily
-    ui->currCombo->hide();
 
     ui->corrNrLabel->hide();
     ui->corrNrLabel->buddy()->hide();
@@ -44,11 +43,10 @@ Saftfile::Saftfile(IDataLayer* dl, QWidget* parent) :
     setWindowModality(Qt::WindowModal);
     show();
 
+    ui->generationBtn->setDisabled(true);
+
     putBtnToGroup();
     showConnections();
-
-    ui->labelComboCurr->hide(); // temporarily
-    ui->currCombo->hide();
 
     ui->corrNrLabel->hide();
     ui->corrNrLabel->buddy()->hide();
@@ -88,6 +86,7 @@ void Saftfile::showConnections() {
 
     connect(groupAppPurp, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonPressed),
         [=](QAbstractButton *button){
+        button->setChecked(true);
         QString btnText = button->text();
         btnText = btnText.remove('&');
         qDebug() << "BTNTEXT " << btnText;
@@ -281,19 +280,75 @@ QVector<InvoiceData> Saftfile::addSAFTFieldsToList(QVector<InvoiceData> invoices
     return invoices;
 }
 
+
+QVector<InvoiceData> Saftfile::removeUnusedInvoices(QVector<InvoiceData> inv) {
+
+
+    QVector<InvoiceData> invv;
+    qDebug() << "JPK file art " << getJpkFileArt();
+    if ((getJpkFileArt() == "JPK_VAT") || (getJpkFileArt() == "JPK_FA")) {
+
+        qDebug() << "I'm in " << getJpkFileArt();
+
+        QVector<InvoiceData>::const_iterator invoice = inv.constBegin();
+        while (invoice != inv.constEnd()) {
+
+            qDebug() << "Type of invoice: " << (*invoice).type;
+            qDebug() << "Type of invoice: " << invoice->type;
+            if (invoice->type == "korekta") {
+
+                qDebug() << "It's correction ";
+                bool fvatFound = false;
+                QVector<InvoiceData>::const_iterator invNr = inv.constBegin();
+                while (invNr != inv.constEnd()) {
+
+                    qDebug() << "(" << invNr->origInvNr << "==" << invoice->invNr << ") && (" << invNr->type << " == FVAT )";
+                    if ((invNr->invNr == invoice->origInvNr) && (invNr->type == "FVAT")) fvatFound = true;
+
+                    ++invNr;
+                }
+
+                if (fvatFound) {
+
+                    qDebug() << "Found FVAT for correction invoice, while appending";
+                    invv.append(*invoice);
+                    qDebug() << invv.size() << " :size of new QVector";
+                }
+
+            } else if (invoice->type == "FVAT") {
+
+                qDebug() << "append an invoice FVAT to new list";
+                  invv.append(*invoice);
+                  qDebug() << invv.size() << " :size of new QVector";
+            }
+
+            ++invoice;
+        }
+    }
+
+    return invv;
+}
+
 // SLOTS //
 
 void Saftfile::initInvoicesRange() {
 
+    invs.clear();
     invs = getInvFromRange();
+    invs = removeUnusedInvoices(invs);
     putIntoTable(invs);
+
+    if (ui->saftInvoicesTable->rowCount() > 0) ui->generationBtn->setDisabled(false);
+    else ui->generationBtn->setDisabled(true);
 }
+
 
 
 void Saftfile::prepareNextStep() {
 
     //is automatically set to 0 when the referenced object is destroyed
     qDebug() << getTaxOfficeNr() << " getTaxOfficeNr";
+    data.clear();
     data.insert("jpkFromDate", getFromDateJPK());
     data.insert("jpkToDate", getToDateJPK());
     data.insert("applicationPurpose", getApplicationPurpose());
@@ -303,8 +358,15 @@ void Saftfile::prepareNextStep() {
     data.insert("codeTaxOffice", getTaxOfficeNr());
     data.insert("defaultCurrency", getDefaultCur());
 
-    QPointer<SaftfileOutput> saftfileoutput = new SaftfileOutput(addSAFTFieldsToList(invs), data);
+    if ((getJpkFileArt() == "JPK_FA") && getTaxOfficeNr().isEmpty()) {
 
-    if (saftfileoutput.isNull())
-        delete saftfileoutput;
+        QMessageBox::information(this, "Brak danych", "W przypadku próby wygenerowania pliku JPK_FA, trzeba wprowadzić numer urzędu skarbowego, do którego plik będzie wysyłany. ");
+
+    } else {
+
+        QPointer<SaftfileOutput> saftfileoutput = new SaftfileOutput(addSAFTFieldsToList(invs), data);
+
+        if (saftfileoutput.isNull())
+            delete saftfileoutput;
+    }
 }

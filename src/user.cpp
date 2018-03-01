@@ -508,6 +508,11 @@ void User::okClick() {
       setts.setValue("city", settings.value("city").toString());
       setts.setValue("zip", settings.value("zip").toString());
       setts.setValue("address", settings.value("address").toString());
+      setts.setValue("district", settings.value("district").toString());
+      setts.setValue("municipality", settings.value("municipality").toString());
+      setts.setValue("post", settings.value("post").toString());
+      setts.setValue("province", settings.value("province").toString());
+      setts.setValue("codeLand", settings.value("codeLand").toString());
       setts.setValue("account", settings.value("account").toString());
       setts.setValue("tic", settings.value("tic").toString());
       setts.setValue("secIdType", settings.value("secIdType").toString());

@@ -31,8 +31,10 @@ public:
   QDate endTransDate;
   QDate duplDate;
   QString invNr;
+  QString origInvNr;
   QString paymentType;
   QString currencyType;
+  QString reason;
   QString additText;
   QString payment1;
   QDate date1;

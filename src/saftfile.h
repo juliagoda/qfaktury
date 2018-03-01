@@ -52,6 +52,7 @@ private:
     void insertRowToTable(QTableWidget *t, int row);
     void putBtnToGroup();
     void showConnections();
+    QVector<InvoiceData> removeUnusedInvoices(QVector<InvoiceData> inv);
     QVector<InvoiceData> addSAFTFieldsToList(QVector<InvoiceData> invoices);
 };
 

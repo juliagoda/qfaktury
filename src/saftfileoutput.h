@@ -34,10 +34,11 @@ public slots:
 
 protected:
     QString checkCurrenciesInList(QVector<InvoiceData> inv);
+    QString prepareTns(QString fileArt);
     QString prepareSchemaVersion(QString fileArt);
     QString prepareAppPurposeNr(QString fileArt, QString filePurpose);
     QString prepareFileVarriant(QString fileArtWithVersion);
-    const QString getInvTypeForJPKFA(QString abbrInv, QString paymentType);
+    const QString getInvTypeForJPKFA(QString abbrInv, QString paymentType, QChar beginFilename);
     const QString getContentFromFileJPK(QString filepath);
     void findErrors(QString fileArt, const QString content);
 
@@ -52,7 +53,6 @@ private:
    QPointer<QPushButton> overwriteBtn;
    QPointer<QLabel> statusText;
 
-   QString prepareContent();
    void createNoteJPKWindow(MessageHandler* messageHandler = 0);
    void saveXmlFile();
    void saveXmlFileJKP_VAT(QXmlStreamWriter& xmlWriter);
