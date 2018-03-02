@@ -1,3 +1,7 @@
+#include "detector.h"
+#if _pragma_once_support
+#pragma once
+#endif
 #ifndef SAFTFILE_H
 #define SAFTFILE_H
 
@@ -54,6 +58,7 @@ private:
     void showConnections();
     QVector<InvoiceData> removeUnusedInvoices(QVector<InvoiceData> inv);
     QVector<InvoiceData> addSAFTFieldsToList(QVector<InvoiceData> invoices);
+
 };
 
 #endif // SAFTFILE_H

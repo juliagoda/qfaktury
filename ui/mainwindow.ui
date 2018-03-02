@@ -54,7 +54,7 @@
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Treść zadania</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
@@ -78,7 +78,7 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Kalendarz</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
@@ -700,6 +700,7 @@
     <addaction name="fileData_companyAction"/>
     <addaction name="fileSettingsAction"/>
     <addaction name="findInvoiceAction"/>
+    <addaction name="findJPKAction"/>
     <addaction name="fileExportCSVAction"/>
     <addaction name="separator"/>
     <addaction name="fileExportEDIAction"/>
@@ -1434,7 +1435,7 @@
      <normaloff>:/res/icons/openPdfDir.png</normaloff>:/res/icons/openPdfDir.png</iconset>
    </property>
    <property name="text">
-    <string>Otwórz &amp;folder z dokumentami</string>
+    <string>Otwórz &amp;folder z fakturami</string>
    </property>
   </action>
   <action name="fileExportCSVAction">
@@ -1444,6 +1445,15 @@
    </property>
    <property name="text">
     <string>Eksportuj dane do formatu &amp;CSV</string>
+   </property>
+  </action>
+  <action name="findJPKAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/otworz_jpk.png</normaloff>:/res/icons/otworz_jpk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Otwórz folder z JPK</string>
    </property>
   </action>
  </widget>

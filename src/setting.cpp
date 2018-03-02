@@ -4,17 +4,21 @@
 #include <QFileDialog>
 #include <QSignalMapper>
 
+
 Setting::Setting(QWidget *parent) : QDialog(parent) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   setupUi(this);
+  if (!QUAZIP_FOUND) groupBox_5->hide();
   init();
 }
+
 
 Setting::~Setting() {
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 }
+
 
 void Setting::init() {
 

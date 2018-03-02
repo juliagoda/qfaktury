@@ -5,7 +5,9 @@
 #ifndef MainWindow_H
 #define MainWindow_H
 
+
 #include <QMainWindow>
+#include <QDir>
 
 #include "ui_mainwindow.h"
 
@@ -20,6 +22,7 @@ class QWidget;
 class QTimer;
 class QAction;
 class Invoice;
+
 
 // class for creating main window with menu, toolbar, calendar and table widget
 class MainWindow : public QMainWindow {
@@ -43,10 +46,12 @@ private slots:
   void createFirstWinCsv();
   void choosePathCsv();
   void createCsvFiles();
+#if _IF_QUAZIP
   void createFirstWinBackup(); // Backup
   void choosePathBackup(); // Backup
   void createBackup(); // Backup
   void loadBackup(); // Backup
+#endif
   void sendEmailToBuyer(); // Email
   void on_WZAction_triggered();
   void on_RWAction_triggered();
@@ -82,6 +87,7 @@ public slots:
   void goodsDel();
   void goodsEdit();
   void findInvoicePdf(); // Pdf
+  void openJPKDirectory();
   void checkDateRange(const QDate &date); // Debug
   void mainUpdateStatus(QTableWidgetItem *item);
   void showTableMenuT(QPoint p);
@@ -98,7 +104,9 @@ public slots:
   bool ifpdfDirExists(); // Pdf
   void createPdfDir(); // Pdf
   void generatePdfFromList(); // Pdf
+  #if QUAZIP_FOUND
   void intervalBackup();
+  #endif
 
 protected:
   virtual void loadPlugins(); // Plugin
@@ -125,6 +133,7 @@ private:
   ownCalendarWidget *calendar; // Organizer
   static MainWindow *m_instance;
 
+
   int getInvoiceTypeFullName(QString invoiceType);
   void saveColumnWidth();
   void init();
@@ -139,13 +148,17 @@ private:
   void createEmergTemplate();
   bool ifEmergTemplateExists();
   bool firstRun();
-  void createBuyersCsvFiles();
-  void createProductsCsvFiles();
-  void createSellersCsvFiles();
-  void createInvoicesCsvFiles(QDate from, QDate to);
-  void createWareCsvFiles(QDate from, QDate to);
-  void createBackupWithoutGUI();
+  void createBuyersCsvFiles(); // CSV
+  void createProductsCsvFiles(); // CSV
+  void createSellersCsvFiles(); // CSV
+  void createInvoicesCsvFiles(QDate from, QDate to); // CSV
+  void createWareCsvFiles(QDate from, QDate to); // CSV
+  #if QUAZIP_FOUND
+  void createBackupWithoutGUI(); // Backup
   void checkIntervalsForBackup();
+  #endif
+
+
 };
 
 #endif

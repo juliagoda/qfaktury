@@ -18,6 +18,7 @@ Organizer::Organizer(QTextEdit* exercisesField, const QDate& calendarD, QWidget 
     tasksWindowToday = exercisesField;
     calendarDate = calendarD;
     ui->setupUi(this);
+    setWindowTitle("Kreowanie zadania");
     show();
 
     init();

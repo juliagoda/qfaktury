@@ -42,3 +42,9 @@
 #else // Unknown
 #define _pragma_once_support 0
 #endif
+
+#if _IF_QUAZIP
+    #define QUAZIP_FOUND true
+#else
+    #define QUAZIP_FOUND false
+#endif

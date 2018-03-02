@@ -18,9 +18,12 @@
 #include "xmldatalayer.h"
 #include "organizer.h"
 #include "saftfile.h"
+#include "runguard.h"
 
+#if QUAZIP_FOUND
 #include "JlCompress.h"
 #include "quazipdir.h"
+#endif
 
 #include <QDesktopServices>
 #include <QDesktopWidget>
@@ -31,8 +34,10 @@
 #include <QPrinter>
 #include <QProcess>
 #include <QTimer>
+#include <QKeyEvent>
 #include <QDateEdit>
 #include <QPointer>
+
 
 
 MainWindow *MainWindow::m_instance = nullptr;
@@ -279,6 +284,11 @@ void MainWindow::init() {
   calendar = new ownCalendarWidget;
   ui->calendarLayout->addWidget(calendar);
 
+  if (!QUAZIP_FOUND) {
+      ui->actionCreateBackup->deleteLater();
+      ui->actionLoadBackup->deleteLater();
+  }
+
   // connect slots
   connect(ui->actionBug, &QAction::triggered, [this]() {
     QDesktopServices::openUrl(
@@ -316,8 +326,10 @@ void MainWindow::init() {
   connect(ui->editGoodsAction, SIGNAL(triggered()), this, SLOT(goodsEdit()));
   connect(ui->delGoodsAction, SIGNAL(triggered()), this, SLOT(goodsDel()));
   connect(ui->findInvoiceAction, SIGNAL(triggered()), this, SLOT(findInvoicePdf()));
+  connect(ui->findJPKAction, SIGNAL(triggered()), this, SLOT(openJPKDirectory()));
   connect(ui->filtrEnd, SIGNAL(dateChanged(const QDate &)), this, SLOT(checkDateRange(const QDate &)));
   connect(ui->warehouseToDate, SIGNAL(dateChanged(const QDate &)), this, SLOT(checkDateRange(const QDate &)));
+
   /** Slot used to display aboutQt informations.
    */
 
@@ -339,9 +351,12 @@ void MainWindow::init() {
   connect(ui->generateJPKbtn, SIGNAL(clicked(bool)), this, SLOT(openJPKGenerator()));
   connect(ui->fileExportCSVAction, SIGNAL(triggered()), this,
           SLOT(createFirstWinCsv()));
+#if QUAZIP_FOUND
   connect(ui->actionCreateBackup, SIGNAL(triggered()), this,
           SLOT(createFirstWinBackup()));
   connect(ui->actionLoadBackup, SIGNAL(triggered()), this, SLOT(loadBackup()));
+  checkIntervalsForBackup();
+#endif
   connect(ui->hideOrganizer, SIGNAL(clicked(bool)), this,
           SLOT(openHideOrganizer()));
   connect(calendar, SIGNAL(activated(const QDate &)), this,
@@ -384,7 +399,7 @@ void MainWindow::init() {
   categorizeYears();
   loadPlugins();
 
-  checkIntervalsForBackup();
+
 
   if (!ifpdfDirExists()) {
 
@@ -405,7 +420,7 @@ void MainWindow::init() {
   }
 }
 
-
+#if QUAZIP_FOUND
 void MainWindow::checkIntervalsForBackup() {
 
     QSettings settings("elinux", "qfaktury");
@@ -446,6 +461,7 @@ void MainWindow::checkIntervalsForBackup() {
     }
     settings.endGroup();
 }
+#endif
 
 
 bool MainWindow::ifpdfDirExists() {
@@ -2408,8 +2424,17 @@ void MainWindow::goodsEdit() {
 void MainWindow::findInvoicePdf() {
 
     QDesktopServices::openUrl(QUrl(sett().getPdfDir(), QUrl::TolerantMode));
-  //  QString fileName = QFileDialog::getOpenFileName(this,
-  //  tr("Wybierz fakturę / dokument magazynu"), sett().getPdfDir(), tr("Image Files (*.pdf)"));
+}
+
+
+void MainWindow::openJPKDirectory() {
+
+    QFileInfo jpkInfoDir(sett().getJPKDir());
+
+    if (jpkInfoDir.isDir() && jpkInfoDir.exists())
+        QDesktopServices::openUrl(QUrl(sett().getJPKDir(), QUrl::TolerantMode));
+    else
+        QMessageBox::information(this, "Brak katalogu", "Aby otworzyć katalog, musi zostać wygenerowany chociaż jeden jednolity plik kontrolny dowolnego typu (JPK)");
 }
 
 
@@ -2479,6 +2504,7 @@ bool MainWindow::close() {
   }
 }
 
+#if QUAZIP_FOUND
 void MainWindow::createFirstWinBackup() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
@@ -2547,7 +2573,9 @@ void MainWindow::createFirstWinBackup() {
   settings.endGroup();
 
   qDebug() << sett().fileName();
+
 }
+
 
 void MainWindow::intervalBackup() {
 
@@ -2586,6 +2614,7 @@ void MainWindow::intervalBackup() {
   settings.endGroup();
 }
 
+
 QString MainWindow::whichBackupPath() {
 
   QSettings settings("elinux", "qfaktury");
@@ -2601,6 +2630,7 @@ QString MainWindow::whichBackupPath() {
   settings.endGroup();
   return sett().getWorkingDir();
 }
+
 
 void MainWindow::createBackupWithoutGUI() {
 
@@ -2661,6 +2691,7 @@ void MainWindow::createBackupWithoutGUI() {
   settings.endGroup();
 }
 
+
 void MainWindow::choosePathBackup() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
@@ -2673,6 +2704,7 @@ void MainWindow::choosePathBackup() {
     directoryComboBox->setText(directory);
   }
 }
+
 
 void MainWindow::createBackup() {
 
@@ -2728,6 +2760,7 @@ void MainWindow::createBackup() {
     delete windBack;
   }
 }
+
 
 void MainWindow::loadBackup() {
 
@@ -2792,6 +2825,7 @@ void MainWindow::loadBackup() {
     break;
   }
 }
+#endif
 
 /** Slot for sending email to buyers
  */
@@ -2800,16 +2834,24 @@ void MainWindow::sendEmailToBuyer() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-  Send *sendEmailWidget = new Send(
+  //RunGuard guard2("sendemail_run_protection");
+  //if ( guard2.tryToRun() ) {
+
+  QPointer<Send> sendEmailWidget = new Send(
       dl->buyersSelectAllData(),
-      dl->invoiceSelectAllData(ui->filtrStart->date(), ui->filtrEnd->date()),
-      this);
-  sendEmailWidget->show();
+      dl->invoiceSelectAllData(ui->filtrStart->date(), ui->filtrEnd->date()));
+    sendEmailWidget.data()->show();
+
+  if (sendEmailWidget.isNull())
+      delete sendEmailWidget;
+
+ // }
 }
 
 /*
  *  Slot for delivery note creation (WZ)
  */
+
 
 void MainWindow::on_WZAction_triggered() {
 
@@ -2891,11 +2933,16 @@ void MainWindow::openJPKGenerator() {
 
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
+    RunGuard guard( "saftfile_run_protection" );
+    if ( guard.tryToRun() ) {
+
     //is automatically set to 0 when the referenced object is destroyed
     QPointer<Saftfile> saftfileWindow = new Saftfile(dl);
 
     if (saftfileWindow.isNull())
         delete saftfileWindow;
+
+    }
 }
 
 // methods that will put into new class
@@ -2956,7 +3003,9 @@ void MainWindow::createFirstWinCsv() {
   sett().endGroup();
 
   qDebug() << sett().fileName();
+
 }
+
 
 void MainWindow::choosePathCsv() {
 

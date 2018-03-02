@@ -1510,7 +1510,7 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
   seller = tmp.toElement();
   o_invData.sellerAddress = seller.attribute("street");
   o_invData.sellerName = seller.attribute("name");
-  o_invData.sellerTic = seller.attribute("zip");
+  o_invData.sellerTic = seller.attribute("tic");
   o_invData.sellerCity = seller.attribute("city");
   tmp = tmp.toElement().nextSibling(); // buyer
   purchaser = tmp.toElement();
@@ -1596,9 +1596,14 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
     }
   }
 
+  if (onlyCheck && (domName == sett().getCorrDocName())) {
+  tmp = tmp.toElement().nextSibling(); // skip productsOriginal node
+  }
+
   tmp = tmp.toElement().nextSibling();
   QDomElement additional = tmp.toElement();
   if (onlyCheck && (domName == sett().getCorrDocName())) o_invData.reason = additional.attribute("reason");
+  qDebug() << "Odczytany reason w XmlDataLayer " << additional.attribute("reason");
   o_invData.additText = additional.attribute("text");
   o_invData.paymentType = additional.attribute("paymentType");
 

@@ -1,5 +1,6 @@
 #include "saftfileoutput.h"
 #include "messagehandler.h"
+#include "runguard.h"
 
 #include <QRegularExpressionMatchIterator>
 #include <QClipboard>
@@ -52,12 +53,11 @@ QXmlSchema SaftfileOutput::getXsdSchemaFromWebsite(QString fileArt) {
 
 bool SaftfileOutput::jpkDirExist() {
 
-    const QFileInfo jpkDir(sett().getJPKDir());
-    if ((!jpkDir.exists()) || (!jpkDir.isDir()) || (!jpkDir.isWritable())) {
-        qWarning() << "Directory doesn't exist: "
-                   << jpkDir.absoluteFilePath();
-        return false;
-    }
+const QFileInfo jpkDir(sett().getJPKDir());
+if ((!jpkDir.exists()) || (!jpkDir.isDir()) || (!jpkDir.isWritable())) {
+  qWarning() << "Directory doesn't exist: " << jpkDir.absoluteFilePath();
+  return false;
+}
 
     return true;
 }
@@ -87,7 +87,6 @@ void SaftfileOutput::saveXmlFile() {
     xmlWriter.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
     xmlWriter.writeAttribute("xmlns:kck", "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2013/05/23/eD/KodyCECHKRAJOW/");
     //xmlWriter.writeAttribute("xsi:schemaLocation", prepareSchema(allData.value("jpkFileArt")).toString());
-
 
     xmlWriter.writeStartElement("tns:Naglowek");
     xmlWriter.writeStartElement("tns:KodFormularza" );
@@ -169,6 +168,7 @@ QString SaftfileOutput::prepareFileVarriant(QString fileArtWithVersion) {
 
     return number;
 }
+
 
 QString SaftfileOutput::prepareSchema(QString fileArt) {
 
@@ -278,7 +278,7 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
             settingsf.beginGroup("choosenSeller");
             xmlWriter.writeTextElement("etd:NIP", settingsf.value("tic").toString().remove('-') );
             xmlWriter.writeTextElement("etd:PelnaNazwa", settingsf.value("name").toString() );
-            xmlWriter.writeTextElement("etd:REGON", settingsf.value("regon").toString() );
+            putOptIfNotEmpty(xmlWriter, QString("etd:REGON"), settingsf.value("regon").toString());
             settingsf.endGroup();
         xmlWriter.writeEndElement();
         xmlWriter.writeStartElement("tns:AdresPodmiotu");
@@ -291,7 +291,7 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
             xmlWriter.writeTextElement("etd:Gmina", settings.value("municipality").toString());
             xmlWriter.writeTextElement("etd:Ulica", getStreetName(addressText));
             xmlWriter.writeTextElement("etd:NrDomu", getHouseNumer(addressText));
-            xmlWriter.writeTextElement("etd:NrLokalu", getDoorNumer(addressText));
+            putOptIfNotEmpty(xmlWriter, QString("etd:NrLokalu"), getDoorNumer(addressText));
             xmlWriter.writeTextElement("etd:Miejscowosc", settings.value("city").toString());
             xmlWriter.writeTextElement("etd:KodPocztowy", settings.value("zip").toString());
             xmlWriter.writeTextElement("etd:Poczta", settings.value("post").toString());
@@ -302,15 +302,15 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
     int sellCounts = 0;
     double invSum = 0.00;
     double gross = 0;
-    double sumBasicNet1 = 0.00; // now is 23% or 22% VAT as basic; sum of basic net sums, which have 23 %
+    double sumBasicNet1 = 0.00;     // now is 23% or 22% VAT as basic; sum of basic net sums, which have 23 %
     double sumBasicVatPrice1 = 0.00;
-    double sumBasicNet2 = 0.00;
+    double sumBasicNet2 = 0.00;     // now is 7% or 8% VAT as basic
     double sumBasicVatPrice2 = 0.00;
-    double sumBasicNet3 = 0.00;
+    double sumBasicNet3 = 0.00;     // now is 5% VAT as basic
     double sumBasicVatPrice3 = 0.00;
-    double sumBasicNet4 = 0.00;
+    double sumBasicNet4 = 0.00;     // free place for optional VAT
     double sumBasicVatPrice4 = 0.00;
-    double sumBasicNet5 = 0.00;
+    double sumBasicNet5 = 0.00;     // free place for optional VAT
     double sumBasicVatPrice5 = 0.00;
 
     QStringList sortedVats = getSortedVats(invoices);
@@ -413,6 +413,7 @@ void SaftfileOutput::saveXmlFileJKP_FA(QXmlStreamWriter& xmlWriter) {
 
             if (invTypeJPK == "KOREKTA") {
 
+                qDebug() << "PRZYCZYNA zmiennej reason " << invoices.at(i).reason;
                 xmlWriter.writeTextElement("tns:PrzyczynaKorekty", invoices.at(i).reason);
                 xmlWriter.writeTextElement("tns:NrFaKorygowanej", invoices.at(i).origInvNr);
                 xmlWriter.writeTextElement("tns:OkresFaKorygowanej", invoices.at(i).productDate.toString("yyyy-MM-dd"));
@@ -595,7 +596,7 @@ const QString SaftfileOutput::getInvTypeForJPKFA(QString abbrInv, QString paymen
     qDebug() << "Abbreviation of invoice is: " << beginFilename;
     if ((abbrInv == "korekta") || (beginFilename == 'k')) return "KOREKTA";
     else if (paymentType == "zaliczka") return "ZAL";
-    else if (abbrInv == "FVAT") return "VAT";
+    else if ((abbrInv == "FVAT") || (abbrInv == "FBrutto")) return "VAT";
     else return "POZ";
 
     return "VAT";
@@ -736,7 +737,12 @@ void SaftfileOutput::saveErrors(MessageHandler* messageHandler) {
 
 void SaftfileOutput::createNoteJPKWindow(MessageHandler* messageHandler) {
 
+    RunGuard guard( "jpkmodification_run_protection" );
+    if ( guard.tryToRun() ) {
+
     QPointer<QWidget> jpkWindow = new QWidget;
+    jpkWindow.data()->setWindowTitle("Modyfikacja pliku JPK");
+    jpkWindow.data()->setWindowModality(Qt::ApplicationModal);
     statusText = new QLabel();
     statusText.data()->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
     statusText.data()->show();
@@ -795,6 +801,8 @@ void SaftfileOutput::createNoteJPKWindow(MessageHandler* messageHandler) {
     if (jpkWindow.isNull())
         delete jpkWindow;
 
+    }
+
 }
 
 
@@ -849,4 +857,11 @@ void SaftfileOutput::moveCursor(int line, int column)
     jpkContent.data()->setExtraSelections(extraSelections);
 
     jpkContent.data()->setFocus();
+}
+
+
+void SaftfileOutput::putOptIfNotEmpty(QXmlStreamWriter& writer, QString node, QString value) {
+
+    if (!value.isEmpty() && !value.isNull())
+        writer.writeTextElement(node, value);
 }

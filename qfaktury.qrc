@@ -46,6 +46,7 @@
         <file>icons/waitForResp.gif</file>
         <file>icons/openPdfDir.png</file>
         <file>icons/eksportuj_csv24.png</file>
+        <file>icons/otworz_jpk.png</file>
     </qresource>
     <qresource prefix="/documents">
         <file>schemas/Schemat_JPK_FA_v1-0.xsd</file>

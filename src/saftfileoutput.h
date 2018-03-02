@@ -1,3 +1,7 @@
+#include "detector.h"
+#if _pragma_once_support
+#pragma once
+#endif
 #ifndef SAFTFILEOUTPUT_H
 #define SAFTFILEOUTPUT_H
 
@@ -15,6 +19,7 @@ class MessageHandler;
 class SaftfileOutput : public Saftfile
 {
     Q_OBJECT
+
 public:
     explicit SaftfileOutput(QVector<InvoiceData> invoicesList, QHash<QString, QString> data);
     ~SaftfileOutput();
@@ -60,6 +65,7 @@ private:
    void saveErrors(MessageHandler* messageHandler);
    void moveCursor(int line, int column);
    void inputTextFile(const QString content);
+   void putOptIfNotEmpty(QXmlStreamWriter& writer, QString node, QString value);
 
 };
 

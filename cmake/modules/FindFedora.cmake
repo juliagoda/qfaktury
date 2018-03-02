@@ -1,7 +1,7 @@
 
 set(FEDORA 0)
 
-include(FindDetectFiles.cmake)
+find_package(DetectFiles)
 
 
 if(CAT AND SED)
