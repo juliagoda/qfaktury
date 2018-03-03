@@ -46,12 +46,10 @@ private slots:
   void createFirstWinCsv();
   void choosePathCsv();
   void createCsvFiles();
-#if _IF_QUAZIP
   void createFirstWinBackup(); // Backup
   void choosePathBackup(); // Backup
   void createBackup(); // Backup
   void loadBackup(); // Backup
-#endif
   void sendEmailToBuyer(); // Email
   void on_WZAction_triggered();
   void on_RWAction_triggered();
@@ -104,9 +102,7 @@ public slots:
   bool ifpdfDirExists(); // Pdf
   void createPdfDir(); // Pdf
   void generatePdfFromList(); // Pdf
-  #if QUAZIP_FOUND
   void intervalBackup();
-  #endif
 
 protected:
   virtual void loadPlugins(); // Plugin
@@ -153,11 +149,8 @@ private:
   void createSellersCsvFiles(); // CSV
   void createInvoicesCsvFiles(QDate from, QDate to); // CSV
   void createWareCsvFiles(QDate from, QDate to); // CSV
-  #if QUAZIP_FOUND
   void createBackupWithoutGUI(); // Backup
-  void checkIntervalsForBackup();
-  #endif
-
+  void checkIntervalsForBackup(); // Backup
 
 };
 

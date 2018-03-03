@@ -352,6 +352,7 @@ void MainWindow::init() {
   connect(ui->fileExportCSVAction, SIGNAL(triggered()), this,
           SLOT(createFirstWinCsv()));
 #if QUAZIP_FOUND
+  qDebug() << "QUAZIP_FOUND -> It's possible to run connections for Backup";
   connect(ui->actionCreateBackup, SIGNAL(triggered()), this,
           SLOT(createFirstWinBackup()));
   connect(ui->actionLoadBackup, SIGNAL(triggered()), this, SLOT(loadBackup()));
@@ -2504,9 +2505,10 @@ bool MainWindow::close() {
   }
 }
 
-#if QUAZIP_FOUND
+
 void MainWindow::createFirstWinBackup() {
 
+    #if QUAZIP_FOUND
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
 
@@ -2573,12 +2575,14 @@ void MainWindow::createFirstWinBackup() {
   settings.endGroup();
 
   qDebug() << sett().fileName();
+#endif
 
 }
 
 
 void MainWindow::intervalBackup() {
 
+#if QUAZIP_FOUND
   QSettings settings("elinux", "qfaktury");
 
   settings.beginGroup("backup_settings");
@@ -2612,11 +2616,14 @@ void MainWindow::intervalBackup() {
 
   settings.setValue("lastBackupDate", QDate::currentDate().dayOfYear());
   settings.endGroup();
+
+#endif
 }
 
 
 QString MainWindow::whichBackupPath() {
 
+#if QUAZIP_FOUND
   QSettings settings("elinux", "qfaktury");
 
   settings.beginGroup("backup_settings");
@@ -2629,11 +2636,17 @@ QString MainWindow::whichBackupPath() {
   }
   settings.endGroup();
   return sett().getWorkingDir();
+
+#else
+    return QString();
+#endif
+
 }
 
 
 void MainWindow::createBackupWithoutGUI() {
 
+#if QUAZIP_FOUND
   QString checkPath = (whichBackupPath().endsWith('/'))
                           ? whichBackupPath()
                           : whichBackupPath() + "/";
@@ -2689,11 +2702,13 @@ void MainWindow::createBackupWithoutGUI() {
   }
 
   settings.endGroup();
+#endif
 }
 
 
 void MainWindow::choosePathBackup() {
 
+#if QUAZIP_FOUND
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QString directory =
@@ -2703,11 +2718,14 @@ void MainWindow::choosePathBackup() {
   if (!directory.isEmpty()) {
     directoryComboBox->setText(directory);
   }
+
+#endif
 }
 
 
 void MainWindow::createBackup() {
 
+#if QUAZIP_FOUND
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QStringList listConf = QStringList()
@@ -2759,11 +2777,14 @@ void MainWindow::createBackup() {
       windBack = 0;
     delete windBack;
   }
+
+#endif
 }
 
 
 void MainWindow::loadBackup() {
 
+#if QUAZIP_FOUND
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
   QMessageBox msgBox;
@@ -2824,8 +2845,9 @@ void MainWindow::loadBackup() {
 
     break;
   }
-}
+
 #endif
+}
 
 /** Slot for sending email to buyers
  */

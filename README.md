@@ -32,6 +32,7 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 - wysłanie e-mail do kontrahentów wraz z załącznikami z możliwością korzystania z gotowych szablonów
 - korzystanie z danych Głównego Urzędu Statystycznego z podaniem numeru NIP
 - eksport danych do plików CSV
+- generowanie jednolitego pliku kontrolnego (tymczasowo bez walidacji - patrz QXmlSchema QTBUGS)
 
 
 <br/>
@@ -42,14 +43,14 @@ Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycj�
 
 - dowolna dystrybucja Linux
 - biblioteka Qt w wersji wyższej lub równej 5.10.0
-- paczki qt5-base qt5-webengine (lub qtbase5-dev qtwebengine5-dev) (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt WebEngine, Qt Network)
-- zlib w wersji wyższej lub równej 1.2 (wymagane dla paczki quazip)
-- quazip w wersji 0.7.3 lub wyższej (wymagane dla tworzenia kopii zapasowych)
-- cmake w wersji 3.9 lub wyższej (wymagane dla kompilacji)
-- extra-cmake-modules w wersji 1.7.0 lub nowszej (wymagane dla kompilacji)
+- paczki qt5-base qt5-webengine (lub qtbase5-dev qtwebengine5-dev) (dla modułów Qt GUI, Qt Core, Qt Widgets, Qt Print Support, Qt XML, Qt XmlPatterns, Qt Network)
+- zlib w wersji wyższej lub równej 1.2 (opcjonalne dla paczki quazip)
+- quazip w wersji 0.7.3 lub wyższej (opcjonalne dla tworzenia kopii zapasowych)
+- cmake w wersji 3.9 lub wyższej
+- extra-cmake-modules w wersji 1.7.0 lub nowszej
 - php w wersji 7.1 lub wyższej (opcjonalne dla korzystania z danych GUS)
 - gksu w wersji 2.0 lub wyższej (opcjonalne dla konfiguracji PHP)
-- C++ w wersji 11 (kod używa rozwiązań wprowadzonych właśnie w tej wersji jak np. lambda)
+- C++ w wersji 11 lub wyższej (kod używa rozwiązań wprowadzonych właśnie w tej wersji jak np. lambda)
 - połączenie z internetem (opcjonalne)
 - aktualny czas systemowy (opcjonalne)
 
@@ -62,8 +63,16 @@ Poniżej znajdują się jednak zależności dla konkretnych dystrybucji.
 
 # Arch Linux
 
+w wersji podstawowej
+
 ```
-sudo pacman -S zlib gksu php cmake quazip qt5-base qt5-webengine extra-cmake-modules
+sudo pacman -S cmake qt5-base qt5-xmlpatterns extra-cmake-modules
+```
+
+w wersji rozszerzonej
+
+```
+sudo pacman -S cmake qt5-base qt5-xmlpatterns extra-cmake-modules quazip gksu php zlib
 ```
 
 # Ubuntu / Linux Mint
@@ -79,12 +88,20 @@ sudo add-apt-repository ppa:nschloe/cmake-nightly
 sudo add-apt-repository ppa:ondrej/php 
 
 sudo apt-get update
+
 ```
-następnie zainstalować:
+następnie zainstalować w wersji podstawowej:
+
+```
+sudo apt-get install cmake qt510-meta-full libgl-dev extra-cmake-modules build-essential
+```
+
+w wersji rozszerzonej:
 
 ```
 sudo apt-get install php7.1 php7.1-common zlib1g-dev zlib1g cmake libquazip5-dev qt510-meta-full libgl-dev extra-cmake-modules build-essential
 ```
+
 
 następnie po kompilacji i instalacji by program się uruchamiał bez problemów
 trzeba usunąć główny pakiet qtbase5-dev w wersji 5.5.1 (bez jego usunięcia 
@@ -116,29 +133,26 @@ sudo apt-get install apt-transport-https lsb-release ca-certificates
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
 sudo apt-get update
-sudo apt get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev extra-cmake-modules
+sudo apt get install php7.2-cgi php7.2-soap zlib1g-dev zlib1g cmake gksu libquazip5-dev build-essential libgl1-mesa-dev qtbase5-dev libqt5xmlpatterns5-dev extra-cmake-modules
 ```
 
 # Debian Sid
 
 ```
-sudo apt get install php7.1 zlib1g-dev zlib1g cmake gksu libquazip5-dev qtbase5-dev qtwebengine5-dev extra-cmake-modules
+sudo apt get install php zlib1g-dev zlib1g cmake gksu libquazip5-dev libgl1-mesa-dev qtbase5-dev libqt5xmlpatterns5-dev extra-cmake-modules
 ```
 
 # Fedora
 
 ```
-wget http://rpms.remirepo.net/fedora/remi-release-25.rpm
-sudo dnf install remi-release-25.rpm
-sudo dnf install dnf-plugins-core
-sudo dnf config-manager --set-enabled remi-php71
-sudo dnf install zlib-devel cmake beesu quazip qt5-qtbase-devel qt5-qtwebengine-devel extra-cmake-modules
+sudo yum groupinstall "C Development Tools and Libraries"
+sudo yum install php-cli php-common php-soap zlib-devel cmake beesu quazip-qt5-devel qt5 mesa-libGL-devel extra-cmake-modules
 ```
 
 # OpenSUSE
 
 ```
-sudo zypper in php7 php7-devel libz1 zlib-devel cmake gksu libgksu libquazip-qt5 libqt5-qtbase libqt5-qtwebengine extra-cmake-modules
+sudo zypper install pattern devel_basis php7 php7-devel libz1 zlib-devel cmake gksu libgksu libquazip5-dev libqt5-qtbase extra-cmake-modules
 ```
 
 <br/>
