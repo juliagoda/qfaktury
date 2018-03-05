@@ -35,7 +35,7 @@ find_package(QuaZip5)
 
 if(FEDORA)
   add_definitions(-DFEDORA_FOUND)
-  message("It's Fedora. It's possible to run beesu instead of kdesu")
+  message("It's Fedora. It's possible to run beesu instead of gksu")
 endif()
 if(QUAZIP_FOUND)
   add_definitions(-DQUAZIP)
