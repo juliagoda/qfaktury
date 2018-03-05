@@ -137,7 +137,7 @@ void InvoiceRR::setData(InvoiceData &invData) {
     invData.products[i] = product;
   }
 
-  invData.additText = additEdit->text();
+  invData.additText = additEdit->toPlainText();
   invData.paymentType = paysCombo->currentText();
 
   if (invData.paymentType == trUtf8("zaliczka")) {

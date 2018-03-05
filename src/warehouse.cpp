@@ -158,7 +158,7 @@ void Warehouse::readWarehouseData(QString invFile) {
   tmp = tmp.toElement().nextSibling();
   QDomElement additional = tmp.toElement();
   additEdit->setText(additional.attribute("text"));
-  wareData->additText = additEdit->text();
+  wareData->additText = additEdit->toPlainText();
   wareData->paymentType = additional.attribute("paymentType");
   paysCombo->setCurrentText(wareData->paymentType);
 
@@ -237,7 +237,7 @@ void Warehouse::setData(WarehouseData &invData) {
     invData.products[i] = product;
   }
 
-  invData.additText = additEdit->text();
+  invData.additText = additEdit->toPlainText();
   invData.paymentType = paysCombo->currentText();
 
   invData.liabDate = liabDate->date();

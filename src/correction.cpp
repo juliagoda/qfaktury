@@ -354,7 +354,7 @@ bool Correction::saveInvoice() {
 
   QDomElement addinfo;
   addinfo = doc.createElement("addinfo");
-  addinfo.setAttribute("text", additEdit->text());
+  addinfo.setAttribute("text", additEdit->toPlainText());
 
   if (paysCombo->currentText() == trUtf8("zaliczka")) {
     if (!editMode) {
@@ -681,7 +681,7 @@ void Correction::readCorrData(QString invFile) {
   tmp = tmp.toElement().nextSibling();
   QDomElement additional = tmp.toElement();
   additEdit->setText(additional.attribute("text"));
-  invData->additText = additEdit->text();
+  invData->additText = additEdit->toPlainText();
   invData->paymentType = additional.attribute("paymentType");
 
   if (invData->paymentType == trUtf8("zaliczka")) {
@@ -901,7 +901,7 @@ InvoiceData *Correction::createOriginalInv() {
   invData->invNr = invNr->text();
   invData->paymentType = paysCombo->currentText();
   invData->currencyType = currCombo->currentText();
-  invData->additText = additEdit->text();
+  invData->additText = additEdit->toPlainText();
 
   backBtnClick(); // populate correct correction symbol
   return invData;
@@ -1378,7 +1378,7 @@ void Correction::makeInvoiceSummAll() {
   invStrList +=
       trUtf8("Przyczyna korekty: ") + reasonCombo->currentText() + "<br/>";
   invStrList +=
-      "<span class=\"additionalText\">" + additEdit->text() + "</span>";
+      "<span class=\"additionalText\">" + additEdit->toHtml() + "</span>";
   invStrList += "</td>";
   invStrList += "<td width=\"4%\">&nbsp;</td>";
   invStrList += "<td width=\"48%\" valign=\"top\">";

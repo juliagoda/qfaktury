@@ -1550,7 +1550,7 @@ void Invoice::setData(InvoiceData &invData) {
     invData.products[i] = product;
   }
 
-  invData.additText = additEdit->text();
+  invData.additText = additEdit->toPlainText();
   invData.paymentType = paysCombo->currentText();
 
   if (invData.paymentType == trUtf8("zaliczka")) {
@@ -2624,7 +2624,7 @@ void Invoice::makeInvoiceSummAll() {
 
   invStrList += "<br/><br/>";
   invStrList +=
-      "<span class=\"additionalText\">" + additEdit->text() + "</span>";
+      "<span class=\"additionalText\">" + additEdit->toHtml() + "</span>";
   invStrList += "</td>";
   invStrList += "<td width=\"3%\">&nbsp;</td>";
   invStrList += "<td id=\"stempel\" width=\"30%\" align=\"right\">";

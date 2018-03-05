@@ -847,9 +847,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="additEdit">
-       <property name="text">
-        <string>towar odebrałem zgodnie z fakturą</string>
+      <widget class="QTextEdit" name="additEdit">
+       <property name="autoFormatting">
+        <set>QTextEdit::AutoAll</set>
        </property>
       </widget>
      </item>
@@ -990,7 +990,6 @@
   <tabstop>paysCombo</tabstop>
   <tabstop>liabDate</tabstop>
   <tabstop>currCombo</tabstop>
-  <tabstop>additEdit</tabstop>
   <tabstop>saveBtn</tabstop>
   <tabstop>printBtn</tabstop>
   <tabstop>closeBtn</tabstop>
