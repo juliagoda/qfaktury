@@ -73,6 +73,7 @@ w wersji rozszerzonej
 ```
 sudo pacman -S cmake qt5-base qt5-xmlpatterns extra-cmake-modules quazip gksu php zlib
 ```
+<br/>
 
 # Ubuntu / Linux Mint
 
@@ -132,28 +133,36 @@ sudo apt-get install apt-transport-https lsb-release ca-certificates
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
 sudo apt-get update
+```
 
 w wersji podstawowej
+
+
 ```
 sudo apt get install cmake build-essential libgl1-mesa-dev qtbase5-dev libqt5xmlpatterns5-dev extra-cmake-modules
 ```
 
 w wersji rozszerzonej
+
 ```
 sudo apt get install php7.2-cgi php7.2-soap zlib1g-dev zlib1g cmake gksu libquazip5-dev build-essential libgl1-mesa-dev qtbase5-dev libqt5xmlpatterns5-dev extra-cmake-modules
 ```
+<br/>
 
 # Debian Sid
 
 w wersji podstawowej
+
 ```
 sudo apt get install cmake libgl1-mesa-dev qtbase5-dev libqt5xmlpatterns5-dev extra-cmake-modules
 ```
 
 w wersji rozszerzonej
+
 ```
 sudo apt get install php zlib1g-dev zlib1g cmake gksu libquazip5-dev libgl1-mesa-dev qtbase5-dev libqt5xmlpatterns5-dev extra-cmake-modules
 ```
+<br/>
 
 # Fedora
 
@@ -169,6 +178,8 @@ w wersji rozszerzonej
 sudo yum groupinstall "C Development Tools and Libraries"
 sudo yum install php-cli php-common php-soap zlib-devel cmake beesu quazip-qt5-devel qt5 mesa-libGL-devel extra-cmake-modules
 ```
+
+<br/>
 
 # OpenSUSE
 
