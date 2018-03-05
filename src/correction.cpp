@@ -1360,7 +1360,7 @@ void Correction::makeInvoiceSummAll() {
 
     invStrList +=
         trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
-    invStrList += "<span style=\"payDate\">";
+    invStrList += "<span class=\"toPay\">";
     invStrList += trUtf8("Termin płatności: ") +
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
@@ -1369,7 +1369,7 @@ void Correction::makeInvoiceSummAll() {
 
     invStrList +=
         trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
-    invStrList += "<span style=\"payDate\">";
+    invStrList += "<span class=\"toPay\">";
     invStrList += trUtf8("Termin płatności: ") +
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";

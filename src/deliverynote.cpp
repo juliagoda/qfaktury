@@ -314,8 +314,8 @@ void DeliveryNote::makeInvoiceSummAll() {
       trUtf8("forma płatności: ") + paysCombo->currentText() + "<br/>";
   invStrList += "</span>";
 
-  invStrList += "<span class=\"payDate\">";
-  invStrList += trUtf8("termin płatności: ") +
+  invStrList += "<span class=\"toPay\">";
+  invStrList += trUtf8("Termin płatności: ") +
                 liabDate->date().toString(sett().getDateFormat()) + "<br/>";
   invStrList += "</span>";
 
