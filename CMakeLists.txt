@@ -13,103 +13,53 @@ set (QFAKTURY_VERSION_MINOR "7")
 set (QFAKTURY_VERSION_MICRO "2")
 set (QFAKTURY_APPLICATIONS_VERSION "${QFAKTURY_VERSION_MAJOR}.${QFAKTURY_VERSION_MINOR}.${QFAKTURY_VERSION_MICRO}")
 
-find_package(ECM 1.7.0 REQUIRED CONFIG)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
+find_package(ECM 5.43.0 REQUIRED CONFIG)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" "${CMAKE_ROOT}/Modules")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden -Werror -Wall -Wextra -Wno-unused-parameter -pedantic -std=c++0x")
-
-set(QFAKTURY_PATH "/usr/share/qfaktury")
-
-set(FEDORA 0)
-
-include(FindFedora.cmake)
-
-add_definitions ( -D_IF_FEDORA=FEDORA )
-
-
 message(STATUS "${CMAKE_MODULE_PATH}")
 
-
-find_path(ZLIB_INCLUDE_DIR NAMES zlib.h
-   HINTS
-   ~/usr/include
-   /opt/local/include
-   /usr/include
-   /usr/local/include
-   PATH_SUFFIXES zlib
-)
-
-find_path(ZLIB_INCLUDE_DIR_2 NAMES zlib.h
-   HINTS
-   ~/usr/include
-   /opt/local/include
-   /usr/include
-   /usr/local/include
-)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden -Werror -Wall -Wextra -Wno-unused-parameter -pedantic -Wno-reorder -std=c++0x")
+find_package( Qt5 REQUIRED COMPONENTS Gui Core Widgets PrintSupport Xml XmlPatterns Network )
 
 
-if(ZLIB_INCLUDE_DIR OR ZLIB_INCLUDE_DIR_2)
-   set(ZLIB_FOUND TRUE)
+option(FEDORA "Check if this Fedora" OFF)
+option(QUAZIP_FOUND "Check if QuaZipn is installed and accessible" OFF)
+
+
+find_package(Fedora)
+
+find_package(QuaZip5)
+
+
+if(FEDORA)
+  add_definitions(-DFEDORA_FOUND)
+  message("It's Fedora. It's possible to run beesu instead of kdesu")
+endif()
+if(QUAZIP_FOUND)
+  add_definitions(-DQUAZIP)
+  message("EN: QuaZip has been found. It's possible to create backup \nPL: Znaleziono QuaZip. Jest możliwe tworzenie kopii zapasowych")
 else()
-   set(ZLIB_FOUND FALSE)
-   message(FATAL_ERROR "EN: Could NOT find required package zlib. PL: Nie można znaleźć pakietu zlib. Zainstaluj pakiet zlib")
+  message("EN: QuaZip hasn't been found in FindQuaZip5.cmake. It's not possible to create backup. \nPL: Brak biblioteki dla QuaZip. Tworzenie kopii zapasowych zablokowane")
 endif()
 
 
-
-find_path(QUAZIP_INCLUDE_DIR NAMES JlCompress.h
-   HINTS
-   ~/usr/include
-   /opt/local/include
-   /usr/include
-   /usr/local/include
-   PATH_SUFFIXES quazip5
-)
-
-find_library(QUAZIP_LIBRARY NAMES quazip5
-    PATHS
-    ~/usr/lib
-   /opt/local/lib
-   /usr/lib
-   /usr/lib64
-   /usr/local/lib64
-   /usr/local/lib
-)
-
-find_path(QUAZIP_INCLUDE_DIR_2 NAMES JlCompress.h
-   HINTS
-   ~/usr/include
-   /opt/local/include
-   /usr/include
-   /usr/local/include
-   PATH_SUFFIXES quazip
-)
-
-find_library(QUAZIP_LIBRARY_2 NAMES quazip
-    PATHS
-    ~/usr/lib
-   /opt/local/lib
-   /usr/lib
-   /usr/lib64
-   /usr/local/lib64
-   /usr/local/lib
-)
-
-
-link_directories(/usr/local/lib /usr/lib /usr/lib64 /usr/local/lib64 ~/usr/lib)
-
-
-if((QUAZIP_INCLUDE_DIR OR QUAZIP_INCLUDE_DIR_2)  AND (QUAZIP_LIBRARY OR QUAZIP_LIBRARY_2))
-   set(QUAZIP_FOUND TRUE)
-else()
-   set(QUAZIP_FOUND FALSE)
-   message(FATAL_ERROR "EN: Could NOT find required package quazip. PL: Nie można znaleźć pakietu quazip. Zainstaluj pakiet quazip")
+if(NOT QUAZIP_FOUND)
+    set(QUAZIP_INCLUDE_DIR "")
+    set(ZLIB_INCLUDE_DIR "")
+    set(QUAZIP_INCLUDE_DIRS "")
+    set(QUAZIP_LIBRARIES "")
+    find_path(QUAZIP_INCLUDE_DIR NAMES quazipdir.h JlCompress.h PATH_SUFFIXES quazip5)
+    find_path(ZLIB_INCLUDE_DIR NAME zlib.h)
+    set(QUAZIP_INCLUDE_DIRS ${QUAZIP_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR}) # QUAZIP_INCLUDE_DIRS contains includes for zlib and quazip in FindQuaZip5.cmake
+    find_library(QUAZIP_LIBRARIES quazip5)
+    if(NOT QUAZIP_INCLUDE_DIRS OR NOT QUAZIP_LIBRARIES)
+        message("NEXT STEP OF QUAZIP SEARCHING \nEN: Could NOT find optional library quazip. PL: Nie można znaleźć biblioteki quazip w kolejnym kroku. Możliwość tworzenia backup jest zablokowana.")
+    else()
+        message("NEXT STEP OF QUAZIP SEARCHING \nEN: Found optional library quazip. PL: Znaleziono opcjonalną bibliotekę quazip. Możliwe tworzenie kopii zapasowych")
+    endif()
 endif()
-
-
-find_package( Qt5 REQUIRED COMPONENTS Gui Core Widgets PrintSupport Xml WebEngineWidgets Network )
 
 
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
@@ -138,42 +88,26 @@ set( SOURCES
      src/changeamount.cpp
      src/validations.cpp
      src/invoicerr.cpp
-    src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.cpp
-    src/SimpleSmtp_SSL_QT5/smtp_attachements/smtp.cpp
+     src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.cpp
+     src/SimpleSmtp_SSL_QT5/smtp_attachements/smtp.cpp
      src/send.cpp
      src/owncalendar.cpp
      src/warehouse.cpp
      src/deliverynote.cpp
      src/goodsissuednotes.cpp
      src/organizer.cpp
+     src/saftfile.cpp
+     src/saftfileoutput.cpp
+     src/runguard.cpp
 )
 
 include_directories(
-    src
-    src/SimpleSmtp_SSL_QT5/smtp_attachements
-    ui
-    templates
-    icons
-    docs
     ${CMAKE_CURRENT_BINARY_DIR}
-    
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${QUAZIP_INCLUDE_DIRS}
+    src/SimpleSmtp_SSL_QT5/smtp_attachements
 )
 
-if (QUAZIP_INCLUDE_DIR)
-include_directories(
-    ${QUAZIP_INCLUDE_DIR}
-    
-)
-
-endif()
-
-if (QUAZIP_INCLUDE_DIR_2)
-include_directories(
-    ${QUAZIP_INCLUDE_DIR_2}
-    
-)
-
-endif()
 
 qt5_wrap_ui( UIS_HDRS
     ui/setting.ui
@@ -187,6 +121,7 @@ qt5_wrap_ui( UIS_HDRS
     ui/buyers.ui
     ui/buyerslist.ui
     ui/organizer.ui
+    ui/saftfile.ui
     src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.ui
 )
 
@@ -196,70 +131,26 @@ QT5_ADD_RESOURCES(RESOURCES qfaktury.qrc)
 
 add_executable(qfaktury ${SOURCES} ${UIS_HDRS} ${RESOURCES})
 
-if (QUAZIP_LIBRARY)
 target_link_libraries (qfaktury
     Qt5::Gui
     Qt5::Core
     Qt5::Widgets
     Qt5::PrintSupport
     Qt5::Xml
-    Qt5::WebEngineWidgets
+    Qt5::XmlPatterns
     Qt5::Network 
-    quazip5
+    ${QUAZIP_LIBRARIES}
     )
-endif()
-if (QUAZIP_LIBRARY_2)
-target_link_libraries (qfaktury
-    Qt5::Gui
-    Qt5::Core
-    Qt5::Widgets
-    Qt5::PrintSupport
-    Qt5::Xml
-    Qt5::WebEngineWidgets
-    Qt5::Network 
-    quazip
-    )
-endif()
 
-if((CMAKE_SYSTEM_NAME MATCHES "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "GNU")
-   AND NOT CMAKE_CROSSCOMPILING)
 
     SET(QFAKTURY_PATH "/usr/share/qfaktury")
 
     install(TARGETS qfaktury DESTINATION /usr/bin)
     install(DIRECTORY icons DESTINATION ${QFAKTURY_PATH})
+    install(DIRECTORY schemas DESTINATION ${QFAKTURY_PATH})
     install(DIRECTORY templates DESTINATION ${QFAKTURY_PATH})
     install(DIRECTORY docs DESTINATION /usr/share/doc/qfaktury)
     install(FILES QFaktury.desktop DESTINATION /usr/share/applications)
     install(DIRECTORY src DESTINATION ${QFAKTURY_PATH})
     install(DIRECTORY ui DESTINATION ${QFAKTURY_PATH})
 
-endif()
-
-if(CMAKE_SYSTEM_NAME MATCHES "Windows" AND NOT CMAKE_CROSSCOMPILING)
-
-    SET(QFAKTURY_PATH "$ENV{HOME}/AppData/Roaming/qfaktury")
-
-    install(TARGETS qfaktury DESTINATION C:/Windows/System32)
-    install(DIRECTORY icons DESTINATION ${QFAKTURY_PATH})
-    install(DIRECTORY templates DESTINATION ${QFAKTURY_PATH})
-    install(DIRECTORY docs DESTINATION ${QFAKTURY_PATH})
-    install(FILES QFaktury.desktop DESTINATION $ENV{HOME}/Desktop)
-    install(DIRECTORY src DESTINATION ${QFAKTURY_PATH})
-    install(DIRECTORY ui DESTINATION ${QFAKTURY_PATH})
-
-endif()
-
-if(CMAKE_SYSTEM_NAME MATCHES "Darwin" AND NOT CMAKE_CROSSCOMPILING)
-
-    SET(QFAKTURY_PATH "$ENV{HOME}/Library/Application Support/qfaktury")
-
-    install(TARGETS qfaktury DESTINATION /usr/local/bin)
-    install(DIRECTORY icons DESTINATION ${QFAKTURY_PATH})
-    install(DIRECTORY templates DESTINATION ${QFAKTURY_PATH})
-    install(DIRECTORY docs DESTINATION ${QFAKTURY_PATH})
-    install(FILES QFaktury.desktop DESTINATION $ENV{HOME}/Desktop)
-    install(DIRECTORY src DESTINATION ${QFAKTURY_PATH})
-    install(DIRECTORY ui DESTINATION ${QFAKTURY_PATH})
-
-endif()

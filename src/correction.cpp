@@ -195,6 +195,9 @@ bool Correction::saveInvoice() {
   root.setAttribute("sellingDate",
                     sellingDate->date().toString(sett().getDateFormat()));
 
+  root.setAttribute("endTransDate",
+                    endTransactionDate->date().toString(sett().getDateFormat()));
+
   root.setAttribute("invValue", sum2->text());
 
   QString invType = getInvoiceTypeAndSaveNr();
@@ -208,7 +211,7 @@ bool Correction::saveInvoice() {
   seller.setAttribute("name", userSettings.value("name").toString());
   seller.setAttribute("zip", userSettings.value("zip").toString());
   seller.setAttribute("city", userSettings.value("city").toString());
-  seller.setAttribute("street", userSettings.value("street").toString());
+  seller.setAttribute("street", userSettings.value("address").toString());
   seller.setAttribute("tic", userSettings.value("tic").toString());
   seller.setAttribute(
       "account", userSettings.value("account").toString().replace(" ", "-"));
@@ -584,14 +587,18 @@ void Correction::readCorrData(QString invFile) {
 
   root = doc.documentElement();
   invNr->setText(root.attribute("no"));
+
   sellingDate->setDate(
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
   productDate->setDate(
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat()));
+  endTransactionDate->setDate(
+      QDate::fromString(root.attribute("endTransDate"), sett().getDateFormat()));
   origGrossBureau = sett().stringToDouble(root.attribute("invValue"));
 
   invData = new InvoiceData();
   invData->invNr = root.attribute("originalInvoiceNo");
+  invData->type = root.attribute("type");
 
   QDomNode tmp;
   tmp = root.firstChild();
@@ -650,6 +657,7 @@ void Correction::readCorrData(QString invFile) {
   invData->customer = buyerName->text();
   invData->sellingDate = sellingDate->date();
   invData->productDate = productDate->date();
+  invData->endTransDate = endTransactionDate->date();
 
   for (i = 0; i < goodsCount; ++i) {
 
@@ -816,6 +824,7 @@ void Correction::setIsEditAllowed(bool isAllowed) {
   backBtn->setEnabled(isAllowed);
   sellingDate->setEnabled(isAllowed);
   productDate->setEnabled(isAllowed);
+  endTransactionDate->setEnabled(isAllowed);
   tableGoods->setEnabled(isAllowed);
   discountVal->setEnabled(false);   // don't allow for now
   discountLabel->setEnabled(false); // don't allow for now
@@ -888,6 +897,7 @@ InvoiceData *Correction::createOriginalInv() {
   invData->liabDate = liabDate->date();
   invData->sellingDate = sellingDate->date();
   invData->productDate = productDate->date();
+  invData->endTransDate = endTransactionDate->date();
   invData->invNr = invNr->text();
   invData->paymentType = paysCombo->currentText();
   invData->currencyType = currCombo->currentText();

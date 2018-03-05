@@ -194,6 +194,8 @@ void GoodsIssuedNotes::readWarehouseData(QString invFile) {
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
   productDate->setDate(
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat()));
+  endTransactionDate->setDate(
+      QDate::fromString(root.attribute("endTransDate"), sett().getDateFormat()));
 
   lineEdit1->setText(root.attribute("goodFromPlace"));
   lineEdit2->setText(root.attribute("goodToPlace"));
@@ -275,6 +277,7 @@ void GoodsIssuedNotes::readWarehouseData(QString invFile) {
   wareData->customer = buyerName->text();
   wareData->sellingDate = sellingDate->date();
   wareData->productDate = productDate->date();
+  wareData->endTransDate = endTransactionDate->date();
 
   wareData->goodFromPlace = lineEdit1->text();
   wareData->goodToPlace = lineEdit2->text();
@@ -748,6 +751,7 @@ void GoodsIssuedNotes::setData(WarehouseData &invData) {
   invData.invNr = invNr->text();
   invData.sellingDate = sellingDate->date();
   invData.issueDate = productDate->date();
+  invData.endTransDate = endTransactionDate->date();
 
   invData.goodFromPlace = lineEdit1->text();
   invData.goodToPlace = lineEdit2->text();
@@ -790,6 +794,7 @@ void GoodsIssuedNotes::setData(InvoiceData &invData) {
   invData.invNr = lastInvoice;
   invData.sellingDate = sellingDate->date();
   invData.issueDate = productDate->date();
+  invData.endTransDate = endTransactionDate->date();
 
   if (constRab->isChecked())
     invData.discount = discountVal->value();
@@ -885,6 +890,7 @@ void GoodsIssuedNotes::getData(WarehouseData invData) {
   invNr->setText(invData.invNr);
   sellingDate->setDate(invData.sellingDate);
   productDate->setDate(invData.issueDate);
+  endTransactionDate->setDate(invData.endTransDate);
   lineEdit1->setText(invData.goodFromPlace);
   lineEdit2->setText(invData.goodToPlace);
   lineEdit3->setText(invData.departmentCost);
@@ -1056,6 +1062,7 @@ void GoodsIssuedNotes::setIsEditAllowed(bool isAllowed) {
 
   backBtn->setEnabled(isAllowed);
   productDate->setEnabled(isAllowed);
+  endTransactionDate->setEnabled(isAllowed);
 
   textLabelSum1->hide();
   textLabelSum2->hide();

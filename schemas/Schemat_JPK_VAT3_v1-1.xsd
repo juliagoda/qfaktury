@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns:tns="http://jpk.mf.gov.pl/wzor/2017/11/13/1113/" targetNamespace="http://jpk.mf.gov.pl/wzor/2017/11/13/1113/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xml:lang="pl">
+	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" schemaLocation="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/StrukturyDanych_v4-0E.xsd"/>
+	<xsd:simpleType name="TKodFormularza">
+		<xsd:annotation>
+			<xsd:documentation>Symbol wzoru formularza</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="JPK_VAT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TDataCzas">
+		<xsd:restriction base="etd:TDataCzas">
+			<xsd:minInclusive value="2016-07-01T00:00:00Z"/>
+			<xsd:maxInclusive value="2030-12-31T23:59:59Z"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TData">
+		<xsd:restriction base="etd:TData">
+			<xsd:minInclusive value="2016-07-01"/>
+			<xsd:maxInclusive value="2030-01-01"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TDataT">
+		<xsd:annotation>
+			<xsd:documentation>Data transakcji lub zdarzenia</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="etd:TData">
+			<xsd:minInclusive value="2006-01-01"/>
+			<xsd:maxInclusive value="2030-01-01"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TNaglowek">
+		<xsd:annotation>
+			<xsd:documentation>Nagłówek JPK_VAT</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="KodFormularza">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="tns:TKodFormularza">
+						<xsd:attribute name="kodSystemowy" type="xsd:string" use="required" fixed="JPK_VAT (3)"/>
+							<xsd:attribute name="wersjaSchemy" type="xsd:string" use="required" fixed="1-1"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="WariantFormularza">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:byte">
+						<xsd:enumeration value="3"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CelZlozenia" default="0">
+				<xsd:simpleType>
+					<xsd:restriction base="etd:TNaturalny">
+						<xsd:maxInclusive value="999"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="DataWytworzeniaJPK" type="tns:TDataCzas">
+				<xsd:annotation>
+					<xsd:documentation>Data i czas wytworzenia JPK_VAT</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DataOd" type="tns:TData">
+				<xsd:annotation>
+					<xsd:documentation>Data początkowa okresu, którego dotyczy JPK_VAT</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DataDo" type="tns:TData">
+				<xsd:annotation>
+					<xsd:documentation>Data końcowa okresu, którego dotyczy JPK_VAT</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="NazwaSystemu">
+				<xsd:annotation>
+					<xsd:documentation>Nazwa systemu, z którego pochodzą dane</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:token">
+						<xsd:minLength value="1"/>
+						<xsd:maxLength value="240"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="TKwotowy">
+		<xsd:annotation>
+			<xsd:documentation>Wartość numeryczna 18 znaków max, w tym 2 znaki po przecinku</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="18"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TNaturalnyJPK">
+		<xsd:annotation>
+			<xsd:documentation>Liczby naturalne większe od zera</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="etd:TNaturalny">
+			<xsd:minExclusive value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TZnakowyJPK">
+		<xsd:annotation>
+			<xsd:documentation>Typ znakowy ograniczony do 256 znaków</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="256"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TAdresEmail">
+		<xsd:annotation>
+			<xsd:documentation>Adres e-mail</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:minLength value="5"/>
+			<xsd:maxLength value="50"/>
+			<xsd:pattern value="([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="JPK">
+		<xsd:annotation>
+			<xsd:documentation>Jednolity plik kontrolny dla ewidencji zakupu i sprzedaży VAT</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Naglowek" type="tns:TNaglowek">
+					<xsd:annotation>
+						<xsd:documentation>Nagłówek JPK_VAT</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="Podmiot1">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="NIP" type="etd:TNrNIP">
+								<xsd:annotation>
+									<xsd:documentation>Identyfikator podatkowy NIP</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="PelnaNazwa">
+								<xsd:annotation>
+									<xsd:documentation>Pełna nazwa</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:token">
+										<xsd:maxLength value="240"/>
+										<xsd:minLength value="1"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="Email" type="tns:TAdresEmail" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="SprzedazWiersz" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation>Ewidencja sprzedaży oraz nabyć towarów i usług dla których podmiot obowiązany jest naliczyć podatek należny - tj. wewnątrzwspólnotowe nabycia towarów, import towarów podlegających rozliczeniu zgodnie z art. 33 a ustawy, import usług z wyłączeniem usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28 b ustawy, import usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28 b ustawy, dostawa towarów, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 5 ustawy (wypełnia nabywca), dostawa towarów, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 7 lub 8 ustawy (wypełnia nabywca)</xsd:documentation>
+						</xsd:annotation>
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="LpSprzedazy" type="tns:TNaturalnyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Lp. wiersza ewidencji sprzedaży VAT</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="NrKontrahenta" type="etd:TNrIdentyfikacjiPodatkowej">
+									<xsd:annotation>
+										<xsd:documentation>Numer, za pomocą którego kontrahent jest zidentyfikowany na potrzeby podatku lub podatku od wartości dodanej</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="NazwaKontrahenta" type="tns:TZnakowyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Imię i nazwisko lub nazwa kontrahenta</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="AdresKontrahenta" type="tns:TZnakowyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Adres kontrahenta</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="DowodSprzedazy" type="tns:TZnakowyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Numer dowodu sprzedaży</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="DataWystawienia" type="tns:TDataT">
+									<xsd:annotation>
+										<xsd:documentation>Data wystawienia dowodu sprzedaży</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="DataSprzedazy" type="tns:TDataT" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Data sprzedaży, o ile jest określona i różni się od daty wystawienia dowodu sprzedaży. W przeciwnym przypadku - pole puste</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_10" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota netto - Dostawa towarów oraz świadczenie usług na terytorium kraju, zwolnione od podatku</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_11" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota netto - Dostawa towarów oraz świadczenie usług poza terytorium kraju</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_12" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota netto - w tym świadczenie usług, o których mowa w art. 100 ust. 1 pkt 4 ustawy</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_13" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota netto - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 0%</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_14" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota netto - w tym dostawa towarów, o której mowa w art. 129 ustawy</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_15" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 5%</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_16" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku należnego - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 5%</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_17" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 7% albo 8%</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_18" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku należnego - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 7% albo 8%</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_19" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 22% albo 23%</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_20" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku należnego - Dostawa towarów oraz świadczenie usług na terytorium kraju, opodatkowane stawką 22% albo 23%</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:element name="K_21" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota netto - Wewnątrzwspólnotowa dostawa towarów</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_22" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota netto - Eksport towarów</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_23" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Wewnątrzwspólnotowe nabycie towarów</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_24" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku należnego - Wewnątrzwspólnotowe nabycie towarów</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_25" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Import towarów podlegający rozliczeniu zgodnie z art. 33a ustawy</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_26" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku należnego - Import towarów podlegający rozliczeniu zgodnie z art. 33a ustawy</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_27" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Import usług z wyłączeniem usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28b ustawy</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_28" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku należnego - Import usług z wyłączeniem usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28b ustawy</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_29" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Import usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28b ustawy</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_30" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku należnego - Import usług nabywanych od podatników podatku od wartości dodanej, do których stosuje się art. 28b ustawy</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:element name="K_31" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota netto - Dostawa towarów oraz świadczenie usług, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 7 lub 8 ustawy (wypełnia dostawca)</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_32" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Dostawa towarów, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 5 ustawy (wypełnia nabywca)</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_33" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku należnego - Dostawa towarów, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 5 ustawy (wypełnia nabywca)</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_34" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Dostawa towarów oraz świadczenie usług, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 7 lub 8 ustawy (wypełnia nabywca)</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_35" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku należnego - Dostawa towarów oraz świadczenie usług, dla których podatnikiem jest nabywca zgodnie z art. 17 ust. 1 pkt 7 lub 8 ustawy (wypełnia nabywca)</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:element name="K_36" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota podatku należnego od towarów i usług objętych spisem z natury, o którym mowa w art. 14 ust. 5 ustawy</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_37" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Zwrot odliczonej lub zwróconej kwoty wydatkowanej na zakup kas rejestrujących, o którym mowa w art. 111 ust. 6 ustawy</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_38" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota podatku należnego od wewnątrzwspólnotowego nabycia środków transportu, wykazanego w elemencie K_24, podlegająca wpłacie w terminie, o którym mowa w art. 103 ust. 3, w związku z ust. 4 ustawy</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_39" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Kwota podatku od wewnątrzwspólnotowego nabycia paliw silnikowych, podlegająca wpłacie w terminach,
+o których mowa w art. 103 ust. 5a i 5b ustawy</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="SprzedazCtrl">
+						<xsd:annotation>
+							<xsd:documentation>Sumy kontrolne dla ewidencji sprzedaży VAT</xsd:documentation>
+						</xsd:annotation>
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="LiczbaWierszySprzedazy" type="tns:TNaturalnyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Liczba wierszy ewidencji sprzedaży, w okresie którego dotyczy JPK</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="PodatekNalezny" type="tns:TKwotowy">
+									<xsd:annotation>
+										<xsd:documentation>Podatek należny wg ewidencji sprzedaży w okresie, którego dotyczy JPK - suma kwot z elementów K_16, K_18, K_20, K_24, K_26, K_28, K_30, K_33, K_35, K_36 i K_37 pomniejszona o kwotę z elementów K_38 i K_39</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="ZakupWiersz" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation>Ewidencja zakupu VAT</xsd:documentation>
+						</xsd:annotation>
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="LpZakupu" type="tns:TNaturalnyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Lp. wiersza ewidencji zakupu VAT</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="NrDostawcy" type="etd:TNrIdentyfikacjiPodatkowej">
+									<xsd:annotation>
+										<xsd:documentation>Numer, za pomocą którego dostawca (kontrahent) jest zidentyfikowany na potrzeby podatku lub podatku od wartości dodanej</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="NazwaDostawcy" type="tns:TZnakowyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Imię i nazwisko lub nazwa dostawcy (kontrahenta)</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="AdresDostawcy" type="tns:TZnakowyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Adres dostawcy (kontrahenta)</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="DowodZakupu" type="tns:TZnakowyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Numer dowodu zakupu</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="DataZakupu" type="tns:TDataT">
+									<xsd:annotation>
+										<xsd:documentation>Data wystawienia dowodu zakupu</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="DataWplywu" type="tns:TDataT" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Data wpływu dowodu zakupu</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_43" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Nabycie towarów i usług zaliczanych u podatnika do środków trwałych</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_44" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku naliczonego - Nabycie towarów i usług zaliczanych u podatnika do środków trwałych</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:sequence minOccurs="0">
+									<xsd:element name="K_45" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota netto - Nabycie towarów i usług pozostałych</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="K_46" type="tns:TKwotowy">
+										<xsd:annotation>
+											<xsd:documentation>Kwota podatku naliczonego - Nabycie towarów i usług pozostałych</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:element name="K_47" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Korekta podatku naliczonego od nabycia środków trwałych</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_48" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Korekta podatku naliczonego od pozostałych nabyć</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_49" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Korekta podatku naliczonego, o której mowa w art. 89b ust. 1 ustawy</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="K_50" type="tns:TKwotowy" minOccurs="0">
+									<xsd:annotation>
+										<xsd:documentation>Korekta podatku naliczonego, o której mowa w art. 89b ust. 4 ustawy</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="ZakupCtrl">
+						<xsd:annotation>
+							<xsd:documentation>Sumy kontrolne dla ewidencji zakupu VAT</xsd:documentation>
+						</xsd:annotation>
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="LiczbaWierszyZakupow" type="tns:TNaturalnyJPK">
+									<xsd:annotation>
+										<xsd:documentation>Liczba wierszy ewidencji zakupu, w okresie którego dotyczy JPK</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+								<xsd:element name="PodatekNaliczony" type="tns:TKwotowy">
+									<xsd:annotation>
+										<xsd:documentation>Razem kwota podatku naliczonego do odliczenia - suma kwot z elementów K_44, K_46, K_47, K_48, K_49 i K_50</xsd:documentation>
+									</xsd:annotation>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

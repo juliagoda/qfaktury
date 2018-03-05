@@ -173,6 +173,7 @@ void Invoice::init() {
   // set all the dates to todays date -> could be logical date :)
   sellingDate->setDate(QDate::currentDate());
   productDate->setDate(QDate::currentDate());
+  endTransactionDate->setDate(QDate::currentDate());
   liabDate->setDate(QDate::currentDate());
 
   // connects
@@ -199,6 +200,8 @@ void Invoice::init() {
   connect(sellingDate, SIGNAL(dateChanged(QDate)), this,
           SLOT(dateChanged(QDate)));
   connect(productDate, SIGNAL(dateChanged(QDate)), this,
+          SLOT(dateChanged(QDate)));
+  connect(endTransactionDate, SIGNAL(dateChanged(QDate)), this,
           SLOT(dateChanged(QDate)));
   connect(liabDate, SIGNAL(dateChanged(QDate)), this, SLOT(dateChanged(QDate)));
   connect(discountVal, SIGNAL(valueChanged(int)), this, SLOT(discountChange()));
@@ -1521,6 +1524,7 @@ void Invoice::setData(InvoiceData &invData) {
   invData.invNr = invNr->text();
   invData.sellingDate = sellingDate->date();
   invData.issueDate = productDate->date();
+  invData.endTransDate = endTransactionDate->date();
 
   if (constRab->isChecked())
     invData.discount = discountVal->value();
@@ -1599,6 +1603,7 @@ void Invoice::getData(InvoiceData invData) {
   invNr->setText(invData.invNr);
   sellingDate->setDate(invData.sellingDate);
   productDate->setDate(invData.issueDate);
+  endTransactionDate->setDate(invData.endTransDate);
 
   if (!invData.duplDate.isNull() && invData.duplDate.isValid())
     dupDate = invData.duplDate;
@@ -2773,6 +2778,7 @@ void Invoice::setIsEditAllowed(bool isAllowed) {
   backBtn->setEnabled(isAllowed);
   sellingDate->setEnabled(isAllowed);
   productDate->setEnabled(isAllowed);
+  endTransactionDate->setEnabled(isAllowed);
   tableGoods->setEnabled(isAllowed);
   discountVal->setEnabled(isAllowed);
   discountLabel->setEnabled(isAllowed);

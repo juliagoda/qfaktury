@@ -3,6 +3,9 @@
  <author>moux</author>
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,6 +19,9 @@
     <width>600</width>
     <height>256</height>
    </size>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
    <string>QFaktury</string>
@@ -48,7 +54,7 @@
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Treść zadania</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
@@ -72,7 +78,7 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Kalendarz</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
@@ -238,7 +244,7 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <widget class="QTableWidget" name="tableH">
           <property name="contextMenuPolicy">
            <enum>Qt::CustomContextMenu</enum>
@@ -301,6 +307,55 @@
            </property>
           </column>
          </widget>
+        </item>
+        <item row="1" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="generateJPKbtn">
+            <property name="text">
+             <string>Generuj plik JPK</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -645,6 +700,7 @@
     <addaction name="fileData_companyAction"/>
     <addaction name="fileSettingsAction"/>
     <addaction name="findInvoiceAction"/>
+    <addaction name="findJPKAction"/>
     <addaction name="fileExportCSVAction"/>
     <addaction name="separator"/>
     <addaction name="fileExportEDIAction"/>
@@ -1379,7 +1435,7 @@
      <normaloff>:/res/icons/openPdfDir.png</normaloff>:/res/icons/openPdfDir.png</iconset>
    </property>
    <property name="text">
-    <string>Otwórz &amp;folder z dokumentami</string>
+    <string>Otwórz &amp;folder z fakturami</string>
    </property>
   </action>
   <action name="fileExportCSVAction">
@@ -1389,6 +1445,15 @@
    </property>
    <property name="text">
     <string>Eksportuj dane do formatu &amp;CSV</string>
+   </property>
+  </action>
+  <action name="findJPKAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/otworz_jpk.png</normaloff>:/res/icons/otworz_jpk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Otwórz folder z JPK</string>
    </property>
   </action>
  </widget>

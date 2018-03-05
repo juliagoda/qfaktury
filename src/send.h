@@ -31,7 +31,10 @@ public:
 private:
   QVector<BuyerData> bList;
   QVector<InvoiceData> iList;
+
+   Q_DISABLE_COPY( Send )
 };
+
 
 class IntroPage : public QWizardPage {
   Q_OBJECT
@@ -41,7 +44,9 @@ public:
 
 private:
   QLabel *label;
+
 };
+
 
 class ClassInvoicePage : public QWizardPage {
   Q_OBJECT
@@ -58,7 +63,9 @@ private:
   QVector<BuyerData> bList;
   QVector<InvoiceData> iList;
   QTableWidget *invoicesList;
+
 };
+
 
 class EmailPage : public QWizardPage {
   Q_OBJECT
@@ -95,7 +102,9 @@ private:
   QString checkedMail;
   QLineEdit *edit1;
   QLineEdit *edit2;
+
 };
+
 
 class ConclusionPage : public QWizardPage {
   Q_OBJECT
@@ -113,6 +122,7 @@ private slots:
 
 private:
   EmailWindow *emailWindow;
+
 };
 
 #endif // SEND_H

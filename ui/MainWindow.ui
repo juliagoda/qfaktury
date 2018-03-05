@@ -1,0 +1,1406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>moux</author>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>655</width>
+    <height>445</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>256</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>QFaktury</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>.</normaloff>.</iconset>
+  </property>
+  <widget class="QWidget" name="widget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="1">
+     <widget class="QTabWidget" name="organizer">
+      <property name="minimumSize">
+       <size>
+        <width>350</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>450</width>
+        <height>1700</height>
+       </size>
+      </property>
+      <property name="cursor">
+       <cursorShape>ArrowCursor</cursorShape>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Tab 1</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QTextEdit" name="todayExercise">
+            <property name="autoFormatting">
+             <set>QTextEdit::AutoAll</set>
+            </property>
+            <property name="overwriteMode">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::NoTextInteraction</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QVBoxLayout" name="calendarLayout"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget2">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="invoiceTab">
+       <attribute name="title">
+        <string>Historia faktur</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="textLabel1">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>85</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Wyświetl od:</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="filtrStart">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>UpArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="correctionMode">
+             <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+            </property>
+            <property name="displayFormat">
+             <string>dd/MM/yyyy</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+            <property name="date">
+             <date>
+              <year>2009</year>
+              <month>3</month>
+              <day>1</day>
+             </date>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="textLabel2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>do:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="filtrEnd">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>UpArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="wrapping">
+             <bool>true</bool>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="currentSection">
+             <enum>QDateTimeEdit::DaySection</enum>
+            </property>
+            <property name="displayFormat">
+             <string>dd/MM/yyyy</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+            <property name="date">
+             <date>
+              <year>2010</year>
+              <month>1</month>
+              <day>1</day>
+             </date>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="applyFiltrBtn">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Zastosuj</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QTableWidget" name="tableH">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectItems</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>false</bool>
+          </property>
+          <property name="cornerButtonEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="numRows" stdset="0">
+           <number>0</number>
+          </property>
+          <property name="numCols" stdset="0">
+           <number>6</number>
+          </property>
+          <property name="readOnly" stdset="0">
+           <bool>true</bool>
+          </property>
+          <property name="sorting" stdset="0">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string>Nazwa pliku</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Symbol</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Data</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Typ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Nabywca</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>NIP</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="warehouseTab">
+       <attribute name="title">
+        <string>Historia magazynu</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>85</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Wyświetl od: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="warehouseFromDate">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>UpArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="displayFormat">
+             <string>dd/MM/yyyy</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>do: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="warehouseToDate">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>UpArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="displayFormat">
+             <string>dd/MM/yyyy</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="findWarehouses">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Zastosuj</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableM">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <column>
+           <property name="text">
+            <string>Nazwa pliku</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Symbol</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Data</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Typ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Nabywca</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>NIP</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="buyerTab">
+       <attribute name="title">
+        <string>Kontrahenci</string>
+       </attribute>
+       <layout class="QGridLayout">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableK">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectItems</enum>
+          </property>
+          <property name="numRows" stdset="0">
+           <number>0</number>
+          </property>
+          <property name="numCols" stdset="0">
+           <number>7</number>
+          </property>
+          <property name="readOnly" stdset="0">
+           <bool>true</bool>
+          </property>
+          <property name="sorting" stdset="0">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string>Nazwa</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Typ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Miasto</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Adres</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Telefon</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Email</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Strona www</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="goodsTab">
+       <attribute name="title">
+        <string>Towary/Usługi</string>
+       </attribute>
+       <layout class="QGridLayout">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableT">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectItems</enum>
+          </property>
+          <property name="numRows" stdset="0">
+           <number>0</number>
+          </property>
+          <property name="numCols" stdset="0">
+           <number>12</number>
+          </property>
+          <property name="readOnly" stdset="0">
+           <bool>true</bool>
+          </property>
+          <property name="sorting" stdset="0">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string>Index</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Nazwa</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Skrót</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Kod</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>PKWiU</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Typ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Jedn.</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Netto1</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Netto2</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Netto3</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Netto4</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Stawka VAT</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QToolButton" name="hideOrganizer">
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="text">
+       <string>&lt;&lt;</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="MenuBarEditor">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>655</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="plikAct">
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="title">
+     <string>P&amp;rogram</string>
+    </property>
+    <addaction name="fileData_companyAction"/>
+    <addaction name="fileSettingsAction"/>
+    <addaction name="findInvoiceAction"/>
+    <addaction name="fileExportCSVAction"/>
+    <addaction name="separator"/>
+    <addaction name="fileExportEDIAction"/>
+    <addaction name="fileExport_pdfAction"/>
+    <addaction name="fileExport_XMLAction"/>
+    <addaction name="fileImport_EDIAction"/>
+    <addaction name="fileImport_XMLAction"/>
+    <addaction name="actionCreateBackup"/>
+    <addaction name="actionLoadBackup"/>
+    <addaction name="fileEndAction"/>
+   </widget>
+   <widget class="QMenu" name="fakturyAct">
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="title">
+     <string>&amp;Faktury</string>
+    </property>
+    <addaction name="addInvoiceAction"/>
+    <addaction name="invoiceGrossAction"/>
+    <addaction name="invoiceRRAction"/>
+    <addaction name="invoiceBillAction"/>
+    <addaction name="separator"/>
+    <addaction name="invoiceProFormaAction"/>
+    <addaction name="invoiceCorrAction"/>
+    <addaction name="invoiceDuplAction"/>
+    <addaction name="separator"/>
+    <addaction name="invoiceDelAction"/>
+    <addaction name="invoiceEdAction"/>
+    <addaction name="sendEmailAction"/>
+   </widget>
+   <widget class="QMenu" name="buyersAct">
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="title">
+     <string>&amp;Kontrahenci</string>
+    </property>
+    <addaction name="addBuyersAction"/>
+    <addaction name="delBuyersAction"/>
+    <addaction name="editBuyersAction"/>
+    <addaction name="actionPrintBuyer"/>
+   </widget>
+   <widget class="QMenu" name="goodsAct">
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="title">
+     <string>&amp;Towary</string>
+    </property>
+    <addaction name="addGoodsAction"/>
+    <addaction name="delGoodsAction"/>
+    <addaction name="editGoodsAction"/>
+   </widget>
+   <widget class="QMenu" name="helpAct">
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="title">
+     <string>Po&amp;moc</string>
+    </property>
+    <addaction name="helpAction"/>
+    <addaction name="actionBug"/>
+    <addaction name="separator"/>
+    <addaction name="helpAbout_appAction"/>
+    <addaction name="action_Qt"/>
+   </widget>
+   <widget class="QMenu" name="menuPlugins">
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="title">
+     <string>Dodatk&amp;i</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="warehouseMenu">
+    <property name="title">
+     <string>Ma&amp;gazyn</string>
+    </property>
+    <addaction name="WZAction"/>
+    <addaction name="RWAction"/>
+    <addaction name="separator"/>
+    <addaction name="warehouseEdAction"/>
+    <addaction name="warehouseDelAction"/>
+   </widget>
+   <addaction name="plikAct"/>
+   <addaction name="fakturyAct"/>
+   <addaction name="warehouseMenu"/>
+   <addaction name="buyersAct"/>
+   <addaction name="goodsAct"/>
+   <addaction name="menuPlugins"/>
+   <addaction name="helpAct"/>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="fileData_companyAction"/>
+   <addaction name="separator"/>
+   <addaction name="addInvoiceAction"/>
+   <addaction name="separator"/>
+   <addaction name="invoiceProFormaAction"/>
+   <addaction name="separator"/>
+   <addaction name="addBuyersAction"/>
+   <addaction name="separator"/>
+   <addaction name="addGoodsAction"/>
+   <addaction name="separator"/>
+   <addaction name="fileSettingsAction"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="plikDrukujAction">
+   <property name="text">
+    <string>Drukuj</string>
+   </property>
+   <property name="iconText">
+    <string>Drukuj</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>plikDrukujAction</string>
+   </property>
+  </action>
+  <action name="invoiceDelAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/usun_fakture.png</normaloff>:/res/icons/usun_fakture.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Usuń</string>
+   </property>
+   <property name="iconText">
+    <string>Usuń</string>
+   </property>
+   <property name="shortcut">
+    <string>U</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>fakturyUsunAction</string>
+   </property>
+  </action>
+  <action name="addInvoiceAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/nowa_faktura.png</normaloff>:/res/icons/nowa_faktura.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Faktura VAT</string>
+   </property>
+   <property name="iconText">
+    <string>Nowa faktura</string>
+   </property>
+   <property name="shortcut">
+    <string>F</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>fakturyDodajAction</string>
+   </property>
+  </action>
+  <action name="addBuyersAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/dodaj_kontrahentow.png</normaloff>:/res/icons/dodaj_kontrahentow.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Dodaj</string>
+   </property>
+   <property name="iconText">
+    <string>Konrahent</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>kontrahenciDodajAction</string>
+   </property>
+  </action>
+  <action name="delBuyersAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/usun_kontrahentow.png</normaloff>:/res/icons/usun_kontrahentow.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Usuń</string>
+   </property>
+   <property name="iconText">
+    <string>Usuń</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>kontrahenciUsunAction</string>
+   </property>
+  </action>
+  <action name="editBuyersAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/edytuj_kontrahentow.png</normaloff>:/res/icons/edytuj_kontrahentow.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Edycja</string>
+   </property>
+   <property name="iconText">
+    <string>Edycja</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>kontrahenciEdycjaAction</string>
+   </property>
+  </action>
+  <action name="pomocO_QtAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/pomoc.png</normaloff>:/res/icons/pomoc.png</iconset>
+   </property>
+   <property name="text">
+    <string>O Qt</string>
+   </property>
+   <property name="iconText">
+    <string>O &amp;Qt</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>pomocO_QtAction</string>
+   </property>
+  </action>
+  <action name="fileEndAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/koniec.png</normaloff>:/res/icons/koniec.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Koniec</string>
+   </property>
+   <property name="iconText">
+    <string>Koniec</string>
+   </property>
+   <property name="shortcut">
+    <string>Q</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>plikKoniecAction</string>
+   </property>
+  </action>
+  <action name="invoiceEdAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/edytuj_fakture.png</normaloff>:/res/icons/edytuj_fakture.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Edytuj</string>
+   </property>
+   <property name="iconText">
+    <string>Edytuj</string>
+   </property>
+   <property name="shortcut">
+    <string>E</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>fakturyEdAction</string>
+   </property>
+  </action>
+  <action name="fileData_companyAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/dane_firmy.png</normaloff>:/res/icons/dane_firmy.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Dane firmy</string>
+   </property>
+   <property name="iconText">
+    <string>Firma</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+   <property name="name" stdset="0">
+    <string>plikDane_firmyAction</string>
+   </property>
+  </action>
+  <action name="przelewyDrukuj_Action">
+   <property name="text">
+    <string>Drukuj </string>
+   </property>
+   <property name="iconText">
+    <string>Drukuj </string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>przelewyDrukuj_Action</string>
+   </property>
+  </action>
+  <action name="helpAbout_appAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/qfaktury_22.png</normaloff>:/res/icons/qfaktury_22.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;O programie</string>
+   </property>
+   <property name="iconText">
+    <string>O programie</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>pomocO_programieAction</string>
+   </property>
+  </action>
+  <action name="fileSettingsAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/ustawienia.png</normaloff>:/res/icons/ustawienia.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Ustawienia</string>
+   </property>
+   <property name="iconText">
+    <string>Ustawienia</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+U</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>plikUstawieniaAction</string>
+   </property>
+  </action>
+  <action name="przelewyZUS">
+   <property name="icon">
+    <iconset>
+     <normaloff>image10</normaloff>image10</iconset>
+   </property>
+   <property name="text">
+    <string>Nowy (ZUS)</string>
+   </property>
+   <property name="iconText">
+    <string>Nowy (ZUS)</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>przelewyZUS</string>
+   </property>
+  </action>
+  <action name="przelewyUSAction">
+   <property name="icon">
+    <iconset>
+     <normaloff>image11</normaloff>image11</iconset>
+   </property>
+   <property name="text">
+    <string>Nowy (US)</string>
+   </property>
+   <property name="iconText">
+    <string>Nowy (US)</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>przelewyUSAction</string>
+   </property>
+  </action>
+  <action name="helpAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/strona_github.png</normaloff>:/res/icons/strona_github.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Strona programu</string>
+   </property>
+   <property name="iconText">
+    <string>Strona programu</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>pomocPomocAction</string>
+   </property>
+  </action>
+  <action name="separatornew_itemAction">
+   <property name="text">
+    <string>new item</string>
+   </property>
+   <property name="iconText">
+    <string>new item</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>separatornew_itemAction</string>
+   </property>
+  </action>
+  <action name="editGoodsAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/edytuj_towar.png</normaloff>:/res/icons/edytuj_towar.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Edycja</string>
+   </property>
+   <property name="iconText">
+    <string>Edycja</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>towaryEdycjaAction</string>
+   </property>
+  </action>
+  <action name="delGoodsAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/usun_towar.png</normaloff>:/res/icons/usun_towar.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Usuń</string>
+   </property>
+   <property name="iconText">
+    <string>Usuń</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>towaryUsunAction</string>
+   </property>
+  </action>
+  <action name="addGoodsAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/dodaj_towar.png</normaloff>:/res/icons/dodaj_towar.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Dodaj</string>
+   </property>
+   <property name="iconText">
+    <string>Towar/Usługa</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>towaryDodajAction</string>
+   </property>
+  </action>
+  <action name="fileExportEDIAction">
+   <property name="text">
+    <string>&amp;Export do EDI</string>
+   </property>
+   <property name="iconText">
+    <string>Export do EDI</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0">
+    <string>plikExportEDIAction</string>
+   </property>
+  </action>
+  <action name="fileExport_pdfAction">
+   <property name="text">
+    <string>Export do &amp;PDF</string>
+   </property>
+   <property name="iconText">
+    <string>Export do PDF</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0">
+    <string>plikExport_pdfAction</string>
+   </property>
+  </action>
+  <action name="fileExport_XMLAction">
+   <property name="text">
+    <string>Exp&amp;ort do XML</string>
+   </property>
+   <property name="iconText">
+    <string>Export do XML</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0">
+    <string>plikExport_XMLAction</string>
+   </property>
+  </action>
+  <action name="fileImport_EDIAction">
+   <property name="text">
+    <string>&amp;Import EDI</string>
+   </property>
+   <property name="iconText">
+    <string>Import EDI</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0">
+    <string>plikImport_EDIAction</string>
+   </property>
+  </action>
+  <action name="fileImport_XMLAction">
+   <property name="text">
+    <string>Import &amp;XML</string>
+   </property>
+   <property name="iconText">
+    <string>Import XML</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="name" stdset="0">
+    <string>plikImport_XMLAction</string>
+   </property>
+  </action>
+  <action name="invoiceCorrAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/nowa_korekta.png</normaloff>:/res/icons/nowa_korekta.png</iconset>
+   </property>
+   <property name="text">
+    <string>Faktura &amp;korygująca</string>
+   </property>
+   <property name="iconText">
+    <string>Nowa korekta</string>
+   </property>
+   <property name="shortcut">
+    <string>K</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>fakturyKorektaAction</string>
+   </property>
+  </action>
+  <action name="invoiceProFormaAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/nowa_proforma.png</normaloff>:/res/icons/nowa_proforma.png</iconset>
+   </property>
+   <property name="text">
+    <string>Faktura &amp;Pro Forma</string>
+   </property>
+   <property name="iconText">
+    <string>Pro forma</string>
+   </property>
+   <property name="shortcut">
+    <string>P</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>fakturyPFormaAction</string>
+   </property>
+  </action>
+  <action name="nextPageAction">
+   <property name="iconText">
+    <string>Action</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+PgDown</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>nextPageAction</string>
+   </property>
+  </action>
+  <action name="prevPageAction">
+   <property name="iconText">
+    <string>Action_2</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+PgUp</string>
+   </property>
+   <property name="name" stdset="0">
+    <string>prevPageAction</string>
+   </property>
+  </action>
+  <action name="actionBug">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/zglos_blad.png</normaloff>:/res/icons/zglos_blad.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Zgłoś błąd</string>
+   </property>
+  </action>
+  <action name="invoiceDuplAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/nowa_duplikat.png</normaloff>:/res/icons/nowa_duplikat.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Duplikat faktury</string>
+   </property>
+   <property name="shortcut">
+    <string>D</string>
+   </property>
+  </action>
+  <action name="invoiceGrossAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/nowa_brutto.png</normaloff>:/res/icons/nowa_brutto.png</iconset>
+   </property>
+   <property name="text">
+    <string>Faktura &amp;Brutto</string>
+   </property>
+   <property name="shortcut">
+    <string>B</string>
+   </property>
+  </action>
+  <action name="invoiceBillAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/nowa_rachunek.png</normaloff>:/res/icons/nowa_rachunek.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Rachunek</string>
+   </property>
+   <property name="shortcut">
+    <string>R</string>
+   </property>
+  </action>
+  <action name="action_Qt">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/o_qt.png</normaloff>:/res/icons/o_qt.png</iconset>
+   </property>
+   <property name="text">
+    <string>O &amp;Qt</string>
+   </property>
+  </action>
+  <action name="actionPrintBuyer">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/drukuj_kontrahentow.png</normaloff>:/res/icons/drukuj_kontrahentow.png</iconset>
+   </property>
+   <property name="text">
+    <string>D&amp;rukuj</string>
+   </property>
+  </action>
+  <action name="invoiceRRAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/nowa_RR.png</normaloff>:/res/icons/nowa_RR.png</iconset>
+   </property>
+   <property name="text">
+    <string>F&amp;aktura RR</string>
+   </property>
+   <property name="shortcut">
+    <string>X</string>
+   </property>
+  </action>
+  <action name="actionCreateBackup">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/importuj_qfaktury.png</normaloff>:/res/icons/importuj_qfaktury.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Stwórz kopię zapasową</string>
+   </property>
+  </action>
+  <action name="actionLoadBackup">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/eksportuj_qfaktury.png</normaloff>:/res/icons/eksportuj_qfaktury.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Wczytaj kopię zapasową</string>
+   </property>
+  </action>
+  <action name="sendEmailAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/wyslij_fakture.png</normaloff>:/res/icons/wyslij_fakture.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Wyślij</string>
+   </property>
+  </action>
+  <action name="WZAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/delivery_note.png</normaloff>:/res/icons/delivery_note.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;WZ</string>
+   </property>
+  </action>
+  <action name="warehouseEdAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/edytuj_magazyn.png</normaloff>:/res/icons/edytuj_magazyn.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Edytuj</string>
+   </property>
+  </action>
+  <action name="warehouseDelAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/usun_magazyn.png</normaloff>:/res/icons/usun_magazyn.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Usuń</string>
+   </property>
+  </action>
+  <action name="RWAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/good_issue_note.png</normaloff>:/res/icons/good_issue_note.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;RW</string>
+   </property>
+  </action>
+  <action name="findInvoiceAction">
+   <property name="icon">
+    <iconset resource="../qfaktury.qrc">
+     <normaloff>:/res/icons/openPdfDir.png</normaloff>:/res/icons/openPdfDir.png</iconset>
+   </property>
+   <property name="text">
+    <string>Otwórz &amp;folder z dokumentami</string>
+   </property>
+  </action>
+  <action name="fileExportCSVAction">
+   <property name="text">
+    <string>Eksportuj dane do formatu CSV</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="4" margin="9"/>
+ <tabstops>
+  <tabstop>tabWidget2</tabstop>
+  <tabstop>applyFiltrBtn</tabstop>
+  <tabstop>tableH</tabstop>
+  <tabstop>filtrStart</tabstop>
+  <tabstop>filtrEnd</tabstop>
+  <tabstop>tableK</tabstop>
+  <tabstop>tableT</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../qfaktury.qrc"/>
+  <include location="../qfaktury.qrc"/>
+ </resources>
+ <connections/>
+</ui>

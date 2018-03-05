@@ -1,4 +1,3 @@
-
 #include "buyers.h"
 #include "idatalayer.h"
 #include "validations.h"
@@ -13,12 +12,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
-#ifdef _IF_FEDORA
-    #define DISTRO_FEDORA true
-#else
-    #define DISTRO_FEDORA false
-#endif
 
 /** Constructor
  */

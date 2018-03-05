@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>User</class>
  <widget class="QDialog" name="User">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -91,7 +94,7 @@
             <x>0</x>
             <y>0</y>
             <width>528</width>
-            <height>686</height>
+            <height>876</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -101,6 +104,12 @@
               <layout class="QVBoxLayout">
                <item>
                 <widget class="QLabel" name="textLabel1">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Nazwa*:</string>
                  </property>
@@ -111,6 +120,12 @@
                </item>
                <item>
                 <widget class="QLabel" name="textLabel3">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Miejscowość*:</string>
                  </property>
@@ -121,6 +136,12 @@
                </item>
                <item>
                 <widget class="QLabel" name="textLabel4">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Kod*:</string>
                  </property>
@@ -131,6 +152,12 @@
                </item>
                <item>
                 <widget class="QLabel" name="textLabel2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Adres*:</string>
                  </property>
@@ -140,7 +167,72 @@
                 </widget>
                </item>
                <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Powiat</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_9">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Gmina</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_10">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Poczta</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_7">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Województwo</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>Kod Kraju</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QLabel" name="textLabel5">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>50</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Nr konta*:</string>
                  </property>
@@ -151,6 +243,12 @@
                </item>
                <item>
                 <widget class="QLabel" name="label">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Nazwa banku:</string>
                  </property>
@@ -158,6 +256,12 @@
                </item>
                <item>
                 <widget class="QLabel" name="label_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>32</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Nr SWIFT/BIC:</string>
                  </property>
@@ -165,6 +269,18 @@
                </item>
                <item>
                 <widget class="QLabel" name="label_5">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>50</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
@@ -250,6 +366,21 @@
                </item>
                <item>
                 <widget class="QLineEdit" name="addressEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="districtEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="municipalityEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="postEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="provinceEdit"/>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="codeLandEdit"/>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_5">

@@ -1263,7 +1263,7 @@ void XmlDataLayer::invoiceSellerDataToElem(DocumentData &,
   o_element.setAttribute("name", userSettings.value("name").toString());
   o_element.setAttribute("zip", userSettings.value("zip").toString());
   o_element.setAttribute("city", userSettings.value("city").toString());
-  o_element.setAttribute("street", userSettings.value("street").toString());
+  o_element.setAttribute("street", userSettings.value("address").toString());
   o_element.setAttribute(
       "tic",
       userSettings.value("tic").toString()); // NIP = Taxing Identification Code
@@ -1456,7 +1456,10 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
 
   InvoiceData o_invData;
 
-  QDomDocument doc(sett().getInoiveDocName());
+  QString forOnlyCheck = name.at(0) == 'k' ? sett().getCorrDocName() : sett().getInoiveDocName();
+  QString domName = onlyCheck ? forOnlyCheck : sett().getInoiveDocName();
+
+  QDomDocument doc(domName);
   QDomElement root;
   QDomElement purchaser;
   QDomElement seller;
@@ -1482,11 +1485,16 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
   }
 
   root = doc.documentElement();
+  if (onlyCheck && (domName == sett().getCorrDocName())) o_invData.origInvNr = root.attribute("originalInvoiceNo");
+  o_invData.id = name;
   o_invData.invNr = root.attribute("no");
+  o_invData.type = root.attribute("type");
   o_invData.sellingDate =
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
   o_invData.productDate =
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
+  o_invData.endTransDate =
+      QDate::fromString(root.attribute("endTransDate"), sett().getDateFormat());
   if (type == 7)
     o_invData.duplDate =
         QDate::fromString(root.attribute("duplDate"), sett().getDateFormat());
@@ -1498,13 +1506,20 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
   }
 
   QDomNode tmp;
-  tmp = root.firstChild(); // buyer
+  tmp = root.firstChild(); // seller
   seller = tmp.toElement();
   o_invData.sellerAddress = seller.attribute("street");
+  o_invData.sellerName = seller.attribute("name");
+  o_invData.sellerTic = seller.attribute("tic");
+  o_invData.sellerCity = seller.attribute("city");
   tmp = tmp.toElement().nextSibling(); // buyer
   purchaser = tmp.toElement();
 
   o_invData.custTic = purchaser.attribute("tic");
+  o_invData.custStreet = purchaser.attribute("street", "NULL");
+  o_invData.custTic = purchaser.attribute("tic", "NULL");
+  o_invData.custCity = purchaser.attribute("city", "NULL");
+  o_invData.custName = purchaser.attribute("name", "NULL");
 
   o_invData.customer =
       purchaser.attribute("name") + "," + purchaser.attribute("city") + "," +
@@ -1581,8 +1596,14 @@ InvoiceData XmlDataLayer::invoiceSelectData(QString name, int type,
     }
   }
 
+  if (onlyCheck && (domName == sett().getCorrDocName())) {
+  tmp = tmp.toElement().nextSibling(); // skip productsOriginal node
+  }
+
   tmp = tmp.toElement().nextSibling();
   QDomElement additional = tmp.toElement();
+  if (onlyCheck && (domName == sett().getCorrDocName())) o_invData.reason = additional.attribute("reason");
+  qDebug() << "Odczytany reason w XmlDataLayer " << additional.attribute("reason");
   o_invData.additText = additional.attribute("text");
   o_invData.paymentType = additional.attribute("paymentType");
 
@@ -1670,6 +1691,8 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type,
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat());
   o_invData.productDate =
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat());
+  o_invData.endTransDate =
+      QDate::fromString(root.attribute("endTransDate"), sett().getDateFormat());
   if (type == 7)
     o_invData.duplDate =
         QDate::fromString(root.attribute("duplDate"), sett().getDateFormat());
@@ -1794,7 +1817,7 @@ WarehouseData XmlDataLayer::warehouseSelectData(QString name, int type,
 }
 
 QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
-                                                        QDate end) {
+                                                        QDate end, bool onlyCheck) {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
@@ -1871,12 +1894,15 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
     if (nameFilter(files[i], start, end, sett().getInoiveDocName(),
                    QFileInfo(file).absolutePath())) {
 
+        if (!onlyCheck) {
       invDt.id = files[i];
       root = doc.documentElement();
       invDt.invNr = root.attribute("no");
       invDt.sellingDate = QDate::fromString(root.attribute("sellingDate"),
                                             sett().getDateFormat());
       invDt.productDate = QDate::fromString(root.attribute("issueDate"),
+                                            sett().getDateFormat());
+      invDt.endTransDate = QDate::fromString(root.attribute("endTransDate"),
                                             sett().getDateFormat());
       invDt.type = root.attribute("type");
 
@@ -1890,7 +1916,13 @@ QVector<InvoiceData> XmlDataLayer::invoiceSelectAllData(QDate start,
       invDt.custName = nab.toElement().attribute("name", "NULL");
 
       o_invDataVec.push_back(invDt);
-    }
+
+        } else {
+
+      o_invDataVec.push_back(invoiceSelectData(files[i], 1, true));
+
+        }
+        }
 
     root = doc.documentElement();
     QString tmp = root.attribute("sellingDate");
@@ -2005,6 +2037,8 @@ QVector<WarehouseData> XmlDataLayer::warehouseSelectAllData(QDate start,
       invDt.sellingDate = QDate::fromString(root.attribute("sellingDate"),
                                             sett().getDateFormat());
       invDt.productDate = QDate::fromString(root.attribute("issueDate"),
+                                            sett().getDateFormat());
+      invDt.endTransDate = QDate::fromString(root.attribute("endTransDate"),
                                             sett().getDateFormat());
       invDt.type = root.attribute("type");
 
@@ -2266,6 +2300,8 @@ bool XmlDataLayer::invoiceInsertData(InvoiceData &oi_invData, int type) {
                     oi_invData.issueDate.toString(sett().getDateFormat()));
   root.setAttribute("sellingDate",
                     oi_invData.sellingDate.toString(sett().getDateFormat()));
+  root.setAttribute("endTransDate",
+                    oi_invData.endTransDate.toString(sett().getDateFormat()));
   if (type == 8) {
     if (oi_invData.ifpVAT)
       root.setAttribute("ifpaysVAT", "1");

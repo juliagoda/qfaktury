@@ -42,3 +42,20 @@
 #else // Unknown
 #define _pragma_once_support 0
 #endif
+
+#ifdef QUAZIP
+    #if QUAZIP == 1
+    #define QUAZIP_FOUND true
+    #endif
+#else
+    #define QUAZIP_FOUND false
+#endif
+
+
+#ifdef FEDORA_FOUND
+    #if FEDORA_FOUND == 1
+    #define DISTRO_FEDORA true
+    #endif
+#else
+    #define DISTRO_FEDORA false
+#endif

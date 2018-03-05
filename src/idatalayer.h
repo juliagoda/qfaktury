@@ -62,7 +62,7 @@ public:
 
   virtual InvoiceData invoiceSelectData(QString, int, bool onlyCheck = false) { return InvoiceData(); };
   virtual WarehouseData warehouseSelectData(QString, int, bool onlyCheck = false) { return WarehouseData(); };
-  virtual QVector<InvoiceData> invoiceSelectAllData(QDate, QDate) {
+  virtual QVector<InvoiceData> invoiceSelectAllData(QDate, QDate, bool onlyCheck = false) {
     QVector<InvoiceData> a;
     return a;
   };

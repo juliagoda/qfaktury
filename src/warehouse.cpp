@@ -77,6 +77,8 @@ void Warehouse::readWarehouseData(QString invFile) {
       QDate::fromString(root.attribute("sellingDate"), sett().getDateFormat()));
   productDate->setDate(
       QDate::fromString(root.attribute("issueDate"), sett().getDateFormat()));
+  endTransactionDate->setDate(
+      QDate::fromString(root.attribute("endTransDate"), sett().getDateFormat()));
 
   wareData = new WarehouseData();
   wareData->invNr = invNr->text();
@@ -140,6 +142,7 @@ void Warehouse::readWarehouseData(QString invFile) {
   wareData->customer = buyerName->text();
   wareData->sellingDate = sellingDate->date();
   wareData->productDate = productDate->date();
+  wareData->endTransDate = endTransactionDate->date();
 
   for (i = 0; i < goodsCount; ++i) {
 
@@ -221,6 +224,7 @@ void Warehouse::setData(WarehouseData &invData) {
   invData.invNr = invNr->text();
   invData.sellingDate = sellingDate->date();
   invData.issueDate = productDate->date();
+  invData.endTransDate = endTransactionDate->date();
 
   // no, name, code, pkwiu, amount, unit, discount, unit price, net, vat, gross
   for (int i = 0; i < tableGoods->rowCount(); ++i) {
@@ -340,6 +344,7 @@ void Warehouse::getData(WarehouseData invData) {
   invNr->setText(invData.invNr);
   sellingDate->setDate(invData.sellingDate);
   productDate->setDate(invData.issueDate);
+  endTransactionDate->setDate(invData.endTransDate);
 
   if (!invData.duplDate.isNull() && invData.duplDate.isValid())
     dupDate = invData.duplDate;

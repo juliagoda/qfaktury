@@ -1,9 +1,13 @@
-0.7.1
-    - Możliwość dodania większej ilości adresów email, numerów telefonu, numerów faks oraz kont bankowych dla użytkownika głównego
+0.7.2
     - Tworzenie, aktualizowanie i usuwanie dokumentu WZ i RW
     - Podstawianie danych w wierszach dla kontrahenta, korzystając z informacji pobieranych z Głównego Urzędu Statystycznego
     - przeportowanie qmake do cmake
-
+    - Możliwość eksportowania danych do plików CSV
+    - Wykrywanie Fedory w celu używania komendy beesu, jako część metody, pobierającej dane z Głównego Urzędu Statystycznego (brak gksu na Fedorze)
+0.7.1
+    - Możliwość dodania większej ilości adresów email, numerów telefonu, numerów faks oraz kont bankowych dla użytkownika głównego
+    - Blokada możliwości drukowania kontrahentów, gdy ich brakuje na liście
+    - Blokada wysyłania email, gdy brakuje kontrahentów i faktur
 0.7.0
 	- Przeportowanie na Qt5
 	- Dodanie walidacji oraz obliczanie sum kontrolnych dla rubryk formularzy

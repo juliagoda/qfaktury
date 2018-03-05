@@ -18,6 +18,7 @@ public:
   QDate liabDate;
   QDate sellingDate;
   QDate productDate;
+  QDate endTransDate;
   QDate duplDate;
   QString sellerAddress;
   QString invNr;

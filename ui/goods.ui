@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>Goods</class>
  <widget class="QDialog" name="Goods">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>379</width>
-    <height>335</height>
+    <height>343</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">

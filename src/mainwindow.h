@@ -5,7 +5,9 @@
 #ifndef MainWindow_H
 #define MainWindow_H
 
+
 #include <QMainWindow>
+#include <QDir>
 
 #include "ui_mainwindow.h"
 
@@ -20,6 +22,7 @@ class QWidget;
 class QTimer;
 class QAction;
 class Invoice;
+
 
 // class for creating main window with menu, toolbar, calendar and table widget
 class MainWindow : public QMainWindow {
@@ -39,7 +42,7 @@ public:
 
 private slots:
 
-
+  void openJPKGenerator();
   void createFirstWinCsv();
   void choosePathCsv();
   void createCsvFiles();
@@ -82,6 +85,7 @@ public slots:
   void goodsDel();
   void goodsEdit();
   void findInvoicePdf(); // Pdf
+  void openJPKDirectory();
   void checkDateRange(const QDate &date); // Debug
   void mainUpdateStatus(QTableWidgetItem *item);
   void showTableMenuT(QPoint p);
@@ -125,6 +129,7 @@ private:
   ownCalendarWidget *calendar; // Organizer
   static MainWindow *m_instance;
 
+
   int getInvoiceTypeFullName(QString invoiceType);
   void saveColumnWidth();
   void init();
@@ -139,13 +144,14 @@ private:
   void createEmergTemplate();
   bool ifEmergTemplateExists();
   bool firstRun();
-  void createBuyersCsvFiles();
-  void createProductsCsvFiles();
-  void createSellersCsvFiles();
-  void createInvoicesCsvFiles(QDate from, QDate to);
-  void createWareCsvFiles(QDate from, QDate to);
-  void createBackupWithoutGUI();
-  void checkIntervalsForBackup();
+  void createBuyersCsvFiles(); // CSV
+  void createProductsCsvFiles(); // CSV
+  void createSellersCsvFiles(); // CSV
+  void createInvoicesCsvFiles(QDate from, QDate to); // CSV
+  void createWareCsvFiles(QDate from, QDate to); // CSV
+  void createBackupWithoutGUI(); // Backup
+  void checkIntervalsForBackup(); // Backup
+
 };
 
 #endif
