@@ -204,7 +204,7 @@ sudo zypper install pattern devel_basis php7 php7-soap libz1 zlib-devel cmake gk
 Wykonujemy pobranie katalogu z plikami w wybranej przez siebie ścieżce i wpisujemy polecenia:
 
 ```
-git clone https://github.com/juliagoda/qfaktury.git
+git clone -b testing https://github.com/juliagoda/qfaktury.git
 cd qfaktury
 mkdir zbudowane
 cd zbudowane
@@ -218,7 +218,7 @@ sudo make install
 Jeśli posiadasz Arch Linux bądź pokrewny system (Manjaro) możesz wykonać poniższe kroki:
 
 ```
-git clone https://github.com/archlinux-lucjan/archlinux-poland.git
+git clone -b testing https://github.com/archlinux-lucjan/archlinux-poland.git
 cd qfaktury-qt5-git
 makepkg -sric
 ```
