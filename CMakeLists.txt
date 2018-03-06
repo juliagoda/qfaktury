@@ -100,6 +100,7 @@ set( SOURCES
      src/saftfileoutput.cpp
      src/runguard.cpp
      src/backup.cpp
+     src/csvexport.cpp
 )
 
 include_directories(
@@ -124,6 +125,7 @@ qt5_wrap_ui( UIS_HDRS
     ui/organizer.ui
     ui/saftfile.ui
     ui/backup.ui
+    ui/csvexport.ui
     src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.ui
 )
 

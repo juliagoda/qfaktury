@@ -43,9 +43,7 @@ public:
 private slots:
 
   void openJPKGenerator();
-  void createFirstWinCsv();
-  void choosePathCsv();
-  void createCsvFiles();
+  void exportCsv();
   void createBackupMode(); // Backup
   void loadBackupMode(); // Backup
   void sendEmailToBuyer(); // Email
@@ -108,15 +106,7 @@ protected:
 private:
   IDataLayer *dl;
   Ui::MainWindow *ui;
-  QHash<QString, QString> idCvsSeller;
-  QHash<QString, QString> idCvsBuyer;
-  QHash<QString, QString> idCvsInvoices;
-  QHash<QString, QString> idCvsWarehouses;
-  QHash<QString, QString> idCvsProducts;
   QTimer* backupTimerOften;
-  QWidget *windBack; // Backup
-  QLineEdit *fileComboBox; // Backup
-  QLineEdit *directoryComboBox; // Backup
 
   QVector<QAction *> plugActions; // Plugin
   QString workingDir;
@@ -127,8 +117,6 @@ private:
   ownCalendarWidget *calendar; // Organizer
   static MainWindow *m_instance;
 
-
-  int getInvoiceTypeFullName(QString invoiceType);
   void saveColumnWidth();
   void init();
   void saveAllSett();
@@ -142,11 +130,6 @@ private:
   void createEmergTemplate();
   bool ifEmergTemplateExists();
   bool firstRun();
-  void createBuyersCsvFiles(); // CSV
-  void createProductsCsvFiles(); // CSV
-  void createSellersCsvFiles(); // CSV
-  void createInvoicesCsvFiles(QDate from, QDate to); // CSV
-  void createWareCsvFiles(QDate from, QDate to); // CSV
   void checkIntervalsForBackup(); // Backup
 
 };
