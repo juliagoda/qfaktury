@@ -94,7 +94,7 @@
             <x>0</x>
             <y>0</y>
             <width>528</width>
-            <height>876</height>
+            <height>855</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -107,7 +107,7 @@
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>32</height>
+                   <height>34</height>
                   </size>
                  </property>
                  <property name="text">
@@ -123,7 +123,7 @@
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>32</height>
+                   <height>37</height>
                   </size>
                  </property>
                  <property name="text">
@@ -139,7 +139,7 @@
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>32</height>
+                   <height>37</height>
                   </size>
                  </property>
                  <property name="text">
@@ -155,7 +155,7 @@
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>32</height>
+                   <height>37</height>
                   </size>
                  </property>
                  <property name="text">
@@ -171,7 +171,7 @@
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>32</height>
+                   <height>37</height>
                   </size>
                  </property>
                  <property name="text">
@@ -184,7 +184,7 @@
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>32</height>
+                   <height>37</height>
                   </size>
                  </property>
                  <property name="text">
@@ -197,7 +197,7 @@
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>32</height>
+                   <height>37</height>
                   </size>
                  </property>
                  <property name="text">
@@ -210,7 +210,7 @@
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>32</height>
+                   <height>37</height>
                   </size>
                  </property>
                  <property name="text">
@@ -220,6 +220,12 @@
                </item>
                <item>
                 <widget class="QLabel" name="label_6">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>37</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>Kod Kraju</string>
                  </property>

@@ -26,7 +26,7 @@ void Setting::init() {
 
   QList<QCheckBox *> settBoxes =
       QList<QCheckBox *>() << cbMonth << cbYear << shortYear << cbEdit
-                           << cbSmbEdit << cbSmbEdit_2 << cbValOn
+                           << cbSmbEdit << cbValOn
                            << userinfoswift << userinfobank << userinfowww
                            << userinfoadress << userinfocity << userinfonip
                            << userinfomail << buyerinfowww << buyerinfocity
@@ -74,6 +74,7 @@ void Setting::init() {
   connect(vatDownBtn, SIGNAL(clicked()), this, SLOT(vatDownBtnClick()));
   connect(addLogoBtn, SIGNAL(clicked()), this, SLOT(addLogoBtnClick()));
   connect(addStempelBtn, SIGNAL(clicked()), this, SLOT(addStempBtnClick()));
+  connect(addSignBtn, SIGNAL(clicked()), this, SLOT(addSignBtnClick()));
   connect(workingDirBtn, SIGNAL(clicked()), this, SLOT(workingDirBtnClick()));
   connect(pushButton, SIGNAL(clicked()), this, SLOT(setDefaultClick()));
   connect(defTextBtn, SIGNAL(clicked()), this, SLOT(defTextBtnClick()));
@@ -86,6 +87,8 @@ void Setting::init() {
   connect(logoEdit, SIGNAL(textChanged(const QString &)), this,
           SLOT(saveBtnEnable()));
   connect(stempEdit, SIGNAL(textChanged(const QString &)), this,
+          SLOT(saveBtnEnable()));
+  connect(signEdit, SIGNAL(textChanged(const QString &)), this,
           SLOT(saveBtnEnable()));
   connect(workingDirEdit, SIGNAL(textChanged(const QString &)), this,
           SLOT(saveBtnEnable()));
@@ -231,6 +234,19 @@ void Setting::addStempBtnClick() {
       trUtf8("Obrazki (*.jpg *.png)"));
 
   stempEdit->setText(ofn);
+  saveButton->setEnabled(true);
+}
+
+
+void Setting::addSignBtnClick() {
+
+  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
+  QString ofn = QFileDialog::getOpenFileName(
+      this, trUtf8("Wybierz plik do wstawienia jako podpis"), "",
+      trUtf8("Obrazki (*.jpg *.png)"));
+
+  signEdit->setText(ofn);
   saveButton->setEnabled(true);
 }
 
@@ -740,6 +756,7 @@ void Setting::saveSettings() {
   sett().setValue("firstRunGUS", false);
   sett().setValue("logo", logoEdit->text());
   sett().setValue("stempel", stempEdit->text());
+  sett().setValue("sign", signEdit->text());
   sett().setValue("units", getAll(currlBox));
   sett().setValue("rates", getAll(vatlBox).remove("%"));
   sett().setValue("currencies", getAll(currencylBox));
@@ -755,7 +772,6 @@ void Setting::saveSettings() {
   sett().setValue("year", cbYear->isChecked());
   sett().setValue("edit", cbEdit->isChecked());
   sett().setValue("editSymbol", cbSmbEdit->isChecked());
-  sett().setValue("editName", cbSmbEdit_2->isChecked());
   sett().setValue("validation", cbValOn->isChecked());
   sett().setValue("shortYear", shortYear->isChecked());
   sett().setValue("chars_in_symbol", spbNumb->value());
@@ -809,6 +825,7 @@ void Setting::readSettings() {
 
   logoEdit->setText(sett().value("logo").toString());
   stempEdit->setText(sett().value("stempel").toString());
+  signEdit->setText(sett().value("sign").toString());
   workingDirEdit->setText(sett().value("working_dir").toString());
 
   currlBox->clear();
@@ -897,7 +914,6 @@ void Setting::readSettings() {
   cbEdit->setChecked(sett().value("edit").toBool());
 
   cbSmbEdit->setChecked(sett().value("editSymbol").toBool());
-  cbSmbEdit_2->setChecked(sett().value("editName").toBool());
   cbValOn->setChecked(sett().value("validation").toBool());
 
   spbNumb->setValue(sett().value("chars_in_symbol").toInt());

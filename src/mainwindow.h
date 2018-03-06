@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
 public:
+
   MainWindow(QWidget *parent = 0);
   ~MainWindow();
   static void insertRow(QTableWidget *t, int row);
@@ -38,18 +39,13 @@ public:
   int getMaxSymbolWarehouse() const;
   static MainWindow *instance();
   static bool shouldHidden;
-  QString whichBackupPath();
 
 private slots:
 
   void openJPKGenerator();
-  void createFirstWinCsv();
-  void choosePathCsv();
-  void createCsvFiles();
-  void createFirstWinBackup(); // Backup
-  void choosePathBackup(); // Backup
-  void createBackup(); // Backup
-  void loadBackup(); // Backup
+  void exportCsv();
+  void createBackupMode(); // Backup
+  void loadBackupMode(); // Backup
   void sendEmailToBuyer(); // Email
   void on_WZAction_triggered();
   void on_RWAction_triggered();
@@ -92,8 +88,6 @@ public slots:
   void showTableMenuK(QPoint p);
   void showTableMenuH(QPoint p);
   void showTableMenuM(QPoint p);
-  void pluginSlot(); // Plugin
-  void pluginInfoSlot(); // Plugin
   void keyPressEvent(QKeyEvent *event);
   void openWebTableK(int, int);
   void printBuyerList(); // ContactsList
@@ -105,32 +99,19 @@ public slots:
   void intervalBackup();
 
 protected:
-  virtual void loadPlugins(); // Plugin
 
 private:
   IDataLayer *dl;
   Ui::MainWindow *ui;
-  QHash<QString, QString> idCvsSeller;
-  QHash<QString, QString> idCvsBuyer;
-  QHash<QString, QString> idCvsInvoices;
-  QHash<QString, QString> idCvsWarehouses;
-  QHash<QString, QString> idCvsProducts;
   QTimer* backupTimerOften;
-  QWidget *windBack; // Backup
-  QLineEdit *fileComboBox; // Backup
-  QLineEdit *directoryComboBox; // Backup
 
-  QVector<QAction *> plugActions; // Plugin
   QString workingDir;
-  QMap<int, QString> customActions; // Plugin
   QTimer *timer;
   QList<int> allSymbols;
   QList<int> allSymbolsWarehouse;
   ownCalendarWidget *calendar; // Organizer
   static MainWindow *m_instance;
 
-
-  int getInvoiceTypeFullName(QString invoiceType);
   void saveColumnWidth();
   void init();
   void saveAllSett();
@@ -144,12 +125,6 @@ private:
   void createEmergTemplate();
   bool ifEmergTemplateExists();
   bool firstRun();
-  void createBuyersCsvFiles(); // CSV
-  void createProductsCsvFiles(); // CSV
-  void createSellersCsvFiles(); // CSV
-  void createInvoicesCsvFiles(QDate from, QDate to); // CSV
-  void createWareCsvFiles(QDate from, QDate to); // CSV
-  void createBackupWithoutGUI(); // Backup
   void checkIntervalsForBackup(); // Backup
 
 };

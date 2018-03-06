@@ -92,10 +92,7 @@ void GoodsList::init() {
   readGoods();
   displayData(0);
 
-  if (sett().value("editName").toBool())
-    nameEdit->setEnabled(true);
-  else
-    nameEdit->setEnabled(false);
+  nameEdit->setEnabled(false);
 
   // connects
   connect(okBtn, SIGNAL(clicked()), this, SLOT(doAccept()));
