@@ -261,7 +261,6 @@ void Invoice::init() {
 
   rmGoodsBtn->setEnabled(false);
   editGoodsBtn->setEnabled(false);
-  liabDate->setEnabled(false);
   discountVal->setEnabled(false);
 
   canClose = true;
@@ -1258,15 +1257,6 @@ void Invoice::payTextChanged(QString text) {
       sendKindInfo = 0;
     }
 
-    if (text == trUtf8("gotówka")) {
-
-      liabDate->setEnabled(false);
-    }
-
-    if (text == trUtf8("przelew")) {
-
-      liabDate->setEnabled(true);
-    }
 
   } else {
 
@@ -1550,7 +1540,7 @@ void Invoice::setData(InvoiceData &invData) {
     invData.products[i] = product;
   }
 
-  invData.additText = additEdit->text();
+  invData.additText = additEdit->toPlainText();
   invData.paymentType = paysCombo->currentText();
 
   if (invData.paymentType == trUtf8("zaliczka")) {
@@ -2562,15 +2552,20 @@ void Invoice::makeInvoiceSummAll() {
                 "</b><br/>";
   delete conv;
 
-  if (paysCombo->currentText() == trUtf8("gotówka")) {
+  qDebug() << "PaysCombo " << paysCombo->currentText();
+
+  if (QString::compare(paysCombo->currentText(), "gotówka", Qt::CaseInsensitive) == 0) {
+
+      qDebug() << "GOTÓWKA";
 
     invStrList += "<span class=\"toPay\">";
     invStrList +=
-        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
+        "Sposób płatności: " + paysCombo->currentText() + "<br/>";
     invStrList += "</span>";
 
-  } else if (paysCombo->currentText() == trUtf8("zaliczka")) {
+  } else if (QString::compare(paysCombo->currentText(), "zaliczka", Qt::CaseInsensitive) == 0) {
 
+      qDebug() << "ZALICZKA";
     invStrList += "<span class=\"toPay\">";
     ratesCombo->setCurrentIndex(0);
     QString whatMethod_one = QString();
@@ -2597,26 +2592,30 @@ void Invoice::makeInvoiceSummAll() {
         " " + currCombo->currentText() + " " + ratesCombo->itemText(1));
     invStrList += "</span>";
 
-  } else if (paysCombo->currentText() == trUtf8("przelew")) {
+  } else if (QString::compare(paysCombo->currentText(), "przelew", Qt::CaseInsensitive) == 0) {
 
+      qDebug() << "PRZELEW";
     invStrList += "<span class=\"toPay\">";
     invStrList +=
-        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
+        "Sposób płatności: " + paysCombo->currentText() + "<br/>";
     invStrList += "</span>";
-    invStrList += "<span class=\"payDate\">";
-    invStrList += trUtf8("Termin płatności: ") +
+    invStrList += "<span class=\"toPay\">";
+    qDebug() << "LIABDATE " << liabDate->date().toString(sett().getDateFormat());
+    invStrList += "Termin płatności: " +
 
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
 
   } else {
 
+    qDebug() << "ELSE";
+
     invStrList += "<span class=\"toPay\">";
     invStrList +=
-        trUtf8("Sposób płatności: ") + paysCombo->currentText() + "<br/>";
+        "Sposób płatności: " + paysCombo->currentText() + "<br/>";
     invStrList += "</span>";
-    invStrList += "<span class=\"payDate\">";
-    invStrList += trUtf8("Termin płatności: ") +
+    invStrList += "<span class=\"toPay\">";
+    invStrList += "Termin płatności: " +
 
                   liabDate->date().toString(sett().getDateFormat()) + "<br/>";
     invStrList += "</span>";
@@ -2624,7 +2623,7 @@ void Invoice::makeInvoiceSummAll() {
 
   invStrList += "<br/><br/>";
   invStrList +=
-      "<span class=\"additionalText\">" + additEdit->text() + "</span>";
+      "<span class=\"additionalText\">" + additEdit->toHtml() + "</span>";
   invStrList += "</td>";
   invStrList += "<td width=\"3%\">&nbsp;</td>";
   invStrList += "<td id=\"stempel\" width=\"30%\" align=\"right\">";
@@ -2806,11 +2805,8 @@ void Invoice::setIsEditAllowed(bool isAllowed) {
     discountVal->setEnabled(true);
   }
 
-  if (isAllowed && (paysCombo->currentText() != trUtf8("przelew")))
-    liabDate->setEnabled(false);
-  else
-    liabDate->setEnabled(true);
 
+  liabDate->setEnabled(isAllowed);
   konvPLN->setEnabled(isAllowed);
   konvEUR->setEnabled(isAllowed);
   konvUSD->setEnabled(isAllowed);

@@ -26,7 +26,7 @@ find_package( Qt5 REQUIRED COMPONENTS Gui Core Widgets PrintSupport Xml XmlPatte
 
 option(FEDORA "Check if this Fedora" OFF)
 option(QUAZIP_FOUND "Check if QuaZipn is installed and accessible" OFF)
-option(PHP4_INCLUDE_PATH "Check if PHP is installed and accessible" OFF)
+
 
 find_package(Fedora)
 
@@ -35,7 +35,7 @@ find_package(QuaZip5)
 
 if(FEDORA)
   add_definitions(-DFEDORA_FOUND)
-  message("It's Fedora. It's possible to run beesu instead of kdesu")
+  message("It's Fedora. It's possible to run beesu instead of gksu")
 endif()
 if(QUAZIP_FOUND)
   add_definitions(-DQUAZIP)
@@ -99,6 +99,7 @@ set( SOURCES
      src/saftfile.cpp
      src/saftfileoutput.cpp
      src/runguard.cpp
+     src/backup.cpp
 )
 
 include_directories(
@@ -122,6 +123,7 @@ qt5_wrap_ui( UIS_HDRS
     ui/buyerslist.ui
     ui/organizer.ui
     ui/saftfile.ui
+    ui/backup.ui
     src/SimpleSmtp_SSL_QT5/smtp_attachements/emailwindow.ui
 )
 

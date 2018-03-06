@@ -94,7 +94,7 @@ const QStringList blackEmergTemplate =
                   << "} \n"
                   << ".payDate { \n"
                   << "font-family: Verdana, Tahoma, Arial; \n"
-                  << "font-size: 12px; \n"
+                  << "font-size: 8pt; \n"
                   << "color: #000000; \n"
                   << "font-style: normal; \n"
                   << "font-weight: bold; \n"

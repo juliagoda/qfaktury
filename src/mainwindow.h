@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
 public:
+
   MainWindow(QWidget *parent = 0);
   ~MainWindow();
   static void insertRow(QTableWidget *t, int row);
@@ -38,7 +39,6 @@ public:
   int getMaxSymbolWarehouse() const;
   static MainWindow *instance();
   static bool shouldHidden;
-  QString whichBackupPath();
 
 private slots:
 
@@ -46,10 +46,8 @@ private slots:
   void createFirstWinCsv();
   void choosePathCsv();
   void createCsvFiles();
-  void createFirstWinBackup(); // Backup
-  void choosePathBackup(); // Backup
-  void createBackup(); // Backup
-  void loadBackup(); // Backup
+  void createBackupMode(); // Backup
+  void loadBackupMode(); // Backup
   void sendEmailToBuyer(); // Email
   void on_WZAction_triggered();
   void on_RWAction_triggered();
@@ -149,7 +147,6 @@ private:
   void createSellersCsvFiles(); // CSV
   void createInvoicesCsvFiles(QDate from, QDate to); // CSV
   void createWareCsvFiles(QDate from, QDate to); // CSV
-  void createBackupWithoutGUI(); // Backup
   void checkIntervalsForBackup(); // Backup
 
 };

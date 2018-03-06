@@ -205,7 +205,7 @@ void DeliveryNote::readWarehouseData(QString invFile) {
   tmp = tmp.toElement().nextSibling();
   QDomElement additional = tmp.toElement();
   additEdit->setText(additional.attribute("text"));
-  wareData->additText = additEdit->text();
+  wareData->additText = additEdit->toPlainText();
   wareData->paymentType = additional.attribute("paymentType");
   paysCombo->setCurrentText(wareData->paymentType);
 
@@ -314,14 +314,14 @@ void DeliveryNote::makeInvoiceSummAll() {
       trUtf8("forma płatności: ") + paysCombo->currentText() + "<br/>";
   invStrList += "</span>";
 
-  invStrList += "<span class=\"payDate\">";
-  invStrList += trUtf8("termin płatności: ") +
+  invStrList += "<span class=\"toPay\">";
+  invStrList += trUtf8("Termin płatności: ") +
                 liabDate->date().toString(sett().getDateFormat()) + "<br/>";
   invStrList += "</span>";
 
   invStrList += "<br/><br/>";
   invStrList +=
-      "<span class=\"additionalText\">" + additEdit->text() + "</span>";
+      "<span class=\"additionalText\">" + additEdit->toHtml() + "</span>";
   invStrList += "</td>";
   invStrList += "<td width=\"3%\">&nbsp;</td>";
 
@@ -517,7 +517,7 @@ void DeliveryNote::setData(WarehouseData &invData) {
     invData.products[i] = product;
   }
 
-  invData.additText = additEdit->text();
+  invData.additText = additEdit->toPlainText();
   invData.paymentType = paysCombo->currentText();
 
   invData.liabDate = liabDate->date();
@@ -563,7 +563,7 @@ void DeliveryNote::setData(InvoiceData &invData) {
     invData.products[i] = product;
   }
 
-  invData.additText = additEdit->text();
+  invData.additText = additEdit->toPlainText();
   invData.paymentType = paysCombo->currentText();
 
   if (invData.paymentType == trUtf8("zaliczka")) {
