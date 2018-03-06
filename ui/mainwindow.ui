@@ -687,7 +687,7 @@
      <x>0</x>
      <y>0</y>
      <width>751</width>
-     <height>30</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="plikAct">
@@ -768,14 +768,6 @@
     <addaction name="helpAbout_appAction"/>
     <addaction name="action_Qt"/>
    </widget>
-   <widget class="QMenu" name="menuPlugins">
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="title">
-     <string>Dodatk&amp;i</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="warehouseMenu">
     <property name="title">
      <string>Ma&amp;gazyn</string>
@@ -791,7 +783,6 @@
    <addaction name="warehouseMenu"/>
    <addaction name="buyersAct"/>
    <addaction name="goodsAct"/>
-   <addaction name="menuPlugins"/>
    <addaction name="helpAct"/>
    <addaction name="separator"/>
   </widget>
@@ -1453,7 +1444,7 @@
      <normaloff>:/res/icons/otworz_jpk.png</normaloff>:/res/icons/otworz_jpk.png</iconset>
    </property>
    <property name="text">
-    <string>Otwórz folder z JPK</string>
+    <string>Otwórz folder &amp;z JPK</string>
    </property>
   </action>
  </widget>

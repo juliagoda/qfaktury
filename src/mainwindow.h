@@ -88,8 +88,6 @@ public slots:
   void showTableMenuK(QPoint p);
   void showTableMenuH(QPoint p);
   void showTableMenuM(QPoint p);
-  void pluginSlot(); // Plugin
-  void pluginInfoSlot(); // Plugin
   void keyPressEvent(QKeyEvent *event);
   void openWebTableK(int, int);
   void printBuyerList(); // ContactsList
@@ -101,16 +99,13 @@ public slots:
   void intervalBackup();
 
 protected:
-  virtual void loadPlugins(); // Plugin
 
 private:
   IDataLayer *dl;
   Ui::MainWindow *ui;
   QTimer* backupTimerOften;
 
-  QVector<QAction *> plugActions; // Plugin
   QString workingDir;
-  QMap<int, QString> customActions; // Plugin
   QTimer *timer;
   QList<int> allSymbols;
   QList<int> allSymbolsWarehouse;

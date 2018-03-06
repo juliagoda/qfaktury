@@ -87,15 +87,6 @@ MainWindow::~MainWindow() {
 
   m_instance = nullptr;
 
-  if (plugActions.count() > 0) {
-
-    foreach (QAction *plugAct_single, plugActions) {
-
-      if (plugAct_single != 0)
-        plugAct_single = 0;
-      delete plugAct_single;
-    }
-  }
 }
 
 /**
@@ -395,8 +386,6 @@ void MainWindow::init() {
   readWarehouses();
   readGoods();
   categorizeYears();
-  loadPlugins();
-
 
 
   if (!ifpdfDirExists()) {
@@ -545,61 +534,6 @@ void MainWindow::createEmergTemplate() {
 
     file.close();
   }
-}
-
-/**
- *  Loads PyQt plugins
- */
-
-void MainWindow::loadPlugins() {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  QDir allFiles;
-  QString path = QString();
-  path = sett().getAppDirs() + "plugins/";
-  allFiles.setPath(path);
-  allFiles.setFilter(QDir::Files);
-  QStringList filters = QStringList() << "*.py"
-                                      << "*.Py"
-                                      << "*.PY"
-                                      << "*.pY";
-  allFiles.setNameFilters(filters);
-  QStringList files = allFiles.entryList();
-
-  if (!files.isEmpty()) {
-
-    int i = 0;
-
-    QStringList::const_iterator constIterator;
-
-    for (constIterator = files.constBegin(); constIterator != files.constEnd();
-         ++constIterator) {
-
-      QFile script(path + QString((*constIterator).toLocal8Bit().constData()));
-
-      if (!script.open(QIODevice::ReadOnly)) {
-
-        QFile(script.fileName()).setPermissions(QFileDevice::ReadOwner);
-      }
-
-      QTextStream t(&script);
-      t.readLine();
-      QAction *action = new QAction(t.readLine().remove("# "), this);
-      plugActions.append(action);
-      action->setData(QVariant(i));
-      connect(action, SIGNAL(triggered()), this, SLOT(pluginSlot()));
-      ui->menuPlugins->addAction(action);
-      customActions[i] =
-          path + QString((*constIterator).toLocal8Bit().constData());
-
-      ++i;
-    }
-  }
-
-  ui->menuPlugins->addSeparator();
-  ui->menuPlugins->addAction(trUtf8("Informacje"), this, SLOT(pluginInfoSlot()))
-      ->setIcon(QIcon(":/res/icons/informacja_dodatki.png"));
 }
 
 /**
@@ -1022,61 +956,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
       ui->tabWidget2->setCurrentIndex(ui->tabWidget2->count() - 1);
     }
   }
-}
-
-/** Slot
- *  Just show the message.
- */
-
-void MainWindow::pluginInfoSlot() {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  QMessageBox::information(
-      this, trUtf8("QFaktury"),
-      trUtf8("To menu służy do obsługi pluginów pythona, \n np. archiwizacji "
-             "danych, generowania raportów etc.\n\n") +
-          trUtf8("Skrypty pythona sa czytane z folderu \"~/elinux/plugins/\"."),
-      trUtf8("Ok"), 0, 0, 1);
-}
-
-/** Slot
- *  Used while calling python script from the menu
- */
-
-void MainWindow::pluginSlot() {
-
-  qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
-
-  QString program = QString("python");
-
-  QAction *a = static_cast<QAction *>(this->sender());
-
-  int scriptId = a->data().toInt();
-
-  QStringList args;
-  args += customActions[scriptId];
-  args += QString("%1").arg(winId(), 0, 10);
-
-  qDebug() << find(winId())->windowTitle();
-
-  QProcess *cmd = new QProcess(this);
-
-  cmd->start(program, args);
-
-  if (!cmd->waitForStarted()) {
-
-    QMessageBox::information(this, trUtf8("QFaktury"),
-                             trUtf8("Uruchomienie się nie powiodło."),
-                             QMessageBox::Ok);
-  }
-
-  if (cmd != 0)
-    cmd = 0;
-  delete cmd;
-  if (a != 0)
-    a = 0;
-  delete a;
 }
 
 /** Slot
