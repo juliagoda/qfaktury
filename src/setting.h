@@ -24,6 +24,7 @@ public slots:
   void okButtonClick();
   void addLogoBtnClick();
   void addStempBtnClick();
+  void addSignBtnClick();
   void currAddBtnClick();
   void currDelBtnClick();
   void corAddBtnClick();

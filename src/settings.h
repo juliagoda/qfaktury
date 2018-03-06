@@ -106,8 +106,6 @@ public:
       setValue("day", "false");
     if (value("edit").toString().compare("") == 0)
       setValue("edit", "true");
-    if (value("editName").toString().compare("") == 0)
-      setValue("editName", "false");
     if (value("filtrEnd").toString().compare("") == 0)
       setValue("filtrEnd", QDate::currentDate().toString(Qt::ISODate));
     if (value("filtrStart").toString().compare("") == 0)
@@ -411,7 +409,6 @@ public:
     setValue("chars_in_symbol", tr("0"));
     setValue("day", "false");
     setValue("edit", "true");
-    setValue("editName", "false");
     setValue("editSymbol", "true");
     setValue("numberOfCopies", 1);
     setValue("filtrStart", QDate::currentDate().toString(getDateFormat()));
