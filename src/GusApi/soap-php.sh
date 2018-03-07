@@ -47,11 +47,11 @@ fi
       LINE_SOAP="$(sed '914q;d' ${PHP_PATH})"
       echo "${LINE_SOAP}"
       
-      if [ ${LINE_SOAP} == ";extension=soap.so" ]; then
-         sudo sed -i '914s/.*/extension=soap.so/' ${PHP_PATH}
+      if [[ ${LINE_SOAP} == ';extension=soap'* ]]; then
+         sudo sed -i '914s/.//' ${PHP_PATH}
       fi
       
-      if [ "$(sed '914q;d' ${PHP_PATH})" != "extension=soap.so" ]; then
+      if [[ "$(sed '914q;d' ${PHP_PATH})" != 'extension=soap'* ]]; then
          echo "Poprzednie polecenie w skrypcie nie zastąpiło linijki w pliku \"${PHP_PATH}\" na \"extension=soap.so\" z \";extension=soap.so\". Aby korzystanie z danych GUS było możliwe, musisz odhaszować podaną linijkę"
       fi
       
