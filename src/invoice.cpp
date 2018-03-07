@@ -2645,42 +2645,59 @@ void Invoice::makeInvoiceSummAll() {
 void Invoice::makeInvoiceFooter() {
 
   qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
+
   invStrList += "<tr>";
-  invStrList += "<br/><br/><br/>";
+  invStrList += "<br/><br/><br/><br/>";
   invStrList += "</tr>";
-  invStrList += "<tr comment=\"podpis\" align=\"left\"><td>";
+  invStrList += "<tr comment=\"podpis\" align=\"center\"><td>";
   invStrList += "<table width=\"80%\" border=\"0\">";
   invStrList += "<tr>";
-  //invStrList += "<td width=\"3%\">&nbsp;</td>";
-  //invStrList += "<td width=\"43%\" align=\"center\"> ";
+  invStrList += "<td width=\"3%\">&nbsp;</td>";
+  invStrList += "<td width=\"43%\" align=\"center\"> ";
   //invStrList += "<hr width=\"100%\" noshade=\"noshade\" color=\"black\" />";
-  //invStrList += "</td>";
+  QString sign = sett().value("sign").toString();
+  if (sett().value("reqSignIssue").toBool()) {
+    if (sign != "") {
+      invStrList +=
+          "<img src=\"" + sign + "\" width=\"200\" " + " height=\"150\" alt=\"Firmowy podpis\" />";
+    }
+  }
+  invStrList += "</td>";
   invStrList += "<td width=\"7%\">&nbsp;</td>";
-  //invStrList += "<td width=\"3%\">&nbsp;</td>";
-  //invStrList += "<td width=\"43%\" align=\"center\"> ";
+  invStrList += "<td width=\"3%\">&nbsp;</td>";
+  invStrList += "<td width=\"43%\" align=\"center\"> ";
   //invStrList += "<hr width=\"100%\" noshade=\"noshade\" color=\"black\" />";
-  //invStrList += "</td>";
+  if (sett().value("reqSignIssue").toBool()) {
+      if (sign != "") {
+          invStrList += "<div width=\"200\" height=\"150\"></div>";
+      }
+
+  }
+  invStrList += "</td>";
   invStrList += "</tr>";
   invStrList += "<tr class=\"signature\">";
   invStrList += "<td width=\"3%\"><p></p></td>";
-  invStrList += "<td width=\"43%\" align=\"center\"> ";
-  QString sign = sett().value("sign").toString();
 
-  if (sign != "") {
-    invStrList +=
-        "<img src=\"" + sign + "\" width=\"200\" " + " height=\"150\" alt=\"Firmowy podpis\" />";
-  }
+    invStrList += "<td width=\"43%\" align=\"center\"> ";
 
-  invStrList += "<br/>";
-  invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
+    if (sett().value("reqSignIssue").toBool())  {
+
+    invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
                 trUtf8(" do wystawienia faktury VAT");
-  invStrList += "</td>";
-  //invStrList += "<td width=\"7%\">&nbsp;</td>";
-  //invStrList += "<td width=\"3%\">&nbsp;</td>";
-  //invStrList += "<td width=\"43%\" align=\"center\">";
-  //invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
-  //              trUtf8(" do odbioru faktury VAT");
-  //invStrList += "</td>";
+    }
+    invStrList += "</td>";
+
+  invStrList += "<td width=\"7%\">&nbsp;</td>";
+  invStrList += "<td width=\"3%\">&nbsp;</td>";
+
+        invStrList += "<td width=\"43%\" align=\"center\">";
+
+        if (sett().value("reqSignReceipt").toBool()) {
+        invStrList += trUtf8("Imię i nazwisko osoby upoważnionej") + "<br/>" +
+                trUtf8(" do odbioru faktury VAT");
+        }
+        invStrList += "</td>";
+
   invStrList += "</tr>";
   invStrList += "</table>";
   invStrList += "</td></tr>";

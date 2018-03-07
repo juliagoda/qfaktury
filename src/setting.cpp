@@ -26,7 +26,7 @@ void Setting::init() {
 
   QList<QCheckBox *> settBoxes =
       QList<QCheckBox *>() << cbMonth << cbYear << shortYear << cbEdit
-                           << cbSmbEdit << cbValOn
+                           << cbSmbEdit << cbValOn << reqSignIssue << reqSignReceipt
                            << userinfoswift << userinfobank << userinfowww
                            << userinfoadress << userinfocity << userinfonip
                            << userinfomail << buyerinfowww << buyerinfocity
@@ -772,6 +772,8 @@ void Setting::saveSettings() {
   sett().setValue("year", cbYear->isChecked());
   sett().setValue("edit", cbEdit->isChecked());
   sett().setValue("editSymbol", cbSmbEdit->isChecked());
+  sett().setValue("reqSignIssue", reqSignIssue->isChecked());
+  sett().setValue("reqSignReceipt", reqSignReceipt->isChecked());
   sett().setValue("validation", cbValOn->isChecked());
   sett().setValue("shortYear", shortYear->isChecked());
   sett().setValue("chars_in_symbol", spbNumb->value());
@@ -915,6 +917,8 @@ void Setting::readSettings() {
 
   cbSmbEdit->setChecked(sett().value("editSymbol").toBool());
   cbValOn->setChecked(sett().value("validation").toBool());
+  reqSignIssue->setChecked(sett().value("reqSignIssue").toBool());
+  reqSignReceipt->setChecked(sett().value("reqSignReceipt").toBool());
 
   spbNumb->setValue(sett().value("chars_in_symbol").toInt());
   spbNumCopies->setValue(sett().value("numberOfCopies").toInt());

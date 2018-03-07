@@ -50,7 +50,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="TabPage1">
       <attribute name="title">
@@ -399,9 +399,16 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="cbSmbEdit_2">
+               <widget class="QCheckBox" name="reqSignReceipt">
                 <property name="text">
-                 <string>Możliwość zmiany nazwy dodawanego produktu</string>
+                 <string>Wymagany podpis osoby odbierającej fakturę</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="reqSignIssue">
+                <property name="text">
+                 <string>Wymagany podpis osoby wystawiającej fakturę</string>
                 </property>
                </widget>
               </item>
