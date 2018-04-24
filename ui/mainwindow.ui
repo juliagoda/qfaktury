@@ -1283,6 +1283,9 @@
    </property>
   </action>
   <action name="actionBug">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../qfaktury.qrc">
      <normaloff>:/res/icons/zglos_blad.png</normaloff>:/res/icons/zglos_blad.png</iconset>

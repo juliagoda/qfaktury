@@ -6,17 +6,16 @@
 3. [Instalacja zależności](#instalacja-zależności)  
 4. [Instalacja](#instalacja)  
 5. [Usuwanie](#usuwanie)  
-6. [Rozwój](#rozwój)  
-7. [Uwagi](#uwagi)  
-8. [Zgłaszanie błędów](#zgłaszanie-błędów)  
-9. [Zmiany w 2018 roku](#zmiany-w-2018-roku)  
+6. [Uwagi](#uwagi)  
+7. [Zakończenie rozwoju](#zakończenie-rozwoju)  
+
 
 <br/>
 <br/>
 
 ## Opis
 
-Stale rozwijana aplikacja do obsługi faktur. Aktualnie pozwala na zapis, edycję i drukowanie faktur VAT, Brutto, RR, Pro Forma, Rachunku, Korekty i Duplikatu. Dodatkowo pozwala na dodanie kontrahenta oraz towaru bądź usługi do tworzonej faktury. Program oferuje:
+Aplikacja do obsługi faktur, która pozwala na zapis, edycję i drukowanie faktur VAT, Brutto, RR, Pro Forma, rachunku, korekty i duplikatu. Dodatkowo pozwala na dodanie kontrahenta oraz towaru bądź usługi do tworzonej faktury. Program oferuje także:
 
 - zmianę waluty według aktualnego kursu ze strony NBP
 - walidację wprowadzanych danych oraz sprawdzanie sum kontrolnych
@@ -241,18 +240,6 @@ lub (w Arch Linux), jeśli instalacja nastąpiła z PKGBUILD:
 <br/>
 
 
-
-## Rozwój
-
-Program jest co jakiś czas uaktualniany. Plany jego rozbudowy, wykonane zadania i zadania w trakcie testów znajdują się [na tej stronie](https://github.com/juliagoda/qfaktury/projects/1).
-
-Z racji tego, że ostatnio pojawia się coraz więcej niedziałających "pull request", została stworzona nowa gałąź o nazwie "merged", gdzie wszystkie nadesłane zmiany będą trafiać i przechodzić testy.
-
-
-<br/>
-<br/>
-
-
 ## Uwagi
 
 1. Osoby posiadające faktury, listy kontrahentów i towarów z wcześniejszych wersji (mniejszych niż 0.7.0), powinny wykonać kopię zapasową i skopiować je do katalogu "~/.local/share/data/elinux"
@@ -266,17 +253,10 @@ Z racji tego, że ostatnio pojawia się coraz więcej niedziałających "pull re
 5. Jeśli nie chcesz używać danych z Głównego Urzędu Statystycznego, nie musisz instalować paczek gksu, beesu (Fedora) oraz php, ponieważ nie są one obligatoryjne do działania programu.
 
 
-
 <br/>
 <br/>
 
-## Zgłaszanie błędów
 
-W razie zauważonych błędów lub poważnych braków, można stworzyć wątek [w tym dziale](https://github.com/juliagoda/qfaktury/issues), klikając w zielony przycisk "New issue" po prawej stronie, a następnie wprowadzając tytuł i treść.
+## Zakończenie rozwoju
 
-<br/>
-<br/>
-
-## Zmiany w 2018 roku
-
-Jako, że w 2018 roku wchodzą zmiany w wystawianiu faktur, program jest w trakcie przepisywania tak, żeby kod był czytelniejszy, poukładany i nie zawierał wielu zbędnych i nieużywanych danych. Planowana jest także nowa gałąź "Debug", która może okazać się przydatna przy późniejszym wykrywaniu błędów krytycznych ale i logicznych z pomocą np. testów jednostkowych lub/i innych metod.
+Niniejszym ogłaszam zakończenie prac nad aplikacją z kilku powodów. Program rozrósł się tak bardzo, że nie jestem w stanie go prowadzić w pojedynkę. Częstotliwość pojawiania się zmian w przepisach także nie jest korzystny w tej sytuacji. Mam zamiar jednak pozostawić repozytorium, aby chętni mogli korzystać z kodu źródłowego i go rozwijać, pod warunkiem przestrzegania zasad, które obejmuje licencja GPL-3.0, a więc między innymi nieusuwanie informacji o autorach. 

@@ -1157,16 +1157,15 @@ void MainWindow::aboutProg() {
   QMessageBox::about(
       this, trUtf8("O programie"),
       trUtf8("<h2>Program do wystawiania faktur</h2><br/><p>") +
-          sett().getVersion(qAppName()) + trUtf8("<br/>Wymagane Qt >= 5.0.0") +
+          sett().getVersion(qAppName()) + trUtf8("<br/>Wymagane Qt >= 5.10.0") +
           trUtf8("<br/>Kompilowane z Qt ") + QT_VERSION_STR +
           trUtf8("<br/>Twoja aktualna wersja - Qt ") + qVersion() +
-          trUtf8("</p><p>Dawny koordynator projektu: Grzegorz Rękawek</p>  "
-                 "<p>Aktualny koordynator projektu: Jagoda \"juliagoda\" "
+          trUtf8("</p><p>Dawni koordynatorzy projektu: Grzegorz Rękawek, "
+                 "Jagoda \"juliagoda\" "
                  "Górska</p>"
                  "<p>Dawni programiści: Tomasz Pielech, Rafał Rusin "
-                 "http://people.apache.org/~rr/, Sławomir Patyk, Jagoda "
-                 "Górska</p>"
-                 "<p>Aktualni programiści: Jagoda \"juliagoda\" Górska</p>") +
+                 "http://people.apache.org/~rr/, Sławomir Patyk, Jagoda \"juliagoda\" "
+                 "Górska</p>") +
           trUtf8(
               "<p>Ikony: Dariusz Arciszewski, Jagoda \"juliagoda\" Górska </p>"
               "<p>Portowanie na Qt5: "
@@ -1212,8 +1211,6 @@ void MainWindow::editFHist() {
 
   if (ui->tableH->item(row, 3)->text() == trUtf8("korekta")) {
 
-    // QMessageBox::information( this, trUtf8("QFaktury"), "Jeszcze nie ma",
-    // QMessageBox::Ok );
     Correction *corWindow = new Correction(this, dl, s_WIN_CORRECT_EDIT, true);
     corWindow->correctionInit(true);
     corWindow->readCorrData(ui->tableH->item(row, 0)->text());

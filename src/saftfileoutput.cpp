@@ -5,7 +5,7 @@
 #include <QRegularExpressionMatchIterator>
 #include <QClipboard>
 #include <QGuiApplication>
-//#include <QXmlSchemaValidator>
+//#include <QXmlSchemaValidator> // can be used, when class will work properly (below commented lines in source too)
 #include <QPlainTextEdit>
 #include <QStringList>
 #include <QList>
