@@ -10,6 +10,7 @@
 #include <QTableWidgetItem>
 #include <QComboBox>
 #include <QPointer>
+#include <QButtonGroup>
 
 
 Saftfile::Saftfile(QWidget *parent) :
@@ -37,7 +38,7 @@ Saftfile::Saftfile(QWidget *parent) :
 
 
 Saftfile::Saftfile(IDataLayer* dl, QWidget* parent) :
-    dlSaftfile(dl), QWidget(parent),
+    QWidget(parent), dlSaftfile(dl),
     ui(new Ui::Saftfile)
 {
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
@@ -63,12 +64,12 @@ Saftfile::~Saftfile()
 {
     qDebug() << "[" << __FILE__ << ": " << __LINE__ << "] " << __FUNCTION__;
 
-    if (dlSaftfile != 0) dlSaftfile = 0;
+    if (dlSaftfile != nullptr) dlSaftfile = nullptr;
     delete dlSaftfile;
 
-    if (groupAppPurp != 0 || groupArtFiles != 0) {
-        groupAppPurp = 0;
-        groupArtFiles = 0;
+    if (groupAppPurp != nullptr || groupArtFiles != nullptr) {
+        groupAppPurp = nullptr;
+        groupArtFiles = nullptr;
     }
 
     delete groupAppPurp;

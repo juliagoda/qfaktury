@@ -44,10 +44,10 @@ protected:
     const QString getCorrectionNr();
 
 private:
+    IDataLayer* dlSaftfile;
     Ui::Saftfile *ui;
     QVector<InvoiceData> invs;
     QHash<QString, QString> data;
-    IDataLayer* dlSaftfile;
     QButtonGroup* groupAppPurp;
     QButtonGroup* groupArtFiles;
 
